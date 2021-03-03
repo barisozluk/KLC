@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:AYP.Styles">
+    <Style x:Key="StyleMainPanel" TargetType="{x:Type Rectangle}">
+        <Setter Property="Fill" Value="#80909e" />
+        <Setter Property="Height" Value="1020"/>
+        <Setter Property="RadiusX" Value="7"/>
+        <Setter Property="RadiusY" Value="7" />
+    </Style>
+    
+</ResourceDictionary>

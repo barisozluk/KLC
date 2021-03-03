@@ -1,0 +1,91 @@
+﻿<!--WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True"-->
+    <Window x:Class="AYP.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:view="clr-namespace:AYP.View" xmlns:styles="clr-namespace:AYP.Styles"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="1110" Width="1930">
+    <Grid Margin="0" Background="#182026" AutomationProperties.IsRowHeader="True" AutomationProperties.IsColumnHeader="True">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition x:Name="LeftColumn" Width="362"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition x:Name="MiddleColumn" Width="1106"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition x:Name="RightColumn" Width="362"/>
+            <ColumnDefinition Width="10"/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="ButtonDefinitions" Style="{DynamicResource StyleLeftPanelUpButton}" Grid.Column="1" HorizontalAlignment="Left" Margin="5,0,0,0">Tanımlamalar</Button>
+        <Button x:Name="ButtonUndo" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="5,0,0,0">X</Button>
+        <Button x:Name="ButtonSave" ToolTip="Save (Ctrl+S)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,10,10,0" Grid.Row="1" VerticalAlignment="Top">
+            <Rectangle Fill="{DynamicResource IconSave}" Height="20" Width="20"/>
+        </Button>
+        <Button x:Name="ButtonSaveAs" ToolTip="Save As(Ctrl+Shift+S)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,60,10,0" Grid.Row="1" VerticalAlignment="Top" >
+            <Rectangle Fill="{DynamicResource IconSave}" Height="20" Width="20"/>
+        </Button>
+        <Button x:Name="ButtonOpen" ToolTip="Open (Ctrl+O)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,105,10,0" Grid.Row="1" VerticalAlignment="Top" >
+            <Rectangle Fill="{DynamicResource IconSave}" Height="20" Width="20"/>
+        </Button>
+        <Button x:Name="ButtonNew" ToolTip="New (Ctrl+N)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,150,10,0" Grid.Row="1" VerticalAlignment="Top" >
+            <Rectangle Fill="{DynamicResource IconSave}" Height="20" Width="20"/>
+        </Button>
+        <Button x:Name="ButtonExportPNG" ToolTip="Expot To PNG (Ctrl+Shift+Alt+P)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,195,10,0" Grid.Row="1" VerticalAlignment="Top" >
+            <Rectangle Fill="{DynamicResource IconSave}" Height="20" Width="20"/>
+        </Button>
+        <Button x:Name="ButtonClose" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="5" HorizontalAlignment="Right" Margin="0,0,0,0">X</Button>
+        <Rectangle Style="{DynamicResource StyleLeftPanel}" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Rectangle x:Name="midRec" Style="{DynamicResource StyleMainPanel}" Grid.Column="3" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="1106"/>
+        <Rectangle Style="{DynamicResource StyleMainPanel}" Grid.Column="3" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="1106"/>
+        <view:NodesCanvas x:Name="NodesCanvas" Grid.Row="1" Grid.Column="3"/>
+
+        <Rectangle Style="{DynamicResource StyleRight1Panel}" Grid.Column="5" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Rectangle Style="{DynamicResource StyleRight2Panel}" Grid.Column="5" HorizontalAlignment="Left" Margin="0,495,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Rectangle Style="{DynamicResource StyleRight3Panel}" Grid.Column="5" HorizontalAlignment="Left" Margin="0,816,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Label Style="{DynamicResource StyleMainTitle}" Content="Proje Hiyerarşisi" Grid.Column="1" Margin="0,10,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Label Style="{DynamicResource StyleMainTitle}" Content="Cihaz Listesi" Grid.Column="5" Margin="0,10,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Label Style="{DynamicResource StyleMainTitle}" Content="Doğrulama" Grid.Column="5" Margin="0,505,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Label Style="{DynamicResource StyleMainTitle}" Content="Bilgi Kartı" Grid.Column="5" Margin="0,826,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+
+
+        <Grid Grid.Column="5" MaxHeight="400" HorizontalAlignment="Center" Margin="0,55,0,0" Grid.Row="1" VerticalAlignment="Top" Width="340" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Expander Header="Uç Birim" Grid.Row="0" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>
+            <Expander Header="Uç Birim Ara Yüz" Grid.Row="1" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>
+            <Expander Header="Ağ Anahtarı" Grid.Row="2" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>
+            <Expander Header="Ağ Anahtarı Arayüz" Grid.Row="3" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>
+            <Expander Header="Güç Üretici" Grid.Row="4" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>
+            <Expander Header="Güç Üretici Arayüz" Grid.Row="5" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>
+        </Grid>
+
+        <TreeViewItem Style="{DynamicResource StyleProjectHierarchy}" Grid.Row="1" Grid.Column="1" Margin="0,55,0,5" Header="Uç Birim Grup 1" VerticalAlignment="Top">
+            <TreeViewItem Style="{DynamicResource StyleProjectHierarchy}" Header="Uç Birim 1"/>
+            <TreeViewItem Style="{DynamicResource StyleProjectHierarchy}" Header="Uç Birim Grup 2">
+                <TreeViewItem Style="{DynamicResource StyleProjectHierarchy}" Header="Uç Birim 3"/>
+                <TreeViewItem Style="{DynamicResource StyleProjectHierarchy}" Header="Uç Birim 4"/>
+                <TreeViewItem Style="{DynamicResource StyleProjectHierarchy}" Header="Uç Birim 5"/>
+            </TreeViewItem>
+            <TreeViewItem Style="{DynamicResource StyleProjectHierarchy}" Header="Ağ Anahtarı Grup 1">
+                <TreeViewItem Style="{DynamicResource StyleProjectHierarchy}" Header="Ağ Anahtarı 1"/>
+                <TreeViewItem Style="{DynamicResource StyleProjectHierarchy}" Header="Ağ Anahtarı 2"/>
+                <TreeViewItem Style="{DynamicResource StyleProjectHierarchy}" Header="Ağ Anahtarı 3"/>
+            </TreeViewItem>
+        </TreeViewItem>
+
+        <Button FontWeight="ExtraLight" Style="{DynamicResource StyleExpandButton}" Grid.Column="3" Margin="0,483,4,489" VerticalAlignment="Center" Grid.Row="1" Width="25" Height="50"  Click="collapseExpandRight" Grid.ColumnSpan="2">
+        </Button>
+        <Button FontWeight="ExtraLight" Style="{DynamicResource StyleExpandButtonLeft}" Grid.Column="2" Margin="4,483,0,515" VerticalAlignment="Center" Grid.Row="1" Width="26" Height="50"  Click="collapseExpandLeft" Grid.ColumnSpan="2"/>
+    </Grid>
+</Window>

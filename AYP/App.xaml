@@ -1,0 +1,54 @@
+﻿<Application x:Class="AYP.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:AYP"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Styles/Themes/Dark.xaml"/>
+                <ResourceDictionary Source="Icons/Icons.xaml"/>
+
+                <ResourceDictionary Source="Styles/StyleLeftButton.xaml"/>
+                <ResourceDictionary Source="Styles/StyleLeftPanelUpButton.xaml"/>
+                <ResourceDictionary Source="Styles/StyleMainPanelUpButton.xaml"/>
+            
+                <ResourceDictionary Source="Styles/StyleMainTitle.xaml"/>
+
+                <ResourceDictionary Source="Styles/StyleLeftPanel.xaml"/>
+                <ResourceDictionary Source="Styles/StyleMainPanel.xaml"/>
+                <ResourceDictionary Source="Styles/StyleRight1Panel.xaml"/>
+                <ResourceDictionary Source="Styles/StyleRight2Panel.xaml"/>
+                <ResourceDictionary Source="Styles/StyleRight3Panel.xaml"/>
+
+                <ResourceDictionary Source="Styles/StyleExpander.xaml"/>
+                <ResourceDictionary Source="Styles/StyleExpandButton.xaml"/>
+                <ResourceDictionary Source="Styles/StyleExpandButtonLeft.xaml"/>
+                
+                <ResourceDictionary Source="Styles/StyleProjectHierarchy.xaml"/>
+
+                <ResourceDictionary Source="Styles/TableOfTransitions/StyleListBoxTransitionsItem.xaml"/>
+
+                <!--#region         Selector-->
+                <ResourceDictionary Source="Styles\StyleSelector.xaml"/>
+                <!--#endregion      Selector-->
+
+                <!--#region         Node-->
+                <ResourceDictionary Source="Styles\Node\StyleNodeCollapseButton.xaml"/>
+                <ResourceDictionary Source="Styles\StyleEmptyTextBox.xaml"/>
+                <!--#endregion      Node-->
+
+                <ResourceDictionary Source="Styles/MainWindow/CustomWindowTemplate.xaml"/>
+
+                <!--#region         ContextMenu-->
+
+                <ResourceDictionary Source="Styles/ContextMenu/TemplateContextMenu.xaml"/>
+                <ResourceDictionary Source="Styles/ContextMenu/StyleContextMenuItem.xaml"/>
+
+                <!--#endregion      ContextMenu-->
+
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+    </Application.Resources>
+</Application>
