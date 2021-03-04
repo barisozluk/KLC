@@ -8,12 +8,12 @@
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="Margin" Value="3,0,0,0" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="ToolTip" Value="Prev" />
+        <Setter Property="ToolTip" Value="Collapse" />
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border BorderBrush="Transparent" BorderThickness="0" CornerRadius="8" Background="#182026">
+                    <Border x:Name="border" BorderBrush="Transparent" BorderThickness="0" CornerRadius="8" Background="#182026">
                         <Grid>
                             <ContentPresenter RecognizesAccessKey="True" />
                             <Path x:Name="PrevButton" SnapsToDevicePixels="True" Width="8" Height="12" Stretch="Fill" Fill="White" Data="F1 M 35.8724,37.6042L 39.0391,40.7708L 50.5182,51.8542L 40.2266,51.8542L 25.1849,37.6041L 40.2266,23.3542L 50.5182,23.3542L 39.0391,34.4375L 35.8724,37.6042 Z " />
@@ -22,7 +22,7 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="PrevButton" Property="Fill" Value="White" />
+                            <Setter TargetName="PrevButton" Property="Fill" Value="#367bf5" />
                         </Trigger>
 
                         <Trigger Property="IsPressed" Value="True">
