@@ -20,7 +20,7 @@
             <ColumnDefinition x:Name="RightColumn" Width="362"/>
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="ButtonDefinitions" Style="{DynamicResource StyleLeftPanelUpButton}" Grid.Column="1" HorizontalAlignment="Left" Margin="5,0,0,0">Tanımlamalar</Button>
+        <Button x:Name="ButtonDefinitions" Style="{DynamicResource StyleLeftPanelUpButton}" Grid.Column="1" HorizontalAlignment="Left" Margin="5,0,0,0">Raporlar</Button>
         <Button x:Name="ButtonUndo" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="5,0,0,0">X</Button>
         <Button x:Name="ButtonSave" ToolTip="Save (Ctrl+S)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,10,10,0" Grid.Row="1" VerticalAlignment="Top">
             <Rectangle Fill="{DynamicResource IconSave}" Height="20" Width="20"/>
