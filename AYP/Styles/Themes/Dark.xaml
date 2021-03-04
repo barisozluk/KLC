@@ -10,7 +10,7 @@
 
     <SolidColorBrush x:Key="ColorElementMouseOver"  Color="#007acc"/>
 
-    <SolidColorBrush x:Key="ColorSelectedElement"  Color="#D23030"/>
+    <SolidColorBrush x:Key="ColorSelectedElement"  Color="#367bf5"/>
 
     <SolidColorBrush x:Key="ColorConnect" Color="White" />
 
@@ -80,7 +80,7 @@
 
     <!--#region     Node-->
     <Color x:Key="ColorNodeBackground">#E52D2D2D</Color>
-    <SolidColorBrush x:Key="ColorNodeBorderBrush"  Color="LightGray"/>
+    <SolidColorBrush x:Key="ColorNodeBorderBrush"  Color="Transparent"/>
 
 
     <!--<Color x:Key="ColorNodeHeader" R="18" G="61" B="106" A="200"/>-->

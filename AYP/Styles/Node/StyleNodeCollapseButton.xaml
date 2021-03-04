@@ -14,8 +14,11 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Background" Value="{DynamicResource ColorNodeCollapseButtonMouseOverBackground}"/>
-                            <Setter Property="BorderBrush" Value="{DynamicResource ColorNodeCollapseButtonMouseOverBorderBrush}"/>
+                            <Setter Property="Background" Value="#367bf5"/>
+                            <Setter Property="BorderBrush" Value="#367bf5"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Background" Value="#ffffff"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -4,11 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:view="clr-namespace:AYP.View" xmlns:styles="clr-namespace:AYP.Styles"
-        mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" MouseDown="Window_MouseDown"
-        Title="MainWindow" Height="1080" Width="1920">
+        mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterScreen"
+        Title="MainWindow" Height="1080" Width="1930">
     <Grid Margin="0" Background="#182026" AutomationProperties.IsRowHeader="True" AutomationProperties.IsColumnHeader="True">
         <Grid.RowDefinitions>
-            <RowDefinition x:Name="Header" Height="50"/>
+            <RowDefinition Height="50"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -60,7 +60,7 @@
         <Rectangle Style="{DynamicResource StyleLeftPanel}" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top"/>
         <Rectangle x:Name="midRec" Style="{DynamicResource StyleMainPanel}" Grid.Column="3" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="1106"/>
         <Rectangle Style="{DynamicResource StyleMainPanel}" Grid.Column="3" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="1106"/>
-        <view:NodesCanvas x:Name="NodesCanvas" Grid.Row="1" Grid.Column="3"/>
+        <view:NodesCanvas x:Name="NodesCanvas" Grid.Row="1" Grid.Column="3" />
 
         <Rectangle Style="{DynamicResource StyleRight1Panel}" Grid.Column="5" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top"/>
         <Rectangle Style="{DynamicResource StyleRight2Panel}" Grid.Column="5" HorizontalAlignment="Left" Margin="0,495,0,0" Grid.Row="1" VerticalAlignment="Top"/>
