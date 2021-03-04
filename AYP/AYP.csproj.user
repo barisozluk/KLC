@@ -18,14 +18,5 @@
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Icons\Maximize.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Icons\Minimize.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Icons\Restore.xaml">
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
 </Project>

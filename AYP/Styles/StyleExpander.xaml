@@ -4,50 +4,27 @@
 
 
     <ControlTemplate x:Key="ExpanderToggleButton" TargetType="ToggleButton">
-                <Border 
-                      Name="Border" 
-                      CornerRadius="2,0,0,0"
-                      Background="Transparent"
-          
-                      BorderThickness="0,0,1,0">
-                        <Path 
-                              Name="Arrow"
-                              Fill="White"
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center"
-                              Data="M 0 0 L 4 4 L 8 0 Z"/>
-                </Border>
-        
-                <ControlTemplate.Triggers>
-                    <Trigger Property="ToggleButton.IsMouseOver" Value="true">
-                        <Setter TargetName="Border" Property="Background"
-                        Value="Red" />
-                    </Trigger>
-                    <Trigger Property="IsPressed" Value="true">
-                        <Setter TargetName="Border" Property="Background"
-                        Value="Blue" />
-                    </Trigger>
-                    <Trigger Property="IsChecked" Value="true">
-                        <Setter TargetName="Arrow" Property="Data"
-                        Value="M 0 4 L 4 0 L 8 4 Z" />
-                    </Trigger>
-                    <Trigger Property="IsEnabled" Value="False">
-                        <Setter TargetName="Border" Property="Background"
-                        Value="Orange" />
-                        <Setter TargetName="Border" Property="BorderBrush"
-                        Value="Yellow" />
-                        <Setter Property="Foreground"
-                        Value="Green"/>
-                        <Setter TargetName="Arrow" Property="Fill"
-                        Value="Pink" />
-                    </Trigger>
-                </ControlTemplate.Triggers>
+        <Border Name="Border" 
+                Background="Transparent"
+                BorderThickness="1,1,1,1">
+        </Border>
+
+        <ControlTemplate.Triggers>
+            <Trigger Property="ToggleButton.IsMouseOver" Value="true">
+                <Setter TargetName="Border" Property="BorderBrush"
+                        Value="#367bf5" />
+            </Trigger>
+            <Trigger Property="IsChecked" Value="true">
+                <Setter TargetName="Border" Property="BorderBrush"
+                        Value="#ffffff" />
+            </Trigger>
+        </ControlTemplate.Triggers>
     </ControlTemplate>
 
 
     <Style x:Key="StyleExpander" TargetType="{x:Type Expander}">
         <Setter Property="Background" Value="#222d35" />
-        <Setter Property="Foreground" Value="#78909c" />
+        <Setter Property="Foreground" Value="#ffffff" />
         <Setter Property="Width" Value="340"/>
         <Setter Property="ExpandDirection" Value="Down"/>
         <Setter Property="FlowDirection" Value="LeftToRight"/>
@@ -59,7 +36,7 @@
 
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="25"/>
                             <RowDefinition Name="ContentRow" Height="0"/>
                         </Grid.RowDefinitions>
                         <Border
@@ -67,45 +44,41 @@
                             Grid.Row="0"
                             Background="#13191e"           
                             BorderThickness="1"
-                            CornerRadius="4" >          
+                            CornerRadius="4" >
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="60" />
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="20" />
                                 </Grid.ColumnDefinitions>
                                 <!-- The following puts the toggle button in the right hand column, just like I want! -->
-                                <ToggleButton
-                                    Grid.Column="2"
-                                    IsChecked="{Binding Path=IsExpanded,Mode=TwoWay,
-                                                        RelativeSource={RelativeSource TemplatedParent}}"
-                                    OverridesDefaultStyle="True"
-                                    Template="{StaticResource ExpanderToggleButton}"
-                                    Background="#33391e" />
                                 <ContentPresenter
                                     Grid.Column="1"
                                     HorizontalAlignment="Left"
-                                    Margin="1"
+                                    Margin="3"
                                     ContentSource="Header"
                                     RecognizesAccessKey="True" />
                                 <Image 
                                     Grid.Column="0" 
                                     Width="20"
-                                    Height="20"/>
+                                    Height="25"/>
                             </Grid>
                         </Border>
+                        <ToggleButton
+                                    Grid.Row="0"
+                                    IsChecked="{Binding Path=IsExpanded,Mode=TwoWay,
+                                                        RelativeSource={RelativeSource TemplatedParent}}"
+                                    OverridesDefaultStyle="True"
+                                    Template="{StaticResource ExpanderToggleButton}"
+                                    Background="#33391e" />
                         <Border
                             Name="Content"
                             Grid.Row="1"
-                            Background="#222d35"
-                            BorderBrush="Black"
-                
-                            BorderThickness="1,0,1,1"
-                            CornerRadius="0,0,4,4" >    
+                            Background="#222d35"                
+                            CornerRadius="0,0,4,4" >
                             <ContentPresenter Margin="4" />
                         </Border>
                     </Grid>
-                    
+
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsExpanded" Value="True">
                             <Setter TargetName="ContentRow" Property="Height" Value="320" />

@@ -120,8 +120,6 @@ namespace AYP
 
                 //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandExit, x => x.BindingExit).DisposeWith(disposable);
                 //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandExit, x => x.ItemExit).DisposeWith(disposable);
-                this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandExit, x => x.ButtonClose).DisposeWith(disposable);
-                this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandExit, x => x.ButtonCloseColumn3).DisposeWith(disposable);
 
             });
         }
@@ -136,7 +134,6 @@ namespace AYP
                 this.WhenAnyValue(x => x.ViewModel.NodesCanvas.SchemePath).Subscribe(value => UpdateSchemeName(value)).DisposeWith(disposable);
                 this.WhenAnyValue(x => x.NodesCanvas.ViewModel.NeedExit).Where(x => x).Subscribe(_ => this.Close()).DisposeWith(disposable);
                 this.WhenAnyValue(x => x.ViewModel.CountError).Buffer(2, 1).Where(x => x[1] > x[0]).Subscribe(_ => ShowError()).DisposeWith(disposable);
-                this.WhenAnyValue(x => x.ViewModel.NodesCanvas.Theme).Subscribe(_ => UpdateButton()).DisposeWith(disposable);
 
                 //this.WhenAnyValue(x => x.ActualWidth).Subscribe(value => TableOfTransitionsColumn.MaxWidth = value - 50).DisposeWith(disposable);
                 //this.WhenAnyValue(x => x.ActualHeight).Subscribe(value => Fotter.MaxHeight = value - 150).DisposeWith(disposable);
@@ -161,10 +158,6 @@ namespace AYP
                 //this.MessageList.Events().MouseDoubleClick.Subscribe(_ => ViewModel.CommandCopyError.ExecuteWithSubscribe((MessageList.SelectedItem as MessageViewModel)?.Text)).DisposeWith(disposable);
                 //this.LabelSchemeName.Events().MouseDoubleClick.WithoutParameter().InvokeCommand(ViewModel.CommandCopySchemeName).DisposeWith(disposable);
                 //this.Header.Events().PreviewMouseLeftButtonDown.Subscribe(e => HeaderClick(e)).DisposeWith(disposable);
-                this.ButtonMin.Events().Click.Subscribe(e => ButtonMinClick(e)).DisposeWith(disposable);
-                this.ButtonMax.Events().Click.Subscribe(e => ButtonMaxClick(e)).DisposeWith(disposable);
-                this.ButtonMinColumn3.Events().Click.Subscribe(e => ButtonMinClick(e)).DisposeWith(disposable);
-                this.ButtonMaxColumn3.Events().Click.Subscribe(e => ButtonMaxClick(e)).DisposeWith(disposable);
                 //this.ErrorListExpander.Events().Collapsed.Subscribe(_ => ErrorListCollapse()).DisposeWith(disposable);
                 //this.ErrorListExpander.Events().Expanded.Subscribe(_ => ErrorListExpanded()).DisposeWith(disposable);
 
@@ -241,88 +234,6 @@ namespace AYP
             //}
         }
 
-        private void ButtonMinClick(RoutedEventArgs e)
-        {
-            this.WindowState = WindowState.Minimized;
-        }
-        private void ButtonMaxClick(RoutedEventArgs e)
-        {
-            StateNormalMaximaze();
-        }
-        private void StateNormalMaximaze()
-        {
-            this.WindowState = (this.WindowState == WindowState.Normal) ? WindowState.Maximized : WindowState.Normal;
-            UpdateButton();
-        }
-        private void UpdateButton()
-        {
-            if (this.WindowState == WindowState.Normal)
-            {
-                StateNormal();
-            }
-            else
-            {
-                StateMaximize();
-            }
-        }
-        private void StateMaximize()
-        {
-            if (toggleRight)
-            {
-                this.ButtonMaxRectangle.Fill = Application.Current.Resources["IconRestore"] as DrawingBrush;
-            }
-            else
-            {
-                this.ButtonMaxRectangleColumn3.Fill = Application.Current.Resources["IconRestore"] as DrawingBrush;
-            }
-        }
-        private void StateNormal()
-        {
-            if (toggleRight)
-            {
-                this.ButtonMaxRectangle.Fill = Application.Current.Resources["IconMaximize"] as DrawingBrush;
-            }
-            else
-            {
-                this.ButtonMaxRectangleColumn3.Fill = Application.Current.Resources["IconMaximize"] as DrawingBrush;
-            }
-        }
-        private void HeaderClick(MouseButtonEventArgs e)
-        {
-            if (e.OriginalSource is DockPanel)
-            {
-                if (e.ClickCount == 1)
-                {
-
-                    if (this.WindowState == WindowState.Maximized)
-                    {
-                        var point = PointToScreen(e.MouseDevice.GetPosition(this));
-
-                        if (point.X <= RestoreBounds.Width / 2)
-                            Left = 0;
-
-                        else if (point.X >= RestoreBounds.Width)
-                            Left = point.X - (RestoreBounds.Width - (this.ActualWidth - point.X));
-
-                        else
-                            Left = point.X - (RestoreBounds.Width / 2);
-
-                        //Top = point.Y - (this.Header.ActualHeight / 2);
-
-                        StateNormal();
-                        this.WindowState = WindowState.Normal;
-                    }
-
-                    this.DragMove();
-                }
-                else
-                {
-                    StateNormalMaximaze();
-                }
-                e.Handled = true;
-            }
-        }
-
         #endregion SetupEvents
 
         #region CollapseExpandEvents
@@ -364,18 +275,12 @@ namespace AYP
 
             if (!toggleRight)
             {
-                this.ButtonMinColumn3.Visibility = Visibility.Visible;
-                this.ButtonMaxColumn3.Visibility = Visibility.Visible;
                 this.ButtonCloseColumn3.Visibility = Visibility.Visible;
             }
             else
             {
-                this.ButtonMinColumn3.Visibility = Visibility.Hidden;
-                this.ButtonMaxColumn3.Visibility = Visibility.Hidden;
                 this.ButtonCloseColumn3.Visibility = Visibility.Hidden;
             }
-
-            this.UpdateButton();
         }
 
         private void collapseExpandLeft(object sender, RoutedEventArgs e)
@@ -414,5 +319,13 @@ namespace AYP
         }
 
         #endregion CollapseExpandEvents
+
+        #region CloseAppEvent
+        private void CloseButtonClick(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        #endregion
     }
 }
