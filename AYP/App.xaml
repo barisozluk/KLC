@@ -12,7 +12,8 @@
                 <ResourceDictionary Source="Styles/StyleLeftButton.xaml"/>
                 <ResourceDictionary Source="Styles/StyleLeftPanelUpButton.xaml"/>
                 <ResourceDictionary Source="Styles/StyleMainPanelUpButton.xaml"/>
-            
+                <ResourceDictionary Source="Styles/StyleAddDeviceButton.xaml"/>
+
                 <ResourceDictionary Source="Styles/StyleMainTitle.xaml"/>
 
                 <ResourceDictionary Source="Styles/StyleLeftPanel.xaml"/>
@@ -26,6 +27,7 @@
                 <ResourceDictionary Source="Styles/StyleExpandButtonLeft.xaml"/>
                 
                 <ResourceDictionary Source="Styles/StyleProjectHierarchy.xaml"/>
+                <ResourceDictionary Source="Styles/StyleButtonContextMenu.xaml"/>
 
                 <ResourceDictionary Source="Styles/TableOfTransitions/StyleListBoxTransitionsItem.xaml"/>
 

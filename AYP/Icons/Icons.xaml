@@ -9,6 +9,8 @@
         <ResourceDictionary Source="Maximize.xaml"/>
         <ResourceDictionary Source="Minimize.xaml"/>
         <ResourceDictionary Source="Restore.xaml"/>
+        <ResourceDictionary Source="AddDevice.xaml"/>
+
 
 
     </ResourceDictionary.MergedDictionaries>

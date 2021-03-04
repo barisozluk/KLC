@@ -413,6 +413,13 @@ namespace AYP
             }
         }
 
+
         #endregion CollapseExpandEvents
+
+        private void ButtonAddDevice_Click(object sender, RoutedEventArgs e)
+        {
+            AddDeviceWindow addDeviceWindow = new AddDeviceWindow();
+            addDeviceWindow.Show();
+        }
     }
 }
