@@ -37,19 +37,6 @@
         <Button x:Name="ButtonExportPNG" ToolTip="Expot To PNG (Ctrl+Shift+Alt+P)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,195,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Rectangle Fill="{DynamicResource IconSave}" Height="20" Width="20"/>
         </Button>
-<<<<<<< HEAD
-        <Button x:Name="ButtonMin" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="5" HorizontalAlignment="Right" Margin="0,0,80,0">
-            <Rectangle x:Name="ButtonMinRectangle" Fill="{DynamicResource IconMinimize}" Height="1" Width="15" Margin="7,0,0,0"  StrokeThickness="0"/>
-        </Button>
-        <Button x:Name="ButtonMax" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="5" HorizontalAlignment="Right" Margin="0,0,40,0">
-            <Rectangle x:Name="ButtonMaxRectangle" Fill="{DynamicResource IconMaximize}" Height="15" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
-        </Button>
-        <Button x:Name="ButtonClose" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="5" HorizontalAlignment="Right" Margin="0,0,0,0">
-            <Rectangle x:Name="ButtonCloseRectangle" Fill="{DynamicResource IconClose}"  Height="15" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
-        </Button>
-        
-=======
->>>>>>> e7e38c477b7a68efaf426fa3caa2fc288286057a
 
         <Button x:Name="ButtonClose" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="5" HorizontalAlignment="Right" Margin="0,0,0,0" Click="CloseButtonClick">
             <Rectangle x:Name="ButtonCloseRectangle" Fill="{DynamicResource IconClose}"  Height="15" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
@@ -61,7 +48,7 @@
         <Rectangle Style="{DynamicResource StyleLeftPanel}" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top"/>
         <Rectangle x:Name="midRec" Style="{DynamicResource StyleMainPanel}" Grid.Column="3" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="1106"/>
         <Rectangle Style="{DynamicResource StyleMainPanel}" Grid.Column="3" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="1106"/>
-        <view:NodesCanvas x:Name="NodesCanvas" Grid.Row="1" Grid.Column="3" />
+        <view:NodesCanvas x:Name="NodesCanvas" Grid.Row="1" Grid.Column="3" Margin="0,0,0,28" />
 
         <Rectangle Style="{DynamicResource StyleRight1Panel}" Grid.Column="5" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" />
         <Rectangle Style="{DynamicResource StyleRight2Panel}" Grid.Column="5" HorizontalAlignment="Left" Margin="0,495,0,0" Grid.Row="1" VerticalAlignment="Top"/>

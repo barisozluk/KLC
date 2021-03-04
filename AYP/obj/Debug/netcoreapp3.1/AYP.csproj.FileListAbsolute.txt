@@ -135,9 +135,6 @@ C:\Users\Ayca\Desktop\AYPGit\AYP\bin\Debug\netcoreapp3.1\System.Reactive.dll
 C:\Users\Ayca\Desktop\AYPGit\AYP\bin\Debug\netcoreapp3.1\System.Reactive.xml
 C:\Users\Ayca\Desktop\AYPGit\AYP\obj\Debug\netcoreapp3.1\AYP.csprojAssemblyReference.cache
 C:\Users\Ayca\Desktop\AYPGit\AYP\obj\Debug\netcoreapp3.1\Icons\Close.baml
-C:\Users\Ayca\Desktop\AYPGit\AYP\obj\Debug\netcoreapp3.1\Icons\Maximize.baml
-C:\Users\Ayca\Desktop\AYPGit\AYP\obj\Debug\netcoreapp3.1\Icons\Minimize.baml
-C:\Users\Ayca\Desktop\AYPGit\AYP\obj\Debug\netcoreapp3.1\Icons\Restore.baml
 C:\Users\Ayca\Desktop\AYPGit\AYP\obj\Debug\netcoreapp3.1\Styles\ContextMenu\StyleContextMenuItem.baml
 C:\Users\Ayca\Desktop\AYPGit\AYP\obj\Debug\netcoreapp3.1\Styles\ContextMenu\TemplateContextMenu.baml
 C:\Users\Ayca\Desktop\AYPGit\AYP\obj\Debug\netcoreapp3.1\Styles\ErrorList\StyleListBoxItem.baml
