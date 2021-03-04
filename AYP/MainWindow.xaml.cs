@@ -120,7 +120,9 @@ namespace AYP
 
                 //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandExit, x => x.BindingExit).DisposeWith(disposable);
                 //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandExit, x => x.ItemExit).DisposeWith(disposable);
-                //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandExit, x => x.ButtonClose).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandExit, x => x.ButtonClose).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandExit, x => x.ButtonCloseColumn3).DisposeWith(disposable);
+
             });
         }
         #endregion Setup Binding
@@ -159,9 +161,10 @@ namespace AYP
                 //this.MessageList.Events().MouseDoubleClick.Subscribe(_ => ViewModel.CommandCopyError.ExecuteWithSubscribe((MessageList.SelectedItem as MessageViewModel)?.Text)).DisposeWith(disposable);
                 //this.LabelSchemeName.Events().MouseDoubleClick.WithoutParameter().InvokeCommand(ViewModel.CommandCopySchemeName).DisposeWith(disposable);
                 //this.Header.Events().PreviewMouseLeftButtonDown.Subscribe(e => HeaderClick(e)).DisposeWith(disposable);
-                //this.ButtonMin.Events().Click.Subscribe(e => ButtonMinClick(e)).DisposeWith(disposable);
-                //this.ButtonMax.Events().Click.Subscribe(e => ButtonMaxClick(e)).DisposeWith(disposable);
-
+                this.ButtonMin.Events().Click.Subscribe(e => ButtonMinClick(e)).DisposeWith(disposable);
+                this.ButtonMax.Events().Click.Subscribe(e => ButtonMaxClick(e)).DisposeWith(disposable);
+                this.ButtonMinColumn3.Events().Click.Subscribe(e => ButtonMinClick(e)).DisposeWith(disposable);
+                this.ButtonMaxColumn3.Events().Click.Subscribe(e => ButtonMaxClick(e)).DisposeWith(disposable);
                 //this.ErrorListExpander.Events().Collapsed.Subscribe(_ => ErrorListCollapse()).DisposeWith(disposable);
                 //this.ErrorListExpander.Events().Expanded.Subscribe(_ => ErrorListExpanded()).DisposeWith(disposable);
 
@@ -264,13 +267,25 @@ namespace AYP
         }
         private void StateMaximize()
         {
-            //this.ButtonMaxRectangle.Fill = Application.Current.Resources["IconRestore"] as DrawingBrush;
-            //this.ButtonMaxRectangle.ToolTip = "Maximize";
+            if (toggleRight)
+            {
+                this.ButtonMaxRectangle.Fill = Application.Current.Resources["IconRestore"] as DrawingBrush;
+            }
+            else
+            {
+                this.ButtonMaxRectangleColumn3.Fill = Application.Current.Resources["IconRestore"] as DrawingBrush;
+            }
         }
         private void StateNormal()
         {
-            //this.ButtonMaxRectangle.Fill = Application.Current.Resources["IconMaximize"] as DrawingBrush;
-            //this.ButtonMaxRectangle.ToolTip = "Restore down";
+            if (toggleRight)
+            {
+                this.ButtonMaxRectangle.Fill = Application.Current.Resources["IconMaximize"] as DrawingBrush;
+            }
+            else
+            {
+                this.ButtonMaxRectangleColumn3.Fill = Application.Current.Resources["IconMaximize"] as DrawingBrush;
+            }
         }
         private void HeaderClick(MouseButtonEventArgs e)
         {
@@ -341,11 +356,26 @@ namespace AYP
             else if (!toggleRight && !toggleLeft)
             {
                 this.RightColumn.Width = new GridLength(362, GridUnitType.Pixel);
-                this.MiddleColumn.Width = new GridLength(1106, GridUnitType.Pixel);
-                this.midRec.Width = 1106;
+                this.MiddleColumn.Width = new GridLength(1468, GridUnitType.Pixel);
+                this.midRec.Width = 1468;
 
                 toggleRight = true;
             }
+
+            if (!toggleRight)
+            {
+                this.ButtonMinColumn3.Visibility = Visibility.Visible;
+                this.ButtonMaxColumn3.Visibility = Visibility.Visible;
+                this.ButtonCloseColumn3.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                this.ButtonMinColumn3.Visibility = Visibility.Hidden;
+                this.ButtonMaxColumn3.Visibility = Visibility.Hidden;
+                this.ButtonCloseColumn3.Visibility = Visibility.Hidden;
+            }
+
+            this.UpdateButton();
         }
 
         private void collapseExpandLeft(object sender, RoutedEventArgs e)
@@ -376,8 +406,8 @@ namespace AYP
             else if (!toggleRight && !toggleLeft)
             {
                 this.LeftColumn.Width = new GridLength(362, GridUnitType.Pixel);
-                this.MiddleColumn.Width = new GridLength(1106, GridUnitType.Pixel);
-                this.midRec.Width = 1106;
+                this.MiddleColumn.Width = new GridLength(1468, GridUnitType.Pixel);
+                this.midRec.Width = 1468;
 
                 toggleLeft = true;
             }
@@ -385,5 +415,10 @@ namespace AYP
 
         #endregion CollapseExpandEvents
 
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+            this.DragMove();
+        }
     }
 }
