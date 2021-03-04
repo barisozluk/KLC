@@ -20,7 +20,7 @@
             <ColumnDefinition x:Name="RightColumn" Width="362"/>
             <ColumnDefinition Width="10"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="ButtonDefinitions" Style="{DynamicResource StyleLeftPanelUpButton}" Grid.Column="1" HorizontalAlignment="Left" Margin="5,0,0,0">Tanımlamalar</Button>
+        <Button x:Name="ButtonDefinitions" Style="{DynamicResource StyleLeftPanelUpButton}" Grid.Column="1" HorizontalAlignment="Left" Margin="5,0,0,0">Raporlar</Button>
         <Button x:Name="ButtonUndo" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="5,0,0,0">X</Button>
         <Button x:Name="ButtonSave" ToolTip="Save (Ctrl+S)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,10,10,0" Grid.Row="1" VerticalAlignment="Top">
             <Rectangle Fill="{DynamicResource IconSave}" Height="20" Width="20"/>
@@ -37,6 +37,7 @@
         <Button x:Name="ButtonExportPNG" ToolTip="Expot To PNG (Ctrl+Shift+Alt+P)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,195,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Rectangle Fill="{DynamicResource IconSave}" Height="20" Width="20"/>
         </Button>
+<<<<<<< HEAD
         <Button x:Name="ButtonMin" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="5" HorizontalAlignment="Right" Margin="0,0,80,0">
             <Rectangle x:Name="ButtonMinRectangle" Fill="{DynamicResource IconMinimize}" Height="1" Width="15" Margin="7,0,0,0"  StrokeThickness="0"/>
         </Button>
@@ -47,14 +48,13 @@
             <Rectangle x:Name="ButtonCloseRectangle" Fill="{DynamicResource IconClose}"  Height="15" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
         </Button>
         
+=======
+>>>>>>> e7e38c477b7a68efaf426fa3caa2fc288286057a
 
-        <Button x:Name="ButtonMinColumn3" Visibility="Hidden" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Right" Margin="0,0,80,0">
-            <Rectangle x:Name="ButtonMinRectangleColumn3" Fill="{DynamicResource IconMinimize}" Height="1" Width="15" Margin="7,0,0,0"  StrokeThickness="0"/>
+        <Button x:Name="ButtonClose" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="5" HorizontalAlignment="Right" Margin="0,0,0,0" Click="CloseButtonClick">
+            <Rectangle x:Name="ButtonCloseRectangle" Fill="{DynamicResource IconClose}"  Height="15" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
         </Button>
-        <Button x:Name="ButtonMaxColumn3" Visibility="Hidden" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Right" Margin="0,0,40,0">
-            <Rectangle x:Name="ButtonMaxRectangleColumn3" Fill="{DynamicResource IconMaximize}" Height="15" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
-        </Button>
-        <Button x:Name="ButtonCloseColumn3" Visibility="Hidden" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Right" Margin="0,0,0,0">
+        <Button x:Name="ButtonCloseColumn3" Visibility="Hidden" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Right" Margin="0,0,0,0" Click="CloseButtonClick">
             <Rectangle x:Name="ButtonCloseRectangleColumn3" Fill="{DynamicResource IconClose}"  Height="15" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
         </Button>
 
@@ -63,7 +63,7 @@
         <Rectangle Style="{DynamicResource StyleMainPanel}" Grid.Column="3" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="1106"/>
         <view:NodesCanvas x:Name="NodesCanvas" Grid.Row="1" Grid.Column="3" />
 
-        <Rectangle Style="{DynamicResource StyleRight1Panel}" Grid.Column="5" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Rectangle Style="{DynamicResource StyleRight1Panel}" Grid.Column="5" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" />
         <Rectangle Style="{DynamicResource StyleRight2Panel}" Grid.Column="5" HorizontalAlignment="Left" Margin="0,495,0,0" Grid.Row="1" VerticalAlignment="Top"/>
         <Rectangle Style="{DynamicResource StyleRight3Panel}" Grid.Column="5" HorizontalAlignment="Left" Margin="0,816,0,0" Grid.Row="1" VerticalAlignment="Top"/>
         <Label Style="{DynamicResource StyleMainTitle}" Content="Proje Hiyerarşisi" Grid.Column="1" Margin="0,10,0,0" Grid.Row="1" VerticalAlignment="Top"/>
@@ -129,6 +129,8 @@
             <Expander Header="Ağ Anahtarı Arayüz" Grid.Row="3" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>
             <Expander Header="Güç Üretici" Grid.Row="4" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>
             <Expander Header="Güç Üretici Arayüz" Grid.Row="5" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>
+
+            
         </Grid>
 
         <TreeViewItem Style="{DynamicResource StyleProjectHierarchy}" Grid.Row="1" Grid.Column="1" Margin="0,55,0,5" Header="Uç Birim Grup 1" VerticalAlignment="Top">

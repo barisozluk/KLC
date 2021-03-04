@@ -4,7 +4,7 @@
 
     <Style x:Key="StyleMainTitle" TargetType="{x:Type Label}">
         <Setter Property="Background" Value="#13191e" />
-        <Setter Property="Foreground" Value="#78909c" />
+        <Setter Property="Foreground" Value="#ffffff" />
         <Setter Property="Height" Value="35"/>
         <Setter Property="Width" Value="340"/>
         <Setter Property="FontSize" Value="16"/>

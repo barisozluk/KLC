@@ -4,7 +4,7 @@
 
     <Style x:Key="StyleProjectHierarchy" TargetType="{x:Type TreeViewItem}">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="#78909c" />
+        <Setter Property="Foreground" Value="#ffffff" />
         <Setter Property="Width" Value="340"/>
         <Setter Property="FlowDirection" Value="LeftToRight"/>
     </Style>

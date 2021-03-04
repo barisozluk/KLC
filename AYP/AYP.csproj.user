@@ -29,6 +29,7 @@
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+<<<<<<< HEAD
     <Page Update="Icons\Maximize.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -44,5 +45,7 @@
     <Page Update="Styles\StyleButtonContextMenu.xaml">
       <SubType>Designer</SubType>
     </Page>
+=======
+>>>>>>> e7e38c477b7a68efaf426fa3caa2fc288286057a
   </ItemGroup>
 </Project>
