@@ -48,16 +48,58 @@
         <Rectangle Style="{DynamicResource StyleLeftPanel}" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top"/>
         <Rectangle x:Name="midRec" Style="{DynamicResource StyleMainPanel}" Grid.Column="3" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="1106"/>
         <Rectangle Style="{DynamicResource StyleMainPanel}" Grid.Column="3" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="1106"/>
-        <view:NodesCanvas x:Name="NodesCanvas" Grid.Row="1" Grid.Column="3" />
+        <view:NodesCanvas x:Name="NodesCanvas" Grid.Row="1" Grid.Column="3" Margin="0,0,0,28" />
 
         <Rectangle Style="{DynamicResource StyleRight1Panel}" Grid.Column="5" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" />
         <Rectangle Style="{DynamicResource StyleRight2Panel}" Grid.Column="5" HorizontalAlignment="Left" Margin="0,495,0,0" Grid.Row="1" VerticalAlignment="Top"/>
         <Rectangle Style="{DynamicResource StyleRight3Panel}" Grid.Column="5" HorizontalAlignment="Left" Margin="0,816,0,0" Grid.Row="1" VerticalAlignment="Top"/>
         <Label Style="{DynamicResource StyleMainTitle}" Content="Proje Hiyerarşisi" Grid.Column="1" Margin="0,10,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <Label Style="{DynamicResource StyleMainTitle}" Content="Cihaz Listesi" Grid.Column="5" Margin="0,10,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Label Style="{DynamicResource StyleMainTitle}" Content="Cihaz Listesi" Grid.Column="5" Margin="10,10,0,0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Button x:Name="ButtonAddDevice" Style="{DynamicResource StyleAddDeviceButton}" Grid.Column="5" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,10,0" Click="ButtonAddDevice_Click" >
+            <!--<Button.Triggers>
+                <EventTrigger RoutedEvent="Button.Click">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <BooleanAnimationUsingKeyFrames 
+                                 Storyboard.TargetName="ContextPopup" 
+                                 Storyboard.TargetProperty="IsOpen">
+                                    <DiscreteBooleanKeyFrame KeyTime="0:0:0" Value="True" />
+                                </BooleanAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </Button.Triggers>-->
+
+
+            <Button.Content>
+                <Rectangle x:Name="ButtonAddDeviceRectangle" Fill="{DynamicResource IconAddDevice}"  Height="15" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
+            </Button.Content>
+            
+
+            <!--<Button.ContextMenu>
+                <ContextMenu Style="{DynamicResource StyleButtonContextMenu}">
+                    <MenuItem Header="Uç Birim Tanımla"/>
+                    <MenuItem Header="Uç Birim Arayüz Tanımla"/>
+                    <Separator/>
+                    <MenuItem Header="Ağ Anahtarı Tanımla Tanımla"/>
+                    <MenuItem Header="Ağ Anahtarı Arayüz Tanımla"/>
+                    <Separator/>
+                    <MenuItem Header="Güç Üretici Tanımla"/>
+                    <MenuItem Header="Güç Üretici Arayüz Tanımla"/>
+                </ContextMenu>
+            </Button.ContextMenu>-->
+
+        </Button>
+        <!--<Popup x:Name="ContextPopup"
+       PlacementTarget="{Binding ElementName=MainPanel}"
+               Placement="Center"
+       StaysOpen="False">
+            <Label>Popupcontent...</Label>
+        </Popup>-->
         <Label Style="{DynamicResource StyleMainTitle}" Content="Doğrulama" Grid.Column="5" Margin="0,505,0,0" Grid.Row="1" VerticalAlignment="Top"/>
         <Label Style="{DynamicResource StyleMainTitle}" Content="Bilgi Kartı" Grid.Column="5" Margin="0,826,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-
 
         <Grid Grid.Column="5" MaxHeight="400" HorizontalAlignment="Center" Margin="0,55,0,0" Grid.Row="1" VerticalAlignment="Top" Width="340" >
             <Grid.RowDefinitions>

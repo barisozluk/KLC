@@ -7,7 +7,7 @@
              xmlns:View="clr-namespace:AYP.View"
              xmlns:ViewModel="clr-namespace:AYP.ViewModel"
              mc:Ignorable="d" 
-                Height="1020" Width="1106" Focusable="True" AllowDrop="True" ClipToBounds="True">
+                Focusable="True" AllowDrop="True" ClipToBounds="True">
     <Border  Name="BorderElement" CornerRadius="7" Background="{DynamicResource ColorNodesCanvasBackground}">
         <Canvas x:Name="CanvasElement">
         <local:Selector x:Name="Selector"  Panel.ZIndex="999"/>

@@ -12,10 +12,27 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="AddDeviceWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="AddDeviceWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Icons\AddDevice.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Icons\Close.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleAddDeviceButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleButtonContextMenu.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
