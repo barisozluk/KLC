@@ -111,3 +111,4 @@ C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\AYP.dll
 C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\AYP.pdb
 C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\AYP.genruntimeconfig.cache
 C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\AYP.csprojAssemblyReference.cache
+C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\Styles\StyleCihazMainTitle.baml

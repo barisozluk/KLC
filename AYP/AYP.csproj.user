@@ -5,6 +5,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <ActiveDebugProfile>AYP</ActiveDebugProfile>
+    <ShowAllFiles>true</ShowAllFiles>
   </PropertyGroup>
   <ItemGroup>
     <ApplicationDefinition Update="App.xaml">
@@ -33,6 +34,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\StyleButtonContextMenu.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleCihazMainTitle.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

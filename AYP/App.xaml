@@ -8,13 +8,13 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Styles/Themes/Dark.xaml"/>
                 <ResourceDictionary Source="Icons/Icons.xaml"/>
-
                 <ResourceDictionary Source="Styles/StyleLeftButton.xaml"/>
                 <ResourceDictionary Source="Styles/StyleLeftPanelUpButton.xaml"/>
                 <ResourceDictionary Source="Styles/StyleMainPanelUpButton.xaml"/>
                 <ResourceDictionary Source="Styles/StyleAddDeviceButton.xaml"/>
 
                 <ResourceDictionary Source="Styles/StyleMainTitle.xaml"/>
+                <ResourceDictionary Source="Styles/StyleCihazMainTitle.xaml"/>
 
                 <ResourceDictionary Source="Styles/StyleLeftPanel.xaml"/>
                 <ResourceDictionary Source="Styles/StyleMainPanel.xaml"/>
@@ -43,12 +43,9 @@
                 <ResourceDictionary Source="Styles/MainWindow/CustomWindowTemplate.xaml"/>
 
                 <!--#region         ContextMenu-->
-
                 <ResourceDictionary Source="Styles/ContextMenu/TemplateContextMenu.xaml"/>
                 <ResourceDictionary Source="Styles/ContextMenu/StyleContextMenuItem.xaml"/>
-
                 <!--#endregion      ContextMenu-->
-
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
 
