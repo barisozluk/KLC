@@ -9,12 +9,6 @@
       "DynamicData/6.15.1": {
         "dependencies": {
           "System.Reactive": "4.4.1"
-        },
-        "runtime": {
-          "lib/netstandard2.0/DynamicData.dll": {
-            "assemblyVersion": "6.15.0.0",
-            "fileVersion": "6.15.1.57358"
-          }
         }
       },
       "Fody/6.2.0": {},
@@ -22,118 +16,49 @@
       "Microsoft.Extensions.Configuration/3.1.5": {
         "dependencies": {
           "Microsoft.Extensions.Configuration.Abstractions": "3.1.5"
-        },
-        "runtime": {
-          "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.dll": {
-            "assemblyVersion": "3.1.5.0",
-            "fileVersion": "3.100.520.27009"
-          }
         }
       },
       "Microsoft.Extensions.Configuration.Abstractions/3.1.5": {
         "dependencies": {
           "Microsoft.Extensions.Primitives": "3.1.5"
-        },
-        "runtime": {
-          "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.Abstractions.dll": {
-            "assemblyVersion": "3.1.5.0",
-            "fileVersion": "3.100.520.27009"
-          }
         }
       },
       "Microsoft.Extensions.Configuration.Binder/3.1.5": {
         "dependencies": {
           "Microsoft.Extensions.Configuration": "3.1.5"
-        },
-        "runtime": {
-          "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.Binder.dll": {
-            "assemblyVersion": "3.1.5.0",
-            "fileVersion": "3.100.520.27009"
-          }
         }
       },
       "Microsoft.Extensions.Configuration.FileExtensions/3.1.5": {
         "dependencies": {
           "Microsoft.Extensions.Configuration": "3.1.5",
           "Microsoft.Extensions.FileProviders.Physical": "3.1.5"
-        },
-        "runtime": {
-          "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.FileExtensions.dll": {
-            "assemblyVersion": "3.1.5.0",
-            "fileVersion": "3.100.520.27009"
-          }
         }
       },
       "Microsoft.Extensions.Configuration.Json/3.1.5": {
         "dependencies": {
           "Microsoft.Extensions.Configuration": "3.1.5",
           "Microsoft.Extensions.Configuration.FileExtensions": "3.1.5"
-        },
-        "runtime": {
-          "lib/netcoreapp3.1/Microsoft.Extensions.Configuration.Json.dll": {
-            "assemblyVersion": "3.1.5.0",
-            "fileVersion": "3.100.520.27009"
-          }
         }
       },
       "Microsoft.Extensions.FileProviders.Abstractions/3.1.5": {
         "dependencies": {
           "Microsoft.Extensions.Primitives": "3.1.5"
-        },
-        "runtime": {
-          "lib/netcoreapp3.1/Microsoft.Extensions.FileProviders.Abstractions.dll": {
-            "assemblyVersion": "3.1.5.0",
-            "fileVersion": "3.100.520.27009"
-          }
         }
       },
       "Microsoft.Extensions.FileProviders.Physical/3.1.5": {
         "dependencies": {
           "Microsoft.Extensions.FileProviders.Abstractions": "3.1.5",
           "Microsoft.Extensions.FileSystemGlobbing": "3.1.5"
-        },
-        "runtime": {
-          "lib/netcoreapp3.1/Microsoft.Extensions.FileProviders.Physical.dll": {
-            "assemblyVersion": "3.1.5.0",
-            "fileVersion": "3.100.520.27009"
-          }
         }
       },
-      "Microsoft.Extensions.FileSystemGlobbing/3.1.5": {
-        "runtime": {
-          "lib/netstandard2.0/Microsoft.Extensions.FileSystemGlobbing.dll": {
-            "assemblyVersion": "3.1.5.0",
-            "fileVersion": "3.100.520.27009"
-          }
-        }
-      },
-      "Microsoft.Extensions.Primitives/3.1.5": {
-        "runtime": {
-          "lib/netcoreapp3.1/Microsoft.Extensions.Primitives.dll": {
-            "assemblyVersion": "3.1.5.0",
-            "fileVersion": "3.100.520.27009"
-          }
-        }
-      },
+      "Microsoft.Extensions.FileSystemGlobbing/3.1.5": {},
+      "Microsoft.Extensions.Primitives/3.1.5": {},
       "Microsoft.NETCore.Platforms/1.1.0": {},
       "Microsoft.NETCore.Targets/1.1.0": {},
-      "Newtonsoft.Json/12.0.3": {
-        "runtime": {
-          "lib/netstandard2.0/Newtonsoft.Json.dll": {
-            "assemblyVersion": "12.0.0.0",
-            "fileVersion": "12.0.3.23909"
-          }
-        }
-      },
+      "Newtonsoft.Json/12.0.3": {},
       "Pharmacist.Common/1.5.15": {
         "dependencies": {
           "System.Reactive": "4.4.1"
-        },
-        "runtime": {
-          "lib/netstandard2.0/Pharmacist.Common.dll": {
-            "assemblyVersion": "1.5.0.0",
-            "fileVersion": "1.5.15.40376"
-          }
         }
       },
       "ReactiveUI/11.4.17": {
@@ -142,24 +67,12 @@
           "Splat": "9.4.5",
           "System.Reactive": "4.4.1",
           "System.Runtime.Serialization.Primitives": "4.3.0"
-        },
-        "runtime": {
-          "lib/netcoreapp3.0/ReactiveUI.dll": {
-            "assemblyVersion": "11.4.0.0",
-            "fileVersion": "11.4.17.60098"
-          }
         }
       },
       "ReactiveUI.Events.WPF/11.4.17": {
         "dependencies": {
           "Pharmacist.Common": "1.5.15",
           "System.Reactive": "4.4.1"
-        },
-        "runtime": {
-          "lib/netcoreapp3.0/ReactiveUI.Events.WPF.dll": {
-            "assemblyVersion": "11.4.0.0",
-            "fileVersion": "11.4.17.60098"
-          }
         }
       },
       "ReactiveUI.Fody/11.4.17": {
@@ -171,57 +84,26 @@
           "System.Dynamic.Runtime": "4.3.0",
           "System.Reactive": "4.4.1",
           "System.Runtime.Serialization.Primitives": "4.3.0"
-        },
-        "runtime": {
-          "lib/netcoreapp2.0/ReactiveUI.Fody.Helpers.dll": {
-            "assemblyVersion": "11.4.0.0",
-            "fileVersion": "11.4.17.60098"
-          }
         }
       },
       "ReactiveUI.Validation/1.4.15": {
         "dependencies": {
           "ReactiveUI": "11.4.17"
-        },
-        "runtime": {
-          "lib/netstandard2.0/ReactiveUI.Validation.dll": {
-            "assemblyVersion": "1.4.0.0",
-            "fileVersion": "1.4.15.26133"
-          }
         }
       },
       "ReactiveUI.WPF/11.4.17": {
         "dependencies": {
           "ReactiveUI": "11.4.17",
           "System.Reactive": "4.4.1"
-        },
-        "runtime": {
-          "lib/netcoreapp3.0/ReactiveUI.WPF.dll": {
-            "assemblyVersion": "11.4.0.0",
-            "fileVersion": "11.4.17.60098"
-          }
         }
       },
-      "Splat/9.4.5": {
-        "runtime": {
-          "lib/netstandard2.0/Splat.dll": {
-            "assemblyVersion": "9.4.0.0",
-            "fileVersion": "9.4.5.9829"
-          }
-        }
-      },
+      "Splat/9.4.5": {},
       "Splat.Drawing/9.4.5": {
         "dependencies": {
           "Splat": "9.4.5",
           "System.Diagnostics.Contracts": "4.3.0",
           "System.Drawing.Primitives": "4.3.0",
           "System.Runtime.Serialization.Primitives": "4.3.0"
-        },
-        "runtime": {
-          "lib/netcoreapp3.0/Splat.Drawing.dll": {
-            "assemblyVersion": "9.4.0.0",
-            "fileVersion": "9.4.5.9829"
-          }
         }
       },
       "System.Collections/4.3.0": {
@@ -234,23 +116,11 @@
       "System.ComponentModel/4.3.0": {
         "dependencies": {
           "System.Runtime": "4.3.0"
-        },
-        "runtime": {
-          "lib/netstandard1.3/System.ComponentModel.dll": {
-            "assemblyVersion": "4.0.2.0",
-            "fileVersion": "4.6.24705.1"
-          }
         }
       },
       "System.Diagnostics.Contracts/4.3.0": {
         "dependencies": {
           "System.Runtime": "4.3.0"
-        },
-        "runtime": {
-          "lib/netstandard1.0/System.Diagnostics.Contracts.dll": {
-            "assemblyVersion": "4.0.2.0",
-            "fileVersion": "4.6.24705.1"
-          }
         }
       },
       "System.Diagnostics.Debug/4.3.0": {
@@ -264,12 +134,6 @@
         "dependencies": {
           "System.Runtime": "4.3.0",
           "System.Runtime.Extensions": "4.3.0"
-        },
-        "runtime": {
-          "lib/netstandard1.1/System.Drawing.Primitives.dll": {
-            "assemblyVersion": "4.0.1.0",
-            "fileVersion": "4.6.24705.1"
-          }
         }
       },
       "System.Dynamic.Runtime/4.3.0": {
@@ -288,12 +152,6 @@
           "System.Runtime": "4.3.0",
           "System.Runtime.Extensions": "4.3.0",
           "System.Threading": "4.3.0"
-        },
-        "runtime": {
-          "lib/netstandard1.3/System.Dynamic.Runtime.dll": {
-            "assemblyVersion": "4.0.12.0",
-            "fileVersion": "4.6.24705.1"
-          }
         }
       },
       "System.Globalization/4.3.0": {
@@ -319,12 +177,6 @@
           "System.Resources.ResourceManager": "4.3.0",
           "System.Runtime": "4.3.0",
           "System.Runtime.Extensions": "4.3.0"
-        },
-        "runtime": {
-          "lib/netstandard1.6/System.Linq.dll": {
-            "assemblyVersion": "4.1.1.0",
-            "fileVersion": "4.6.24705.1"
-          }
         }
       },
       "System.Linq.Expressions/4.3.0": {
@@ -346,12 +198,6 @@
           "System.Runtime": "4.3.0",
           "System.Runtime.Extensions": "4.3.0",
           "System.Threading": "4.3.0"
-        },
-        "runtime": {
-          "lib/netstandard1.6/System.Linq.Expressions.dll": {
-            "assemblyVersion": "4.1.1.0",
-            "fileVersion": "4.6.24705.1"
-          }
         }
       },
       "System.ObjectModel/4.3.0": {
@@ -361,12 +207,6 @@
           "System.Resources.ResourceManager": "4.3.0",
           "System.Runtime": "4.3.0",
           "System.Threading": "4.3.0"
-        },
-        "runtime": {
-          "lib/netstandard1.3/System.ObjectModel.dll": {
-            "assemblyVersion": "4.0.13.0",
-            "fileVersion": "4.6.24705.1"
-          }
         }
       },
       "System.Reactive/4.4.1": {},
@@ -386,12 +226,6 @@
           "System.Reflection.Emit.ILGeneration": "4.3.0",
           "System.Reflection.Primitives": "4.3.0",
           "System.Runtime": "4.3.0"
-        },
-        "runtime": {
-          "lib/netstandard1.3/System.Reflection.Emit.dll": {
-            "assemblyVersion": "4.0.2.0",
-            "fileVersion": "4.6.24705.1"
-          }
         }
       },
       "System.Reflection.Emit.ILGeneration/4.3.0": {
@@ -399,12 +233,6 @@
           "System.Reflection": "4.3.0",
           "System.Reflection.Primitives": "4.3.0",
           "System.Runtime": "4.3.0"
-        },
-        "runtime": {
-          "lib/netstandard1.3/System.Reflection.Emit.ILGeneration.dll": {
-            "assemblyVersion": "4.0.2.0",
-            "fileVersion": "4.6.24705.1"
-          }
         }
       },
       "System.Reflection.Emit.Lightweight/4.3.0": {
@@ -413,12 +241,6 @@
           "System.Reflection.Emit.ILGeneration": "4.3.0",
           "System.Reflection.Primitives": "4.3.0",
           "System.Runtime": "4.3.0"
-        },
-        "runtime": {
-          "lib/netstandard1.3/System.Reflection.Emit.Lightweight.dll": {
-            "assemblyVersion": "4.0.2.0",
-            "fileVersion": "4.6.24705.1"
-          }
         }
       },
       "System.Reflection.Extensions/4.3.0": {
@@ -440,12 +262,6 @@
         "dependencies": {
           "System.Reflection": "4.3.0",
           "System.Runtime": "4.3.0"
-        },
-        "runtime": {
-          "lib/netstandard1.5/System.Reflection.TypeExtensions.dll": {
-            "assemblyVersion": "4.1.1.0",
-            "fileVersion": "4.6.24705.1"
-          }
         }
       },
       "System.Resources.ResourceManager/4.3.0": {
@@ -474,12 +290,6 @@
         "dependencies": {
           "System.Resources.ResourceManager": "4.3.0",
           "System.Runtime": "4.3.0"
-        },
-        "runtime": {
-          "lib/netstandard1.3/System.Runtime.Serialization.Primitives.dll": {
-            "assemblyVersion": "4.1.2.0",
-            "fileVersion": "4.6.24705.1"
-          }
         }
       },
       "System.Text.Encoding/4.3.0": {
@@ -493,12 +303,6 @@
         "dependencies": {
           "System.Runtime": "4.3.0",
           "System.Threading.Tasks": "4.3.0"
-        },
-        "runtime": {
-          "lib/netstandard1.3/System.Threading.dll": {
-            "assemblyVersion": "4.0.12.0",
-            "fileVersion": "4.6.24705.1"
-          }
         }
       },
       "System.Threading.Tasks/4.3.0": {
@@ -514,12 +318,6 @@
           "Microsoft.Extensions.Configuration.Binder": "3.1.5",
           "Microsoft.Extensions.Configuration.Json": "3.1.5",
           "Newtonsoft.Json": "12.0.3"
-        },
-        "runtime": {
-          "lib/netstandard2.0/WritableJsonConfiguration.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
         }
       }
     }
