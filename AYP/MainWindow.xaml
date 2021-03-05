@@ -22,19 +22,19 @@
         </Grid.ColumnDefinitions>
         <Button x:Name="ButtonDefinitions" Style="{DynamicResource StyleLeftPanelUpButton}" Grid.Column="1" HorizontalAlignment="Left" Margin="5,0,0,0">Raporlar</Button>
         <Button x:Name="ButtonUndo" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="5,0,0,0">X</Button>
-        <Button x:Name="ButtonSave" ToolTip="Save (Ctrl+S)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,10,10,0" Grid.Row="1" VerticalAlignment="Top">
+        <Button x:Name="ButtonSave" ToolTip="Kaydet (Ctrl+S)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,10,10,0" Grid.Row="1" VerticalAlignment="Top">
             <Rectangle Fill="{DynamicResource IconSave}" Height="20" Width="20"/>
         </Button>
-        <Button x:Name="ButtonSaveAs" ToolTip="Save As(Ctrl+Shift+S)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,60,10,0" Grid.Row="1" VerticalAlignment="Top" >
+        <Button x:Name="ButtonSaveAs" ToolTip="Farklı Kaydet(Ctrl+Shift+S)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,60,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Rectangle Fill="{DynamicResource IconSave}" Height="20" Width="20"/>
         </Button>
-        <Button x:Name="ButtonOpen" ToolTip="Open (Ctrl+O)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,105,10,0" Grid.Row="1" VerticalAlignment="Top" >
+        <Button x:Name="ButtonOpen" ToolTip="Aç (Ctrl+O)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,105,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Rectangle Fill="{DynamicResource IconSave}" Height="20" Width="20"/>
         </Button>
-        <Button x:Name="ButtonNew" ToolTip="New (Ctrl+N)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,150,10,0" Grid.Row="1" VerticalAlignment="Top" >
+        <Button x:Name="ButtonNew" ToolTip="Yeni (Ctrl+N)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,150,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Rectangle Fill="{DynamicResource IconSave}" Height="20" Width="20"/>
         </Button>
-        <Button x:Name="ButtonExportPNG" ToolTip="Expot To PNG (Ctrl+Shift+Alt+P)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,195,10,0" Grid.Row="1" VerticalAlignment="Top" >
+        <Button x:Name="ButtonExportPNG" ToolTip="PNG'ye Aktar (Ctrl+Shift+Alt+P)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,195,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Rectangle Fill="{DynamicResource IconSave}" Height="20" Width="20"/>
         </Button>
 
