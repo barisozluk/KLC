@@ -6,13 +6,8 @@
       "version": "3.1.0"
     },
     "additionalProbingPaths": [
-<<<<<<< HEAD
-      "C:\\Users\\KLC\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\KLC\\.nuget\\packages",
-=======
       "C:\\Users\\goktu\\.dotnet\\store\\|arch|\\|tfm|",
       "C:\\Users\\goktu\\.nuget\\packages",
->>>>>>> 36b543805653939072e1c61632721e2d0d8c67d6
       "C:\\Microsoft\\Xamarin\\NuGet",
       "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
     ],

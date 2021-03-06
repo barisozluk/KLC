@@ -8,7 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\Import.png" />
+    <None Remove="Images\ImportW.png" />
     <None Remove="Images\kck-logo.png" />
+    <None Remove="Images\openProject.png" />
+    <None Remove="Images\openProjectW.png" />
+    <None Remove="Images\save.png" />
+    <None Remove="Images\saveAs.png" />
+    <None Remove="Images\saveAsW.png" />
+    <None Remove="Images\saveW.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,7 +34,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\Import.png" />
+    <Resource Include="Images\ImportW.png" />
     <Resource Include="Images\kck-logo.png" />
+    <Resource Include="Images\openProject.png" />
+    <Resource Include="Images\openProjectW.png" />
+    <Resource Include="Images\save.png" />
+    <Resource Include="Images\saveAs.png" />
+    <Resource Include="Images\saveAsW.png" />
+    <Resource Include="Images\saveW.png" />
   </ItemGroup>
 
   <ItemGroup>

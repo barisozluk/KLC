@@ -8,7 +8,7 @@
         <Setter Property="HorizontalAlignment" Value="Right" />
         <Setter Property="Margin" Value="0,0,3,0" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="ToolTip" Value="Collapse" />
+        <Setter Property="ToolTip" Value="Genişlet-Daralt" />
 
         <Setter Property="Template">
             <Setter.Value>

@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\
+C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\
 AYP
 none
 false
-TRACE;DEBUG;NETCOREAPP;NETCOREAPP3_1
-C:\Users\KLC\Desktop\Projects\AYP\AYP\App.xaml
+TRACE;DEBUG;NETCOREAPP;NETCOREAPP3_1;
+C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\App.xaml
 561156596175
 
 5872219587
-2001932783341
+220116104895
 AddDeviceWindow.xaml;Icons\AddDevice.xaml;Icons\Close.xaml;Icons\Icons.xaml;Icons\Save.xaml;MainWindow.xaml;Styles\ContextMenu\StyleContextMenuItem.xaml;Styles\ContextMenu\TemplateContextMenu.xaml;Styles\ErrorList\StyleExpander.xaml;Styles\ErrorList\StyleLabel.xaml;Styles\ErrorList\StyleLabelWithIcon.xaml;Styles\ErrorList\StyleListBoxItem.xaml;Styles\ErrorList\StyleScrollBar.xaml;Styles\ErrorList\StyleScrollViewer.xaml;Styles\ErrorList\TemplateListBox.xaml;Styles\MainWindow\CustomWindowTemplate.xaml;Styles\MainWindow\Header\StyleHeaderButton.xaml;Styles\MainWindow\ToolBarTemplate.xaml;Styles\MainWindow\ToolBar\StyleRadioButton.xaml;Styles\MainWindow\ToolBar\TemplateSeparator.xaml;Styles\Menu\MenuTemplate.xaml;Styles\Menu\StyleMenuItem.xaml;Styles\MyTextBox.xaml;Styles\Node\ElementNodeHeader.xaml;Styles\Node\StyleNodeCollapseButton.xaml;Styles\StyleAddDeviceButton.xaml;Styles\StyleButtonContextMenu.xaml;Styles\StyleCihazMainTitle.xaml;Styles\StyleEmptyTextBox.xaml;Styles\StyleExpandButton.xaml;Styles\StyleExpandButtonLeft.xaml;Styles\StyleExpander.xaml;Styles\StyleLeftButton.xaml;Styles\StyleLeftPanel.xaml;Styles\StyleLeftPanelUpButton.xaml;Styles\StyleMainPanel.xaml;Styles\StyleMainPanelUpButton.xaml;Styles\StyleMainTitle.xaml;Styles\StyleProjectHierarchy.xaml;Styles\StyleRight1Panel.xaml;Styles\StyleRight2Panel.xaml;Styles\StyleRight3Panel.xaml;Styles\StyleSelector.xaml;Styles\TableOfTransitions\StyleListBoxTransitionsItem.xaml;Styles\Themes\Dark.xaml;Styles\Themes\Light.xaml;View\Connect.xaml;View\Cutter.xaml;View\Dialog.xaml;View\LeftConnector.xaml;View\Message.xaml;View\Node.xaml;View\NodesCanvas.xaml;View\RightConnector.xaml;View\Selector.xaml;View\TableOfTransitionsItem.xaml;
 
 True
