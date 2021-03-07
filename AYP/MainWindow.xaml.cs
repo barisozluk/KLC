@@ -359,6 +359,19 @@ namespace AYP
             this.IsEnabled = true;
         }
 
+        private void ButtonUcBirimAgArayuzu_Click(object sender, RoutedEventArgs e)
+        {
+            this.DescribingMenuPopup.IsOpen = false;
+            this.UcBirimAgArayuzuPopup.IsOpen = true;
+            this.IsEnabled = false;
+        }
+
+        private void ButtonUcBirimAgArayuzuPopupClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.UcBirimAgArayuzuPopup.IsOpen = false;
+            this.IsEnabled = true;
+        }
+
         private void ButtonAgAnahtariTur_Click(object sender, RoutedEventArgs e)
         {
             this.DescribingMenuPopup.IsOpen = false;
@@ -369,6 +382,32 @@ namespace AYP
         private void ButtonAgAnahtariTurPopupClose_Click(object sender, RoutedEventArgs e)
         {
             this.AgAnahtariTurPopup.IsOpen = false;
+            this.IsEnabled = true;
+        }
+
+        private void ButtonAgAnahtari_Click(object sender, RoutedEventArgs e)
+        {
+            this.DescribingMenuPopup.IsOpen = false;
+            this.AgAnahtariPopup.IsOpen = true;
+            this.IsEnabled = false;
+        }
+
+        private void ButtonAgAnahtariPopupClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.AgAnahtariPopup.IsOpen = false;
+            this.IsEnabled = true;
+        }
+
+        private void ButtonAgAnahtariAgArayuzu_Click(object sender, RoutedEventArgs e)
+        {
+            this.DescribingMenuPopup.IsOpen = false;
+            this.AgAnahtariAgArayuzuPopup.IsOpen = true;
+            this.IsEnabled = false;
+        }
+
+        private void ButtonAgAnahtariAgArayuzuPopupClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.AgAnahtariAgArayuzuPopup.IsOpen = false;
             this.IsEnabled = true;
         }
 
@@ -385,10 +424,31 @@ namespace AYP
             this.IsEnabled = true;
         }
 
+        private void ButtonGucUretici_Click(object sender, RoutedEventArgs e)
+        {
+            this.DescribingMenuPopup.IsOpen = false;
+            this.GucUreticiPopup.IsOpen = true;
+            this.IsEnabled = false;
+        }
+
+        private void ButtonGucUreticiPopupClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.GucUreticiPopup.IsOpen = false;
+            this.IsEnabled = true;
+        }
+
         #region CloseAppEvent
         private void CloseButtonClick(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        #endregion
+
+        #region MinimizeAppEvent
+        private void MinimizeButtonClick(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
         }
 
         #endregion

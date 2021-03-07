@@ -224,7 +224,6 @@ C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\Styles\StyleDevice
 C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\Styles\StyleCloseDescribingButton.baml
 C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\Styles\StyleDescribingMainTitle.baml
 C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\Styles\StyleDescribingButton.baml
-C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\Styles\StyleDescribingFormPanel.baml
 C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\Styles\StyleDescribingProcessButton.baml
 C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\Styles\StyleTextBox.baml
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\Styles\StyleCloseDescribingButton.baml
@@ -353,3 +352,10 @@ C:\Users\Ayca\Desktop\AYPGit\AYP\obj\Debug\netcoreapp3.1\AYP.dll
 C:\Users\Ayca\Desktop\AYPGit\AYP\obj\Debug\netcoreapp3.1\AYP.pdb
 C:\Users\Ayca\Desktop\AYPGit\AYP\obj\Debug\netcoreapp3.1\AYP.genruntimeconfig.cache
 C:\Users\Ayca\Desktop\AYPGit\AYP\obj\Debug\netcoreapp3.1\Styles\StyleComboBox.baml
+C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\Styles\StyleComboBox.baml
+C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\Styles\StyleDescribingTurFormPanel.baml
+C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\Styles\StyleDescribingUcBirimFormPanel.baml
+C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\Styles\StyleDescribingAgArayuzuFormPanel.baml
+C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\Styles\StyleDescribingGucUreticiFormPanel.baml
+C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\Styles\StyleDescribingGucUreticiMainTitle.baml
+C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\Icons\Minimize.baml

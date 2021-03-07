@@ -19,10 +19,16 @@
     <Page Update="Icons\Close.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Icons\Minimize.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\StyleComboBox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleDescribingGucUreticiMainTitle.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\StyleDescribingProcessButton.xaml">
@@ -43,10 +49,19 @@
     <Page Update="Styles\StyleDescribingMainTitle.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Styles\StyleDescribingAgArayuzuFormPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleDescribingGucUreticiFormPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleDescribingUcBirimFormPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\StyleDeviceMainTitle.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Styles\StyleDescribingFormPanel.xaml">
+    <Page Update="Styles\StyleDescribingTurFormPanel.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\StyleTextBox.xaml">

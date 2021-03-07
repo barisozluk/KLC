@@ -71,6 +71,9 @@
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Styles\StyleDescribingGucUreticiMainTitle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\StyleDescribingProcessButton.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -81,6 +84,15 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\StyleDescribingMainTitle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleDescribingAgArayuzuFormPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleDescribingGucUreticiFormPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleDescribingUcBirimFormPanel.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>  

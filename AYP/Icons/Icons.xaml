@@ -3,13 +3,10 @@
                     xmlns:local="clr-namespace:AYP.Icons">
 
     <ResourceDictionary.MergedDictionaries>
-        
         <ResourceDictionary Source="Save.xaml"/>
         <ResourceDictionary Source="Close.xaml"/>
         <ResourceDictionary Source="AddDevice.xaml"/>
-
-
-
+        <ResourceDictionary Source="Minimize.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

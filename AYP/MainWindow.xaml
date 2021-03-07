@@ -67,6 +67,13 @@
             <Image Source="Images\settings.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
 
+        <Button x:Name="ButtonMinimize" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="5" HorizontalAlignment="Right" Margin="0,0,35,0" Click="MinimizeButtonClick">
+            <Rectangle x:Name="ButtonMinimizeRectangle" Fill="{DynamicResource IconMinimize}"  Height="2" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
+        </Button>
+        <Button x:Name="ButtonMinimizeColumn3" Visibility="Hidden" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Right" Margin="0,0,35,0" Click="MinimizeButtonClick">
+            <Rectangle x:Name="ButtonMinimizeRectangleColumn3" Fill="{DynamicResource IconMinimize}"  Height="2" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
+        </Button>
+        
         <Button x:Name="ButtonClose" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="5" HorizontalAlignment="Right" Margin="0,0,0,0" Click="CloseButtonClick">
             <Rectangle x:Name="ButtonCloseRectangle" Fill="{DynamicResource IconClose}"  Height="15" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
         </Button>
@@ -197,13 +204,15 @@
 
                     <Button Content="Uç Birim Tür" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,55,0,0" Click="ButtonUcBirimTur_Click"></Button>
                     <Button Content="Uç Birim" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,85,0,0" Click="ButtonUcBirim_Click"></Button>
-                    <Button Content="Uç Birim Arayüzü" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,115,0,0"></Button>
-                    <Button Content="Ağ Anahtarı Tür" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,145,0,0" Click="ButtonAgAnahtariTur_Click"></Button>
-                    <Button Content="Ağ Anahtarı" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,175,0,0"></Button>
-                    <Button Content="Ağ Anahtarı Ağ Arayüzü" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,205,0,0"></Button>
-                    <Button Content="Güç Üretici Tür" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,235,0,0" Click="ButtonGucUreticiTur_Click"></Button>
-                    <Button Content="Güç Üretici" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,265,0,0"></Button>
-                    <Button Content="Güç Üretici Arayüzü" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,295,0,10"></Button>
+                    <Button Content="Uç Birim Arayüzü" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,115,0,0" Click="ButtonUcBirimAgArayuzu_Click"></Button>
+                    <Button Content="Uç Birim Güç Arayüzü" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,145,0,10"></Button>
+                    <Button Content="Ağ Anahtarı Tür" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,175,0,0" Click="ButtonAgAnahtariTur_Click"></Button>
+                    <Button Content="Ağ Anahtarı" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,205,0,0" Click="ButtonAgAnahtari_Click"></Button>
+                    <Button Content="Ağ Anahtarı Güç Arayüzü" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,235,0,0" Click="ButtonAgAnahtariAgArayuzu_Click"></Button>
+                    <Button Content="Güç Üretici Güç Arayüzü" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,265,0,10"></Button>
+                    <Button Content="Güç Üretici Tür" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,295,0,0" Click="ButtonGucUreticiTur_Click"></Button>
+                    <Button Content="Güç Üretici" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,325,0,0"  Click="ButtonGucUretici_Click"></Button>
+                    <Button Content="Güç Üretici Güç Arayüzü" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,355,0,10"></Button>
 
                     <Label Style="{DynamicResource StyleDescribingMainTitle}" Content="Tanımlamalar" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <Button x:Name="ButtonCloseDescription" Style="{DynamicResource StyleCloseDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,0,0" Click="ButtonDescribingPopupClose_Click" >
@@ -230,7 +239,7 @@
                         <Rectangle Fill="{DynamicResource IconClose}"  Height="15" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
                     </Button>
 
-                    <Rectangle Style="{DynamicResource StyleDescribingFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Rectangle Style="{DynamicResource StyleDescribingTurFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Adı" Grid.Row="0" Grid.Column="1" Margin="0,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
@@ -248,8 +257,7 @@
             <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-
+                        <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="10" />
@@ -262,7 +270,7 @@
                         <Rectangle Fill="{DynamicResource IconClose}"  Height="15" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
                     </Button>
 
-                    <Rectangle Style="{DynamicResource StyleDescribingFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Rectangle Style="{DynamicResource StyleDescribingUcBirimFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Uç Birim Tür" Grid.Row="0" Grid.Column="1" Margin="0,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <ComboBox Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="180,65,0,10" VerticalAlignment="Top" >
                         <ComboBoxItem Name="Item1">Item1</ComboBoxItem>
@@ -272,59 +280,113 @@
                         <ComboBoxItem Name="Item5">Item5</ComboBoxItem>
                         <ComboBoxItem Name="Item6">Item6</ComboBoxItem>
                     </ComboBox>
-                    <!--<TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>-->
 
-                    <Rectangle Style="{DynamicResource StyleDescribingFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,110,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Stok No" Grid.Row="0" Grid.Column="1" Margin="0,110,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,110,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
-
-                    <Rectangle Style="{DynamicResource StyleDescribingFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,155,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Tanım" Grid.Row="0" Grid.Column="1" Margin="0,155,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,155,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
-                    <Rectangle Style="{DynamicResource StyleDescribingFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,200,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Üretici" Grid.Row="0" Grid.Column="1" Margin="0,200,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,200,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
-                    <Rectangle Style="{DynamicResource StyleDescribingFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,245,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Üretici Parça No" Grid.Row="0" Grid.Column="1" Margin="0,245,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,245,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
-                    <Rectangle Style="{DynamicResource StyleDescribingFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,290,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Girdi Ağ Arayüz Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Girdi Ağ Arayüzü Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
-                    <Rectangle Style="{DynamicResource StyleDescribingFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,335,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Çıktı Ağ Arayüz Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Çıktı Ağ Arayüzü Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
-                    <Rectangle Style="{DynamicResource StyleDescribingFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,380,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Çıktı Ağ Arayüz Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Güç Arayüzü Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
-                    <Rectangle Style="{DynamicResource StyleDescribingFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,425,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Katalog" Grid.Row="0" Grid.Column="1" Margin="0,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" ></TextBox>
-
                     <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#222d35" Margin="340,425,0,10" Height="35" Width="80">
                         <Grid>
                             <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="0,0,0,0">Seçiniz</TextBlock>
                         </Grid>
                     </Button>
 
-                    <Rectangle Style="{DynamicResource StyleDescribingFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,470,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Sembol" Grid.Row="0" Grid.Column="1" Margin="0,470,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Sembol" Grid.Row="0" Grid.Column="1" Margin="0,470,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,470,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" ></TextBox>
-
                     <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#222d35" Margin="340,470,0,10" Height="35" Width="80">
                         <Grid>
                             <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="0,0,0,0">Seçiniz</TextBlock>
                         </Grid>
                     </Button>
 
+                    <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,525,0,10" >
+                        <Grid>
+                            <Image Source="Images/save.png" Height="20" Width="25" Margin="2,0,0,0" HorizontalAlignment="Left"/>
+                            <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="70,0,0,0">Kaydet</TextBlock>
+                        </Grid>
+                    </Button>
+                </Grid>
+            </Border>
+        </Popup>
 
+        <Popup Name="UcBirimAgArayuzuPopup" AllowsTransparency="True" Placement="Center">
+            <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="440" />
+                        <ColumnDefinition Width="10" />
+                    </Grid.ColumnDefinitions>
 
-                    <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,535,0,10" >
+                    <Label Style="{DynamicResource StyleDescribingMainTitle}" Content="Uç Birim Ağ Arayüzü" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Button Style="{DynamicResource StyleCloseDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,0,0" Click="ButtonUcBirimAgArayuzuPopupClose_Click" >
+                        <Rectangle Fill="{DynamicResource IconClose}"  Height="15" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
+                    </Button>
+
+                    <Rectangle Style="{DynamicResource StyleDescribingAgArayuzuFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Uç Birim" Grid.Row="0" Grid.Column="1" Margin="0,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <ComboBox Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="180,65,0,10" VerticalAlignment="Top" >
+                        <ComboBoxItem Name="Item1UcBirimAgArayuzu">Item1</ComboBoxItem>
+                        <ComboBoxItem Name="Item2UcBirimAgArayuzu">Item2</ComboBoxItem>
+                        <ComboBoxItem Name="Item3UcBirimAgArayuzu">Item3</ComboBoxItem>
+                        <ComboBoxItem Name="Item4UcBirimAgArayuzu">Item4</ComboBoxItem>
+                        <ComboBoxItem Name="Item5UcBirimAgArayuzu">Item5</ComboBoxItem>
+                        <ComboBoxItem Name="Item6UcBirimAgArayuzu">Item6</ComboBoxItem>
+                    </ComboBox>
+
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Kullanım Amacı" Grid.Row="0" Grid.Column="1" Margin="0,110,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <ComboBox Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="180,110,0,10" VerticalAlignment="Top" >
+                        <ComboBoxItem Name="Item1KullanimAmaci">Item1</ComboBoxItem>
+                        <ComboBoxItem Name="Item2KullanimAmaci">Item2</ComboBoxItem>
+                        <ComboBoxItem Name="Item3KullanimAmaci">Item3</ComboBoxItem>
+                        <ComboBoxItem Name="Item4KullanimAmaci">Item4</ComboBoxItem>
+                        <ComboBoxItem Name="Item5KullanimAmaci">Item5</ComboBoxItem>
+                        <ComboBoxItem Name="Item6KullanimAmaci">Item6</ComboBoxItem>
+                    </ComboBox>
+
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Fiziksel Ortam" Grid.Row="0" Grid.Column="1" Margin="0,155,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <ComboBox Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="180,155,0,10" VerticalAlignment="Top" >
+                        <ComboBoxItem Name="Item1FizikselOrtam">Item1</ComboBoxItem>
+                        <ComboBoxItem Name="Item2FizikselOrtam">Item2</ComboBoxItem>
+                        <ComboBoxItem Name="Item3FizikselOrtam">Item3</ComboBoxItem>
+                        <ComboBoxItem Name="Item4FizikselOrtam">Item4</ComboBoxItem>
+                        <ComboBoxItem Name="Item5FizikselOrtam">Item5</ComboBoxItem>
+                        <ComboBoxItem Name="Item6FizikselOrtam">Item6</ComboBoxItem>
+                    </ComboBox>
+
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Kapasite" Grid.Row="0" Grid.Column="1" Margin="0,200,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <ComboBox Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="180,200,0,10" VerticalAlignment="Top" >
+                        <ComboBoxItem Name="Item1Kapasite">Item1</ComboBoxItem>
+                        <ComboBoxItem Name="Item2Kapasite">Item2</ComboBoxItem>
+                        <ComboBoxItem Name="Item3Kapasite">Item3</ComboBoxItem>
+                        <ComboBoxItem Name="Item4Kapasite">Item4</ComboBoxItem>
+                        <ComboBoxItem Name="Item5Kapasite">Item5</ComboBoxItem>
+                        <ComboBoxItem Name="Item6Kapasite">Item6</ComboBoxItem>
+                    </ComboBox>
+
+                    <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,255,0,10" >
                         <Grid>
                             <Image Source="Images/save.png" Height="20" Width="25" Margin="2,0,0,0" HorizontalAlignment="Left"/>
                             <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="70,0,0,0">Kaydet</TextBlock>
@@ -351,11 +413,154 @@
                         <Rectangle Fill="{DynamicResource IconClose}"  Height="15" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
                     </Button>
 
-                    <Rectangle Style="{DynamicResource StyleDescribingFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Rectangle Style="{DynamicResource StyleDescribingTurFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Adı" Grid.Row="0" Grid.Column="1" Margin="0,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
                     <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,120,0,10" >
+                        <Grid>
+                            <Image Source="Images/save.png" Height="20" Width="25" Margin="2,0,0,0" HorizontalAlignment="Left"/>
+                            <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="70,0,0,0">Kaydet</TextBlock>
+                        </Grid>
+                    </Button>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup Name="AgAnahtariPopup" AllowsTransparency="True" Placement="Center">
+            <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="440" />
+                        <ColumnDefinition Width="10" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Style="{DynamicResource StyleDescribingMainTitle}" Content="Ağ Anahtarı" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Button Style="{DynamicResource StyleCloseDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,0,0" Click="ButtonAgAnahtariPopupClose_Click" >
+                        <Rectangle Fill="{DynamicResource IconClose}"  Height="15" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
+                    </Button>
+
+                    <Rectangle Style="{DynamicResource StyleDescribingAgArayuzuFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Ağ Anahatarı Tür" Grid.Row="0" Grid.Column="1" Margin="0,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <ComboBox Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="180,65,0,10" VerticalAlignment="Top" >
+                        <ComboBoxItem Name="Item1AgAnahtari">Item1</ComboBoxItem>
+                        <ComboBoxItem Name="Item2AgAnahtari">Item2</ComboBoxItem>
+                        <ComboBoxItem Name="Item3AgAnahtari">Item3</ComboBoxItem>
+                        <ComboBoxItem Name="Item4AgAnahtari">Item4</ComboBoxItem>
+                        <ComboBoxItem Name="Item5AgAnahtari">Item5</ComboBoxItem>
+                        <ComboBoxItem Name="Item6AgAnahtari">Item6</ComboBoxItem>
+                    </ComboBox>
+
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Stok No" Grid.Row="0" Grid.Column="1" Margin="0,110,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,110,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Tanım" Grid.Row="0" Grid.Column="1" Margin="0,155,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,155,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Üretici" Grid.Row="0" Grid.Column="1" Margin="0,200,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,200,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Üretici Parça No" Grid.Row="0" Grid.Column="1" Margin="0,245,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,245,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Girdi Ağ Arayüzü Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Çıktı Ağ Arayüzü Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Güç Arayüzü Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Katalog" Grid.Row="0" Grid.Column="1" Margin="0,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" ></TextBox>
+                    <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#222d35" Margin="340,425,0,10" Height="35" Width="80">
+                        <Grid>
+                            <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="0,0,0,0">Seçiniz</TextBlock>
+                        </Grid>
+                    </Button>
+
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Sembol" Grid.Row="0" Grid.Column="1" Margin="0,470,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,470,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" ></TextBox>
+                    <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#222d35" Margin="340,470,0,10" Height="35" Width="80">
+                        <Grid>
+                            <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="0,0,0,0">Seçiniz</TextBlock>
+                        </Grid>
+                    </Button>
+
+                    <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,525,0,10" >
+                        <Grid>
+                            <Image Source="Images/save.png" Height="20" Width="25" Margin="2,0,0,0" HorizontalAlignment="Left"/>
+                            <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="70,0,0,0">Kaydet</TextBlock>
+                        </Grid>
+                    </Button>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup Name="AgAnahtariAgArayuzuPopup" AllowsTransparency="True" Placement="Center">
+            <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="440" />
+                        <ColumnDefinition Width="10" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Style="{DynamicResource StyleDescribingMainTitle}" Content="Ağ Anahtarı Ağ Arayüzü" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Button Style="{DynamicResource StyleCloseDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,0,0" Click="ButtonAgAnahtariAgArayuzuPopupClose_Click" >
+                        <Rectangle Fill="{DynamicResource IconClose}"  Height="15" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
+                    </Button>
+
+                    <Rectangle Style="{DynamicResource StyleDescribingAgArayuzuFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Ağ Anahtarı" Grid.Row="0" Grid.Column="1" Margin="0,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <ComboBox Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="180,65,0,10" VerticalAlignment="Top" >
+                        <ComboBoxItem Name="Item1AgAnahtariAgArayuzu">Item1</ComboBoxItem>
+                        <ComboBoxItem Name="Item2AgAnahtariAgArayuzu">Item2</ComboBoxItem>
+                        <ComboBoxItem Name="Item3AgAnahtariAgArayuzu">Item3</ComboBoxItem>
+                        <ComboBoxItem Name="Item4AgAnahtariAgArayuzu">Item4</ComboBoxItem>
+                        <ComboBoxItem Name="Item5AgAnahtariAgArayuzu">Item5</ComboBoxItem>
+                        <ComboBoxItem Name="Item6AgAnahtariAgArayuzu">Item6</ComboBoxItem>
+                    </ComboBox>
+
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Kullanım Amacı" Grid.Row="0" Grid.Column="1" Margin="0,110,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <ComboBox Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="180,110,0,10" VerticalAlignment="Top" >
+                        <ComboBoxItem Name="Item1AgAnahtariKullanimAmaci">Item1</ComboBoxItem>
+                        <ComboBoxItem Name="Item2AgAnahtariKullanimAmaci">Item2</ComboBoxItem>
+                        <ComboBoxItem Name="Item3AgAnahtariKullanimAmaci">Item3</ComboBoxItem>
+                        <ComboBoxItem Name="Item4AgAnahtariKullanimAmaci">Item4</ComboBoxItem>
+                        <ComboBoxItem Name="Item5AgAnahtariKullanimAmaci">Item5</ComboBoxItem>
+                        <ComboBoxItem Name="Item6AgAnahtariKullanimAmaci">Item6</ComboBoxItem>
+                    </ComboBox>
+
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Fiziksel Ortam" Grid.Row="0" Grid.Column="1" Margin="0,155,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <ComboBox Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="180,155,0,10" VerticalAlignment="Top" >
+                        <ComboBoxItem Name="Item1AgAnahtariFizikselOrtam">Item1</ComboBoxItem>
+                        <ComboBoxItem Name="Item2AgAnahtariFizikselOrtam">Item2</ComboBoxItem>
+                        <ComboBoxItem Name="Item3AgAnahtariFizikselOrtam">Item3</ComboBoxItem>
+                        <ComboBoxItem Name="Item4AgAnahtariFizikselOrtam">Item4</ComboBoxItem>
+                        <ComboBoxItem Name="Item5AgAnahtariFizikselOrtam">Item5</ComboBoxItem>
+                        <ComboBoxItem Name="Item6AgAnahtariFizikselOrtam">Item6</ComboBoxItem>
+                    </ComboBox>
+
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Kapasite" Grid.Row="0" Grid.Column="1" Margin="0,200,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <ComboBox Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="180,200,0,10" VerticalAlignment="Top" >
+                        <ComboBoxItem Name="Item1AgAnahtariKapasite">Item1</ComboBoxItem>
+                        <ComboBoxItem Name="Item2AgAnahtariKapasite">Item2</ComboBoxItem>
+                        <ComboBoxItem Name="Item3AgAnahtariKapasite">Item3</ComboBoxItem>
+                        <ComboBoxItem Name="Item4AgAnahtariKapasite">Item4</ComboBoxItem>
+                        <ComboBoxItem Name="Item5AgAnahtariKapasite">Item5</ComboBoxItem>
+                        <ComboBoxItem Name="Item6AgAnahtariKapasite">Item6</ComboBoxItem>
+                    </ComboBox>
+
+                    <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,255,0,10" >
                         <Grid>
                             <Image Source="Images/save.png" Height="20" Width="25" Margin="2,0,0,0" HorizontalAlignment="Left"/>
                             <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="70,0,0,0">Kaydet</TextBlock>
@@ -382,11 +587,89 @@
                         <Rectangle Fill="{DynamicResource IconClose}"  Height="15" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
                     </Button>
 
-                    <Rectangle Style="{DynamicResource StyleDescribingFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Rectangle Style="{DynamicResource StyleDescribingTurFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Adı" Grid.Row="0" Grid.Column="1" Margin="0,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
                     <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,120,0,10" >
+                        <Grid>
+                            <Image Source="Images/save.png" Height="20" Width="25" Margin="2,0,0,0" HorizontalAlignment="Left"/>
+                            <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="70,0,0,0">Kaydet</TextBlock>
+                        </Grid>
+                    </Button>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup Name="GucUreticiPopup" AllowsTransparency="True" Placement="Center">
+            <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="460" />
+                        <ColumnDefinition Width="10" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Style="{DynamicResource StyleDescribingGucUreticiMainTitle}" Content="Güç Üretici" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Button Style="{DynamicResource StyleCloseDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,0,0" Click="ButtonGucUreticiPopupClose_Click" >
+                        <Rectangle Fill="{DynamicResource IconClose}"  Height="15" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
+                    </Button>
+
+                    <Rectangle Style="{DynamicResource StyleDescribingGucUreticiFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Güç Üretici Tür" Grid.Row="0" Grid.Column="1" Margin="0,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <ComboBox Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="200,65,0,10" VerticalAlignment="Top" >
+                        <ComboBoxItem Name="Item1GucUretici">Item1</ComboBoxItem>
+                        <ComboBoxItem Name="Item2GucUretici">Item2</ComboBoxItem>
+                        <ComboBoxItem Name="Item3GucUretici">Item3</ComboBoxItem>
+                        <ComboBoxItem Name="Item4GucUretici">Item4</ComboBoxItem>
+                        <ComboBoxItem Name="Item5GucUretici">Item5</ComboBoxItem>
+                        <ComboBoxItem Name="Item6GucUretici">Item6</ComboBoxItem>
+                    </ComboBox>
+
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Stok No" Grid.Row="0" Grid.Column="1" Margin="0,110,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,110,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Tanım" Grid.Row="0" Grid.Column="1" Margin="0,155,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,155,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Üretici" Grid.Row="0" Grid.Column="1" Margin="0,200,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,200,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Üretici Parça No" Grid.Row="0" Grid.Column="1" Margin="0,245,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,245,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+                    
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Girdi Güç Arayüzü Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Çıktı Güç Arayüzü Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Verimlilik Oranı" Grid.Row="0" Grid.Column="1" Margin="0,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Dahili Güç Tüketim Değeri" Grid.Row="0" Grid.Column="1" Margin="0,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Katalog" Grid.Row="0" Grid.Column="1" Margin="0,470,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,470,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" ></TextBox>
+                    <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#222d35" Margin="360,470,0,10" Height="35" Width="80">
+                        <Grid>
+                            <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="0,0,0,0">Seçiniz</TextBlock>
+                        </Grid>
+                    </Button>
+
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Sembol" Grid.Row="0" Grid.Column="1" Margin="0,515,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,515,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" ></TextBox>
+                    <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#222d35" Margin="360,515,0,10" Height="35" Width="80">
+                        <Grid>
+                            <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="0,0,0,0">Seçiniz</TextBlock>
+                        </Grid>
+                    </Button>
+
+                    <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,570,0,10" >
                         <Grid>
                             <Image Source="Images/save.png" Height="20" Width="25" Margin="2,0,0,0" HorizontalAlignment="Left"/>
                             <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="70,0,0,0">Kaydet</TextBlock>

@@ -60,8 +60,8 @@
 
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
-        <Setter Property="Width" Value="200"/>
-        <Setter Property="Height" Value="30"/>
+        <Setter Property="Width" Value="250"/>
+        <Setter Property="Height" Value="35"/>
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="Template">
             <Setter.Value>

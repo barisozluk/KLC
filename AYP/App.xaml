@@ -50,9 +50,14 @@
 
                 <!--#region         DescriptionPopup-->
                 <ResourceDictionary Source="Styles/StyleDescribingMainTitle.xaml" />
+                <ResourceDictionary Source="Styles/StyleDescribingGucUreticiMainTitle.xaml" />
                 <ResourceDictionary Source="Styles/StyleCloseDescribingButton.xaml" />
                 <ResourceDictionary Source="Styles/StyleDescribingButton.xaml" />
-                <ResourceDictionary Source="Styles/StyleDescribingFormPanel.xaml" />
+                <ResourceDictionary Source="Styles/StyleDescribingTurFormPanel.xaml" />
+                <ResourceDictionary Source="Styles/StyleDescribingUcBirimFormPanel.xaml" />
+                <ResourceDictionary Source="Styles/StyleDescribingAgArayuzuFormPanel.xaml" />
+                <ResourceDictionary Source="Styles/StyleDescribingGucUreticiFormPanel.xaml" />
+                <ResourceDictionary Source="Styles/StyleDescribingAgArayuzuFormPanel.xaml" />
                 <ResourceDictionary Source="Styles/StyleDescribingProcessButton.xaml" />
                 <!--#endregion      DescriptionPopup-->
 
