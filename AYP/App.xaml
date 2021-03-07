@@ -28,6 +28,7 @@
                 
                 <ResourceDictionary Source="Styles/StyleProjectHierarchy.xaml"/>
                 <ResourceDictionary Source="Styles/StyleButtonContextMenu.xaml"/>
+                <ResourceDictionary Source="Styles/StyleComboBox.xaml"/>
 
                 <ResourceDictionary Source="Styles/TableOfTransitions/StyleListBoxTransitionsItem.xaml"/>
 
