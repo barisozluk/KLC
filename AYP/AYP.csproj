@@ -57,5 +57,17 @@
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Styles\StyleDescribingProcessButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleDescribingButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleAddDeviceButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleDescribingMainTitle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>  
 </Project>

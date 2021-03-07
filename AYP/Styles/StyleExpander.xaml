@@ -32,7 +32,7 @@
 
 
     <Style x:Key="StyleExpander" TargetType="{x:Type Expander}">
-        <Setter Property="Background" Value="#222d35" />
+        <Setter Property="Background" Value="#182026" />
         <Setter Property="Foreground" Value="#ffffff" />
         <Setter Property="Width" Value="340"/>
         <Setter Property="ExpandDirection" Value="Down"/>
@@ -51,7 +51,7 @@
                         <Border
                             Name="Border"
                             Grid.Row="0"
-                            Background="#13191e"           
+                            Background="#182026"           
                             BorderThickness="1"
                             CornerRadius="4" >
                             <Grid>
@@ -78,11 +78,11 @@
                                                         RelativeSource={RelativeSource TemplatedParent}}"
                                     OverridesDefaultStyle="True"
                                     Template="{StaticResource ExpanderToggleButton}"
-                                    Background="#33391e" />
+                                    Background="#182026" />
                         <Border
                             Name="Content"
                             Grid.Row="1"
-                            Background="#222d35"                
+                            Background="#182026"                
                             CornerRadius="0,0,4,4" >
                             <ContentPresenter Margin="4" />
                         </Border>

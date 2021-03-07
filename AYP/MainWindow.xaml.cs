@@ -321,11 +321,57 @@ namespace AYP
 
         #endregion CollapseExpandEvents
 
-        private void ButtonAddDevice_Click(object sender, RoutedEventArgs e)
+        private void ButtonDescribing_Click(object sender, RoutedEventArgs e)
         {
-            AddDeviceWindow addDeviceWindow = new AddDeviceWindow();
-            addDeviceWindow.Show();
+            this.DescribingMenuPopup.IsOpen = true;
+            this.IsEnabled = false;
         }
+
+        private void ButtonDescribingPopupClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.DescribingMenuPopup.IsOpen = false;
+            IsEnabled = true;
+        }
+
+        private void ButtonUcBirimTur_Click(object sender, RoutedEventArgs e)
+        {
+            this.DescribingMenuPopup.IsOpen = false;
+            this.UcBirimTurPopup.IsOpen = true;
+            this.IsEnabled = false;
+        }
+
+        private void ButtonUcBirimTurPopupClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.UcBirimTurPopup.IsOpen = false;
+            this.IsEnabled = true;
+        }
+
+        private void ButtonAgAnahtariTur_Click(object sender, RoutedEventArgs e)
+        {
+            this.DescribingMenuPopup.IsOpen = false;
+            this.AgAnahtariTurPopup.IsOpen = true;
+            this.IsEnabled = false;
+        }
+
+        private void ButtonAgAnahtariTurPopupClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.AgAnahtariTurPopup.IsOpen = false;
+            this.IsEnabled = true;
+        }
+
+        private void ButtonGucUreticiTur_Click(object sender, RoutedEventArgs e)
+        {
+            this.DescribingMenuPopup.IsOpen = false;
+            this.GucUreticiTurPopup.IsOpen = true;
+            this.IsEnabled = false;
+        }
+
+        private void ButtonGucUreticiTurPopupClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.GucUreticiTurPopup.IsOpen = false;
+            this.IsEnabled = true;
+        }
+
         #region CloseAppEvent
         private void CloseButtonClick(object sender, RoutedEventArgs e)
         {

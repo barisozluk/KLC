@@ -13,14 +13,6 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="AddDeviceWindow.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="AddDeviceWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Icons\AddDevice.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -30,13 +22,31 @@
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Styles\StyleDescribingProcessButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleDescribingButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\StyleAddDeviceButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleCloseDescribingButton.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\StyleButtonContextMenu.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Styles\StyleCihazMainTitle.xaml">
+    <Page Update="Styles\StyleDescribingMainTitle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleDeviceMainTitle.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleDescribingFormPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleTextBox.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

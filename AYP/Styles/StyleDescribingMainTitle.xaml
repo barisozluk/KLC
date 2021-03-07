@@ -2,11 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:AYP.Styles">
 
-    <Style x:Key="StyleCihazMainTitle" TargetType="{x:Type Label}">
+    <Style x:Key="StyleDescribingMainTitle" TargetType="{x:Type Label}">
         <Setter Property="Background" Value="#13191e" />
         <Setter Property="Foreground" Value="#ffffff" />
         <Setter Property="Height" Value="35"/>
-        <Setter Property="Width" Value="300"/>
+        <Setter Property="Width" Value="395"/>
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="Padding" Value="6"/>
@@ -17,11 +17,6 @@
                     <Border CornerRadius="4" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Border>
-                    <!--<ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Foreground" Value="{Binding OpacityMask, RelativeSource={RelativeSource Self}}"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>-->
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

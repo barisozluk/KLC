@@ -14,7 +14,7 @@
                 <ResourceDictionary Source="Styles/StyleAddDeviceButton.xaml"/>
 
                 <ResourceDictionary Source="Styles/StyleMainTitle.xaml"/>
-                <ResourceDictionary Source="Styles/StyleCihazMainTitle.xaml"/>
+                <ResourceDictionary Source="Styles/StyleDeviceMainTitle.xaml"/>
 
                 <ResourceDictionary Source="Styles/StyleLeftPanel.xaml"/>
                 <ResourceDictionary Source="Styles/StyleMainPanel.xaml"/>
@@ -46,6 +46,19 @@
                 <ResourceDictionary Source="Styles/ContextMenu/TemplateContextMenu.xaml"/>
                 <ResourceDictionary Source="Styles/ContextMenu/StyleContextMenuItem.xaml"/>
                 <!--#endregion      ContextMenu-->
+
+                <!--#region         DescriptionPopup-->
+                <ResourceDictionary Source="Styles/StyleDescribingMainTitle.xaml" />
+                <ResourceDictionary Source="Styles/StyleCloseDescribingButton.xaml" />
+                <ResourceDictionary Source="Styles/StyleDescribingButton.xaml" />
+                <ResourceDictionary Source="Styles/StyleDescribingFormPanel.xaml" />
+                <ResourceDictionary Source="Styles/StyleDescribingProcessButton.xaml" />
+                <!--#endregion      DescriptionPopup-->
+
+                <!--#region         FormControls-->
+                <ResourceDictionary Source="Styles/StyleTextBox.xaml" />
+                <!--#endregion         FormControls-->
+
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
 
