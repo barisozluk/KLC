@@ -346,6 +346,19 @@ namespace AYP
             this.IsEnabled = true;
         }
 
+        private void ButtonUcBirim_Click(object sender, RoutedEventArgs e)
+        {
+            this.DescribingMenuPopup.IsOpen = false;
+            this.UcBirimPopup.IsOpen = true;
+            this.IsEnabled = false;
+        }
+
+        private void ButtonUcBirimPopupClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.UcBirimPopup.IsOpen = false;
+            this.IsEnabled = true;
+        }
+
         private void ButtonAgAnahtariTur_Click(object sender, RoutedEventArgs e)
         {
             this.DescribingMenuPopup.IsOpen = false;

@@ -44,26 +44,26 @@
             <Image Source="Images\zoomOut.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
 
-        <Button x:Name="ButtonSave" ToolTip="Kaydet (Ctrl+S)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,10,10,0" Grid.Row="1" VerticalAlignment="Top">
+        <Button x:Name="ButtonEkstra" ToolTip="" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,10,10,0" Grid.Row="1" VerticalAlignment="Top">
 
         </Button>
-        <Button x:Name="ButtonSaveAs" ToolTip="Proje Açma Butonu" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,60,10,0" Grid.Row="1" VerticalAlignment="Top" >
+        <Button x:Name="ButtonOpen" ToolTip="Proje Aç" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,60,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Image Source="Images\openProjectW.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
-        <Button x:Name="ButtonOpen" ToolTip="Kaydet" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,105,10,0" Grid.Row="1" VerticalAlignment="Top" >
+        <Button x:Name="ButtonSave" ToolTip="Kaydet" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,105,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Image Source="Images\saveW.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
-        <Button x:Name="ButtonNew" ToolTip="Farklı Kaydet" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,150,10,0" Grid.Row="1" VerticalAlignment="Top" >
+        <Button x:Name="ButtonSaveAs" ToolTip="Farklı Kaydet" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,150,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Image Source="Images\saveAsW.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
-        <Button x:Name="ButtonExportPNG" ToolTip="İçeri Aktarma" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,195,10,0" Grid.Row="1" VerticalAlignment="Top" >
+        <Button x:Name="ButtonImport" ToolTip="İçeri Aktarma" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,195,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Image Source="Images\ImportW.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
 
-        <Button x:Name="ButtonHelp" ToolTip="İçeri Aktarma" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,980,10,0" Grid.Row="1" VerticalAlignment="Top" >
+        <Button x:Name="ButtonHelp" ToolTip="Yardım" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,980,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Image Source="Images\help.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
-        <Button x:Name="ButtonSettings" ToolTip="İçeri Aktarma" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,935,10,0" Grid.Row="1" VerticalAlignment="Top" >
+        <Button x:Name="ButtonSettings" ToolTip="Ayarlar" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,935,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Image Source="Images\settings.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
 
@@ -196,7 +196,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Button Content="Uç Birim Tür" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,55,0,0" Click="ButtonUcBirimTur_Click"></Button>
-                    <Button Content="Uç Birim" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,85,0,0"></Button>
+                    <Button Content="Uç Birim" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,85,0,0" Click="ButtonUcBirim_Click"></Button>
                     <Button Content="Uç Birim Arayüzü" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,115,0,0"></Button>
                     <Button Content="Ağ Anahtarı Tür" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,145,0,0" Click="ButtonAgAnahtariTur_Click"></Button>
                     <Button Content="Ağ Anahtarı" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,175,0,0"></Button>
@@ -235,6 +235,88 @@
                     <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
                     <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,120,0,10" >
+                        <Grid>
+                            <Image Source="Images/save.png" Height="20" Width="25" Margin="2,0,0,0" HorizontalAlignment="Left"/>
+                            <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="70,0,0,0">Kaydet</TextBlock>
+                        </Grid>
+                    </Button>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup Name="UcBirimPopup" AllowsTransparency="True" Placement="Center">
+            <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="440" />
+                        <ColumnDefinition Width="10" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Style="{DynamicResource StyleDescribingMainTitle}" Content="Uç Birim" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Button Style="{DynamicResource StyleCloseDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,0,0" Click="ButtonUcBirimPopupClose_Click" >
+                        <Rectangle Fill="{DynamicResource IconClose}"  Height="15" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
+                    </Button>
+
+                    <Rectangle Style="{DynamicResource StyleDescribingFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Uç Birim Tür" Grid.Row="0" Grid.Column="1" Margin="0,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+
+                    <Rectangle Style="{DynamicResource StyleDescribingFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,110,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Stok No" Grid.Row="0" Grid.Column="1" Margin="0,110,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,110,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+
+                    <Rectangle Style="{DynamicResource StyleDescribingFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,155,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Tanım" Grid.Row="0" Grid.Column="1" Margin="0,155,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,155,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+
+                    <Rectangle Style="{DynamicResource StyleDescribingFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,200,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Üretici" Grid.Row="0" Grid.Column="1" Margin="0,200,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,200,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+
+                    <Rectangle Style="{DynamicResource StyleDescribingFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,245,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Üretici Parça No" Grid.Row="0" Grid.Column="1" Margin="0,245,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,245,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+
+                    <Rectangle Style="{DynamicResource StyleDescribingFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,290,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Girdi Ağ Arayüz Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+
+                    <Rectangle Style="{DynamicResource StyleDescribingFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,335,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Çıktı Ağ Arayüz Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+
+                    <Rectangle Style="{DynamicResource StyleDescribingFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,380,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Çıktı Ağ Arayüz Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+
+                    <Rectangle Style="{DynamicResource StyleDescribingFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,425,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Katalog" Grid.Row="0" Grid.Column="1" Margin="0,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" ></TextBox>
+
+                    <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#222d35" Margin="340,425,0,10" Height="35" Width="80">
+                        <Grid>
+                            <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="0,0,0,0">Seçiniz</TextBlock>
+                        </Grid>
+                    </Button>
+
+                    <Rectangle Style="{DynamicResource StyleDescribingFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,470,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Sembol" Grid.Row="0" Grid.Column="1" Margin="0,470,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,470,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" ></TextBox>
+
+                    <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#222d35" Margin="340,470,0,10" Height="35" Width="80">
+                        <Grid>
+                            <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="0,0,0,0">Seçiniz</TextBlock>
+                        </Grid>
+                    </Button>
+                    
+                    
+
+                    <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,535,0,10" >
                         <Grid>
                             <Image Source="Images/save.png" Height="20" Width="25" Margin="2,0,0,0" HorizontalAlignment="Left"/>
                             <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="70,0,0,0">Kaydet</TextBlock>
