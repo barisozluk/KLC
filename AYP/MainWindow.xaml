@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:view="clr-namespace:AYP.View" xmlns:styles="clr-namespace:AYP.Styles"
         mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="1080" Width="1920">
+        Title="MainWindow" Height="1080" Width="1920" >
 
 
     <Grid Margin="0" Background="#182026" AutomationProperties.IsRowHeader="True" AutomationProperties.IsColumnHeader="True">
@@ -28,7 +28,21 @@
         <Separator BorderBrush="White" Grid.Column="0" Grid.Row="0" Margin="12,45,12,0" />
 
         <Button x:Name="ButtonDefinitions" Style="{DynamicResource StyleLeftPanelUpButton}" Grid.Column="1" HorizontalAlignment="Left" Margin="5,0,0,0">Raporlar</Button>
-        <Button x:Name="ButtonUndo" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="5,0,0,0">X</Button>
+        <Button x:Name="ButtonUndo" ToolTip="Geri Al" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="5,0,0,0">
+            <Image Source="Images\backward.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
+        </Button>
+        <Button x:Name="ButtonRedo" ToolTip="Tekrarla" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="45,0,0,0">
+            <Image Source="Images\forward.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
+        </Button>
+        <Button x:Name="ButtonDongu" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="85,0,0,0">
+            <Image Source="Images\dongu.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
+        </Button>
+        <Button x:Name="ButtonZoomIn" ToolTip="Yakınlaş" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="125,0,0,0">
+            <Image Source="Images\zoomIn.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
+        </Button>
+        <Button x:Name="ButtonZoomOut" ToolTip="Uzaklaş" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="165,0,0,0">
+            <Image Source="Images\zoomOut.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
+        </Button>
 
         <Button x:Name="ButtonSave" ToolTip="Kaydet (Ctrl+S)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,10,10,0" Grid.Row="1" VerticalAlignment="Top">
 
@@ -44,6 +58,13 @@
         </Button>
         <Button x:Name="ButtonExportPNG" ToolTip="İçeri Aktarma" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,195,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Image Source="Images\ImportW.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
+        </Button>
+
+        <Button x:Name="ButtonHelp" ToolTip="İçeri Aktarma" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,980,10,0" Grid.Row="1" VerticalAlignment="Top" >
+            <Image Source="Images\help.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
+        </Button>
+        <Button x:Name="ButtonSettings" ToolTip="İçeri Aktarma" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,935,10,0" Grid.Row="1" VerticalAlignment="Top" >
+            <Image Source="Images\settings.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
 
         <Button x:Name="ButtonClose" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="5" HorizontalAlignment="Right" Margin="0,0,0,0" Click="CloseButtonClick">

@@ -42,7 +42,6 @@ C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\Styles\Tab
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\Styles\Themes\Dark.baml
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\Styles\Themes\Light.baml
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\View\Selector.baml
-C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\AddDeviceWindow.g.cs
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\MainWindow.g.cs
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\Styles\MainWindow\CustomWindowTemplate.g.cs
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\Styles\MyTextBox.g.cs
@@ -62,7 +61,6 @@ C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\GeneratedI
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\AYP_MarkupCompile.cache
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\AYP_MarkupCompile.lref
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\App.baml
-C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\AddDeviceWindow.baml
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\Icons\Icons.baml
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\Icons\Save.baml
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\MainWindow.baml
@@ -78,7 +76,6 @@ C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\Styles\Nod
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\Styles\Node\StyleNodeCollapseButton.baml
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\Styles\StyleAddDeviceButton.baml
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\Styles\StyleButtonContextMenu.baml
-C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\Styles\StyleCihazMainTitle.baml
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\Styles\StyleEmptyTextBox.baml
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\Styles\StyleExpandButton.baml
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\Styles\StyleExpandButtonLeft.baml
@@ -230,3 +227,10 @@ C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\Styles\StyleDescri
 C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\Styles\StyleDescribingFormPanel.baml
 C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\Styles\StyleDescribingProcessButton.baml
 C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\Styles\StyleTextBox.baml
+C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\Styles\StyleCloseDescribingButton.baml
+C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\Styles\StyleDescribingButton.baml
+C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\Styles\StyleDescribingFormPanel.baml
+C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\Styles\StyleDescribingMainTitle.baml
+C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\Styles\StyleDescribingProcessButton.baml
+C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\Styles\StyleDeviceMainTitle.baml
+C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\Styles\StyleTextBox.baml
