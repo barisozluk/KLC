@@ -146,12 +146,12 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Expander Header="Uç Birim" Grid.Row="0" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>
-            <Expander Header="Uç Birim Ara Yüz" Grid.Row="1" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>
-            <Expander Header="Ağ Anahtarı" Grid.Row="2" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>
-            <Expander Header="Ağ Anahtarı Arayüz" Grid.Row="3" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>
-            <Expander Header="Güç Üretici" Grid.Row="4" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>
-            <Expander Header="Güç Üretici Arayüz" Grid.Row="5" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>
+            <Expander x:Name="e1" Header="Uç Birim" Grid.Row="0" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>
+            <Expander x:Name="e2" Header="Uç Birim Ara Yüz" Grid.Row="1" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>
+            <Expander x:Name="e3" Header="Ağ Anahtarı" Grid.Row="2" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>
+            <Expander x:Name="e4" Header="Ağ Anahtarı Arayüz" Grid.Row="3" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>
+            <Expander x:Name="e5" Header="Güç Üretici" Grid.Row="4" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>
+            <Expander x:Name="e6" Header="Güç Üretici Arayüz" Grid.Row="5" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>
 
 
         </Grid>
@@ -728,8 +728,8 @@
                     <Label Style="{DynamicResource StyleDescribingMainTitle}" Content="Versiyon : 0.004" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,65,0,10" Click="VersiyonPopupClose_Click" >
                         <Grid>
-                            <Image Source="Images/save.png" Height="20" Width="25" Margin="2,0,0,0" HorizontalAlignment="Left"/>
-                            <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="70,0,0,0">Kaydet</TextBlock>
+                            <Image Source="Images/check.png" Height="20" Width="20" Margin="7,0,0,0" HorizontalAlignment="Left"/>
+                            <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="70,0,0,0">Tamam</TextBlock>
                         </Grid>
                     </Button>
                 </Grid>

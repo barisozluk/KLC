@@ -27,6 +27,7 @@
                 <Setter TargetName="Arrow" Property="Data"
                         Value="M 0 4 L 4 0 L 8 4 Z" />
             </Trigger>
+            
         </ControlTemplate.Triggers>
     </ControlTemplate>
 

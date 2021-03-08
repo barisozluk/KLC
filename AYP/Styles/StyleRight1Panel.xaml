@@ -12,6 +12,24 @@
             <Trigger Property="IsMouseOver" Value="true">
                 <Setter Property="Stroke" Value="#367bf5"/>
             </Trigger>
+            <DataTrigger Binding="{Binding ElementName=e1, Path=IsMouseOver}" Value="True">
+                <Setter Property="Stroke" Value="#367bf5" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ElementName=e2, Path=IsMouseOver}" Value="True">
+                <Setter Property="Stroke" Value="#367bf5" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ElementName=e3, Path=IsMouseOver}" Value="True">
+                <Setter Property="Stroke" Value="#367bf5" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ElementName=e4, Path=IsMouseOver}" Value="True">
+                <Setter Property="Stroke" Value="#367bf5" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ElementName=e5, Path=IsMouseOver}" Value="True">
+                <Setter Property="Stroke" Value="#367bf5" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding ElementName=e6, Path=IsMouseOver}" Value="True">
+                <Setter Property="Stroke" Value="#367bf5" />
+            </DataTrigger>
         </Style.Triggers>
     </Style>
 
