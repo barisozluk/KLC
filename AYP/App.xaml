@@ -59,6 +59,7 @@
                 <ResourceDictionary Source="Styles/StyleDescribingGucUreticiFormPanel.xaml" />
                 <ResourceDictionary Source="Styles/StyleDescribingAgAnahtariFormPanel.xaml" />
                 <ResourceDictionary Source="Styles/StyleDescribingProcessButton.xaml" />
+                <ResourceDictionary Source="Styles/StyleClosePopup.xaml" />
                 <!--#endregion      DescriptionPopup-->
 
                 <!--#region         FormControls-->

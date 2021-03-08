@@ -66,18 +66,18 @@
         <Button x:Name="ButtonSettings" ToolTip="Ayarlar" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,935,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Image Source="Images\settings.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
-
+        <Label Grid.Column="5" HorizontalAlignment="Right" Margin="0,0,95,0" Foreground="#fff" Content="{Binding Path= versiyon}" ></Label>
         <Button x:Name="ButtonMinimize" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="5" HorizontalAlignment="Right" Margin="0,0,35,0" Click="MinimizeButtonClick">
             <Rectangle x:Name="ButtonMinimizeRectangle" Fill="{DynamicResource IconMinimize}"  Height="2" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
         </Button>
         <Button x:Name="ButtonMinimizeColumn3" Visibility="Hidden" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Right" Margin="0,0,35,0" Click="MinimizeButtonClick">
             <Rectangle x:Name="ButtonMinimizeRectangleColumn3" Fill="{DynamicResource IconMinimize}"  Height="2" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
         </Button>
-        
-        <Button x:Name="ButtonClose" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="5" HorizontalAlignment="Right" Margin="0,0,0,0" Click="CloseButtonClick">
+
+        <Button x:Name="ButtonClose" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="5" HorizontalAlignment="Right" Margin="0,0,0,0" Click="ButtonClose_Click">
             <Rectangle x:Name="ButtonCloseRectangle" Fill="{DynamicResource IconClose}"  Height="15" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
         </Button>
-        <Button x:Name="ButtonCloseColumn3" Visibility="Hidden" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Right" Margin="0,0,0,0" Click="CloseButtonClick">
+        <Button x:Name="ButtonCloseColumn3" Visibility="Hidden" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Right" Margin="0,0,0,0" Click="ButtonClose_Click">
             <Rectangle x:Name="ButtonCloseRectangleColumn3" Fill="{DynamicResource IconClose}"  Height="15" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
         </Button>
 
@@ -640,7 +640,7 @@
 
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Üretici Parça No" Grid.Row="0" Grid.Column="1" Margin="0,245,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,245,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
-                    
+
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Girdi Güç Arayüzü Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <TextBox Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
@@ -675,6 +675,40 @@
                             <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="70,0,0,0">Kaydet</TextBlock>
                         </Grid>
                     </Button>
+                </Grid>
+            </Border>
+        </Popup>
+        <Popup Name="DescribingClosePopup" AllowsTransparency="True" Placement="Center">
+            <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                      
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="424" />
+                        <ColumnDefinition Width="10" />
+                
+                    </Grid.ColumnDefinitions>
+                    <Rectangle Style="{DynamicResource StyleClosePopup}" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Label FontSize="12" FontWeight="Bold" Foreground="#ffffff" Content="Çıkmak İstediğinize Emin Misiniz?" Grid.Row="0" Grid.Column="1" Margin="0,30,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    <Label FontSize="12" Foreground="#ffffff" Content="(Kaydedilmemiş çalışmalar silinecektir!)" Grid.Row="0" Grid.Column="1" Margin="0,60,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+
+                    <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,120,0,10" Click="CloseConfirm">
+                        <Grid>
+                            <Image Source="Images/check.png" Height="20" Width="20" Margin="7,0,0,0" HorizontalAlignment="Left"/>
+                            <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="70,0,0,0">Evet</TextBlock>
+                        </Grid>
+                    </Button>
+                    <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,120,0,10" Click="CloseDeny">
+                        <Grid>
+                            <Rectangle Fill="{DynamicResource IconClose}"  Height="15" Width="15" Margin="-60,0,0,0" StrokeThickness="0"/>
+                            <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="70,0,0,0">Hayır</TextBlock>
+                        </Grid>
+                    </Button>
+                    
                 </Grid>
             </Border>
         </Popup>

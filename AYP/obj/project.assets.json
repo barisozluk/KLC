@@ -2843,31 +2843,36 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\KLC\\.nuget\\packages\\": {},
+    "C:\\Users\\goktu\\.nuget\\packages\\": {},
+    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\KLC\\Desktop\\Projects\\AYP\\AYP\\AYP.csproj",
+      "projectUniqueName": "C:\\Users\\goktu\\OneDrive\\Desktop\\Bites\\KLC\\AYP\\AYP.csproj",
       "projectName": "AYP",
-      "projectPath": "C:\\Users\\KLC\\Desktop\\Projects\\AYP\\AYP\\AYP.csproj",
-      "packagesPath": "C:\\Users\\KLC\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\KLC\\Desktop\\Projects\\AYP\\AYP\\obj\\",
+      "projectPath": "C:\\Users\\goktu\\OneDrive\\Desktop\\Bites\\KLC\\AYP\\AYP.csproj",
+      "packagesPath": "C:\\Users\\goktu\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\goktu\\OneDrive\\Desktop\\Bites\\KLC\\AYP\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
+        "C:\\Microsoft\\Xamarin\\NuGet\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\KLC\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\goktu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {},
+        "https://www.myget.org/F/xbim-develop/api/v3/index.json": {},
+        "https://www.myget.org/F/xbim-master/api/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp3.1": {
@@ -2940,6 +2945,16 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[3.1.0, 3.1.0]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[3.1.0, 3.1.0]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
@@ -2951,7 +2966,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.406\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
       }
     }
   }

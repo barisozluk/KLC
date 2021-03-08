@@ -233,7 +233,7 @@ namespace AYP.ViewModel
         }
         private string GetNameForNewNode()
         {
-            return "State " + NodesCount.ToString();
+            return "Cihaz " + NodesCount.ToString();
         }
         private void SelectConnects()
         {

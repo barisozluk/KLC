@@ -91,7 +91,7 @@ namespace AYP.ViewModel
 
         private void SetupStartState()
         {
-            string name = Nodes.Items.Any(x => x.Name == "Start") ? GetNameForNewNode() : "Start";
+            string name = Nodes.Items.Any(x => x.Name == "Başlangıç") ? GetNameForNewNode() : "Başlangıç";
             StartState = new NodeViewModel(this, name, new Point());
             SetAsStart(StartState);
             Nodes.Add(StartState);

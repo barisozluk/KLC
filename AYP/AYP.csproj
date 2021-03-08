@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <None Remove="Images\backward.png" />
+    <None Remove="Images\check.png" />
     <None Remove="Images\dongu.png" />
     <None Remove="Images\forward.png" />
     <None Remove="Images\help.png" />
@@ -42,6 +43,7 @@
 
   <ItemGroup>
     <Resource Include="Images\backward.png" />
+    <Resource Include="Images\check.png" />
     <Resource Include="Images\dongu.png" />
     <Resource Include="Images\forward.png" />
     <Resource Include="Images\help.png" />
@@ -72,6 +74,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\StyleDescribingAgAnahtariFormPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleClosePopup.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\StyleDescribingGucUreticiMainTitle.xaml">

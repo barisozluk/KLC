@@ -28,7 +28,8 @@ namespace AYP
     {
         public bool toggleRight = true;
         public bool toggleLeft = true;
-
+        public bool isClose = false;
+        public string version = "0.004";
         #region ViewModel
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(nameof(ViewModel), typeof(MainWindowViewModel), typeof(MainWindow), new PropertyMetadata(null));
 
@@ -440,8 +441,36 @@ namespace AYP
         #region CloseAppEvent
         private void CloseButtonClick(object sender, RoutedEventArgs e)
         {
+
             Application.Current.Shutdown();
         }
+
+        private void ButtonClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.DescribingClosePopup.IsOpen = true;
+            this.IsEnabled = false;
+
+        }
+
+        private void ButtonClosePopupClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.DescribingClosePopup.IsOpen = false;
+            IsEnabled = true;
+        }
+
+        private void CloseConfirm(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void CloseDeny(object sender, RoutedEventArgs e)
+        {
+            this.DescribingClosePopup.IsOpen = false;
+            IsEnabled = true;
+        }
+
+
+
 
         #endregion
 
