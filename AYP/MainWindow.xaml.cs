@@ -29,7 +29,7 @@ namespace AYP
         public bool toggleRight = true;
         public bool toggleLeft = true;
         public bool isClose = false;
-        public string version = "0.004";
+        public string version = "0.0.5";
         #region ViewModel
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(nameof(ViewModel), typeof(MainWindowViewModel), typeof(MainWindow), new PropertyMetadata(null));
 

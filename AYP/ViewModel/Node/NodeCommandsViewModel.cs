@@ -103,7 +103,7 @@ namespace AYP.ViewModel
                 CurrentConnector.TextEnable = true;
                 CurrentConnector.FormEnable = false;
                 if (string.IsNullOrEmpty(CurrentConnector.Name))
-                    CurrentConnector.Name = "Transition " + NodesCanvas.TransitionsCount.ToString();
+                    CurrentConnector.Name = "Çıktı";// + NodesCanvas.TransitionsCount.ToString();
                 NodesCanvas.LogDebug("Transition with name \"{0}\" was added", CurrentConnector.Name);
             }
             double width = Size.Width == 0 ? 80 : Size.Width;

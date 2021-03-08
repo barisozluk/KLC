@@ -10,6 +10,8 @@
   <ItemGroup>
     <None Remove="Images\backward.png" />
     <None Remove="Images\camera.png" />
+    <None Remove="Images\switch.png" />
+    <None Remove="Images\power.png" />
     <None Remove="Images\check.png" />
     <None Remove="Images\dongu.png" />
     <None Remove="Images\forward.png" />
@@ -45,6 +47,8 @@
   <ItemGroup>
     <Resource Include="Images\backward.png" />
     <Resource Include="Images\camera.png" />
+    <Resource Include="Images\switch.png" />
+    <Resource Include="Images\power.png" />
     <Resource Include="Images\check.png" />
     <Resource Include="Images\dongu.png" />
     <Resource Include="Images\forward.png" />
@@ -280,6 +284,13 @@
     </Page>
     <Page Update="Styles\StyleDescribingUcBirimFormPanel.xaml">
       <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleExpander3.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleExpander2.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
   </ItemGroup>  
 </Project>

@@ -70,6 +70,12 @@
     <Page Update="Styles\StyleDescribingTurFormPanel.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Styles\StyleExpander3.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleExpander2.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\StyleTextBox.xaml">
       <SubType>Designer</SubType>
     </Page>

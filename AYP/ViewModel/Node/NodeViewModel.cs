@@ -87,7 +87,7 @@ namespace AYP.ViewModel
         #region Connectors
         private void SetupConnectors()
         {
-            Input = new ConnectorViewModel(NodesCanvas, this, "Input", Point1.Addition(0, 30));
+            Input = new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 30));
             Output = new ConnectorViewModel(NodesCanvas, this, "Output", Point1.Addition(80, 54))
             {
                 Visible = null

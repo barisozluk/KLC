@@ -23,6 +23,8 @@
                 <ResourceDictionary Source="Styles/StyleRight3Panel.xaml"/>
 
                 <ResourceDictionary Source="Styles/StyleExpander.xaml"/>
+                <ResourceDictionary Source="Styles/StyleExpander2.xaml"/>
+                <ResourceDictionary Source="Styles/StyleExpander3.xaml"/>
                 <ResourceDictionary Source="Styles/StyleExpandButton.xaml"/>
                 <ResourceDictionary Source="Styles/StyleExpandButtonLeft.xaml"/>
                 
