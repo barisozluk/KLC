@@ -469,6 +469,19 @@ namespace AYP
             IsEnabled = true;
         }
 
+        private void Versiyon_Click(object sender, RoutedEventArgs e)
+        {
+            this.VersiyonPopup.IsOpen = true;
+            this.IsEnabled = false;
+        }
+
+        private void VersiyonPopupClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.VersiyonPopup.IsOpen = false;
+            IsEnabled = true;
+        }
+
+
 
 
 

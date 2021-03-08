@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:view="clr-namespace:AYP.View" xmlns:styles="clr-namespace:AYP.Styles"
         mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="1080" Width="1920" >
+        Title="MainWindow" Height="1080" Width="1920" Topmost="True">
 
 
     <Grid Margin="0" Background="#182026" AutomationProperties.IsRowHeader="True" AutomationProperties.IsColumnHeader="True">
@@ -63,7 +63,7 @@
         <Button x:Name="ButtonHelp" ToolTip="Yardım" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,980,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Image Source="Images\help.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
-        <Button x:Name="ButtonSettings" ToolTip="Ayarlar" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,935,10,0" Grid.Row="1" VerticalAlignment="Top" >
+        <Button x:Name="ButtonSettings" ToolTip="Ayarlar" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,935,10,0" Grid.Row="1" VerticalAlignment="Top" Click="Versiyon_Click" >
             <Image Source="Images\settings.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
         <Label Grid.Column="5" HorizontalAlignment="Right" Margin="0,0,95,0" Foreground="#fff" Content="{Binding Path= versiyon}" ></Label>
@@ -709,6 +709,29 @@
                         </Grid>
                     </Button>
                     
+                </Grid>
+            </Border>
+        </Popup>
+
+        <Popup Name="VersiyonPopup" AllowsTransparency="True" Placement="Center">
+            <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10" />
+                        <ColumnDefinition Width="440" />
+                        <ColumnDefinition Width="10" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Style="{DynamicResource StyleDescribingMainTitle}" Content="Versiyon : 0.004" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,65,0,10" Click="VersiyonPopupClose_Click" >
+                        <Grid>
+                            <Image Source="Images/save.png" Height="20" Width="25" Margin="2,0,0,0" HorizontalAlignment="Left"/>
+                            <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="70,0,0,0">Kaydet</TextBlock>
+                        </Grid>
+                    </Button>
                 </Grid>
             </Border>
         </Popup>
