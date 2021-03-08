@@ -28,6 +28,9 @@
     <Page Update="Styles\StyleComboBox.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Styles\StyleDescribingAgAnahtariFormPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\StyleDescribingGucUreticiMainTitle.xaml">
       <SubType>Designer</SubType>
     </Page>

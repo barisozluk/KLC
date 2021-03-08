@@ -359,3 +359,4 @@ C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\Styles\StyleDescri
 C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\Styles\StyleDescribingGucUreticiFormPanel.baml
 C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\Styles\StyleDescribingGucUreticiMainTitle.baml
 C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\Icons\Minimize.baml
+C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\Styles\StyleDescribingAgAnahtariFormPanel.baml

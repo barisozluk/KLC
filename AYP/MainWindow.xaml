@@ -208,8 +208,8 @@
                     <Button Content="Uç Birim Güç Arayüzü" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,145,0,10"></Button>
                     <Button Content="Ağ Anahtarı Tür" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,175,0,0" Click="ButtonAgAnahtariTur_Click"></Button>
                     <Button Content="Ağ Anahtarı" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,205,0,0" Click="ButtonAgAnahtari_Click"></Button>
-                    <Button Content="Ağ Anahtarı Güç Arayüzü" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,235,0,0" Click="ButtonAgAnahtariAgArayuzu_Click"></Button>
-                    <Button Content="Güç Üretici Güç Arayüzü" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,265,0,10"></Button>
+                    <Button Content="Ağ Anahtarı Ağ Arayüzü" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,235,0,0" Click="ButtonAgAnahtariAgArayuzu_Click"></Button>
+                    <Button Content="Ağ Anahtarı Güç Arayüzü" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,265,0,10"></Button>
                     <Button Content="Güç Üretici Tür" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,295,0,0" Click="ButtonGucUreticiTur_Click"></Button>
                     <Button Content="Güç Üretici" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,325,0,0"  Click="ButtonGucUretici_Click"></Button>
                     <Button Content="Güç Üretici Güç Arayüzü" Style="{DynamicResource StyleDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,355,0,10"></Button>
@@ -444,7 +444,7 @@
                         <Rectangle Fill="{DynamicResource IconClose}"  Height="15" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
                     </Button>
 
-                    <Rectangle Style="{DynamicResource StyleDescribingAgArayuzuFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Rectangle Style="{DynamicResource StyleDescribingAgAnahtariFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Ağ Anahatarı Tür" Grid.Row="0" Grid.Column="1" Margin="0,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <ComboBox Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="180,65,0,10" VerticalAlignment="Top" >
                         <ComboBoxItem Name="Item1AgAnahtari">Item1</ComboBoxItem>
