@@ -160,7 +160,7 @@ namespace AYP.ViewModel
             }
             else
             {
-                return "SimpleStateMachine";
+                return "AYP";
             }
         }
     }

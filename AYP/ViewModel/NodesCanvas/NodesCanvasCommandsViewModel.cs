@@ -964,7 +964,7 @@ namespace AYP.ViewModel
         {
             if (!ItSaved)
             {
-                Dialog.ShowMessageBox("Exit without saving ?", "Exit without saving", MessageBoxButton.YesNo);
+                Dialog.ShowMessageBox("Kaydetmeden çýkmak istediðinize emin misiniz?", "Uyarý", MessageBoxButton.YesNo);
 
                 return Dialog.Result == DialogResult.Yes;
             }
