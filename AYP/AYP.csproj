@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <None Remove="Images\backward.png" />
+    <None Remove="Images\btes-clck.png" />
+    <None Remove="Images\btes-nrm.png" />
     <None Remove="Images\camera.png" />
     <None Remove="Images\switch.png" />
     <None Remove="Images\power.png" />
@@ -46,6 +48,8 @@
 
   <ItemGroup>
     <Resource Include="Images\backward.png" />
+    <Resource Include="Images\btes-clck.png" />
+    <Resource Include="Images\btes-nrm.png" />
     <Resource Include="Images\camera.png" />
     <Resource Include="Images\switch.png" />
     <Resource Include="Images\power.png" />
@@ -252,6 +256,10 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleScrollbar.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\StyleDescribingAgAnahtariFormPanel.xaml">

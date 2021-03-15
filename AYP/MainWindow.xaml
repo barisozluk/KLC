@@ -4,11 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:view="clr-namespace:AYP.View" xmlns:styles="clr-namespace:AYP.Styles"
-        mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="Manual" Left="0" Top="0"
+        mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="Manual" Top="0"  Left="0"
         Title="MainWindow" Height="1080" Width="1920" Topmost="True">
 
-
+    
     <Grid Margin="0" Background="#182026" AutomationProperties.IsRowHeader="True" AutomationProperties.IsColumnHeader="True">
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="Auto"/>
@@ -20,9 +21,10 @@
             <ColumnDefinition x:Name="MiddleColumn" Width="1106"/>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition x:Name="RightColumn" Width="362"/>
-            <ColumnDefinition Width="10"/>
+            
         </Grid.ColumnDefinitions>
-
+        <!--<view:Dialog x:Name="Dialog"/>-->
+        <view:Dialog x:Name="Dialog"></view:Dialog>
 
         <Image Source="Images\kck-logo.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         <Separator BorderBrush="White" Grid.Column="0" Grid.Row="0" Margin="12,45,12,0" />
@@ -44,13 +46,13 @@
             <Image Source="Images\zoomOut.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
 
-        <Button x:Name="ButtonEkstra" ToolTip="" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,10,10,0" Grid.Row="1" VerticalAlignment="Top">
-
+        <Button x:Name="ButtonBites"  Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,10,10,0" Grid.Row="1" VerticalAlignment="Top">
+            <Image Source="Images\btes-nrm.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
-        <Button x:Name="ButtonOpen" ToolTip="Proje Aç" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,60,10,0" Grid.Row="1" VerticalAlignment="Top" >
+        <Button x:Name="ButtonOpened" ToolTip="Proje Aç" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,60,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Image Source="Images\openProjectW.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
-        <Button x:Name="ButtonSave" ToolTip="Kaydet" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,105,10,0" Grid.Row="1" VerticalAlignment="Top" >
+        <Button x:Name="ButtonSaved" ToolTip="Kaydet" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,105,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Image Source="Images\saveW.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
         <Button x:Name="ButtonSaveAs" ToolTip="Farklı Kaydet" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,150,10,0" Grid.Row="1" VerticalAlignment="Top" >
@@ -59,13 +61,15 @@
         <Button x:Name="ButtonImport" ToolTip="İçeri Aktarma" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,195,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Image Source="Images\ImportW.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
-
-        <Button x:Name="ButtonHelp" ToolTip="Yardım" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,980,10,0" Grid.Row="1" VerticalAlignment="Top" >
-            <Image Source="Images\help.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
-        </Button>
-        <Button x:Name="ButtonSettings" ToolTip="Ayarlar" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,935,10,0" Grid.Row="1" VerticalAlignment="Top" Click="Versiyon_Click" >
+        
+        <Button x:Name="ButtonSettings" ToolTip="Ayarlar" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,980,10,0" Grid.Row="1" VerticalAlignment="Top" Click="Versiyon_Click" >
             <Image Source="Images\settings.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
+        
+        <Button x:Name="ButtonHelp" ToolTip="Yardım" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,935,10,0" Grid.Row="1" VerticalAlignment="Top" >
+            <Image Source="Images\help.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
+        </Button>
+       
         <Label Grid.Column="5" HorizontalAlignment="Right" Margin="0,0,95,0" Foreground="#fff" Content="{Binding Path= versiyon}" ></Label>
         <Button x:Name="ButtonMinimize" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="5" HorizontalAlignment="Right" Margin="0,0,35,0" Click="MinimizeButtonClick">
             <Rectangle x:Name="ButtonMinimizeRectangle" Fill="{DynamicResource IconMinimize}"  Height="2" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
@@ -89,8 +93,8 @@
         <Rectangle Style="{DynamicResource StyleRight1Panel}" Grid.Column="5" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" />
         <Rectangle Style="{DynamicResource StyleRight2Panel}" Grid.Column="5" HorizontalAlignment="Left" Margin="0,495,0,0" Grid.Row="1" VerticalAlignment="Top"/>
         <Rectangle Style="{DynamicResource StyleRight3Panel}" Grid.Column="5" HorizontalAlignment="Left" Margin="0,816,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <Label Style="{DynamicResource StyleMainTitle}" Content="Proje Hiyerarşisi" Grid.Column="1" Margin="0,10,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <Label Style="{DynamicResource StyleDeviceMainTitle}" Content="Cihaz Listesi" Grid.Column="5" Margin="10,10,0,0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Label x:Name="projeHiyerasisiLabel" Style="{DynamicResource StyleMainTitle}" Content="Proje Hiyerarşisi" Grid.Column="1" Margin="0,10,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Label x:Name="cihazListesiLabel" Style="{DynamicResource StyleDeviceMainTitle}" Content="Cihaz Listesi" Grid.Column="5" Margin="10,10,0,0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <Button x:Name="ButtonDescribing" Style="{DynamicResource StyleAddDeviceButton}" Grid.Column="5" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,10,0" Click="ButtonDescribing_Click" >
             <!--<Button.Triggers>
                 <EventTrigger RoutedEvent="Button.Click">
@@ -134,10 +138,10 @@
        StaysOpen="False">
             <Label>Popupcontent...</Label>
         </Popup>-->
-        <Label Style="{DynamicResource StyleMainTitle}" Content="Doğrulama" Grid.Column="5" Margin="0,505,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <Label Style="{DynamicResource StyleMainTitle}" Content="Bilgi Kartı" Grid.Column="5" Margin="0,826,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Label x:Name="dogrulamaLabel" Style="{DynamicResource StyleMainTitle}" Content="Doğrulama" Grid.Column="5" Margin="0,505,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Label x:Name="bilgiKartiLabel" Style="{DynamicResource StyleMainTitle}" Content="Bilgi Kartı" Grid.Column="5" Margin="0,826,0,0" Grid.Row="1" VerticalAlignment="Top"/>
 
-        <Grid Grid.Column="5" MaxHeight="400" HorizontalAlignment="Center" Margin="0,55,0,0" Grid.Row="1" VerticalAlignment="Top" Width="340" >
+        <Grid Grid.Column="5" Height="405" HorizontalAlignment="Center" Margin="0,55,0,0" Grid.Row="1" VerticalAlignment="Top" Width="340"  >
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -146,17 +150,21 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Expander x:Name="e1" Header="Uç Birim" Grid.Row="0" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>
-            <!--<Expander x:Name="e2" Header="Uç Birim Ara Yüz" Grid.Row="1" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>-->
-            <Expander x:Name="e2" Header="Ağ Anahtarı" Grid.Row="1" Style="{DynamicResource StyleExpander2}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>
-            <!--<Expander x:Name="e4" Header="Ağ Anahtarı Arayüz" Grid.Row="3" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>-->
-            <Expander x:Name="e3" Header="Güç Üretici" Grid.Row="2" Style="{DynamicResource StyleExpander3}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>
-            <!--<Expander x:Name="e6" Header="Güç Üretici Arayüz" Grid.Row="5" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>-->
-
+            
+            <ScrollViewer x:Name="sw1" Height="410" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,0,-6,0" Background="Transparent">
+                <StackPanel x:Name="s1" Height="auto" Width="auto" >
+                    <Expander x:Name="e1" Header="Uç Birim" Grid.Row="0" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Left" Margin="0,0,0,5"  VerticalAlignment="Top"/>
+                    <!--<Expander x:Name="e2" Header="Uç Birim Ara Yüz" Grid.Row="1" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>-->
+                    <Expander x:Name="e2" Header="Ağ Anahtarı" Grid.Row="1" Style="{DynamicResource StyleExpander2}" HorizontalAlignment="Left" Margin="0,0,0,5"  VerticalAlignment="Top"/>
+                    <!--<Expander x:Name="e4" Header="Ağ Anahtarı Arayüz" Grid.Row="3" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>-->
+                    <Expander x:Name="e3" Header="Güç Üretici" Grid.Row="2" Style="{DynamicResource StyleExpander3}" HorizontalAlignment="Left" Margin="0,0,0,5"  VerticalAlignment="Top"/>
+                    <!--<Expander x:Name="e6" Header="Güç Üretici Arayüz" Grid.Row="5" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Center" Margin="0,0,0,5"  VerticalAlignment="Top"/>-->
+                </StackPanel>
+            </ScrollViewer>
 
         </Grid>
 
-        <TreeViewItem Style="{DynamicResource StyleProjectHierarchy}" Grid.Row="1" Grid.Column="1" Margin="0,55,0,5" Header="Uç Birim Grup 1" VerticalAlignment="Top">
+        <TreeViewItem x:Name="treeviews" Style="{DynamicResource StyleProjectHierarchy}" Grid.Row="1" Grid.Column="1" Margin="0,55,0,5" Header="Uç Birim Grup 1" VerticalAlignment="Top">
             <TreeViewItem Style="{DynamicResource StyleProjectHierarchy}" Header="Uç Birim 1"/>
             <TreeViewItem Style="{DynamicResource StyleProjectHierarchy}" Header="Uç Birim Grup 2">
                 <TreeViewItem Style="{DynamicResource StyleProjectHierarchy}" Header="Uç Birim 3"/>
@@ -725,7 +733,7 @@
                         <ColumnDefinition Width="10" />
                     </Grid.ColumnDefinitions>
 
-                    <Label Style="{DynamicResource StyleDescribingMainTitle}" Content="Versiyon : 0.0.5" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Label Style="{DynamicResource StyleDescribingMainTitle}" Content="Versiyon : 0.0.6" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,65,0,10" Click="VersiyonPopupClose_Click" >
                         <Grid>
                             <Image Source="Images/check.png" Height="20" Width="20" Margin="7,0,0,0" HorizontalAlignment="Left"/>
@@ -736,4 +744,16 @@
             </Border>
         </Popup>
     </Grid>
+    <Window.InputBindings>
+        <KeyBinding x:Name="BindingUndo"        Key="Z" Modifiers="Control" />
+        <KeyBinding x:Name="BindingRedo"        Key="Y" Modifiers="Control" />
+        <KeyBinding x:Name="BindingSave"    Gesture="Ctrl+S"/>
+        <KeyBinding x:Name="BindingSaveAs"  Gesture="Ctrl+Shift+S"/>
+        <KeyBinding x:Name="BindingOpen"    Gesture="Ctrl+Shift+O" />
+        <KeyBinding x:Name="BindingNew"     Gesture="Ctrl+Shift+N"/>
+        <KeyBinding x:Name="BindingExit"    Gesture="Alt+F4"/>
+        <KeyBinding x:Name="BindingExportToJPEG"   Gesture="Ctrl+Shift+Alt+J"/>
+        <KeyBinding x:Name="BindingExportToPNG"   Gesture="Ctrl+Shift+Alt+P"/>
+    </Window.InputBindings>
+    
 </Window>

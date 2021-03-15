@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<StateMachine>
+  <States>
+    <State Name="Başlangıç" />
+    <State Name="Cihaz 1" />
+  </States>
+  <StartState Name="Başlangıç" />
+  <Transitions>
+    <Transition Name="Çıktı" From="Başlangıç" To="Cihaz 1" />
+  </Transitions>
+  <Visualization>
+    <State Name="Başlangıç" Position="0, 0" IsCollapse="False" />
+    <State Name="Cihaz 1" Position="271, 175" IsCollapse="False" />
+  </Visualization>
+</StateMachine>

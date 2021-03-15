@@ -12,6 +12,9 @@
             <Trigger Property="IsMouseOver" Value="true">
                 <Setter Property="Stroke" Value="#367bf5"/>
             </Trigger>
+            <DataTrigger Binding="{Binding ElementName=dogrulamaLabel, Path=IsMouseOver}" Value="True">
+                <Setter Property="Stroke" Value="#367bf5" />
+            </DataTrigger>
         </Style.Triggers>
 
 

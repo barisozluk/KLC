@@ -62,6 +62,7 @@
                 <ResourceDictionary Source="Styles/StyleDescribingAgAnahtariFormPanel.xaml" />
                 <ResourceDictionary Source="Styles/StyleDescribingProcessButton.xaml" />
                 <ResourceDictionary Source="Styles/StyleClosePopup.xaml" />
+                <ResourceDictionary Source="Styles/StyleScrollbar.xaml" />
                 <!--#endregion      DescriptionPopup-->
 
                 <!--#region         FormControls-->

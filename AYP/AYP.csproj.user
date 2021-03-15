@@ -25,6 +25,9 @@
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Styles\StyleScrollbar.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\StyleComboBox.xaml">
       <SubType>Designer</SubType>
     </Page>

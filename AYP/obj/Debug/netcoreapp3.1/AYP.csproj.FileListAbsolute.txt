@@ -624,3 +624,6 @@ C:\Users\Ayca\Desktop\AYPGit3\AYP\obj\Debug\netcoreapp3.1\AYP.csproj.CopyComplet
 C:\Users\Ayca\Desktop\AYPGit3\AYP\obj\Debug\netcoreapp3.1\AYP.dll
 C:\Users\Ayca\Desktop\AYPGit3\AYP\obj\Debug\netcoreapp3.1\AYP.pdb
 C:\Users\Ayca\Desktop\AYPGit3\AYP\obj\Debug\netcoreapp3.1\AYP.genruntimeconfig.cache
+C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\Styles\StyleExpander2.baml
+C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\Styles\StyleExpander3.baml
+C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\Styles\StyleScrollbar.baml
