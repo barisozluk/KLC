@@ -2843,36 +2843,27 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\goktu\\.nuget\\packages\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\Ayca\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\goktu\\OneDrive\\Desktop\\Bites\\KLC\\AYP\\AYP.csproj",
+      "projectUniqueName": "C:\\Users\\Ayca\\Desktop\\AYPGit4\\AYP\\AYP.csproj",
       "projectName": "AYP",
-      "projectPath": "C:\\Users\\goktu\\OneDrive\\Desktop\\Bites\\KLC\\AYP\\AYP.csproj",
-      "packagesPath": "C:\\Users\\goktu\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\goktu\\OneDrive\\Desktop\\Bites\\KLC\\AYP\\obj\\",
+      "projectPath": "C:\\Users\\Ayca\\Desktop\\AYPGit4\\AYP\\AYP.csproj",
+      "packagesPath": "C:\\Users\\Ayca\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Ayca\\Desktop\\AYPGit4\\AYP\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Microsoft\\Xamarin\\NuGet\\",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\goktu\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Users\\Ayca\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {},
-        "https://www.myget.org/F/xbim-develop/api/v3/index.json": {},
-        "https://www.myget.org/F/xbim-master/api/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp3.1": {
@@ -2945,16 +2936,6 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.NETCore.App.Ref",
-            "version": "[3.1.0, 3.1.0]"
-          },
-          {
-            "name": "Microsoft.WindowsDesktop.App.Ref",
-            "version": "[3.1.0, 3.1.0]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
