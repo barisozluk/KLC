@@ -343,6 +343,7 @@ namespace AYP
         {
             this.DescribingMenuPopup.IsOpen = false;
             this.IsEnabled = false;
+            this.Effect = new System.Windows.Media.Effects.BlurEffect();
 
             UcBirimTurPopupWindow popup = new UcBirimTurPopupWindow();
             popup.Owner = this;
@@ -353,6 +354,7 @@ namespace AYP
         {
             this.DescribingMenuPopup.IsOpen = false;
             this.IsEnabled = false;
+            this.Effect = new System.Windows.Media.Effects.BlurEffect();
 
             UcBirimPopupWindow popup = new UcBirimPopupWindow();
             popup.Owner = this;
@@ -363,6 +365,7 @@ namespace AYP
         {
             this.DescribingMenuPopup.IsOpen = false;
             this.IsEnabled = false;
+            this.Effect = new System.Windows.Media.Effects.BlurEffect();
 
             UcBirimAgArayuzuWindow popup = new UcBirimAgArayuzuWindow();
             popup.Owner = this;
@@ -376,6 +379,7 @@ namespace AYP
         {
             this.DescribingMenuPopup.IsOpen = false;
             this.IsEnabled = false;
+            this.Effect = new System.Windows.Media.Effects.BlurEffect();
 
             AgAnahtariTurPopupWindow popup = new AgAnahtariTurPopupWindow();
             popup.Owner = this;
@@ -386,8 +390,9 @@ namespace AYP
         {
             this.DescribingMenuPopup.IsOpen = false;
             this.IsEnabled = false;
+            this.Effect = new System.Windows.Media.Effects.BlurEffect();
 
-            AgAnahtariPopupWindow popup = new AgAnahtariPopupWindow(this);
+            AgAnahtariPopupWindow popup = new AgAnahtariPopupWindow();
             popup.Owner = this;
             popup.ShowDialog();
         }
@@ -396,8 +401,9 @@ namespace AYP
         {
             this.DescribingMenuPopup.IsOpen = false;
             this.IsEnabled = false;
+            this.Effect = new System.Windows.Media.Effects.BlurEffect();
 
-            AgAnahtariAgArayuzuPopupWindow popup = new AgAnahtariAgArayuzuPopupWindow(this);
+            AgAnahtariAgArayuzuPopupWindow popup = new AgAnahtariAgArayuzuPopupWindow();
             popup.Owner = this;
             popup.ShowDialog();
         }
@@ -409,8 +415,9 @@ namespace AYP
         {
             this.DescribingMenuPopup.IsOpen = false;
             this.IsEnabled = false;
+            this.Effect = new System.Windows.Media.Effects.BlurEffect();
 
-            GucUreticiTurPopupWindow popup = new GucUreticiTurPopupWindow(this);
+            GucUreticiTurPopupWindow popup = new GucUreticiTurPopupWindow();
             popup.Owner = this;
             popup.ShowDialog();
         }
@@ -419,8 +426,9 @@ namespace AYP
         {
             this.DescribingMenuPopup.IsOpen = false;
             this.IsEnabled = false;
+            this.Effect = new System.Windows.Media.Effects.BlurEffect();
 
-            GucUreticiPopupWindow popup = new GucUreticiPopupWindow(this);
+            GucUreticiPopupWindow popup = new GucUreticiPopupWindow();
             popup.Owner = this;
             popup.ShowDialog();
         }
@@ -469,6 +477,7 @@ namespace AYP
         {
             this.WindowState = WindowState.Minimized;
         }
+        #endregion
 
         #region CloseAppEvent
         private void CloseButtonClick(object sender, RoutedEventArgs e)

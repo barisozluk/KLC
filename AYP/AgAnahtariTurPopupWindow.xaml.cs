@@ -43,6 +43,7 @@ namespace AYP
                 {
                     Hide();
                     Owner.IsEnabled = true;
+                    Owner.Effect = null;
                 }
             }
             else
@@ -64,6 +65,7 @@ namespace AYP
         {
             Hide();
             Owner.IsEnabled = true;
+            Owner.Effect = null;
         }
 
     }

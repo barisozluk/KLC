@@ -22,16 +22,13 @@ namespace AYP
     /// </summary>
     public partial class GucUreticiTurPopupWindow : Window
     {
-        MainWindow window;
-
         private AYPContext context;
 
         private IGucUreticiService service;
 
         GucUreticiTur gucUreticiTur;
-        public GucUreticiTurPopupWindow(MainWindow window)
+        public GucUreticiTurPopupWindow()
         {
-            this.window = window;
             this.context = new AYPContext();
             service = new GucUreticiService(this.context);
             gucUreticiTur = new GucUreticiTur();
@@ -53,6 +50,7 @@ namespace AYP
                 {
                     Hide();
                     Owner.IsEnabled = true;
+                    Owner.Effect = null;
                 }
             }
             else
@@ -73,8 +71,9 @@ namespace AYP
 
         private void ButtonGucUreticiTurPopupClose_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
-            this.window.IsEnabled = true;
+            Hide();
+            Owner.IsEnabled = true;
+            Owner.Effect = null;
         }
     }
 }

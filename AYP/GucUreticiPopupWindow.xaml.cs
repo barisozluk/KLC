@@ -16,14 +16,11 @@ namespace AYP
         public byte[] selectedKatalogFile = null;
         public byte[] selectedSembolFile = null;
 
-        MainWindow window;
-
         private AYPContext context;
 
         private IGucUreticiService service;
-        public GucUreticiPopupWindow(MainWindow window)
+        public GucUreticiPopupWindow()
         {
-            this.window = window;
             this.context = new AYPContext();
             service = new GucUreticiService(this.context);
             
@@ -32,8 +29,9 @@ namespace AYP
 
         private void ButtonGucUreticiPopupClose_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
-            this.window.IsEnabled = true;
+            Hide();
+            Owner.IsEnabled = true;
+            Owner.Effect = null;
         }
 
         #region OpenKatalogFileDialogEvent

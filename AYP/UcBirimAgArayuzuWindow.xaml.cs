@@ -34,8 +34,9 @@ namespace AYP
 
         private void ButtonUcBirimAgArayuzuPopupClose_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
-            this.Owner.IsEnabled = true;
+            Hide();
+            Owner.IsEnabled = true;
+            Owner.Effect = null;
         }
     }
 }

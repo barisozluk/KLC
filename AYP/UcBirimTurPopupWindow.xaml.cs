@@ -37,6 +37,7 @@ namespace AYP
         {
             Hide();
             Owner.IsEnabled = true;
+            Owner.Effect = null;
         }
 
         private void Save_UcBirimTur(object sender, RoutedEventArgs e)
@@ -52,6 +53,7 @@ namespace AYP
                 {
                     Hide();
                     Owner.IsEnabled = true;
+                    Owner.Effect = null;
                 }
             }
             else

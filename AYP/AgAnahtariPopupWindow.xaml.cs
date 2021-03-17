@@ -16,14 +16,11 @@ namespace AYP
         public byte[] selectedKatalogFile = null;
         public byte[] selectedSembolFile = null;
 
-        MainWindow window;
-
         private AYPContext context;
 
         private IAgAnahatariService service;
-        public AgAnahtariPopupWindow(MainWindow window)
+        public AgAnahtariPopupWindow()
         {
-            this.window = window;
             this.context = new AYPContext();
             service = new AgAnahatariService(this.context);
 
@@ -32,8 +29,9 @@ namespace AYP
 
         private void ButtonAgAnahtariPopupClose_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
-            this.window.IsEnabled = true;
+            Hide();
+            Owner.IsEnabled = true;
+            Owner.Effect = null;
         }
 
         private void BtnOpenKatalogFile_Click(object sender, RoutedEventArgs e)
@@ -56,7 +54,6 @@ namespace AYP
 
             if (openFileDialog.ShowDialog() == true)
             {
-
                 SembolAgAnahtari.Text = Path.GetFileName(openFileDialog.FileName);
                 this.selectedSembolFile = File.ReadAllBytes(openFileDialog.FileName);
             }

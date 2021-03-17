@@ -41,8 +41,9 @@ namespace AYP
 
         private void ButtonUcBirimPopupClose_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
-            this.Owner.IsEnabled = true;
+            Hide();
+            Owner.IsEnabled = true;
+            Owner.Effect = null;
         }
 
         private void Save_UcBirim(object sender, RoutedEventArgs e)
@@ -62,6 +63,7 @@ namespace AYP
                 {
                     Hide();
                     Owner.IsEnabled = true;
+                    Owner.Effect = null;
                 }
             }
             else

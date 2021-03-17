@@ -20,14 +20,11 @@ namespace AYP
     /// </summary>
     public partial class AgAnahtariAgArayuzuPopupWindow : Window
     {
-        MainWindow window;
-
         private AYPContext context;
 
         private IAgAnahatariService service;
-        public AgAnahtariAgArayuzuPopupWindow(MainWindow window)
+        public AgAnahtariAgArayuzuPopupWindow()
         {
-            this.window = window;
             this.context = new AYPContext();
             service = new AgAnahatariService(this.context);
 
@@ -36,8 +33,9 @@ namespace AYP
 
         private void ButtonAgAnahtariAgArayuzuPopupClose_Click(object sender, RoutedEventArgs e)
         {
-            this.Hide();
-            this.window.IsEnabled = true;
+            Hide();
+            Owner.IsEnabled = true;
+            Owner.Effect = null;
         }
     }
 }
