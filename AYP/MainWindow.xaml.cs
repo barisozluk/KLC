@@ -24,8 +24,6 @@ namespace AYP
     /// </summary>
     public partial class MainWindow : Window, IViewFor<MainWindowViewModel>
     {
-        private AYPContext context;
-
         public bool toggleRight = true;
         public bool toggleLeft = true;
         public bool isClose = false;
@@ -54,8 +52,6 @@ namespace AYP
             SetupSubscriptions();
             SetupBinding();
             SetupEvents();
-
-            this.context = new AYPContext();
         }
 
         #region Setup Binding
@@ -86,17 +82,17 @@ namespace AYP
 
                 //this.BindCommand(this.ViewModel, x => x.CommandCopySchemeName, x => x.ItemCopySchemeName).DisposeWith(disposable);
                 //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandSelectAll, x => x.ItemSelectAll).DisposeWith(disposable);
-                //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandZoomIn, x => x.ButtonZoomIn).DisposeWith(disposable);
-                //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandZoomOut, x => x.ButtonZoomOut).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandZoomIn, x => x.ButtonZoomIn).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandZoomOut, x => x.ButtonZoomOut).DisposeWith(disposable);
                 //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandZoomOriginalSize, x => x.ButtonZoomOriginalSize).DisposeWith(disposable);
                 //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandCollapseUpAll, x => x.ButtonCollapseUpAll).DisposeWith(disposable);
                 //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandExpandDownAll, x => x.ButtonExpandDownAll).DisposeWith(disposable);
 
                 //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandUndo, x => x.ItemUndo).DisposeWith(disposable);
-                //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandUndo, x => x.ButtonUndo).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandUndo, x => x.ButtonUndo).DisposeWith(disposable);
 
                 //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandRedo, x => x.ItemRedo).DisposeWith(disposable);
-                //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandRedo, x => x.ButtonRedo).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandRedo, x => x.ButtonRedo).DisposeWith(disposable);
 
                 //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandExportToPNG, x => x.BindingExportToPNG).DisposeWith(disposable);
                 //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandExportToPNG, x => x.ItemExportToPNG).DisposeWith(disposable);
@@ -105,21 +101,21 @@ namespace AYP
                 //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandExportToJPEG, x => x.BindingExportToJPEG).DisposeWith(disposable);
                 //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandExportToJPEG, x => x.ItemExportToJPEG).DisposeWith(disposable);
 
-                //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandNew, x => x.BindingNew).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandNew, x => x.BindingNew).DisposeWith(disposable);
                 //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandNew, x => x.ItemNew).DisposeWith(disposable);
-                //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandNew, x => x.ButtonNew).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandNew, x => x.ButtonNew).DisposeWith(disposable);
 
-                //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandOpen, x => x.BindingOpen).DisposeWith(disposable);
-                ////this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandOpen, x => x.ItemOpen).DisposeWith(disposable);
-                //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandOpen, x => x.ButtonOpen).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandOpen, x => x.BindingOpen).DisposeWith(disposable);
+                //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandOpen, x => x.ItemOpen).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandOpen, x => x.ButtonOpen).DisposeWith(disposable);
 
-                //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandSave, x => x.BindingSave).DisposeWith(disposable);
-                ////this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandSave, x => x.ItemSave).DisposeWith(disposable);
-                //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandSave, x => x.ButtonSave).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandSave, x => x.BindingSave).DisposeWith(disposable);
+                //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandSave, x => x.ItemSave).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandSave, x => x.ButtonSave).DisposeWith(disposable);
 
-                //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandSaveAs, x => x.BindingSaveAs).DisposeWith(disposable);
-                ////this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandSaveAs, x => x.ItemSaveAs).DisposeWith(disposable);
-                //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandSaveAs, x => x.ButtonSaveAs).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandSaveAs, x => x.BindingSaveAs).DisposeWith(disposable);
+                //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandSaveAs, x => x.ItemSaveAs).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandSaveAs, x => x.ButtonSaveAs).DisposeWith(disposable);
 
                 //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandExit, x => x.BindingExit).DisposeWith(disposable);
                 //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandExit, x => x.ItemExit).DisposeWith(disposable);
@@ -327,15 +323,17 @@ namespace AYP
         #region DescribingPopupEvents
 
         private void ButtonDescribing_Click(object sender, RoutedEventArgs e)
-        {
+        {            
             this.DescribingMenuPopup.IsOpen = true;
             this.IsEnabled = false;
+            this.Effect = new System.Windows.Media.Effects.BlurEffect();
         }
 
         private void ButtonDescribingPopupClose_Click(object sender, RoutedEventArgs e)
         {
             this.DescribingMenuPopup.IsOpen = false;
             IsEnabled = true;
+            this.Effect = null;
         }
 
         #endregion
@@ -429,13 +427,6 @@ namespace AYP
 
         #endregion
 
-        #region CloseAppEvent
-        private void CloseButtonClick(object sender, RoutedEventArgs e)
-        {
-
-            Application.Current.Shutdown();
-        }
-
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
             this.DescribingClosePopup.IsOpen = true;
@@ -473,18 +464,198 @@ namespace AYP
         }
 
 
-
-
-
-        #endregion
-
         #region MinimizeAppEvent
         private void MinimizeButtonClick(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
         }
 
+        #region CloseAppEvent
+        private void CloseButtonClick(object sender, RoutedEventArgs e)
+        {
+
+            Application.Current.Shutdown();
+        }
         #endregion
 
+        #region GucUreticiArayuz
+        private void ButtonGucUreticiGucArayuz_Click(object sender, RoutedEventArgs e)
+        {
+            this.DescribingMenuPopup.IsOpen = false;
+            this.GucUreticiArayuzPopup.IsOpen = true;
+            this.IsEnabled = false;
+        }
+
+        private void ButtonGucUreticiArayuzPopupClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.GucUreticiArayuzPopup.IsOpen = false;
+            this.IsEnabled = true;
+            this.Effect = null;
+        }
+
+        private void GucUreticiGucArayuzKullanimAmaci_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string kullanimAmaci = (e.AddedItems[0] as ComboBoxItem).Content as string;
+            if (kullanimAmaci == "Çıktı")
+            {
+                g1.IsEnabled = false; g1.Opacity = 0.25;
+                g2.IsEnabled = false; g2.Opacity = 0.25;
+                g3.IsEnabled = false; g3.Opacity = 0.25;
+                g4.IsEnabled = false; g4.Opacity = 0.25;
+                g5.IsEnabled = false; g5.Opacity = 0.25;
+                g6.IsEnabled = false; g6.Opacity = 0.25;
+                g7.IsEnabled = false; g7.Opacity = 0.25;
+                g8.IsEnabled = false; g8.Opacity = 0.25;
+                g9.IsEnabled = false; g9.Opacity = 0.25;
+                g10.IsEnabled = false; g10.Opacity = 0.25;
+                g11.IsEnabled = false; g11.Opacity = 0.25;
+                g12.IsEnabled = false; g12.Opacity = 0.25;
+
+                g13.IsEnabled = true; g13.Opacity = 1;
+                g14.IsEnabled = true; g14.Opacity = 1;
+                g15.IsEnabled = true; g15.Opacity = 1;
+                g16.IsEnabled = true; g16.Opacity = 1;
+            }
+            else
+            {
+                g1.IsEnabled = true; g1.Opacity = 1;
+                g2.IsEnabled = true; g2.Opacity = 1;
+                g3.IsEnabled = true; g3.Opacity = 1;
+                g4.IsEnabled = true; g4.Opacity = 1;
+                g5.IsEnabled = true; g5.Opacity = 1;
+                g6.IsEnabled = true; g6.Opacity = 1;
+                g7.IsEnabled = true; g7.Opacity = 1;
+                g8.IsEnabled = true; g8.Opacity = 1;
+                g9.IsEnabled = true; g9.Opacity = 1;
+                g10.IsEnabled = true; g10.Opacity = 1;
+                g11.IsEnabled = true; g11.Opacity = 1;
+                g12.IsEnabled = true; g12.Opacity = 1;
+
+                g13.IsEnabled = false; g13.Opacity = 0.25;
+                g14.IsEnabled = false; g14.Opacity = 0.25;
+                g15.IsEnabled = false; g15.Opacity = 0.25;
+                g16.IsEnabled = false; g16.Opacity = 0.25;
+            }
+        }
+
+        private void ButtonAgAnahtariGucArayuz_Click(object sender, RoutedEventArgs e)
+        {
+            this.DescribingMenuPopup.IsOpen = false;
+            this.AgAnahtariGucArayuzPopup.IsOpen = true;
+            this.IsEnabled = false;
+        }
+
+        private void ButtonAgAnahtariGucArayuzPopupClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.AgAnahtariGucArayuzPopup.IsOpen = false;
+            this.IsEnabled = true;
+            this.Effect = null;
+        }
+
+        private void AgAnahtariGucArayuzKullanimAmaci_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string kullanimAmaci = (e.AddedItems[0] as ComboBoxItem).Content as string;
+            if (kullanimAmaci == "Çıktı")
+            {
+                ag1.IsEnabled = false; ag1.Opacity = 0.25;
+                ag2.IsEnabled = false; ag2.Opacity = 0.25;
+                ag3.IsEnabled = false; ag3.Opacity = 0.25;
+                ag4.IsEnabled = false; ag4.Opacity = 0.25;
+                ag5.IsEnabled = false; ag5.Opacity = 0.25;
+                ag6.IsEnabled = false; ag6.Opacity = 0.25;
+                ag7.IsEnabled = false; ag7.Opacity = 0.25;
+                ag8.IsEnabled = false; ag8.Opacity = 0.25;
+                ag9.IsEnabled = false; ag9.Opacity = 0.25;
+                ag10.IsEnabled = false; ag10.Opacity = 0.25;
+                ag11.IsEnabled = false; ag11.Opacity = 0.25;
+                ag12.IsEnabled = false; ag12.Opacity = 0.25;
+
+                ag13.IsEnabled = true; ag13.Opacity = 1;
+                ag14.IsEnabled = true; ag14.Opacity = 1;
+                ag15.IsEnabled = true; ag15.Opacity = 1;
+                ag16.IsEnabled = true; ag16.Opacity = 1;
+            }
+            else
+            {
+                ag1.IsEnabled = true; ag1.Opacity = 1;
+                ag2.IsEnabled = true; ag2.Opacity = 1;
+                ag3.IsEnabled = true; ag3.Opacity = 1;
+                ag4.IsEnabled = true; ag4.Opacity = 1;
+                ag5.IsEnabled = true; ag5.Opacity = 1;
+                ag6.IsEnabled = true; ag6.Opacity = 1;
+                ag7.IsEnabled = true; ag7.Opacity = 1;
+                ag8.IsEnabled = true; ag8.Opacity = 1;
+                ag9.IsEnabled = true; ag9.Opacity = 1;
+                ag10.IsEnabled = true; ag10.Opacity = 1;
+                ag11.IsEnabled = true; ag11.Opacity = 1;
+                ag12.IsEnabled = true; ag12.Opacity = 1;
+
+                ag13.IsEnabled = false; ag13.Opacity = 0.25;
+                ag14.IsEnabled = false; ag14.Opacity = 0.25;
+                ag15.IsEnabled = false; ag15.Opacity = 0.25;
+                ag16.IsEnabled = false; ag16.Opacity = 0.25;
+            }
+        }
+
+        private void ButtonUcBirimGucArayuz_Click(object sender, RoutedEventArgs e)
+        {
+            this.DescribingMenuPopup.IsOpen = false;
+            this.AgAnahtariGucArayuzPopup.IsOpen = true;
+            this.IsEnabled = false;
+        }
+
+        private void ButtonUcBirimGucArayuzPopupClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.AgAnahtariGucArayuzPopup.IsOpen = false;
+            this.IsEnabled = true;
+            this.Effect = null;
+        }
+
+        private void UcBirimGucArayuzKullanimAmaci_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string kullanimAmaci = (e.AddedItems[0] as ComboBoxItem).Content as string;
+            if (kullanimAmaci == "Çıktı")
+            {
+                ug1.IsEnabled = false; ug1.Opacity = 0.25;
+                ug2.IsEnabled = false; ug2.Opacity = 0.25;
+                ug3.IsEnabled = false; ug3.Opacity = 0.25;
+                ug4.IsEnabled = false; ug4.Opacity = 0.25;
+                ug5.IsEnabled = false; ug5.Opacity = 0.25;
+                ug6.IsEnabled = false; ug6.Opacity = 0.25;
+                ug7.IsEnabled = false; ug7.Opacity = 0.25;
+                ug8.IsEnabled = false; ug8.Opacity = 0.25;
+                ug9.IsEnabled = false; ug9.Opacity = 0.25;
+                ug10.IsEnabled = false; ug10.Opacity = 0.25;
+                ug11.IsEnabled = false; ug11.Opacity = 0.25;
+                ug12.IsEnabled = false; ug12.Opacity = 0.25;
+
+                ug13.IsEnabled = true; ug13.Opacity = 1;
+                ug14.IsEnabled = true; ug14.Opacity = 1;
+                ug15.IsEnabled = true; ug15.Opacity = 1;
+                ug16.IsEnabled = true; ug16.Opacity = 1;
+            }
+            else
+            {
+                ug1.IsEnabled = true; ug1.Opacity = 1;
+                ug2.IsEnabled = true; ug2.Opacity = 1;
+                ug3.IsEnabled = true; ug3.Opacity = 1;
+                ug4.IsEnabled = true; ug4.Opacity = 1;
+                ug5.IsEnabled = true; ug5.Opacity = 1;
+                ug6.IsEnabled = true; ug6.Opacity = 1;
+                ug7.IsEnabled = true; ug7.Opacity = 1;
+                ug8.IsEnabled = true; ug8.Opacity = 1;
+                ug9.IsEnabled = true; ug9.Opacity = 1;
+                ug10.IsEnabled = true; ug10.Opacity = 1;
+                ug11.IsEnabled = true; ug11.Opacity = 1;
+                ug12.IsEnabled = true; ug12.Opacity = 1;
+
+                ug13.IsEnabled = false; ug13.Opacity = 0.25;
+                ug14.IsEnabled = false; ug14.Opacity = 0.25;
+                ug15.IsEnabled = false; ug15.Opacity = 0.25;
+                ug16.IsEnabled = false; ug16.Opacity = 0.25;
+            }
+        }
+
+        #endregion
     }
 }

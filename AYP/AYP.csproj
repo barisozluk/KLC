@@ -12,6 +12,7 @@
     <None Remove="Images\btes-clck.png" />
     <None Remove="Images\btes-nrm.png" />
     <None Remove="Images\camera.png" />
+    <None Remove="Images\newProjectW.png" />
     <None Remove="Images\switch.png" />
     <None Remove="Images\power.png" />
     <None Remove="Images\check.png" />
@@ -57,6 +58,7 @@
     <Resource Include="Images\btes-clck.png" />
     <Resource Include="Images\btes-nrm.png" />
     <Resource Include="Images\camera.png" />
+    <Resource Include="Images\newProjectW.png" />
     <Resource Include="Images\switch.png" />
     <Resource Include="Images\power.png" />
     <Resource Include="Images\check.png" />
