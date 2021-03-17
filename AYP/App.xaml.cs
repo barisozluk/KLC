@@ -1,5 +1,11 @@
-﻿using AYP.Helpers.Converters;
+﻿using AYP.DbContext.AYP.DbContexts;
+using AYP.Helpers.Converters;
+using AYP.Interfaces;
+using AYP.Services;
+using AYP.ViewModel;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using ReactiveUI;
 using Splat;
 using System;
@@ -21,7 +27,6 @@ namespace AYP
     {
         public App()
         {
-
             Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetCallingAssembly());
             Locator.CurrentMutable.RegisterConstant(new ConverterBoolAndVisibility(), typeof(IBindingTypeConverter));
 

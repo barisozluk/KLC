@@ -13,6 +13,47 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="AgAnahtariAgArayuzuPopupWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="AgAnahtariPopupWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="AgAnahtariTurPopupWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="GucUreticiPopupWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="GucUreticiTurPopupWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UcBirimAgArayuzuWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UcBirimPopupWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="UcBirimTurPopupWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="AgAnahtariAgArayuzuPopupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="AgAnahtariPopupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="AgAnahtariTurPopupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="GucUreticiPopupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="GucUreticiTurPopupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Icons\AddDevice.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -80,6 +121,15 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\StyleTextBox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UcBirimAgArayuzuWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UcBirimPopupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UcBirimTurPopupWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

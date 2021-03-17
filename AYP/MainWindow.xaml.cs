@@ -1,23 +1,21 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Controls.Primitives;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-
 using ReactiveUI;
-using System.Windows.Markup;
 using AYP.ViewModel;
 using AYP.Helpers.Enums;
 using System.IO;
 using System.Linq;
-using AYP.Helpers.Extensions;
+using AYP.DbContext.AYP.DbContexts;
+using AYP.Interfaces;
+using AYP.Services;
+using AYP.Entities;
+using AYP.Enums;
+using Microsoft.Win32;
+using System.Collections.Generic;
 
 namespace AYP
 {
@@ -26,10 +24,13 @@ namespace AYP
     /// </summary>
     public partial class MainWindow : Window, IViewFor<MainWindowViewModel>
     {
+        private AYPContext context;
+
         public bool toggleRight = true;
         public bool toggleLeft = true;
         public bool isClose = false;
         public string version = "0.0.5";
+
         #region ViewModel
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(nameof(ViewModel), typeof(MainWindowViewModel), typeof(MainWindow), new PropertyMetadata(null));
 
@@ -45,7 +46,7 @@ namespace AYP
             set { ViewModel = (MainWindowViewModel)value; }
         }
         #endregion ViewModel
-
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -54,6 +55,7 @@ namespace AYP
             SetupBinding();
             SetupEvents();
 
+            this.context = new AYPContext();
         }
 
         #region Setup Binding
@@ -322,6 +324,8 @@ namespace AYP
 
         #endregion CollapseExpandEvents
 
+        #region DescribingPopupEvents
+
         private void ButtonDescribing_Click(object sender, RoutedEventArgs e)
         {
             this.DescribingMenuPopup.IsOpen = true;
@@ -334,109 +338,96 @@ namespace AYP
             IsEnabled = true;
         }
 
+        #endregion
+
+        #region UcBirimPopupEvents
         private void ButtonUcBirimTur_Click(object sender, RoutedEventArgs e)
         {
             this.DescribingMenuPopup.IsOpen = false;
-            this.UcBirimTurPopup.IsOpen = true;
             this.IsEnabled = false;
-        }
 
-        private void ButtonUcBirimTurPopupClose_Click(object sender, RoutedEventArgs e)
-        {
-            this.UcBirimTurPopup.IsOpen = false;
-            this.IsEnabled = true;
+            UcBirimTurPopupWindow popup = new UcBirimTurPopupWindow();
+            popup.Owner = this;
+            popup.ShowDialog();
         }
 
         private void ButtonUcBirim_Click(object sender, RoutedEventArgs e)
         {
             this.DescribingMenuPopup.IsOpen = false;
-            this.UcBirimPopup.IsOpen = true;
             this.IsEnabled = false;
-        }
 
-        private void ButtonUcBirimPopupClose_Click(object sender, RoutedEventArgs e)
-        {
-            this.UcBirimPopup.IsOpen = false;
-            this.IsEnabled = true;
+            UcBirimPopupWindow popup = new UcBirimPopupWindow();
+            popup.Owner = this;
+            popup.ShowDialog();
         }
 
         private void ButtonUcBirimAgArayuzu_Click(object sender, RoutedEventArgs e)
         {
             this.DescribingMenuPopup.IsOpen = false;
-            this.UcBirimAgArayuzuPopup.IsOpen = true;
             this.IsEnabled = false;
-        }
 
-        private void ButtonUcBirimAgArayuzuPopupClose_Click(object sender, RoutedEventArgs e)
-        {
-            this.UcBirimAgArayuzuPopup.IsOpen = false;
-            this.IsEnabled = true;
+            UcBirimAgArayuzuWindow popup = new UcBirimAgArayuzuWindow();
+            popup.Owner = this;
+            popup.ShowDialog();
         }
+        
+        #endregion
 
+        #region AgAnahtariPopupEvents
         private void ButtonAgAnahtariTur_Click(object sender, RoutedEventArgs e)
         {
             this.DescribingMenuPopup.IsOpen = false;
-            this.AgAnahtariTurPopup.IsOpen = true;
             this.IsEnabled = false;
-        }
 
-        private void ButtonAgAnahtariTurPopupClose_Click(object sender, RoutedEventArgs e)
-        {
-            this.AgAnahtariTurPopup.IsOpen = false;
-            this.IsEnabled = true;
+            AgAnahtariTurPopupWindow popup = new AgAnahtariTurPopupWindow();
+            popup.Owner = this;
+            popup.ShowDialog();
         }
 
         private void ButtonAgAnahtari_Click(object sender, RoutedEventArgs e)
         {
             this.DescribingMenuPopup.IsOpen = false;
-            this.AgAnahtariPopup.IsOpen = true;
             this.IsEnabled = false;
-        }
 
-        private void ButtonAgAnahtariPopupClose_Click(object sender, RoutedEventArgs e)
-        {
-            this.AgAnahtariPopup.IsOpen = false;
-            this.IsEnabled = true;
+            AgAnahtariPopupWindow popup = new AgAnahtariPopupWindow(this);
+            popup.Owner = this;
+            popup.ShowDialog();
         }
 
         private void ButtonAgAnahtariAgArayuzu_Click(object sender, RoutedEventArgs e)
         {
             this.DescribingMenuPopup.IsOpen = false;
-            this.AgAnahtariAgArayuzuPopup.IsOpen = true;
             this.IsEnabled = false;
+
+            AgAnahtariAgArayuzuPopupWindow popup = new AgAnahtariAgArayuzuPopupWindow(this);
+            popup.Owner = this;
+            popup.ShowDialog();
         }
 
-        private void ButtonAgAnahtariAgArayuzuPopupClose_Click(object sender, RoutedEventArgs e)
-        {
-            this.AgAnahtariAgArayuzuPopup.IsOpen = false;
-            this.IsEnabled = true;
-        }
+        #endregion
 
+        #region GucUreticiPopupEvents
         private void ButtonGucUreticiTur_Click(object sender, RoutedEventArgs e)
         {
             this.DescribingMenuPopup.IsOpen = false;
-            this.GucUreticiTurPopup.IsOpen = true;
             this.IsEnabled = false;
-        }
 
-        private void ButtonGucUreticiTurPopupClose_Click(object sender, RoutedEventArgs e)
-        {
-            this.GucUreticiTurPopup.IsOpen = false;
-            this.IsEnabled = true;
+            GucUreticiTurPopupWindow popup = new GucUreticiTurPopupWindow(this);
+            popup.Owner = this;
+            popup.ShowDialog();
         }
 
         private void ButtonGucUretici_Click(object sender, RoutedEventArgs e)
         {
             this.DescribingMenuPopup.IsOpen = false;
-            this.GucUreticiPopup.IsOpen = true;
             this.IsEnabled = false;
+
+            GucUreticiPopupWindow popup = new GucUreticiPopupWindow(this);
+            popup.Owner = this;
+            popup.ShowDialog();
         }
 
-        private void ButtonGucUreticiPopupClose_Click(object sender, RoutedEventArgs e)
-        {
-            this.GucUreticiPopup.IsOpen = false;
-            this.IsEnabled = true;
-        }
+        #endregion
 
         #region CloseAppEvent
         private void CloseButtonClick(object sender, RoutedEventArgs e)
@@ -494,7 +485,6 @@ namespace AYP
         }
 
         #endregion
-
 
     }
 }
