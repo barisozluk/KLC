@@ -297,7 +297,7 @@
             </Border>
         </Popup>
 
-        <Popup Name="GucUreticiArayuzPopup" AllowsTransparency="True" Placement="Center" Height="Auto">
+        <!--<Popup Name="GucUreticiArayuzPopup" AllowsTransparency="True" Placement="Center" Height="Auto">
             <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">
 
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -371,9 +371,9 @@
                     </Button>
                 </Grid>
             </Border>
-        </Popup>
+        </Popup>-->
 
-        <Popup Name="AgAnahtariGucArayuzPopup" AllowsTransparency="True" Placement="Center" Height="Auto">
+        <!--<Popup Name="AgAnahtariGucArayuzPopup" AllowsTransparency="True" Placement="Center" Height="Auto">
             <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Grid.RowDefinitions>
@@ -446,9 +446,9 @@
                     </Button>
                 </Grid>
             </Border>
-        </Popup>
+        </Popup>-->
 
-        <Popup Name="UcBirimGucArayuzPopup" AllowsTransparency="True" Placement="Center" Height="Auto">
+        <!--<Popup Name="UcBirimGucArayuzPopup" AllowsTransparency="True" Placement="Center" Height="Auto">
             <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Grid.RowDefinitions>
@@ -521,7 +521,7 @@
                     </Button>
                 </Grid>
             </Border>
-        </Popup>
+        </Popup>-->
 
         <Popup Name="VersiyonPopup" AllowsTransparency="True" Placement="Center">
             <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">
