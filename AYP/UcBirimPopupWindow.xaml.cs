@@ -1,6 +1,7 @@
 ﻿using AYP.DbContext.AYP.DbContexts;
 using AYP.Entities;
 using AYP.Enums;
+using AYP.Helpers.Notifications;
 using AYP.Interfaces;
 using AYP.Services;
 using Microsoft.Win32;
@@ -52,6 +53,8 @@ namespace AYP
             ucBirim.Sembol = this.selectedSembolFile;
             ucBirim.TipId = (int)TipEnum.UcBirim;
 
+            NotificationManager notificationManager = new NotificationManager();
+
             var validationContext = new ValidationContext(ucBirim, null, null);
             var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
 
@@ -61,10 +64,16 @@ namespace AYP
 
                 if (!response.HasError)
                 {
+                    notificationManager.ShowSuccessMessage(response.Message);
+
                     (Owner as MainWindow).ListUcBirim();
                     Hide();
                     Owner.IsEnabled = true;
                     Owner.Effect = null;
+                }
+                else
+                {
+                    notificationManager.ShowErrorMessage(response.Message);
                 }
             }
             else

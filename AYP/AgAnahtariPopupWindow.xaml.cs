@@ -1,6 +1,7 @@
 ﻿using AYP.DbContext.AYP.DbContexts;
 using AYP.Entities;
 using AYP.Enums;
+using AYP.Helpers.Notifications;
 using AYP.Interfaces;
 using AYP.Services;
 using Microsoft.Win32;
@@ -49,6 +50,8 @@ namespace AYP
             agAnahtari.Sembol = this.selectedSembolFile;
             agAnahtari.TipId = (int)TipEnum.AgAnahtari;
 
+            NotificationManager notificationManager = new NotificationManager();
+
             var validationContext = new ValidationContext(agAnahtari, null, null);
             var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
 
@@ -58,10 +61,16 @@ namespace AYP
 
                 if (!response.HasError)
                 {
+                    notificationManager.ShowSuccessMessage(response.Message);
+
                     (Owner as MainWindow).ListAgAnahtari();
                     Hide();
                     Owner.IsEnabled = true;
                     Owner.Effect = null;
+                }
+                else
+                {
+                    notificationManager.ShowErrorMessage(response.Message);
                 }
             }
             else

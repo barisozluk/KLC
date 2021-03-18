@@ -42,6 +42,8 @@ C:\Users\KLC\.nuget\packages\system.componentmodel.annotations\5.0.0\lib\netstan
 C:\Users\KLC\.nuget\packages\system.diagnostics.diagnosticsource\5.0.1\lib\netstandard1.3\System.Diagnostics.DiagnosticSource.dll
 C:\Users\KLC\.nuget\packages\system.identitymodel.tokens.jwt\5.6.0\lib\netstandard2.0\System.IdentityModel.Tokens.Jwt.dll
 C:\Users\KLC\.nuget\packages\system.runtime.caching\4.7.0\lib\netstandard2.0\System.Runtime.Caching.dll
+C:\Users\KLC\.nuget\packages\toastnotifications\2.5.1\lib\net40\ToastNotifications.dll
+C:\Users\KLC\.nuget\packages\toastnotifications.messages\2.5.1\lib\net40\ToastNotifications.Messages.dll
 C:\Users\KLC\.nuget\packages\writablejsonconfiguration\3.1.5\lib\netstandard2.0\WritableJsonConfiguration.dll
 C:\Users\KLC\.nuget\packages\microsoft.data.sqlclient\2.0.1\runtimes\unix\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll
 C:\Users\KLC\.nuget\packages\microsoft.data.sqlclient\2.0.1\runtimes\win\lib\netcoreapp3.1\Microsoft.Data.SqlClient.dll

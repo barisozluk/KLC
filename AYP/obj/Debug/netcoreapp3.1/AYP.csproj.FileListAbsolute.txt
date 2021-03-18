@@ -181,3 +181,5 @@ C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\AYP.pdb
 C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\AYP.genruntimeconfig.cache
 C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\AYP.csprojAssemblyReference.cache
 C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\Styles\StyleBilgiKartiPanel.baml
+C:\Users\KLC\Desktop\Projects\AYP\AYP\bin\Debug\netcoreapp3.1\ToastNotifications.dll
+C:\Users\KLC\Desktop\Projects\AYP\AYP\bin\Debug\netcoreapp3.1\ToastNotifications.Messages.dll

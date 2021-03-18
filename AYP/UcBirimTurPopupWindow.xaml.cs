@@ -1,5 +1,6 @@
 ﻿using AYP.DbContext.AYP.DbContexts;
 using AYP.Entities;
+using AYP.Helpers.Notifications;
 using AYP.Interfaces;
 using AYP.Services;
 using System;
@@ -9,6 +10,10 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using ToastNotifications;
+using ToastNotifications.Lifetime;
+using ToastNotifications.Messages;
+using ToastNotifications.Position;
 
 namespace AYP
 {
@@ -42,18 +47,26 @@ namespace AYP
 
         private void Save_UcBirimTur(object sender, RoutedEventArgs e)
         {
+            NotificationManager notificationManager = new NotificationManager();
+
             var validationContext = new ValidationContext(ucBirimTur, null, null);
             var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
 
             if (Validator.TryValidateObject(ucBirimTur, validationContext, results, true))
             {
                 var response = service.SaveUcBirimTur(ucBirimTur);
-
+                
                 if (!response.HasError)
                 {
+                    notificationManager.ShowSuccessMessage(response.Message);
+
                     Hide();
                     Owner.IsEnabled = true;
                     Owner.Effect = null;
+                }
+                else
+                {
+                    notificationManager.ShowErrorMessage(response.Message);
                 }
             }
             else

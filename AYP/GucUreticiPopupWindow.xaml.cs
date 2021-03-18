@@ -1,6 +1,7 @@
 ﻿using AYP.DbContext.AYP.DbContexts;
 using AYP.Entities;
 using AYP.Enums;
+using AYP.Helpers.Notifications;
 using AYP.Interfaces;
 using AYP.Services;
 using Microsoft.Win32;
@@ -48,6 +49,8 @@ namespace AYP
             gucUretici.Sembol = this.selectedSembolFile;
             gucUretici.TipId = (int)TipEnum.GucUretici;
 
+            NotificationManager notificationManager = new NotificationManager();
+
             var validationContext = new ValidationContext(gucUretici, null, null);
             var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
 
@@ -57,10 +60,16 @@ namespace AYP
 
                 if (!response.HasError)
                 {
+                    notificationManager.ShowSuccessMessage(response.Message);
+
                     (Owner as MainWindow).ListGucUretici();
                     Hide();
                     Owner.IsEnabled = true;
                     Owner.Effect = null;
+                }
+                else
+                {
+                    notificationManager.ShowErrorMessage(response.Message);
                 }
             }
             else

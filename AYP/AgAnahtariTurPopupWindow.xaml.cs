@@ -1,5 +1,6 @@
 ﻿using AYP.DbContext.AYP.DbContexts;
 using AYP.Entities;
+using AYP.Helpers.Notifications;
 using AYP.Interfaces;
 using AYP.Services;
 using System.Collections.Generic;
@@ -32,6 +33,8 @@ namespace AYP
 
         private void Save_AgAnahtariTur(object sender, RoutedEventArgs e)
         {
+            NotificationManager notificationManager = new NotificationManager();
+
             var validationContext = new ValidationContext(agAnahtariTur, null, null);
             var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
 
@@ -41,9 +44,15 @@ namespace AYP
 
                 if (!response.HasError)
                 {
+                    notificationManager.ShowSuccessMessage(response.Message);
+
                     Hide();
                     Owner.IsEnabled = true;
                     Owner.Effect = null;
+                }
+                else
+                {
+                    notificationManager.ShowErrorMessage(response.Message);
                 }
             }
             else
