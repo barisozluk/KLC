@@ -17,13 +17,13 @@ namespace AYP
     {
         private AYPContext context;
 
-        private IAgAnahatariService service;
+        private IAgAnahtariService service;
 
         AgAnahtariTur agAnahtariTur;
         public AgAnahtariTurPopupWindow()
         {
             this.context = new AYPContext();
-            service = new AgAnahatariService(this.context);
+            service = new AgAnahtariService(this.context);
             agAnahtariTur = new AgAnahtariTur();
 
             InitializeComponent();

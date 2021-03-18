@@ -44,7 +44,13 @@ namespace AYP
             set { ViewModel = (MainWindowViewModel)value; }
         }
         #endregion ViewModel
-        
+
+        private readonly IUcBirimService ucBirimService;
+        private readonly IAgAnahtariService agAnahtariService;
+        private readonly IGucUreticiService gucUreticiService;
+
+        private readonly AYPContext context;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -52,6 +58,15 @@ namespace AYP
             SetupSubscriptions();
             SetupBinding();
             SetupEvents();
+
+            context = new AYPContext();
+            ucBirimService = new UcBirimService(context);
+            agAnahtariService = new AgAnahtariService(context);
+            gucUreticiService = new GucUreticiService(context);
+
+            ListUcBirim();
+            ListAgAnahtari();
+            ListGucUretici();
         }
 
         #region Setup Binding
@@ -323,7 +338,7 @@ namespace AYP
         #region DescribingPopupEvents
 
         private void ButtonDescribing_Click(object sender, RoutedEventArgs e)
-        {            
+        {
             this.DescribingMenuPopup.IsOpen = true;
             this.IsEnabled = false;
             this.Effect = new System.Windows.Media.Effects.BlurEffect();
@@ -371,7 +386,7 @@ namespace AYP
             popup.Owner = this;
             popup.ShowDialog();
         }
-        
+
         #endregion
 
         #region AgAnahtariPopupEvents
@@ -433,58 +448,6 @@ namespace AYP
             popup.ShowDialog();
         }
 
-        #endregion
-
-        private void ButtonClose_Click(object sender, RoutedEventArgs e)
-        {
-            this.DescribingClosePopup.IsOpen = true;
-            this.IsEnabled = false;
-
-        }
-
-        private void ButtonClosePopupClose_Click(object sender, RoutedEventArgs e)
-        {
-            this.DescribingClosePopup.IsOpen = false;
-            IsEnabled = true;
-        }
-
-        private void CloseConfirm(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
-
-        private void CloseDeny(object sender, RoutedEventArgs e)
-        {
-            this.DescribingClosePopup.IsOpen = false;
-            IsEnabled = true;
-        }
-
-        private void Versiyon_Click(object sender, RoutedEventArgs e)
-        {
-            this.VersiyonPopup.IsOpen = true;
-            this.IsEnabled = false;
-        }
-
-        private void VersiyonPopupClose_Click(object sender, RoutedEventArgs e)
-        {
-            this.VersiyonPopup.IsOpen = false;
-            IsEnabled = true;
-        }
-
-
-        #region MinimizeAppEvent
-        private void MinimizeButtonClick(object sender, RoutedEventArgs e)
-        {
-            this.WindowState = WindowState.Minimized;
-        }
-        #endregion
-
-        #region CloseAppEvent
-        private void CloseButtonClick(object sender, RoutedEventArgs e)
-        {
-
-            Application.Current.Shutdown();
-        }
         #endregion
 
         #region GucUreticiArayuz
@@ -663,6 +626,114 @@ namespace AYP
                 ug15.IsEnabled = false; ug15.Opacity = 0.25;
                 ug16.IsEnabled = false; ug16.Opacity = 0.25;
             }
+        }
+
+        #endregion
+        private void ButtonClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.DescribingClosePopup.IsOpen = true;
+            this.IsEnabled = false;
+
+        }
+
+        private void ButtonClosePopupClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.DescribingClosePopup.IsOpen = false;
+            IsEnabled = true;
+        }
+
+        private void CloseConfirm(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void CloseDeny(object sender, RoutedEventArgs e)
+        {
+            this.DescribingClosePopup.IsOpen = false;
+            IsEnabled = true;
+        }
+
+        private void Versiyon_Click(object sender, RoutedEventArgs e)
+        {
+            this.VersiyonPopup.IsOpen = true;
+            this.IsEnabled = false;
+        }
+
+        private void VersiyonPopupClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.VersiyonPopup.IsOpen = false;
+            IsEnabled = true;
+        }
+
+
+        #region MinimizeAppEvent
+        private void MinimizeButtonClick(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+        #endregion
+
+        #region CloseAppEvent
+        private void CloseButtonClick(object sender, RoutedEventArgs e)
+        {
+
+            Application.Current.Shutdown();
+        }
+        #endregion
+
+        #region UcBirimPanelEvents
+        public void ListUcBirim()
+        {
+            UcBirimDataGrid.ItemsSource = ucBirimService.ListUcBirim();
+        }
+
+        private void UcBirim_Click(object sender, RoutedEventArgs e)
+        {
+            var ucBirimId = Convert.ToInt32(((Button)sender).Tag);
+            var ucBirim = ucBirimService.GetUcBirimById(ucBirimId);
+
+            Tanim.Text = ucBirim.Tanim;
+            StokNo.Text = ucBirim.StokNo;
+            Uretici.Text = ucBirim.UreticiAdi;
+            TurAd.Text = ucBirim.UcBirimTur.Ad;
+        }
+
+        #endregion
+
+        #region AgAnahtariPanelEvents
+        public void ListAgAnahtari()
+        {
+            AgAnahtariDataGrid.ItemsSource = agAnahtariService.ListAgAnahtari();
+        }
+
+        private void AgAnahtari_Click(object sender, RoutedEventArgs e)
+        {
+            var agAnahtariId = Convert.ToInt32(((Button)sender).Tag);
+            var agAnahtari = agAnahtariService.GetAgAnahtariById(agAnahtariId);
+
+            Tanim.Text = agAnahtari.Tanim;
+            StokNo.Text = agAnahtari.StokNo;
+            Uretici.Text = agAnahtari.UreticiAdi;
+            TurAd.Text = agAnahtari.AgAnahtariTur.Ad;
+        }
+
+        #endregion
+
+        #region AgAnahtariPanelEvents
+        public void ListGucUretici()
+        {
+            GucUreticiDataGrid.ItemsSource = gucUreticiService.ListGucUretici();
+        }
+
+        private void GucUretici_Click(object sender, RoutedEventArgs e)
+        {
+            var gucUreticiId = Convert.ToInt32(((Button)sender).Tag);
+            var gucUretici = gucUreticiService.GetGucUreticiById(gucUreticiId);
+
+            Tanim.Text = gucUretici.Tanim;
+            StokNo.Text = gucUretici.StokNo;
+            Uretici.Text = gucUretici.UreticiAdi;
+            TurAd.Text = gucUretici.GucUreticiTur.Ad;
         }
 
         #endregion

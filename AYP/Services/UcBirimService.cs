@@ -6,9 +6,11 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Drawing;
+using System.Windows.Media.Imaging;
+using System.Windows.Media;
 
 namespace AYP.Services
 {
@@ -101,6 +103,62 @@ namespace AYP.Services
             }
 
             return response;
+        }
+
+        public List<UcBirim> ListUcBirim()
+        {
+            List<UcBirim> response = new List<UcBirim>();
+
+            using (var transaction = context.Database.BeginTransaction(IsolationLevel.ReadUncommitted))
+            {
+                try
+                {
+                    response = context.UcBirim.ToList();
+
+                    foreach(var item in response)
+                    {
+                        item.SembolSrc = ByteToImage(item.Sembol);
+                    }
+                }
+                catch (Exception exception)
+                {
+
+                }
+            }
+
+            return response;
+        }
+
+        public UcBirim GetUcBirimById(int ucBirimId)
+        {
+            UcBirim response = new UcBirim();
+
+            using (var transaction = context.Database.BeginTransaction(IsolationLevel.ReadUncommitted))
+            {
+                try
+                {
+                    response = context.UcBirim.Include(x => x.UcBirimTur).Where(ub => ub.Id == ucBirimId).FirstOrDefault();
+                }
+                catch (Exception exception)
+                {
+
+                }
+            }
+
+            return response;
+        }
+
+        private ImageSource ByteToImage(byte[] imageData)
+        {
+            BitmapImage biImg = new BitmapImage();
+            MemoryStream ms = new MemoryStream(imageData);
+            biImg.BeginInit();
+            biImg.StreamSource = ms;
+            biImg.EndInit();
+
+            ImageSource imgSrc = biImg as ImageSource;
+
+            return imgSrc;
         }
     }
 }

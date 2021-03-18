@@ -22,11 +22,11 @@ namespace AYP
     {
         private AYPContext context;
 
-        private IAgAnahatariService service;
+        private IAgAnahtariService service;
         public AgAnahtariAgArayuzuPopupWindow()
         {
             this.context = new AYPContext();
-            service = new AgAnahatariService(this.context);
+            service = new AgAnahtariService(this.context);
 
             InitializeComponent();
         }

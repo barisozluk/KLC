@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace AYP.Entities
 {
-    public class UcBirim
+    public class GucUretici
     {
         [Key]
         public int Id { get; set; }
@@ -34,19 +34,20 @@ namespace AYP.Entities
         public byte[] Sembol { get; set; }
 
         [Range(1, int.MaxValue)]
-        public int UcBirimTurId { get; set; }
+        public int GucUreticiTurId { get; set; }
 
-        [ForeignKey("UcBirimTurId")]
-        public UcBirimTur UcBirimTur { get; set; }
-
-        [Range(1, 5)]
-        public int GirdiAgArayuzuSayisi { get; set; }
-
-        [Range(1,5)]
-        public int CiktiAgArayuzuSayisi { get; set; }
+        [ForeignKey("GucUreticiTurId")]
+        public GucUreticiTur GucUreticiTur { get; set; }
 
         [Range(1, int.MaxValue)]
-        public int GucArayuzuSayisi { get; set; }
+        public int GirdiGucArayuzuSayisi { get; set; }
+
+        [Range(1, int.MaxValue)]
+        public int CiktiGucArayuzuSayisi { get; set; }
+
+        public decimal? VerimlilikDegeri { get; set; }
+
+        public decimal? DahiliGucTuketimDegeri { get; set; }
 
         public int TipId { get; set; }
 
@@ -54,7 +55,7 @@ namespace AYP.Entities
         public KL_Tip KL_Tip { get; set; }
 
         [NotMapped]
-        public List<UcBirimTur> UcBirimTurList { get; set; }
+        public List<GucUreticiTur> GucUreticiTurList { get; set; }
 
         [NotMapped]
         public ImageSource SembolSrc { get; set; }

@@ -26,6 +26,8 @@ namespace AYP.DbContext
             public DbSet<AgAnahtariTur> AgAnahtariTur { get; set; }
             public DbSet<GucUreticiTur> GucUreticiTur { get; set; }
             public DbSet<UcBirim> UcBirim { get; set; }
+            public DbSet<AgAnahtari> AgAnahtari { get; set; }
+            public DbSet<GucUretici> GucUretici { get; set; }
 
             protected override void OnModelCreating(ModelBuilder modelBuilder)
             {

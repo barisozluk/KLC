@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace AYP.Entities
 {
-    public class UcBirim
+    public class AgAnahtari
     {
         [Key]
         public int Id { get; set; }
@@ -34,15 +34,15 @@ namespace AYP.Entities
         public byte[] Sembol { get; set; }
 
         [Range(1, int.MaxValue)]
-        public int UcBirimTurId { get; set; }
+        public int AgAnahtariTurId { get; set; }
 
-        [ForeignKey("UcBirimTurId")]
-        public UcBirimTur UcBirimTur { get; set; }
+        [ForeignKey("AgAnahtariTurId")]
+        public AgAnahtariTur AgAnahtariTur { get; set; }
 
-        [Range(1, 5)]
+        [Range(1, int.MaxValue)]
         public int GirdiAgArayuzuSayisi { get; set; }
 
-        [Range(1,5)]
+        [Range(1, int.MaxValue)]
         public int CiktiAgArayuzuSayisi { get; set; }
 
         [Range(1, int.MaxValue)]
@@ -54,7 +54,7 @@ namespace AYP.Entities
         public KL_Tip KL_Tip { get; set; }
 
         [NotMapped]
-        public List<UcBirimTur> UcBirimTurList { get; set; }
+        public List<AgAnahtariTur> AgAnahtariTurList { get; set; }
 
         [NotMapped]
         public ImageSource SembolSrc { get; set; }

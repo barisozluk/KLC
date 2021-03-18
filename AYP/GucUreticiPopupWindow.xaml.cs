@@ -1,10 +1,14 @@
 ﻿using AYP.DbContext.AYP.DbContexts;
+using AYP.Entities;
+using AYP.Enums;
 using AYP.Interfaces;
 using AYP.Services;
 using Microsoft.Win32;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Windows;
-
+using System.Windows.Media;
 
 namespace AYP
 {
@@ -19,12 +23,16 @@ namespace AYP
         private AYPContext context;
 
         private IGucUreticiService service;
+
+        GucUretici gucUretici;
         public GucUreticiPopupWindow()
         {
             this.context = new AYPContext();
             service = new GucUreticiService(this.context);
-            
+            gucUretici = new GucUretici();
+            SetGucUreticiTurList();
             InitializeComponent();
+            DataContext = gucUretici;
         }
 
         private void ButtonGucUreticiPopupClose_Click(object sender, RoutedEventArgs e)
@@ -32,6 +40,92 @@ namespace AYP
             Hide();
             Owner.IsEnabled = true;
             Owner.Effect = null;
+        }
+
+        private void Save_GucUretici(object sender, RoutedEventArgs e)
+        {
+            gucUretici.Katalog = this.selectedKatalogFile;
+            gucUretici.Sembol = this.selectedSembolFile;
+            gucUretici.TipId = (int)TipEnum.GucUretici;
+
+            var validationContext = new ValidationContext(gucUretici, null, null);
+            var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
+
+            if (Validator.TryValidateObject(gucUretici, validationContext, results, true))
+            {
+                var response = service.SaveGucUretici(gucUretici);
+
+                if (!response.HasError)
+                {
+                    (Owner as MainWindow).ListGucUretici();
+                    Hide();
+                    Owner.IsEnabled = true;
+                    Owner.Effect = null;
+                }
+            }
+            else
+            {
+                foreach (var result in results)
+                {
+                    foreach (var memberName in result.MemberNames)
+                    {
+                        if (memberName == "GucUreticiTurId")
+                        {
+                            GucUreticiTur.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
+
+                        if (memberName == "StokNo")
+                        {
+                            StokNo.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
+
+                        if (memberName == "Tanim")
+                        {
+                            Tanim.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
+
+                        if (memberName == "UreticiAdi")
+                        {
+                            Uretici.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
+
+                        if (memberName == "UreticiParcaNo")
+                        {
+                            UreticiParcaNo.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
+
+                        if (memberName == "GirdiGucArayuzuSayisi")
+                        {
+                            GirdiGucArayuzuSayisi.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
+
+                        if (memberName == "CiktiGucArayuzuSayisi")
+                        {
+                            CiktiGucArayuzuSayisi.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
+
+                        if (memberName == "VerimlilikDegeri")
+                        {
+                            VerimlilikOrani.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
+
+                        if (memberName == "DahiliGucTuketimDegeri")
+                        {
+                            DahiliGucTuketimDegeri.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
+
+                        if (memberName == "Katalog")
+                        {
+                            Katalog.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
+
+                        if (memberName == "Sembol")
+                        {
+                            Sembol.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
+                    }
+                }
+            }
         }
 
         #region OpenKatalogFileDialogEvent
@@ -42,7 +136,7 @@ namespace AYP
 
             if (openFileDialog.ShowDialog() == true)
             {
-                KatalogGucUretici.Text = Path.GetFileName(openFileDialog.FileName);
+                Katalog.Text = Path.GetFileName(openFileDialog.FileName);
                 this.selectedKatalogFile = File.ReadAllBytes(openFileDialog.FileName);
             }
         }
@@ -57,11 +151,17 @@ namespace AYP
 
             if (openFileDialog.ShowDialog() == true)
             {
-                SembolGucUretici.Text = Path.GetFileName(openFileDialog.FileName);
+                Sembol.Text = Path.GetFileName(openFileDialog.FileName);
                 this.selectedSembolFile = File.ReadAllBytes(openFileDialog.FileName);
             }
         }
 
         #endregion
+
+        private void SetGucUreticiTurList()
+        {
+            gucUretici.GucUreticiTurList = service.ListGucUreticiTur();
+            gucUretici.GucUreticiTurId = gucUretici.GucUreticiTurList[0].Id;
+        }
     }
 }

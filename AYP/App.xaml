@@ -21,6 +21,7 @@
                 <ResourceDictionary Source="Styles/StyleRight1Panel.xaml"/>
                 <ResourceDictionary Source="Styles/StyleRight2Panel.xaml"/>
                 <ResourceDictionary Source="Styles/StyleRight3Panel.xaml"/>
+                <ResourceDictionary Source="Styles/StyleBilgiKartiPanel.xaml"/>
 
                 <ResourceDictionary Source="Styles/StyleExpander.xaml"/>
                 <ResourceDictionary Source="Styles/StyleExpander2.xaml"/>

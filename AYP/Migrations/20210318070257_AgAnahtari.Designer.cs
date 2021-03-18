@@ -4,14 +4,16 @@ using AYP.DbContext.AYP.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AYP.Migrations
 {
     [DbContext(typeof(AYPContext))]
-    partial class AYPContextModelSnapshot : ModelSnapshot
+    [Migration("20210318070257_AgAnahtari")]
+    partial class AgAnahtari
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,68 +95,6 @@ namespace AYP.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AgAnahtariTur");
-                });
-
-            modelBuilder.Entity("AYP.Entities.GucUretici", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CiktiGucArayuzuSayisi")
-                        .HasColumnType("int");
-
-                    b.Property<decimal?>("DahiliGucTuketimDegeri")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("GirdiGucArayuzuSayisi")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GucUreticiTurId")
-                        .HasColumnType("int");
-
-                    b.Property<byte[]>("Katalog")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<byte[]>("Sembol")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("StokNo")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Tanim")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<int>("TipId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UreticiAdi")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<string>("UreticiParcaNo")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<decimal?>("VerimlilikDegeri")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GucUreticiTurId");
-
-                    b.HasIndex("TipId");
-
-                    b.ToTable("GucUretici");
                 });
 
             modelBuilder.Entity("AYP.Entities.GucUreticiTur", b =>
@@ -324,25 +264,6 @@ namespace AYP.Migrations
                         .IsRequired();
 
                     b.Navigation("AgAnahtariTur");
-
-                    b.Navigation("KL_Tip");
-                });
-
-            modelBuilder.Entity("AYP.Entities.GucUretici", b =>
-                {
-                    b.HasOne("AYP.Entities.GucUreticiTur", "GucUreticiTur")
-                        .WithMany()
-                        .HasForeignKey("GucUreticiTurId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("AYP.Entities.KL_Tip", "KL_Tip")
-                        .WithMany()
-                        .HasForeignKey("TipId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("GucUreticiTur");
 
                     b.Navigation("KL_Tip");
                 });

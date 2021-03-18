@@ -12,5 +12,7 @@ namespace AYP.Interfaces
         ResponseModel SaveUcBirimTur(UcBirimTur ucBirimTur);
         ResponseModel SaveUcBirim(UcBirim ucBirim);
         List<UcBirimTur> ListUcBirimTur();
+        List<UcBirim> ListUcBirim();
+        UcBirim GetUcBirimById(int ucBirimId);
     }
 }

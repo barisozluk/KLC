@@ -61,6 +61,7 @@ namespace AYP
 
                 if (!response.HasError)
                 {
+                    (Owner as MainWindow).ListUcBirim();
                     Hide();
                     Owner.IsEnabled = true;
                     Owner.Effect = null;
