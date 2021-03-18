@@ -374,3 +374,9 @@ C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\AgAnahtari
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\AgAnahtariGucArayuzuPopupWindow.baml
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\GucUreticiGucArayuzuPopupWindow.g.cs
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\GucUreticiGucArayuzuPopupWindow.baml
+C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\AgAnahtariGucArayuzuPopupWindow.g.cs
+C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\GucUreticiGucArayuzuPopupWindow.g.cs
+C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\UcBirimGucArayuzuPopupWindow.g.cs
+C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\AgAnahtariGucArayuzuPopupWindow.baml
+C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\GucUreticiGucArayuzuPopupWindow.baml
+C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\UcBirimGucArayuzuPopupWindow.baml

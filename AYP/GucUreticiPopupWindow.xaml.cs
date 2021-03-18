@@ -3,11 +3,13 @@ using AYP.Entities;
 using AYP.Enums;
 using AYP.Helpers.Notifications;
 using AYP.Interfaces;
+using AYP.Models;
 using AYP.Services;
 using Microsoft.Win32;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
@@ -20,17 +22,31 @@ namespace AYP
     {
         public byte[] selectedKatalogFile = null;
         public byte[] selectedSembolFile = null;
+        public bool isEditMode = false;
 
         private AYPContext context;
 
         private IGucUreticiService service;
 
+        private NotificationManager notificationManager;
+
         GucUretici gucUretici;
-        public GucUreticiPopupWindow()
+        public GucUreticiPopupWindow(GucUretici _gucUretici)
         {
+            if(_gucUretici != null)
+            {
+                gucUretici = _gucUretici;
+                isEditMode = true;
+            }
+            else
+            {
+                gucUretici = new GucUretici();
+                isEditMode = false;
+            }
+
+            this.notificationManager = new NotificationManager();
             this.context = new AYPContext();
             service = new GucUreticiService(this.context);
-            gucUretici = new GucUretici();
             SetGucUreticiTurList();
             InitializeComponent();
             DataContext = gucUretici;
@@ -38,7 +54,7 @@ namespace AYP
 
         private void ButtonGucUreticiPopupClose_Click(object sender, RoutedEventArgs e)
         {
-            Hide();
+            Close();
             Owner.IsEnabled = true;
             Owner.Effect = null;
         }
@@ -49,21 +65,28 @@ namespace AYP
             gucUretici.Sembol = this.selectedSembolFile;
             gucUretici.TipId = (int)TipEnum.GucUretici;
 
-            NotificationManager notificationManager = new NotificationManager();
-
             var validationContext = new ValidationContext(gucUretici, null, null);
             var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
 
             if (Validator.TryValidateObject(gucUretici, validationContext, results, true))
             {
-                var response = service.SaveGucUretici(gucUretici);
+                var response = new ResponseModel();
+
+                if (!isEditMode)
+                {
+                    response = service.SaveGucUretici(gucUretici);
+                }
+                else
+                {
+                    response = service.UpdateGucUretici(gucUretici);
+                }
 
                 if (!response.HasError)
                 {
                     notificationManager.ShowSuccessMessage(response.Message);
 
                     (Owner as MainWindow).ListGucUretici();
-                    Hide();
+                    Close();
                     Owner.IsEnabled = true;
                     Owner.Effect = null;
                 }
@@ -170,7 +193,17 @@ namespace AYP
         private void SetGucUreticiTurList()
         {
             gucUretici.GucUreticiTurList = service.ListGucUreticiTur();
-            gucUretici.GucUreticiTurId = gucUretici.GucUreticiTurList[0].Id;
+            if (gucUretici.GucUreticiTurList.Count() > 0)
+            {
+                if (!isEditMode)
+                {
+                    gucUretici.GucUreticiTurId = gucUretici.GucUreticiTurList[0].Id;
+                }
+            }
+            else
+            {
+                notificationManager.ShowWarningMessage("Lütfen, En Az Bir Güç Üretici Türü Tanımlayınız!");
+            }
         }
     }
 }

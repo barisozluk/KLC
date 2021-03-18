@@ -53,7 +53,7 @@ namespace AYP
                 {
                     notificationManager.ShowSuccessMessage(response.Message);
 
-                    Hide();
+                    Close();
                     Owner.IsEnabled = true;
                     Owner.Effect = null;
                 }
@@ -80,7 +80,7 @@ namespace AYP
 
         private void ButtonGucUreticiTurPopupClose_Click(object sender, RoutedEventArgs e)
         {
-            Hide();
+            Close();
             Owner.IsEnabled = true;
             Owner.Effect = null;
         }

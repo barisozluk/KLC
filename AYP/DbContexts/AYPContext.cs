@@ -7,6 +7,7 @@ namespace AYP.DbContext
     using global::AYP.Entities;
     using Microsoft.EntityFrameworkCore;
     using System;
+    using System.Configuration;
     using System.Linq;
 
     namespace AYP.DbContexts
@@ -18,7 +19,8 @@ namespace AYP.DbContext
 
             protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             {
-                optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-86PG2PU\SQL;Integrated Security=True;Database=Ayp");    
+                optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["AYPContext"].ConnectionString);
+                //optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-86JLPO4\SQL;Integrated Security=True;Database=AYP");
             }
 
             public DbSet<KL_Tip> KL_Tip { get; set; }
@@ -36,6 +38,9 @@ namespace AYP.DbContext
             public DbSet<UcBirimGucArayuzu> UcBirimGucArayuzu { get; set; }
             public DbSet<AgAnahtariGucArayuzu> AgAnahtariGucArayuzu { get; set; }
             public DbSet<GucUreticiGucArayuzu> GucUreticiGucArayuzu { get; set; }
+            public DbSet<AgArayuzu> AgArayuzu { get; set; }
+            public DbSet<UcBirimAgArayuzu> UcBirimAgArayuzu { get; set; }
+            public DbSet<AgAnahtariAgArayuzu> AgAnahtariAgArayuzu { get; set; }
 
             protected override void OnModelCreating(ModelBuilder modelBuilder)
             {

@@ -27,7 +27,12 @@ namespace AYP
         public bool toggleRight = true;
         public bool toggleLeft = true;
         public bool isClose = false;
-        public string version = "0.0.5";
+        public string version = "0.0.6";
+
+        public int selectedTipId = 0;
+        UcBirim selectedUcBirim;
+        AgAnahtari selectedAgAnahtari;
+        GucUretici selectedGucUretici;
 
         #region ViewModel
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(nameof(ViewModel), typeof(MainWindowViewModel), typeof(MainWindow), new PropertyMetadata(null));
@@ -371,7 +376,7 @@ namespace AYP
             this.IsEnabled = false;
             this.Effect = new System.Windows.Media.Effects.BlurEffect();
 
-            UcBirimPopupWindow popup = new UcBirimPopupWindow();
+            UcBirimPopupWindow popup = new UcBirimPopupWindow(null);
             popup.Owner = this;
             popup.ShowDialog();
         }
@@ -418,7 +423,7 @@ namespace AYP
             this.IsEnabled = false;
             this.Effect = new System.Windows.Media.Effects.BlurEffect();
 
-            AgAnahtariPopupWindow popup = new AgAnahtariPopupWindow();
+            AgAnahtariPopupWindow popup = new AgAnahtariPopupWindow(null);
             popup.Owner = this;
             popup.ShowDialog();
         }
@@ -430,6 +435,17 @@ namespace AYP
             this.Effect = new System.Windows.Media.Effects.BlurEffect();
 
             AgAnahtariAgArayuzuPopupWindow popup = new AgAnahtariAgArayuzuPopupWindow();
+            popup.Owner = this;
+            popup.ShowDialog();
+        }
+
+        private void ButtonAgAnahtariGucArayuz_Click(object sender, RoutedEventArgs e)
+        {
+            this.DescribingMenuPopup.IsOpen = false;
+            this.IsEnabled = false;
+            this.Effect = new System.Windows.Media.Effects.BlurEffect();
+
+            AgAnahtariGucArayuzuPopupWindow popup = new AgAnahtariGucArayuzuPopupWindow();
             popup.Owner = this;
             popup.ShowDialog();
         }
@@ -454,14 +470,11 @@ namespace AYP
             this.IsEnabled = false;
             this.Effect = new System.Windows.Media.Effects.BlurEffect();
 
-            GucUreticiPopupWindow popup = new GucUreticiPopupWindow();
+            GucUreticiPopupWindow popup = new GucUreticiPopupWindow(null);
             popup.Owner = this;
             popup.ShowDialog();
         }
 
-        #endregion
-
-        #region GucUreticiArayuz
         private void ButtonGucUreticiGucArayuz_Click(object sender, RoutedEventArgs e)
         {
             this.DescribingMenuPopup.IsOpen = false;
@@ -473,39 +486,15 @@ namespace AYP
             popup.ShowDialog();
         }
 
-        
-
-        private void ButtonAgAnahtariGucArayuz_Click(object sender, RoutedEventArgs e)
-        {
-            this.DescribingMenuPopup.IsOpen = false;
-            this.IsEnabled = false;
-            this.Effect = new System.Windows.Media.Effects.BlurEffect();
-
-            AgAnahtariGucArayuzuPopupWindow popup = new AgAnahtariGucArayuzuPopupWindow();
-            popup.Owner = this;
-            popup.ShowDialog();
-        }
-
-
-        
-
-       
-        
-
-        
-
-       
-
-        
-
-
-
         #endregion
+
+        #region DescribingPopupEvents
+
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
             this.DescribingClosePopup.IsOpen = true;
             this.IsEnabled = false;
-
+            this.Effect = new System.Windows.Media.Effects.BlurEffect();
         }
 
         private void ButtonClosePopupClose_Click(object sender, RoutedEventArgs e)
@@ -513,7 +502,9 @@ namespace AYP
             this.DescribingClosePopup.IsOpen = false;
             IsEnabled = true;
         }
+        #endregion
 
+        #region ClosingConfirmationPopupEvents
         private void CloseConfirm(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
@@ -524,7 +515,9 @@ namespace AYP
             this.DescribingClosePopup.IsOpen = false;
             IsEnabled = true;
         }
+        #endregion
 
+        #region SettingsPopupEvents
         private void Versiyon_Click(object sender, RoutedEventArgs e)
         {
             this.VersiyonPopup.IsOpen = true;
@@ -536,7 +529,7 @@ namespace AYP
             this.VersiyonPopup.IsOpen = false;
             IsEnabled = true;
         }
-
+        #endregion
 
         #region MinimizeAppEvent
         private void MinimizeButtonClick(object sender, RoutedEventArgs e)
@@ -562,12 +555,13 @@ namespace AYP
         private void UcBirim_Click(object sender, RoutedEventArgs e)
         {
             var ucBirimId = Convert.ToInt32(((Button)sender).Tag);
-            var ucBirim = ucBirimService.GetUcBirimById(ucBirimId);
+            selectedUcBirim = ucBirimService.GetUcBirimById(ucBirimId);
+            selectedTipId = selectedUcBirim.TipId;
 
-            Tanim.Text = ucBirim.Tanim;
-            StokNo.Text = ucBirim.StokNo;
-            Uretici.Text = ucBirim.UreticiAdi;
-            TurAd.Text = ucBirim.UcBirimTur.Ad;
+            Tanim.Text = selectedUcBirim.Tanim;
+            StokNo.Text = selectedUcBirim.StokNo;
+            Uretici.Text = selectedUcBirim.UreticiAdi;
+            TurAd.Text = selectedUcBirim.UcBirimTur.Ad;
         }
 
         #endregion
@@ -581,17 +575,18 @@ namespace AYP
         private void AgAnahtari_Click(object sender, RoutedEventArgs e)
         {
             var agAnahtariId = Convert.ToInt32(((Button)sender).Tag);
-            var agAnahtari = agAnahtariService.GetAgAnahtariById(agAnahtariId);
+            selectedAgAnahtari = agAnahtariService.GetAgAnahtariById(agAnahtariId);
+            selectedTipId = selectedAgAnahtari.TipId;
 
-            Tanim.Text = agAnahtari.Tanim;
-            StokNo.Text = agAnahtari.StokNo;
-            Uretici.Text = agAnahtari.UreticiAdi;
-            TurAd.Text = agAnahtari.AgAnahtariTur.Ad;
+            Tanim.Text = selectedAgAnahtari.Tanim;
+            StokNo.Text = selectedAgAnahtari.StokNo;
+            Uretici.Text = selectedAgAnahtari.UreticiAdi;
+            TurAd.Text = selectedAgAnahtari.AgAnahtariTur.Ad;
         }
 
         #endregion
 
-        #region AgAnahtariPanelEvents
+        #region GucUreticiPanelEvents
         public void ListGucUretici()
         {
             GucUreticiDataGrid.ItemsSource = gucUreticiService.ListGucUretici();
@@ -600,12 +595,48 @@ namespace AYP
         private void GucUretici_Click(object sender, RoutedEventArgs e)
         {
             var gucUreticiId = Convert.ToInt32(((Button)sender).Tag);
-            var gucUretici = gucUreticiService.GetGucUreticiById(gucUreticiId);
+            selectedGucUretici = gucUreticiService.GetGucUreticiById(gucUreticiId);
+            selectedTipId = selectedGucUretici.TipId;
 
-            Tanim.Text = gucUretici.Tanim;
-            StokNo.Text = gucUretici.StokNo;
-            Uretici.Text = gucUretici.UreticiAdi;
-            TurAd.Text = gucUretici.GucUreticiTur.Ad;
+            Tanim.Text = selectedGucUretici.Tanim;
+            StokNo.Text = selectedGucUretici.StokNo;
+            Uretici.Text = selectedGucUretici.UreticiAdi;
+            TurAd.Text = selectedGucUretici.GucUreticiTur.Ad;
+        }
+
+        #endregion
+
+        #region BilgiKartiDetayEvent
+
+        private void BilgiKartiDetay_Click(object sender, RoutedEventArgs e)
+        {
+            if(selectedTipId == (int)TipEnum.UcBirim)
+            {
+                this.IsEnabled = false;
+                this.Effect = new System.Windows.Media.Effects.BlurEffect();
+
+                UcBirimPopupWindow popup = new UcBirimPopupWindow(selectedUcBirim);
+                popup.Owner = this;
+                popup.ShowDialog();
+            }
+            else if(selectedTipId == (int)TipEnum.AgAnahtari)
+            {
+                this.IsEnabled = false;
+                this.Effect = new System.Windows.Media.Effects.BlurEffect();
+
+                AgAnahtariPopupWindow popup = new AgAnahtariPopupWindow(selectedAgAnahtari);
+                popup.Owner = this;
+                popup.ShowDialog();
+            }
+            else if(selectedTipId == (int)TipEnum.GucUretici)
+            {
+                this.IsEnabled = false;
+                this.Effect = new System.Windows.Media.Effects.BlurEffect();
+
+                GucUreticiPopupWindow popup = new GucUreticiPopupWindow(selectedGucUretici);
+                popup.Owner = this;
+                popup.ShowDialog();
+            }
         }
 
         #endregion

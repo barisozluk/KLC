@@ -78,6 +78,50 @@ namespace AYP.Migrations
                     b.ToTable("AgAnahtari");
                 });
 
+            modelBuilder.Entity("AYP.Entities.AgAnahtariAgArayuzu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AgAnahtariId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AgArayuzuId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AgAnahtariId");
+
+                    b.HasIndex("AgArayuzuId");
+
+                    b.ToTable("AgAnahtariAgArayuzu");
+                });
+
+            modelBuilder.Entity("AYP.Entities.AgAnahtariGucArayuzu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AgAnahtariId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GucArayuzuId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AgAnahtariId");
+
+                    b.HasIndex("GucArayuzuId");
+
+                    b.ToTable("AgAnahtariGucArayuzu");
+                });
+
             modelBuilder.Entity("AYP.Entities.AgAnahtariTur", b =>
                 {
                     b.Property<int>("Id")
@@ -93,6 +137,89 @@ namespace AYP.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AgAnahtariTur");
+                });
+
+            modelBuilder.Entity("AYP.Entities.AgArayuzu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("FizikselOrtamId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("KapasiteId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("KullanimAmaciId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TipId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FizikselOrtamId");
+
+                    b.HasIndex("KapasiteId");
+
+                    b.HasIndex("KullanimAmaciId");
+
+                    b.HasIndex("TipId");
+
+                    b.ToTable("AgArayuzu");
+                });
+
+            modelBuilder.Entity("AYP.Entities.GucArayuzu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CiktiDuraganGerilimDegeri")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("CiktiUrettigiGucKapasitesi")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("GerilimTipiId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("GirdiDuraganGerilimDegeri1")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("GirdiDuraganGerilimDegeri2")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("GirdiDuraganGerilimDegeri3")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("GirdiMaksimumGerilimDegeri")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("GirdiMinimumGerilimDegeri")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("GirdiTukettigiGucMiktari")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("KullanimAmaciId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TipId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GerilimTipiId");
+
+                    b.HasIndex("KullanimAmaciId");
+
+                    b.HasIndex("TipId");
+
+                    b.ToTable("GucArayuzu");
                 });
 
             modelBuilder.Entity("AYP.Entities.GucUretici", b =>
@@ -155,6 +282,28 @@ namespace AYP.Migrations
                     b.HasIndex("TipId");
 
                     b.ToTable("GucUretici");
+                });
+
+            modelBuilder.Entity("AYP.Entities.GucUreticiGucArayuzu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("GucArayuzuId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("GucUreticiId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GucArayuzuId");
+
+                    b.HasIndex("GucUreticiId");
+
+                    b.ToTable("GucUreticiGucArayuzu");
                 });
 
             modelBuilder.Entity("AYP.Entities.GucUreticiTur", b =>
@@ -414,6 +563,50 @@ namespace AYP.Migrations
                     b.ToTable("UcBirim");
                 });
 
+            modelBuilder.Entity("AYP.Entities.UcBirimAgArayuzu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AgArayuzuId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UcBirimId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AgArayuzuId");
+
+                    b.HasIndex("UcBirimId");
+
+                    b.ToTable("UcBirimAgArayuzu");
+                });
+
+            modelBuilder.Entity("AYP.Entities.UcBirimGucArayuzu", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("GucArayuzuId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UcBirimId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GucArayuzuId");
+
+                    b.HasIndex("UcBirimId");
+
+                    b.ToTable("UcBirimGucArayuzu");
+                });
+
             modelBuilder.Entity("AYP.Entities.UcBirimTur", b =>
                 {
                     b.Property<int>("Id")
@@ -450,6 +643,102 @@ namespace AYP.Migrations
                     b.Navigation("KL_Tip");
                 });
 
+            modelBuilder.Entity("AYP.Entities.AgAnahtariAgArayuzu", b =>
+                {
+                    b.HasOne("AYP.Entities.AgAnahtari", "AgAnahtari")
+                        .WithMany()
+                        .HasForeignKey("AgAnahtariId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AYP.Entities.AgArayuzu", "AgArayuzu")
+                        .WithMany()
+                        .HasForeignKey("AgArayuzuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AgAnahtari");
+
+                    b.Navigation("AgArayuzu");
+                });
+
+            modelBuilder.Entity("AYP.Entities.AgAnahtariGucArayuzu", b =>
+                {
+                    b.HasOne("AYP.Entities.AgAnahtari", "AgAnahtari")
+                        .WithMany()
+                        .HasForeignKey("AgAnahtariId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AYP.Entities.GucArayuzu", "GucArayuzu")
+                        .WithMany()
+                        .HasForeignKey("GucArayuzuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AgAnahtari");
+
+                    b.Navigation("GucArayuzu");
+                });
+
+            modelBuilder.Entity("AYP.Entities.AgArayuzu", b =>
+                {
+                    b.HasOne("AYP.Entities.KL_FizikselOrtam", "KL_FizikselOrtam")
+                        .WithMany()
+                        .HasForeignKey("FizikselOrtamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AYP.Entities.KL_Kapasite", "KL_Kapasite")
+                        .WithMany()
+                        .HasForeignKey("KapasiteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AYP.Entities.KL_KullanimAmaci", "KL_KullanimAmaci")
+                        .WithMany()
+                        .HasForeignKey("KullanimAmaciId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AYP.Entities.KL_Tip", "KL_Tip")
+                        .WithMany()
+                        .HasForeignKey("TipId");
+
+                    b.Navigation("KL_FizikselOrtam");
+
+                    b.Navigation("KL_Kapasite");
+
+                    b.Navigation("KL_KullanimAmaci");
+
+                    b.Navigation("KL_Tip");
+                });
+
+            modelBuilder.Entity("AYP.Entities.GucArayuzu", b =>
+                {
+                    b.HasOne("AYP.Entities.KL_GerilimTipi", "KL_GerilimTipi")
+                        .WithMany()
+                        .HasForeignKey("GerilimTipiId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AYP.Entities.KL_KullanimAmaci", "KL_KullanimAmaci")
+                        .WithMany()
+                        .HasForeignKey("KullanimAmaciId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AYP.Entities.KL_Tip", "KL_Tip")
+                        .WithMany()
+                        .HasForeignKey("TipId");
+
+                    b.Navigation("KL_GerilimTipi");
+
+                    b.Navigation("KL_KullanimAmaci");
+
+                    b.Navigation("KL_Tip");
+                });
+
             modelBuilder.Entity("AYP.Entities.GucUretici", b =>
                 {
                     b.HasOne("AYP.Entities.GucUreticiTur", "GucUreticiTur")
@@ -469,6 +758,25 @@ namespace AYP.Migrations
                     b.Navigation("KL_Tip");
                 });
 
+            modelBuilder.Entity("AYP.Entities.GucUreticiGucArayuzu", b =>
+                {
+                    b.HasOne("AYP.Entities.GucArayuzu", "GucArayuzu")
+                        .WithMany()
+                        .HasForeignKey("GucArayuzuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AYP.Entities.GucUretici", "GucUretici")
+                        .WithMany()
+                        .HasForeignKey("GucUreticiId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GucArayuzu");
+
+                    b.Navigation("GucUretici");
+                });
+
             modelBuilder.Entity("AYP.Entities.UcBirim", b =>
                 {
                     b.HasOne("AYP.Entities.KL_Tip", "KL_Tip")
@@ -486,6 +794,44 @@ namespace AYP.Migrations
                     b.Navigation("KL_Tip");
 
                     b.Navigation("UcBirimTur");
+                });
+
+            modelBuilder.Entity("AYP.Entities.UcBirimAgArayuzu", b =>
+                {
+                    b.HasOne("AYP.Entities.AgArayuzu", "AgArayuzu")
+                        .WithMany()
+                        .HasForeignKey("AgArayuzuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AYP.Entities.UcBirim", "UcBirim")
+                        .WithMany()
+                        .HasForeignKey("UcBirimId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AgArayuzu");
+
+                    b.Navigation("UcBirim");
+                });
+
+            modelBuilder.Entity("AYP.Entities.UcBirimGucArayuzu", b =>
+                {
+                    b.HasOne("AYP.Entities.GucArayuzu", "GucArayuzu")
+                        .WithMany()
+                        .HasForeignKey("GucArayuzuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AYP.Entities.UcBirim", "UcBirim")
+                        .WithMany()
+                        .HasForeignKey("UcBirimId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("GucArayuzu");
+
+                    b.Navigation("UcBirim");
                 });
 #pragma warning restore 612, 618
         }

@@ -24,46 +24,22 @@
 
             <Rectangle Style="{DynamicResource StyleDescribingAgArayuzuFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Ağ Anahtarı" Grid.Row="0" Grid.Column="1" Margin="0,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <ComboBox Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="180,65,0,10" VerticalAlignment="Top" >
-                <ComboBoxItem Name="Item1AgAnahtariAgArayuzu">Item1</ComboBoxItem>
-                <ComboBoxItem Name="Item2AgAnahtariAgArayuzu">Item2</ComboBoxItem>
-                <ComboBoxItem Name="Item3AgAnahtariAgArayuzu">Item3</ComboBoxItem>
-                <ComboBoxItem Name="Item4AgAnahtariAgArayuzu">Item4</ComboBoxItem>
-                <ComboBoxItem Name="Item5AgAnahtariAgArayuzu">Item5</ComboBoxItem>
-                <ComboBoxItem Name="Item6AgAnahtariAgArayuzu">Item6</ComboBoxItem>
+            <ComboBox SelectedValue="{Binding AgAnahtariId}" ItemsSource="{Binding AgAnahtariList}" DisplayMemberPath="Tanim" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="180,65,0,10" VerticalAlignment="Top" >
             </ComboBox>
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Kullanım Amacı" Grid.Row="0" Grid.Column="1" Margin="0,110,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <ComboBox Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="180,110,0,10" VerticalAlignment="Top" >
-                <ComboBoxItem Name="Item1AgAnahtariKullanimAmaci">Item1</ComboBoxItem>
-                <ComboBoxItem Name="Item2AgAnahtariKullanimAmaci">Item2</ComboBoxItem>
-                <ComboBoxItem Name="Item3AgAnahtariKullanimAmaci">Item3</ComboBoxItem>
-                <ComboBoxItem Name="Item4AgAnahtariKullanimAmaci">Item4</ComboBoxItem>
-                <ComboBoxItem Name="Item5AgAnahtariKullanimAmaci">Item5</ComboBoxItem>
-                <ComboBoxItem Name="Item6AgAnahtariKullanimAmaci">Item6</ComboBoxItem>
+            <ComboBox SelectedValue="{Binding KullanimAmaciId}" ItemsSource="{Binding KullanimAmaciList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="180,110,0,10" VerticalAlignment="Top" >
             </ComboBox>
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Fiziksel Ortam" Grid.Row="0" Grid.Column="1" Margin="0,155,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <ComboBox Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="180,155,0,10" VerticalAlignment="Top" >
-                <ComboBoxItem Name="Item1AgAnahtariFizikselOrtam">Item1</ComboBoxItem>
-                <ComboBoxItem Name="Item2AgAnahtariFizikselOrtam">Item2</ComboBoxItem>
-                <ComboBoxItem Name="Item3AgAnahtariFizikselOrtam">Item3</ComboBoxItem>
-                <ComboBoxItem Name="Item4AgAnahtariFizikselOrtam">Item4</ComboBoxItem>
-                <ComboBoxItem Name="Item5AgAnahtariFizikselOrtam">Item5</ComboBoxItem>
-                <ComboBoxItem Name="Item6AgAnahtariFizikselOrtam">Item6</ComboBoxItem>
+            <ComboBox SelectedValue="{Binding FizikselOrtamId}" ItemsSource="{Binding FizikselOrtamList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="180,155,0,10" VerticalAlignment="Top" >
             </ComboBox>
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Kapasite" Grid.Row="0" Grid.Column="1" Margin="0,200,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <ComboBox Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="180,200,0,10" VerticalAlignment="Top" >
-                <ComboBoxItem Name="Item1AgAnahtariKapasite">Item1</ComboBoxItem>
-                <ComboBoxItem Name="Item2AgAnahtariKapasite">Item2</ComboBoxItem>
-                <ComboBoxItem Name="Item3AgAnahtariKapasite">Item3</ComboBoxItem>
-                <ComboBoxItem Name="Item4AgAnahtariKapasite">Item4</ComboBoxItem>
-                <ComboBoxItem Name="Item5AgAnahtariKapasite">Item5</ComboBoxItem>
-                <ComboBoxItem Name="Item6AgAnahtariKapasite">Item6</ComboBoxItem>
+            <ComboBox SelectedValue="{Binding KapasiteId}" ItemsSource="{Binding KapasiteList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="180,200,0,10" VerticalAlignment="Top" >
             </ComboBox>
 
-            <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,255,0,10" >
+            <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,255,0,10" Click="Save_AgAnahtariAgArayuzu">
                 <Grid>
                     <Image Source="Images/save.png" Height="20" Width="25" Margin="2,0,0,0" HorizontalAlignment="Left"/>
                     <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="70,0,0,0">Kaydet</TextBlock>

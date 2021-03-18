@@ -3,11 +3,13 @@ using AYP.Entities;
 using AYP.Enums;
 using AYP.Helpers.Notifications;
 using AYP.Interfaces;
+using AYP.Models;
 using AYP.Services;
 using Microsoft.Win32;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
@@ -18,19 +20,36 @@ namespace AYP
     /// </summary>
     public partial class AgAnahtariPopupWindow : Window
     {
-        AgAnahtari agAnahtari;
 
         public byte[] selectedKatalogFile = null;
+
         public byte[] selectedSembolFile = null;
+
+        public bool isEditMode = false;
 
         private AYPContext context;
 
         private IAgAnahtariService service;
-        public AgAnahtariPopupWindow()
+
+        AgAnahtari agAnahtari;
+
+        private NotificationManager notificationManager;
+        public AgAnahtariPopupWindow(AgAnahtari _agAnahtari)
         {
+            if(_agAnahtari != null)
+            {
+                agAnahtari = _agAnahtari;
+                isEditMode = true;
+            }
+            else
+            {
+                agAnahtari = new AgAnahtari();
+                isEditMode = false;
+            }
+
+            this.notificationManager = new NotificationManager();
             this.context = new AYPContext();
             service = new AgAnahtariService(this.context);
-            agAnahtari = new AgAnahtari();
 
             SetAgAnahtariTurList();
             InitializeComponent();
@@ -39,7 +58,7 @@ namespace AYP
 
         private void ButtonAgAnahtariPopupClose_Click(object sender, RoutedEventArgs e)
         {
-            Hide();
+            Close();
             Owner.IsEnabled = true;
             Owner.Effect = null;
         }
@@ -50,21 +69,28 @@ namespace AYP
             agAnahtari.Sembol = this.selectedSembolFile;
             agAnahtari.TipId = (int)TipEnum.AgAnahtari;
 
-            NotificationManager notificationManager = new NotificationManager();
-
             var validationContext = new ValidationContext(agAnahtari, null, null);
             var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
 
             if (Validator.TryValidateObject(agAnahtari, validationContext, results, true))
             {
-                var response = service.SaveAgAnahtari(agAnahtari);
+                var response = new ResponseModel();
+
+                if (!isEditMode)
+                {
+                    response = service.SaveAgAnahtari(agAnahtari);
+                }
+                else
+                {
+                    response = service.UpdateAgAnahtari(agAnahtari);
+                }
 
                 if (!response.HasError)
                 {
                     notificationManager.ShowSuccessMessage(response.Message);
 
                     (Owner as MainWindow).ListAgAnahtari();
-                    Hide();
+                    Close();
                     Owner.IsEnabled = true;
                     Owner.Effect = null;
                 }
@@ -161,7 +187,17 @@ namespace AYP
         private void SetAgAnahtariTurList()
         {
             agAnahtari.AgAnahtariTurList = service.ListAgAnahtariTur();
-            agAnahtari.AgAnahtariTurId = agAnahtari.AgAnahtariTurList[0].Id;
+            if (agAnahtari.AgAnahtariTurList.Count() > 0)
+            {
+                if (!isEditMode)
+                {
+                    agAnahtari.AgAnahtariTurId = agAnahtari.AgAnahtariTurList[0].Id;
+                }
+            }
+            else
+            {
+                notificationManager.ShowWarningMessage("Lütfen, En Az Bir Ağ Anahtarı Türü Tanımlayınız!");
+            }
         }
     }
 }

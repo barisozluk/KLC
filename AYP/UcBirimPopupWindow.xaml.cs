@@ -3,11 +3,13 @@ using AYP.Entities;
 using AYP.Enums;
 using AYP.Helpers.Notifications;
 using AYP.Interfaces;
+using AYP.Models;
 using AYP.Services;
 using Microsoft.Win32;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 
@@ -22,27 +24,40 @@ namespace AYP
 
         private IUcBirimService service;
 
+        private NotificationManager notificationManager;
+
         UcBirim ucBirim;
 
         public byte[] selectedKatalogFile = null;
         public byte[] selectedSembolFile = null;
+        public bool isEditMode = false;
 
-
-        public UcBirimPopupWindow()
+        public UcBirimPopupWindow(UcBirim _ucBirim)
         {
+
+            if(_ucBirim != null)
+            {
+                ucBirim = _ucBirim;
+                isEditMode = true;
+            }
+            else
+            {
+                ucBirim = new UcBirim();
+                isEditMode = false;
+            }
+
+            this.notificationManager = new NotificationManager();
             this.context = new AYPContext();
             service = new UcBirimService(this.context);
-            ucBirim = new UcBirim();
-
-            SetUcBirimTurList();
-
             InitializeComponent();
             DataContext = ucBirim;
+
+            SetUcBirimTurList();
         }
 
         private void ButtonUcBirimPopupClose_Click(object sender, RoutedEventArgs e)
         {
-            Hide();
+            Close();
             Owner.IsEnabled = true;
             Owner.Effect = null;
         }
@@ -53,21 +68,28 @@ namespace AYP
             ucBirim.Sembol = this.selectedSembolFile;
             ucBirim.TipId = (int)TipEnum.UcBirim;
 
-            NotificationManager notificationManager = new NotificationManager();
-
             var validationContext = new ValidationContext(ucBirim, null, null);
             var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
 
             if (Validator.TryValidateObject(ucBirim, validationContext, results, true))
-            {   
-                var response = service.SaveUcBirim(ucBirim);
+            {
+                var response = new ResponseModel();
+
+                if (!isEditMode)
+                {
+                    response = service.SaveUcBirim(ucBirim);
+                }
+                else
+                {
+                    response = service.UpdateUcBirim(ucBirim);
+                }
 
                 if (!response.HasError)
                 {
                     notificationManager.ShowSuccessMessage(response.Message);
 
                     (Owner as MainWindow).ListUcBirim();
-                    Hide();
+                    Close();
                     Owner.IsEnabled = true;
                     Owner.Effect = null;
                 }
@@ -169,7 +191,18 @@ namespace AYP
         private void SetUcBirimTurList()
         {   
             ucBirim.UcBirimTurList = service.ListUcBirimTur();
-            ucBirim.UcBirimTurId = ucBirim.UcBirimTurList[0].Id;
+
+            if (ucBirim.UcBirimTurList.Count() > 0)
+            {
+                if (!isEditMode)
+                {
+                    ucBirim.UcBirimTurId = ucBirim.UcBirimTurList[0].Id;
+                }
+            }
+            else
+            {
+                notificationManager.ShowWarningMessage("Lütfen, En Az Bir Uç Birim Türü Tanımlayınız!");
+            }
         }
     }
 }

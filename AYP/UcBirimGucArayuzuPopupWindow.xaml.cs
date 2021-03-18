@@ -1,8 +1,13 @@
 ﻿using AYP.DbContext.AYP.DbContexts;
+using AYP.Entities;
+using AYP.Enums;
+using AYP.Helpers.Notifications;
 using AYP.Interfaces;
 using AYP.Services;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,25 +29,38 @@ namespace AYP
 
         private IUcBirimService service;
 
+        private IKodListeService kodListeService;
+
+        private NotificationManager notificationManager;
+
+        GucArayuzu gucArayuzu;
+        
         public UcBirimGucArayuzuPopupWindow()
         {
+            this.notificationManager = new NotificationManager();
             this.context = new AYPContext();
             service = new UcBirimService(this.context);
+            kodListeService = new KodListeService(this.context);
+            gucArayuzu = new GucArayuzu();
 
             InitializeComponent();
+            DataContext = gucArayuzu;
+
+            ListUcBirim();
+            ListKullanimAmaci();
+            ListGerilimTipi();
         }
 
         private void ButtonUcBirimGucArayuzPopupClose_Click(object sender, RoutedEventArgs e)
         {
-            Hide();
+            Close();
             Owner.IsEnabled = true;
             Owner.Effect = null;
         }
 
         private void UcBirimGucArayuzKullanimAmaci_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            string kullanimAmaci = (e.AddedItems[0] as ComboBoxItem).Content as string;
-            if (kullanimAmaci == "Çıktı")
+            if (gucArayuzu.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti)
             {
                 ug1.IsEnabled = false; ug1.Opacity = 0.25;
                 ug2.IsEnabled = false; ug2.Opacity = 0.25;
@@ -81,6 +99,63 @@ namespace AYP
                 ug14.IsEnabled = false; ug14.Opacity = 0.25;
                 ug15.IsEnabled = false; ug15.Opacity = 0.25;
                 ug16.IsEnabled = false; ug16.Opacity = 0.25;
+            }
+        }
+
+        private void Save_UcBirimGucAarayuzu(object sender, RoutedEventArgs e)
+        {
+            gucArayuzu.TipId = (int)TipEnum.UcBirimGucArayuzu;
+
+            var validationContext = new ValidationContext(gucArayuzu, null, null);
+            var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
+
+            if (Validator.TryValidateObject(gucArayuzu, validationContext, results, true))
+            {
+                var response = service.SaveUcBirimGucArayuzu(gucArayuzu);
+
+                if (!response.HasError)
+                {
+                    notificationManager.ShowSuccessMessage(response.Message);
+
+                    Close();
+                    Owner.IsEnabled = true;
+                    Owner.Effect = null;
+                }
+                else
+                {
+                    notificationManager.ShowErrorMessage(response.Message);
+                }
+            }
+        }
+
+        private void ListGerilimTipi()
+        {
+            gucArayuzu.GerilimTipiList = kodListeService.ListGerilimTipi();
+            if (gucArayuzu.GerilimTipiList.Count() > 0)
+            {
+                gucArayuzu.GerilimTipiId = gucArayuzu.GerilimTipiList[0].Id;
+            }
+        }
+
+        private void ListKullanimAmaci()
+        {
+            gucArayuzu.KullanimAmaciList = kodListeService.ListKullanimAmaci();
+            if (gucArayuzu.KullanimAmaciList.Count() > 0)
+            {
+                gucArayuzu.KullanimAmaciId = gucArayuzu.KullanimAmaciList[0].Id;
+            }
+        }
+
+        private void ListUcBirim()
+        {
+            gucArayuzu.UcBirimList = service.ListUcBirim();
+            if (gucArayuzu.UcBirimList.Count() > 0)
+            {
+                gucArayuzu.UcBirimId = gucArayuzu.UcBirimList[0].Id;
+            }
+            else
+            {
+                notificationManager.ShowWarningMessage("Lütfen, En Az Bir Uç Birim Tanımlayınız!");
             }
         }
     }

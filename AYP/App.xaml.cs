@@ -1,4 +1,6 @@
-﻿using AYP.Helpers.Converters;
+﻿using AYP.DbContext.AYP.DbContexts;
+using AYP.Helpers.Converters;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using ReactiveUI;
 using Splat;
@@ -21,6 +23,9 @@ namespace AYP
             IConfigurationRoot configuration;
             configuration = WritableJsonConfigurationFabric.Create("Settings.json");
             Locator.CurrentMutable.RegisterConstant(configuration, typeof(IConfiguration));
+
+            AYPContext context = new AYPContext();
+            context.Database.Migrate();
         }
     }
 }

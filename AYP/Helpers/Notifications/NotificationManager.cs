@@ -35,5 +35,10 @@ namespace AYP.Helpers.Notifications
         {
             notifier.ShowError(message);
         }
+
+        public void ShowWarningMessage(string message)
+        {
+            notifier.ShowWarning(message);
+        }
     }
 }

@@ -123,6 +123,43 @@ namespace AYP.Services
             return response;
         }
 
+        public ResponseModel UpdateGucUretici(GucUretici gucUretici)
+        {
+            ResponseModel response = new ResponseModel();
+
+            using (var transaction = context.Database.BeginTransaction(IsolationLevel.ReadUncommitted))
+            {
+                try
+                {
+                    var dbItem = context.GucUretici.Where(gu => gu.Id == gucUretici.Id).FirstOrDefault();
+
+                    dbItem.CiktiGucArayuzuSayisi = gucUretici.CiktiGucArayuzuSayisi;
+                    dbItem.GirdiGucArayuzuSayisi = gucUretici.GirdiGucArayuzuSayisi;
+                    dbItem.Katalog = gucUretici.Katalog;
+                    dbItem.Sembol = gucUretici.Sembol;
+                    dbItem.StokNo = gucUretici.StokNo;
+                    dbItem.Tanim = gucUretici.Tanim;
+                    dbItem.GucUreticiTurId = gucUretici.GucUreticiTurId;
+                    dbItem.UreticiAdi = gucUretici.UreticiAdi;
+                    dbItem.UreticiParcaNo = gucUretici.UreticiParcaNo;
+                    dbItem.DahiliGucTuketimDegeri = gucUretici.DahiliGucTuketimDegeri;
+                    dbItem.VerimlilikDegeri = gucUretici.VerimlilikDegeri;
+
+                    context.SaveChanges();
+                    response.SetSuccess();
+                    transaction.Commit();
+                }
+                catch (Exception exception)
+                {
+                    context.Reset();
+                    response.SetError(exception.Message);
+                    transaction.Rollback();
+                }
+            }
+
+            return response;
+        }
+
         public ResponseModel SaveGucUreticiTur(GucUreticiTur gucUreticiTur)
         {
             ResponseModel response = new ResponseModel();
@@ -140,6 +177,49 @@ namespace AYP.Services
                     transaction.Commit();
                 }
                 catch(Exception exception)
+                {
+                    context.Reset();
+                    response.SetError(exception.Message);
+                    transaction.Rollback();
+                }
+            }
+
+            return response;
+        }
+
+        public ResponseModel SaveGucUreticiGucArayuzu(GucArayuzu gucArayuzu)
+        {
+            ResponseModel response = new ResponseModel();
+
+            using (var transaction = context.Database.BeginTransaction(IsolationLevel.ReadUncommitted))
+            {
+                try
+                {
+                    GucArayuzu dbItem = new GucArayuzu();
+                    context.GucArayuzu.Add(dbItem);
+                    dbItem.CiktiDuraganGerilimDegeri = gucArayuzu.CiktiDuraganGerilimDegeri;
+                    dbItem.CiktiUrettigiGucKapasitesi = gucArayuzu.CiktiUrettigiGucKapasitesi;
+                    dbItem.GirdiDuraganGerilimDegeri1 = gucArayuzu.GirdiDuraganGerilimDegeri1;
+                    dbItem.GirdiDuraganGerilimDegeri2 = gucArayuzu.GirdiDuraganGerilimDegeri2;
+                    dbItem.GirdiDuraganGerilimDegeri3 = gucArayuzu.GirdiDuraganGerilimDegeri3;
+                    dbItem.GirdiMaksimumGerilimDegeri = gucArayuzu.GirdiMaksimumGerilimDegeri;
+                    dbItem.GirdiMinimumGerilimDegeri = gucArayuzu.GirdiMinimumGerilimDegeri;
+                    dbItem.GirdiTukettigiGucMiktari = gucArayuzu.GirdiTukettigiGucMiktari;
+                    dbItem.GerilimTipiId = gucArayuzu.GerilimTipiId;
+                    dbItem.KullanimAmaciId = gucArayuzu.KullanimAmaciId;
+                    dbItem.TipId = gucArayuzu.TipId;
+                    context.SaveChanges();
+
+                    GucUreticiGucArayuzu dbItem1 = new GucUreticiGucArayuzu();
+                    context.GucUreticiGucArayuzu.Add(dbItem1);
+                    dbItem1.GucArayuzuId = dbItem.Id;
+                    dbItem1.GucUreticiId = gucArayuzu.GucUreticiId;
+                    context.SaveChanges();
+
+                    response.SetSuccess();
+                    transaction.Commit();
+                }
+                catch (Exception exception)
                 {
                     context.Reset();
                     response.SetError(exception.Message);

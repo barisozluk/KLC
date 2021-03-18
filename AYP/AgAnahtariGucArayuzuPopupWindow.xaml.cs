@@ -1,8 +1,13 @@
 ﻿using AYP.DbContext.AYP.DbContexts;
+using AYP.Entities;
+using AYP.Enums;
+using AYP.Helpers.Notifications;
 using AYP.Interfaces;
 using AYP.Services;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,25 +29,37 @@ namespace AYP
 
         private IAgAnahtariService service;
 
+        private IKodListeService kodListeService;
+
+        private NotificationManager notificationManager;
+
+        GucArayuzu gucArayuzu;
         public AgAnahtariGucArayuzuPopupWindow()
         {
+            this.notificationManager = new NotificationManager();
             this.context = new AYPContext();
             service = new AgAnahtariService(this.context);
+            kodListeService = new KodListeService(this.context);
+            gucArayuzu = new GucArayuzu();
 
             InitializeComponent();
+            DataContext = gucArayuzu;
+
+            ListAgAnahtari();
+            ListKullanimAmaci();
+            ListGerilimTipi();
         }
 
         private void ButtonAgAnahtariGucArayuzPopupClose_Click(object sender, RoutedEventArgs e)
         {
-            Hide();
+            Close();
             Owner.IsEnabled = true;
             Owner.Effect = null;
         }
 
         private void AgAnahtariGucArayuzKullanimAmaci_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            string kullanimAmaci = (e.AddedItems[0] as ComboBoxItem).Content as string;
-            if (kullanimAmaci == "Çıktı")
+            if (gucArayuzu.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti)
             {
                 ag1.IsEnabled = false; ag1.Opacity = 0.25;
                 ag2.IsEnabled = false; ag2.Opacity = 0.25;
@@ -81,6 +98,63 @@ namespace AYP
                 ag14.IsEnabled = false; ag14.Opacity = 0.25;
                 ag15.IsEnabled = false; ag15.Opacity = 0.25;
                 ag16.IsEnabled = false; ag16.Opacity = 0.25;
+            }
+        }
+
+        private void Save_AgAnahtariGucAarayuzu(object sender, RoutedEventArgs e)
+        {
+            gucArayuzu.TipId = (int)TipEnum.AgAnahtariGucArayuzu;
+
+            var validationContext = new ValidationContext(gucArayuzu, null, null);
+            var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
+
+            if (Validator.TryValidateObject(gucArayuzu, validationContext, results, true))
+            {
+                var response = service.SaveAgAnahtariGucArayuzu(gucArayuzu);
+
+                if (!response.HasError)
+                {
+                    notificationManager.ShowSuccessMessage(response.Message);
+
+                    Close();
+                    Owner.IsEnabled = true;
+                    Owner.Effect = null;
+                }
+                else
+                {
+                    notificationManager.ShowErrorMessage(response.Message);
+                }
+            }
+        }
+
+        private void ListGerilimTipi()
+        {
+            gucArayuzu.GerilimTipiList = kodListeService.ListGerilimTipi();
+            if (gucArayuzu.GerilimTipiList.Count() > 0)
+            {
+                gucArayuzu.GerilimTipiId = gucArayuzu.GerilimTipiList[0].Id;
+            }
+        }
+
+        private void ListKullanimAmaci()
+        {
+            gucArayuzu.KullanimAmaciList = kodListeService.ListKullanimAmaci();
+            if (gucArayuzu.KullanimAmaciList.Count() > 0)
+            {
+                gucArayuzu.KullanimAmaciId = gucArayuzu.KullanimAmaciList[0].Id;
+            }
+        }
+
+        private void ListAgAnahtari()
+        {
+            gucArayuzu.AgAnahtariList = service.ListAgAnahtari();
+            if (gucArayuzu.AgAnahtariList.Count() > 0)
+            {
+                gucArayuzu.AgAnahtariId = gucArayuzu.AgAnahtariList[0].Id;
+            }
+            else
+            {
+                notificationManager.ShowWarningMessage("Lütfen, En Az Bir Ağ Anahtarı Tanımlayınız!");
             }
         }
     }

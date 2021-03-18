@@ -17,60 +17,50 @@
                 <ColumnDefinition Width="10" />
             </Grid.ColumnDefinitions>
 
-            <Label Style="{DynamicResource StyleDescribingGucUreticiMainTitle}" Content="Ağ Anahtarı Güç Arayüz" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Style="{DynamicResource StyleDescribingGucUreticiMainTitle}" Content="Ağ Anahtarı Güç Arayüzü" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <Button Style="{DynamicResource StyleCloseDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,0,0" Click="ButtonAgAnahtariGucArayuzPopupClose_Click" >
                 <Rectangle Fill="{DynamicResource IconClose}"  Height="15" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
             </Button>
 
             <Rectangle Style="{DynamicResource StyleDescribingGucUreticiFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <Label Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Güç Üretici" Grid.Row="0" Grid.Column="1" Margin="0,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <ComboBox Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="200,65,0,10" VerticalAlignment="Top" >
-                <ComboBoxItem Name="Item1AgAnahtariGucArayuz">Item1</ComboBoxItem>
-                <ComboBoxItem Name="Item2AgAnahtariGucArayuz">Item2</ComboBoxItem>
-                <ComboBoxItem Name="Item3AgAnahtariGucArayuz">Item3</ComboBoxItem>
-                <ComboBoxItem Name="Item4AgAnahtariGucArayuz">Item4</ComboBoxItem>
-                <ComboBoxItem Name="Item5AgAnahtariGucArayuz">Item5</ComboBoxItem>
-                <ComboBoxItem Name="Item6AgAnahtariGucArayuz">Item6</ComboBoxItem>
+            <Label Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Ağ Anahtarı" Grid.Row="0" Grid.Column="1" Margin="0,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <ComboBox SelectedValue="{Binding AgAnahtariId}" ItemsSource="{Binding AgAnahtariList}" DisplayMemberPath="Tanim" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="200,65,0,10" VerticalAlignment="Top" >
             </ComboBox>
 
             <Label Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Kullanım Amacı" Grid.Row="0" Grid.Column="1" Margin="0,110,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <ComboBox Name="AgAnahtariGucArayuzKullanimAmaci" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="200,110,0,10" VerticalAlignment="Top" SelectionChanged="AgAnahtariGucArayuzKullanimAmaci_SelectionChanged" >
-                <ComboBoxItem Name="Item7AgAnahtariGucArayuz">Girdi</ComboBoxItem>
-                <ComboBoxItem Name="Item8AgAnahtariGucArayuz">Çıktı</ComboBoxItem>
+            <ComboBox SelectedValue="{Binding KullanimAmaciId}" ItemsSource="{Binding KullanimAmaciList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Name="AgAnahtariGucArayuzKullanimAmaci" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="200,110,0,10" VerticalAlignment="Top" SelectionChanged="AgAnahtariGucArayuzKullanimAmaci_SelectionChanged" >
             </ComboBox>
 
             <Label Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Gerilim Tipi" Grid.Row="0" Grid.Column="1" Margin="0,155,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <ComboBox Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="200,155,0,10" VerticalAlignment="Top" >
-                <ComboBoxItem Name="Item9AgAnahtariGucArayuz">AC</ComboBoxItem>
-                <ComboBoxItem Name="Item10AgAnahtariGucArayuz">DC</ComboBoxItem>
+            <ComboBox  SelectedValue="{Binding GerilimTipiId}" ItemsSource="{Binding GerilimTipiList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="200,155,0,10" VerticalAlignment="Top" >
             </ComboBox>
 
             <Label Name="ag1" Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Girdi Durağan Gerilim Değeri 1" Grid.Row="0" Grid.Column="1" Margin="0,200,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="ag2" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,200,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+            <TextBox Name="ag2" Text="{Binding GirdiDuraganGerilimDegeri1}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,200,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
             <Label Name="ag3" Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Girdi Durağan Gerilim Değeri 2" Grid.Row="0" Grid.Column="1" Margin="0,245,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="ag4" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,245,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+            <TextBox Name="ag4" Text="{Binding GirdiDuraganGerilimDegeri2}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,245,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
             <Label Name="ag5" Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Girdi Durağan Gerilim Değeri 3" Grid.Row="0" Grid.Column="1" Margin="0,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="ag6" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+            <TextBox Name="ag6" Text="{Binding GirdiDuraganGerilimDegeri3}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
             <Label Name="ag7" Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Girdi Minimum Gerilim Değeri" Grid.Row="0" Grid.Column="1" Margin="0,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="ag8" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+            <TextBox Name="ag8" Text="{Binding GirdiMinimumGerilimDegeri}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
             <Label Name="ag9" Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Girdi Maksimum Gerilim Değeri" Grid.Row="0" Grid.Column="1" Margin="0,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="ag10" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+            <TextBox Name="ag10" Text="{Binding GirdiMaksimumGerilimDegeri}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
             <Label Name="ag11" Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Girdi Tükettiği Güç Miktarı" Grid.Row="0" Grid.Column="1" Margin="0,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="ag12" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+            <TextBox Name="ag12" Text="{Binding GirdiTukettigiGucMiktari}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
             <Label Name="ag13" Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Çıktı Durağan Gerilim Değeri" Grid.Row="0" Grid.Column="1" Margin="0,470,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="ag14" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,470,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+            <TextBox Name="ag14" Text="{Binding CiktiDuraganGerilimDegeri}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,470,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
             <Label Name="ag15" Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Çıktı Ürettiği Güç Kapasitesi" Grid.Row="0" Grid.Column="1" Margin="0,515,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="ag16" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,515,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+            <TextBox Name="ag16" Text="{Binding CiktiUrettigiGucKapasitesi}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,515,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
 
-            <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,570,0,10" >
+            <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,570,0,10" Click="Save_AgAnahtariGucAarayuzu">
                 <Grid>
                     <Image Source="Images/save.png" Height="20" Width="25" Margin="2,0,0,0" HorizontalAlignment="Left"/>
                     <TextBlock FontSize="12" HorizontalAlignment="Left" Margin="70,0,0,0">Kaydet</TextBlock>
