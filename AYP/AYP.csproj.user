@@ -126,6 +126,15 @@
     <Page Update="Styles\StyleTextBox.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="AgAnahtariGucArayuzuPopupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="GucUreticiGucArayuzuPopupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UcBirimGucArayuzuPopupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="UcBirimAgArayuzuWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
