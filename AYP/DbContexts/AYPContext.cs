@@ -22,12 +22,20 @@ namespace AYP.DbContext
             }
 
             public DbSet<KL_Tip> KL_Tip { get; set; }
+            public DbSet<KL_FizikselOrtam> KL_FizikselOrtam { get; set; }
+            public DbSet<KL_GerilimTipi> KL_GerilimTipi { get; set; }
+            public DbSet<KL_KullanimAmaci> KL_KullanimAmaci { get; set; }
+            public DbSet<KL_Kapasite> KL_Kapasite { get; set; }
             public DbSet<UcBirimTur> UcBirimTur { get; set; }
             public DbSet<AgAnahtariTur> AgAnahtariTur { get; set; }
             public DbSet<GucUreticiTur> GucUreticiTur { get; set; }
             public DbSet<UcBirim> UcBirim { get; set; }
             public DbSet<AgAnahtari> AgAnahtari { get; set; }
             public DbSet<GucUretici> GucUretici { get; set; }
+            public DbSet<GucArayuzu> GucArayuzu { get; set; }
+            public DbSet<UcBirimGucArayuzu> UcBirimGucArayuzu { get; set; }
+            public DbSet<AgAnahtariGucArayuzu> AgAnahtariGucArayuzu { get; set; }
+            public DbSet<GucUreticiGucArayuzu> GucUreticiGucArayuzu { get; set; }
 
             protected override void OnModelCreating(ModelBuilder modelBuilder)
             {
@@ -40,6 +48,28 @@ namespace AYP.DbContext
                     new KL_Tip() { Ad = "Uç Birim Güç Arayüzü", Id = 6 },
                     new KL_Tip() { Ad = "Ağ Anahtarı Güç Arayüzü", Id = 7 },
                     new KL_Tip() { Ad = "Güç Üretici Güç Arayüzü", Id = 8 }
+                );
+
+                modelBuilder.Entity<KL_GerilimTipi>().HasData(
+                    new KL_GerilimTipi() { Ad = "AC", Id = 1 },
+                    new KL_GerilimTipi() { Ad = "DC", Id = 2 }
+                );
+
+                modelBuilder.Entity<KL_KullanimAmaci>().HasData(
+                    new KL_KullanimAmaci() { Ad = "Girdi", Id = 1 },
+                    new KL_KullanimAmaci() { Ad = "Çıktı", Id = 2 }
+                );
+
+                modelBuilder.Entity<KL_FizikselOrtam>().HasData(
+                    new KL_FizikselOrtam() { Ad = "Bakır", Id = 1 },
+                    new KL_FizikselOrtam() { Ad = "Fiber Optik", Id = 2 }
+                );
+
+                modelBuilder.Entity<KL_Kapasite>().HasData(
+                   new KL_Kapasite() { Ad = "Ethernet", Id = 1 },
+                   new KL_Kapasite() { Ad = "Fast Ethernet", Id = 2 },
+                   new KL_Kapasite() { Ad = "10-Gigabit Ethernet", Id = 3 },
+                   new KL_Kapasite() { Ad = "40-Gigabit Ethernet", Id = 4 }
                 );
             }
 
