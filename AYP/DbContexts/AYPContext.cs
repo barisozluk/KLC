@@ -20,7 +20,7 @@ namespace AYP.DbContext
             protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             {
                 optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["AYPContext"].ConnectionString);
-                //optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-86JLPO4\SQL;Integrated Security=True;Database=AYP");
+                //optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-86JLPO4\SQL;Integrated Security=True;Database=Ayp");
             }
 
             public DbSet<KL_Tip> KL_Tip { get; set; }

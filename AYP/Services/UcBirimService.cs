@@ -63,7 +63,9 @@ namespace AYP.Services
                     dbItem.GirdiAgArayuzuSayisi = ucBirim.GirdiAgArayuzuSayisi;
                     dbItem.GucArayuzuSayisi = ucBirim.GucArayuzuSayisi;
                     dbItem.Katalog = ucBirim.Katalog;
+                    dbItem.KatalogDosyaAdi = ucBirim.KatalogDosyaAdi;
                     dbItem.Sembol = ucBirim.Sembol;
+                    dbItem.SembolDosyaAdi = ucBirim.SembolDosyaAdi;
                     dbItem.StokNo = ucBirim.StokNo;
                     dbItem.Tanim = ucBirim.Tanim;
                     dbItem.TipId = ucBirim.TipId;
@@ -100,6 +102,8 @@ namespace AYP.Services
                     dbItem.GirdiAgArayuzuSayisi = ucBirim.GirdiAgArayuzuSayisi;
                     dbItem.GucArayuzuSayisi = ucBirim.GucArayuzuSayisi;
                     dbItem.Katalog = ucBirim.Katalog;
+                    dbItem.KatalogDosyaAdi = ucBirim.KatalogDosyaAdi;
+                    dbItem.SembolDosyaAdi = ucBirim.SembolDosyaAdi;
                     dbItem.Sembol = ucBirim.Sembol;
                     dbItem.StokNo = ucBirim.StokNo;
                     dbItem.Tanim = ucBirim.Tanim;

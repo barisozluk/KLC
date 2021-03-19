@@ -20,11 +20,6 @@ namespace AYP
     /// </summary>
     public partial class AgAnahtariPopupWindow : Window
     {
-
-        public byte[] selectedKatalogFile = null;
-
-        public byte[] selectedSembolFile = null;
-
         public bool isEditMode = false;
 
         private AYPContext context;
@@ -50,23 +45,30 @@ namespace AYP
             this.notificationManager = new NotificationManager();
             this.context = new AYPContext();
             service = new AgAnahtariService(this.context);
-
-            SetAgAnahtariTurList();
             InitializeComponent();
+            SetAgAnahtariTurList();
             DataContext = agAnahtari;
+
+            if (agAnahtari.AgAnahtariTurList.Count() == 0)
+            {
+                Loaded += (s, e) => ClosePopup();
+            }
         }
 
-        private void ButtonAgAnahtariPopupClose_Click(object sender, RoutedEventArgs e)
+        private void ClosePopup()
         {
             Close();
             Owner.IsEnabled = true;
             Owner.Effect = null;
         }
 
+        private void ButtonAgAnahtariPopupClose_Click(object sender, RoutedEventArgs e)
+        {
+            ClosePopup();
+        }
+
         private void Save_AgAnahtari(object sender, RoutedEventArgs e)
         {
-            agAnahtari.Katalog = this.selectedKatalogFile;
-            agAnahtari.Sembol = this.selectedSembolFile;
             agAnahtari.TipId = (int)TipEnum.AgAnahtari;
 
             var validationContext = new ValidationContext(agAnahtari, null, null);
@@ -90,9 +92,7 @@ namespace AYP
                     notificationManager.ShowSuccessMessage(response.Message);
 
                     (Owner as MainWindow).ListAgAnahtari();
-                    Close();
-                    Owner.IsEnabled = true;
-                    Owner.Effect = null;
+                    ClosePopup();
                 }
                 else
                 {
@@ -145,12 +145,12 @@ namespace AYP
                             GucArayuzuSayisi.BorderBrush = new SolidColorBrush(Colors.Red);
                         }
 
-                        if (memberName == "Katalog")
+                        if (memberName == "Katalog" || memberName == "KatalogDosyaAdi")
                         {
                             Katalog.BorderBrush = new SolidColorBrush(Colors.Red);
                         }
 
-                        if (memberName == "Sembol")
+                        if (memberName == "Sembol" || memberName == "SembolDosyaAdi")
                         {
                             Sembol.BorderBrush = new SolidColorBrush(Colors.Red);
                         }
@@ -166,9 +166,9 @@ namespace AYP
 
             if (openFileDialog.ShowDialog() == true)
             {
-
-                Katalog.Text = Path.GetFileName(openFileDialog.FileName);
-                this.selectedKatalogFile = File.ReadAllBytes(openFileDialog.FileName);
+                agAnahtari.KatalogDosyaAdi = Path.GetFileName(openFileDialog.FileName);
+                Katalog.Text = agAnahtari.KatalogDosyaAdi;
+                agAnahtari.Katalog = File.ReadAllBytes(openFileDialog.FileName);
             }
         }
 
@@ -179,8 +179,9 @@ namespace AYP
 
             if (openFileDialog.ShowDialog() == true)
             {
-                Sembol.Text = Path.GetFileName(openFileDialog.FileName);
-                this.selectedSembolFile = File.ReadAllBytes(openFileDialog.FileName);
+                agAnahtari.SembolDosyaAdi = Path.GetFileName(openFileDialog.FileName);
+                Sembol.Text = agAnahtari.SembolDosyaAdi;
+                agAnahtari.Sembol = File.ReadAllBytes(openFileDialog.FileName);
             }
         }
 

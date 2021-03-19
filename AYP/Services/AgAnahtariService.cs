@@ -64,7 +64,9 @@ namespace AYP.Services
                     dbItem.GirdiAgArayuzuSayisi = agAnahtari.GirdiAgArayuzuSayisi;
                     dbItem.GucArayuzuSayisi = agAnahtari.GucArayuzuSayisi;
                     dbItem.Katalog = agAnahtari.Katalog;
+                    dbItem.KatalogDosyaAdi = agAnahtari.KatalogDosyaAdi;
                     dbItem.Sembol = agAnahtari.Sembol;
+                    dbItem.SembolDosyaAdi = agAnahtari.SembolDosyaAdi;
                     dbItem.StokNo = agAnahtari.StokNo;
                     dbItem.Tanim = agAnahtari.Tanim;
                     dbItem.TipId = agAnahtari.TipId;
@@ -101,7 +103,9 @@ namespace AYP.Services
                     dbItem.GirdiAgArayuzuSayisi = agAnahtari.GirdiAgArayuzuSayisi;
                     dbItem.GucArayuzuSayisi = agAnahtari.GucArayuzuSayisi;
                     dbItem.Katalog = agAnahtari.Katalog;
+                    dbItem.KatalogDosyaAdi = agAnahtari.KatalogDosyaAdi;
                     dbItem.Sembol = agAnahtari.Sembol;
+                    dbItem.SembolDosyaAdi = agAnahtari.SembolDosyaAdi;
                     dbItem.StokNo = agAnahtari.StokNo;
                     dbItem.Tanim = agAnahtari.Tanim;
                     dbItem.AgAnahtariTurId = agAnahtari.AgAnahtariTurId;

@@ -31,7 +31,14 @@ namespace AYP.Entities
         public byte[] Katalog { get; set; }
 
         [Required]
+        public string KatalogDosyaAdi { get; set; }
+
+        [Required]
         public byte[] Sembol { get; set; }
+
+        [Required]
+        public string SembolDosyaAdi { get; set; }
+
 
         [Range(1, int.MaxValue)]
         public int AgAnahtariTurId { get; set; }

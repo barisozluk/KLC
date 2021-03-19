@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AYP.Migrations
 {
     [DbContext(typeof(AYPContext))]
-    [Migration("20210318202132_AgArayuzuEdit")]
-    partial class AgArayuzuEdit
+    [Migration("20210319044905_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,9 +44,17 @@ namespace AYP.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<string>("KatalogDosyaAdi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<byte[]>("Sembol")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("SembolDosyaAdi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StokNo")
                         .IsRequired()
@@ -210,11 +218,16 @@ namespace AYP.Migrations
                     b.Property<int>("KullanimAmaciId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("TipId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("GerilimTipiId");
 
                     b.HasIndex("KullanimAmaciId");
+
+                    b.HasIndex("TipId");
 
                     b.ToTable("GucArayuzu");
                 });
@@ -242,9 +255,17 @@ namespace AYP.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<string>("KatalogDosyaAdi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<byte[]>("Sembol")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("SembolDosyaAdi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StokNo")
                         .IsRequired()
@@ -521,9 +542,17 @@ namespace AYP.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<string>("KatalogDosyaAdi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<byte[]>("Sembol")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("SembolDosyaAdi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StokNo")
                         .IsRequired()
@@ -725,9 +754,15 @@ namespace AYP.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("AYP.Entities.KL_Tip", "KL_Tip")
+                        .WithMany()
+                        .HasForeignKey("TipId");
+
                     b.Navigation("KL_GerilimTipi");
 
                     b.Navigation("KL_KullanimAmaci");
+
+                    b.Navigation("KL_Tip");
                 });
 
             modelBuilder.Entity("AYP.Entities.GucUretici", b =>

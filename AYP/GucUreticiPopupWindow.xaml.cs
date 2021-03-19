@@ -20,8 +20,6 @@ namespace AYP
     /// </summary>
     public partial class GucUreticiPopupWindow : Window
     {
-        public byte[] selectedKatalogFile = null;
-        public byte[] selectedSembolFile = null;
         public bool isEditMode = false;
 
         private AYPContext context;
@@ -47,22 +45,31 @@ namespace AYP
             this.notificationManager = new NotificationManager();
             this.context = new AYPContext();
             service = new GucUreticiService(this.context);
-            SetGucUreticiTurList();
             InitializeComponent();
+            SetGucUreticiTurList();
+
             DataContext = gucUretici;
+
+            if (gucUretici.GucUreticiTurList.Count() == 0)
+            {
+                Loaded += (s, e) => ClosePopup();
+            }
         }
 
-        private void ButtonGucUreticiPopupClose_Click(object sender, RoutedEventArgs e)
+        private void ClosePopup()
         {
             Close();
             Owner.IsEnabled = true;
             Owner.Effect = null;
         }
 
+        private void ButtonGucUreticiPopupClose_Click(object sender, RoutedEventArgs e)
+        {
+            ClosePopup();
+        }
+
         private void Save_GucUretici(object sender, RoutedEventArgs e)
         {
-            gucUretici.Katalog = this.selectedKatalogFile;
-            gucUretici.Sembol = this.selectedSembolFile;
             gucUretici.TipId = (int)TipEnum.GucUretici;
 
             var validationContext = new ValidationContext(gucUretici, null, null);
@@ -86,9 +93,7 @@ namespace AYP
                     notificationManager.ShowSuccessMessage(response.Message);
 
                     (Owner as MainWindow).ListGucUretici();
-                    Close();
-                    Owner.IsEnabled = true;
-                    Owner.Effect = null;
+                    ClosePopup();
                 }
                 else
                 {
@@ -146,12 +151,12 @@ namespace AYP
                             DahiliGucTuketimDegeri.BorderBrush = new SolidColorBrush(Colors.Red);
                         }
 
-                        if (memberName == "Katalog")
+                        if (memberName == "Katalog" || memberName == "KatalogDosyaAdi")
                         {
                             Katalog.BorderBrush = new SolidColorBrush(Colors.Red);
                         }
 
-                        if (memberName == "Sembol")
+                        if (memberName == "Sembol" || memberName == "SembolDosyaAdi")
                         {
                             Sembol.BorderBrush = new SolidColorBrush(Colors.Red);
                         }
@@ -168,8 +173,9 @@ namespace AYP
 
             if (openFileDialog.ShowDialog() == true)
             {
-                Katalog.Text = Path.GetFileName(openFileDialog.FileName);
-                this.selectedKatalogFile = File.ReadAllBytes(openFileDialog.FileName);
+                gucUretici.KatalogDosyaAdi = Path.GetFileName(openFileDialog.FileName);
+                Katalog.Text = gucUretici.KatalogDosyaAdi;
+                gucUretici.Katalog = File.ReadAllBytes(openFileDialog.FileName);
             }
         }
 
@@ -183,8 +189,9 @@ namespace AYP
 
             if (openFileDialog.ShowDialog() == true)
             {
-                Sembol.Text = Path.GetFileName(openFileDialog.FileName);
-                this.selectedSembolFile = File.ReadAllBytes(openFileDialog.FileName);
+                gucUretici.SembolDosyaAdi = Path.GetFileName(openFileDialog.FileName);
+                Sembol.Text = gucUretici.SembolDosyaAdi;
+                gucUretici.Sembol = File.ReadAllBytes(openFileDialog.FileName);
             }
         }
 

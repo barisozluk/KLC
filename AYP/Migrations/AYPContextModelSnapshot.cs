@@ -42,9 +42,17 @@ namespace AYP.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<string>("KatalogDosyaAdi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<byte[]>("Sembol")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("SembolDosyaAdi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StokNo")
                         .IsRequired()
@@ -245,9 +253,17 @@ namespace AYP.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<string>("KatalogDosyaAdi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<byte[]>("Sembol")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("SembolDosyaAdi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StokNo")
                         .IsRequired()
@@ -524,9 +540,17 @@ namespace AYP.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<string>("KatalogDosyaAdi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<byte[]>("Sembol")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("SembolDosyaAdi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StokNo")
                         .IsRequired()

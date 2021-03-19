@@ -98,7 +98,9 @@ namespace AYP.Services
                     dbItem.CiktiGucArayuzuSayisi = gucUretici.CiktiGucArayuzuSayisi;
                     dbItem.GirdiGucArayuzuSayisi = gucUretici.GirdiGucArayuzuSayisi;
                     dbItem.Katalog = gucUretici.Katalog;
+                    dbItem.KatalogDosyaAdi = gucUretici.KatalogDosyaAdi;
                     dbItem.Sembol = gucUretici.Sembol;
+                    dbItem.SembolDosyaAdi = gucUretici.SembolDosyaAdi;
                     dbItem.StokNo = gucUretici.StokNo;
                     dbItem.Tanim = gucUretici.Tanim;
                     dbItem.TipId = gucUretici.TipId;
@@ -136,7 +138,9 @@ namespace AYP.Services
                     dbItem.CiktiGucArayuzuSayisi = gucUretici.CiktiGucArayuzuSayisi;
                     dbItem.GirdiGucArayuzuSayisi = gucUretici.GirdiGucArayuzuSayisi;
                     dbItem.Katalog = gucUretici.Katalog;
+                    dbItem.KatalogDosyaAdi = gucUretici.KatalogDosyaAdi;
                     dbItem.Sembol = gucUretici.Sembol;
+                    dbItem.SembolDosyaAdi = gucUretici.SembolDosyaAdi;
                     dbItem.StokNo = gucUretici.StokNo;
                     dbItem.Tanim = gucUretici.Tanim;
                     dbItem.GucUreticiTurId = gucUretici.GucUreticiTurId;

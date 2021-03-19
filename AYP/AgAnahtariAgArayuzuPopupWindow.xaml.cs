@@ -43,19 +43,29 @@ namespace AYP
             kodListeService = new KodListeService(this.context);
             agArayuzu = new AgArayuzu();
             InitializeComponent();
-            DataContext = agArayuzu;
-
             ListAgAnahtari();
             ListKullanimAmaci();
             ListFizikselOrtam();
             ListKapasite();
+            DataContext = agArayuzu;
+
+            if (agArayuzu.AgAnahtariList.Count() == 0)
+            {
+                Loaded += (s, e) => ClosePopup();
+            }
+
         }
 
-        private void ButtonAgAnahtariAgArayuzuPopupClose_Click(object sender, RoutedEventArgs e)
+        private void ClosePopup()
         {
             Close();
             Owner.IsEnabled = true;
             Owner.Effect = null;
+        }
+
+        private void ButtonAgAnahtariAgArayuzuPopupClose_Click(object sender, RoutedEventArgs e)
+        {
+            ClosePopup();
         }
 
         private void Save_AgAnahtariAgArayuzu(object sender, RoutedEventArgs e)
@@ -72,10 +82,7 @@ namespace AYP
                 if (!response.HasError)
                 {
                     notificationManager.ShowSuccessMessage(response.Message);
-
-                    Close();
-                    Owner.IsEnabled = true;
-                    Owner.Effect = null;
+                    ClosePopup();
                 }
                 else
                 {

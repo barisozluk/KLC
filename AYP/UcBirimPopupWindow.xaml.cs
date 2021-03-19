@@ -28,8 +28,6 @@ namespace AYP
 
         UcBirim ucBirim;
 
-        public byte[] selectedKatalogFile = null;
-        public byte[] selectedSembolFile = null;
         public bool isEditMode = false;
 
         public UcBirimPopupWindow(UcBirim _ucBirim)
@@ -50,22 +48,29 @@ namespace AYP
             this.context = new AYPContext();
             service = new UcBirimService(this.context);
             InitializeComponent();
+            SetUcBirimTurList();
             DataContext = ucBirim;
 
-            SetUcBirimTurList();
+            if (ucBirim.UcBirimTurList.Count() == 0)
+            {
+                Loaded += (s, e) => ClosePopup();
+            }
         }
 
-        private void ButtonUcBirimPopupClose_Click(object sender, RoutedEventArgs e)
+        private void ClosePopup()
         {
             Close();
             Owner.IsEnabled = true;
             Owner.Effect = null;
         }
 
+        private void ButtonUcBirimPopupClose_Click(object sender, RoutedEventArgs e)
+        {
+            ClosePopup();
+        }
+
         private void Save_UcBirim(object sender, RoutedEventArgs e)
         {
-            ucBirim.Katalog = this.selectedKatalogFile;
-            ucBirim.Sembol = this.selectedSembolFile;
             ucBirim.TipId = (int)TipEnum.UcBirim;
 
             var validationContext = new ValidationContext(ucBirim, null, null);
@@ -89,9 +94,7 @@ namespace AYP
                     notificationManager.ShowSuccessMessage(response.Message);
 
                     (Owner as MainWindow).ListUcBirim();
-                    Close();
-                    Owner.IsEnabled = true;
-                    Owner.Effect = null;
+                    ClosePopup();
                 }
                 else
                 {
@@ -144,12 +147,12 @@ namespace AYP
                             GucArayuzuSayisi.BorderBrush = new SolidColorBrush(Colors.Red);
                         }
 
-                        if (memberName == "Katalog")
+                        if (memberName == "Katalog" || memberName == "KatalogDosyaAdi")
                         {
                             Katalog.BorderBrush = new SolidColorBrush(Colors.Red);
                         }
 
-                        if (memberName == "Sembol")
+                        if (memberName == "Sembol" || memberName == "SembolDosyaAdi")
                         {
                             Sembol.BorderBrush = new SolidColorBrush(Colors.Red);
                         }
@@ -166,8 +169,9 @@ namespace AYP
 
             if (openFileDialog.ShowDialog() == true)
             {
-                Katalog.Text = Path.GetFileName(openFileDialog.FileName);
-                this.selectedKatalogFile = File.ReadAllBytes(openFileDialog.FileName);
+                ucBirim.KatalogDosyaAdi = Path.GetFileName(openFileDialog.FileName);
+                Katalog.Text = ucBirim.KatalogDosyaAdi;
+                ucBirim.Katalog = File.ReadAllBytes(openFileDialog.FileName);
             }
         }
 
@@ -181,8 +185,9 @@ namespace AYP
 
             if (openFileDialog.ShowDialog() == true)
             {
-                Sembol.Text = Path.GetFileName(openFileDialog.FileName);
-                this.selectedSembolFile = File.ReadAllBytes(openFileDialog.FileName);
+                ucBirim.SembolDosyaAdi = Path.GetFileName(openFileDialog.FileName);
+                Sembol.Text = ucBirim.SembolDosyaAdi;
+                ucBirim.Sembol = File.ReadAllBytes(openFileDialog.FileName);
             }
         }
 

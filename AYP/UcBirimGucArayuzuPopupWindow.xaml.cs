@@ -44,18 +44,27 @@ namespace AYP
             gucArayuzu = new GucArayuzu();
 
             InitializeComponent();
-            DataContext = gucArayuzu;
-
             ListUcBirim();
             ListKullanimAmaci();
             ListGerilimTipi();
+            DataContext = gucArayuzu;
+
+            if (gucArayuzu.UcBirimList.Count() == 0)
+            {
+                Loaded += (s, e) => ClosePopup();
+            }
         }
 
-        private void ButtonUcBirimGucArayuzPopupClose_Click(object sender, RoutedEventArgs e)
+        private void ClosePopup()
         {
             Close();
             Owner.IsEnabled = true;
             Owner.Effect = null;
+        }
+
+        private void ButtonUcBirimGucArayuzPopupClose_Click(object sender, RoutedEventArgs e)
+        {
+            ClosePopup();
         }
 
         private void UcBirimGucArayuzKullanimAmaci_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -116,10 +125,7 @@ namespace AYP
                 if (!response.HasError)
                 {
                     notificationManager.ShowSuccessMessage(response.Message);
-
-                    Close();
-                    Owner.IsEnabled = true;
-                    Owner.Effect = null;
+                    ClosePopup();
                 }
                 else
                 {

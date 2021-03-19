@@ -112,73 +112,6 @@ namespace AYP.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AgArayuzu",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    KullanimAmaciId = table.Column<int>(type: "int", nullable: false),
-                    FizikselOrtamId = table.Column<int>(type: "int", nullable: false),
-                    KapasiteId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AgArayuzu", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AgArayuzu_KL_FizikselOrtam_FizikselOrtamId",
-                        column: x => x.FizikselOrtamId,
-                        principalTable: "KL_FizikselOrtam",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AgArayuzu_KL_Kapasite_KapasiteId",
-                        column: x => x.KapasiteId,
-                        principalTable: "KL_Kapasite",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AgArayuzu_KL_KullanimAmaci_KullanimAmaciId",
-                        column: x => x.KullanimAmaciId,
-                        principalTable: "KL_KullanimAmaci",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "GucArayuzu",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    KullanimAmaciId = table.Column<int>(type: "int", nullable: false),
-                    GerilimTipiId = table.Column<int>(type: "int", nullable: false),
-                    GirdiDuraganGerilimDegeri1 = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    GirdiDuraganGerilimDegeri2 = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    GirdiDuraganGerilimDegeri3 = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    GirdiMinimumGerilimDegeri = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    GirdiMaksimumGerilimDegeri = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    GirdiTukettigiGucMiktari = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    CiktiDuraganGerilimDegeri = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CiktiUrettigiGucKapasitesi = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GucArayuzu", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_GucArayuzu_KL_GerilimTipi_GerilimTipiId",
-                        column: x => x.GerilimTipiId,
-                        principalTable: "KL_GerilimTipi",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_GucArayuzu_KL_KullanimAmaci_KullanimAmaciId",
-                        column: x => x.KullanimAmaciId,
-                        principalTable: "KL_KullanimAmaci",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AgAnahtari",
                 columns: table => new
                 {
@@ -189,7 +122,9 @@ namespace AYP.Migrations
                     UreticiAdi = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     UreticiParcaNo = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Katalog = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    KatalogDosyaAdi = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Sembol = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    SembolDosyaAdi = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AgAnahtariTurId = table.Column<int>(type: "int", nullable: false),
                     GirdiAgArayuzuSayisi = table.Column<int>(type: "int", nullable: false),
                     CiktiAgArayuzuSayisi = table.Column<int>(type: "int", nullable: false),
@@ -214,6 +149,87 @@ namespace AYP.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AgArayuzu",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    KullanimAmaciId = table.Column<int>(type: "int", nullable: false),
+                    FizikselOrtamId = table.Column<int>(type: "int", nullable: false),
+                    KapasiteId = table.Column<int>(type: "int", nullable: false),
+                    TipId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AgArayuzu", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AgArayuzu_KL_FizikselOrtam_FizikselOrtamId",
+                        column: x => x.FizikselOrtamId,
+                        principalTable: "KL_FizikselOrtam",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AgArayuzu_KL_Kapasite_KapasiteId",
+                        column: x => x.KapasiteId,
+                        principalTable: "KL_Kapasite",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AgArayuzu_KL_KullanimAmaci_KullanimAmaciId",
+                        column: x => x.KullanimAmaciId,
+                        principalTable: "KL_KullanimAmaci",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AgArayuzu_KL_Tip_TipId",
+                        column: x => x.TipId,
+                        principalTable: "KL_Tip",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GucArayuzu",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    KullanimAmaciId = table.Column<int>(type: "int", nullable: false),
+                    GerilimTipiId = table.Column<int>(type: "int", nullable: false),
+                    TipId = table.Column<int>(type: "int", nullable: true),
+                    GirdiDuraganGerilimDegeri1 = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    GirdiDuraganGerilimDegeri2 = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    GirdiDuraganGerilimDegeri3 = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    GirdiMinimumGerilimDegeri = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    GirdiMaksimumGerilimDegeri = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    GirdiTukettigiGucMiktari = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CiktiDuraganGerilimDegeri = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CiktiUrettigiGucKapasitesi = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GucArayuzu", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GucArayuzu_KL_GerilimTipi_GerilimTipiId",
+                        column: x => x.GerilimTipiId,
+                        principalTable: "KL_GerilimTipi",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_GucArayuzu_KL_KullanimAmaci_KullanimAmaciId",
+                        column: x => x.KullanimAmaciId,
+                        principalTable: "KL_KullanimAmaci",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_GucArayuzu_KL_Tip_TipId",
+                        column: x => x.TipId,
+                        principalTable: "KL_Tip",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "GucUretici",
                 columns: table => new
                 {
@@ -224,7 +240,9 @@ namespace AYP.Migrations
                     UreticiAdi = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     UreticiParcaNo = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Katalog = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    KatalogDosyaAdi = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Sembol = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    SembolDosyaAdi = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     GucUreticiTurId = table.Column<int>(type: "int", nullable: false),
                     GirdiGucArayuzuSayisi = table.Column<int>(type: "int", nullable: false),
                     CiktiGucArayuzuSayisi = table.Column<int>(type: "int", nullable: false),
@@ -260,7 +278,9 @@ namespace AYP.Migrations
                     UreticiAdi = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     UreticiParcaNo = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Katalog = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    KatalogDosyaAdi = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Sembol = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    SembolDosyaAdi = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UcBirimTurId = table.Column<int>(type: "int", nullable: false),
                     GirdiAgArayuzuSayisi = table.Column<int>(type: "int", nullable: false),
                     CiktiAgArayuzuSayisi = table.Column<int>(type: "int", nullable: false),
@@ -513,6 +533,11 @@ namespace AYP.Migrations
                 column: "KullanimAmaciId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AgArayuzu_TipId",
+                table: "AgArayuzu",
+                column: "TipId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_GucArayuzu_GerilimTipiId",
                 table: "GucArayuzu",
                 column: "GerilimTipiId");
@@ -521,6 +546,11 @@ namespace AYP.Migrations
                 name: "IX_GucArayuzu_KullanimAmaciId",
                 table: "GucArayuzu",
                 column: "KullanimAmaciId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GucArayuzu_TipId",
+                table: "GucArayuzu",
+                column: "TipId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_GucUretici_GucUreticiTurId",
