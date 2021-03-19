@@ -4,10 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AYP"
+        xmlns:converters="clr-namespace:AYP.Helpers.Converters"
         mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterScreen" Topmost="True"
         Title="GucUreticiGucArayuzuPopupWindow" Height="620" Width="480" Background="Transparent">
-    <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">
 
+    <Window.Resources>
+        <converters:NumberEmptyConverter x:Key="NumberEmptyConverter" />
+    </Window.Resources>
+
+    <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="620"/>
@@ -37,28 +42,28 @@
             </ComboBox>
 
             <Label Name="g1" Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Girdi Durağan Gerilim Değeri 1" Grid.Row="0" Grid.Column="1" Margin="0,200,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="g2" Text="{Binding GirdiDuraganGerilimDegeri1}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,200,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+            <TextBox Name="g2" PreviewTextInput="DecimalValidationTextBox" Text="{Binding GirdiDuraganGerilimDegeri1, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,200,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
             <Label Name="g3" Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Girdi Durağan Gerilim Değeri 2" Grid.Row="0" Grid.Column="1" Margin="0,245,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="g4" Text="{Binding GirdiDuraganGerilimDegeri2}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,245,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+            <TextBox Name="g4" PreviewTextInput="DecimalValidationTextBox" Text="{Binding GirdiDuraganGerilimDegeri2, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,245,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
             <Label Name="g5" Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Girdi Durağan Gerilim Değeri 3" Grid.Row="0" Grid.Column="1" Margin="0,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="g6" Text="{Binding GirdiDuraganGerilimDegeri3}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+            <TextBox Name="g6" PreviewTextInput="DecimalValidationTextBox" Text="{Binding GirdiDuraganGerilimDegeri3, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
             <Label Name="g7" Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Girdi Minimum Gerilim Değeri" Grid.Row="0" Grid.Column="1" Margin="0,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="g8" Text="{Binding GirdiMinimumGerilimDegeri}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+            <TextBox Name="g8" PreviewTextInput="DecimalValidationTextBox" Text="{Binding GirdiMinimumGerilimDegeri, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
             <Label Name="g9" Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Girdi Maksimum Gerilim Değeri" Grid.Row="0" Grid.Column="1" Margin="0,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="g10" Text="{Binding GirdiMaksimumGerilimDegeri}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+            <TextBox Name="g10" PreviewTextInput="DecimalValidationTextBox" Text="{Binding GirdiMaksimumGerilimDegeri, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
             <Label Name="g11" Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Girdi Tükettiği Güç Miktarı" Grid.Row="0" Grid.Column="1" Margin="0,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="g12" Text="{Binding GirdiTukettigiGucMiktari}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+            <TextBox Name="g12" PreviewTextInput="DecimalValidationTextBox" Text="{Binding GirdiTukettigiGucMiktari, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
             <Label Name="g13" Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Çıktı Durağan Gerilim Değeri" Grid.Row="0" Grid.Column="1" Margin="0,470,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <TextBox Name="g14" Text="{Binding CiktiDuraganGerilimDegeri}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,470,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
             <Label Name="g15" Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Çıktı Ürettiği Güç Kapasitesi" Grid.Row="0" Grid.Column="1" Margin="0,515,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="g16" Text="{Binding CiktiUrettigiGucKapasitesi}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,515,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+            <TextBox Name="g16" PreviewTextInput="DecimalValidationTextBox" Text="{Binding CiktiUrettigiGucKapasitesi, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,515,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
 
             <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,570,0,10" Click="Save_GucUreticiGucAarayuzu">

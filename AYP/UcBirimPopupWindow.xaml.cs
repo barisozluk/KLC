@@ -10,7 +10,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace AYP
@@ -208,6 +210,12 @@ namespace AYP
             {
                 notificationManager.ShowWarningMessage("Lütfen, En Az Bir Uç Birim Türü Tanımlayınız!");
             }
+        }
+
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
         }
     }
 }

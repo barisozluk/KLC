@@ -162,5 +162,45 @@ namespace AYP
                 notificationManager.ShowWarningMessage("Lütfen, En Az Bir Ağ Anahtarı Tanımlayınız!");
             }
         }
+
+        private void DecimalValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            var textBox = (TextBox)sender;
+
+            foreach (char ch in e.Text)
+            {
+                if (!Char.IsDigit(ch))
+                {
+                    if (ch.Equals('.') || ch.Equals(','))
+                    {
+                        int seperatorCount = textBox.Text.Where(t => t.Equals('.') || t.Equals(',')).Count();
+
+                        if (seperatorCount < 1)
+                        {
+                            if (textBox.Text.Length > 0)
+                            {
+                                e.Handled = false;
+                            }
+                            else
+                            {
+                                e.Handled = true;
+                            }
+                        }
+                        else
+                        {
+                            e.Handled = true;
+                        }
+                    }
+                    else
+                    {
+                        e.Handled = true;
+                    }
+                }
+                else
+                {
+                    e.Handled = false;
+                }
+            }
+        }
     }
 }

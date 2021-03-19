@@ -6,11 +6,15 @@ using AYP.Interfaces;
 using AYP.Models;
 using AYP.Services;
 using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace AYP
@@ -210,6 +214,52 @@ namespace AYP
             else
             {
                 notificationManager.ShowWarningMessage("Lütfen, En Az Bir Güç Üretici Türü Tanımlayınız!");
+            }
+        }
+
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void DecimalValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            var textBox = (TextBox)sender;
+
+            foreach (char ch in e.Text)
+            {
+                if (!Char.IsDigit(ch))
+                {
+                    if (ch.Equals('.') || ch.Equals(','))
+                    {
+                        int seperatorCount = textBox.Text.Where(t => t.Equals('.') || t.Equals(',')).Count();
+
+                        if (seperatorCount < 1)
+                        {
+                            if (textBox.Text.Length > 0)
+                            {
+                                e.Handled = false;
+                            }
+                            else
+                            {
+                                e.Handled = true;
+                            }
+                        }
+                        else
+                        {
+                            e.Handled = true;
+                        }
+                    }
+                    else
+                    {
+                        e.Handled = true;
+                    }
+                }
+                else
+                {
+                    e.Handled = false;
+                }
             }
         }
     }

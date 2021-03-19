@@ -4,8 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AYP"
+        xmlns:converters="clr-namespace:AYP.Helpers.Converters"
         mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterScreen" Topmost="True"
         Title="AgAnahtariPopupWindow" Height="575" Width="460" Background="Transparent">
+
+    <Window.Resources>
+        <converters:NumberEmptyConverter x:Key="NumberEmptyConverter" />
+    </Window.Resources>
+    
     <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid.RowDefinitions>
@@ -39,13 +45,13 @@
             <TextBox Name="UreticiParcaNo" Text="{Binding UreticiParcaNo}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,245,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Girdi Ağ Arayüzü Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="GirdiAgArayuzuSayisi" Text="{Binding GirdiAgArayuzuSayisi}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+            <TextBox Name="GirdiAgArayuzuSayisi" PreviewTextInput="NumberValidationTextBox" Text="{Binding GirdiAgArayuzuSayisi, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Çıktı Ağ Arayüzü Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="CiktiAgArayuzuSayisi" Text="{Binding CiktiAgArayuzuSayisi}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+            <TextBox Name="CiktiAgArayuzuSayisi" PreviewTextInput="NumberValidationTextBox" Text="{Binding CiktiAgArayuzuSayisi, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Güç Arayüzü Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="GucArayuzuSayisi" Text="{Binding GucArayuzuSayisi}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+            <TextBox Name="GucArayuzuSayisi" PreviewTextInput="NumberValidationTextBox" Text="{Binding GucArayuzuSayisi, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Katalog" Grid.Row="0" Grid.Column="1" Margin="0,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
             <TextBox Name="Katalog" Text="{Binding KatalogDosyaAdi}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" ></TextBox>

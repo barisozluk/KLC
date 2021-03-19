@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:AYP"
         mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterScreen" Topmost="True"
         Title="UcBirimAgArayuzuWindow" Height="305" Width="460" Background="Transparent">
+
     <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid.RowDefinitions>
