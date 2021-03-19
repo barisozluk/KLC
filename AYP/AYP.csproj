@@ -103,6 +103,9 @@
     <Compile Update="AgAnahtariGucArayuzuPopupWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="WithoutSavePopupWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="GucUreticiGucArayuzuPopupWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -112,6 +115,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="WithoutSavePopupWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Icons\Icons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
