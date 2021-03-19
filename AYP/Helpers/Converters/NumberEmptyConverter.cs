@@ -46,7 +46,7 @@ namespace AYP.Helpers.Converters
         {
             int response = 0;
 
-            if (string.IsNullOrEmpty(value.ToString()))
+            if (!string.IsNullOrEmpty(value.ToString()))
             {
                 response = System.Convert.ToInt32(value.ToString());
             }

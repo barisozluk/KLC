@@ -27,7 +27,6 @@ namespace AYP
         public bool toggleRight = true;
         public bool toggleLeft = true;
         public bool isClose = false;
-        public string version = "0.0.7;
 
         public int selectedTipId = 0;
         UcBirim selectedUcBirim;

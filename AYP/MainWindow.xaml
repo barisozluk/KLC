@@ -540,7 +540,7 @@
                         <ColumnDefinition Width="10" />
                     </Grid.ColumnDefinitions>
 
-                    <Label Style="{DynamicResource StyleDescribingMainTitle}" Content="Versiyon : 0.0.6" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Label Style="{DynamicResource StyleDescribingMainTitle}" Content="Versiyon : 0.0.7" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,65,0,10" Click="VersiyonPopupClose_Click" >
                         <Grid>
                             <Image Source="Images/check.png" Height="20" Width="20" Margin="7,0,0,0" HorizontalAlignment="Left"/>
