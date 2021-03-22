@@ -15,6 +15,7 @@
     <None Remove="Images\copy.png" />
     <None Remove="Images\cut.png" />
     <None Remove="Images\edit.png" />
+    <None Remove="Images\file.png" />
     <None Remove="Images\group.png" />
     <None Remove="Images\leftAlign.png" />
     <None Remove="Images\middleAlign.png" />
@@ -72,6 +73,7 @@
     <Resource Include="Images\copy.png" />
     <Resource Include="Images\cut.png" />
     <Resource Include="Images\edit.png" />
+    <Resource Include="Images\file.png" />
     <Resource Include="Images\group.png" />
     <Resource Include="Images\leftAlign.png" />
     <Resource Include="Images\rightAlign.png" />
@@ -112,6 +114,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="DbConnectionErrorPopupWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="SettingsPopupWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Icons\Icons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

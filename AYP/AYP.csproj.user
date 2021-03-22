@@ -48,6 +48,12 @@
     <Page Update="AgAnahtariTurPopupWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="DbConnectionErrorPopupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="SettingsPopupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="GucUreticiPopupWindow.xaml">
       <SubType>Designer</SubType>
     </Page>

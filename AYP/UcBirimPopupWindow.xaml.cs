@@ -6,10 +6,12 @@ using AYP.Interfaces;
 using AYP.Models;
 using AYP.Services;
 using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
@@ -52,6 +54,15 @@ namespace AYP
             InitializeComponent();
             SetUcBirimTurList();
             DataContext = ucBirim;
+
+            if(isEditMode)
+            {
+                DownloadButton.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                DownloadButton.Visibility = Visibility.Hidden;
+            }
 
             if (ucBirim.UcBirimTurList.Count() == 0)
             {
@@ -217,5 +228,29 @@ namespace AYP
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
         }
+
+        private void BtnDownloadKatalogFile_Click(object sender, RoutedEventArgs e)
+        {
+            using (var fbd = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                System.Windows.Forms.DialogResult result = fbd.ShowDialog();
+
+                if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                {
+                    string path = fbd.SelectedPath + "\\" + ucBirim.KatalogDosyaAdi;
+
+                    try
+                    {
+                        File.WriteAllBytes(path, ucBirim.Katalog);
+                        notificationManager.ShowSuccessMessage("İşlem Başarı ile Gerçekleştirildi.");
+                    }
+                    catch (Exception exception)
+                    {
+                        notificationManager.ShowErrorMessage("İşlem Başarısız Oldu.");
+                    }
+                }
+            }
+        }
+
     }
 }

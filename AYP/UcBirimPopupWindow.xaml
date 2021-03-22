@@ -7,11 +7,11 @@
         xmlns:converters="clr-namespace:AYP.Helpers.Converters"
         mc:Ignorable="d"  AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterScreen" Topmost="True"
         Title="UcBirimPopupWindow" Height="575" Width="460" Background="Transparent">
-    
+
     <Window.Resources>
         <converters:NumberEmptyConverter x:Key="NumberEmptyConverter" />
     </Window.Resources>
-    
+
     <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid.RowDefinitions>
@@ -54,15 +54,19 @@
             <TextBox Name="GucArayuzuSayisi" PreviewTextInput="NumberValidationTextBox" Text="{Binding GucArayuzuSayisi, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Katalog" Grid.Row="0" Grid.Column="1" Margin="0,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <TextBox Name="Katalog" Text="{Binding KatalogDosyaAdi}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" ></TextBox>
+            <TextBox Name="Katalog" Text="{Binding KatalogDosyaAdi}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" IsReadOnly="True"  ></TextBox>
             <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#222d35" Margin="340,425,0,10" Height="35" Width="80" Click="BtnOpenKatalogFile_Click">
                 <Grid>
                     <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="0,0,0,0">Seçiniz</TextBlock>
                 </Grid>
             </Button>
 
+            <Button ToolTip="İndir" Visibility="Hidden" Name="DownloadButton" Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#222d35" Margin="135,425,0,10" Height="35" Width="35" Click="BtnDownloadKatalogFile_Click">
+                <Image Source="Images/file.png" Width="20" Height="20" Margin="-6"></Image>
+            </Button>
+
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Sembol" Grid.Row="0" Grid.Column="1" Margin="0,470,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <TextBox Name="Sembol" Text="{Binding SembolDosyaAdi}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,470,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" ></TextBox>
+            <TextBox Name="Sembol" Text="{Binding SembolDosyaAdi}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,470,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" IsReadOnly="True"  ></TextBox>
             <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#222d35" Margin="340,470,0,10" Height="35" Width="80" Click="BtnOpenSembolFile_Click">
                 <Grid>
                     <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="0,0,0,0">Seçiniz</TextBlock>

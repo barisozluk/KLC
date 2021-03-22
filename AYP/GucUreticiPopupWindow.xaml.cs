@@ -54,6 +54,15 @@ namespace AYP
 
             DataContext = gucUretici;
 
+            if (isEditMode)
+            {
+                DownloadButton.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                DownloadButton.Visibility = Visibility.Hidden;
+            }
+
             if (gucUretici.GucUreticiTurList.Count() == 0)
             {
                 Loaded += (s, e) => ClosePopup();
@@ -259,6 +268,29 @@ namespace AYP
                 else
                 {
                     e.Handled = false;
+                }
+            }
+        }
+
+        private void BtnDownloadKatalogFile_Click(object sender, RoutedEventArgs e)
+        {
+            using (var fbd = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                System.Windows.Forms.DialogResult result = fbd.ShowDialog();
+
+                if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                {
+                    string path = fbd.SelectedPath + "\\" + gucUretici.KatalogDosyaAdi;
+
+                    try
+                    {
+                        File.WriteAllBytes(path, gucUretici.Katalog);
+                        notificationManager.ShowSuccessMessage("İşlem Başarı ile Gerçekleştirildi.");
+                    }
+                    catch (Exception exception)
+                    {
+                        notificationManager.ShowErrorMessage("İşlem Başarısız Oldu.");
+                    }
                 }
             }
         }

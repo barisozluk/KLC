@@ -487,46 +487,15 @@ namespace AYP
 
         #endregion
 
-        #region DescribingPopupEvents
-
-        private void ButtonClose_Click(object sender, RoutedEventArgs e)
-        {
-            this.DescribingClosePopup.IsOpen = true;
-            this.IsEnabled = false;
-            this.Effect = new System.Windows.Media.Effects.BlurEffect();
-        }
-
-        private void ButtonClosePopupClose_Click(object sender, RoutedEventArgs e)
-        {
-            this.DescribingClosePopup.IsOpen = false;
-            IsEnabled = true;
-        }
-        #endregion
-
-        #region ClosingConfirmationPopupEvents
-        private void CloseConfirm(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
-
-        private void CloseDeny(object sender, RoutedEventArgs e)
-        {
-            this.DescribingClosePopup.IsOpen = false;
-            IsEnabled = true;
-        }
-        #endregion
-
         #region SettingsPopupEvents
         private void Versiyon_Click(object sender, RoutedEventArgs e)
         {
-            this.VersiyonPopup.IsOpen = true;
             this.IsEnabled = false;
-        }
+            this.Effect = new System.Windows.Media.Effects.BlurEffect();
 
-        private void VersiyonPopupClose_Click(object sender, RoutedEventArgs e)
-        {
-            this.VersiyonPopup.IsOpen = false;
-            IsEnabled = true;
+            SettingsPopupWindow popup = new SettingsPopupWindow();
+            popup.Owner = this;
+            popup.ShowDialog();
         }
         #endregion
 
@@ -534,14 +503,6 @@ namespace AYP
         private void MinimizeButtonClick(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
-        }
-        #endregion
-
-        #region CloseAppEvent
-        private void CloseButtonClick(object sender, RoutedEventArgs e)
-        {
-
-            Application.Current.Shutdown();
         }
         #endregion
 
@@ -638,6 +599,18 @@ namespace AYP
             }
         }
 
+        #endregion
+
+        #region CloseAppPopupEvent
+        private void ButtonClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.IsEnabled = false;
+            this.Effect = new System.Windows.Media.Effects.BlurEffect();
+
+            CloseAppPopupWindow popup = new CloseAppPopupWindow();
+            popup.Owner = this;
+            popup.ShowDialog();
+        }
         #endregion
     }
 }

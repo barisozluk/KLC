@@ -64,6 +64,10 @@
                 </Grid>
             </Button>
 
+            <Button ToolTip="İndir" Visibility="Hidden" Name="DownloadButton" Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#222d35" Margin="155,470,0,10" Height="35" Width="35" Click="BtnDownloadKatalogFile_Click">
+                <Image Source="Images/file.png" Width="20" Height="20" Margin="-6"></Image>
+            </Button>
+            
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Sembol" Grid.Row="0" Grid.Column="1" Margin="0,515,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
             <TextBox Name="Sembol" Text="{Binding SembolDosyaAdi}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,515,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" ></TextBox>
             <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#222d35" Margin="360,515,0,10" Height="35" Width="80" Click="BtnOpenSembolFile_Click">
