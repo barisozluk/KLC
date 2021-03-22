@@ -105,6 +105,9 @@
     <Compile Update="AgAnahtariGucArayuzuPopupWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="WithoutSavePopupWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="GucUreticiGucArayuzuPopupWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -114,6 +117,7 @@
   </ItemGroup>
 
   <ItemGroup>
+<<<<<<< HEAD
     <Page Update="DbConnectionErrorPopupWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
@@ -121,6 +125,12 @@
     <Page Update="SettingsPopupWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
+=======
+    <Page Update="WithoutSavePopupWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+>>>>>>> 5c1e5d3628d7150405f3a7d12b00626c2469c62a
     <Page Update="Icons\Icons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

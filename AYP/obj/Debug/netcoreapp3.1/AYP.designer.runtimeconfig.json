@@ -7,7 +7,8 @@
     },
     "additionalProbingPaths": [
       "C:\\Users\\KLC\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\KLC\\.nuget\\packages",
+      "C:\\Users\\goktu\\.nuget\\packages",
+      "C:\\Microsoft\\Xamarin\\NuGet",
       "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
     ],
     "configProperties": {
