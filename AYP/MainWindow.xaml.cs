@@ -27,6 +27,7 @@ namespace AYP
         public bool toggleRight = true;
         public bool toggleLeft = true;
         public bool isClose = false;
+        public int midColSize ;
 
         public int selectedTipId = 0;
         UcBirim selectedUcBirim;
@@ -59,6 +60,7 @@ namespace AYP
         {
             InitializeComponent();
             ViewModel = new MainWindowViewModel(this.NodesCanvas.ViewModel);
+            ViewModel.NodesCanvas.mainWindow = this;
             SetupSubscriptions();
             SetupBinding();
             SetupEvents();
@@ -138,6 +140,8 @@ namespace AYP
 
                 //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandExit, x => x.BindingExit).DisposeWith(disposable);
                 //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandExit, x => x.ItemExit).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandAlignLeft, x => x.ButtonAlignLeft).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandAlignRight, x => x.ButtonAlignRight).DisposeWith(disposable);
 
             });
         }

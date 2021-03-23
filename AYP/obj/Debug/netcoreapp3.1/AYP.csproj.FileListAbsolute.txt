@@ -189,14 +189,12 @@ C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\AYP.csproj.Fody.Co
 C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\AYP.csproj.CopyComplete
 C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\AYP.dll
 C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\AYP.genruntimeconfig.cache
-<<<<<<< HEAD
 C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\CloseAppPopupWindow.g.cs
 C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\CloseAppPopupWindow.baml
 C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\SettingsPopupWindow.g.cs
 C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\SettingsPopupWindow.baml
 C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\DbConnectionErrorPopupWindow.g.cs
 C:\Users\KLC\Desktop\Projects\AYP\AYP\obj\Debug\netcoreapp3.1\DbConnectionErrorPopupWindow.baml
-=======
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\bin\Debug\netcoreapp3.1\AYP.exe
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\bin\Debug\netcoreapp3.1\AYP.dll.config
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\bin\Debug\netcoreapp3.1\AYP.deps.json
@@ -390,4 +388,9 @@ C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\AYP.pdb
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\AYP.genruntimeconfig.cache
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\WithoutSavePopupWindow.g.cs
 C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\WithoutSavePopupWindow.baml
->>>>>>> 5c1e5d3628d7150405f3a7d12b00626c2469c62a
+C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\CloseAppPopupWindow.g.cs
+C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\DbConnectionErrorPopupWindow.g.cs
+C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\SettingsPopupWindow.g.cs
+C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\CloseAppPopupWindow.baml
+C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\DbConnectionErrorPopupWindow.baml
+C:\Users\goktu\OneDrive\Desktop\Bites\KLC\AYP\obj\Debug\netcoreapp3.1\SettingsPopupWindow.baml

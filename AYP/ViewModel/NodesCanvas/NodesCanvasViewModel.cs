@@ -48,6 +48,7 @@ namespace AYP.ViewModel
         [Reactive] public bool WithoutMessages { get; set; }
         [Reactive] public Themes Theme { get; set; }
         [Reactive] public NodeCanvasClickMode ClickMode { get; set; } = NodeCanvasClickMode.Default;
+        [Reactive] public MainWindow mainWindow { get; set; }
 
 
         static Dictionary<Themes, string> themesPaths = new Dictionary<Themes, string>()
@@ -60,6 +61,8 @@ namespace AYP.ViewModel
         public int TransitionsCount = 0;
         public double ScaleMax = 5;
         public double ScaleMin = 0.2;
+
+
         public double ScaleStep { get; set; } = 1.2;
         public Point ScaleCenter { get; set; }
 
