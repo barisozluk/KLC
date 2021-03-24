@@ -41,6 +41,7 @@ namespace AYP.View
         {
             InitializeComponent();
             SetupBinding();
+            SetupEvents();
         }
 
         #region SetupBinding
@@ -65,6 +66,7 @@ namespace AYP.View
                 //this.OneWayBind(this.ViewModel, x => x.FromConnector.NodesCanvas.Scale.Value, x => x.PathElement.StrokeThickness).DisposeWith(disposable);
 
                 this.WhenAnyValue(x => x.ViewModel.ToConnector).Where(x=>x!=null).Subscribe(_ => UpdateZindex()).DisposeWith(disposable);
+            
             });
         }
 
@@ -76,5 +78,27 @@ namespace AYP.View
             Canvas.SetZIndex((UIElement)this.VisualParent, Math.Min(toIndex, fromIndex));
         }
         #endregion SetupBinding
+
+        #region SetupEvents
+        private void SetupEvents()
+        {
+            this.WhenActivated(disposable =>
+            {
+                this.ViewModel.WhenAnyValue(x => x.IsVisible).Subscribe(value => OnEventVisible(value)).DisposeWith(disposable);
+            });
+        }
+
+        private void OnEventVisible(bool isVisible)
+        {
+            if (!isVisible)
+            {
+                this.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                this.Visibility = Visibility.Visible;
+            }
+        }
+        #endregion
     }
 }

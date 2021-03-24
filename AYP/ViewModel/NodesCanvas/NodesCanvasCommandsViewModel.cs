@@ -17,11 +17,19 @@ using Splat;
 using System.Drawing.Drawing2D;
 using System.Windows.Media;
 using Matrix = System.Windows.Media.Matrix;
+using AYP.ViewModel.Node;
+using Newtonsoft.Json;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace AYP.ViewModel
 {
     public partial class NodesCanvasViewModel
     {
+        private List<NodeViewModel> NodeClipboard;
+        private List<ConnectorViewModel> TransitionClipboard;
+
+
         #region commands without parameter
         public ReactiveCommand<Unit, Unit> CommandNew { get; set; }
         public ReactiveCommand<Unit, Unit> CommandRedo { get; set; }
@@ -47,6 +55,9 @@ namespace AYP.ViewModel
         public ReactiveCommand<Unit, Unit> CommandExit { get; set; }
 
         public ReactiveCommand<Unit, Unit> CommandChangeTheme { get; set; }
+        public ReactiveCommand<Unit, Unit> CommandCopy { get; set; }
+        public ReactiveCommand<Unit, Unit> CommandPaste { get; set; }
+
 
         #endregion commands without parameter
 
@@ -74,7 +85,7 @@ namespace AYP.ViewModel
         public Command<ConnectorViewModel, ConnectorViewModel> CommandAddConnectorWithConnect { get; set; }
         public Command<Point, List<NodeViewModel>> CommandFullMoveAllNode { get; set; }
         public Command<Point, List<NodeViewModel>> CommandFullMoveAllSelectedNode { get; set; }
-        public Command<Point, NodeViewModel> CommandAddNodeWithUndoRedo { get; set; }
+        public Command<ExternalNode, NodeViewModel> CommandAddNodeWithUndoRedo { get; set; }
         public Command<List<NodeViewModel>, ElementsForDelete> CommandDeleteSelectedNodes { get; set; }
         public Command<List<ConnectorViewModel>, List<(int index, ConnectorViewModel element)>> CommandDeleteSelectedConnectors { get; set; }
         public Command<DeleteMode, DeleteMode> CommandDeleteSelectedElements { get; set; }
@@ -135,12 +146,18 @@ namespace AYP.ViewModel
             CommandFullMoveAllNode = new Command<Point, List<NodeViewModel>>(FullMoveAllNode, UnFullMoveAllNode, NotSaved);
             CommandFullMoveAllSelectedNode = new Command<Point, List<NodeViewModel>>(FullMoveAllSelectedNode, UnFullMoveAllSelectedNode, NotSaved);
             CommandAddConnectorWithConnect = new Command<ConnectorViewModel, ConnectorViewModel>(AddConnectorWithConnect, DeleteConnectorWithConnect, NotSaved);
-            CommandAddNodeWithUndoRedo = new Command<Point, NodeViewModel>(AddNodeWithUndoRedo, DeleteNodetWithUndoRedo, NotSaved);
+            CommandAddNodeWithUndoRedo = new Command<ExternalNode, NodeViewModel>(AddNodeWithUndoRedo, DeleteNodetWithUndoRedo, NotSaved);
              CommandDeleteSelectedNodes = new Command<List<NodeViewModel>, ElementsForDelete>(DeleteSelectedNodes, UnDeleteSelectedNodes, NotSaved);
             CommandDeleteSelectedConnectors = new Command<List<ConnectorViewModel>, List<(int index, ConnectorViewModel connector)>>(DeleteSelectedConnectors, UnDeleteSelectedConnectors, NotSaved);
             CommandDeleteSelectedElements = new Command<DeleteMode, DeleteMode>(DeleteSelectedElements, UnDeleteSelectedElements);
             CommandChangeNodeName = new Command<(NodeViewModel node, string newName), (NodeViewModel node, string oldName)>(ChangeNodeName, UnChangeNodeName);
             CommandChangeConnectName = new Command<(ConnectorViewModel connector, string newName), (ConnectorViewModel connector, string oldName)>(ChangeConnectName, UnChangeConnectName);
+
+            NodeClipboard = new List<NodeViewModel>();
+            TransitionClipboard = new List<ConnectorViewModel>();
+
+            CommandCopy = ReactiveCommand.Create(CopyToClipboard);
+            CommandPaste = ReactiveCommand.Create(Paste);
 
             NotSavedSubscrube();
         }
@@ -202,6 +219,61 @@ namespace AYP.ViewModel
         //    LoadIcons();
         //    Theme = theme;
         //}
+
+        private void CopyToClipboard()
+        {
+            NodeClipboard.Clear();
+            TransitionClipboard.Clear();
+
+            var copiedNodeList = new List<NodeViewModel>();
+            var copiedTransitionList = new List<ConnectorViewModel>();
+
+            foreach (var node in this.Nodes.Items.Where(x => x.Selected))
+            {
+                copiedNodeList.Add(node);
+            }
+
+            foreach (var node in this.Nodes.Items.Where(x => x.Selected))
+            {
+                foreach(var transition in node.Transitions.Items.Where(x => x.Selected))
+                {
+                    copiedTransitionList.Add(transition);
+                }
+            }
+
+            NodeClipboard.AddRange(copiedNodeList);
+            TransitionClipboard.AddRange(copiedTransitionList);
+
+        }
+
+        private void Paste()
+        {
+            var i = NodesCount;
+
+            foreach (var node in NodeClipboard)
+            {
+                var point = new Point(node.Point1.X + 15, node.Point1.Y + 15);
+                var name = "Cihaz " + i.ToString();
+
+                var newNode = new NodeViewModel(this, name, point, node.Id, node.TypeId);
+                Nodes.Add(newNode);
+                i = i + 1;
+            }
+
+            //var j = TransitionsCount;
+
+            //foreach (var transition in TransitionClipboard)
+            //{
+            //    var point = new Point(transition.PositionConnectPoint.X + 15, transition.PositionConnectPoint.Y + 15);
+            //    var name = "Transition " + j.ToString();
+
+            //    var newTransition = new ConnectorViewModel(this, transition.Node, name, point);
+            //    newTransition.Node.CommandAddConnectorWithConnect.ExecuteWithSubscribe((1, newTransition));
+
+            //    j = j + 1;
+            //}
+        }
+
         private void LoadIcons()
         {
             string path = @"Icons\Icons.xaml";
@@ -730,15 +802,14 @@ namespace AYP.ViewModel
             nodes.ForEach(node => node.CommandMove.ExecuteWithSubscribe(myPoint));
             return nodes;
         }
-        private NodeViewModel AddNodeWithUndoRedo(Point parameter, NodeViewModel result)
+
+        private NodeViewModel AddNodeWithUndoRedo(ExternalNode parameter, NodeViewModel result)
         {
             NodeViewModel newNode = result;
             if (result == null)
             {
-                //MyPoint myPoint = parameter.Copy();
-                //myPoint /= Scale.Value;
-                //newNode = new ViewModelNode(this, GetNameForNewNode(), parameter.Division(Scale.Value));
-                newNode = new NodeViewModel(this, GetNameForNewNode(), parameter);
+                string name = GetNameForNewNode();
+                newNode = new NodeViewModel(this, name, parameter.Point, parameter.Node.Id, parameter.Node.TypeId);
             }
             else
             {
@@ -748,12 +819,13 @@ namespace AYP.ViewModel
             LogDebug("Node with name \"{0}\" was added", newNode.Name);
             return newNode;
         }
-        private NodeViewModel DeleteNodetWithUndoRedo(Point parameter, NodeViewModel result)
+        private NodeViewModel DeleteNodetWithUndoRedo(ExternalNode parameter, NodeViewModel result)
         {
             Nodes.Remove(result);
             LogDebug("Node with name \"{0}\" was removed", result.Name);
             return result;
         }
+
         private ConnectorViewModel AddConnectorWithConnect(ConnectorViewModel parameter, ConnectorViewModel result)
         {
             if (result == null)

@@ -16,6 +16,9 @@ using AYP.Entities;
 using AYP.Enums;
 using Microsoft.Win32;
 using System.Collections.Generic;
+using AYP.View;
+using AYP.ViewModel.Node;
+using AYP.Helpers.Notifications;
 
 namespace AYP
 {
@@ -24,6 +27,9 @@ namespace AYP
     /// </summary>
     public partial class MainWindow : Window, IViewFor<MainWindowViewModel>
     {
+        private bool agWorkspaceSeciliMi = true;
+        private bool gucWorkspaceSeciliMi = true;
+
         public bool toggleRight = true;
         public bool toggleLeft = true;
         public bool isClose = false;
@@ -52,17 +58,20 @@ namespace AYP
         private readonly IUcBirimService ucBirimService;
         private readonly IAgAnahtariService agAnahtariService;
         private readonly IGucUreticiService gucUreticiService;
-
+        private NotificationManager notificationManager;
         private readonly AYPContext context;
 
         public MainWindow()
         {
             InitializeComponent();
             ViewModel = new MainWindowViewModel(this.NodesCanvas.ViewModel);
+            ViewModel.NodesCanvas.MainWindow = this;
+
             SetupSubscriptions();
             SetupBinding();
             SetupEvents();
 
+            this.notificationManager = new NotificationManager();
             context = new AYPContext();
             ucBirimService = new UcBirimService(context);
             agAnahtariService = new AgAnahtariService(context);
@@ -138,6 +147,8 @@ namespace AYP
 
                 //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandExit, x => x.BindingExit).DisposeWith(disposable);
                 //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandExit, x => x.ItemExit).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandCopy, x => x.ButtonCopy).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandPaste, x => x.ButtonPaste).DisposeWith(disposable);
 
             });
         }
@@ -371,11 +382,13 @@ namespace AYP
 
         private void ButtonUcBirim_Click(object sender, RoutedEventArgs e)
         {
+            bool fromNode = false;
+
             this.DescribingMenuPopup.IsOpen = false;
             this.IsEnabled = false;
             this.Effect = new System.Windows.Media.Effects.BlurEffect();
 
-            UcBirimPopupWindow popup = new UcBirimPopupWindow(null);
+            UcBirimPopupWindow popup = new UcBirimPopupWindow(null, fromNode);
             popup.Owner = this;
             popup.ShowDialog();
         }
@@ -418,11 +431,13 @@ namespace AYP
 
         private void ButtonAgAnahtari_Click(object sender, RoutedEventArgs e)
         {
+            bool fromNode = false;
+
             this.DescribingMenuPopup.IsOpen = false;
             this.IsEnabled = false;
             this.Effect = new System.Windows.Media.Effects.BlurEffect();
 
-            AgAnahtariPopupWindow popup = new AgAnahtariPopupWindow(null);
+            AgAnahtariPopupWindow popup = new AgAnahtariPopupWindow(null, fromNode);
             popup.Owner = this;
             popup.ShowDialog();
         }
@@ -465,11 +480,13 @@ namespace AYP
 
         private void ButtonGucUretici_Click(object sender, RoutedEventArgs e)
         {
+            bool fromNode = false;
+
             this.DescribingMenuPopup.IsOpen = false;
             this.IsEnabled = false;
             this.Effect = new System.Windows.Media.Effects.BlurEffect();
 
-            GucUreticiPopupWindow popup = new GucUreticiPopupWindow(null);
+            GucUreticiPopupWindow popup = new GucUreticiPopupWindow(null, fromNode);
             popup.Owner = this;
             popup.ShowDialog();
         }
@@ -570,12 +587,14 @@ namespace AYP
 
         private void BilgiKartiDetay_Click(object sender, RoutedEventArgs e)
         {
+            bool fromNode = false;
+
             if(selectedTipId == (int)TipEnum.UcBirim)
             {
                 this.IsEnabled = false;
                 this.Effect = new System.Windows.Media.Effects.BlurEffect();
 
-                UcBirimPopupWindow popup = new UcBirimPopupWindow(selectedUcBirim);
+                UcBirimPopupWindow popup = new UcBirimPopupWindow(selectedUcBirim, fromNode);
                 popup.Owner = this;
                 popup.ShowDialog();
             }
@@ -584,7 +603,7 @@ namespace AYP
                 this.IsEnabled = false;
                 this.Effect = new System.Windows.Media.Effects.BlurEffect();
 
-                AgAnahtariPopupWindow popup = new AgAnahtariPopupWindow(selectedAgAnahtari);
+                AgAnahtariPopupWindow popup = new AgAnahtariPopupWindow(selectedAgAnahtari, fromNode);
                 popup.Owner = this;
                 popup.ShowDialog();
             }
@@ -593,12 +612,11 @@ namespace AYP
                 this.IsEnabled = false;
                 this.Effect = new System.Windows.Media.Effects.BlurEffect();
 
-                GucUreticiPopupWindow popup = new GucUreticiPopupWindow(selectedGucUretici);
+                GucUreticiPopupWindow popup = new GucUreticiPopupWindow(selectedGucUretici, fromNode);
                 popup.Owner = this;
                 popup.ShowDialog();
             }
         }
-
         #endregion
 
         #region CloseAppPopupEvent
@@ -610,6 +628,198 @@ namespace AYP
             CloseAppPopupWindow popup = new CloseAppPopupWindow();
             popup.Owner = this;
             popup.ShowDialog();
+        }
+        #endregion
+
+        #region Drag/Drop Events
+        Button ClickedElement = null;
+        bool IsDragDropEvent = false;
+        private void cihaz_MouseLeftButtonDown(object sender, MouseEventArgs e)
+        {
+            if (!e.Source.Equals(sender))
+            {
+                IsDragDropEvent = true;
+                ClickedElement = (Button)sender;
+                DragDrop.DoDragDrop(sender as DependencyObject, ClickedElement, DragDropEffects.Move);
+
+                e.Handled = true;
+            }
+        }
+
+        private void target_Drop(object sender, DragEventArgs e)
+        {
+            if (IsDragDropEvent)
+            {
+                Point droppedpoint = e.GetPosition(sender as NodesCanvas);
+                this.NodesCanvas.PositionMove = droppedpoint;
+                var dataCxtx = ClickedElement.DataContext;
+                var type = dataCxtx.GetType();
+                
+                NodeViewModel model = new NodeViewModel();
+                if (type.Name == "UcBirim")
+                {
+                    var ucBirim = (UcBirim)dataCxtx;
+                    model.Id = ucBirim.Id;
+                    model.TypeId = ucBirim.TipId;
+                }
+                else if (type.Name == "AgAnahtari")
+                {
+                    var agAnahtari = (AgAnahtari)dataCxtx;
+                    model.Id = agAnahtari.Id;
+                    model.TypeId = agAnahtari.TipId;
+                }
+                else if (type.Name == "GucUretici")
+                {
+                    var gucUretici = (GucUretici)dataCxtx;
+                    model.Id = gucUretici.Id;
+                    model.TypeId = gucUretici.TipId;
+                }
+
+                if(model.TypeId == (int)TipEnum.AgAnahtari || model.TypeId == (int)TipEnum.UcBirim)
+                {
+                    if(agWorkspaceSeciliMi)
+                    {
+                        ExternalNode data = new ExternalNode();
+                        data.Node = model;
+                        data.Point = NodesCanvas.PositionMove;
+                        this.NodesCanvas.ViewModel.CommandAddNodeWithUndoRedo.Execute(data);
+                    }
+                    else
+                    {
+                        notificationManager.ShowWarningMessage("Şu an Güç Planlama üzerine çalışmaktasınız, Uç Birim veya Ağ Anahtarı ekleyemezsiniz!");
+                    }
+                }
+                else
+                {
+                    if (gucWorkspaceSeciliMi)
+                    {
+                        ExternalNode data = new ExternalNode();
+                        data.Node = model;
+                        data.Point = NodesCanvas.PositionMove;
+                        this.NodesCanvas.ViewModel.CommandAddNodeWithUndoRedo.Execute(data);
+                    }
+                    else
+                    {
+                        notificationManager.ShowWarningMessage("Şu an Ağ Planlama üzerine çalışmaktasınız, Güç Üretici ekleyemezsiniz!");
+                    }
+
+                }
+
+                IsDragDropEvent = false;
+            }
+
+            e.Handled = true;
+        }
+        #endregion
+
+        #region WorkspaceEvents
+        private void AgPlanlama_Checked(object sender, RoutedEventArgs e)
+        {
+            agWorkspaceSeciliMi = true;
+            ShowAgComponents();
+        }
+
+        private void AgPlanlama_Unchecked(object sender, RoutedEventArgs e)
+        {
+            agWorkspaceSeciliMi = false;
+            HideAgComponents();
+        }
+
+        private void GucPlanlama_Checked(object sender, RoutedEventArgs e)
+        {
+            gucWorkspaceSeciliMi = true;
+            ShowGucComponents();
+        }
+
+        private void GucPlanlama_Unchecked(object sender, RoutedEventArgs e)
+        {
+            gucWorkspaceSeciliMi = false;
+            HideGucComponents();
+        }
+
+        private void ShowGucComponents()
+        {
+            if (this.ViewModel != null)
+            {
+                var nodes = this.ViewModel.NodesCanvas.Nodes.Items;
+
+                foreach (var node in nodes)
+                {
+                    if (node.TypeId == (int)TipEnum.GucUretici)
+                    {
+                        //Node visible true
+                        foreach (var connect in node.NodesCanvas.Connects.ToList())
+                        {
+                            connect.IsVisible = true;
+                        }
+                        node.IsVisible = true;
+                    }
+                }
+            }
+        }
+
+        private void HideGucComponents()
+        {
+            if (this.ViewModel != null)
+            {
+                var nodes = this.ViewModel.NodesCanvas.Nodes.Items;
+
+                foreach (var node in nodes)
+                {
+                    if (node.TypeId == (int)TipEnum.GucUretici)
+                    {
+                        //Node visible false
+                        foreach (var connect in node.NodesCanvas.Connects.ToList())
+                        {
+                            connect.IsVisible = false;
+                        }
+                        node.IsVisible = false;
+                    }
+                }
+            }
+        }
+
+        private void ShowAgComponents()
+        {
+            if (this.ViewModel != null)
+            {
+                var nodes = this.ViewModel.NodesCanvas.Nodes.Items;
+
+                foreach (var node in nodes)
+                {
+                    if (node.TypeId != (int)TipEnum.GucUretici)
+                    {
+                        //Node visible true
+                        foreach (var connect in node.NodesCanvas.Connects.ToList())
+                        {
+                            connect.IsVisible = true;
+                        }
+                        node.IsVisible = true;
+                    }
+                }
+            }
+        }
+
+        private void HideAgComponents()
+        {
+            if (this.ViewModel != null)
+            {
+                var nodes = this.ViewModel.NodesCanvas.Nodes.Items;
+
+                foreach (var node in nodes)
+                {
+                    if (node.TypeId != (int)TipEnum.GucUretici)
+                    {
+                        //Node visible false
+
+                        foreach (var connect in node.NodesCanvas.Connects.ToList())
+                        {
+                            connect.IsVisible = false;
+                        }
+                        node.IsVisible = false;
+                    }
+                }
+            }
         }
         #endregion
     }

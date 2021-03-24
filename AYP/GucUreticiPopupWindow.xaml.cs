@@ -33,7 +33,7 @@ namespace AYP
         private NotificationManager notificationManager;
 
         GucUretici gucUretici;
-        public GucUreticiPopupWindow(GucUretici _gucUretici)
+        public GucUreticiPopupWindow(GucUretici _gucUretici, bool fromNode)
         {
             if(_gucUretici != null)
             {
@@ -61,6 +61,21 @@ namespace AYP
             else
             {
                 DownloadButton.Visibility = Visibility.Hidden;
+            }
+
+            if(fromNode)
+            {
+                GirdiGucArayuzuSayisi.IsEnabled = false;
+                GirdiGucArayuzuSayisi.Opacity = 0.25;
+                CiktiGucArayuzuSayisi.IsEnabled = false;
+                CiktiGucArayuzuSayisi.Opacity = 0.25;
+            }
+            else
+            {
+                GirdiGucArayuzuSayisi.IsEnabled = true;
+                GirdiGucArayuzuSayisi.Opacity = 1;
+                CiktiGucArayuzuSayisi.IsEnabled = true;
+                CiktiGucArayuzuSayisi.Opacity = 1;
             }
 
             if (gucUretici.GucUreticiTurList.Count() == 0)

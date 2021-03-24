@@ -32,7 +32,7 @@ namespace AYP
         AgAnahtari agAnahtari;
 
         private NotificationManager notificationManager;
-        public AgAnahtariPopupWindow(AgAnahtari _agAnahtari)
+        public AgAnahtariPopupWindow(AgAnahtari _agAnahtari, bool fromNode)
         {
             if(_agAnahtari != null)
             {
@@ -59,6 +59,25 @@ namespace AYP
             else
             {
                 DownloadButton.Visibility = Visibility.Hidden;
+            }
+
+            if (fromNode)
+            {
+                GirdiAgArayuzuSayisi.IsEnabled = false;
+                GirdiAgArayuzuSayisi.Opacity = 0.25;
+                CiktiAgArayuzuSayisi.IsEnabled = false;
+                CiktiAgArayuzuSayisi.Opacity = 0.25;
+                GucArayuzuSayisi.IsEnabled = false;
+                GucArayuzuSayisi.Opacity = 0.25;
+            }
+            else
+            {
+                GirdiAgArayuzuSayisi.IsEnabled = true;
+                GirdiAgArayuzuSayisi.Opacity = 1;
+                CiktiAgArayuzuSayisi.IsEnabled = true;
+                CiktiAgArayuzuSayisi.Opacity = 1;
+                GucArayuzuSayisi.IsEnabled = true;
+                GucArayuzuSayisi.Opacity = 1;
             }
 
             if (agAnahtari.AgAnahtariTurList.Count() == 0)

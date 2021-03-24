@@ -21,6 +21,10 @@ using AYP.Helpers.Transformations;
 using AYP.Helpers.Enums;
 using AYP.Helpers.Extensions;
 using System.Collections.Generic;
+using AYP.Enums;
+using AYP.Interfaces;
+using AYP.Services;
+using AYP.DbContext.AYP.DbContexts;
 
 namespace AYP.View
 {
@@ -108,12 +112,59 @@ namespace AYP.View
                 this.Events().MouseDown.Subscribe(e => OnEventMouseDown(e)).DisposeWith(disposable);
                 this.Events().MouseUp.Subscribe(e => OnEventMouseUp(e)).DisposeWith(disposable);
                 this.Events().MouseMove.Subscribe(e => OnMouseMove(e)).DisposeWith(disposable);
+                this.Events().MouseDoubleClick.Subscribe(e => OnMouseDoubleClicked(e)).DisposeWith(disposable);
 
                 this.NodeHeaderElement.ButtonCollapse.Events().Click.Subscribe(_ => ViewModel.IsCollapse=!ViewModel.IsCollapse).DisposeWith(disposable);
                 this.NodeHeaderElement.Events().LostFocus.Subscribe(e => Validate(e)).DisposeWith(disposable);
                 this.ViewModel.WhenAnyValue(x=>x.IsCollapse).Subscribe(value=> OnEventCollapse(value)).DisposeWith(disposable);
+                this.ViewModel.WhenAnyValue(x => x.IsVisible).Subscribe(value => OnEventVisible(value)).DisposeWith(disposable);
+
             });
         }
+
+        private void OnMouseDoubleClicked(MouseButtonEventArgs e)
+        {
+            this.ViewModel.Selected = true;
+
+            using (AYPContext context = new AYPContext())
+            {
+                bool fromNode = true;
+                MainWindow mainWindow = this.ViewModel.NodesCanvas.MainWindow;
+                mainWindow.IsEnabled = false;
+                mainWindow.Effect = new System.Windows.Media.Effects.BlurEffect();
+
+                if (this.ViewModel.TypeId == (int)TipEnum.UcBirim)
+                {
+                    IUcBirimService ucBirimService = new UcBirimService(context);
+                    var selectedUcBirim = ucBirimService.GetUcBirimById(this.ViewModel.Id);
+                    
+                    UcBirimPopupWindow popup = new UcBirimPopupWindow(selectedUcBirim, fromNode);
+                    popup.Owner = mainWindow;
+                    popup.ShowDialog();
+                }
+                else if (this.ViewModel.TypeId == (int)TipEnum.AgAnahtari)
+                {
+                    IAgAnahtariService agAnahtariService = new AgAnahtariService(context);
+                    var selectedAgAnahtari = agAnahtariService.GetAgAnahtariById(this.ViewModel.Id);
+
+                    AgAnahtariPopupWindow popup = new AgAnahtariPopupWindow(selectedAgAnahtari, fromNode);
+                    popup.Owner = mainWindow;
+                    popup.ShowDialog();
+                }
+                else if (this.ViewModel.TypeId == (int)TipEnum.GucUretici)
+                {
+                    IGucUreticiService gucUreticiService = new GucUreticiService(context);
+                    var selectedGucUretici = gucUreticiService.GetGucUreticiById(this.ViewModel.Id);
+
+                    GucUreticiPopupWindow popup = new GucUreticiPopupWindow(selectedGucUretici, fromNode);
+                    popup.Owner = mainWindow;
+                    popup.ShowDialog();
+                }
+            }
+
+            e.Handled = true;
+        }
+
         private void OnEventMouseOver(bool value)
         {
             if (this.ViewModel.Selected != true)
@@ -159,6 +210,20 @@ namespace AYP.View
         {
             this.NodeHeaderElement.ButtonRotate.Angle = isCollapse ? 180 : 0;
         }
+
+        private void OnEventVisible(bool isVisible)
+        {
+            if (!isVisible)
+            {
+                this.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                this.Visibility = Visibility.Visible;
+            }
+        }
+        
+
         #endregion Setup Events
 
     }

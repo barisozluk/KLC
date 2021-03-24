@@ -30,6 +30,7 @@ namespace AYP.ViewModel
         [Reactive] public DoubleCollection StrokeDashArray { get; set; } = new DoubleCollection() { 10, 3 };
 
         [Reactive] public double StrokeThickness { get; set; } = 1;
+        [Reactive] public bool IsVisible { get; set; } = true;
 
         private IDisposable subscriptionOnConnectorPositionChange;
         private IDisposable subscriptionOnOutputPositionChange;

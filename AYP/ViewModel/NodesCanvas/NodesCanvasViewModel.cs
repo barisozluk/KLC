@@ -48,7 +48,7 @@ namespace AYP.ViewModel
         [Reactive] public bool WithoutMessages { get; set; }
         [Reactive] public Themes Theme { get; set; }
         [Reactive] public NodeCanvasClickMode ClickMode { get; set; } = NodeCanvasClickMode.Default;
-
+        [Reactive] public MainWindow MainWindow { get; set; }
 
         static Dictionary<Themes, string> themesPaths = new Dictionary<Themes, string>()
         {

@@ -43,7 +43,7 @@ namespace AYP.View
             set { ViewModel = (NodesCanvasViewModel)value; }
         }
         #endregion ViewModel
-        private Point PositionMove { get; set; }
+        public Point PositionMove { get; set; }
 
         private Point SumMove { get; set; }
         private TypeMove Move { get; set; } = TypeMove.None;

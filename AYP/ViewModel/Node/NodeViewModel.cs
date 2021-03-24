@@ -29,6 +29,8 @@ namespace AYP.ViewModel
         [Reactive] public bool? RollUpVisible { get; set; } = true;
         [Reactive] public bool CanBeDelete { get; set; } = true;
         [Reactive] public bool IsCollapse { get; set; }
+        [Reactive] public bool IsVisible { get; set; } = true;
+
         [Reactive] public ConnectorViewModel Input { get; set; }
         [Reactive] public ConnectorViewModel Output { get; set; }
         [Reactive] public ConnectorViewModel CurrentConnector { get; set; }
@@ -36,24 +38,29 @@ namespace AYP.ViewModel
         [Reactive] public int IndexStartSelectConnectors { get; set; } = 0;
 
         [Reactive] public double HeaderWidth { get; set; } = 80;
+        [Reactive] public int Id { get; set; }
+        [Reactive] public int TypeId { get; set; }
 
         public SourceList<ConnectorViewModel> Transitions { get; set; } = new SourceList<ConnectorViewModel>();
         public ObservableCollectionExtended<ConnectorViewModel> TransitionsForView = new ObservableCollectionExtended<ConnectorViewModel>();
         public int Zindex { get; private set; }
 
-        private NodeViewModel()
+        public NodeViewModel()
         {
             SetupCommands();
             SetupBinding();
         }
 
 
-        public NodeViewModel(NodesCanvasViewModel nodesCanvas, string name, Point point = default(Point))
+        public NodeViewModel(NodesCanvasViewModel nodesCanvas, string name, Point point = default(Point), int id = default(int), int typeId = default(int))
         {
             NodesCanvas = nodesCanvas;
             Name = name;
             Zindex = nodesCanvas.Nodes.Count;
             Point1 = point;
+            Id = id;
+            TypeId = typeId;
+
             Transitions.Connect().ObserveOnDispatcher().Bind(TransitionsForView).Subscribe();
             SetupConnectors();
 
@@ -87,7 +94,7 @@ namespace AYP.ViewModel
         #region Connectors
         private void SetupConnectors()
         {
-            Input = new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 30));
+            Input = new ConnectorViewModel(NodesCanvas, this, "Input", Point1.Addition(0, 30));
             Output = new ConnectorViewModel(NodesCanvas, this, "Output", Point1.Addition(80, 54))
             {
                 Visible = null

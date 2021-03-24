@@ -20,8 +20,8 @@
             <ColumnDefinition x:Name="MiddleColumn" Width="1106"/>
             <ColumnDefinition Width="10"/>
             <ColumnDefinition x:Name="RightColumn" Width="362"/>
-            
         </Grid.ColumnDefinitions>
+
         <view:Dialog x:Name="Dialog"></view:Dialog>
 
         <Image Source="Images\kck-logo.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
@@ -113,7 +113,14 @@
         <Rectangle Style="{DynamicResource StyleLeftPanel}" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top"/>
         <Rectangle x:Name="midRec" Style="{DynamicResource StyleMainPanel}" Grid.Column="3" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="1106"/>
         <Rectangle Style="{DynamicResource StyleMainPanel}" Grid.Column="3" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="1106"/>
-        <view:NodesCanvas x:Name="NodesCanvas" Grid.Row="1" Grid.Column="3" Margin="0,0,0,28" />
+        <view:NodesCanvas x:Name="NodesCanvas" Grid.Row="1" Grid.Column="3" Margin="0,35,0,28" AllowDrop="True" Drop="target_Drop"/>
+
+        <Grid Height="35" Grid.Column="3" Grid.Row="1" VerticalAlignment="Top">
+            <Border Background="#222d35" CornerRadius="4,4,0,0" />
+
+            <CheckBox Content="Ağ Planlama" Foreground="White" Margin="10,10,0,0" IsChecked="True" Checked="AgPlanlama_Checked" Unchecked="AgPlanlama_Unchecked"/>
+            <CheckBox Content="Güç Planlama" Foreground="White" Margin="105,10,0,0" IsChecked="True" Checked="GucPlanlama_Checked" Unchecked="GucPlanlama_Unchecked"/>
+        </Grid>
 
         <Rectangle Style="{DynamicResource StyleRight1Panel}" Grid.Column="5" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" />
         <Rectangle Style="{DynamicResource StyleRight2Panel}" Grid.Column="5" HorizontalAlignment="Left" Margin="0,495,0,0" Grid.Row="1" VerticalAlignment="Top"/>
@@ -169,7 +176,7 @@
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Button Background="Transparent" Style="{DynamicResource StyleCloseDescribingButton}" Width="100" Height="100" Tag="{Binding Id}" Click="UcBirim_Click">
+                                        <Button Background="Transparent" Style="{DynamicResource StyleCloseDescribingButton}" Width="100" Height="100" Tag="{Binding Id}" PreviewMouseDown="cihaz_MouseLeftButtonDown" Click="UcBirim_Click">
                                             <Image Height="40" Width="40" Margin="25" Source="{Binding SembolSrc}" />
                                         </Button>
                                     </DataTemplate>
@@ -187,7 +194,7 @@
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Button Background="Transparent" Style="{DynamicResource StyleCloseDescribingButton}" Width="100" Height="100" Tag="{Binding Id}" Click="AgAnahtari_Click">
+                                        <Button Background="Transparent" Style="{DynamicResource StyleCloseDescribingButton}" Width="100" Height="100" Tag="{Binding Id}" PreviewMouseDown="cihaz_MouseLeftButtonDown" Click="AgAnahtari_Click">
                                             <Image Height="40" Width="40" Margin="25" Source="{Binding SembolSrc}" />
                                         </Button>
                                     </DataTemplate>
@@ -205,7 +212,7 @@
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Button Background="Transparent" Style="{DynamicResource StyleCloseDescribingButton}" Width="100" Height="100" Tag="{Binding Id}" Click="GucUretici_Click">
+                                        <Button Background="Transparent" Style="{DynamicResource StyleCloseDescribingButton}" Width="100" Height="100" Tag="{Binding Id}" PreviewMouseDown="cihaz_MouseLeftButtonDown" Click="GucUretici_Click">
                                             <Image Height="40" Width="40" Margin="25" Source="{Binding SembolSrc}" />
                                         </Button>
                                     </DataTemplate>
