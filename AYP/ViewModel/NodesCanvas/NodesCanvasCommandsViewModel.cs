@@ -257,42 +257,63 @@ namespace AYP.ViewModel
 
         private void Paste()
         {
+            var temp = new List<NodeViewModel>();
+
             foreach (var node in NodeClipboard)
             {
-                var point = new Point(node.Point1.X + 15, node.Point1.Y + 15);
-                var name = "";
+                var nodePoint = new Point(node.Point1.X + 15, node.Point1.Y + 15);
                 if(node.TypeId == (int)TipEnum.UcBirim)
                 {
                     UcBirimCount++;
-                    name = "Uç Birim " + UcBirimCount.ToString();
                 }
                 else if (node.TypeId == (int)TipEnum.AgAnahtari)
                 {
                     AgAnahtariCount++;
-                    name = "Ağ Anahtarı " + AgAnahtariCount.ToString();
                 }
                 else if (node.TypeId == (int)TipEnum.GucUretici)
                 {
                     GucUreticiCount++;
-                    name = "Güç Üretici " + GucUreticiCount.ToString();
                 }
 
-                var newNode = new NodeViewModel(this, name, point, node.Id, node.TypeId);
+                var newNode = new NodeViewModel(this, GetNameForNewNode(node.TypeId), node.UniqueId, nodePoint, node.Id, node.TypeId);
                 Nodes.Add(newNode);
+                LogDebug("Node with name \"{0}\" was copied", GetNameForNewNode(node.TypeId));
+
+                temp.Add(newNode);
             }
 
-            //var j = TransitionsCount;
+            foreach (var node in NodeClipboard)
+            {
+                if (node.Transitions.Items.Count() > 0)
+                {
+                    var j = TransitionsCount;
 
-            //foreach (var transition in TransitionClipboard)
-            //{
-            //    var point = new Point(transition.PositionConnectPoint.X + 15, transition.PositionConnectPoint.Y + 15);
-            //    var name = "Transition " + j.ToString();
+                    foreach (var transition in node.Transitions.Items)
+                    {
+                        if (TransitionClipboard.Contains(transition))
+                        {
+                            var fromNode = temp.Where(x => x.UniqueId == transition.Connect.FromConnector.Node.UniqueId).FirstOrDefault();
+                            var toNode = temp.Where(x => x.UniqueId == transition.Connect.ToConnector.Node.UniqueId).FirstOrDefault();
 
-            //    var newTransition = new ConnectorViewModel(this, transition.Node, name, point);
-            //    newTransition.Node.CommandAddConnectorWithConnect.ExecuteWithSubscribe((1, newTransition));
+                            var fromConnectorPoint = new Point(transition.Connect.FromConnector.PositionConnectPoint.X + 15, transition.Connect.FromConnector.PositionConnectPoint.Y + 15);
+                            var fromConnectorName = "Transition #" + j.ToString();
+                            var fromConnector = new ConnectorViewModel(this, fromNode, fromConnectorName, fromConnectorPoint);
+                            
+                            var toConnectorPoint = new Point(transition.Connect.ToConnector.PositionConnectPoint.X + 15, transition.Connect.ToConnector.PositionConnectPoint.Y + 15);
+                            var toConnectorName = "Input";
+                            var toConnector = new ConnectorViewModel(this, toNode, toConnectorName, toConnectorPoint);
 
-            //    j = j + 1;
-            //}
+                            var connect = new ConnectViewModel(this, fromConnector);
+                            connect.ToConnector = toConnector;
+                            fromConnector.Connect = connect;
+                            fromConnector.Node.CommandAddConnectorWithConnect.ExecuteWithSubscribe((1, fromConnector));
+                            LogDebug("Transition with name \"{0}\" was copied", fromConnectorName);
+
+                            j = j + 1;
+                        }
+                    }
+                }
+            }
         }
 
         private void LoadIcons()
@@ -329,15 +350,15 @@ namespace AYP.ViewModel
             string name = "";
             if(typeId == (int)TipEnum.UcBirim)
             {
-                name = "Uç Birim " + UcBirimCount;
+                name = "Uç Birim #" + UcBirimCount;
             }
             else if (typeId == (int)TipEnum.AgAnahtari)
             {
-                name = "Ağ Anahtarı " + AgAnahtariCount; 
+                name = "Ağ Anahtarı #" + AgAnahtariCount; 
             }
             if (typeId == (int)TipEnum.GucUretici)
             {
-                name = "Güç Üretici " + GucUreticiCount;
+                name = "Güç Üretici #" + GucUreticiCount;
             }
 
             return name;
@@ -924,21 +945,18 @@ namespace AYP.ViewModel
                 if (parameter.Node.TypeId == (int)TipEnum.UcBirim)
                 {
                     UcBirimCount++;
-                    name = GetNameForNewNode(parameter.Node.TypeId);
                 }
                 else if (parameter.Node.TypeId == (int)TipEnum.AgAnahtari)
                 {
                     AgAnahtariCount++;
-                    name = GetNameForNewNode(parameter.Node.TypeId);
                 }
                 else if (parameter.Node.TypeId == (int)TipEnum.GucUretici)
                 {
                     GucUreticiCount++;
-                    name = GetNameForNewNode(parameter.Node.TypeId);
                 }
 
                 
-                newNode = new NodeViewModel(this, name, parameter.Point, parameter.Node.Id, parameter.Node.TypeId);
+                newNode = new NodeViewModel(this, GetNameForNewNode(parameter.Node.TypeId), Guid.NewGuid(), parameter.Point, parameter.Node.Id, parameter.Node.TypeId);
             }
             else
             {

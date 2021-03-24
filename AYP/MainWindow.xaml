@@ -274,6 +274,8 @@
         <KeyBinding x:Name="BindingExit"    Gesture="Alt+F4"/>
         <KeyBinding x:Name="BindingExportToJPEG"   Gesture="Ctrl+Shift+Alt+J"/>
         <KeyBinding x:Name="BindingExportToPNG"   Gesture="Ctrl+Shift+Alt+P"/>
+        <KeyBinding x:Name="BindingCopy"   Gesture="Ctrl+C"/>
+        <KeyBinding x:Name="BindingPaste"   Gesture="Ctrl+V"/>
     </Window.InputBindings>
     
 </Window>

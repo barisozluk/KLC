@@ -40,6 +40,7 @@ namespace AYP.ViewModel
         [Reactive] public double HeaderWidth { get; set; } = 80;
         [Reactive] public int Id { get; set; }
         [Reactive] public int TypeId { get; set; }
+        [Reactive] public Guid UniqueId { get; set; }
 
         public SourceList<ConnectorViewModel> Transitions { get; set; } = new SourceList<ConnectorViewModel>();
         public ObservableCollectionExtended<ConnectorViewModel> TransitionsForView = new ObservableCollectionExtended<ConnectorViewModel>();
@@ -52,7 +53,7 @@ namespace AYP.ViewModel
         }
 
 
-        public NodeViewModel(NodesCanvasViewModel nodesCanvas, string name, Point point = default(Point), int id = default(int), int typeId = default(int))
+        public NodeViewModel(NodesCanvasViewModel nodesCanvas, string name, Guid uniqueId = default(Guid), Point point = default(Point), int id = default(int), int typeId = default(int))
         {
             NodesCanvas = nodesCanvas;
             Name = name;
@@ -60,6 +61,7 @@ namespace AYP.ViewModel
             Point1 = point;
             Id = id;
             TypeId = typeId;
+            UniqueId = uniqueId;
 
             Transitions.Connect().ObserveOnDispatcher().Bind(TransitionsForView).Subscribe();
             SetupConnectors();
