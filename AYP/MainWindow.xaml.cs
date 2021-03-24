@@ -29,15 +29,18 @@ namespace AYP
     {
         private bool agWorkspaceSeciliMi = true;
         private bool gucWorkspaceSeciliMi = true;
+        public static MainWindow AppWindow;
 
         public bool toggleRight = true;
         public bool toggleLeft = true;
         public bool isClose = false;
+        public int midColSize ;
 
         public int selectedTipId = 0;
         UcBirim selectedUcBirim;
         AgAnahtari selectedAgAnahtari;
         GucUretici selectedGucUretici;
+        [ReactiveUI.Fody.Helpers.Reactive] public NodesCanvasViewModel NodesCanvass { get; set; }
 
         #region ViewModel
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(nameof(ViewModel), typeof(MainWindowViewModel), typeof(MainWindow), new PropertyMetadata(null));
@@ -64,6 +67,8 @@ namespace AYP
         public MainWindow()
         {
             InitializeComponent();
+            AllowMultiSelection(ProjeHiyerarsi);
+            AppWindow = this;
             ViewModel = new MainWindowViewModel(this.NodesCanvas.ViewModel);
             ViewModel.NodesCanvas.MainWindow = this;
 
@@ -86,7 +91,7 @@ namespace AYP
 
         private void SetupBinding()
         {
-
+            
             this.WhenActivated(disposable =>
             {
                 //this.OneWayBind(this.ViewModel, x => x.Tests, x => x.TableOfTransitions.ItemsSource).DisposeWith(disposable);
@@ -149,6 +154,11 @@ namespace AYP
                 //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandExit, x => x.ItemExit).DisposeWith(disposable);
                 this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandCopy, x => x.ButtonCopy).DisposeWith(disposable);
                 this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandPaste, x => x.ButtonPaste).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandAlignLeft, x => x.ButtonAlignLeft).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandAlignRight, x => x.ButtonAlignRight).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandAlignCenter, x => x.ButtonAlignCenter).DisposeWith(disposable);
+
+
 
             });
         }
@@ -822,5 +832,159 @@ namespace AYP
             }
         }
         #endregion
+
+        #region ProjectHierarchy
+        public void ProjectHierarchyAdd(TreeViewItem AddedItem)
+        {
+            //Style style = Application.Current.FindResource("StyleProjectHierarchy") as Style;
+            //ProjeHiyerarsi.ItemContainerStyle= style;
+            //ProjeHiyerarsi.Style = style;
+            ProjeHiyerarsi.ItemsSource = null;
+            ProjeHiyerarsi.Items.Add(AddedItem);
+        }
+
+        public void ProjectHierarchyDeleteWithRedo(NodeViewModel DeletedItem)
+        {
+            //Style style = Application.Current.FindResource("StyleProjectHierarchy") as Style;
+            //ProjeHiyerarsi.ItemContainerStyle= style;
+            //ProjeHiyerarsi.Style = style;
+            ProjeHiyerarsi.ItemsSource = null;
+            List<TreeViewItem> treeList = new List<TreeViewItem>();
+            foreach (TreeViewItem searchfordelete in ProjeHiyerarsi.Items)
+            {
+                treeList.Add(searchfordelete);
+            }
+            foreach (TreeViewItem searchfordelete2 in treeList)
+            {
+                if (searchfordelete2.Header.ToString() == DeletedItem.Name)
+                {
+                    ProjeHiyerarsi.Items.Remove(searchfordelete2);
+                }
+            }            
+        }
+
+        public void ProjectHierarchyDelete(List<NodeViewModel> NodesToDelete)
+        {
+            List<TreeViewItem> treeList = new List<TreeViewItem>();
+            ProjeHiyerarsi.ItemsSource = null;
+
+            foreach (TreeViewItem searchfordelete in ProjeHiyerarsi.Items)
+            {
+                treeList.Add(searchfordelete);
+            }
+            foreach (TreeViewItem searchfordelete2 in treeList)
+            {
+                foreach (var nodeViewModels in NodesToDelete)
+                { 
+                    if (searchfordelete2.Header.ToString() == nodeViewModels.Name)
+                    {
+                        ProjeHiyerarsi.Items.Remove(searchfordelete2);
+                    }
+                }
+            }
+        }
+        #endregion
+        public void ProjectHierarchyDeleteForChild(string deleteNodeForChild)
+        {
+            List<TreeViewItem> treeList = new List<TreeViewItem>();
+            ProjeHiyerarsi.ItemsSource = null;
+
+            foreach (TreeViewItem searchfordelete in ProjeHiyerarsi.Items)
+            {
+                treeList.Add(searchfordelete);
+            }
+            foreach (TreeViewItem searchfordelete2 in treeList)
+            {
+                if (searchfordelete2.Header.ToString() == deleteNodeForChild)
+                {
+                    ProjeHiyerarsi.Items.Remove(searchfordelete2);
+                }
+            }
+        }
+
+	    public void ProjectHierarchyAddChild(ConnectorViewModel connectorViewModel)
+        {
+            List<TreeViewItem> treeList = new List<TreeViewItem>();
+            ProjeHiyerarsi.ItemsSource = null;
+            string rootNode = connectorViewModel.Connect.FromConnector.Node.Name;
+            string toNode = connectorViewModel.Connect.ToConnector.Node.Name;
+
+            foreach (TreeViewItem searchfordelete in ProjeHiyerarsi.Items)
+            {
+                treeList.Add(searchfordelete);
+                //treeList.Remove(toNode);
+            }
+            foreach (TreeViewItem searchfordelete2 in treeList)
+            {
+                //parameter.Connect.ToConnector.Node.Name;
+                if (searchfordelete2.Header.ToString() == rootNode)
+                {
+                    searchfordelete2.Items.Add(toNode);
+                    ProjectHierarchyDeleteForChild(toNode);
+
+                }
+            }
+        }
+
+	    private static readonly System.Reflection.PropertyInfo IsSelectionChangeActiveProperty = 
+            typeof(TreeView).GetProperty("IsSelectionChangeActive", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+
+        public void AllowMultiSelection(TreeView treeView)
+        {
+              if (IsSelectionChangeActiveProperty == null) return;
+
+              var selectedItems = new List<TreeViewItem>();
+              treeView.SelectedItemChanged += (a, b) =>
+              {
+                  var treeViewItem = treeView.SelectedItem as TreeViewItem;
+                  if (treeViewItem == null) return;
+
+                  // allow multiple selection
+                  // when control key is pressed
+                  if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+                  {
+                      // suppress selection change notification
+                      // select all selected items
+                      // then restore selection change notifications
+                      var isSelectionChangeActive = IsSelectionChangeActiveProperty.GetValue(treeView, null);
+
+                      IsSelectionChangeActiveProperty.SetValue(treeView, true, null);
+                      selectedItems.ForEach(item => item.IsSelected = true);
+                     
+                      IsSelectionChangeActiveProperty.SetValue (treeView, isSelectionChangeActive, null);
+                  }
+                  else
+                  {
+                      // deselect all selected items except the current one
+                      selectedItems.ForEach(item => item.IsSelected = (item == treeViewItem));
+                      selectedItems.Clear();
+                  }
+
+                  if (!selectedItems.Contains(treeViewItem))
+                  {
+                      selectedItems.Add(treeViewItem);
+                  }
+                  else
+                  {
+                      // deselect if already selected
+                      treeViewItem.IsSelected = false;
+                      selectedItems.Remove(treeViewItem);
+                  }
+                  NodeSelect(selectedItems);
+              };
+        }
+
+        private void NodeSelect(List<TreeViewItem> selectedItems)
+        {
+            foreach (var nodes in this.ViewModel.NodesCanvas.Nodes.Items)
+            {
+                nodes.Selected = false;
+                foreach (var item in selectedItems)
+                {
+                    if (nodes.Name == item.Header.ToString())
+                        nodes.Selected = true;
+                }
+            }
+        }
     }
 }

@@ -89,6 +89,8 @@ namespace AYP.ViewModel
             //Point moveValue = delta.Division(NodesCanvas.Scale.Value);
             Point1 = Point1.Addition(delta);
         }
+
+
         private void ValidateName(string newName)
         {
 

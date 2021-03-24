@@ -224,19 +224,9 @@
             </ScrollViewer>
         </Grid>
 
-        <TreeViewItem x:Name="treeviews" Style="{DynamicResource StyleProjectHierarchy}" Grid.Row="1" Grid.Column="1" Margin="0,55,0,5" Header="Uç Birim Grup 1" VerticalAlignment="Top">
-            <TreeViewItem Style="{DynamicResource StyleProjectHierarchy}" Header="Uç Birim 1"/>
-            <TreeViewItem Style="{DynamicResource StyleProjectHierarchy}" Header="Uç Birim Grup 2">
-                <TreeViewItem Style="{DynamicResource StyleProjectHierarchy}" Header="Uç Birim 3"/>
-                <TreeViewItem Style="{DynamicResource StyleProjectHierarchy}" Header="Uç Birim 4"/>
-                <TreeViewItem Style="{DynamicResource StyleProjectHierarchy}" Header="Uç Birim 5"/>
-            </TreeViewItem>
-            <TreeViewItem Style="{DynamicResource StyleProjectHierarchy}" Header="Ağ Anahtarı Grup 1">
-                <TreeViewItem Style="{DynamicResource StyleProjectHierarchy}" Header="Ağ Anahtarı 1"/>
-                <TreeViewItem Style="{DynamicResource StyleProjectHierarchy}" Header="Ağ Anahtarı 2"/>
-                <TreeViewItem Style="{DynamicResource StyleProjectHierarchy}" Header="Ağ Anahtarı 3"/>
-            </TreeViewItem>
-        </TreeViewItem>
+        <TreeView  x:FieldModifier="public" x:Name="ProjeHiyerarsi" Height="600"  Grid.Row="1" Grid.Column="1" Margin="0,55,0,5" VerticalAlignment="Top">
+
+        </TreeView>
 
         <ToggleButton FontWeight="ExtraLight" Style="{DynamicResource StyleExpandButton}" Grid.Column="3" Margin="0,483,4,489" VerticalAlignment="Center" Grid.Row="1" Width="25" Height="50"  Click="collapseExpandRight" Grid.ColumnSpan="2" />
         <ToggleButton FontWeight="ExtraLight" Style="{DynamicResource StyleExpandButtonLeft}" Grid.Column="2" Margin="4,483,0,515" VerticalAlignment="Center" Grid.Row="1" Width="26" Height="50"  Click="collapseExpandLeft" Grid.ColumnSpan="2"/>

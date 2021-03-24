@@ -73,6 +73,10 @@ namespace AYP.ViewModel
         public ReactiveCommand<Point, Unit> CommandCut { get; set; }
         public ReactiveCommand<Point, Unit> CommandPartMoveAllNode { get; set; }
         public ReactiveCommand<Point, Unit> CommandPartMoveAllSelectedNode { get; set; }
+        public ReactiveCommand<Point, Unit> CommandAlignLeft { get; set; }
+        public ReactiveCommand<Point, Unit> CommandAlignRight { get; set; }
+        public ReactiveCommand<Point, Unit> CommandAlignCenter { get; set; }
+
         public ReactiveCommand<string, Unit> CommandLogDebug { get; set; }
         public ReactiveCommand<string, Unit> CommandLogError { get; set; }
         public ReactiveCommand<string, Unit> CommandLogInformation { get; set; }
@@ -96,6 +100,7 @@ namespace AYP.ViewModel
 
         #endregion commands with undo-redo
 
+        
         private void SetupCommands()
         {
 
@@ -141,6 +146,9 @@ namespace AYP.ViewModel
             
             CommandPartMoveAllNode = ReactiveCommand.Create<Point>(PartMoveAllNode);
             CommandPartMoveAllSelectedNode = ReactiveCommand.Create<Point>(PartMoveAllSelectedNode);
+            CommandAlignLeft = ReactiveCommand.Create<Point>(AlignLeft);
+            CommandAlignRight = ReactiveCommand.Create<Point>(AlignRight);
+            CommandAlignCenter = ReactiveCommand.Create<Point>(AlignCenter);
 
 
             CommandFullMoveAllNode = new Command<Point, List<NodeViewModel>>(FullMoveAllNode, UnFullMoveAllNode, NotSaved);
@@ -654,6 +662,82 @@ namespace AYP.ViewModel
             foreach (var node in Nodes.Items.Where(x => x.Selected))
             { node.CommandMove.ExecuteWithSubscribe(delta); }
         }
+
+        public void AlignLeft(Point delta)
+        {
+            foreach (var node in Nodes.Items.Where(x => x.Selected))
+            {
+                Point currentY = node.Point1;
+                node.Point1 = new Point(0, currentY.Y);
+            }
+        }
+
+        public void AlignRight(Point delta)
+        {
+            foreach (var node in Nodes.Items.Where(x => x.Selected))
+            {
+                int midColSize = 0;
+                MainWindow mainWindow = node.NodesCanvas.MainWindow;
+
+                Point currentY = node.Point1;
+
+                if (mainWindow.toggleRight && mainWindow.toggleLeft)
+                {
+                    midColSize = 1020;
+                    
+                }
+                else if (!mainWindow.toggleRight && mainWindow.toggleLeft)
+                {
+                    midColSize = 1380;
+                }
+                else if (mainWindow.toggleRight && !mainWindow.toggleLeft)
+                {
+                    midColSize = 1380;
+                }
+
+                else if (!mainWindow.toggleRight && !mainWindow.toggleLeft)
+                {
+                    midColSize = 1740;
+                }
+
+                node.Point1 = new Point(midColSize, currentY.Y);
+
+            }
+        }
+
+        public void AlignCenter(Point delta)
+        {
+            foreach (var node in Nodes.Items.Where(x => x.Selected))
+            {
+                int midColSize = 0;
+                MainWindow mainWindow = node.NodesCanvas.MainWindow;
+
+                Point currentY = node.Point1;
+
+                if (mainWindow.toggleRight && mainWindow.toggleLeft)
+                {
+                    midColSize = 510;
+
+                }
+                else if (!mainWindow.toggleRight && mainWindow.toggleLeft)
+                {
+                    midColSize = 740;
+                }
+                else if (mainWindow.toggleRight && !mainWindow.toggleLeft)
+                {
+                    midColSize = 740;
+                }
+
+                else if (!mainWindow.toggleRight && !mainWindow.toggleLeft)
+                {
+                    midColSize = 870;
+                }
+
+                node.Point1 = new Point(midColSize, currentY.Y);
+
+            }
+        }
+
         private void Zoom((Point point, double delta) element)
         {
             ScaleCenter = element.point;
@@ -816,12 +900,15 @@ namespace AYP.ViewModel
                 NodesCount--;
             }
             Nodes.Add(newNode);
+            AddToProjectHierarchy(newNode);
+
             LogDebug("Node with name \"{0}\" was added", newNode.Name);
             return newNode;
         }
         private NodeViewModel DeleteNodetWithUndoRedo(ExternalNode parameter, NodeViewModel result)
         {
             Nodes.Remove(result);
+            DeleteWithRedoFromProjectHierarchy(result);
             LogDebug("Node with name \"{0}\" was removed", result.Name);
             return result;
         }
@@ -830,15 +917,18 @@ namespace AYP.ViewModel
         {
             if (result == null)
             {
+                AddChildToProjectHierarchyWithTransitions(parameter);
                 return parameter;
-                
             }
             else
                 TransitionsCount--;
 
             result.Node.CommandAddConnectorWithConnect.ExecuteWithSubscribe((1, result));
             LogDebug("Transition with name \"{0}\" was added", result.Name);
+            AddChildToProjectHierarchyWithTransitions(result);
             return result;
+            
+            //parameter.Connect.ToConnector.Node.Name
         }
         private ConnectorViewModel DeleteConnectorWithConnect(ConnectorViewModel parameter, ConnectorViewModel result)
         {
@@ -981,6 +1071,7 @@ namespace AYP.ViewModel
 
             Connects.RemoveMany(result.ConnectsToDelete);
             Nodes.RemoveMany(result.NodesToDelete);
+            DeleteFromProjectHierarchy(result.NodesToDelete);
             foreach(var node in result.NodesToDelete)
             {
                 LogDebug("Node with name \"{0}\" was removed", node.Name);
@@ -1036,12 +1127,36 @@ namespace AYP.ViewModel
         {
             if (!ItSaved)
             {
-                Dialog.ShowMessageBox("Kaydetmeden çýkmak istediðinize emin misiniz?", "Uyarý", MessageBoxButton.YesNo);
+                Dialog.ShowMessageBox("Kaydetmeden ï¿½ï¿½kmak istediï¿½inize emin misiniz?", "Uyarï¿½", MessageBoxButton.YesNo);
 
                 return Dialog.Result == DialogResult.Yes;
             }
 
             return true;
         }
+
+        #region Project Hierarchy Creations
+        private void AddToProjectHierarchy(NodeViewModel hierarchyNode)
+        {
+            System.Windows.Controls.TreeViewItem newChild = new System.Windows.Controls.TreeViewItem();
+            newChild.Header = hierarchyNode.Name;
+            MainWindow.AppWindow.ProjectHierarchyAdd(newChild);
+        }
+
+        private void DeleteWithRedoFromProjectHierarchy(NodeViewModel hierarchyNode)
+        {
+            MainWindow.AppWindow.ProjectHierarchyDeleteWithRedo(hierarchyNode);
+        }
+        private void DeleteFromProjectHierarchy(List<NodeViewModel> NodesToDelete)
+        {
+            MainWindow.AppWindow.ProjectHierarchyDelete(NodesToDelete);
+        }
+        private void AddChildToProjectHierarchyWithTransitions(ConnectorViewModel connectorViewModel)
+        {
+            MainWindow.AppWindow.ProjectHierarchyAddChild(connectorViewModel);
+        }
+
+        #endregion
+
     }
 }

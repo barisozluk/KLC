@@ -60,6 +60,8 @@ namespace AYP.ViewModel
         public int TransitionsCount = 0;
         public double ScaleMax = 5;
         public double ScaleMin = 0.2;
+
+
         public double ScaleStep { get; set; } = 1.2;
         public Point ScaleCenter { get; set; }
 
