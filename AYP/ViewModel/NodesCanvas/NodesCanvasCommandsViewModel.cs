@@ -85,6 +85,7 @@ namespace AYP.ViewModel
 
         #endregion commands with undo-redo
 
+        
         private void SetupCommands()
         {
 
@@ -730,6 +731,7 @@ namespace AYP.ViewModel
             nodes.ForEach(node => node.CommandMove.ExecuteWithSubscribe(myPoint));
             return nodes;
         }
+
         private NodeViewModel AddNodeWithUndoRedo(Point parameter, NodeViewModel result)
         {
             NodeViewModel newNode = result;
@@ -745,12 +747,16 @@ namespace AYP.ViewModel
                 NodesCount--;
             }
             Nodes.Add(newNode);
+            AddToProjectHierarchy(newNode);
+
             LogDebug("Node with name \"{0}\" was added", newNode.Name);
             return newNode;
         }
+
         private NodeViewModel DeleteNodetWithUndoRedo(Point parameter, NodeViewModel result)
         {
             Nodes.Remove(result);
+            DeleteWithRedoFromProjectHierarchy(result);
             LogDebug("Node with name \"{0}\" was removed", result.Name);
             return result;
         }
@@ -758,15 +764,18 @@ namespace AYP.ViewModel
         {
             if (result == null)
             {
+                AddChildToProjectHierarchyWithTransitions(parameter);
                 return parameter;
-                
             }
             else
                 TransitionsCount--;
 
             result.Node.CommandAddConnectorWithConnect.ExecuteWithSubscribe((1, result));
             LogDebug("Transition with name \"{0}\" was added", result.Name);
+            AddChildToProjectHierarchyWithTransitions(result);
             return result;
+            
+            //parameter.Connect.ToConnector.Node.Name
         }
         private ConnectorViewModel DeleteConnectorWithConnect(ConnectorViewModel parameter, ConnectorViewModel result)
         {
@@ -909,6 +918,7 @@ namespace AYP.ViewModel
 
             Connects.RemoveMany(result.ConnectsToDelete);
             Nodes.RemoveMany(result.NodesToDelete);
+            DeleteFromProjectHierarchy(result.NodesToDelete);
             foreach(var node in result.NodesToDelete)
             {
                 LogDebug("Node with name \"{0}\" was removed", node.Name);
@@ -971,5 +981,29 @@ namespace AYP.ViewModel
 
             return true;
         }
+
+        #region Project Hierarchy Creations
+        private void AddToProjectHierarchy(NodeViewModel hierarchyNode)
+        {
+            System.Windows.Controls.TreeViewItem newChild = new System.Windows.Controls.TreeViewItem();
+            newChild.Header = hierarchyNode.Name;
+            MainWindow.AppWindow.ProjectHierarchyAdd(newChild);
+        }
+
+        private void DeleteWithRedoFromProjectHierarchy(NodeViewModel hierarchyNode)
+        {
+            MainWindow.AppWindow.ProjectHierarchyDeleteWithRedo(hierarchyNode);
+        }
+        private void DeleteFromProjectHierarchy(List<NodeViewModel> NodesToDelete)
+        {
+            MainWindow.AppWindow.ProjectHierarchyDelete(NodesToDelete);
+        }
+        private void AddChildToProjectHierarchyWithTransitions(ConnectorViewModel connectorViewModel)
+        {
+            MainWindow.AppWindow.ProjectHierarchyAddChild(connectorViewModel);
+        }
+
+        #endregion
+
     }
 }

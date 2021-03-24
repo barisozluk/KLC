@@ -126,7 +126,10 @@ namespace AYP
 
                         if (memberName == "StokNo")
                         {
+
                             StokNo.BorderBrush = new SolidColorBrush(Colors.Red);
+                            Style style = Application.Current.FindResource("StyleTextBox") as Style;
+                            StokNo.Style = style;
                         }
 
                         if (memberName == "Tanim")
