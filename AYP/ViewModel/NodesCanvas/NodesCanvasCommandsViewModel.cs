@@ -64,6 +64,7 @@ namespace AYP.ViewModel
         public ReactiveCommand<Point, Unit> CommandPartMoveAllSelectedNode { get; set; }
         public ReactiveCommand<Point, Unit> CommandAlignLeft { get; set; }
         public ReactiveCommand<Point, Unit> CommandAlignRight { get; set; }
+        public ReactiveCommand<Point, Unit> CommandAlignCenter { get; set; }
 
         public ReactiveCommand<string, Unit> CommandLogDebug { get; set; }
         public ReactiveCommand<string, Unit> CommandLogError { get; set; }
@@ -135,6 +136,7 @@ namespace AYP.ViewModel
             CommandPartMoveAllSelectedNode = ReactiveCommand.Create<Point>(PartMoveAllSelectedNode);
             CommandAlignLeft = ReactiveCommand.Create<Point>(AlignLeft);
             CommandAlignRight = ReactiveCommand.Create<Point>(AlignRight);
+            CommandAlignCenter = ReactiveCommand.Create<Point>(AlignCenter);
 
 
             CommandFullMoveAllNode = new Command<Point, List<NodeViewModel>>(FullMoveAllNode, UnFullMoveAllNode, NotSaved);
@@ -623,6 +625,39 @@ namespace AYP.ViewModel
                 else if (!mainWindow.toggleRight && !mainWindow.toggleLeft)
                 {
                     midColSize = 1740;
+                }
+
+                node.Point1 = new Point(midColSize, currentY.Y);
+
+            }
+        }
+
+        public void AlignCenter(Point delta)
+        {
+            foreach (var node in Nodes.Items.Where(x => x.Selected))
+            {
+                int midColSize = 0;
+                MainWindow mainWindow = node.NodesCanvas.mainWindow;
+
+                Point currentY = node.Point1;
+
+                if (mainWindow.toggleRight && mainWindow.toggleLeft)
+                {
+                    midColSize = 510;
+
+                }
+                else if (!mainWindow.toggleRight && mainWindow.toggleLeft)
+                {
+                    midColSize = 740;
+                }
+                else if (mainWindow.toggleRight && !mainWindow.toggleLeft)
+                {
+                    midColSize = 740;
+                }
+
+                else if (!mainWindow.toggleRight && !mainWindow.toggleLeft)
+                {
+                    midColSize = 870;
                 }
 
                 node.Point1 = new Point(midColSize, currentY.Y);
