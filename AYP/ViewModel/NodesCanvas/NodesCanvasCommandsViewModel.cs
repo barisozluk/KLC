@@ -21,6 +21,7 @@ using AYP.ViewModel.Node;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Threading;
+using AYP.Enums;
 
 namespace AYP.ViewModel
 {
@@ -256,16 +257,28 @@ namespace AYP.ViewModel
 
         private void Paste()
         {
-            var i = NodesCount;
-
             foreach (var node in NodeClipboard)
             {
                 var point = new Point(node.Point1.X + 15, node.Point1.Y + 15);
-                var name = "Cihaz " + i.ToString();
+                var name = "";
+                if(node.TypeId == (int)TipEnum.UcBirim)
+                {
+                    UcBirimCount++;
+                    name = "Uç Birim " + UcBirimCount.ToString();
+                }
+                else if (node.TypeId == (int)TipEnum.AgAnahtari)
+                {
+                    AgAnahtariCount++;
+                    name = "Ağ Anahtarı " + AgAnahtariCount.ToString();
+                }
+                else if (node.TypeId == (int)TipEnum.GucUretici)
+                {
+                    GucUreticiCount++;
+                    name = "Güç Üretici " + GucUreticiCount.ToString();
+                }
 
                 var newNode = new NodeViewModel(this, name, point, node.Id, node.TypeId);
                 Nodes.Add(newNode);
-                i = i + 1;
             }
 
             //var j = TransitionsCount;
@@ -311,9 +324,23 @@ namespace AYP.ViewModel
                 node.CommandUnSelectedAllConnectors.ExecuteWithSubscribe();
             }
         }
-        private string GetNameForNewNode()
+        private string GetNameForNewNode(int typeId)
         {
-            return "Cihaz " + NodesCount.ToString();
+            string name = "";
+            if(typeId == (int)TipEnum.UcBirim)
+            {
+                name = "Uç Birim " + UcBirimCount;
+            }
+            else if (typeId == (int)TipEnum.AgAnahtari)
+            {
+                name = "Ağ Anahtarı " + AgAnahtariCount; 
+            }
+            if (typeId == (int)TipEnum.GucUretici)
+            {
+                name = "Güç Üretici " + GucUreticiCount;
+            }
+
+            return name;
         }
         private void SelectConnects()
         {
@@ -892,7 +919,25 @@ namespace AYP.ViewModel
             NodeViewModel newNode = result;
             if (result == null)
             {
-                string name = GetNameForNewNode();
+                string name = "";
+
+                if (parameter.Node.TypeId == (int)TipEnum.UcBirim)
+                {
+                    UcBirimCount++;
+                    name = GetNameForNewNode(parameter.Node.TypeId);
+                }
+                else if (parameter.Node.TypeId == (int)TipEnum.AgAnahtari)
+                {
+                    AgAnahtariCount++;
+                    name = GetNameForNewNode(parameter.Node.TypeId);
+                }
+                else if (parameter.Node.TypeId == (int)TipEnum.GucUretici)
+                {
+                    GucUreticiCount++;
+                    name = GetNameForNewNode(parameter.Node.TypeId);
+                }
+
+                
                 newNode = new NodeViewModel(this, name, parameter.Point, parameter.Node.Id, parameter.Node.TypeId);
             }
             else

@@ -883,7 +883,7 @@ namespace AYP
                 }
             }
         }
-        #endregion
+        
         public void ProjectHierarchyDeleteForChild(string deleteNodeForChild)
         {
             List<TreeViewItem> treeList = new List<TreeViewItem>();
@@ -986,5 +986,7 @@ namespace AYP
                 }
             }
         }
+
+        #endregion
     }
 }

@@ -56,6 +56,10 @@ namespace AYP.ViewModel
             {Themes.Light, @"Styles\Themes\Light.xaml"},
         };
 
+        public int UcBirimCount = 0;
+        public int AgAnahtariCount = 0;
+        public int GucUreticiCount = 0;
+
         public int NodesCount = 0;
         public int TransitionsCount = 0;
         public double ScaleMax = 5;
@@ -76,7 +80,7 @@ namespace AYP.ViewModel
             Nodes.Connect().ObserveOnDispatcher().Bind(NodesForView).Subscribe();
             SetupCommands();
             SetupSubscriptions();
-            SetupStartState();
+            //SetupStartState();
         }
 
         #region Setup Subscriptions
@@ -93,11 +97,11 @@ namespace AYP.ViewModel
 
         private void SetupStartState()
         {
-            string name = Nodes.Items.Any(x => x.Name == "Başlangıç") ? GetNameForNewNode() : "Başlangıç";
-            StartState = new NodeViewModel(this, name, new Point());
-            SetAsStart(StartState);
-            Nodes.Add(StartState);
-            this.ItSaved = true;
+            //string name = Nodes.Items.Any(x => x.Name == "Başlangıç") ? GetNameForNewNode() : "Başlangıç";
+            //StartState = new NodeViewModel(this, name, new Point());
+            //SetAsStart(StartState);
+            //Nodes.Add(StartState);
+            //this.ItSaved = true;
         }
         private void SetAsStart(NodeViewModel node)
         {
