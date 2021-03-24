@@ -117,6 +117,10 @@
   </ItemGroup>
 
   <ItemGroup>
+<<<<<<< HEAD
+=======
+
+>>>>>>> e086034fba5c40245d029151c4c61319a5236c44
     <Page Update="DbConnectionErrorPopupWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
@@ -124,14 +128,22 @@
     <Page Update="SettingsPopupWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
+<<<<<<< HEAD
     <Page Update="Styles\StyleTextBoxError.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
+=======
+
+>>>>>>> e086034fba5c40245d029151c4c61319a5236c44
     <Page Update="WithoutSavePopupWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
+<<<<<<< HEAD
+=======
+
+>>>>>>> e086034fba5c40245d029151c4c61319a5236c44
     <Page Update="Icons\Icons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

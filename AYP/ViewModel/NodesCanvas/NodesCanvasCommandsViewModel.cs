@@ -62,6 +62,10 @@ namespace AYP.ViewModel
         public ReactiveCommand<Point, Unit> CommandCut { get; set; }
         public ReactiveCommand<Point, Unit> CommandPartMoveAllNode { get; set; }
         public ReactiveCommand<Point, Unit> CommandPartMoveAllSelectedNode { get; set; }
+        public ReactiveCommand<Point, Unit> CommandAlignLeft { get; set; }
+        public ReactiveCommand<Point, Unit> CommandAlignRight { get; set; }
+        public ReactiveCommand<Point, Unit> CommandAlignCenter { get; set; }
+
         public ReactiveCommand<string, Unit> CommandLogDebug { get; set; }
         public ReactiveCommand<string, Unit> CommandLogError { get; set; }
         public ReactiveCommand<string, Unit> CommandLogInformation { get; set; }
@@ -131,6 +135,9 @@ namespace AYP.ViewModel
             
             CommandPartMoveAllNode = ReactiveCommand.Create<Point>(PartMoveAllNode);
             CommandPartMoveAllSelectedNode = ReactiveCommand.Create<Point>(PartMoveAllSelectedNode);
+            CommandAlignLeft = ReactiveCommand.Create<Point>(AlignLeft);
+            CommandAlignRight = ReactiveCommand.Create<Point>(AlignRight);
+            CommandAlignCenter = ReactiveCommand.Create<Point>(AlignCenter);
 
 
             CommandFullMoveAllNode = new Command<Point, List<NodeViewModel>>(FullMoveAllNode, UnFullMoveAllNode, NotSaved);
@@ -583,6 +590,82 @@ namespace AYP.ViewModel
             foreach (var node in Nodes.Items.Where(x => x.Selected))
             { node.CommandMove.ExecuteWithSubscribe(delta); }
         }
+
+        public void AlignLeft(Point delta)
+        {
+            foreach (var node in Nodes.Items.Where(x => x.Selected))
+            {
+                Point currentY = node.Point1;
+                node.Point1 = new Point(0, currentY.Y);
+            }
+        }
+
+        public void AlignRight(Point delta)
+        {
+            foreach (var node in Nodes.Items.Where(x => x.Selected))
+            {
+                int midColSize = 0;
+                MainWindow mainWindow = node.NodesCanvas.mainWindow;
+
+                Point currentY = node.Point1;
+
+                if (mainWindow.toggleRight && mainWindow.toggleLeft)
+                {
+                    midColSize = 1020;
+                    
+                }
+                else if (!mainWindow.toggleRight && mainWindow.toggleLeft)
+                {
+                    midColSize = 1380;
+                }
+                else if (mainWindow.toggleRight && !mainWindow.toggleLeft)
+                {
+                    midColSize = 1380;
+                }
+
+                else if (!mainWindow.toggleRight && !mainWindow.toggleLeft)
+                {
+                    midColSize = 1740;
+                }
+
+                node.Point1 = new Point(midColSize, currentY.Y);
+
+            }
+        }
+
+        public void AlignCenter(Point delta)
+        {
+            foreach (var node in Nodes.Items.Where(x => x.Selected))
+            {
+                int midColSize = 0;
+                MainWindow mainWindow = node.NodesCanvas.mainWindow;
+
+                Point currentY = node.Point1;
+
+                if (mainWindow.toggleRight && mainWindow.toggleLeft)
+                {
+                    midColSize = 510;
+
+                }
+                else if (!mainWindow.toggleRight && mainWindow.toggleLeft)
+                {
+                    midColSize = 740;
+                }
+                else if (mainWindow.toggleRight && !mainWindow.toggleLeft)
+                {
+                    midColSize = 740;
+                }
+
+                else if (!mainWindow.toggleRight && !mainWindow.toggleLeft)
+                {
+                    midColSize = 870;
+                }
+
+                node.Point1 = new Point(midColSize, currentY.Y);
+
+            }
+        }
+
         private void Zoom((Point point, double delta) element)
         {
             ScaleCenter = element.point;
