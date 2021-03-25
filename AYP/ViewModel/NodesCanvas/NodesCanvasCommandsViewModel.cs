@@ -275,7 +275,7 @@ namespace AYP.ViewModel
                     GucUreticiCount++;
                 }
 
-                var newNode = new NodeViewModel(this, GetNameForNewNode(node.TypeId), node.UniqueId, nodePoint, node.Id, node.TypeId);
+                var newNode = new NodeViewModel(this, GetNameForNewNode(node.TypeId), node.UniqueId, nodePoint, node.Id, node.TypeId, node.InputSayisi, node.OutputSayisi, node.GucArayuzuSayisi);
                 Nodes.Add(newNode);
                 LogDebug("Node with name \"{0}\" was copied", GetNameForNewNode(node.TypeId));
                 AddToProjectHierarchy(newNode);
@@ -300,7 +300,7 @@ namespace AYP.ViewModel
                             var fromConnector = new ConnectorViewModel(this, fromNode, fromConnectorName, fromConnectorPoint);
                             
                             var toConnectorPoint = new Point(transition.Connect.ToConnector.PositionConnectPoint.X + 15, transition.Connect.ToConnector.PositionConnectPoint.Y + 15);
-                            var toConnectorName = "Input";
+                            var toConnectorName = "Girdi";
                             var toConnector = new ConnectorViewModel(this, toNode, toConnectorName, toConnectorPoint);
 
                             var connect = new ConnectViewModel(this, fromConnector);
@@ -957,7 +957,7 @@ namespace AYP.ViewModel
                     GucUreticiCount++;
                 }
                 
-                newNode = new NodeViewModel(this, GetNameForNewNode(parameter.Node.TypeId), Guid.NewGuid(), parameter.Point, parameter.Node.Id, parameter.Node.TypeId, parameter.Node.InputAgArayuzuSayisi, parameter.Node.OutputAgArayuzuSayisi);
+                newNode = new NodeViewModel(this, GetNameForNewNode(parameter.Node.TypeId), Guid.NewGuid(), parameter.Point, parameter.Node.Id, parameter.Node.TypeId, parameter.Node.InputSayisi, parameter.Node.OutputSayisi, parameter.Node.GucArayuzuSayisi);
                 
                 if(NodesCount == 0)
                 {

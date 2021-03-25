@@ -671,22 +671,26 @@ namespace AYP
                     var ucBirim = (UcBirim)dataCxtx;
                     model.Id = ucBirim.Id;
                     model.TypeId = ucBirim.TipId;
-                    model.InputAgArayuzuSayisi = ucBirim.GirdiAgArayuzuSayisi;
-                    model.OutputAgArayuzuSayisi = ucBirim.CiktiAgArayuzuSayisi;
+                    model.InputSayisi = ucBirim.GirdiAgArayuzuSayisi;
+                    model.OutputSayisi = ucBirim.CiktiAgArayuzuSayisi;
+                    model.GucArayuzuSayisi = ucBirim.GucArayuzuSayisi;
                 }
                 else if (type.Name == "AgAnahtari")
                 {
                     var agAnahtari = (AgAnahtari)dataCxtx;
                     model.Id = agAnahtari.Id;
                     model.TypeId = agAnahtari.TipId;
-                    model.InputAgArayuzuSayisi = agAnahtari.GirdiAgArayuzuSayisi;
-                    model.OutputAgArayuzuSayisi = agAnahtari.CiktiAgArayuzuSayisi;
+                    model.InputSayisi = agAnahtari.GirdiAgArayuzuSayisi;
+                    model.OutputSayisi = agAnahtari.CiktiAgArayuzuSayisi;
+                    model.GucArayuzuSayisi = agAnahtari.GucArayuzuSayisi;
                 }
                 else if (type.Name == "GucUretici")
                 {
                     var gucUretici = (GucUretici)dataCxtx;
                     model.Id = gucUretici.Id;
                     model.TypeId = gucUretici.TipId;
+                    model.InputSayisi = gucUretici.GirdiGucArayuzuSayisi;
+                    model.OutputSayisi = gucUretici.CiktiGucArayuzuSayisi;
                 }
 
                 if(model.TypeId == (int)TipEnum.AgAnahtari || model.TypeId == (int)TipEnum.UcBirim)

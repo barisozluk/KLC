@@ -42,9 +42,12 @@ namespace AYP.ViewModel
         [Reactive] public int Id { get; set; }
         [Reactive] public int TypeId { get; set; }
         [Reactive] public Guid UniqueId { get; set; }
-        [Reactive] public int InputAgArayuzuSayisi { get; set; }
-        [Reactive] public int OutputAgArayuzuSayisi { get; set; }
+        [Reactive] public int InputSayisi { get; set; }
+        [Reactive] public int OutputSayisi { get; set; }
+        [Reactive] public int GucArayuzuSayisi { get; set; }
+
         [Reactive] public List<ConnectorViewModel> InputList { get; set; }
+        [Reactive] public List<ConnectorViewModel> GucInputList { get; set; }
 
         public SourceList<ConnectorViewModel> Transitions { get; set; } = new SourceList<ConnectorViewModel>();
         public ObservableCollectionExtended<ConnectorViewModel> TransitionsForView = new ObservableCollectionExtended<ConnectorViewModel>();
@@ -57,7 +60,7 @@ namespace AYP.ViewModel
         }
 
 
-        public NodeViewModel(NodesCanvasViewModel nodesCanvas, string name, Guid uniqueId = default(Guid), Point point = default(Point), int id = default(int), int typeId = default(int), int inputAgArayuzuSayisi = default(int), int outputAgArayuzuSayisi = default(int))
+        public NodeViewModel(NodesCanvasViewModel nodesCanvas, string name, Guid uniqueId = default(Guid), Point point = default(Point), int id = default(int), int typeId = default(int), int inputSayisi = default(int), int outputSayisi = default(int), int gucArayuzuSayisi = 0)
         {
             NodesCanvas = nodesCanvas;
             Name = name;
@@ -67,9 +70,11 @@ namespace AYP.ViewModel
             TypeId = typeId;
             UniqueId = uniqueId;
             InputList = new List<ConnectorViewModel>();
+            GucInputList = new List<ConnectorViewModel>();
 
-            InputAgArayuzuSayisi = inputAgArayuzuSayisi;
-            OutputAgArayuzuSayisi = outputAgArayuzuSayisi;
+            InputSayisi = inputSayisi;
+            OutputSayisi = outputSayisi;
+            GucArayuzuSayisi = gucArayuzuSayisi;
 
             Transitions.Connect().ObserveOnDispatcher().Bind(TransitionsForView).Subscribe();
             SetupConnectors();
@@ -104,13 +109,17 @@ namespace AYP.ViewModel
         #region Connectors
         private void SetupConnectors()
         {
-            for (int i = 0; i < InputAgArayuzuSayisi; i++)
+            for (int i = 0; i < InputSayisi; i++)
             {
-                InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Input", Point1.Addition(0, 30 + (i * 5))));
-                //Input = new ConnectorViewModel(NodesCanvas, this, "Input", Point1.Addition(0, 30));
+                InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 30 + (i * 5))));
             }
 
-            Output = new ConnectorViewModel(NodesCanvas, this, "Output", Point1.Addition(80, 54))
+            for (int i = 0; i < GucArayuzuSayisi; i++)
+            {
+                GucInputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 80 + (i * 5))));
+            }
+
+            Output = new ConnectorViewModel(NodesCanvas, this, "Çıktı", Point1.Addition(80, 54))
             {
                 Visible = null
             };

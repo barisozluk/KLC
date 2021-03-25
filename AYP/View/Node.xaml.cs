@@ -92,6 +92,18 @@ namespace AYP.View
                     i += 20;
                 }
 
+                i = 85;
+                foreach (var input in this.ViewModel.GucInputList)
+                {
+                    LeftConnector left = new LeftConnector();
+                    left.ViewModel = input;
+                    left.Margin = new Thickness(0, i, 0, 0);
+                    Grid.SetRow(left, 0);
+                    Grid.SetColumn(left, 0);
+                    GridElement.Children.Add(left);
+                    i += 20;
+                }
+
                 this.OneWayBind(this.ViewModel, x => x.Output, x => x.Output.ViewModel).DisposeWith(disposable);
 
                 this.OneWayBind(this.ViewModel, x => x.TransitionsForView, x => x.ItemsControlTransitions.ItemsSource).DisposeWith(disposable);
