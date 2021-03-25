@@ -109,13 +109,18 @@ namespace AYP.ViewModel
                 NodesCanvas.LogDebug("Transition with name \"{0}\" was added", CurrentConnector.Name);
             }
 
-            if (OutputSayisi >= Transitions.Items.Count() + 1)
+            if (OutputSayisi >= Transitions.Items.Count())
             {
                 double width = Size.Width == 0 ? 80 : Size.Width;
                 CurrentConnector = new ConnectorViewModel(NodesCanvas, this, "", Point1.Addition(width, 54))
                 {
                     TextEnable = false
                 };
+
+                if (OutputSayisi == Transitions.Items.Count())
+                {
+                    CurrentConnector.Visible = false;
+                }
 
                 Transitions.Insert(0, CurrentConnector);
             }

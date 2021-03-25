@@ -805,3 +805,6 @@ C:\Users\Ayca\Desktop\AYPGit11\AYP\obj\Debug\netcoreapp3.1\AYP.csproj.CopyComple
 C:\Users\Ayca\Desktop\AYPGit11\AYP\obj\Debug\netcoreapp3.1\AYP.dll
 C:\Users\Ayca\Desktop\AYPGit11\AYP\obj\Debug\netcoreapp3.1\AYP.pdb
 C:\Users\Ayca\Desktop\AYPGit11\AYP\obj\Debug\netcoreapp3.1\AYP.genruntimeconfig.cache
+C:\Users\KLC\Desktop\AYPTEST\AYP\obj\Debug\netcoreapp3.1\EditSelectedPopupWindow.g.cs
+C:\Users\KLC\Desktop\AYPTEST\AYP\obj\Debug\netcoreapp3.1\EditSelectedPopupWindow.baml
+C:\Users\KLC\Desktop\AYPTEST\AYP\obj\Debug\netcoreapp3.1\Styles\StyleCutButton.baml
