@@ -671,12 +671,16 @@ namespace AYP
                     var ucBirim = (UcBirim)dataCxtx;
                     model.Id = ucBirim.Id;
                     model.TypeId = ucBirim.TipId;
+                    model.InputAgArayuzuSayisi = ucBirim.GirdiAgArayuzuSayisi;
+                    model.OutputAgArayuzuSayisi = ucBirim.CiktiAgArayuzuSayisi;
                 }
                 else if (type.Name == "AgAnahtari")
                 {
                     var agAnahtari = (AgAnahtari)dataCxtx;
                     model.Id = agAnahtari.Id;
                     model.TypeId = agAnahtari.TipId;
+                    model.InputAgArayuzuSayisi = agAnahtari.GirdiAgArayuzuSayisi;
+                    model.OutputAgArayuzuSayisi = agAnahtari.CiktiAgArayuzuSayisi;
                 }
                 else if (type.Name == "GucUretici")
                 {

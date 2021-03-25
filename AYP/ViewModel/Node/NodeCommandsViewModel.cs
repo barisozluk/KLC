@@ -108,12 +108,17 @@ namespace AYP.ViewModel
                     CurrentConnector.Name = "Transition #" + NodesCanvas.TransitionsCount.ToString();
                 NodesCanvas.LogDebug("Transition with name \"{0}\" was added", CurrentConnector.Name);
             }
-            double width = Size.Width == 0 ? 80 : Size.Width;
-            CurrentConnector = new ConnectorViewModel(NodesCanvas, this, "", Point1.Addition(width, 54))
+
+            if (OutputAgArayuzuSayisi >= Transitions.Items.Count() + 1)
             {
-                TextEnable = false
-            };
-            Transitions.Insert(0, CurrentConnector);
+                double width = Size.Width == 0 ? 80 : Size.Width;
+                CurrentConnector = new ConnectorViewModel(NodesCanvas, this, "", Point1.Addition(width, 54))
+                {
+                    TextEnable = false
+                };
+
+                Transitions.Insert(0, CurrentConnector);
+            }
         }
         private void UnSelectedAllConnectors()
         {

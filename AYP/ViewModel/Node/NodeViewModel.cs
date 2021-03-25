@@ -13,6 +13,7 @@ using System.Xml.Linq;
 using AYP.Helpers.Extensions;
 using DynamicData;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace AYP.ViewModel
 {
@@ -41,6 +42,9 @@ namespace AYP.ViewModel
         [Reactive] public int Id { get; set; }
         [Reactive] public int TypeId { get; set; }
         [Reactive] public Guid UniqueId { get; set; }
+        [Reactive] public int InputAgArayuzuSayisi { get; set; }
+        [Reactive] public int OutputAgArayuzuSayisi { get; set; }
+        [Reactive] public List<ConnectorViewModel> InputList { get; set; }
 
         public SourceList<ConnectorViewModel> Transitions { get; set; } = new SourceList<ConnectorViewModel>();
         public ObservableCollectionExtended<ConnectorViewModel> TransitionsForView = new ObservableCollectionExtended<ConnectorViewModel>();
@@ -53,7 +57,7 @@ namespace AYP.ViewModel
         }
 
 
-        public NodeViewModel(NodesCanvasViewModel nodesCanvas, string name, Guid uniqueId = default(Guid), Point point = default(Point), int id = default(int), int typeId = default(int))
+        public NodeViewModel(NodesCanvasViewModel nodesCanvas, string name, Guid uniqueId = default(Guid), Point point = default(Point), int id = default(int), int typeId = default(int), int inputAgArayuzuSayisi = default(int), int outputAgArayuzuSayisi = default(int))
         {
             NodesCanvas = nodesCanvas;
             Name = name;
@@ -62,6 +66,10 @@ namespace AYP.ViewModel
             Id = id;
             TypeId = typeId;
             UniqueId = uniqueId;
+            InputList = new List<ConnectorViewModel>();
+
+            InputAgArayuzuSayisi = inputAgArayuzuSayisi;
+            OutputAgArayuzuSayisi = outputAgArayuzuSayisi;
 
             Transitions.Connect().ObserveOnDispatcher().Bind(TransitionsForView).Subscribe();
             SetupConnectors();
@@ -96,7 +104,12 @@ namespace AYP.ViewModel
         #region Connectors
         private void SetupConnectors()
         {
-            Input = new ConnectorViewModel(NodesCanvas, this, "Input", Point1.Addition(0, 30));
+            for (int i = 0; i < InputAgArayuzuSayisi; i++)
+            {
+                InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Input", Point1.Addition(0, 30 + (i * 5))));
+                //Input = new ConnectorViewModel(NodesCanvas, this, "Input", Point1.Addition(0, 30));
+            }
+
             Output = new ConnectorViewModel(NodesCanvas, this, "Output", Point1.Addition(80, 54))
             {
                 Visible = null

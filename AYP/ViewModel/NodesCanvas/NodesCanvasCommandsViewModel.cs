@@ -944,8 +944,6 @@ namespace AYP.ViewModel
             NodeViewModel newNode = result;
             if (result == null)
             {
-                string name = "";
-
                 if (parameter.Node.TypeId == (int)TipEnum.UcBirim)
                 {
                     UcBirimCount++;
@@ -958,9 +956,8 @@ namespace AYP.ViewModel
                 {
                     GucUreticiCount++;
                 }
-
                 
-                newNode = new NodeViewModel(this, GetNameForNewNode(parameter.Node.TypeId), Guid.NewGuid(), parameter.Point, parameter.Node.Id, parameter.Node.TypeId);
+                newNode = new NodeViewModel(this, GetNameForNewNode(parameter.Node.TypeId), Guid.NewGuid(), parameter.Point, parameter.Node.Id, parameter.Node.TypeId, parameter.Node.InputAgArayuzuSayisi, parameter.Node.OutputAgArayuzuSayisi);
             }
             else
             {

@@ -51,7 +51,6 @@ namespace AYP.View
         {
             this.WhenActivated(disposable =>
             {
-
                 this.OneWayBind(this.ViewModel, x => x.Name, x => x.TextBoxElement.Text).DisposeWith(disposable);
 
                 this.OneWayBind(this.ViewModel, x => x.TextEnable, x => x.TextBoxElement.IsEnabled).DisposeWith(disposable);

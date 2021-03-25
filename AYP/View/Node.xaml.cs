@@ -80,7 +80,7 @@ namespace AYP.View
                 this.WhenAnyValue(v => v.BorderElement.ActualWidth, v => v.BorderElement.ActualHeight, (width, height) => new Size(width, height))
                      .BindTo(this, v => v.ViewModel.Size).DisposeWith(disposable);
 
-                this.OneWayBind(this.ViewModel, x => x.Input, x => x.Input.ViewModel).DisposeWith(disposable);
+                this.OneWayBind(this.ViewModel, x => x.InputList, x => x.InputItemsControl.ItemsSource).DisposeWith(disposable);
 
                 this.OneWayBind(this.ViewModel, x => x.Output, x => x.Output.ViewModel).DisposeWith(disposable);
 
