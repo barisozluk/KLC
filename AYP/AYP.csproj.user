@@ -42,6 +42,9 @@
     <Page Update="AgAnahtariAgArayuzuPopupWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Styles\StyleCutButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\StyleTextBoxError.xaml">
       <SubType>Designer</SubType>
     </Page>

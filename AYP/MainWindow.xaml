@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:view="clr-namespace:AYP.View" xmlns:styles="clr-namespace:AYP.Styles"
-        mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="Manual" Topmost="True" Left="0" Top="0"
         Title="MainWindow" Height="1080" Width="1920">
 
     <Grid Margin="0" Background="#182026" AutomationProperties.IsRowHeader="True" AutomationProperties.IsColumnHeader="True">
@@ -34,7 +34,7 @@
         <Button x:Name="ButtonRedo" ToolTip="Tekrarla" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="45,0,0,0">
             <Image Source="Images\forward.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
-        <Button x:Name="ButtonDongu" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="85,0,0,0">
+        <Button x:Name="ButtonZoomOriginalSize" ToolTip="Orjinal Görünüme Dön" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="85,0,0,0">
             <Image Source="Images\dongu.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
         <Button x:Name="ButtonZoomIn" ToolTip="Yakınlaş" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="125,0,0,0">
@@ -43,12 +43,12 @@
         <Button x:Name="ButtonZoomOut" ToolTip="Uzaklaş" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="165,0,0,0">
             <Image Source="Images\zoomOut.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
-        <Button x:Name="ButtonMultipleSelect" ToolTip="Çoklu Seçim" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="205,0,0,0">
-            <Image Source="Images\multipleSelect.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
-        </Button>
-        <Button x:Name="ButtonCut" ToolTip="Kes" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="245,0,0,0">
-            <Image Source="Images\cut.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
-        </Button>
+        <RadioButton x:Name="ButtonStartSelect" ToolTip="Çoklu Seçim" Style="{DynamicResource StyleCutButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="205,0,0,0">
+            <Image Source="Images\multipleSelect.png" Grid.Column="0" Margin="4,7,0,0" Grid.Row="0" Width="25" Height="20" />
+        </RadioButton>
+        <RadioButton x:Name="ButtonStartCut" ToolTip="Kes" Style="{DynamicResource StyleCutButton}"  Grid.Column="3" HorizontalAlignment="Left" Margin="245,0,0,0">
+            <Image Source="Images\cut.png" Grid.Column="0" Grid.Row="0" Margin="4,7,0,0" Width="25" Height="20" />
+        </RadioButton>
         <Button x:Name="ButtonCopy" ToolTip="Kopyala" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="285,0,0,0">
             <Image Source="Images\copy.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>

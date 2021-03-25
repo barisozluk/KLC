@@ -125,6 +125,9 @@
     <Page Update="SettingsPopupWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
+    <Page Update="Styles\StyleCutButton.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
 
     <Page Update="Styles\StyleTextBoxError.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>

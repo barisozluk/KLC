@@ -68,6 +68,8 @@
                 <ResourceDictionary Source="Styles/StyleLeftButton.xaml"/>
                 <ResourceDictionary Source="Styles/StyleLeftPanelUpButton.xaml"/>
                 <ResourceDictionary Source="Styles/StyleMainPanelUpButton.xaml"/>
+                <ResourceDictionary Source="Styles/StyleCutButton.xaml"/>
+
                 <ResourceDictionary Source="Styles/StyleAddDeviceButton.xaml"/>
                 <!--#endregion         FormControls-->
 
