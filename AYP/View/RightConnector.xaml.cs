@@ -203,7 +203,7 @@ namespace AYP.View
         {
             Point positionConnectPoint;
 
-            if((!ViewModel.Node.IsCollapse)||(ViewModel.Node.IsCollapse && this.ViewModel.Name == "Output"))
+            if((!ViewModel.Node.IsCollapse)||(ViewModel.Node.IsCollapse && this.ViewModel.Name == "Çıktı"))
             {
                 positionConnectPoint = EllipseElement.TranslatePoint(new Point(EllipseElement.Width/2, EllipseElement.Height / 2), this);
 
@@ -220,7 +220,7 @@ namespace AYP.View
 
             }
 
-            if (this.ViewModel.Name == "Output")
+            if (this.ViewModel.Name == "Çıktı")
             {
                 this.ViewModel.NodesCanvas.LogDebug(positionConnectPoint.ToString());
             }

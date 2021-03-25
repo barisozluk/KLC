@@ -23,7 +23,15 @@
                     <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <View:LeftConnector x:Name="Input" Grid.Row="0" Grid.Column="0" Margin="0,0,0,5" />
+
+                <!--<ItemsControl x:Name="InputItemsControl">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <View:LeftConnector Grid.Row="0" Grid.Column="0" Margin="0,0,0,5" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>-->
+                
                 <View:RightConnector x:Name="Output" Grid.Row="1" Grid.Column="1"/>
             </Grid>
             <!--Control for Transactions-->
