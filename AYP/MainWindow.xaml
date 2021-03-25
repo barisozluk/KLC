@@ -67,6 +67,9 @@
         <Button x:Name="ButtonAlignCenter" ToolTip="Ortala" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="485,0,0,0">
             <Image Source="Images\middleAlign.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
+        <Button x:Name="ButtonEditSelected" ToolTip="Toplu Düzenle" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="525,0,0,0">
+            <Image Source="Images\middleAlign.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
+        </Button>
 
         <Button x:Name="ButtonBites"  Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,10,10,0" Grid.Row="1" VerticalAlignment="Top">
             <Image Source="Images\btes-nrm.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />

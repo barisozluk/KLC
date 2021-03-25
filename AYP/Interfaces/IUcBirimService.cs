@@ -17,5 +17,7 @@ namespace AYP.Interfaces
         UcBirim GetUcBirimById(int ucBirimId);
         ResponseModel SaveUcBirimAgArayuzu(AgArayuzu agArayuzu);
         ResponseModel SaveUcBirimGucArayuzu(GucArayuzu gucArayuzu);
+        ResponseModel SaveTopluEdit(List<int> selectedIdList, string ureticiAdi);
+
     }
 }

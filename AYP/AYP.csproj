@@ -105,6 +105,9 @@
     <Compile Update="AgAnahtariGucArayuzuPopupWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="EditSelectedPopupWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="WithoutSavePopupWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -130,6 +133,11 @@
     </Page>
 
     <Page Update="Styles\StyleTextBoxError.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+
+    <Page Update="EditSelectedPopupWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

@@ -48,6 +48,9 @@
     <Page Update="Styles\StyleTextBoxError.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="EditSelectedPopupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="WithoutSavePopupWindow.xaml">
       <SubType>Designer</SubType>
     </Page>

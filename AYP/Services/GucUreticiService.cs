@@ -246,5 +246,31 @@ namespace AYP.Services
 
             return imgSrc;
         }
+
+        public ResponseModel SaveTopluEdit(List<int> selectedIdList, string ureticiAdi)
+        {
+            ResponseModel response = new ResponseModel();
+            using (var transaction = context.Database.BeginTransaction(IsolationLevel.ReadUncommitted))
+            {
+                try
+                {
+                    foreach (var selectedId in selectedIdList)
+                    {
+                        var gucUretici = context.GucUretici.Where(x => x.Id == selectedId).FirstOrDefault();
+                        gucUretici.UreticiAdi = ureticiAdi;
+                        context.SaveChanges();
+                    }
+                    response.SetSuccess();
+                    transaction.Commit();
+                }
+                catch (Exception exception)
+                {
+                    context.Reset();
+                    response.SetError(exception.Message);
+                    transaction.Rollback();
+                }
+            }
+            return response;
+        }
     }
 }

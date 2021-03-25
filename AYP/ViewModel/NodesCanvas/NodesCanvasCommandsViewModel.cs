@@ -22,6 +22,7 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Threading;
 using AYP.Enums;
+using AYP.Helpers.Notifications;
 
 namespace AYP.ViewModel
 {
@@ -58,7 +59,7 @@ namespace AYP.ViewModel
         public ReactiveCommand<Unit, Unit> CommandChangeTheme { get; set; }
         public ReactiveCommand<Unit, Unit> CommandCopy { get; set; }
         public ReactiveCommand<Unit, Unit> CommandPaste { get; set; }
-
+        public ReactiveCommand<Unit, Unit> CommandEditSelected { get; set; }
 
         #endregion commands without parameter
 
@@ -167,7 +168,7 @@ namespace AYP.ViewModel
 
             CommandCopy = ReactiveCommand.Create(CopyToClipboard);
             CommandPaste = ReactiveCommand.Create(Paste);
-
+            CommandEditSelected = ReactiveCommand.Create(EditSelected);
             NotSavedSubscrube();
         }
 
@@ -253,6 +254,44 @@ namespace AYP.ViewModel
             NodeClipboard.AddRange(copiedNodeList);
             TransitionClipboard.AddRange(copiedTransitionList);
 
+        }
+        private void EditSelected()
+        {
+            NotificationManager notificationManager = new NotificationManager();
+            bool sameId = true;
+            int typeId;
+            
+            if (Nodes.Items.Where(x => x.Selected).Count()<1)
+            {
+                notificationManager.ShowWarningMessage("Lütfen en az 1 cihaz seçiniz");
+            }
+            else
+            {
+                foreach (var node in this.Nodes.Items.Where(x => x.Selected))
+                {
+                    foreach (var nodeNext in this.Nodes.Items.Where(x => x.Selected))
+                    {
+                        if (!node.TypeId.Equals(nodeNext.TypeId))
+                        {
+                            sameId = false;
+                        }
+                    }
+                }
+                if(sameId)
+                {
+                    typeId = Nodes.Items.Where(x => x.Selected).FirstOrDefault().TypeId;
+                    var list = Nodes.Items.Where(x => x.Selected).Select(s => s.Id).Distinct().ToList();
+                    EditSelectedPopupWindow es = new EditSelectedPopupWindow(typeId, list);
+                    es.Owner = this.MainWindow;
+                    es.ShowDialog();
+                }
+                else if(!sameId)
+                {
+                    notificationManager.ShowWarningMessage("Seçilen cihazlar aynı tür olmalıdır");
+                }
+               
+            }
+            
         }
 
         private void Paste()
