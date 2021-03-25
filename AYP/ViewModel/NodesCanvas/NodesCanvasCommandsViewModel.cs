@@ -278,7 +278,7 @@ namespace AYP.ViewModel
                 var newNode = new NodeViewModel(this, GetNameForNewNode(node.TypeId), node.UniqueId, nodePoint, node.Id, node.TypeId);
                 Nodes.Add(newNode);
                 LogDebug("Node with name \"{0}\" was copied", GetNameForNewNode(node.TypeId));
-
+                AddToProjectHierarchy(newNode);
                 temp.Add(newNode);
             }
 
@@ -429,6 +429,10 @@ namespace AYP.ViewModel
             WithoutMessages = false;
             this.Messages.Clear();
             ItSaved = true;
+            UcBirimCount = 0;
+            AgAnahtariCount = 0;
+            GucUreticiCount = 0;
+            DeleteProjectHierarchy();
         }
         private void Open()
         {
@@ -1217,6 +1221,10 @@ namespace AYP.ViewModel
         private void AddChildToProjectHierarchyWithTransitions(ConnectorViewModel connectorViewModel)
         {
             MainWindow.AppWindow.ProjectHierarchyAddChild(connectorViewModel);
+        }
+        private void DeleteProjectHierarchy()
+        {
+            MainWindow.AppWindow.ProjeHiyerarsi.Items.Clear();
         }
 
         #endregion
