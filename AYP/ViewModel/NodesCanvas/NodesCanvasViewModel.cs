@@ -80,7 +80,7 @@ namespace AYP.ViewModel
             Nodes.Connect().ObserveOnDispatcher().Bind(NodesForView).Subscribe();
             SetupCommands();
             SetupSubscriptions();
-            //SetupStartState();
+            SetupStartState();
         }
 
         #region Setup Subscriptions
@@ -105,7 +105,7 @@ namespace AYP.ViewModel
         }
         private void SetAsStart(NodeViewModel node)
         {
-            node.Input.Visible = false;
+            //node.Input.Visible = false;
             node.CanBeDelete = false;
             StartState = node;
         }

@@ -24,13 +24,13 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
 
-                <ItemsControl Name="InputItemsControl">
+                <!--<ItemsControl x:Name="InputItemsControl">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <View:LeftConnector Grid.Row="0" Grid.Column="0" Margin="0,0,0,5" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                </ItemsControl>-->
                 
                 <View:RightConnector x:Name="Output" Grid.Row="1" Grid.Column="1"/>
             </Grid>

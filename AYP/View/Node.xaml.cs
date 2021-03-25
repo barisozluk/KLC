@@ -80,7 +80,17 @@ namespace AYP.View
                 this.WhenAnyValue(v => v.BorderElement.ActualWidth, v => v.BorderElement.ActualHeight, (width, height) => new Size(width, height))
                      .BindTo(this, v => v.ViewModel.Size).DisposeWith(disposable);
 
-                this.OneWayBind(this.ViewModel, x => x.InputList, x => x.InputItemsControl.ItemsSource).DisposeWith(disposable);
+                int i = 5;
+                foreach (var input in this.ViewModel.InputList)
+                {
+                    LeftConnector left = new LeftConnector();
+                    left.ViewModel = input;
+                    left.Margin = new Thickness(0, i, 0, 0);
+                    Grid.SetRow(left, 0);
+                    Grid.SetColumn(left, 0);
+                    GridElement.Children.Add(left);
+                    i += 20;
+                }
 
                 this.OneWayBind(this.ViewModel, x => x.Output, x => x.Output.ViewModel).DisposeWith(disposable);
 

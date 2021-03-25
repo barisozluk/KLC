@@ -958,6 +958,12 @@ namespace AYP.ViewModel
                 }
                 
                 newNode = new NodeViewModel(this, GetNameForNewNode(parameter.Node.TypeId), Guid.NewGuid(), parameter.Point, parameter.Node.Id, parameter.Node.TypeId, parameter.Node.InputAgArayuzuSayisi, parameter.Node.OutputAgArayuzuSayisi);
+                
+                if(NodesCount == 0)
+                {
+                    newNode.CanBeDelete = false;
+                    StartState = newNode;
+                }
             }
             else
             {
