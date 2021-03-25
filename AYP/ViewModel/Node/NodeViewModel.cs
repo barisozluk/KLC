@@ -111,12 +111,31 @@ namespace AYP.ViewModel
         {
             for (int i = 0; i < InputSayisi; i++)
             {
-                InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 30 + (i * 5))));
+                if (i == 0)
+                {
+                    InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 36 + (i * 23))));
+                }
+                else if (i == 1)
+                {
+                    InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 34 + (i * 20))));
+                }
+                else if (i == 2)
+                {
+                    InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 31 + (i * 19))));
+                }
+                else if (i == 3)
+                {
+                    InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 33 + (i * 18))));
+                }
+                else if (i == 4)
+                {
+                    InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 36 + (i * 17))));
+                }
             }
 
             for (int i = 0; i < GucArayuzuSayisi; i++)
             {
-                GucInputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 80 + (i * 5))));
+                GucInputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 160 + (i * 23))));
             }
 
             Output = new ConnectorViewModel(NodesCanvas, this, "Çıktı", Point1.Addition(80, 54))

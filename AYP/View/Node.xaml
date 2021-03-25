@@ -8,7 +8,7 @@
              xmlns:enums="clr-namespace:AYP.Helpers.Enums"
              mc:Ignorable="d" Focusable="True" AllowDrop="True" Visibility="Visible">
 
-    <Border x:Name="BorderElement" CornerRadius="7,7,7,7" BorderThickness="2" BorderBrush="{DynamicResource ColorNodeBorderBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="80">
+    <Border x:Name="BorderElement" CornerRadius="7,7,7,7" BorderThickness="2" BorderBrush="{DynamicResource ColorNodeBorderBrush}" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="130">
         <Border.Background>
             <SolidColorBrush Color="#222d35" />
         </Border.Background>

@@ -335,7 +335,7 @@ namespace AYP.ViewModel
                             var toNode = temp.Where(x => x.UniqueId == transition.Connect.ToConnector.Node.UniqueId).FirstOrDefault();
 
                             var fromConnectorPoint = new Point(transition.Connect.FromConnector.PositionConnectPoint.X + 15, transition.Connect.FromConnector.PositionConnectPoint.Y + 15);
-                            var fromConnectorName = "Transition #" + j.ToString();
+                            var fromConnectorName = "Çıktı #" + j.ToString();
                             var fromConnector = new ConnectorViewModel(this, fromNode, fromConnectorName, fromConnectorPoint);
                             
                             var toConnectorPoint = new Point(transition.Connect.ToConnector.PositionConnectPoint.X + 15, transition.Connect.ToConnector.PositionConnectPoint.Y + 15);

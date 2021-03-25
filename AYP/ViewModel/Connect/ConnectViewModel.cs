@@ -78,7 +78,7 @@ namespace AYP.ViewModel
         }
         private void StartPointUpdate(Point point)
         {
-            StartPoint = point;
+            StartPoint = new Point(point.X, point.Y + 106);
         }
         private void EndPointUpdate(Point point)
         {

@@ -89,10 +89,10 @@ namespace AYP.View
                     Grid.SetRow(left, 0);
                     Grid.SetColumn(left, 0);
                     GridElement.Children.Add(left);
-                    i += 20;
+                    i += 17;
                 }
 
-                i = 85;
+                i = 110;
                 foreach (var input in this.ViewModel.GucInputList)
                 {
                     LeftConnector left = new LeftConnector();
@@ -101,7 +101,7 @@ namespace AYP.View
                     Grid.SetRow(left, 0);
                     Grid.SetColumn(left, 0);
                     GridElement.Children.Add(left);
-                    i += 20;
+                    i += 17;
                 }
 
                 this.OneWayBind(this.ViewModel, x => x.Output, x => x.Output.ViewModel).DisposeWith(disposable);
