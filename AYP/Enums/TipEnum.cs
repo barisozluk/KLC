@@ -13,6 +13,8 @@ namespace AYP.Enums
             AgAnahtariAgArayuzu = 5,
             UcBirimGucArayuzu = 6,
             AgAnahtariGucArayuzu = 7,
-            GucUreticiGucArayuzu = 8
+            GucUreticiGucArayuzu = 8,
+
+            Group = 9,
         }
 }

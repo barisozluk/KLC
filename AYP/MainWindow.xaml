@@ -58,16 +58,19 @@
         <Button x:Name="ButtonGroup" ToolTip="Grupla" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="365,0,0,0">
             <Image Source="Images\group.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
-        <Button x:Name="ButtonAlignLeft" ToolTip="Sola Yasla" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="405,0,0,0">
+        <Button x:Name="ButtonUngroup" ToolTip="Dağıt" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="405,0,0,0">
+            <Image Source="Images\group.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
+        </Button>
+        <Button x:Name="ButtonAlignLeft" ToolTip="Sola Yasla" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="445,0,0,0">
             <Image Source="Images\leftAlign.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
-        <Button x:Name="ButtonAlignRight" ToolTip="Sağa Yasla" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="445,0,0,0">
+        <Button x:Name="ButtonAlignRight" ToolTip="Sağa Yasla" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="485,0,0,0">
             <Image Source="Images\rightAlign.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
-        <Button x:Name="ButtonAlignCenter" ToolTip="Ortala" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="485,0,0,0">
+        <Button x:Name="ButtonAlignCenter" ToolTip="Ortala" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="525,0,0,0">
             <Image Source="Images\middleAlign.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
-        <Button x:Name="ButtonEditSelected" ToolTip="Toplu Düzenle" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="525,0,0,0">
+        <Button x:Name="ButtonEditSelected" ToolTip="Toplu Düzenle" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="565,0,0,0">
             <Image Source="Images\edit.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20"/>
 
         </Button>

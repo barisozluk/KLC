@@ -26,11 +26,19 @@ using AYP.Helpers.Notifications;
 
 namespace AYP.ViewModel
 {
+    public class GroupModel
+    {
+        public Guid UniqueId { get; set; }
+        public List<NodeViewModel> NodeList { get; set; }
+        public List<ConnectorViewModel> TransitionList { get; set; }
+    }
+
     public partial class NodesCanvasViewModel
     {
         private List<NodeViewModel> NodeClipboard;
         private List<ConnectorViewModel> TransitionClipboard;
 
+        private List<GroupModel> GroupList;
 
         #region commands without parameter
         public ReactiveCommand<Unit, Unit> CommandNew { get; set; }
@@ -60,6 +68,8 @@ namespace AYP.ViewModel
         public ReactiveCommand<Unit, Unit> CommandCopy { get; set; }
         public ReactiveCommand<Unit, Unit> CommandPaste { get; set; }
         public ReactiveCommand<Unit, Unit> CommandEditSelected { get; set; }
+        public ReactiveCommand<Unit, Unit> CommandGroup { get; set; }
+        public ReactiveCommand<Unit, Unit> CommandUngroup { get; set; }
 
         #endregion commands without parameter
 
@@ -165,10 +175,14 @@ namespace AYP.ViewModel
 
             NodeClipboard = new List<NodeViewModel>();
             TransitionClipboard = new List<ConnectorViewModel>();
+            GroupList = new List<GroupModel>();
 
             CommandCopy = ReactiveCommand.Create(CopyToClipboard);
             CommandPaste = ReactiveCommand.Create(Paste);
             CommandEditSelected = ReactiveCommand.Create(EditSelected);
+            CommandGroup = ReactiveCommand.Create(Group);
+            CommandUngroup = ReactiveCommand.Create(Ungroup);
+
             NotSavedSubscrube();
         }
 
@@ -255,6 +269,73 @@ namespace AYP.ViewModel
             TransitionClipboard.AddRange(copiedTransitionList);
 
         }
+
+        private void Group()
+        {
+            var nodeList = new List<NodeViewModel>();
+            foreach (var node in this.Nodes.Items.Where(x => x.Selected))
+            {
+                nodeList.Add(node);    
+            }
+
+            var transitionList = new List<ConnectorViewModel>();
+            foreach (var node in this.Nodes.Items.Where(x => x.Selected))
+            {
+                foreach (var transition in node.Transitions.Items.Where(x => x.Selected))
+                {
+                    transitionList.Add(transition);
+                }
+            }
+
+            if (nodeList.Count() > 1)
+            {
+                GroupModel model = new GroupModel();
+                model.UniqueId = Guid.NewGuid();
+                model.NodeList = nodeList;
+                model.TransitionList = transitionList;
+                GroupList.Add(model);
+
+                CommandDeleteSelectedNodes.Execute();
+                CommandDeleteSelectedConnectors.Execute();
+
+                NodeViewModel newNode = new NodeViewModel(this, "Grup " + GroupList.Count, model.UniqueId, new Point(), 0, 9, 1, 1, 1);
+                Nodes.Add(newNode);
+            }
+        }
+
+        private void Ungroup()
+        {
+            var nodeList = new List<NodeViewModel>();
+            foreach (var node in this.Nodes.Items.Where(x => x.Selected))
+            {
+                nodeList.Add(node);
+            }
+
+            foreach (var node in nodeList)
+            {
+                var group = GroupList.Where(g => g.UniqueId == node.UniqueId).FirstOrDefault();
+
+                if (group != null)
+                {
+                    Nodes.Remove(node);
+
+                    foreach (var groupedNode in group.NodeList)
+                    {
+                        var temp = groupedNode.Transitions.Items;
+                        groupedNode.Transitions.Clear();
+                        Nodes.Add(groupedNode);
+
+                        int index = 0;
+                        foreach (var transition in temp)
+                        {
+                            transition.Node.CommandAddConnectorWithConnect.ExecuteWithSubscribe((index, transition));
+                            index++;
+                        }
+                    }
+                }
+            }
+        }
+
         private void EditSelected()
         {
             NotificationManager notificationManager = new NotificationManager();
@@ -1000,7 +1081,7 @@ namespace AYP.ViewModel
                 
                 if(NodesCount == 0)
                 {
-                    newNode.CanBeDelete = false;
+                    newNode.CanBeDelete = true;
                     StartState = newNode;
                 }
             }
