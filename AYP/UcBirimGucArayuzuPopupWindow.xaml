@@ -29,19 +29,22 @@
             </Button>
 
             <Rectangle Style="{DynamicResource StyleDescribingGucUreticiFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <Label Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Uç Birim  *" Grid.Row="0" Grid.Column="1" Margin="0,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Uç Birim" Grid.Row="0" Grid.Column="1" Margin="0,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="*" Grid.Row="0" Grid.Column="1" Margin="180,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <ComboBox SelectedValue="{Binding UcBirimId}" ItemsSource="{Binding UcBirimList}" DisplayMemberPath="Tanim" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="200,65,0,10" VerticalAlignment="Top" >
             </ComboBox>
 
-            <Label Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Kullanım Amacı  *" Grid.Row="0" Grid.Column="1" Margin="0,110,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Kullanım Amacı" Grid.Row="0" Grid.Column="1" Margin="0,110,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="*" Grid.Row="0" Grid.Column="1" Margin="180,110,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <ComboBox SelectedValue="{Binding KullanimAmaciId}" ItemsSource="{Binding KullanimAmaciList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Name="UcBirimGucArayuzKullanimAmaci" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="200,110,0,10" VerticalAlignment="Top" SelectionChanged="UcBirimGucArayuzKullanimAmaci_SelectionChanged" >
             </ComboBox>
 
-            <Label Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Gerilim Tipi  *" Grid.Row="0" Grid.Column="1" Margin="0,155,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Gerilim Tipi" Grid.Row="0" Grid.Column="1" Margin="0,155,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="*" Grid.Row="0" Grid.Column="1" Margin="180,155,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <ComboBox SelectedValue="{Binding GerilimTipiId}" ItemsSource="{Binding GerilimTipiList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="200,155,0,10" VerticalAlignment="Top" >
             </ComboBox>
 
-            <Label Name="ug1" Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Girdi Durağan Gerilim Değeri 1  *" Grid.Row="0" Grid.Column="1" Margin="0,200,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Name="ug1" Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Girdi Durağan Gerilim Değeri 1" Grid.Row="0" Grid.Column="1" Margin="0,200,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <TextBox Name="ug2" PreviewTextInput="DecimalValidationTextBox" Text="{Binding GirdiDuraganGerilimDegeri1, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,200,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
             <Label Name="ug3" Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Girdi Durağan Gerilim Değeri 2" Grid.Row="0" Grid.Column="1" Margin="0,245,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -59,10 +62,10 @@
             <Label Name="ug11" Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Girdi Tükettiği Güç Miktarı" Grid.Row="0" Grid.Column="1" Margin="0,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <TextBox Name="ug12" PreviewTextInput="DecimalValidationTextBox" Text="{Binding GirdiTukettigiGucMiktari, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
-            <Label Name="ug13" Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Çıktı Durağan Gerilim Değeri  *" Grid.Row="0" Grid.Column="1" Margin="0,470,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Name="ug13" Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Çıktı Durağan Gerilim Değeri" Grid.Row="0" Grid.Column="1" Margin="0,470,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <TextBox Name="ug14" Text="{Binding CiktiDuraganGerilimDegeri}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,470,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
-            <Label Name="ug15" Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Çıktı Ürettiği Güç Kapasitesi  *" Grid.Row="0" Grid.Column="1" Margin="0,515,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Name="ug15" Padding="10,5,0,0" FontSize="12" Foreground="#ffffff" Content="Çıktı Ürettiği Güç Kapasitesi" Grid.Row="0" Grid.Column="1" Margin="0,515,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <TextBox Name="ug16" PreviewTextInput="DecimalValidationTextBox" Text="{Binding CiktiUrettigiGucKapasitesi, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,515,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
 

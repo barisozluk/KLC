@@ -24,18 +24,22 @@
             </Button>
 
             <Rectangle Style="{DynamicResource StyleDescribingAgArayuzuFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Uç Birim  *" Grid.Row="0" Grid.Column="1" Margin="0,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Uç Birim" Grid.Row="0" Grid.Column="1" Margin="0,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="*" Grid.Row="0" Grid.Column="1" Margin="160,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <ComboBox SelectedValue="{Binding UcBirimId}" ItemsSource="{Binding UcBirimList}" DisplayMemberPath="Tanim" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="180,65,0,10" VerticalAlignment="Top" ></ComboBox>
 
-            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Kullanım Amacı  *" Grid.Row="0" Grid.Column="1" Margin="0,110,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Kullanım Amacı" Grid.Row="0" Grid.Column="1" Margin="0,110,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="*" Grid.Row="0" Grid.Column="1" Margin="160,110,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <ComboBox SelectedValue="{Binding KullanimAmaciId}" ItemsSource="{Binding KullanimAmaciList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="180,110,0,10" VerticalAlignment="Top" >
             </ComboBox>
 
-            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Fiziksel Ortam  *" Grid.Row="0" Grid.Column="1" Margin="0,155,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Fiziksel Ortam" Grid.Row="0" Grid.Column="1" Margin="0,155,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="*" Grid.Row="0" Grid.Column="1" Margin="160,155,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <ComboBox SelectedValue="{Binding FizikselOrtamId}" ItemsSource="{Binding FizikselOrtamList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="180,155,0,10" VerticalAlignment="Top" >
             </ComboBox>
 
-            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Kapasite  *" Grid.Row="0" Grid.Column="1" Margin="0,200,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Kapasite" Grid.Row="0" Grid.Column="1" Margin="0,200,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="*" Grid.Row="0" Grid.Column="1" Margin="160,200,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <ComboBox SelectedValue="{Binding KapasiteId}" ItemsSource="{Binding KapasiteList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="180,200,0,10" VerticalAlignment="Top" >
             </ComboBox>
 
