@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:view="clr-namespace:AYP.View" xmlns:styles="clr-namespace:AYP.Styles"
-        mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="Manual" Topmost="True" Left="0" Top="0"
+        mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterScreen"
         Title="MainWindow" Height="1080" Width="1920">
 
     <Grid Margin="0" Background="#182026" AutomationProperties.IsRowHeader="True" AutomationProperties.IsColumnHeader="True">
@@ -108,10 +108,10 @@
             <Image Source="Images\settings.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
         
-        <Button x:Name="ButtonHelp" ToolTip="Yardım" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,935,10,0" Grid.Row="1" VerticalAlignment="Top" >
+        <Button x:Name="ButtonHelp" ToolTip="Yardım" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,935,10,0" Grid.Row="1" VerticalAlignment="Top" Click="Help_Click">
             <Image Source="Images\help.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
-       
+
         <Label Grid.Column="5" HorizontalAlignment="Right" Margin="0,0,95,0" Foreground="#fff" Content="{Binding Path= versiyon}" ></Label>
         <Button x:Name="ButtonMinimize" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="5" HorizontalAlignment="Right" Margin="0,0,35,0" Click="MinimizeButtonClick">
             <Rectangle x:Name="ButtonMinimizeRectangle" Fill="{DynamicResource IconMinimize}"  Height="2" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>

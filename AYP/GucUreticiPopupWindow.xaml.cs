@@ -312,5 +312,33 @@ namespace AYP
                 }
             }
         }
+
+        private void VerimlilikOrani_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(VerimlilikOrani.Text) && VerimlilikOrani.Text != " ")
+            {
+                DahiliGucTuketimDegeri.IsEnabled = false;
+                DahiliGucTuketimDegeri.Opacity = 0.25;
+            }
+            else
+            {
+                DahiliGucTuketimDegeri.IsEnabled = true;
+                DahiliGucTuketimDegeri.Opacity = 1;
+            }
+        }
+
+        private void DahiliGucTuketimDegeri_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if(!string.IsNullOrEmpty(DahiliGucTuketimDegeri.Text) && DahiliGucTuketimDegeri.Text != " ")
+            {
+                VerimlilikOrani.IsEnabled = false;
+                VerimlilikOrani.Opacity = 0.25;
+            }
+            else
+            {
+                VerimlilikOrani.IsEnabled = true;
+                VerimlilikOrani.Opacity = 1;
+            }
+        }
     }
 }

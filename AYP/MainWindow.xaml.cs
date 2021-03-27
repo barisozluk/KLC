@@ -1049,5 +1049,14 @@ namespace AYP
             e2.IsExpanded = false;
         }
         #endregion
+
+        #region HelpEvent
+        private void Help_Click(object sender, RoutedEventArgs e)
+        {
+            WebBrowser webBrowser = new WebBrowser();
+            string pdfPath = "file:///" + Directory.GetCurrentDirectory() + "\\KullanimKilavizu.pdf";
+            webBrowser.Navigate(pdfPath);
+        }
+        #endregion
     }
 }
