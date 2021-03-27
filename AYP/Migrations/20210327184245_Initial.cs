@@ -435,6 +435,26 @@ namespace AYP.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "AgAnahtariTur",
+                columns: new[] { "Id", "Ad" },
+                values: new object[,]
+                {
+                    { 1, "Kenar" },
+                    { 2, "Toplama" },
+                    { 3, "Omurga" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "GucUreticiTur",
+                columns: new[] { "Id", "Ad" },
+                values: new object[,]
+                {
+                    { 1, "Şebeke" },
+                    { 2, "Güç Kaynağı" },
+                    { 3, "Kesintisiz Güç Kaynağı" }
+                });
+
+            migrationBuilder.InsertData(
                 table: "KL_FizikselOrtam",
                 columns: new[] { "Id", "Ad" },
                 values: new object[,]
@@ -457,10 +477,11 @@ namespace AYP.Migrations
                 columns: new[] { "Id", "Ad" },
                 values: new object[,]
                 {
+                    { 4, "10-Gigabit Ethernet" },
+                    { 3, "Gigabit Ethernet" },
+                    { 5, "40-Gigabit Ethernet" },
                     { 1, "Ethernet" },
-                    { 2, "Fast Ethernet" },
-                    { 3, "10-Gigabit Ethernet" },
-                    { 4, "40-Gigabit Ethernet" }
+                    { 2, "Fast Ethernet" }
                 });
 
             migrationBuilder.InsertData(
@@ -468,8 +489,8 @@ namespace AYP.Migrations
                 columns: new[] { "Id", "Ad" },
                 values: new object[,]
                 {
-                    { 2, "Çıktı" },
-                    { 1, "Girdi" }
+                    { 1, "Girdi" },
+                    { 2, "Çıktı" }
                 });
 
             migrationBuilder.InsertData(
@@ -485,6 +506,17 @@ namespace AYP.Migrations
                     { 6, "Uç Birim Güç Arayüzü" },
                     { 7, "Ağ Anahtarı Güç Arayüzü" },
                     { 8, "Güç Üretici Güç Arayüzü" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "UcBirimTur",
+                columns: new[] { "Id", "Ad" },
+                values: new object[,]
+                {
+                    { 3, "Video Wall" },
+                    { 1, "Kamera" },
+                    { 2, "NVR" },
+                    { 4, "Sunucu" }
                 });
 
             migrationBuilder.CreateIndex(

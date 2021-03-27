@@ -61,7 +61,7 @@
             <TextBox Name="VerimlilikOrani" PreviewTextInput="DecimalValidationTextBox" Text="{Binding VerimlilikDegeri, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Dahili Güç Tüketim Değeri" Grid.Row="0" Grid.Column="1" Margin="0,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="DahiliGucTuketimDegeri" PreviewTextInput="DecimalValidationTextBox" Text="{Binding DahiliGucTuketimDegeri, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="DahiliGucTuketimDegeri_TextChanged"></TextBox>
+            <TextBox Name="DahiliGucTuketimDegeri" PreviewTextInput="DecimalValidationTextBox" Text="{Binding DahiliGucTuketimDegeri, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Katalog" Grid.Row="0" Grid.Column="1" Margin="0,470,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="*" Grid.Row="0" Grid.Column="1" Margin="180,470,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>

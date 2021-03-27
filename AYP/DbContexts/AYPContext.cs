@@ -20,7 +20,7 @@ namespace AYP.DbContext
             protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             {
                 optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["AYPContext"].ConnectionString);
-                //optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-86JLPO4\SQL;Integrated Security=True;Database=Ayp");
+                //optionsBuilder.UseSqlServer(@"Data Source=localhost\SQL;Integrated Security=True;Database=master");
             }
 
             public DbSet<KL_Tip> KL_Tip { get; set; }
@@ -73,8 +73,28 @@ namespace AYP.DbContext
                 modelBuilder.Entity<KL_Kapasite>().HasData(
                    new KL_Kapasite() { Ad = "Ethernet", Id = 1 },
                    new KL_Kapasite() { Ad = "Fast Ethernet", Id = 2 },
-                   new KL_Kapasite() { Ad = "10-Gigabit Ethernet", Id = 3 },
-                   new KL_Kapasite() { Ad = "40-Gigabit Ethernet", Id = 4 }
+                   new KL_Kapasite() { Ad = "Gigabit Ethernet", Id = 3 },
+                   new KL_Kapasite() { Ad = "10-Gigabit Ethernet", Id = 4 },
+                   new KL_Kapasite() { Ad = "40-Gigabit Ethernet", Id = 5 }
+                );
+
+                modelBuilder.Entity<UcBirimTur>().HasData(
+                   new UcBirimTur() { Ad = "Kamera", Id = 1 },
+                   new UcBirimTur() { Ad = "NVR", Id = 2 },
+                   new UcBirimTur() { Ad = "Video Wall", Id = 3 },
+                   new UcBirimTur() { Ad = "Sunucu", Id = 4 }
+                );
+
+                modelBuilder.Entity<AgAnahtariTur>().HasData(
+                   new AgAnahtariTur() { Ad = "Kenar", Id = 1 },
+                   new AgAnahtariTur() { Ad = "Toplama", Id = 2 },
+                   new AgAnahtariTur() { Ad = "Omurga", Id = 3 }
+                );
+
+                modelBuilder.Entity<GucUreticiTur>().HasData(
+                   new GucUreticiTur() { Ad = "Şebeke", Id = 1 },
+                   new GucUreticiTur() { Ad = "Güç Kaynağı", Id = 2 },
+                   new GucUreticiTur() { Ad = "Kesintisiz Güç Kaynağı", Id = 3 }
                 );
             }
 

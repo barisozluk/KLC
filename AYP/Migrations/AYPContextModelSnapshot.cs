@@ -145,6 +145,23 @@ namespace AYP.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AgAnahtariTur");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Ad = "Kenar"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Ad = "Toplama"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Ad = "Omurga"
+                        });
                 });
 
             modelBuilder.Entity("AYP.Entities.AgArayuzu", b =>
@@ -337,6 +354,23 @@ namespace AYP.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("GucUreticiTur");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Ad = "Şebeke"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Ad = "Güç Kaynağı"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Ad = "Kesintisiz Güç Kaynağı"
+                        });
                 });
 
             modelBuilder.Entity("AYP.Entities.KL_FizikselOrtam", b =>
@@ -414,7 +448,7 @@ namespace AYP.Migrations
                         new
                         {
                             Id = 1,
-                            Ad = "Ethernet (0-10 Mbps)"
+                            Ad = "Ethernet"
                         },
                         new
                         {
@@ -424,11 +458,16 @@ namespace AYP.Migrations
                         new
                         {
                             Id = 3,
-                            Ad = "10-Gigabit Ethernet"
+                            Ad = "Gigabit Ethernet"
                         },
                         new
                         {
                             Id = 4,
+                            Ad = "10-Gigabit Ethernet"
+                        },
+                        new
+                        {
+                            Id = 5,
                             Ad = "40-Gigabit Ethernet"
                         });
                 });
@@ -646,6 +685,28 @@ namespace AYP.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UcBirimTur");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Ad = "Kamera"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Ad = "NVR"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Ad = "Video Wall"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Ad = "Sunucu"
+                        });
                 });
 
             modelBuilder.Entity("AYP.Entities.AgAnahtari", b =>

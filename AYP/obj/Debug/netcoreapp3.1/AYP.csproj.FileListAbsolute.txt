@@ -1012,3 +1012,4 @@ C:\Users\Ayca\Desktop\AYPGit13\AYP\obj\Debug\netcoreapp3.1\AYP.dll
 C:\Users\Ayca\Desktop\AYPGit13\AYP\obj\Debug\netcoreapp3.1\AYP.pdb
 C:\Users\Ayca\Desktop\AYPGit13\AYP\obj\Debug\netcoreapp3.1\AYP.genruntimeconfig.cache
 C:\Users\Ayca\Desktop\AYPGit13\AYP\obj\Debug\netcoreapp3.1\Styles\StyleToolTip.baml
+C:\Users\KLC\Desktop\AYPTEST\AYP\obj\Debug\netcoreapp3.1\Styles\StyleToolTip.baml
