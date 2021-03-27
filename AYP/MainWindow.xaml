@@ -181,30 +181,10 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Expander x:Name="e1" Header="Uç Birim" Grid.Row="0" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Left" Margin="0,0,0,5"  VerticalAlignment="Top" Expanded="e1_Expanded">
-                        <Grid>
-                            <ScrollViewer x:Name="sw2" Height="305" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,0,-6,0" Background="Transparent">
-                                <StackPanel x:Name="s2" Height="auto" Width="auto" >
-                                    <ItemsControl Name="UcBirimDataGrid">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <UniformGrid Columns="3" VerticalAlignment="Top" HorizontalAlignment="Left"  />
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <Button Background="Transparent" Style="{DynamicResource StyleCloseDescribingButton}" Width="100" Height="100" Tag="{Binding Id}" PreviewMouseDown="cihaz_MouseLeftButtonDown" Click="UcBirim_Click">
-                                                    <Image Height="40" Width="40" Margin="25" Source="{Binding SembolSrc}" />
-                                                </Button>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </StackPanel>
-                            </ScrollViewer>
-                        </Grid>
-                    </Expander>
-                    <Expander x:Name="e2" Header="Ağ Anahtarı" Grid.Row="1" Style="{DynamicResource StyleExpander2}" HorizontalAlignment="Left" Margin="0,0,0,5"  VerticalAlignment="Top" Expanded="e2_Expanded">
-                        <Grid>
-                            <ItemsControl Name="AgAnahtariDataGrid">
+                <Grid>
+                    <ScrollViewer x:Name="sw2" Height="305" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,0,-6,0" Background="Transparent">
+                        <StackPanel x:Name="s2" Height="auto" Width="auto" >
+                            <ItemsControl Name="UcBirimDataGrid">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <UniformGrid Columns="3" VerticalAlignment="Top" HorizontalAlignment="Left"  />
@@ -212,14 +192,48 @@
                                 </ItemsControl.ItemsPanel>
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Button Background="Transparent" Style="{DynamicResource StyleCloseDescribingButton}" Width="100" Height="100" Tag="{Binding Id}" PreviewMouseDown="cihaz_MouseLeftButtonDown" Click="AgAnahtari_Click">
-                                            <Image Height="40" Width="40" Margin="25" Source="{Binding SembolSrc}" />
-                                        </Button>
+                                        <Grid Margin="0,0,0,0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+                                            <Button Grid.Row="0" Background="Transparent" Style="{DynamicResource StyleCloseDescribingButton}" Width="100" Height="100" Tag="{Binding Id}" PreviewMouseDown="cihaz_MouseLeftButtonDown" Click="UcBirim_Click">
+                                                <Image Height="40" Width="40" Margin="25" Source="{Binding SembolSrc}" />
+                                            </Button>
+                                            <Label HorizontalAlignment="center"  Grid.Row="1" FontSize="11" Foreground="#ffffff" Content="{Binding Tanim}"/>
+                                        </Grid>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
-                        </Grid>
-                    </Expander>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Expander>
+            <Expander x:Name="e2" Header="Ağ Anahtarı" Grid.Row="1" Style="{DynamicResource StyleExpander2}" HorizontalAlignment="Left" Margin="0,0,0,5"  VerticalAlignment="Top" Expanded="e2_Expanded">
+                <Grid>
+                    <ItemsControl Name="AgAnahtariDataGrid">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="3" VerticalAlignment="Top" HorizontalAlignment="Left"  />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,0,0,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Button Background="Transparent" Style="{DynamicResource StyleCloseDescribingButton}" Width="100" Height="100" Tag="{Binding Id}" PreviewMouseDown="cihaz_MouseLeftButtonDown" Click="AgAnahtari_Click">
+                                        <Image Height="40" Width="40" Margin="25" Source="{Binding SembolSrc}" />
+                                    </Button>
+                                    <Label HorizontalAlignment="center"  Grid.Row="1" FontSize="11" Foreground="#ffffff" Content="{Binding Tanim}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+            </Expander>
             <Expander x:Name="e3" Header="Güç Üretici" Grid.Row="2" Style="{DynamicResource StyleExpander3}" HorizontalAlignment="Left" Margin="0,0,0,5"  VerticalAlignment="Top" Expanded="e3_Expanded">
                 <Grid>
                     <ItemsControl Name="GucUreticiDataGrid">
@@ -230,9 +244,16 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Button Background="Transparent" Style="{DynamicResource StyleCloseDescribingButton}" Width="100" Height="100" Tag="{Binding Id}" PreviewMouseDown="cihaz_MouseLeftButtonDown" Click="GucUretici_Click">
-                                    <Image Height="40" Width="40" Margin="25" Source="{Binding SembolSrc}" />
-                                </Button>
+                                <Grid Margin="0,0,0,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Button Background="Transparent" Style="{DynamicResource StyleCloseDescribingButton}" Width="100" Height="100" Tag="{Binding Id}" PreviewMouseDown="cihaz_MouseLeftButtonDown" Click="GucUretici_Click">
+                                        <Image Height="40" Width="40" Margin="25" Source="{Binding SembolSrc}" />
+                                    </Button>
+                                    <Label HorizontalAlignment="center"  Grid.Row="1" FontSize="11" Foreground="#ffffff" Content="{Binding Tanim}"/>
+                                </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
