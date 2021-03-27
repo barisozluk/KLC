@@ -153,7 +153,9 @@ namespace AYP.View
                 bool fromNode = true;
                 MainWindow mainWindow = this.ViewModel.NodesCanvas.MainWindow;
                 mainWindow.IsEnabled = false;
-                mainWindow.Effect = new System.Windows.Media.Effects.BlurEffect();
+                System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+                blur.Radius = 2;
+                this.Effect = blur;
 
                 if (this.ViewModel.TypeId == (int)TipEnum.UcBirim)
                 {

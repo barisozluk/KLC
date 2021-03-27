@@ -34,33 +34,42 @@
         <Button x:Name="ButtonRedo" ToolTip="Tekrarla" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="45,0,0,0">
             <Image Source="Images\forward.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
+
+        <Border Background="#222d35" Width="1" Height="35"  Grid.Column="3"  HorizontalAlignment="Left" Margin="82,0,0,0"/>
+
         <Button x:Name="ButtonZoomOriginalSize" ToolTip="Orjinal Görünüme Dön" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="85,0,0,0">
             <Image Source="Images\dongu.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
+        <Border Background="#222d35" Width="1" Height="35"  Grid.Column="3"  HorizontalAlignment="Left" Margin="122,0,0,0"/>
         <Button x:Name="ButtonZoomIn" ToolTip="Yakınlaş" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="125,0,0,0">
             <Image Source="Images\zoomIn.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
         <Button x:Name="ButtonZoomOut" ToolTip="Uzaklaş" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="165,0,0,0">
             <Image Source="Images\zoomOut.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
+        <Border Background="#222d35" Width="1" Height="35"  Grid.Column="3"  HorizontalAlignment="Left" Margin="202,0,0,0"/>
         <RadioButton x:Name="ButtonStartSelect" ToolTip="Çoklu Seçim" Style="{DynamicResource StyleCutButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="205,0,0,0">
             <Image Source="Images\multipleSelect.png" Grid.Column="0" Margin="4,7,0,0" Grid.Row="0" Width="25" Height="20" />
         </RadioButton>
-        <RadioButton x:Name="ButtonStartCut" ToolTip="Kes" Style="{DynamicResource StyleCutButton}"  Grid.Column="3" HorizontalAlignment="Left" Margin="245,0,0,0">
+        <Border Background="#222d35" Width="1" Height="35"  Grid.Column="3"  HorizontalAlignment="Left" Margin="242,0,0,0"/>
+        <RadioButton x:Name="ButtonStartCut" ToolTip="Bağlantıyı Kes" Style="{DynamicResource StyleCutButton}"  Grid.Column="3" HorizontalAlignment="Left" Margin="245,0,0,0">
             <Image Source="Images\cut.png" Grid.Column="0" Grid.Row="0" Margin="4,7,0,0" Width="25" Height="20" />
         </RadioButton>
+        <Border Background="#222d35" Width="1" Height="35"  Grid.Column="3"  HorizontalAlignment="Left" Margin="282,0,0,0"/>
         <Button x:Name="ButtonCopy" ToolTip="Kopyala" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="285,0,0,0">
             <Image Source="Images\copy.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
         <Button x:Name="ButtonPaste" ToolTip="Yapıştır" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="325,0,0,0">
             <Image Source="Images\paste.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
+        <Border Background="#222d35" Width="1" Height="35"  Grid.Column="3"  HorizontalAlignment="Left" Margin="362,0,0,0"/>
         <Button x:Name="ButtonGroup" ToolTip="Grupla" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="365,0,0,0">
             <Image Source="Images\group.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
         <Button x:Name="ButtonUngroup" ToolTip="Dağıt" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="405,0,0,0">
             <Image Source="Images\group.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
+        <Border Background="#222d35" Width="1" Height="35"  Grid.Column="3"  HorizontalAlignment="Left" Margin="442,0,0,0"/>
         <Button x:Name="ButtonAlignLeft" ToolTip="Sola Yasla" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="445,0,0,0">
             <Image Source="Images\leftAlign.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
@@ -70,6 +79,7 @@
         <Button x:Name="ButtonAlignCenter" ToolTip="Ortala" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="525,0,0,0">
             <Image Source="Images\middleAlign.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
+        <Border Background="#222d35" Width="1" Height="35"  Grid.Column="3"  HorizontalAlignment="Left" Margin="562,0,0,0"/>
         <Button x:Name="ButtonEditSelected" ToolTip="Toplu Düzenle" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="565,0,0,0">
             <Image Source="Images\edit.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20"/>
 
@@ -148,7 +158,7 @@
             </Button.Content>
         </Button>
         
-        <Rectangle Style="{DynamicResource StyleBilgiKartiPanel}" Grid.Row="1" Grid.Column="5" Margin="10,871,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
+        <!--<Rectangle Style="{DynamicResource StyleBilgiKartiPanel}" Grid.Row="1" Grid.Column="5" Margin="10,871,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" />-->
         <Label FontSize="14" Foreground="#ffffff" Content="Tanım" Grid.Row="1" Grid.Column="5" Margin="10,871,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
         <TextBlock Name="Tanim" FontSize="14" Foreground="#ffffff" Grid.Row="1" Grid.Column="5" Margin="200,876,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
 
@@ -170,10 +180,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-
-            <ScrollViewer x:Name="sw1" Height="410" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,0,-6,0" Background="Transparent">
-                <StackPanel x:Name="s1" Height="auto" Width="auto" >
-                    <Expander x:Name="e1" Header="Uç Birim" Grid.Row="0" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Left" Margin="0,0,0,5"  VerticalAlignment="Top">
+            <Expander x:Name="e1" Header="Uç Birim" Grid.Row="0" Style="{DynamicResource StyleExpander}" HorizontalAlignment="Left" Margin="0,0,0,5"  VerticalAlignment="Top" Expanded="e1_Expanded">
                         <Grid>
                             <ScrollViewer x:Name="sw2" Height="305" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,0,-6,0" Background="Transparent">
                                 <StackPanel x:Name="s2" Height="auto" Width="auto" >
@@ -195,7 +202,7 @@
                             </ScrollViewer>
                         </Grid>
                     </Expander>
-                    <Expander x:Name="e2" Header="Ağ Anahtarı" Grid.Row="1" Style="{DynamicResource StyleExpander2}" HorizontalAlignment="Left" Margin="0,0,0,5"  VerticalAlignment="Top">
+                    <Expander x:Name="e2" Header="Ağ Anahtarı" Grid.Row="1" Style="{DynamicResource StyleExpander2}" HorizontalAlignment="Left" Margin="0,0,0,5"  VerticalAlignment="Top" Expanded="e2_Expanded">
                         <Grid>
                             <ItemsControl Name="AgAnahtariDataGrid">
                                 <ItemsControl.ItemsPanel>
@@ -213,26 +220,24 @@
                             </ItemsControl>
                         </Grid>
                     </Expander>
-                    <Expander x:Name="e3" Header="Güç Üretici" Grid.Row="2" Style="{DynamicResource StyleExpander3}" HorizontalAlignment="Left" Margin="0,0,0,5"  VerticalAlignment="Top">
-                        <Grid>
-                            <ItemsControl Name="GucUreticiDataGrid">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <UniformGrid Columns="3" VerticalAlignment="Top" HorizontalAlignment="Left"  />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Button Background="Transparent" Style="{DynamicResource StyleCloseDescribingButton}" Width="100" Height="100" Tag="{Binding Id}" PreviewMouseDown="cihaz_MouseLeftButtonDown" Click="GucUretici_Click">
-                                            <Image Height="40" Width="40" Margin="25" Source="{Binding SembolSrc}" />
-                                        </Button>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </Grid>
-                    </Expander>
-                </StackPanel>
-            </ScrollViewer>
+            <Expander x:Name="e3" Header="Güç Üretici" Grid.Row="2" Style="{DynamicResource StyleExpander3}" HorizontalAlignment="Left" Margin="0,0,0,5"  VerticalAlignment="Top" Expanded="e3_Expanded">
+                <Grid>
+                    <ItemsControl Name="GucUreticiDataGrid">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="3" VerticalAlignment="Top" HorizontalAlignment="Left"  />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Background="Transparent" Style="{DynamicResource StyleCloseDescribingButton}" Width="100" Height="100" Tag="{Binding Id}" PreviewMouseDown="cihaz_MouseLeftButtonDown" Click="GucUretici_Click">
+                                    <Image Height="40" Width="40" Margin="25" Source="{Binding SembolSrc}" />
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+            </Expander>
         </Grid>
 
         <TreeView  x:FieldModifier="public" x:Name="ProjeHiyerarsi" Height="600"  Grid.Row="1" Grid.Column="1" Margin="0,55,0,5" VerticalAlignment="Top">

@@ -414,7 +414,7 @@ namespace AYP.Migrations
                         new
                         {
                             Id = 1,
-                            Ad = "Ethernet"
+                            Ad = "Ethernet (0-10 Mbps)"
                         },
                         new
                         {

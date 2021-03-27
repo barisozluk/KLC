@@ -25,7 +25,7 @@
             </Button>
 
             <Rectangle Style="{DynamicResource StyleDescribingTurFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Adı" Grid.Row="0" Grid.Column="1" Margin="0,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Adı  *" Grid.Row="0" Grid.Column="1" Margin="0,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <TextBox Name="Ad" Text="{Binding Path=Ad}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
             
             <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,120,0,10" Click="Save_UcBirimTur">

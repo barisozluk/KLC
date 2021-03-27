@@ -367,7 +367,9 @@ namespace AYP
         {
             this.DescribingMenuPopup.IsOpen = true;
             this.IsEnabled = false;
-            this.Effect = new System.Windows.Media.Effects.BlurEffect();
+            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.Effect = blur;
         }
 
         private void ButtonDescribingPopupClose_Click(object sender, RoutedEventArgs e)
@@ -384,7 +386,9 @@ namespace AYP
         {
             this.DescribingMenuPopup.IsOpen = false;
             this.IsEnabled = false;
-            this.Effect = new System.Windows.Media.Effects.BlurEffect();
+            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.Effect = blur;
 
             UcBirimTurPopupWindow popup = new UcBirimTurPopupWindow();
             popup.Owner = this;
@@ -397,7 +401,9 @@ namespace AYP
 
             this.DescribingMenuPopup.IsOpen = false;
             this.IsEnabled = false;
-            this.Effect = new System.Windows.Media.Effects.BlurEffect();
+            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.Effect = blur;
 
             UcBirimPopupWindow popup = new UcBirimPopupWindow(null, fromNode);
             popup.Owner = this;
@@ -408,7 +414,9 @@ namespace AYP
         {
             this.DescribingMenuPopup.IsOpen = false;
             this.IsEnabled = false;
-            this.Effect = new System.Windows.Media.Effects.BlurEffect();
+            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.Effect = blur;
 
             UcBirimAgArayuzuWindow popup = new UcBirimAgArayuzuWindow();
             popup.Owner = this;
@@ -419,7 +427,9 @@ namespace AYP
         {
             this.DescribingMenuPopup.IsOpen = false;
             this.IsEnabled = false;
-            this.Effect = new System.Windows.Media.Effects.BlurEffect();
+            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.Effect = blur;
 
             UcBirimGucArayuzuPopupWindow popup = new UcBirimGucArayuzuPopupWindow();
             popup.Owner = this;
@@ -433,8 +443,9 @@ namespace AYP
         {
             this.DescribingMenuPopup.IsOpen = false;
             this.IsEnabled = false;
-            this.Effect = new System.Windows.Media.Effects.BlurEffect();
-
+            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.Effect = blur;
             AgAnahtariTurPopupWindow popup = new AgAnahtariTurPopupWindow();
             popup.Owner = this;
             popup.ShowDialog();
@@ -446,7 +457,9 @@ namespace AYP
 
             this.DescribingMenuPopup.IsOpen = false;
             this.IsEnabled = false;
-            this.Effect = new System.Windows.Media.Effects.BlurEffect();
+            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.Effect = blur;
 
             AgAnahtariPopupWindow popup = new AgAnahtariPopupWindow(null, fromNode);
             popup.Owner = this;
@@ -468,7 +481,9 @@ namespace AYP
         {
             this.DescribingMenuPopup.IsOpen = false;
             this.IsEnabled = false;
-            this.Effect = new System.Windows.Media.Effects.BlurEffect();
+            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.Effect = blur;
 
             AgAnahtariGucArayuzuPopupWindow popup = new AgAnahtariGucArayuzuPopupWindow();
             popup.Owner = this;
@@ -482,7 +497,9 @@ namespace AYP
         {
             this.DescribingMenuPopup.IsOpen = false;
             this.IsEnabled = false;
-            this.Effect = new System.Windows.Media.Effects.BlurEffect();
+            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.Effect = blur;
 
             GucUreticiTurPopupWindow popup = new GucUreticiTurPopupWindow();
             popup.Owner = this;
@@ -506,7 +523,9 @@ namespace AYP
         {
             this.DescribingMenuPopup.IsOpen = false;
             this.IsEnabled = false;
-            this.Effect = new System.Windows.Media.Effects.BlurEffect();
+            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.Effect = blur;
 
             GucUreticiGucArayuzuPopupWindow popup = new GucUreticiGucArayuzuPopupWindow();
             popup.Owner = this;
@@ -519,7 +538,9 @@ namespace AYP
         private void Versiyon_Click(object sender, RoutedEventArgs e)
         {
             this.IsEnabled = false;
-            this.Effect = new System.Windows.Media.Effects.BlurEffect();
+            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.Effect = blur;
 
             SettingsPopupWindow popup = new SettingsPopupWindow();
             popup.Owner = this;
@@ -603,8 +624,9 @@ namespace AYP
             if(selectedTipId == (int)TipEnum.UcBirim)
             {
                 this.IsEnabled = false;
-                this.Effect = new System.Windows.Media.Effects.BlurEffect();
-
+                System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.Effect = blur;
                 UcBirimPopupWindow popup = new UcBirimPopupWindow(selectedUcBirim, fromNode);
                 popup.Owner = this;
                 popup.ShowDialog();
@@ -612,7 +634,9 @@ namespace AYP
             else if(selectedTipId == (int)TipEnum.AgAnahtari)
             {
                 this.IsEnabled = false;
-                this.Effect = new System.Windows.Media.Effects.BlurEffect();
+                System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.Effect = blur;
 
                 AgAnahtariPopupWindow popup = new AgAnahtariPopupWindow(selectedAgAnahtari, fromNode);
                 popup.Owner = this;
@@ -621,7 +645,9 @@ namespace AYP
             else if(selectedTipId == (int)TipEnum.GucUretici)
             {
                 this.IsEnabled = false;
-                this.Effect = new System.Windows.Media.Effects.BlurEffect();
+                System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.Effect = blur;
 
                 GucUreticiPopupWindow popup = new GucUreticiPopupWindow(selectedGucUretici, fromNode);
                 popup.Owner = this;
@@ -634,7 +660,9 @@ namespace AYP
         private void ButtonClose_Click(object sender, RoutedEventArgs e)
         {
             this.IsEnabled = false;
-            this.Effect = new System.Windows.Media.Effects.BlurEffect();
+            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.Effect = blur;
 
             CloseAppPopupWindow popup = new CloseAppPopupWindow();
             popup.Owner = this;
@@ -996,8 +1024,28 @@ namespace AYP
             }
         }
 
-       
 
+
+        #endregion
+
+        #region ExpanderCloser
+        private void e1_Expanded(object sender, RoutedEventArgs e)
+        {
+            e2.IsExpanded= false;
+            e3.IsExpanded = false;
+        }
+
+        private void e2_Expanded(object sender, RoutedEventArgs e)
+        {
+            e1.IsExpanded = false;
+            e3.IsExpanded = false;
+        }
+
+        private void e3_Expanded(object sender, RoutedEventArgs e)
+        {
+            e1.IsExpanded = false;
+            e2.IsExpanded = false;
+        }
         #endregion
     }
 }

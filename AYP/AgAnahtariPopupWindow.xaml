@@ -29,35 +29,35 @@
             </Button>
 
             <Rectangle Style="{DynamicResource StyleDescribingAgAnahtariFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Ağ Anahatarı Tür" Grid.Row="0" Grid.Column="1" Margin="0,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Ağ Anahatarı Tür  *" Grid.Row="0" Grid.Column="1" Margin="0,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <ComboBox Name="AgAnahtariTur" SelectedValue="{Binding AgAnahtariTurId}" ItemsSource="{Binding AgAnahtariTurList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="180,65,0,10" VerticalAlignment="Top" ></ComboBox>
 
-            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Stok No" Grid.Row="0" Grid.Column="1" Margin="0,110,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Stok No  *" Grid.Row="0" Grid.Column="1" Margin="0,110,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <TextBox Name="StokNo"  Text="{Binding StokNo}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,110,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
-            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Tanım" Grid.Row="0" Grid.Column="1" Margin="0,155,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Tanım  *" Grid.Row="0" Grid.Column="1" Margin="0,155,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <TextBox Name="Tanim"  Text="{Binding Tanim}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,155,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
-            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Üretici" Grid.Row="0" Grid.Column="1" Margin="0,200,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Üretici  *" Grid.Row="0" Grid.Column="1" Margin="0,200,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <TextBox Name="Uretici"  Text="{Binding UreticiAdi}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,200,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
-            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Üretici Parça No" Grid.Row="0" Grid.Column="1" Margin="0,245,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Üretici Parça No  *" Grid.Row="0" Grid.Column="1" Margin="0,245,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <TextBox Name="UreticiParcaNo" Text="{Binding UreticiParcaNo}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,245,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
-            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Girdi Ağ Arayüzü Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Girdi Ağ Arayüzü Sayısı*" Grid.Row="0" Grid.Column="1" Margin="0,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <TextBox Name="GirdiAgArayuzuSayisi" PreviewTextInput="NumberValidationTextBox" Text="{Binding GirdiAgArayuzuSayisi, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
-            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Çıktı Ağ Arayüzü Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Çıktı Ağ Arayüzü Sayısı *" Grid.Row="0" Grid.Column="1" Margin="0,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <TextBox Name="CiktiAgArayuzuSayisi" PreviewTextInput="NumberValidationTextBox" Text="{Binding CiktiAgArayuzuSayisi, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
-            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Güç Arayüzü Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Güç Arayüzü Sayısı  *" Grid.Row="0" Grid.Column="1" Margin="0,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <TextBox Name="GucArayuzuSayisi" PreviewTextInput="NumberValidationTextBox" Text="{Binding GucArayuzuSayisi, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
-            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Katalog" Grid.Row="0" Grid.Column="1" Margin="0,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Katalog  *" Grid.Row="0" Grid.Column="1" Margin="0,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
             <TextBox Name="Katalog" Text="{Binding KatalogDosyaAdi}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" IsReadOnly="True"  ></TextBox>
             <Button Name="KatalogAgAnahtariBtn" Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#222d35" Margin="340,425,0,10" Height="35" Width="80" Click="BtnOpenKatalogFile_Click">
                 <Grid>
-                    <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="0,0,0,0">Seçiniz</TextBlock>
+                    <TextBlock FontSize="16" HorizontalAlignment="Center" Margin="17,0,0,0">. . .</TextBlock>
                 </Grid>
             </Button>
 
@@ -65,11 +65,11 @@
                 <Image Source="Images/file.png" Width="20" Height="20" Margin="-6"></Image>
             </Button>
             
-            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Sembol" Grid.Row="0" Grid.Column="1" Margin="0,470,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Sembol  *" Grid.Row="0" Grid.Column="1" Margin="0,470,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
             <TextBox Name="Sembol" Text="{Binding SembolDosyaAdi}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,470,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" IsReadOnly="True" ></TextBox>
             <Button Name="SembolAgAnahtariBtn" Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#222d35" Margin="340,470,0,10" Height="35" Width="80" Click="BtnOpenSembolFile_Click">
                 <Grid>
-                    <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="0,0,0,0">Seçiniz</TextBlock>
+                    <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="17,0,0,0">. . .</TextBlock>
                 </Grid>
             </Button>
 

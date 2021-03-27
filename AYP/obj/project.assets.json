@@ -6518,23 +6518,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\KLC\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\Ayca\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\KLC\\Desktop\\AYPTEST\\AYP\\AYP.csproj",
+      "projectUniqueName": "C:\\Users\\Ayca\\Desktop\\AYPGit13\\AYP\\AYP.csproj",
       "projectName": "AYP",
-      "projectPath": "C:\\Users\\KLC\\Desktop\\AYPTEST\\AYP\\AYP.csproj",
-      "packagesPath": "C:\\Users\\KLC\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\KLC\\Desktop\\AYPTEST\\AYP\\obj\\",
+      "projectPath": "C:\\Users\\Ayca\\Desktop\\AYPGit13\\AYP\\AYP.csproj",
+      "packagesPath": "C:\\Users\\Ayca\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Ayca\\Desktop\\AYPGit13\\AYP\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\KLC\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Ayca\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -6648,7 +6644,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.104\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
       }
     }
   },

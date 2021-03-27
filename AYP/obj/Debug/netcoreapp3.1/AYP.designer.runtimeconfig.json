@@ -6,9 +6,8 @@
       "version": "3.1.0"
     },
     "additionalProbingPaths": [
-      "C:\\Users\\KLC\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\KLC\\.nuget\\packages",
-      "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      "C:\\Users\\Ayca\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\Ayca\\.nuget\\packages"
     ],
     "configProperties": {
       "Microsoft.NETCore.DotNetHostPolicy.SetAppPaths": true

@@ -71,6 +71,7 @@
                 <ResourceDictionary Source="Styles/StyleCutButton.xaml"/>
 
                 <ResourceDictionary Source="Styles/StyleAddDeviceButton.xaml"/>
+                <ResourceDictionary Source="Styles/StyleToolTip.xaml"/>
                 <!--#endregion         FormControls-->
 
             </ResourceDictionary.MergedDictionaries>
