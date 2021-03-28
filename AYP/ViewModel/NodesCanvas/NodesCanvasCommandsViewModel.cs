@@ -417,11 +417,11 @@ namespace AYP.ViewModel
 
                             var fromConnectorPoint = new Point(transition.Connect.FromConnector.PositionConnectPoint.X + 15, transition.Connect.FromConnector.PositionConnectPoint.Y + 15);
                             var fromConnectorName = "Çıktı #" + j.ToString();
-                            var fromConnector = new ConnectorViewModel(this, fromNode, fromConnectorName, fromConnectorPoint);
+                            var fromConnector = new ConnectorViewModel(this, fromNode, fromConnectorName, fromConnectorPoint, Guid.NewGuid());
                             
                             var toConnectorPoint = new Point(transition.Connect.ToConnector.PositionConnectPoint.X + 15, transition.Connect.ToConnector.PositionConnectPoint.Y + 15);
                             var toConnectorName = "Girdi";
-                            var toConnector = new ConnectorViewModel(this, toNode, toConnectorName, toConnectorPoint);
+                            var toConnector = new ConnectorViewModel(this, toNode, toConnectorName, toConnectorPoint, Guid.NewGuid());
 
                             var connect = new ConnectViewModel(this, fromConnector);
                             connect.ToConnector = toConnector;
@@ -536,6 +536,9 @@ namespace AYP.ViewModel
             if (!WithoutSaving())
                 return;
             ClearScheme();
+            TransitionClipboard.Clear();
+            NodeClipboard.Clear();
+            GroupList.Clear();
             this.SetupStartState();
         }
         private void ClearScheme()
@@ -565,6 +568,10 @@ namespace AYP.ViewModel
             Mouse.OverrideCursor = Cursors.Wait;
             string fileName = Dialog.FileName;
             ClearScheme();
+            TransitionClipboard.Clear();
+            NodeClipboard.Clear();
+            GroupList.Clear();
+
             WithoutMessages = true;
             XDocument xDocument = XDocument.Load(fileName);
             XElement stateMachineXElement = xDocument.Element("StateMachine");
@@ -579,7 +586,7 @@ namespace AYP.ViewModel
             NodeViewModel viewModelNode = null;
             foreach (var state in States)
             {
-                viewModelNode = NodeViewModel.FromXElement(this, state, out string errorMesage, NodesExist);
+                viewModelNode = NodeViewModel.FromXElement(this, state, out string errorMesage, NodesExist, stateMachineXElement);
                 if (WithError(errorMesage, x => Nodes.Add(x), viewModelNode))
                     return;
             }
@@ -633,6 +640,7 @@ namespace AYP.ViewModel
             Transitions?.Reverse();
             foreach (var transition in Transitions)
             {
+                
                 viewModelConnect = ConnectorViewModel.FromXElement(this, transition, out string errorMesage, ConnectsExist);
                 if (WithError(errorMesage, x => Connects.Add(x), viewModelConnect))
                     return;
@@ -716,6 +724,12 @@ namespace AYP.ViewModel
             void Error(string errorMessage)
             {              
                 ClearScheme();
+                TransitionClipboard.Clear();
+                NodeClipboard.Clear();
+                GroupList.Clear();
+
+                NotificationManager nm = new NotificationManager();
+                nm.ShowErrorMessage("Dosya Formatı Hatalıdır.");
                 LogError("File is not valid. " + errorMessage);
                 this.SetupStartState();
                 Mouse.OverrideCursor = null;
@@ -769,6 +783,19 @@ namespace AYP.ViewModel
             stateMachineXElement.Add(startState);
             startState.Add(new XAttribute("Name", StartState.Name));
 
+            XElement inputs = new XElement("Inputs");
+            stateMachineXElement.Add(inputs);
+            foreach (var input in Nodes.Items.SelectMany(x => x.InputList))
+            {
+                inputs.Add(input.ToInputXElement());
+            }
+
+            XElement gucInputs = new XElement("GucInputs");
+            stateMachineXElement.Add(gucInputs);
+            foreach (var input in Nodes.Items.SelectMany(x => x.GucInputList))
+            {
+                gucInputs.Add(input.ToInputXElement());
+            }
 
             XElement transitions = new XElement("Transitions");
             stateMachineXElement.Add(transitions);
@@ -790,6 +817,9 @@ namespace AYP.ViewModel
             ItSaved = true;
             SchemePath = fileName;
             Mouse.OverrideCursor = null;
+
+            NotificationManager nm = new NotificationManager();
+            nm.ShowSuccessMessage("Proje Başarı ile Kaydedildi.");
             LogDebug("Scheme was saved as \"{0}\"", SchemePath);
         }
         private void WithValidateScheme(Action action)
@@ -801,6 +831,8 @@ namespace AYP.ViewModel
             }
             else
             {
+                NotificationManager nm = new NotificationManager();
+                nm.ShowWarningMessage("Cihazlar arasında bağlantı oluşturunuz!");
                 LogError("Nodes without connects: {0}", string.Join(",", unReachable));
             }
         }
@@ -1077,7 +1109,8 @@ namespace AYP.ViewModel
                     GucUreticiCount++;
                 }
                 
-                newNode = new NodeViewModel(this, GetNameForNewNode(parameter.Node.TypeId), Guid.NewGuid(), parameter.Point, parameter.Node.Id, parameter.Node.TypeId, parameter.Node.InputSayisi, parameter.Node.OutputSayisi, parameter.Node.GucArayuzuSayisi);
+                newNode = new NodeViewModel(this, GetNameForNewNode(parameter.Node.TypeId), Guid.NewGuid(), parameter.Point, parameter.Node.Id, parameter.Node.TypeId, 
+                                parameter.Node.InputSayisi, parameter.Node.OutputSayisi, parameter.Node.GucArayuzuSayisi);
                 
                 if(NodesCount == 0)
                 {

@@ -112,7 +112,7 @@ namespace AYP.ViewModel
             if (OutputSayisi >= Transitions.Items.Count())
             {
                 double width = Size.Width == 0 ? 80 : Size.Width;
-                CurrentConnector = new ConnectorViewModel(NodesCanvas, this, "", Point1.Addition(width, 54))
+                CurrentConnector = new ConnectorViewModel(NodesCanvas, this, "", Point1.Addition(width, 54), Guid.NewGuid())
                 {
                     TextEnable = false
                 };

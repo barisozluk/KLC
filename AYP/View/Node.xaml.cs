@@ -155,7 +155,7 @@ namespace AYP.View
                 mainWindow.IsEnabled = false;
                 System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
                 blur.Radius = 2;
-                this.Effect = blur;
+                mainWindow.Effect = blur;
 
                 if (this.ViewModel.TypeId == (int)TipEnum.UcBirim)
                 {

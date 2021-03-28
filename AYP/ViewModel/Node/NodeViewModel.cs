@@ -60,7 +60,8 @@ namespace AYP.ViewModel
         }
 
 
-        public NodeViewModel(NodesCanvasViewModel nodesCanvas, string name, Guid uniqueId = default(Guid), Point point = default(Point), int id = default(int), int typeId = default(int), int inputSayisi = default(int), int outputSayisi = default(int), int gucArayuzuSayisi = 0)
+        public NodeViewModel(NodesCanvasViewModel nodesCanvas, string name, Guid uniqueId = default(Guid), Point point = default(Point), int id = default(int), int typeId = default(int), 
+                                int inputSayisi = default(int), int outputSayisi = default(int), int gucArayuzuSayisi = 0, List<ConnectorViewModel> inputList = default, List<ConnectorViewModel> gucInputList = default)
         {
             NodesCanvas = nodesCanvas;
             Name = name;
@@ -69,16 +70,42 @@ namespace AYP.ViewModel
             Id = id;
             TypeId = typeId;
             UniqueId = uniqueId;
-            InputList = new List<ConnectorViewModel>();
-            GucInputList = new List<ConnectorViewModel>();
+
+            if(inputList != null && inputList.Count() > 0)
+            {
+                InputList = inputList;
+            }
+            else
+            {
+                InputList = new List<ConnectorViewModel>();
+            }
+
+            if(gucInputList != null && gucInputList.Count() > 0)
+            {
+                GucInputList = gucInputList;
+            }
+            else
+            {
+                GucInputList = new List<ConnectorViewModel>();
+            }
 
             InputSayisi = inputSayisi;
             OutputSayisi = outputSayisi;
             GucArayuzuSayisi = gucArayuzuSayisi;
 
             Transitions.Connect().ObserveOnDispatcher().Bind(TransitionsForView).Subscribe();
-            SetupConnectors();
 
+            if (InputList.Count() == 0)
+            {
+                SetupInputConnectors();
+            }
+
+            if(GucInputList.Count() == 0)
+            {
+                SetupGucInputConnectors();
+            }
+
+            SetupOutputConnectors();
             SetupCommands();
             SetupBinding();
             SetupSubscriptions();
@@ -107,38 +134,45 @@ namespace AYP.ViewModel
         }
         #endregion Setup Subscriptions
         #region Connectors
-        private void SetupConnectors()
+
+        private void SetupInputConnectors()
         {
             for (int i = 0; i < InputSayisi; i++)
             {
                 if (i == 0)
                 {
-                    InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 36 + (i * 23))));
+                    InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 36 + (i * 23)), Guid.NewGuid()));
                 }
                 else if (i == 1)
                 {
-                    InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 34 + (i * 20))));
+                    InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 34 + (i * 20)), Guid.NewGuid()));
                 }
                 else if (i == 2)
                 {
-                    InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 31 + (i * 19))));
+                    InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 31 + (i * 19)), Guid.NewGuid()));
                 }
                 else if (i == 3)
                 {
-                    InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 33 + (i * 18))));
+                    InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 33 + (i * 18)), Guid.NewGuid()));
                 }
                 else if (i == 4)
                 {
-                    InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 36 + (i * 17))));
+                    InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 36 + (i * 17)), Guid.NewGuid()));
                 }
             }
+        }
 
+        private void SetupGucInputConnectors()
+        {
             for (int i = 0; i < GucArayuzuSayisi; i++)
             {
-                GucInputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 160 + (i * 23))));
+                GucInputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 160 + (i * 23)), Guid.NewGuid()));
             }
+        }
 
-            Output = new ConnectorViewModel(NodesCanvas, this, "Çıktı", Point1.Addition(80, 54))
+        private void SetupOutputConnectors()
+        {
+            Output = new ConnectorViewModel(NodesCanvas, this, "Çıktı", Point1.Addition(80, 54), Guid.NewGuid())
             {
                 Visible = null
             };
@@ -178,21 +212,37 @@ namespace AYP.ViewModel
         {
             XElement element = new XElement("State");
             element.Add(new XAttribute("Name", Name));
+            element.Add(new XAttribute("Id", Id));
+            element.Add(new XAttribute("TypeId", TypeId));
+            element.Add(new XAttribute("UniqueId", UniqueId));
+            element.Add(new XAttribute("InputSayisi", InputSayisi));
+            element.Add(new XAttribute("OutputSayisi", OutputSayisi));
+            element.Add(new XAttribute("GucArayuzuSayisi", GucArayuzuSayisi));
+            element.Add(new XAttribute("Position", PointExtensition.PointToString(Point1)));
+
             return element;
         }
         public XElement ToVisualizationXElement()
         {
             XElement element = ToXElement();
-            element.Add(new XAttribute("Position", PointExtensition.PointToString(Point1)));
             element.Add(new XAttribute("IsCollapse", IsCollapse.ToString()));
             return element;
         }
-        public static NodeViewModel FromXElement(NodesCanvasViewModel nodesCanvas, XElement node, out string errorMessage, Func<string, bool> actionForCheck)
+        public static NodeViewModel FromXElement(NodesCanvasViewModel nodesCanvas, XElement node, out string errorMessage, Func<string, bool> actionForCheck, XElement stateMachineXElement)
         {
             errorMessage = null;
             NodeViewModel viewModelNode = null;
             string name = node.Attribute("Name")?.Value;
+            int id = Convert.ToInt32(node.Attribute("Id")?.Value);
+            int typeId = Convert.ToInt32(node.Attribute("TypeId")?.Value);
+            Guid uniqueId = new Guid(node.Attribute("UniqueId")?.Value);
+            int inputSayisi = Convert.ToInt32(node.Attribute("InputSayisi")?.Value);
+            int outputSayisi = Convert.ToInt32(node.Attribute("OutputSayisi")?.Value);
+            int gucArayuzuSayisi = Convert.ToInt32(node.Attribute("GucArayuzuSayisi")?.Value);
 
+            Point position = new Point();
+            PointExtensition.TryParseFromString(node.Attribute("Position")?.Value, out position); 
+               
             if (string.IsNullOrEmpty(name))
             {
                 errorMessage = "Node without name";
@@ -205,7 +255,45 @@ namespace AYP.ViewModel
                 return viewModelNode;
             }
 
-            viewModelNode = new NodeViewModel(nodesCanvas, name);
+            viewModelNode = new NodeViewModel(nodesCanvas, name, uniqueId, position, id, typeId, inputSayisi, outputSayisi, gucArayuzuSayisi);
+
+            var inputList = new List<ConnectorViewModel>();
+            var gucInputList = new List<ConnectorViewModel>();
+
+            var Inputs = stateMachineXElement.Element("Inputs")?.Elements()?.ToList() ?? new List<XElement>();
+            Inputs?.Reverse();
+            foreach (var input in Inputs)
+            {
+                if (new Guid(input.Attribute("NodeUniqueId")?.Value) == uniqueId)
+                {
+                    string nameInp = input.Attribute("Name")?.Value;
+                    Guid uniqueIdInp = new Guid(node.Attribute("UniqueId")?.Value);
+                    Point positionInp = new Point();
+                    PointExtensition.TryParseFromString(node.Attribute("Position")?.Value, out positionInp);
+
+                    var newConnector = new ConnectorViewModel(nodesCanvas, viewModelNode, nameInp, positionInp, uniqueIdInp);
+                    inputList.Add(newConnector);
+                }
+            }
+
+            var GucInputs = stateMachineXElement.Element("GucInputs")?.Elements()?.ToList() ?? new List<XElement>();
+            GucInputs?.Reverse();
+            foreach (var gucInput in GucInputs)
+            {
+                if (new Guid(gucInput.Attribute("NodeUniqueId")?.Value) == uniqueId)
+                {
+                    string nameInp = gucInput.Attribute("Name")?.Value;
+                    Guid uniqueIdInp = new Guid(node.Attribute("UniqueId")?.Value);
+                    Point positionInp = new Point();
+                    PointExtensition.TryParseFromString(node.Attribute("Position")?.Value, out positionInp);
+
+                    var newConnector = new ConnectorViewModel(nodesCanvas, viewModelNode, nameInp, positionInp, uniqueIdInp);
+                    gucInputList.Add(newConnector);
+                }
+            }
+
+            viewModelNode.InputList = inputList;
+            viewModelNode.GucInputList = gucInputList;
 
             return viewModelNode;
         }

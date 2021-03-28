@@ -30,15 +30,15 @@ namespace AYP.ViewModel
         [Reactive] public bool ItsLoop { get; set; } = false;
         [Reactive] public NodesCanvasViewModel NodesCanvas { get; set; }
         [Reactive] public bool Selected { get; set; }
+        [Reactive] public Guid UniqueId { get; set; }
 
-        [Reactive] public SourceList<string> test { get; set; }
-
-        public ConnectorViewModel(NodesCanvasViewModel nodesCanvas, NodeViewModel viewModelNode, string name, Point myPoint)
+        public ConnectorViewModel(NodesCanvasViewModel nodesCanvas, NodeViewModel viewModelNode, string name, Point myPoint, Guid uniqueId)
         {
             Node = viewModelNode;
             NodesCanvas = nodesCanvas;
             Name = name;
             PositionConnectPoint = myPoint;
+            UniqueId = uniqueId;
             SetupCommands();
             SetupSubscriptions();
         }
@@ -88,9 +88,26 @@ namespace AYP.ViewModel
         {
             XElement element = new XElement("Transition");
             element.Add(new XAttribute("Name", Name));
-            element.Add(new XAttribute("From", Node.Name));
-            var ToConnectorName = this.Connect?.ToConnector?.Node.Name;
-            element.Add(new XAttribute("To", ToConnectorName?? Node.Name));
+            element.Add(new XAttribute("FromNode", Node.Name));
+            element.Add(new XAttribute("FromNodeUniqueId", Node.UniqueId));
+            var ToConnector = this.Connect?.ToConnector;
+            element.Add(new XAttribute("To", ToConnector.Node.Name));
+            element.Add(new XAttribute("ToNodeUniqueId", ToConnector.Node.UniqueId));
+            element.Add(new XAttribute("ToInputUniqueId", ToConnector.UniqueId));
+            element.Add(new XAttribute("ToInputName", ToConnector.Name));
+            element.Add(new XAttribute("ToInputPosition", PointExtensition.PointToString(ToConnector.PositionConnectPoint)));
+
+            return element;
+        }
+
+        public XElement ToInputXElement()
+        {
+            XElement element = new XElement("Input");
+            element.Add(new XAttribute("Name", Name));
+            element.Add(new XAttribute("UniqueId", UniqueId));
+            element.Add(new XAttribute("Position", PointExtensition.PointToString(PositionConnectPoint)));
+            element.Add(new XAttribute("NodeName", Node.Name));
+            element.Add(new XAttribute("NodeUniqueId", Node.UniqueId));
 
             return element;
         }
@@ -101,32 +118,37 @@ namespace AYP.ViewModel
 
             errorMessage = null;
             string name = node.Attribute("Name")?.Value;
-            string from = node.Attribute("From")?.Value;
-            string to = node.Attribute("To")?.Value;
+            Guid fromNodeUniqueId = new Guid(node.Attribute("FromNodeUniqueId")?.Value);
+            Guid toNodeUniqueId = new Guid(node.Attribute("ToNodeUniqueId")?.Value);
+            string toInputName = node.Attribute("ToInputName")?.Value;
+            Guid toInputUniqueId = new Guid(node.Attribute("ToInputUniqueId")?.Value);
+
+            Point toInputPosition;
+            PointExtensition.TryParseFromString(node.Attribute("ToInputPosition")?.Value, out toInputPosition);
 
             if (string.IsNullOrEmpty(name))
             {
                 errorMessage = "Connect without name";
                 return viewModelConnect;
             }
-            if (string.IsNullOrEmpty(from))
-            {
-                errorMessage = "Connect without from point";
-                return viewModelConnect;
-            }
-            if (string.IsNullOrEmpty(to))
-            {
-                errorMessage = "Connect without to point";
-                return viewModelConnect;
-            }
+            //if (string.IsNullOrEmpty(from))
+            //{
+            //    errorMessage = "Connect without from point";
+            //    return viewModelConnect;
+            //}
+            //if (string.IsNullOrEmpty(to))
+            //{
+            //    errorMessage = "Connect without to point";
+            //    return viewModelConnect;
+            //}
             if (actionForCheck(name))
             {
                 errorMessage = String.Format("Contains more than one connect with name \"{0}\"", name);
                 return viewModelConnect;
             }
 
-            NodeViewModel nodeFrom = nodesCanvas.Nodes.Items.Single(x => x.Name == from);
-            NodeViewModel nodeTo = nodesCanvas.Nodes.Items.Single(x => x.Name == to);
+            NodeViewModel nodeFrom = nodesCanvas.Nodes.Items.Single(x => x.UniqueId == fromNodeUniqueId);
+            NodeViewModel nodeTo = nodesCanvas.Nodes.Items.Single(x => x.UniqueId == toNodeUniqueId);
           
             nodeFrom.CurrentConnector.Name = name;
 
@@ -138,7 +160,7 @@ namespace AYP.ViewModel
             else
             {
                 viewModelConnect = new ConnectViewModel(nodeFrom.NodesCanvas, nodeFrom.CurrentConnector);
-                viewModelConnect.ToConnector = nodeTo.Input;
+                viewModelConnect.ToConnector = new ConnectorViewModel(nodesCanvas, nodeTo, toInputName, toInputPosition, toInputUniqueId);
                 nodeFrom.CommandAddEmptyConnector.ExecuteWithSubscribe();
             }     
 
