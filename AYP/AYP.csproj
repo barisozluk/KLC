@@ -18,6 +18,7 @@
     <None Remove="Images\file.png" />
     <None Remove="Images\group.png" />
     <None Remove="Images\leftAlign.png" />
+    <None Remove="Images\middle.png" />
     <None Remove="Images\middleAlign.png" />
     <None Remove="Images\multipleSelect.png" />
     <None Remove="Images\newProjectW.png" />
@@ -39,6 +40,7 @@
     <None Remove="Images\saveAsW.png" />
     <None Remove="Images\saveW.png" />
     <None Remove="Images\settings.png" />
+    <None Remove="Images\ungroup.png" />
     <None Remove="Images\zoomIn.png" />
     <None Remove="Images\zoomOut.png" />
   </ItemGroup>
@@ -76,6 +78,7 @@
     <Resource Include="Images\file.png" />
     <Resource Include="Images\group.png" />
     <Resource Include="Images\leftAlign.png" />
+    <Resource Include="Images\middle.png" />
     <Resource Include="Images\rightAlign.png" />
     <Resource Include="Images\multipleSelect.png" />
     <Resource Include="Images\newProjectW.png" />
@@ -97,6 +100,7 @@
     <Resource Include="Images\saveAsW.png" />
     <Resource Include="Images\saveW.png" />
     <Resource Include="Images\settings.png" />
+    <Resource Include="Images\ungroup.png" />
     <Resource Include="Images\zoomIn.png" />
     <Resource Include="Images\zoomOut.png" />
   </ItemGroup>
