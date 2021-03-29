@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AYP"
         mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterScreen" Topmost="True"
-        Title="SettingsPopupWindow" Height="105" Width="415" Background="Transparent">
+        Title="SettingsPopupWindow" Height="255" Width="415" Background="Transparent">
 
     <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid.RowDefinitions>
-                <RowDefinition Height="105"/>
+                <RowDefinition Height="255"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10" />
@@ -19,7 +19,20 @@
             </Grid.ColumnDefinitions>
 
             <Label Name="Versiyon" Style="{DynamicResource StyleDescribingMainTitle}" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,55,0,10" Click="VersiyonPopupClose_Click" >
+            <Label Name="Latest" Content="Bu versiyon ile gelen yenilikler " Style="{DynamicResource StyleDescribingMainTitle}" Grid.Row="0" Grid.Column="1" Margin="0,50,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Name="Latestt" Style="{DynamicResource StyleDescribingMainTitle}" Grid.Row="0" Grid.Column="1" Margin="0,100,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14" Height="90">
+                <TextBlock FontSize="14">
+                    • Çizim ekranında gruplama ve dağıtma işlemi gerçekleştirildi.
+                    <LineBreak></LineBreak>
+                     • Çift tıklama ile bilgi kartı ekranı açılması işlemi gerçekleştirildi.
+                    <LineBreak></LineBreak>
+                   	• Üst menü separatörler ile ayrıldı.
+                     <LineBreak></LineBreak>
+                    • Eksik ikonlar eklendi.
+                </TextBlock>
+            </Label>
+
+            <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,205,0,10" Click="VersiyonPopupClose_Click" >
                 <Grid>
                     <Image Source="Images/check.png" Height="20" Width="20" Margin="7,0,0,0" HorizontalAlignment="Left"/>
                     <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="70,0,0,0">Tamam</TextBlock>
