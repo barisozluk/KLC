@@ -1053,9 +1053,18 @@ namespace AYP
         #region HelpEvent
         private void Help_Click(object sender, RoutedEventArgs e)
         {
-            WebBrowser webBrowser = new WebBrowser();
-            string pdfPath = "file:///" + Directory.GetCurrentDirectory() + "\\KullanimKilavizu.pdf";
-            webBrowser.Navigate(pdfPath);
+            this.IsEnabled = false;
+            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.Effect = blur;
+
+            HelpPopupWindow popup = new HelpPopupWindow();
+            popup.Owner = this;
+            popup.ShowDialog();
+
+            //WebBrowser webBrowser = new WebBrowser();
+            //string pdfPath = "file:///" + Directory.GetCurrentDirectory() + "\\KullanimKilavizu.pdf";
+            //webBrowser.Navigate(pdfPath);
         }
         #endregion
     }

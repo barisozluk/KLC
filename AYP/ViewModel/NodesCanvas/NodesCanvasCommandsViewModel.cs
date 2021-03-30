@@ -1350,12 +1350,14 @@ namespace AYP.ViewModel
         {
             if (!ItSaved)
             {
-                Dialog.ShowMessageBox("Kaydetmeden ��kmak istedi�inize emin misiniz?", "Uyar�", MessageBoxButton.YesNo);
-
-                return Dialog.Result == DialogResult.Yes;
+                NewAppPopupWindow newapp = new NewAppPopupWindow();
+                newapp.Owner = MainWindow.AppWindow;
+                newapp.ShowDialog();
+                //Dialog.ShowMessageBox("Kaydetmeden ��kmak istedi�inize emin misiniz?", "Uyar�", MessageBoxButton.YesNo);
+                return newapp.returnvalue;// Dialog.Result == DialogResult.Yes;
             }
 
-            return true;
+            return true; 
         }
 
         #region Project Hierarchy Creations
