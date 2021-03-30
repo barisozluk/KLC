@@ -42,10 +42,17 @@
     <Page Update="AgAnahtariAgArayuzuPopupWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+<<<<<<< HEAD
     <Page Update="NotifyInfoPopup.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="NotifyWarningPopup.xaml">
+=======
+    <Page Update="NewAppPopupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="HelpPopupWindow.xaml">
+>>>>>>> 39374ad0fd050b916a82e16e7f2311703bce466a
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\StyleCutButton.xaml">

@@ -1,11 +1,11 @@
-﻿<Window x:Class="AYP.SettingsPopupWindow"
+﻿<Window x:Class="AYP.HelpPopupWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AYP"
         mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterScreen" Topmost="True"
-        Title="SettingsPopupWindow" Height="255" Width="415" Background="Transparent">
+        Title="HelpPopupWindow" Height="255" Width="415" Background="Transparent">
 
     <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -18,17 +18,11 @@
                 <ColumnDefinition Width="10" />
             </Grid.ColumnDefinitions>
 
-            <Label Name="Versiyon" Style="{DynamicResource StyleDescribingMainTitle}" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <Label Name="Latest" Content="Bu versiyon ile gelen yenilikler " Style="{DynamicResource StyleDescribingMainTitle}" Grid.Row="0" Grid.Column="1" Margin="0,50,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <Label Name="Latestt" Style="{DynamicResource StyleDescribingMainTitle}" Grid.Row="0" Grid.Column="1" Margin="0,100,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14" Height="90">
+            <!--<Label Name="Versiyon" Style="{DynamicResource StyleDescribingMainTitle}" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>-->
+            <Label Name="Latest" Content="AYP Uygulaması Kullanım Kılavuzu " Style="{DynamicResource StyleDescribingMainTitle}" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Name="Latestt" Style="{DynamicResource StyleDescribingMainTitle}" Grid.Row="0" Grid.Column="1" Margin="0,50,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14" Height="150">
                 <TextBlock FontSize="14">
-                    • Çizim ekranında gruplama ve dağıtma işlemi gerçekleştirildi.
-                    <LineBreak></LineBreak>
-                     • Çift tıklama ile bilgi kartı ekranı açılması işlemi gerçekleştirildi.
-                    <LineBreak></LineBreak>
-                   	• Üst menü separatörler ile ayrıldı.
-                     <LineBreak></LineBreak>
-                    • Sürükle-Bırak yapısı eklendi.
+                    Kullanım kılavuzu güncellenmektedir.
                 </TextBlock>
             </Label>
 

@@ -152,17 +152,25 @@
 
   <ItemGroup>
 
+    <Page Update="NewAppPopupWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+
     <Page Update="DbConnectionErrorPopupWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
 
+<<<<<<< HEAD
     <Page Update="NotifyInfoPopup.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
 
     <Page Update="NotifyWarningPopup.xaml">
+=======
+    <Page Update="HelpPopupWindow.xaml">
+>>>>>>> 39374ad0fd050b916a82e16e7f2311703bce466a
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
