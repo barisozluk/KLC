@@ -32,6 +32,9 @@ namespace AYP
         public int cihazTur;
         public List<int> selectedIds;
         private string UreticiAdi = null;
+
+        public MainWindow MainWindow { get; set; }
+
         public EditSelectedPopupWindow(int cihazTur, List<int> selectedIds)
         {
 
@@ -71,12 +74,18 @@ namespace AYP
 
                     if (!response.HasError)
                     {
-                        notificationManager.ShowSuccessMessage(response.Message);
+                        NotifySuccessPopup nfp = new NotifySuccessPopup();
+                        nfp.msg.Text = response.Message;
+                        nfp.Owner = this.MainWindow;
+                        nfp.Show();
                         ClosePopup();
                     }
                     else
                     {
-                        notificationManager.ShowErrorMessage(response.Message);
+                        NotifyWarningPopup nfp = new NotifyWarningPopup();
+                        nfp.msg.Text = response.Message;
+                        nfp.Owner = this.MainWindow;
+                        nfp.Show();
                     }
                 }
                 else if (cihazTur == (int)TipEnum.AgAnahtari)
@@ -85,12 +94,18 @@ namespace AYP
 
                     if (!response.HasError)
                     {
-                        notificationManager.ShowSuccessMessage(response.Message);
+                        NotifySuccessPopup nfp = new NotifySuccessPopup();
+                        nfp.msg.Text = response.Message;
+                        nfp.Owner = this.MainWindow;
+                        nfp.Show();
                         ClosePopup();
                     }
                     else
                     {
-                        notificationManager.ShowErrorMessage(response.Message);
+                        NotifyWarningPopup nfp = new NotifyWarningPopup();
+                        nfp.msg.Text = response.Message;
+                        nfp.Owner = this.MainWindow;
+                        nfp.Show();
                     }
                 }
                 else if (cihazTur == (int)TipEnum.GucUretici)
@@ -99,18 +114,28 @@ namespace AYP
 
                     if (!response.HasError)
                     {
-                        notificationManager.ShowSuccessMessage(response.Message);
+                        NotifySuccessPopup nfp = new NotifySuccessPopup();
+                        nfp.msg.Text = response.Message;
+                        nfp.Owner = this.MainWindow;
+                        nfp.Show();
                         ClosePopup();
                     }
                     else
                     {
-                        notificationManager.ShowErrorMessage(response.Message);
+                        NotifyWarningPopup nfp = new NotifyWarningPopup();
+                        nfp.msg.Text = response.Message;
+                        nfp.Owner = this.MainWindow;
+                        nfp.Show();
                     }
                 }
             }
             else
             {
                 Uretici.BorderBrush = new SolidColorBrush(Colors.Red);
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                nfp.msg.Text = "Lütfen, zorunlu alanları doldurunuz.";
+                nfp.Owner = this.MainWindow;
+                nfp.Show();
             }
         }
     }

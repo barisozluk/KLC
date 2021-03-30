@@ -32,6 +32,8 @@ namespace AYP
         private IKodListeService kodListeService;
 
         private NotificationManager notificationManager;
+        public MainWindow MainWindow { get; set; }
+
 
         GucArayuzu gucArayuzu;
         public AgAnahtariGucArayuzuPopupWindow()
@@ -122,12 +124,19 @@ namespace AYP
 
                 if (!response.HasError)
                 {
-                    notificationManager.ShowSuccessMessage(response.Message);
+                    NotifySuccessPopup nfp = new NotifySuccessPopup();
+                    nfp.msg.Text = response.Message;
+                    nfp.Owner = this.MainWindow;
+                    nfp.Show();
                     ClosePopup();
                 }
                 else
                 {
-                    notificationManager.ShowErrorMessage(response.Message);
+                    NotifyWarningPopup nfp = new NotifyWarningPopup();
+                    nfp.msg.Text = response.Message;
+                    nfp.Owner = this.MainWindow;
+                    nfp.Show();
+                    ClosePopup();
                 }
             }
         }
@@ -159,7 +168,10 @@ namespace AYP
             }
             else
             {
-                notificationManager.ShowWarningMessage("Lütfen, En Az Bir Ağ Anahtarı Tanımlayınız!");
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                nfp.msg.Text = "Lütfen, en az bir ağ anahtarı tanımlayınız.";
+                nfp.Owner = this.MainWindow;
+                nfp.Show();
             }
         }
 

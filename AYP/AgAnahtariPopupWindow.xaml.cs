@@ -32,6 +32,8 @@ namespace AYP
         AgAnahtari agAnahtari;
 
         private NotificationManager notificationManager;
+        public MainWindow MainWindow { get; set; }
+
         public AgAnahtariPopupWindow(AgAnahtari _agAnahtari, bool fromNode)
         {
             if(_agAnahtari != null)
@@ -120,14 +122,21 @@ namespace AYP
 
                 if (!response.HasError)
                 {
-                    notificationManager.ShowSuccessMessage(response.Message);
+                    NotifySuccessPopup nfp = new NotifySuccessPopup();
+                    nfp.msg.Text = response.Message;
+                    nfp.Owner = this.MainWindow;
+                    nfp.Show();
+                    
 
                     (Owner as MainWindow).ListAgAnahtari();
                     ClosePopup();
                 }
                 else
                 {
-                    notificationManager.ShowErrorMessage(response.Message);
+                    NotifyWarningPopup nfp = new NotifyWarningPopup();
+                    nfp.msg.Text = response.Message;
+                    nfp.Owner = this.MainWindow;
+                    nfp.Show();
                 }
             }
             else
@@ -187,6 +196,10 @@ namespace AYP
                         }
                     }
                 }
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                nfp.msg.Text = "Lütfen, zorunlu alanları doldurunuz.";
+                nfp.Owner = this.MainWindow;
+                nfp.Show();
             }
         }
 
@@ -228,7 +241,10 @@ namespace AYP
             }
             else
             {
-                notificationManager.ShowWarningMessage("Lütfen, En Az Bir Ağ Anahtarı Türü Tanımlayınız!");
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                nfp.msg.Text = "Lütfen, en az bir ağ anahtarı tanımlayınız.";
+                nfp.Owner = this.MainWindow;
+                nfp.Show();
             }
         }
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
@@ -250,11 +266,17 @@ namespace AYP
                     try
                     {
                         File.WriteAllBytes(path, agAnahtari.Katalog);
-                        notificationManager.ShowSuccessMessage("İşlem Başarı ile Gerçekleştirildi.");
+                        NotifySuccessPopup nfp = new NotifySuccessPopup();
+                        nfp.msg.Text = "İşlem başarı ile gerçekleştirildi.";
+                        nfp.Owner = this.MainWindow;
+                        nfp.Show();
                     }
                     catch (Exception exception)
                     {
-                        notificationManager.ShowErrorMessage("İşlem Başarısız Oldu.");
+                        NotifyWarningPopup nfp = new NotifyWarningPopup();
+                        nfp.msg.Text = "İşlem başarısız oldu.";
+                        nfp.Owner = this.MainWindow;
+                        nfp.Show();
                     }
                 }
             }

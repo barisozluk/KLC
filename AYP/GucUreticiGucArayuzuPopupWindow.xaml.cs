@@ -34,6 +34,7 @@ namespace AYP
         private NotificationManager notificationManager;
 
         GucArayuzu gucArayuzu;
+        public MainWindow MainWindow { get; set; }
 
         public GucUreticiGucArayuzuPopupWindow()
         {
@@ -124,12 +125,18 @@ namespace AYP
 
                 if (!response.HasError)
                 {
-                    notificationManager.ShowSuccessMessage(response.Message);
+                    NotifySuccessPopup nfp = new NotifySuccessPopup();
+                    nfp.msg.Text = response.Message;
+                    nfp.Owner = this.MainWindow;
+                    nfp.Show();
                     ClosePopup();
                 }
                 else
                 {
-                    notificationManager.ShowErrorMessage(response.Message);
+                    NotifyWarningPopup nfp = new NotifyWarningPopup();
+                    nfp.msg.Text = response.Message;
+                    nfp.Owner = this.MainWindow;
+                    nfp.Show();
                 }
             }
         }
@@ -161,7 +168,10 @@ namespace AYP
             }
             else
             {
-                notificationManager.ShowWarningMessage("Lütfen, En Az Bir Güç Üretici Tanımlayınız!");
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                nfp.msg.Text = "Lütfen, en az bir güç üretici tanımlayınız.";
+                nfp.Owner = this.MainWindow;
+                nfp.Show();
             }
         }
 

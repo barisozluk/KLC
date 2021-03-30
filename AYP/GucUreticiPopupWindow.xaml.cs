@@ -32,6 +32,9 @@ namespace AYP
 
         private NotificationManager notificationManager;
 
+        public MainWindow MainWindow { get; set; }
+
+
         GucUretici gucUretici;
         public GucUreticiPopupWindow(GucUretici _gucUretici, bool fromNode)
         {
@@ -118,14 +121,20 @@ namespace AYP
 
                 if (!response.HasError)
                 {
-                    notificationManager.ShowSuccessMessage(response.Message);
+                    NotifySuccessPopup nfp = new NotifySuccessPopup();
+                    nfp.msg.Text = response.Message;
+                    nfp.Owner = this.MainWindow;
+                    nfp.Show();
 
                     (Owner as MainWindow).ListGucUretici();
                     ClosePopup();
                 }
                 else
                 {
-                    notificationManager.ShowErrorMessage(response.Message);
+                    NotifyWarningPopup nfp = new NotifyWarningPopup();
+                    nfp.msg.Text = response.Message;
+                    nfp.Owner = this.MainWindow;
+                    nfp.Show();
                 }
             }
             else
@@ -193,6 +202,10 @@ namespace AYP
                         }
                     }
                 }
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                nfp.msg.Text = "Lütfen, zorunlu alanları doldurunuz.";
+                nfp.Owner = this.MainWindow;
+                nfp.Show();
             }
         }
 
@@ -240,7 +253,10 @@ namespace AYP
             }
             else
             {
-                notificationManager.ShowWarningMessage("Lütfen, En Az Bir Güç Üretici Türü Tanımlayınız!");
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                nfp.msg.Text = "Lütfen, en az bir güç üreici tanımlayınız.";
+                nfp.Owner = this.MainWindow;
+                nfp.Show();
             }
         }
 
@@ -303,11 +319,17 @@ namespace AYP
                     try
                     {
                         File.WriteAllBytes(path, gucUretici.Katalog);
-                        notificationManager.ShowSuccessMessage("İşlem Başarı ile Gerçekleştirildi.");
+                        NotifySuccessPopup nfp = new NotifySuccessPopup();
+                        nfp.msg.Text = "İşlem başarı ile gerçekleştirildi";
+                        nfp.Owner = this.MainWindow;
+                        nfp.Show();
                     }
                     catch (Exception exception)
                     {
-                        notificationManager.ShowErrorMessage("İşlem Başarısız Oldu.");
+                        NotifyWarningPopup nfp = new NotifyWarningPopup();
+                        nfp.msg.Text = "İşlem başarısız oldu";
+                        nfp.Owner = this.MainWindow;
+                        nfp.Show();
                     }
                 }
             }

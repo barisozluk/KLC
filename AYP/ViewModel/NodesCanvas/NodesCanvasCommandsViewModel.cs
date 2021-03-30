@@ -344,7 +344,10 @@ namespace AYP.ViewModel
             
             if (Nodes.Items.Where(x => x.Selected).Count()<1)
             {
-                notificationManager.ShowWarningMessage("Lütfen en az 1 cihaz seçiniz");
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                nfp.msg.Text = "Lütfen, En Az 1 Cihaz Seçiniz.";
+                nfp.Owner = this.MainWindow;
+                nfp.Show();
             }
             else
             {
@@ -369,7 +372,7 @@ namespace AYP.ViewModel
                 else if(!sameId)
                 {
                     NotifyInfoPopup nfp = new NotifyInfoPopup();
-                    nfp.msg.Text = "Hata";
+                    nfp.msg.Text = "Lüfen Aynı Tür Cihazlar Seçiniz";
                     nfp.Owner = this.MainWindow;
                     nfp.Show();
                 }
@@ -824,7 +827,10 @@ namespace AYP.ViewModel
             Mouse.OverrideCursor = null;
 
             NotificationManager nm = new NotificationManager();
-            nm.ShowSuccessMessage("Proje Başarı ile Kaydedildi.");
+            NotifySuccessPopup nfp = new NotifySuccessPopup();
+            nfp.msg.Text = "Proje Başarıyla Kaydedildi.";
+            nfp.Owner = this.MainWindow;
+            nfp.Show();
             LogDebug("Scheme was saved as \"{0}\"", SchemePath);
         }
         private void WithValidateScheme(Action action)

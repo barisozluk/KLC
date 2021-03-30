@@ -737,7 +737,10 @@ namespace AYP
                     }
                     else
                     {
-                        notificationManager.ShowWarningMessage("Şu an Güç Planlama üzerine çalışmaktasınız, Uç Birim veya Ağ Anahtarı ekleyemezsiniz!");
+                        NotifyInfoPopup nfp = new NotifyInfoPopup();
+                        nfp.msg.Text = "Şu an Güç Planlama üzerine çalışmaktasınız, Uç Birim veya Ağ Anahtarı ekleyemezsiniz.";
+                        nfp.Owner = this;
+                        nfp.Show();
                     }
                 }
                 else
@@ -751,7 +754,10 @@ namespace AYP
                     }
                     else
                     {
-                        notificationManager.ShowWarningMessage("Şu an Ağ Planlama üzerine çalışmaktasınız, Güç Üretici ekleyemezsiniz!");
+                        NotifyInfoPopup nfp = new NotifyInfoPopup();
+                        nfp.msg.Text = "Şu an Ağ Planlama üzerine çalışmaktasınız, Uç Birim veya Ağ Anahtarı ekleyemezsiniz.";
+                        nfp.Owner = this;
+                        nfp.Show();
                     }
 
                 }

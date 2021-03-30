@@ -35,7 +35,9 @@ namespace AYP
         private NotificationManager notificationManager;
 
         GucArayuzu gucArayuzu;
-        
+        public MainWindow MainWindow { get; set; }
+
+
         public UcBirimGucArayuzuPopupWindow()
         {
             this.notificationManager = new NotificationManager();
@@ -125,12 +127,18 @@ namespace AYP
 
                 if (!response.HasError)
                 {
-                    notificationManager.ShowSuccessMessage(response.Message);
+                    NotifySuccessPopup nfp = new NotifySuccessPopup();
+                    nfp.msg.Text = response.Message;
+                    nfp.Owner = this.MainWindow;
+                    nfp.Show();
                     ClosePopup();
                 }
                 else
                 {
-                    notificationManager.ShowErrorMessage(response.Message);
+                    NotifyWarningPopup nfp = new NotifyWarningPopup();
+                    nfp.msg.Text = response.Message;
+                    nfp.Owner = this.MainWindow;
+                    nfp.Show();
                 }
             }
         }
@@ -162,7 +170,10 @@ namespace AYP
             }
             else
             {
-                notificationManager.ShowWarningMessage("Lütfen, En Az Bir Uç Birim Tanımlayınız!");
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                nfp.msg.Text = "Lütfen, En Az Bir Uç Birim Tanımlayınız";
+                nfp.Owner = this.MainWindow;
+                nfp.Show();
             }
         }
 

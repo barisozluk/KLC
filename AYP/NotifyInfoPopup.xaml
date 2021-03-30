@@ -13,7 +13,7 @@
         <!-- Notification area -->
         <Border BorderThickness="1" Background="Transparent" BorderBrush="Yellow" CornerRadius="7" >
             <StackPanel Margin="2">
-                <TextBlock x:Name="msg" FontSize="16" Foreground="Black" TextWrapping="Wrap" Margin="75,10,0,0">
+                <TextBlock x:Name="msg" FontSize="14" Foreground="Black" TextWrapping="Wrap" Margin="75,5,0,0">
 
                 </TextBlock>
             </StackPanel>

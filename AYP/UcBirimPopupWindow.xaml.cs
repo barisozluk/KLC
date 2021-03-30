@@ -33,6 +33,8 @@ namespace AYP
         UcBirim ucBirim;
 
         public bool isEditMode = false;
+        public MainWindow MainWindow { get; set; }
+
 
         public UcBirimPopupWindow(UcBirim _ucBirim, bool fromNode)
         {
@@ -123,14 +125,20 @@ namespace AYP
 
                 if (!response.HasError)
                 {
-                    notificationManager.ShowSuccessMessage(response.Message);
+                    NotifySuccessPopup nfp = new NotifySuccessPopup();
+                    nfp.msg.Text = response.Message;
+                    nfp.Owner = this.MainWindow;
+                    nfp.Show();
 
                     (Owner as MainWindow).ListUcBirim();
                     ClosePopup();
                 }
                 else
                 {
-                    notificationManager.ShowErrorMessage(response.Message);
+                    NotifyWarningPopup nfp = new NotifyWarningPopup();
+                    nfp.msg.Text = response.Message;
+                    nfp.Owner = this.MainWindow;
+                    nfp.Show();
                 }
             }
             else
@@ -190,6 +198,10 @@ namespace AYP
                         }
                     }
                 }
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                nfp.msg.Text = "Lütfen, zorunlu alanları doldurunuz.";
+                nfp.Owner = this.MainWindow;
+                nfp.Show();
             }
         }
 
@@ -238,7 +250,10 @@ namespace AYP
             }
             else
             {
-                notificationManager.ShowWarningMessage("Lütfen, En Az Bir Uç Birim Türü Tanımlayınız!");
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                nfp.msg.Text = "Lütfen, En Az Bir Uç Birim Tanımlayınız";
+                nfp.Owner = this.MainWindow;
+                nfp.Show();
             }
         }
 
@@ -261,11 +276,17 @@ namespace AYP
                     try
                     {
                         File.WriteAllBytes(path, ucBirim.Katalog);
-                        notificationManager.ShowSuccessMessage("İşlem Başarı ile Gerçekleştirildi.");
+                        NotifySuccessPopup nfp = new NotifySuccessPopup();
+                        nfp.msg.Text = "İşlem Başarı ile Gerçekleştirildi.";
+                        nfp.Owner = this.MainWindow;
+                        nfp.Show();
                     }
                     catch (Exception exception)
                     {
-                        notificationManager.ShowErrorMessage("İşlem Başarısız Oldu.");
+                        NotifyWarningPopup nfp = new NotifyWarningPopup();
+                        nfp.msg.Text = "İşlem Başarısız Oldu.";
+                        nfp.Owner = this.MainWindow;
+                        nfp.Show();
                     }
                 }
             }
