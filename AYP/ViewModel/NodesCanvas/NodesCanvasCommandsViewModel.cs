@@ -372,7 +372,7 @@ namespace AYP.ViewModel
                 else if(!sameId)
                 {
                     NotifyInfoPopup nfp = new NotifyInfoPopup();
-                    nfp.msg.Text = "Lüfen Aynı Tür Cihazlar Seçiniz";
+                    nfp.msg.Text = "Lütfen, aynı tür cihazlar seçiniz.";
                     nfp.Owner = this.MainWindow;
                     nfp.Show();
                 }
@@ -828,7 +828,7 @@ namespace AYP.ViewModel
 
             NotificationManager nm = new NotificationManager();
             NotifySuccessPopup nfp = new NotifySuccessPopup();
-            nfp.msg.Text = "Proje Başarıyla Kaydedildi.";
+            nfp.msg.Text = "Proje başarıyla kaydedildi.";
             nfp.Owner = this.MainWindow;
             nfp.Show();
             LogDebug("Scheme was saved as \"{0}\"", SchemePath);
@@ -842,8 +842,11 @@ namespace AYP.ViewModel
             }
             else
             {
-                NotificationManager nm = new NotificationManager();
-                nm.ShowWarningMessage("Cihazlar arasında bağlantı oluşturunuz!");
+                NotifyWarningPopup nfp = new NotifyWarningPopup();
+                nfp.msg.Text = "Lütfen, cihazlar arasında bağlantı oluşturunuz.";
+                nfp.Owner = this.MainWindow;
+                nfp.Show();
+                
                 LogError("Nodes without connects: {0}", string.Join(",", unReachable));
             }
         }

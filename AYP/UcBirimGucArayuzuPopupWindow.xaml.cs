@@ -171,7 +171,7 @@ namespace AYP
             else
             {
                 NotifyInfoPopup nfp = new NotifyInfoPopup();
-                nfp.msg.Text = "Lütfen, En Az Bir Uç Birim Tanımlayınız";
+                nfp.msg.Text = "Lütfen, en az bir uç birim tanımlayınız";
                 nfp.Owner = this.MainWindow;
                 nfp.Show();
             }

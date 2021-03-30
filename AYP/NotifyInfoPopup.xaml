@@ -12,8 +12,8 @@
 
         <!-- Notification area -->
         <Border BorderThickness="1" Background="Transparent" BorderBrush="Yellow" CornerRadius="7" >
-            <StackPanel Margin="2">
-                <TextBlock x:Name="msg" FontSize="14" Foreground="Black" TextWrapping="Wrap" Margin="75,5,0,0">
+            <StackPanel>
+                <TextBlock x:Name="msg" FontSize="14" Foreground="Black" TextWrapping="Wrap" Margin="0,8,0,0" HorizontalAlignment="Center">
 
                 </TextBlock>
             </StackPanel>

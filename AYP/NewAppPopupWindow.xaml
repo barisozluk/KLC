@@ -20,7 +20,7 @@
             </Grid.ColumnDefinitions>
             
             <Rectangle Style="{DynamicResource StyleClosePopup}" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <Label FontSize="12" FontWeight="Bold" Foreground="#ffffff" Content="Kaydetmeden Çıkmak İstediğinize Emin Misiniz?" Grid.Row="0" Grid.Column="1" Margin="0,30,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Label FontSize="12" FontWeight="Bold" Foreground="#ffffff" Content="Kaydetmeden çıkmak istediğinize emin misiniz?" Grid.Row="0" Grid.Column="1" Margin="0,30,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
             <Label FontSize="12" Foreground="#ffffff" Content="(Kaydedilmemiş çalışmalar silinecektir!)" Grid.Row="0" Grid.Column="1" Margin="0,60,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
 
             <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,120,0,10" Click="ConfirmButton_Click">

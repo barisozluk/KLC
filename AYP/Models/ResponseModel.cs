@@ -50,7 +50,7 @@ namespace AYP.Models
             return (T)ret;
         }
 
-        public ResponseModel SetSuccess(string message = "İşlem Başarı ile Gerçekleştirildi.")
+        public ResponseModel SetSuccess(string message = "İşlem başarı ile gerçekleştirildi.")
         {
             HasError = false;
             Message = message;
@@ -58,7 +58,7 @@ namespace AYP.Models
             return this;
         }
 
-        public T SetSuccess<T>(string message = "İşlem Başarı ile Gerçekleştirildi.") where T : ResponseModel
+        public T SetSuccess<T>(string message = "İşlem başarı ile gerçekleştirildi.") where T : ResponseModel
         {
             HasError = false;
             Message = message;
