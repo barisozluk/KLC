@@ -57,7 +57,7 @@
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="*" Grid.Row="0" Grid.Column="1" Margin="180,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <TextBox Name="CiktiGucArayuzuSayisi" PreviewTextInput="NumberValidationTextBox" ToolTip="En az 1 giriniz..." Text="{Binding CiktiGucArayuzuSayisi, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
-            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Verimlilik Oranı" Grid.Row="0" Grid.Column="1" Margin="0,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Verimlilik Oranı (%)" Grid.Row="0" Grid.Column="1" Margin="0,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <TextBox Name="VerimlilikOrani" PreviewTextInput="DecimalValidationTextBox" TextChanged="VerimlilikOrani_TextChanged" Text="{Binding VerimlilikDegeri, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Dahili Güç Tüketim Değeri" Grid.Row="0" Grid.Column="1" Margin="0,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
