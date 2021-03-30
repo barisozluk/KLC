@@ -368,12 +368,17 @@ namespace AYP.ViewModel
                 }
                 else if(!sameId)
                 {
-                    notificationManager.ShowWarningMessage("Seçilen cihazlar aynı tür olmalıdır");
+                    NotifyInfoPopup nfp = new NotifyInfoPopup();
+                    nfp.msg.Text = "Hata";
+                    nfp.Owner = this.MainWindow;
+                    nfp.Show();
                 }
                
             }
             
         }
+
+        
 
         private void Paste()
         {

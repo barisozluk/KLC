@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <None Remove="Images\backward.png" />
+    <None Remove="Images\basari.png" />
     <None Remove="Images\btes-clck.png" />
     <None Remove="Images\btes-nrm.png" />
     <None Remove="Images\camera.png" />
@@ -17,6 +18,7 @@
     <None Remove="Images\edit.png" />
     <None Remove="Images\file.png" />
     <None Remove="Images\group.png" />
+    <None Remove="Images\hata.png" />
     <None Remove="Images\leftAlign.png" />
     <None Remove="Images\middle.png" />
     <None Remove="Images\middleAlign.png" />
@@ -41,6 +43,7 @@
     <None Remove="Images\saveW.png" />
     <None Remove="Images\settings.png" />
     <None Remove="Images\ungroup.png" />
+    <None Remove="Images\uyari.png" />
     <None Remove="Images\voltSymbol.png" />
     <None Remove="Images\wattSymbol.png" />
     <None Remove="Images\zoomIn.png" />
@@ -71,6 +74,7 @@
 
   <ItemGroup>
     <Resource Include="Images\backward.png" />
+    <Resource Include="Images\basari.png" />
     <Resource Include="Images\btes-clck.png" />
     <Resource Include="Images\btes-nrm.png" />
     <Resource Include="Images\camera.png" />
@@ -79,6 +83,7 @@
     <Resource Include="Images\edit.png" />
     <Resource Include="Images\file.png" />
     <Resource Include="Images\group.png" />
+    <Resource Include="Images\hata.png" />
     <Resource Include="Images\leftAlign.png" />
     <Resource Include="Images\middle.png" />
     <Resource Include="Images\rightAlign.png" />
@@ -103,6 +108,7 @@
     <Resource Include="Images\saveW.png" />
     <Resource Include="Images\settings.png" />
     <Resource Include="Images\ungroup.png" />
+    <Resource Include="Images\uyari.png" />
     <Resource Include="Images\voltSymbol.png" />
     <Resource Include="Images\wattSymbol.png" />
     <Resource Include="Images\zoomIn.png" />
@@ -113,7 +119,24 @@
     <Compile Update="AgAnahtariGucArayuzuPopupWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="NotifyInfoPopup.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="NotifyWarningPopup - Copy %282%29 - Copy.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>NotifyWarningPopup - Copy (2).xaml.cs</DependentUpon>
+    </Compile>
+    <Compile Update="NotifyWarningPopup - Copy %282%29.xaml.cs">
+      <SubType>Code</SubType>
+      <DependentUpon>NotifyWarningPopup.xaml.cs</DependentUpon>
+    </Compile>
+    <Compile Update="NotifyWarningPopup.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="EditSelectedPopupWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="NotifySuccessPopup.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="WithoutSavePopupWindow.xaml.cs">
@@ -133,6 +156,16 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
+
+    <Page Update="NotifyInfoPopup.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+
+    <Page Update="NotifyWarningPopup.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="SettingsPopupWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
@@ -146,6 +179,11 @@
     </Page>
 
     <Page Update="EditSelectedPopupWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+
+    <Page Update="NotifySuccessPopup.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

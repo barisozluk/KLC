@@ -42,6 +42,12 @@
     <Page Update="AgAnahtariAgArayuzuPopupWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="NotifyInfoPopup.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="NotifyWarningPopup.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\StyleCutButton.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -52,6 +58,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\StyleToolTip.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="NotifySuccessPopup.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="WithoutSavePopupWindow.xaml">

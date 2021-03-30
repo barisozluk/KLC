@@ -470,7 +470,9 @@ namespace AYP
         {
             this.DescribingMenuPopup.IsOpen = false;
             this.IsEnabled = false;
-            this.Effect = new System.Windows.Media.Effects.BlurEffect();
+            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.Effect = blur;
 
             AgAnahtariAgArayuzuPopupWindow popup = new AgAnahtariAgArayuzuPopupWindow();
             popup.Owner = this;
