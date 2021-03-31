@@ -930,21 +930,21 @@ namespace AYP.ViewModel
 
                 if (mainWindow.toggleRight && mainWindow.toggleLeft)
                 {
-                    midColSize = 1020;
+                    midColSize = 976;
                     
                 }
                 else if (!mainWindow.toggleRight && mainWindow.toggleLeft)
                 {
-                    midColSize = 1380;
+                    midColSize = 1336;
                 }
                 else if (mainWindow.toggleRight && !mainWindow.toggleLeft)
                 {
-                    midColSize = 1380;
+                    midColSize = 1336;
                 }
 
                 else if (!mainWindow.toggleRight && !mainWindow.toggleLeft)
                 {
-                    midColSize = 1740;
+                    midColSize = 1696;
                 }
 
                 node.Point1 = new Point(midColSize, currentY.Y);
