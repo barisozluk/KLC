@@ -1061,18 +1061,27 @@ namespace AYP
         #region HelpEvent
         private void Help_Click(object sender, RoutedEventArgs e)
         {
-            this.IsEnabled = false;
-            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
-            blur.Radius = 2;
-            this.Effect = blur;
+            //this.IsEnabled = false;
+            //System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            //blur.Radius = 2;
+            //this.Effect = blur;
 
-            HelpPopupWindow popup = new HelpPopupWindow();
-            popup.Owner = this;
-            popup.ShowDialog();
+            //HelpPopupWindow popup = new HelpPopupWindow();
+            //popup.Owner = this;
+            //popup.ShowDialog();
 
             //WebBrowser webBrowser = new WebBrowser();
-            //string pdfPath = "file:///" + Directory.GetCurrentDirectory() + "\\KullanimKilavizu.pdf";
+            //string pdfPath = "file:///" + Directory.GetCurrentDirectory() + "\\KullanimKilavuzu.pdf";
             //webBrowser.Navigate(pdfPath);
+
+            var pdfOpenProcess = new System.Diagnostics.Process();
+            string pdfPath = Directory.GetCurrentDirectory() + "\\SEMA-AYP-KK_v1.0_Kullanım Kılavuzu(001).pdf";
+            pdfOpenProcess.StartInfo = new System.Diagnostics.ProcessStartInfo(pdfPath)
+            {
+                UseShellExecute = true
+            };
+            pdfOpenProcess.Start();
+            //pdfOpenProcess.WaitForExit();
         }
         #endregion
     }
