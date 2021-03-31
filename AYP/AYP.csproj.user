@@ -6,4 +6,9 @@
   <PropertyGroup>
     <ActiveDebugProfile>AYP</ActiveDebugProfile>
   </PropertyGroup>
+  <ItemGroup>
+    <Page Update="Styles\StyleCheckBox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
 </Project>

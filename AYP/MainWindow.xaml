@@ -151,7 +151,7 @@
             <Border Background="#222d35" CornerRadius="4,4,0,0" />
 
             <CheckBox Content="Ağ Planlama" Foreground="White" Margin="10,10,0,0" IsChecked="True" Checked="AgPlanlama_Checked" Unchecked="AgPlanlama_Unchecked"/>
-            <CheckBox Content="Güç Planlama" Foreground="White" Margin="105,10,0,0" IsChecked="True" Checked="GucPlanlama_Checked" Unchecked="GucPlanlama_Unchecked"/>
+            <CheckBox Content="Güç Planlama" Foreground="White" Margin="115,10,0,0" IsChecked="True" Checked="GucPlanlama_Checked" Unchecked="GucPlanlama_Unchecked"/>
         </Grid>
 
         <Rectangle Style="{DynamicResource StyleRight1Panel}" Grid.Column="5" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" />

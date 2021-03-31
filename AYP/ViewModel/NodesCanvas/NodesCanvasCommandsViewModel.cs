@@ -563,6 +563,7 @@ namespace AYP.ViewModel
             UcBirimCount = 0;
             AgAnahtariCount = 0;
             GucUreticiCount = 0;
+            StartState = null;
             DeleteProjectHierarchy();
         }
         private void Open()
