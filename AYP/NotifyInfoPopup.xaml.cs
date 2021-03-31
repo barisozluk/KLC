@@ -17,6 +17,7 @@ using ToastNotifications.Messages;
 using ToastNotifications.Position;
 
 using System.Windows.Threading;
+using System.Threading.Tasks;
 
 namespace AYP
 {
@@ -29,16 +30,17 @@ namespace AYP
         {
             InitializeComponent();
 
-            Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() =>
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            Task.Delay(3000).ContinueWith(_ =>
             {
-                var workingArea = System.Windows.Forms.Screen.PrimaryScreen.WorkingArea;
-                var transform = PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice;
-                var corner = transform.Transform(new Point(workingArea.Right, workingArea.Bottom));
-
-                this.Left = corner.X - this.ActualWidth - 750;
-                this.Top = corner.Y - this.ActualHeight;
-
-            }));
+                Dispatcher.Invoke(() =>
+                {
+                    Close();
+                });
+            });
         }
     }
 }

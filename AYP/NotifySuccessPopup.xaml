@@ -8,19 +8,19 @@
         Title="NotifySuccessPopup" Height="50" Width="500" Background="Transparent" Left="695" Top="1015">
 
 
-    <Grid RenderTransformOrigin="0,1" >
+    <Grid RenderTransformOrigin="0,1" Loaded="Grid_Loaded" >
 
         <!-- Notification area -->
         <Border BorderThickness="1" Background="Transparent" BorderBrush="Green" CornerRadius="7" >
             <StackPanel Margin="2">
-                <TextBlock x:Name="msg" FontSize="14" Foreground="Black" TextWrapping="Wrap" Margin="75,10,0,0">
+                <TextBlock x:Name="msg" FontSize="14" Foreground="Black" TextWrapping="Wrap" Margin="75,10,0,0" VerticalAlignment="Center" HorizontalAlignment="Center">
 
                 </TextBlock>
             </StackPanel>
         </Border>
         <Image Source="Images\basari.png" HorizontalAlignment="Left" Height="40" Margin="10,0,0,0" VerticalAlignment="Center" Width="40"/>
 
-        <!-- Animation -->
+        <!-- Animation --><!--
         <Grid.Triggers>
             <EventTrigger RoutedEvent="FrameworkElement.Loaded">
                 <BeginStoryboard>
@@ -40,7 +40,7 @@
 
         <Grid.RenderTransform>
             <ScaleTransform ScaleY="1" />
-        </Grid.RenderTransform>
+        </Grid.RenderTransform>-->
 
     </Grid>
 </Window>

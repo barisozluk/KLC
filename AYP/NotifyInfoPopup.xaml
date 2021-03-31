@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AYP"
         mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" Topmost="True"
-        Title="NotifyInfoPopup" Height="50" Width="500" Background="Transparent" Left="695" Top="1015">
+        Title="NotifyInfoPopup" Height="50" Width="500" Background="Transparent" Left="695" Top="1015" Loaded="Window_Loaded">
 
 
     <Grid RenderTransformOrigin="0,1" >
@@ -13,34 +13,11 @@
         <!-- Notification area -->
         <Border BorderThickness="1" Background="Transparent" BorderBrush="Yellow" CornerRadius="7" >
             <StackPanel>
-                <TextBlock x:Name="msg" FontSize="14" Foreground="Black" TextWrapping="Wrap" Margin="0,8,0,0" HorizontalAlignment="Center">
+                <TextBlock x:Name="msg" FontSize="14" Foreground="Black" TextWrapping="Wrap" Margin="0,8,0,0" VerticalAlignment="Center" HorizontalAlignment="Center">
 
                 </TextBlock>
             </StackPanel>
         </Border>
         <Image Source="Images\uyari.png" HorizontalAlignment="Left" Height="40" Margin="10,0,0,0" VerticalAlignment="Center" Width="40"/>
-
-        <!-- Animation -->
-        <Grid.Triggers>
-            <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                <BeginStoryboard>
-                    <Storyboard>
-                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)">
-                            <SplineDoubleKeyFrame KeyTime="0:0:0" Value="0"/>
-                            <SplineDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
-                        </DoubleAnimationUsingKeyFrames>
-                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)">
-                            <SplineDoubleKeyFrame KeyTime="0:0:2" Value="1"/>
-                            <SplineDoubleKeyFrame KeyTime="0:0:4" Value="0"/>
-                        </DoubleAnimationUsingKeyFrames>
-                    </Storyboard>
-                </BeginStoryboard>
-            </EventTrigger>
-        </Grid.Triggers>
-
-        <Grid.RenderTransform>
-            <ScaleTransform ScaleY="1" />
-        </Grid.RenderTransform>
-
     </Grid>
 </Window>

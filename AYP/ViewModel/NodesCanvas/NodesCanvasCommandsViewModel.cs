@@ -736,8 +736,10 @@ namespace AYP.ViewModel
                 NodeClipboard.Clear();
                 GroupList.Clear();
 
-                NotificationManager nm = new NotificationManager();
-                nm.ShowErrorMessage("Dosya Formatı Hatalıdır.");
+                NotifyWarningPopup nfp = new NotifyWarningPopup();
+                nfp.msg.Text = "Dosya formatı hatalıdır.";
+                nfp.Owner = this.MainWindow;
+                nfp.Show();
                 LogError("File is not valid. " + errorMessage);
                 this.SetupStartState();
                 Mouse.OverrideCursor = null;
@@ -765,17 +767,29 @@ namespace AYP.ViewModel
         }
         private void SaveAs()
         {
-            WithValidateScheme(()=>
+            if(StartState == null)
             {
-                Dialog.ShowSaveFileDialog("XML-File | *.xml", SchemeName(), "Save scheme as...");
-                if (Dialog.Result != DialogResult.Ok)
-                    return;
+                NotifyWarningPopup nfp = new NotifyWarningPopup();
+                nfp.msg.Text = "Lütfen, en az 1 cihaz ekleyin.";
+                nfp.Owner = this.MainWindow;
+                nfp.Show();
+            }
+            else
+            {
+                WithValidateScheme(() =>
+                {
+                    Dialog.ShowSaveFileDialog("XML-File | *.xml", SchemeName(), "Save scheme as...");
+                    if (Dialog.Result != DialogResult.Ok)
+                        return;
 
-                Save(Dialog.FileName);
-            });
+                    Save(Dialog.FileName);
+                });
+            }
+           
         }
         private void Save(string fileName)
-        {            
+        {
+           
             Mouse.OverrideCursor = Cursors.Wait;
             XDocument xDocument = new XDocument();
             XElement stateMachineXElement = new XElement("StateMachine");
@@ -786,52 +800,63 @@ namespace AYP.ViewModel
             {
                 states.Add(state.ToXElement());
             }
-
+            
             XElement startState = new XElement("StartState");
             stateMachineXElement.Add(startState);
-            startState.Add(new XAttribute("Name", StartState.Name));
-
-            XElement inputs = new XElement("Inputs");
-            stateMachineXElement.Add(inputs);
-            foreach (var input in Nodes.Items.SelectMany(x => x.InputList))
+            if(StartState == null)
             {
-                inputs.Add(input.ToInputXElement());
+                NotifyWarningPopup nfp = new NotifyWarningPopup();
+                nfp.msg.Text = "Lütfen, en az 1 cihaz ekleyin.";
+                nfp.Owner = this.MainWindow;
+                nfp.Show();
             }
-
-            XElement gucInputs = new XElement("GucInputs");
-            stateMachineXElement.Add(gucInputs);
-            foreach (var input in Nodes.Items.SelectMany(x => x.GucInputList))
+            else
             {
-                gucInputs.Add(input.ToInputXElement());
+                startState.Add(new XAttribute("Name", StartState.Name));
+
+                XElement inputs = new XElement("Inputs");
+                stateMachineXElement.Add(inputs);
+                foreach (var input in Nodes.Items.SelectMany(x => x.InputList))
+                {
+                    inputs.Add(input.ToInputXElement());
+                }
+
+                XElement gucInputs = new XElement("GucInputs");
+                stateMachineXElement.Add(gucInputs);
+                foreach (var input in Nodes.Items.SelectMany(x => x.GucInputList))
+                {
+                    gucInputs.Add(input.ToInputXElement());
+                }
+
+                XElement transitions = new XElement("Transitions");
+                stateMachineXElement.Add(transitions);
+                foreach (var transition in Nodes.Items.SelectMany(x => x.TransitionsForView.Where(y => !string.IsNullOrEmpty(y.Name))))
+                {
+                    transitions.Add(transition.ToXElement());
+                }
+
+
+                XElement visualizationXElement = new XElement("Visualization");
+                stateMachineXElement.Add(visualizationXElement);
+                foreach (var state in Nodes.Items)
+                {
+                    visualizationXElement.Add(state.ToVisualizationXElement());
+                }
+
+
+                xDocument.Save(fileName);
+                ItSaved = true;
+                SchemePath = fileName;
+                Mouse.OverrideCursor = null;
+
+                NotificationManager nm = new NotificationManager();
+                NotifySuccessPopup nfp = new NotifySuccessPopup();
+                nfp.msg.Text = "Proje başarıyla kaydedildi.";
+                nfp.Owner = this.MainWindow;
+                nfp.Show();
+                LogDebug("Scheme was saved as \"{0}\"", SchemePath);
             }
-
-            XElement transitions = new XElement("Transitions");
-            stateMachineXElement.Add(transitions);
-            foreach (var transition in Nodes.Items.SelectMany(x => x.TransitionsForView.Where(y => !string.IsNullOrEmpty(y.Name))))
-            {
-                transitions.Add(transition.ToXElement());
-            }
-
-
-            XElement visualizationXElement = new XElement("Visualization");
-            stateMachineXElement.Add(visualizationXElement);
-            foreach (var state in Nodes.Items)
-            {
-                visualizationXElement.Add(state.ToVisualizationXElement());
-            }
-
-
-            xDocument.Save(fileName);
-            ItSaved = true;
-            SchemePath = fileName;
-            Mouse.OverrideCursor = null;
-
-            NotificationManager nm = new NotificationManager();
-            NotifySuccessPopup nfp = new NotifySuccessPopup();
-            nfp.msg.Text = "Proje başarıyla kaydedildi.";
-            nfp.Owner = this.MainWindow;
-            nfp.Show();
-            LogDebug("Scheme was saved as \"{0}\"", SchemePath);
+            
         }
         private void WithValidateScheme(Action action)
         {
@@ -846,7 +871,11 @@ namespace AYP.ViewModel
                 nfp.msg.Text = "Lütfen, cihazlar arasında bağlantı oluşturunuz.";
                 nfp.Owner = this.MainWindow;
                 nfp.Show();
+
                 
+
+
+
                 LogError("Nodes without connects: {0}", string.Join(",", unReachable));
             }
         }

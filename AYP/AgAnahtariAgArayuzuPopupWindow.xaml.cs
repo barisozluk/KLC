@@ -86,7 +86,6 @@ namespace AYP
                     nfp.msg.Text = response.Message;
                     nfp.Owner = this.MainWindow;
                     nfp.Show();
-                    ClosePopup();
                 }
                 else
                 {
