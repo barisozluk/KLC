@@ -118,6 +118,21 @@ namespace AYP.View
                 this.BindCommand(this.ViewModel, x => x.CommandCollapseUpSelected,  x => x.ItemCollapsUp).DisposeWith(disposable);
                 this.BindCommand(this.ViewModel, x => x.CommandExpandDownSelected,  x => x.ItemExpandDown).DisposeWith(disposable);
 
+                this.BindCommand(this.ViewModel, x => x.CommandCopy, x => x.ItemCopy).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.CommandPaste, x => x.ItemPaste).DisposeWith(disposable);
+
+                this.BindCommand(this.ViewModel, x => x.CommandAlignLeft, x => x.ItemAlignLeft).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.CommandAlignRight, x => x.ItemAlignRight).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.CommandAlignCenter, x => x.ItemAlignCenter).DisposeWith(disposable);
+
+                this.BindCommand(this.ViewModel, x => x.CommandGroup, x => x.ItemGroup).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.CommandUngroup, x => x.ItemUngroup).DisposeWith(disposable);
+
+                this.BindCommand(this.ViewModel, x => x.CommandZoomOriginalSize, x => x.ItemZoomOriginalSize).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.CommandZoomIn, x => x.ItemZoomIn).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.CommandZoomOut, x => x.ItemZoomOut).DisposeWith(disposable);
+
+                this.BindCommand(this.ViewModel, x => x.CommandEditSelected, x => x.ItemEditSelected).DisposeWith(disposable);
             });
         }
         #endregion Setup Commands
