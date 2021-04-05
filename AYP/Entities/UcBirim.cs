@@ -27,10 +27,8 @@ namespace AYP.Entities
         [StringLength(50)]
         public string UreticiParcaNo { get; set; }
 
-        [Required]
         public byte[] Katalog { get; set; }
 
-        [Required]
         public string KatalogDosyaAdi { get; set; }
 
         [Required]
@@ -46,10 +44,10 @@ namespace AYP.Entities
         public UcBirimTur UcBirimTur { get; set; }
 
         [Range(1, 5)]
-        public int GirdiAgArayuzuSayisi { get; set; }
+        public int? GirdiAgArayuzuSayisi { get; set; }
 
         [Range(1,5)]
-        public int CiktiAgArayuzuSayisi { get; set; }
+        public int? CiktiAgArayuzuSayisi { get; set; }
 
         [Range(1, int.MaxValue)]
         public int GucArayuzuSayisi { get; set; }

@@ -19,8 +19,8 @@ namespace AYP.DbContext
 
             protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             {
-                optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["AYPContext"].ConnectionString);
-                //optionsBuilder.UseSqlServer(@"Data Source=localhost\SQL;Integrated Security=True;Database=master");
+                //optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["AYPContext"].ConnectionString);
+                optionsBuilder.UseSqlServer(@"Data Source=localhost\SQL;Integrated Security=True;Database=master");
             }
 
             public DbSet<KL_Tip> KL_Tip { get; set; }

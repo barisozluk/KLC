@@ -73,6 +73,7 @@
                 <ResourceDictionary Source="Styles/StyleAddDeviceButton.xaml"/>
                 <ResourceDictionary Source="Styles/StyleToolTip.xaml"/>
                 <ResourceDictionary Source="Styles/StyleCheckBox.xaml"/>
+                <ResourceDictionary Source="Styles/TabStyle.xaml" />
                 <!--#endregion         FormControls-->
 
             </ResourceDictionary.MergedDictionaries>

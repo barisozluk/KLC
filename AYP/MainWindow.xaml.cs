@@ -408,33 +408,6 @@ namespace AYP
             popup.Owner = this;
             popup.ShowDialog();
         }
-
-        private void ButtonUcBirimAgArayuzu_Click(object sender, RoutedEventArgs e)
-        {
-            this.DescribingMenuPopup.IsOpen = false;
-            this.IsEnabled = false;
-            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
-            blur.Radius = 2;
-            this.Effect = blur;
-
-            UcBirimAgArayuzuWindow popup = new UcBirimAgArayuzuWindow();
-            popup.Owner = this;
-            popup.ShowDialog();
-        }
-
-        private void ButtonUcBirimGucArayuz_Click(object sender, RoutedEventArgs e)
-        {
-            this.DescribingMenuPopup.IsOpen = false;
-            this.IsEnabled = false;
-            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
-            blur.Radius = 2;
-            this.Effect = blur;
-
-            UcBirimGucArayuzuPopupWindow popup = new UcBirimGucArayuzuPopupWindow();
-            popup.Owner = this;
-            popup.ShowDialog();
-        }
-
         #endregion
 
         #region AgAnahtariPopupEvents
@@ -464,33 +437,6 @@ namespace AYP
             popup.Owner = this;
             popup.ShowDialog();
         }
-
-        private void ButtonAgAnahtariAgArayuzu_Click(object sender, RoutedEventArgs e)
-        {
-            this.DescribingMenuPopup.IsOpen = false;
-            this.IsEnabled = false;
-            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
-            blur.Radius = 2;
-            this.Effect = blur;
-
-            AgAnahtariAgArayuzuPopupWindow popup = new AgAnahtariAgArayuzuPopupWindow();
-            popup.Owner = this;
-            popup.ShowDialog();
-        }
-
-        private void ButtonAgAnahtariGucArayuz_Click(object sender, RoutedEventArgs e)
-        {
-            this.DescribingMenuPopup.IsOpen = false;
-            this.IsEnabled = false;
-            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
-            blur.Radius = 2;
-            this.Effect = blur;
-
-            AgAnahtariGucArayuzuPopupWindow popup = new AgAnahtariGucArayuzuPopupWindow();
-            popup.Owner = this;
-            popup.ShowDialog();
-        }
-
         #endregion
 
         #region GucUreticiPopupEvents
@@ -521,20 +467,6 @@ namespace AYP
             popup.Owner = this;
             popup.ShowDialog();
         }
-
-        private void ButtonGucUreticiGucArayuz_Click(object sender, RoutedEventArgs e)
-        {
-            this.DescribingMenuPopup.IsOpen = false;
-            this.IsEnabled = false;
-            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
-            blur.Radius = 2;
-            this.Effect = blur;
-
-            GucUreticiGucArayuzuPopupWindow popup = new GucUreticiGucArayuzuPopupWindow();
-            popup.Owner = this;
-            popup.ShowDialog();
-        }
-
         #endregion
 
         #region SettingsPopupEvents
@@ -703,8 +635,8 @@ namespace AYP
                     var ucBirim = (UcBirim)dataCxtx;
                     model.Id = ucBirim.Id;
                     model.TypeId = ucBirim.TipId;
-                    model.InputSayisi = ucBirim.GirdiAgArayuzuSayisi;
-                    model.OutputSayisi = ucBirim.CiktiAgArayuzuSayisi;
+                    model.InputSayisi = ucBirim.GirdiAgArayuzuSayisi.HasValue ? ucBirim.GirdiAgArayuzuSayisi.Value : 0;
+                    model.OutputSayisi = ucBirim.CiktiAgArayuzuSayisi.HasValue ? ucBirim.CiktiAgArayuzuSayisi.Value : 0;
                     model.GucArayuzuSayisi = ucBirim.GucArayuzuSayisi;
                 }
                 else if (type.Name == "AgAnahtari")
@@ -712,8 +644,8 @@ namespace AYP
                     var agAnahtari = (AgAnahtari)dataCxtx;
                     model.Id = agAnahtari.Id;
                     model.TypeId = agAnahtari.TipId;
-                    model.InputSayisi = agAnahtari.GirdiAgArayuzuSayisi;
-                    model.OutputSayisi = agAnahtari.CiktiAgArayuzuSayisi;
+                    model.InputSayisi = agAnahtari.GirdiAgArayuzuSayisi.HasValue ? agAnahtari.GirdiAgArayuzuSayisi.Value : 0;
+                    model.OutputSayisi = agAnahtari.CiktiAgArayuzuSayisi.HasValue ? agAnahtari.CiktiAgArayuzuSayisi.Value : 0;
                     model.GucArayuzuSayisi = agAnahtari.GucArayuzuSayisi;
                 }
                 else if (type.Name == "GucUretici")

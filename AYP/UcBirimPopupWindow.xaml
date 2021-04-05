@@ -6,14 +6,17 @@
         xmlns:local="clr-namespace:AYP"
         xmlns:converters="clr-namespace:AYP.Helpers.Converters"
         mc:Ignorable="d"  AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterOwner"
-        Title="UcBirimPopupWindow" Height="575" Width="460" Background="Transparent">
+        Title="UcBirimPopupWindow" Height="605" Width="460" Background="Transparent">
 
     <Window.Resources>
         <converters:NumberEmptyConverter x:Key="NumberEmptyConverter" />
     </Window.Resources>
 
     <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">
-        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+
+        <TabControl Background="Transparent" BorderThickness="0">
+            <TabItem Style="{DynamicResource TabStyle}" Header="Uç Birim" Background="#222d35" Foreground="White" Height="30" Width="150" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="575"/>
             </Grid.RowDefinitions>
@@ -50,11 +53,11 @@
             <TextBox Name="UreticiParcaNo" Text="{Binding UreticiParcaNo}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,245,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Girdi Ağ Arayüz Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="*" Grid.Row="0" Grid.Column="1" Margin="162,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Grid.Row="0" Grid.Column="1" Margin="162,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <TextBox Name="GirdiAgArayuzuSayisi" ToolTip="1 ile 5 arasında giriniz" PreviewTextInput="NumberValidationTextBox" Text="{Binding GirdiAgArayuzuSayisi, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Çıktı Ağ Arayüz Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="*" Grid.Row="0" Grid.Column="1" Margin="162,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Grid.Row="0" Grid.Column="1" Margin="162,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <TextBox Name="CiktiAgArayuzuSayisi" ToolTip="1 ile 5 arasında giriniz" PreviewTextInput="NumberValidationTextBox" Text="{Binding CiktiAgArayuzuSayisi, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Güç Arayüzü Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -62,7 +65,7 @@
             <TextBox Name="GucArayuzuSayisi" ToolTip="En az 1 giriniz" PreviewTextInput="NumberValidationTextBox" Text="{Binding GucArayuzuSayisi, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Katalog" Grid.Row="0" Grid.Column="1" Margin="0,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="*" Grid.Row="0" Grid.Column="1" Margin="160,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Grid.Row="0" Grid.Column="1" Margin="160,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <TextBox Name="Katalog" Text="{Binding KatalogDosyaAdi}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" IsReadOnly="True"  ></TextBox>
             <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#222d35" Margin="340,425,0,10" Height="35" Width="80" Click="BtnOpenKatalogFile_Click">
                 <Grid>
@@ -90,5 +93,12 @@
                 </Grid>
             </Button>
         </Grid>
+            </TabItem>
+
+            <TabItem Style="{DynamicResource TabStyle}" Header="Ağ Arayüzü" Foreground="White" Height="30" Width="151" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+
+            <TabItem Style="{DynamicResource TabStyle}" Header="Güç Arayüzü" Foreground="White" Height="30" Width="151" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+
+        </TabControl>
     </Border>
 </Window>
