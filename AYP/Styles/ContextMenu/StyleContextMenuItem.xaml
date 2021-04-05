@@ -27,7 +27,7 @@
                             <ContentPresenter Grid.Column="1" x:Name="Header" Margin="{TemplateBinding Padding}"  RecognizesAccessKey="True" ContentSource="Header" Visibility="Visible"/>
 
                             <!-- InputGestureText -->
-                            <ContentPresenter Grid.Column="2" x:Name="InputGestureText" Margin="8,1,8,1"  ContentSource="InputGestureText" VerticalAlignment="Center" Visibility="Visible"/>
+                            <ContentPresenter Grid.Column="2" x:Name="InputGestureText" Margin="50,1,8,1"  ContentSource="InputGestureText" VerticalAlignment="Center" Visibility="Visible"/>
 
                             <!-- Arrow drawn for next level menu -->
                             <Grid Grid.Column="3" Margin="4,0,6,0" x:Name="ArrowPanel" VerticalAlignment="Center">

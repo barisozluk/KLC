@@ -51,82 +51,32 @@
     </Border>
     <UserControl.ContextMenu >
         <ContextMenu Template="{DynamicResource TemplateContextMenu}" Background="{DynamicResource ColorMenuBackground}"  Foreground="{DynamicResource ColorMenuForeground}" BorderBrush="{DynamicResource ColorMenuBorder}" OpacityMask="{DynamicResource ColorMenuBackgroundMouseOver}"  BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Center" >
-            <!--<MenuItem Header="Cihaz Ekle" x:Name="ItemAddNode" InputGestureText="Ctrl + N" ToolTip="Add new node on left click position" Style="{DynamicResource StyleContextMenuItem}" >
-                <MenuItem.Icon>
-                    <Rectangle Fill="{DynamicResource IconAddNode}" Height="13" Width="13"/>
-                </MenuItem.Icon>
-            </MenuItem>-->
-            <MenuItem Header="Sil" x:Name="ItemDelete" InputGestureText="Delete" ToolTip="Seçili birimleri sil"  Style="{DynamicResource StyleContextMenuItem}">
-                <MenuItem.Icon>
-                    <Rectangle Fill="{DynamicResource IconDeleteScheme}" Height="15" Width="15"/>
-                </MenuItem.Icon>
-            </MenuItem>
+            <MenuItem Header="Sil" x:Name="ItemDelete" InputGestureText="Delete" ToolTip="Seçili birimleri sil"  Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
             <Separator Background="#333337"/>
-            <MenuItem Header="Daralt" x:Name="ItemCollapsUp" ToolTip="Seçili birimleri daralt" Style="{DynamicResource StyleContextMenuItem}">
-                <MenuItem.Icon>
-                    <Rectangle Fill="{DynamicResource IconCollapseUp}" Height="13" Width="13"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Genişlet" x:Name="ItemExpandDown" ToolTip="Seçili birimleri genişlet" Style="{DynamicResource StyleContextMenuItem}">
-                <MenuItem.Icon>
-                    <Rectangle Fill="{DynamicResource IconExpandDown}" Height="13" Width="13"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Kopyala" InputGestureText="Ctrl+C" x:Name="ItemCopy" ToolTip="Seçili birimleri kopyala" Style="{DynamicResource StyleContextMenuItem}">
-                <MenuItem.Icon>
-                    <Rectangle Fill="{DynamicResource IconExpandDown}" Height="13" Width="13"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Yapıştır " InputGestureText="Ctrl+V" x:Name="ItemPaste" ToolTip="Seçili birimleri yapıştır" Style="{DynamicResource StyleContextMenuItem}">
-                <MenuItem.Icon>
-                    <Rectangle Fill="{DynamicResource IconExpandDown}" Height="13" Width="13"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Sağa yasla" InputGestureText="Alt+R" x:Name="ItemAlignRight" ToolTip="Seçili birimleri sağa yasla" Style="{DynamicResource StyleContextMenuItem}">
-                <MenuItem.Icon>
-                    <Rectangle Fill="{DynamicResource IconExpandDown}" Height="13" Width="13"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Sola yasla" InputGestureText="Alt+L" x:Name="ItemAlignLeft" ToolTip="Seçili birimleri sola yasla" Style="{DynamicResource StyleContextMenuItem}">
-                <MenuItem.Icon>
-                    <Rectangle Fill="{DynamicResource IconExpandDown}" Height="13" Width="13"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Ortala" InputGestureText="Alt+C" x:Name="ItemAlignCenter" ToolTip="Seçili birimleri ortala" Style="{DynamicResource StyleContextMenuItem}">
-                <MenuItem.Icon>
-                    <Rectangle Fill="{DynamicResource IconExpandDown}" Height="13" Width="13"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Grupla" InputGestureText="Alt+G" x:Name="ItemGroup" ToolTip="Seçili birimleri grupla" Style="{DynamicResource StyleContextMenuItem}">
-                <MenuItem.Icon>
-                    <Rectangle Fill="{DynamicResource IconExpandDown}" Height="13" Width="13"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Grubu dağıt" InputGestureText="Alt+U" x:Name="ItemUngroup" ToolTip="Seçili grubu dağıt" Style="{DynamicResource StyleContextMenuItem}">
-                <MenuItem.Icon>
-                    <Rectangle Fill="{DynamicResource IconExpandDown}" Height="13" Width="13"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Yakınlaş" InputGestureText="Ctrl++" x:Name="ItemZoomIn" ToolTip="Yakınlaş" Style="{DynamicResource StyleContextMenuItem}">
-                <MenuItem.Icon>
-                    <Rectangle Fill="{DynamicResource IconExpandDown}" Height="13" Width="13"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Uzaklaş" InputGestureText="Ctrl+-" x:Name="ItemZoomOut" ToolTip="Uzaklaş" Style="{DynamicResource StyleContextMenuItem}">
-                <MenuItem.Icon>
-                    <Rectangle Fill="{DynamicResource IconExpandDown}" Height="13" Width="13"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Orjinal görünüme dön" InputGestureText="Ctrl+Space" x:Name="ItemZoomOriginalSize" ToolTip="Orjinal görünüme dön" Style="{DynamicResource StyleContextMenuItem}">
-                <MenuItem.Icon>
-                    <Rectangle Fill="{DynamicResource IconExpandDown}" Height="13" Width="13"/>
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Header="Toplu düzenle" InputGestureText="Ctrl+E" x:Name="ItemEditSelected" ToolTip="Toplu düzenle" Style="{DynamicResource StyleContextMenuItem}">
-                <MenuItem.Icon>
-                    <Rectangle Fill="{DynamicResource IconExpandDown}" Height="13" Width="13"/>
-                </MenuItem.Icon>
-            </MenuItem>
+
+            <MenuItem Header="Daralt" x:Name="ItemCollapsUp" ToolTip="Seçili birimleri daralt" Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
+            <MenuItem Header="Genişlet" x:Name="ItemExpandDown" ToolTip="Seçili birimleri genişlet" Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
+            <Separator Background="#333337"/>
+
+            <MenuItem Header="Kopyala" InputGestureText="Ctrl+C" x:Name="ItemCopy" ToolTip="Seçili birimleri kopyala" Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
+            <MenuItem Header="Yapıştır " InputGestureText="Ctrl+V" x:Name="ItemPaste" ToolTip="Seçili birimleri yapıştır" Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
+            <Separator Background="#333337"/>
+
+            <MenuItem Header="Sağa yasla" InputGestureText="Alt+R" x:Name="ItemAlignRight" ToolTip="Seçili birimleri sağa yasla" Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
+            <MenuItem Header="Sola yasla" InputGestureText="Alt+L" x:Name="ItemAlignLeft" ToolTip="Seçili birimleri sola yasla" Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
+            <MenuItem Header="Ortala" InputGestureText="Alt+C" x:Name="ItemAlignCenter" ToolTip="Seçili birimleri ortala" Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
+            <Separator Background="#333337"/>
+
+            <MenuItem Header="Grupla" InputGestureText="Ctrl+G" x:Name="ItemGroup" ToolTip="Seçili birimleri grupla" Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
+            <MenuItem Header="Grubu dağıt" InputGestureText="Ctrl+U" x:Name="ItemUngroup" ToolTip="Seçili grubu dağıt" Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
+            <Separator Background="#333337"/>
+
+            <MenuItem Header="Yakınlaş" InputGestureText="Ctrl++" x:Name="ItemZoomIn" ToolTip="Yakınlaş" Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
+            <MenuItem Header="Uzaklaş" InputGestureText="Ctrl+-" x:Name="ItemZoomOut" ToolTip="Uzaklaş" Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
+            <MenuItem Header="Orjinal görünüme dön" InputGestureText="Ctrl+Space" x:Name="ItemZoomOriginalSize" ToolTip="Orjinal görünüme dön" Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
+            <Separator Background="#333337"/>
+
+            <MenuItem Header="Toplu düzenle" InputGestureText="Ctrl+E" x:Name="ItemEditSelected" ToolTip="Toplu düzenle" Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
         </ContextMenu>
     </UserControl.ContextMenu>
     <UserControl.InputBindings>
