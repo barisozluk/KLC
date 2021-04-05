@@ -77,6 +77,8 @@
             <Separator Background="#333337"/>
 
             <MenuItem Header="Toplu düzenle" InputGestureText="Ctrl+E" x:Name="ItemEditSelected" ToolTip="Toplu düzenle" Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
+            <MenuItem Header="Çoklu kopyala" InputGestureText="Ctrl+E" x:Name="ItemCopyMultiple" ToolTip="Toplu kopyala" Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
+
         </ContextMenu>
     </UserControl.ContextMenu>
     <UserControl.InputBindings>
@@ -103,6 +105,7 @@
         <KeyBinding x:Name="BindingAlignCenter"   Key="C" Modifiers="Alt"/>
 
         <KeyBinding x:Name="BindingEditSelected"   Key="E" Modifiers="Ctrl"/>
+        <KeyBinding x:Name="BindingCopyMultiple"   Key="P" Modifiers="Ctrl"/>
 
         <MouseBinding x:Name="BindingSelect"    Gesture="Ctrl+LeftClick"/>
     </UserControl.InputBindings>

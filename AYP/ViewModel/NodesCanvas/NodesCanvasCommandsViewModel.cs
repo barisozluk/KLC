@@ -23,6 +23,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using AYP.Enums;
 using AYP.Helpers.Notifications;
+using System.Windows.Controls;
 
 namespace AYP.ViewModel
 {
@@ -68,6 +69,7 @@ namespace AYP.ViewModel
         public ReactiveCommand<Unit, Unit> CommandCopy { get; set; }
         public ReactiveCommand<Unit, Unit> CommandPaste { get; set; }
         public ReactiveCommand<Unit, Unit> CommandEditSelected { get; set; }
+        public ReactiveCommand<Unit, Unit> CommandCopyMultiple { get; set; }
         public ReactiveCommand<Unit, Unit> CommandGroup { get; set; }
         public ReactiveCommand<Unit, Unit> CommandUngroup { get; set; }
 
@@ -180,6 +182,7 @@ namespace AYP.ViewModel
             CommandCopy = ReactiveCommand.Create(CopyToClipboard);
             CommandPaste = ReactiveCommand.Create(Paste);
             CommandEditSelected = ReactiveCommand.Create(EditSelected);
+            CommandCopyMultiple = ReactiveCommand.Create(CopyMultiple);
             CommandGroup = ReactiveCommand.Create(Group);
             CommandUngroup = ReactiveCommand.Create(Ungroup);
 
@@ -1433,5 +1436,33 @@ namespace AYP.ViewModel
 
         #endregion
 
+        private void CopyMultiple()
+        {
+
+            NotificationManager notificationManager = new NotificationManager();
+            
+
+            if (Nodes.Items.Where(x => x.Selected).Count() < 1)
+            {
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                nfp.msg.Text = "Lütfen, cihaz seçiniz.";
+                nfp.Owner = this.MainWindow;
+                nfp.Show();
+            }
+            else if (Nodes.Items.Where(x => x.Selected).Count() > 1)
+            {
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                nfp.msg.Text = "Lütfen, sadece 1 cihaz seçiniz.";
+                nfp.Owner = this.MainWindow;
+                nfp.Show();
+            }
+            else
+            {
+                MultipleCopyPopupWindow mc = new MultipleCopyPopupWindow(Nodes.Items.Where(x => x.Selected).FirstOrDefault());
+                mc.Owner = this.MainWindow;
+                mc.ShowDialog();
+            }
+
+        }
     }
 }

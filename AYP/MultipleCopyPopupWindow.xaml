@@ -1,0 +1,39 @@
+﻿<Window x:Class="AYP.MultipleCopyPopupWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AYP"
+        mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterOwner"
+        Title="MultipleCopyPopupWindow" Height="170" Width="460" Background="Transparent">
+
+
+    <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="170"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="440" />
+                <ColumnDefinition Width="10" />
+            </Grid.ColumnDefinitions>
+
+            <Label Style="{DynamicResource StyleDescribingMainTitle}" Content="Çoklu Kopyalama" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Button Style="{DynamicResource StyleCloseDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,0,0" Click="ButtonMultipleCopyPopupClose_Click" >
+                <Rectangle Fill="{DynamicResource IconClose}"  Height="15" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
+            </Button>
+
+            <Rectangle Style="{DynamicResource StyleDescribingTurFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Adet : " Grid.Row="0" Grid.Column="1" Margin="0,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <TextBox ToolTip="En az 1 giriniz" Name="Adet" Text="{Binding Path=UreticiAdi}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+            
+            <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,120,0,10" Click="Save_MultipleCopy">
+                <Grid>
+                    <Image Source="Images/save.png" Height="20" Width="25" Margin="2,0,0,0" HorizontalAlignment="Left"/>
+                    <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="70,0,0,0">Tamam</TextBlock>
+                </Grid>
+            </Button>
+        </Grid>
+    </Border>
+</Window>

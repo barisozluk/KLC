@@ -108,6 +108,7 @@ namespace AYP.View
                 this.BindCommand(this.ViewModel, x => x.CommandAlignCenter, x => x.BindingAlignCenter).DisposeWith(disposable);
 
                 this.BindCommand(this.ViewModel, x => x.CommandEditSelected, x => x.BindingEditSelected).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.CommandCopyMultiple, x => x.BindingEditSelected).DisposeWith(disposable);
 
                 this.BindCommand(this.ViewModel, x => x.CommandUndo,                x => x.ItemCollapsUp).DisposeWith(disposable);
                 this.BindCommand(this.ViewModel, x => x.CommandSelectAll,           x => x.ItemExpandDown).DisposeWith(disposable);
@@ -133,6 +134,10 @@ namespace AYP.View
                 this.BindCommand(this.ViewModel, x => x.CommandZoomOut, x => x.ItemZoomOut).DisposeWith(disposable);
 
                 this.BindCommand(this.ViewModel, x => x.CommandEditSelected, x => x.ItemEditSelected).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.CommandCopyMultiple, x => x.ItemCopyMultiple).DisposeWith(disposable);
+
+                
+
             });
         }
         #endregion Setup Commands
