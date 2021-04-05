@@ -77,11 +77,28 @@
     <UserControl.InputBindings>
         <KeyBinding x:Name="BindingUndo"        Key="Z" Modifiers="Control" />
         <KeyBinding x:Name="BindingRedo"        Key="Y" Modifiers="Control" />
+        
         <KeyBinding x:Name="BindingSelectAll"   Key="A" Modifiers="Control" />
         <KeyBinding x:Name="BindingAddNode"     Key="N" Modifiers="Control" />
         <KeyBinding x:Name="BindingDeleteSelectedElements" Key="Delete"/>
         <KeyBinding x:Name="BindingExportToJPEG"   Gesture="Ctrl+Shift+Alt+J"/>
+        
+        <KeyBinding x:Name="BindingCopy"   Key="C" Modifiers="Control"/>
+        <KeyBinding x:Name="BindingPaste"   Key="V" Modifiers="Control"/>
+        
+        <KeyBinding x:Name="BindingZoomOriginalSize"   Key="Space" Modifiers="Control"/>
+        <KeyBinding x:Name="BindingZoomIn"   Key="Add" Modifiers="Control"/>
+        <KeyBinding x:Name="BindingZoomOut"   Key="Subtract" Modifiers="Control"/>
+
+        <KeyBinding x:Name="BindingGroup"   Key="G" Modifiers="Control"/>
+        <KeyBinding x:Name="BindingUngroup"   Key="U" Modifiers="Control"/>
+        
+        <KeyBinding x:Name="BindingAlignRight"   Key="R" Modifiers="Alt"/>
+        <KeyBinding x:Name="BindingAlignLeft"   Key="L" Modifiers="Alt"/>
+        <KeyBinding x:Name="BindingAlignCenter"   Key="C" Modifiers="Alt"/>
+
+        <KeyBinding x:Name="BindingEditSelected"   Key="E" Modifiers="Ctrl"/>
+
         <MouseBinding x:Name="BindingSelect"    Gesture="Ctrl+LeftClick"/>
-        <MouseBinding x:Name="BindingCut"       Gesture="Alt+LeftClick" />
     </UserControl.InputBindings>
 </UserControl>

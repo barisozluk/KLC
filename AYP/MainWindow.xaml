@@ -31,7 +31,9 @@
         <!--SEPERATE BUTTON'S BG-->
         <Border Background="#222d35" Width="30" Height="34"  Grid.Column="3"  HorizontalAlignment="Left" Margin="22,1,0,0"/>
         <Border Background="White" Width="1" Height="25"  Grid.Column="3"  HorizontalAlignment="Left" Margin="42,0,0,0"/>
+        <Border Background="#222d35" Width="30" Height="34"  Grid.Column="3"  HorizontalAlignment="Left" Margin="102,1,0,0"/>
         <Border Background="#222d35" Width="30" Height="34"  Grid.Column="3"  HorizontalAlignment="Left" Margin="142,1,0,0"/>
+        <Border Background="White" Width="1" Height="25"  Grid.Column="3"  HorizontalAlignment="Left" Margin="123,0,0,0"/>
         <Border Background="White" Width="1" Height="25"  Grid.Column="3"  HorizontalAlignment="Left" Margin="163,0,0,0"/>
         <Border Background="#222d35" Width="30" Height="34"  Grid.Column="3"  HorizontalAlignment="Left" Margin="312,1,0,0"/>
         <Border Background="White" Width="1" Height="25"  Grid.Column="3"  HorizontalAlignment="Left" Margin="322,0,0,0"/>
@@ -41,88 +43,81 @@
         <Border Background="White" Width="1" Height="25"  Grid.Column="3"  HorizontalAlignment="Left" Margin="482,0,0,0"/>
         <Border Background="White" Width="1" Height="25"  Grid.Column="3"  HorizontalAlignment="Left" Margin="522,0,0,0"/>
 
-
-
-
-
-
-        <Button x:Name="ButtonUndo" ToolTip="Geri Al" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="5,0,0,0">
+        <Button x:Name="ButtonUndo" ToolTip="Geri Al (Ctrl+Z)" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="5,0,0,0">
             <Image Source="Images\backward.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
-        
-
-        <Button x:Name="ButtonRedo" ToolTip="Tekrarla" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="45,0,0,0">
+        <Button x:Name="ButtonRedo" ToolTip="Tekrarla (Ctrl+Y)" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="45,0,0,0">
             <Image Source="Images\forward.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
-        
-        
 
-        <Button x:Name="ButtonZoomOriginalSize" ToolTip="Orjinal Görünüme Dön" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="85,0,0,0">
+        <Button x:Name="ButtonZoomOriginalSize" ToolTip="Orjinal Görünüme Dön (Ctrl+Space)" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="85,0,0,0">
             <Image Source="Images\dongu.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
-        <Button x:Name="ButtonZoomIn" ToolTip="Yakınlaş" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="125,0,0,0">
+        <Button x:Name="ButtonZoomIn" ToolTip="Yakınlaş (Ctrl++)" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="125,0,0,0">
             <Image Source="Images\zoomIn.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
-
-
-        <Button x:Name="ButtonZoomOut" ToolTip="Uzaklaş" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="165,0,0,0">
+        <Button x:Name="ButtonZoomOut" ToolTip="Uzaklaş (Ctrl+-)" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="165,0,0,0">
             <Image Source="Images\zoomOut.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
+        
         <RadioButton x:Name="ButtonStartSelect" ToolTip="Çoklu Seçim" Style="{DynamicResource StyleCutButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="205,0,0,0">
             <Image Source="Images\multipleSelect.png" Grid.Column="0" Margin="4,7,0,0" Grid.Row="0" Width="25" Height="20" />
         </RadioButton>
+        
         <RadioButton x:Name="ButtonStartCut" ToolTip="Bağlantıyı Kes" Style="{DynamicResource StyleCutButton}"  Grid.Column="3" HorizontalAlignment="Left" Margin="245,0,0,0">
             <Image Source="Images\cut.png" Grid.Column="0" Grid.Row="0" Margin="4,7,0,0" Width="25" Height="20" />
         </RadioButton>
-        <Button x:Name="ButtonCopy" ToolTip="Kopyala" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="285,0,0,0">
+        
+        <Button x:Name="ButtonCopy" ToolTip="Kopyala (Ctrl+C)" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="285,0,0,0">
             <Image Source="Images\copy.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
-        <Button x:Name="ButtonPaste" ToolTip="Yapıştır" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="325,0,0,0">
+        <Button x:Name="ButtonPaste" ToolTip="Yapıştır (Ctrl+V)" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="325,0,0,0">
             <Image Source="Images\paste.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
-        <Button x:Name="ButtonGroup" ToolTip="Grupla" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="365,0,0,0">
+        
+        <Button x:Name="ButtonGroup" ToolTip="Grupla (Ctrl+G)" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="365,0,0,0">
             <Image Source="Images\group.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
-        <Button x:Name="ButtonUngroup" ToolTip="Dağıt" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="405,0,0,0">
+        <Button x:Name="ButtonUngroup" ToolTip="Dağıt (Ctrl+U)" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="405,0,0,0">
             <Image Source="Images\ungroup.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
-        <Button x:Name="ButtonAlignLeft" ToolTip="Sola Yasla" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="445,0,0,0">
+        
+        <Button x:Name="ButtonAlignLeft" ToolTip="Sola Yasla (Alt+L)" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="445,0,0,0">
             <Image Source="Images\leftAlign.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
-        <Button x:Name="ButtonAlignRight" ToolTip="Sağa Yasla" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="525,0,0,0">
+        <Button x:Name="ButtonAlignRight" ToolTip="Sağa Yasla (Alt+R)" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="525,0,0,0">
             <Image Source="Images\rightAlign.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
-        <Button x:Name="ButtonAlignCenter" ToolTip="Ortala" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="485,0,0,0">
+        <Button x:Name="ButtonAlignCenter" ToolTip="Ortala (Alt+C)" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="485,0,0,0">
             <Image Source="Images\middle.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
-        <Button x:Name="ButtonEditSelected" ToolTip="Toplu Düzenle" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="565,0,0,0">
+        
+        <Button x:Name="ButtonEditSelected" ToolTip="Toplu Düzenle (Ctrl+E)" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="565,0,0,0">
             <Image Source="Images\edit.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20"/>
-
         </Button>
 
         <Button x:Name="ButtonBites"  Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,10,10,0" Grid.Row="1" VerticalAlignment="Top">
             <Image Source="Images\btes-nrm.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
-        <Button x:Name="ButtonNew" ToolTip="Yeni Proje" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,60,10,0" Grid.Row="1" VerticalAlignment="Top" >
+        <Button x:Name="ButtonNew" ToolTip="Yeni Proje (Ctrl+Shif+N)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,60,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Image Source="Images\newProjectW.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
-        <Button x:Name="ButtonOpen" ToolTip="Proje Aç" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,105,10,0" Grid.Row="1" VerticalAlignment="Top" >
+        <Button x:Name="ButtonOpen" ToolTip="Proje Aç (Ctrl+Shift+O)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,105,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Image Source="Images\openProjectW.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
-        <Button x:Name="ButtonSave" ToolTip="Kaydet" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,150,10,0" Grid.Row="1" VerticalAlignment="Top" >
+        <Button x:Name="ButtonSave" ToolTip="Kaydet (Ctrl+S)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,150,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Image Source="Images\saveW.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
-        <Button x:Name="ButtonSaveAs" ToolTip="Farklı Kaydet" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,195,10,0" Grid.Row="1" VerticalAlignment="Top" >
+        <Button x:Name="ButtonSaveAs" ToolTip="Farklı Kaydet (Ctrl+Shift+S)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,195,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Image Source="Images\saveAsW.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
         <Button x:Name="ButtonImport" ToolTip="İçeri Aktarma" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,240,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Image Source="Images\ImportW.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
-        
+
         <Button x:Name="ButtonSettings" ToolTip="Ayarlar" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,980,10,0" Grid.Row="1" VerticalAlignment="Top" Click="Versiyon_Click" >
             <Image Source="Images\settings.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
-        
         <Button x:Name="ButtonHelp" ToolTip="Yardım" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,935,10,0" Grid.Row="1" VerticalAlignment="Top" Click="Help_Click">
             <Image Source="Images\help.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
@@ -317,8 +312,6 @@
     </Grid>
     
     <Window.InputBindings>
-        <KeyBinding x:Name="BindingUndo"        Key="Z" Modifiers="Control" />
-        <KeyBinding x:Name="BindingRedo"        Key="Y" Modifiers="Control" />
         <KeyBinding x:Name="BindingSave"    Gesture="Ctrl+S"/>
         <KeyBinding x:Name="BindingSaveAs"  Gesture="Ctrl+Shift+S"/>
         <KeyBinding x:Name="BindingOpen"    Gesture="Ctrl+Shift+O" />
@@ -326,8 +319,6 @@
         <KeyBinding x:Name="BindingExit"    Gesture="Alt+F4"/>
         <KeyBinding x:Name="BindingExportToJPEG"   Gesture="Ctrl+Shift+Alt+J"/>
         <KeyBinding x:Name="BindingExportToPNG"   Gesture="Ctrl+Shift+Alt+P"/>
-        <KeyBinding x:Name="BindingCopy"   Gesture="Ctrl+C"/>
-        <KeyBinding x:Name="BindingPaste"   Gesture="Ctrl+V"/>
     </Window.InputBindings>
     
 </Window>

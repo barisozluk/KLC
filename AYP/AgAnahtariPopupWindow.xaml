@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AYP"
         xmlns:converters="clr-namespace:AYP.Helpers.Converters"
-        mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterScreen" Topmost="True"
+        mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterOwner"
         Title="AgAnahtariPopupWindow" Height="575" Width="460" Background="Transparent">
 
     <Window.Resources>

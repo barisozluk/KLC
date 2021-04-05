@@ -160,7 +160,6 @@ namespace AYP
                 this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandEditSelected, x => x.ButtonEditSelected).DisposeWith(disposable);
                 this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandGroup, x => x.ButtonGroup).DisposeWith(disposable);
                 this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandUngroup, x => x.ButtonUngroup).DisposeWith(disposable);
-
             });
         }
         #endregion Setup Binding

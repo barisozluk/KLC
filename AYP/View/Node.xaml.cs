@@ -146,43 +146,46 @@ namespace AYP.View
 
         private void OnMouseDoubleClicked(MouseButtonEventArgs e)
         {
-            this.ViewModel.Selected = true;
-
-            using (AYPContext context = new AYPContext())
+            if (this.ViewModel.TypeId != (int)TipEnum.Group)
             {
-                bool fromNode = true;
-                MainWindow mainWindow = this.ViewModel.NodesCanvas.MainWindow;
-                mainWindow.IsEnabled = false;
-                System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
-                blur.Radius = 2;
-                mainWindow.Effect = blur;
+                this.ViewModel.Selected = true;
 
-                if (this.ViewModel.TypeId == (int)TipEnum.UcBirim)
+                using (AYPContext context = new AYPContext())
                 {
-                    IUcBirimService ucBirimService = new UcBirimService(context);
-                    var selectedUcBirim = ucBirimService.GetUcBirimById(this.ViewModel.Id);
-                    
-                    UcBirimPopupWindow popup = new UcBirimPopupWindow(selectedUcBirim, fromNode);
-                    popup.Owner = mainWindow;
-                    popup.ShowDialog();
-                }
-                else if (this.ViewModel.TypeId == (int)TipEnum.AgAnahtari)
-                {
-                    IAgAnahtariService agAnahtariService = new AgAnahtariService(context);
-                    var selectedAgAnahtari = agAnahtariService.GetAgAnahtariById(this.ViewModel.Id);
+                    bool fromNode = true;
+                    MainWindow mainWindow = this.ViewModel.NodesCanvas.MainWindow;
+                    mainWindow.IsEnabled = false;
+                    System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+                    blur.Radius = 2;
+                    mainWindow.Effect = blur;
 
-                    AgAnahtariPopupWindow popup = new AgAnahtariPopupWindow(selectedAgAnahtari, fromNode);
-                    popup.Owner = mainWindow;
-                    popup.ShowDialog();
-                }
-                else if (this.ViewModel.TypeId == (int)TipEnum.GucUretici)
-                {
-                    IGucUreticiService gucUreticiService = new GucUreticiService(context);
-                    var selectedGucUretici = gucUreticiService.GetGucUreticiById(this.ViewModel.Id);
+                    if (this.ViewModel.TypeId == (int)TipEnum.UcBirim)
+                    {
+                        IUcBirimService ucBirimService = new UcBirimService(context);
+                        var selectedUcBirim = ucBirimService.GetUcBirimById(this.ViewModel.Id);
 
-                    GucUreticiPopupWindow popup = new GucUreticiPopupWindow(selectedGucUretici, fromNode);
-                    popup.Owner = mainWindow;
-                    popup.ShowDialog();
+                        UcBirimPopupWindow popup = new UcBirimPopupWindow(selectedUcBirim, fromNode);
+                        popup.Owner = mainWindow;
+                        popup.ShowDialog();
+                    }
+                    else if (this.ViewModel.TypeId == (int)TipEnum.AgAnahtari)
+                    {
+                        IAgAnahtariService agAnahtariService = new AgAnahtariService(context);
+                        var selectedAgAnahtari = agAnahtariService.GetAgAnahtariById(this.ViewModel.Id);
+
+                        AgAnahtariPopupWindow popup = new AgAnahtariPopupWindow(selectedAgAnahtari, fromNode);
+                        popup.Owner = mainWindow;
+                        popup.ShowDialog();
+                    }
+                    else if (this.ViewModel.TypeId == (int)TipEnum.GucUretici)
+                    {
+                        IGucUreticiService gucUreticiService = new GucUreticiService(context);
+                        var selectedGucUretici = gucUreticiService.GetGucUreticiById(this.ViewModel.Id);
+
+                        GucUreticiPopupWindow popup = new GucUreticiPopupWindow(selectedGucUretici, fromNode);
+                        popup.Owner = mainWindow;
+                        popup.ShowDialog();
+                    }
                 }
             }
 

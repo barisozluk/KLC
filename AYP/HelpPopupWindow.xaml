@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AYP"
-        mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterScreen" Topmost="True"
+        mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterOwner"
         Title="HelpPopupWindow" Height="255" Width="415" Background="Transparent">
 
     <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">

@@ -200,7 +200,9 @@ namespace AYP.ViewModel
         private void SelectedAll()
         {
             foreach (var node in Nodes.Items)
-            { node.Selected = true; }
+            { 
+                node.Selected = true;
+            }
         }
         private void CollapseUpAll()
         {
