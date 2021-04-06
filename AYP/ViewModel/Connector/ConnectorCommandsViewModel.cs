@@ -74,16 +74,28 @@ namespace AYP.ViewModel
         }
 
         private void ConnectPointDrop()
-        {
-            var connect = NodesCanvas.DraggedConnect;
-            if (connect.FromConnector.Node != this.Node)
-            {              
-                connect.ToConnector = this;
+        {  
+            
+            if (NodesCanvas.DraggedConnect.FromConnector.Node.TypeId == 1 && this.Node.TypeId == 1)
+            {
+                NotifyWarningPopup nfp = new NotifyWarningPopup();
+                nfp.msg.Text = "Uç birim uç birime bağlanamaz.";
+                nfp.Owner = this.NodesCanvas.MainWindow;
+                nfp.Show();
             }
             else
             {
-                connect.FromConnector.SetAsLoop();
+                var connect = NodesCanvas.DraggedConnect;
+                if (connect.FromConnector.Node != this.Node)
+                {
+                    connect.ToConnector = this;
+                }
+                else
+                {
+                    connect.FromConnector.SetAsLoop();
+                }
             }
+            
 
         }
 

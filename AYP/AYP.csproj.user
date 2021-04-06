@@ -6,13 +6,4 @@
   <PropertyGroup>
     <ActiveDebugProfile>AYP</ActiveDebugProfile>
   </PropertyGroup>
-  <ItemGroup>
-    <Page Update="Styles\TabStyle.xaml">
-    <Page Update="MultipleCopyPopupWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Styles\StyleCheckBox.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
 </Project>
