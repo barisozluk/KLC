@@ -11,6 +11,12 @@ namespace AYP.Entities
         [Key]
         public int Id { get; set; }
 
+        [Required]
+        public string Adi { get; set; }
+
+        [Required]
+        public string Port { get; set; }
+
         [Range(1, int.MaxValue)]
         public int KullanimAmaciId { get; set; }
 
@@ -45,22 +51,7 @@ namespace AYP.Entities
         public decimal CiktiUrettigiGucKapasitesi { get; set; }
 
         [NotMapped]
-        public List<UcBirim> UcBirimList { get; set; }
-
-        [NotMapped]
-        public int UcBirimId { get; set; }
-
-        [NotMapped]
-        public List<GucUretici> GucUreticiList { get; set; }
-
-        [NotMapped]
-        public int GucUreticiId { get; set; }
-
-        [NotMapped]
-        public List<AgAnahtari> AgAnahtariList { get; set; }
-
-        [NotMapped]
-        public int AgAnahtariId { get; set; }
+        public List<string> PortList { get; set; }
 
         [NotMapped]
         public List<KL_KullanimAmaci> KullanimAmaciList { get; set; }

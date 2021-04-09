@@ -85,7 +85,7 @@ namespace AYP.Services
             return response;
         }
 
-        public ResponseModel SaveGucUretici(GucUretici gucUretici)
+        public ResponseModel SaveGucUretici(GucUretici gucUretici, List<GucArayuzu> gucArayuzuList)
         {
             ResponseModel response = new ResponseModel();
 
@@ -111,6 +111,33 @@ namespace AYP.Services
                     dbItem.VerimlilikDegeri = gucUretici.VerimlilikDegeri;
 
                     context.SaveChanges();
+
+                    foreach(var gucArayuzu in gucArayuzuList)
+                    {
+                        GucArayuzu dbItemGucArayuzu = new GucArayuzu();
+                        context.GucArayuzu.Add(dbItemGucArayuzu);
+                        dbItemGucArayuzu.CiktiDuraganGerilimDegeri = gucArayuzu.CiktiDuraganGerilimDegeri;
+                        dbItemGucArayuzu.CiktiUrettigiGucKapasitesi = gucArayuzu.CiktiUrettigiGucKapasitesi;
+                        dbItemGucArayuzu.GirdiDuraganGerilimDegeri1 = gucArayuzu.GirdiDuraganGerilimDegeri1;
+                        dbItemGucArayuzu.GirdiDuraganGerilimDegeri2 = gucArayuzu.GirdiDuraganGerilimDegeri2;
+                        dbItemGucArayuzu.GirdiDuraganGerilimDegeri3 = gucArayuzu.GirdiDuraganGerilimDegeri3;
+                        dbItemGucArayuzu.GirdiMaksimumGerilimDegeri = gucArayuzu.GirdiMaksimumGerilimDegeri;
+                        dbItemGucArayuzu.GirdiMinimumGerilimDegeri = gucArayuzu.GirdiMinimumGerilimDegeri;
+                        dbItemGucArayuzu.GirdiTukettigiGucMiktari = gucArayuzu.GirdiTukettigiGucMiktari;
+                        dbItemGucArayuzu.GerilimTipiId = gucArayuzu.GerilimTipiId;
+                        dbItemGucArayuzu.KullanimAmaciId = gucArayuzu.KullanimAmaciId;
+                        dbItemGucArayuzu.TipId = gucArayuzu.TipId;
+                        dbItemGucArayuzu.Adi = gucArayuzu.Adi;
+                        dbItemGucArayuzu.Port = gucArayuzu.Port;
+                        context.SaveChanges();
+
+                        GucUreticiGucArayuzu dbItem1 = new GucUreticiGucArayuzu();
+                        context.GucUreticiGucArayuzu.Add(dbItem1);
+                        dbItem1.GucArayuzuId = dbItemGucArayuzu.Id;
+                        dbItem1.GucUreticiId = dbItem.Id;
+                        context.SaveChanges();
+                    }
+
                     response.SetSuccess();
                     transaction.Commit();
                 }
@@ -181,49 +208,6 @@ namespace AYP.Services
                     transaction.Commit();
                 }
                 catch(Exception exception)
-                {
-                    context.Reset();
-                    response.SetError(exception.Message);
-                    transaction.Rollback();
-                }
-            }
-
-            return response;
-        }
-
-        public ResponseModel SaveGucUreticiGucArayuzu(GucArayuzu gucArayuzu)
-        {
-            ResponseModel response = new ResponseModel();
-
-            using (var transaction = context.Database.BeginTransaction(IsolationLevel.ReadUncommitted))
-            {
-                try
-                {
-                    GucArayuzu dbItem = new GucArayuzu();
-                    context.GucArayuzu.Add(dbItem);
-                    dbItem.CiktiDuraganGerilimDegeri = gucArayuzu.CiktiDuraganGerilimDegeri;
-                    dbItem.CiktiUrettigiGucKapasitesi = gucArayuzu.CiktiUrettigiGucKapasitesi;
-                    dbItem.GirdiDuraganGerilimDegeri1 = gucArayuzu.GirdiDuraganGerilimDegeri1;
-                    dbItem.GirdiDuraganGerilimDegeri2 = gucArayuzu.GirdiDuraganGerilimDegeri2;
-                    dbItem.GirdiDuraganGerilimDegeri3 = gucArayuzu.GirdiDuraganGerilimDegeri3;
-                    dbItem.GirdiMaksimumGerilimDegeri = gucArayuzu.GirdiMaksimumGerilimDegeri;
-                    dbItem.GirdiMinimumGerilimDegeri = gucArayuzu.GirdiMinimumGerilimDegeri;
-                    dbItem.GirdiTukettigiGucMiktari = gucArayuzu.GirdiTukettigiGucMiktari;
-                    dbItem.GerilimTipiId = gucArayuzu.GerilimTipiId;
-                    dbItem.KullanimAmaciId = gucArayuzu.KullanimAmaciId;
-                    dbItem.TipId = gucArayuzu.TipId;
-                    context.SaveChanges();
-
-                    GucUreticiGucArayuzu dbItem1 = new GucUreticiGucArayuzu();
-                    context.GucUreticiGucArayuzu.Add(dbItem1);
-                    dbItem1.GucArayuzuId = dbItem.Id;
-                    dbItem1.GucUreticiId = gucArayuzu.GucUreticiId;
-                    context.SaveChanges();
-
-                    response.SetSuccess();
-                    transaction.Commit();
-                }
-                catch (Exception exception)
                 {
                     context.Reset();
                     response.SetError(exception.Message);

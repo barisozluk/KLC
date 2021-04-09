@@ -27,10 +27,8 @@ namespace AYP.Entities
         [StringLength(50)]
         public string UreticiParcaNo { get; set; }
 
-        [Required]
         public byte[] Katalog { get; set; }
 
-        [Required]
         public string KatalogDosyaAdi { get; set; }
 
         [Required]

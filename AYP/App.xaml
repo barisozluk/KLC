@@ -50,6 +50,7 @@
                 <ResourceDictionary Source="Styles/StyleDescribingTurFormPanel.xaml" />
                 <ResourceDictionary Source="Styles/StyleDescribingUcBirimFormPanel.xaml" />
                 <ResourceDictionary Source="Styles/StyleDescribingAgArayuzuFormPanel.xaml" />
+                <ResourceDictionary Source="Styles/StyleDescribingGucArayuzuFormPanel.xaml" />
                 <ResourceDictionary Source="Styles/StyleDescribingGucUreticiFormPanel.xaml" />
                 <ResourceDictionary Source="Styles/StyleDescribingAgAnahtariFormPanel.xaml" />
                 <ResourceDictionary Source="Styles/StyleDescribingProcessButton.xaml" />
@@ -74,6 +75,7 @@
                 <ResourceDictionary Source="Styles/StyleToolTip.xaml"/>
                 <ResourceDictionary Source="Styles/StyleCheckBox.xaml"/>
                 <ResourceDictionary Source="Styles/TabStyle.xaml" />
+                <ResourceDictionary Source="Styles/StyleTableProcessButton.xaml" />
                 <!--#endregion         FormControls-->
 
             </ResourceDictionary.MergedDictionaries>

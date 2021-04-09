@@ -15,6 +15,7 @@
     <None Remove="Images\camera.png" />
     <None Remove="Images\copy.png" />
     <None Remove="Images\cut.png" />
+    <None Remove="Images\delete.png" />
     <None Remove="Images\edit.png" />
     <None Remove="Images\file.png" />
     <None Remove="Images\group.png" />
@@ -80,6 +81,7 @@
     <Resource Include="Images\camera.png" />
     <Resource Include="Images\copy.png" />
     <Resource Include="Images\cut.png" />
+    <Resource Include="Images\delete.png" />
     <Resource Include="Images\edit.png" />
     <Resource Include="Images\file.png" />
     <Resource Include="Images\group.png" />
@@ -145,12 +147,6 @@
     <Compile Update="WithoutSavePopupWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="GucUreticiGucArayuzuPopupWindow.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="UcBirimGucArayuzuPopupWindow.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -187,6 +183,14 @@
     </Page>
     <Page Update="Styles\StyleCutButton.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Styles\StyleDescribingGucArayuzuFormPanel.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleTableProcessButton.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
     </Page>
 
     <Page Update="Styles\StyleTextBoxError.xaml">
@@ -442,14 +446,6 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="AgAnahtariGucArayuzuPopupWindow.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="GucUreticiGucArayuzuPopupWindow.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="UcBirimGucArayuzuPopupWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

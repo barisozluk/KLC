@@ -10,12 +10,11 @@ namespace AYP.Interfaces
     public interface IGucUreticiService
     {
         ResponseModel SaveGucUreticiTur(GucUreticiTur gucUreticiTur);
-        ResponseModel SaveGucUretici(GucUretici gucUretici);
+        ResponseModel SaveGucUretici(GucUretici gucUretici, List<GucArayuzu> gucArayuzuList);
         ResponseModel UpdateGucUretici(GucUretici gucUretici);
         List<GucUreticiTur> ListGucUreticiTur();
         List<GucUretici> ListGucUretici();
         GucUretici GetGucUreticiById(int gucUreticiId);
-        ResponseModel SaveGucUreticiGucArayuzu(GucArayuzu gucArayuzu);
         ResponseModel SaveTopluEdit(List<int> selectedIdList, string ureticiAdi);
 
     }

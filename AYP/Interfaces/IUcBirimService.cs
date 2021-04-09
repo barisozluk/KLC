@@ -10,13 +10,11 @@ namespace AYP.Interfaces
     public interface IUcBirimService
     {
         ResponseModel SaveUcBirimTur(UcBirimTur ucBirimTur);
-        ResponseModel SaveUcBirim(UcBirim ucBirim);
+        ResponseModel SaveUcBirim(UcBirim ucBirim, List<AgArayuzu> agArayuzuList, List<GucArayuzu> gucArayuzuList);
         ResponseModel UpdateUcBirim(UcBirim ucBirim);
         List<UcBirimTur> ListUcBirimTur();
         List<UcBirim> ListUcBirim();
         UcBirim GetUcBirimById(int ucBirimId);
-        ResponseModel SaveUcBirimAgArayuzu(AgArayuzu agArayuzu);
-        ResponseModel SaveUcBirimGucArayuzu(GucArayuzu gucArayuzu);
         ResponseModel SaveTopluEdit(List<int> selectedIdList, string ureticiAdi);
 
     }

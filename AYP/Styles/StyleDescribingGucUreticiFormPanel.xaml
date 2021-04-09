@@ -4,7 +4,7 @@
     
     <Style x:Key="StyleDescribingGucUreticiFormPanel" TargetType="{x:Type Rectangle}">
         <Setter Property="Fill" Value="#182026" />
-        <Setter Property="Height" Value="505"/>
+        <Setter Property="Height" Value="510"/>
         <Setter Property="Width" Value="460"/>
         <Setter Property="RadiusX" Value="4"/>
         <Setter Property="RadiusY" Value="4" />
