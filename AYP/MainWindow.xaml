@@ -114,6 +114,9 @@
         <Button x:Name="ButtonImport" ToolTip="İçeri Aktarma" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,240,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Image Source="Images\ImportW.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
+        <Button x:Name="ButtonExport" ToolTip="Dışarı Aktarma" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,285,10,0" Grid.Row="1" VerticalAlignment="Top" >
+            <Image Source="Images\ImportW.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
+        </Button>
 
         <Button x:Name="ButtonSettings" ToolTip="Ayarlar" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,980,10,0" Grid.Row="1" VerticalAlignment="Top" Click="Versiyon_Click" >
             <Image Source="Images\settings.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />

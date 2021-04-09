@@ -918,21 +918,45 @@ namespace AYP.ViewModel
 
         public void AlignLeft(Point delta)
         {
+           
+            var nodeArr = Nodes.Items.Where(x => x.Selected);
+            double kucuk = nodeArr.ToList()[0].Point1.X;
+
+            for(int i = 0; i < nodeArr.Count(); i++)
+            {
+                if(kucuk > nodeArr.ToList()[i].Point1.X)
+                {
+                    kucuk = nodeArr.ToList()[i].Point1.X;
+                }
+            }
+
             foreach (var node in Nodes.Items.Where(x => x.Selected))
             {
-                Point currentY = node.Point1;
-                node.Point1 = new Point(0, currentY.Y);
+                Point current = node.Point1;
+                node.Point1 = new Point(current.X-kucuk, current.Y);
             }
         }
 
         public void AlignRight(Point delta)
         {
+
+            var nodeArr = Nodes.Items.Where(x => x.Selected);
+            double buyuk = nodeArr.ToList()[0].Point1.X;
+
+            for (int i = 0; i < nodeArr.Count(); i++)
+            {
+                if (buyuk < nodeArr.ToList()[i].Point1.X)
+                {
+                    buyuk = nodeArr.ToList()[i].Point1.X;
+                }
+            }
+
             foreach (var node in Nodes.Items.Where(x => x.Selected))
             {
                 int midColSize = 0;
                 MainWindow mainWindow = node.NodesCanvas.MainWindow;
 
-                Point currentY = node.Point1;
+                Point current = node.Point1;
 
                 if (mainWindow.toggleRight && mainWindow.toggleLeft)
                 {
@@ -953,7 +977,7 @@ namespace AYP.ViewModel
                     midColSize = 1696;
                 }
 
-                node.Point1 = new Point(midColSize, currentY.Y);
+                node.Point1 = new Point(current.X+(midColSize-buyuk), current.Y);
 
             }
         }
