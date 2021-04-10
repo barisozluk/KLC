@@ -29,7 +29,6 @@ namespace AYP
     {
         private bool agWorkspaceSeciliMi = true;
         private bool gucWorkspaceSeciliMi = true;
-        public static MainWindow AppWindow;
 
         public bool toggleRight = true;
         public bool toggleLeft = true;
@@ -40,7 +39,6 @@ namespace AYP
         UcBirim selectedUcBirim;
         AgAnahtari selectedAgAnahtari;
         GucUretici selectedGucUretici;
-        [ReactiveUI.Fody.Helpers.Reactive] public NodesCanvasViewModel NodesCanvass { get; set; }
 
         #region ViewModel
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(nameof(ViewModel), typeof(MainWindowViewModel), typeof(MainWindow), new PropertyMetadata(null));
@@ -61,14 +59,12 @@ namespace AYP
         private readonly IUcBirimService ucBirimService;
         private readonly IAgAnahtariService agAnahtariService;
         private readonly IGucUreticiService gucUreticiService;
-        private NotificationManager notificationManager;
         private readonly AYPContext context;
 
         public MainWindow()
         {
             InitializeComponent();
             AllowMultiSelection(ProjeHiyerarsi);
-            AppWindow = this;
             ViewModel = new MainWindowViewModel(this.NodesCanvas.ViewModel);
             ViewModel.NodesCanvas.MainWindow = this;
 
@@ -76,7 +72,6 @@ namespace AYP
             SetupBinding();
             SetupEvents();
 
-            this.notificationManager = new NotificationManager();
             context = new AYPContext();
             ucBirimService = new UcBirimService(context);
             agAnahtariService = new AgAnahtariService(context);
@@ -494,6 +489,11 @@ namespace AYP
         public void ListUcBirim()
         {
             UcBirimDataGrid.ItemsSource = ucBirimService.ListUcBirim();
+
+            Tanim.Text = null;
+            StokNo.Text = null;
+            Uretici.Text = null;
+            TurAd.Text = null;
         }
 
         private void UcBirim_Click(object sender, RoutedEventArgs e)
@@ -514,6 +514,11 @@ namespace AYP
         public void ListAgAnahtari()
         {
             AgAnahtariDataGrid.ItemsSource = agAnahtariService.ListAgAnahtari();
+
+            Tanim.Text = null;
+            StokNo.Text = null;
+            Uretici.Text = null;
+            TurAd.Text = null;
         }
 
         private void AgAnahtari_Click(object sender, RoutedEventArgs e)
@@ -534,6 +539,11 @@ namespace AYP
         public void ListGucUretici()
         {
             GucUreticiDataGrid.ItemsSource = gucUreticiService.ListGucUretici();
+
+            Tanim.Text = null;
+            StokNo.Text = null;
+            Uretici.Text = null;
+            TurAd.Text = null;
         }
 
         private void GucUretici_Click(object sender, RoutedEventArgs e)
@@ -560,8 +570,8 @@ namespace AYP
             {
                 this.IsEnabled = false;
                 System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
-            blur.Radius = 2;
-            this.Effect = blur;
+                blur.Radius = 2;
+                this.Effect = blur;
                 UcBirimPopupWindow popup = new UcBirimPopupWindow(selectedUcBirim, fromNode);
                 popup.Owner = this;
                 popup.ShowDialog();
@@ -570,8 +580,8 @@ namespace AYP
             {
                 this.IsEnabled = false;
                 System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
-            blur.Radius = 2;
-            this.Effect = blur;
+                blur.Radius = 2;
+                this.Effect = blur;
 
                 AgAnahtariPopupWindow popup = new AgAnahtariPopupWindow(selectedAgAnahtari, fromNode);
                 popup.Owner = this;
@@ -622,6 +632,7 @@ namespace AYP
 
         private void target_Drop(object sender, DragEventArgs e)
         {
+            //aGARAYUZU VE GUC ARAYUZU YOLLANACAK
             if (IsDragDropEvent)
             {
                 Point droppedpoint = e.GetPosition(sender as NodesCanvas);
@@ -635,29 +646,35 @@ namespace AYP
                     var ucBirim = (UcBirim)dataCxtx;
                     model.Id = ucBirim.Id;
                     model.TypeId = ucBirim.TipId;
-                    model.InputSayisi = ucBirim.GirdiAgArayuzuSayisi.HasValue ? ucBirim.GirdiAgArayuzuSayisi.Value : 0;
-                    model.OutputSayisi = ucBirim.CiktiAgArayuzuSayisi.HasValue ? ucBirim.CiktiAgArayuzuSayisi.Value : 0;
-                    model.GucArayuzuSayisi = ucBirim.GucArayuzuSayisi;
+                    //model.InputSayisi = ucBirim.GirdiAgArayuzuSayisi.HasValue ? ucBirim.GirdiAgArayuzuSayisi.Value : 0;
+                    //model.OutputSayisi = ucBirim.CiktiAgArayuzuSayisi.HasValue ? ucBirim.CiktiAgArayuzuSayisi.Value : 0;
+                    //model.GucArayuzuSayisi = ucBirim.GucArayuzuSayisi;
+                    model.AgArayuzuList = ucBirimService.ListUcBirimAgArayuzu(ucBirim.Id);
+                    model.GucArayuzuList = ucBirimService.ListUcBirimGucArayuzu(ucBirim.Id);
                 }
                 else if (type.Name == "AgAnahtari")
                 {
                     var agAnahtari = (AgAnahtari)dataCxtx;
                     model.Id = agAnahtari.Id;
                     model.TypeId = agAnahtari.TipId;
-                    model.InputSayisi = agAnahtari.GirdiAgArayuzuSayisi.HasValue ? agAnahtari.GirdiAgArayuzuSayisi.Value : 0;
-                    model.OutputSayisi = agAnahtari.CiktiAgArayuzuSayisi.HasValue ? agAnahtari.CiktiAgArayuzuSayisi.Value : 0;
-                    model.GucArayuzuSayisi = agAnahtari.GucArayuzuSayisi;
+                    //model.InputSayisi = agAnahtari.GirdiAgArayuzuSayisi.HasValue ? agAnahtari.GirdiAgArayuzuSayisi.Value : 0;
+                    //model.OutputSayisi = agAnahtari.CiktiAgArayuzuSayisi.HasValue ? agAnahtari.CiktiAgArayuzuSayisi.Value : 0;
+                    //model.GucArayuzuSayisi = agAnahtari.GucArayuzuSayisi;
+                    model.AgArayuzuList = agAnahtariService.ListAgAnahtariAgArayuzu(agAnahtari.Id);
+                    model.GucArayuzuList = agAnahtariService.ListAgAnahtariGucArayuzu(agAnahtari.Id);
                 }
                 else if (type.Name == "GucUretici")
                 {
                     var gucUretici = (GucUretici)dataCxtx;
                     model.Id = gucUretici.Id;
                     model.TypeId = gucUretici.TipId;
-                    model.InputSayisi = gucUretici.GirdiGucArayuzuSayisi;
-                    model.OutputSayisi = gucUretici.CiktiGucArayuzuSayisi;
+                    //model.InputSayisi = gucUretici.GirdiGucArayuzuSayisi;
+                    //model.OutputSayisi = gucUretici.CiktiGucArayuzuSayisi;
+                    model.AgArayuzuList = new List<AgArayuzu>(); 
+                    model.GucArayuzuList = gucUreticiService.ListGucUreticiGucArayuzu(gucUretici.Id);
                 }
 
-                if(model.TypeId == (int)TipEnum.AgAnahtari || model.TypeId == (int)TipEnum.UcBirim)
+                if (model.TypeId == (int)TipEnum.AgAnahtari || model.TypeId == (int)TipEnum.UcBirim)
                 {
                     if(agWorkspaceSeciliMi)
                     {

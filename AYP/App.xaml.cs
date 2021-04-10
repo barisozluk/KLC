@@ -21,7 +21,7 @@ namespace AYP
 
                 Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetCallingAssembly());
                 Locator.CurrentMutable.RegisterConstant(new ConverterBoolAndVisibility(), typeof(IBindingTypeConverter));
-
+                
                 IConfigurationRoot configuration;
                 configuration = WritableJsonConfigurationFabric.Create("Settings.json");
                 Locator.CurrentMutable.RegisterConstant(configuration, typeof(IConfiguration));
@@ -31,6 +31,7 @@ namespace AYP
         {
             try
             {
+                
                 AYPContext context = new AYPContext();
                 context.Database.Migrate();
 

@@ -24,8 +24,6 @@ namespace AYP
     /// </summary>
     public partial class AgAnahtariPopupWindow : Window
     {
-        public bool isEditMode = false;
-
         private AYPContext context;
 
         private IAgAnahtariService service;
@@ -40,11 +38,16 @@ namespace AYP
         List<GucArayuzu> gucArayuzuList;
         private CheckBox checkedGucArayuzuRow = null;
 
-        private NotificationManager notificationManager;
+        public bool isEditMode = false;
+        public bool fromNode = false;
 
         public AgAnahtariPopupWindow(AgAnahtari _agAnahtari, bool fromNode)
         {
-            if(_agAnahtari != null)
+            this.fromNode = fromNode;
+
+            agArayuzu = new AgArayuzu();
+            gucArayuzu = new GucArayuzu();
+            if (_agAnahtari != null)
             {
                 agAnahtari = _agAnahtari;
                 isEditMode = true;
@@ -52,15 +55,9 @@ namespace AYP
             else
             {
                 agAnahtari = new AgAnahtari();
-                agArayuzu = new AgArayuzu();
-                gucArayuzu = new GucArayuzu();
-
-                agArayuzuList = new List<AgArayuzu>();
-                gucArayuzuList = new List<GucArayuzu>();
                 isEditMode = false;
             }
 
-            this.notificationManager = new NotificationManager();
             this.context = new AYPContext();
             service = new AgAnahtariService(this.context);
             kodListeService = new KodListeService(this.context);
@@ -68,12 +65,131 @@ namespace AYP
             SetAgAnahtariTurList();
             AgAnahtariTab.DataContext = agAnahtari;
 
+            if (agAnahtari.AgAnahtariTurList.Count() == 0)
+            {
+                Loaded += (s, e) => ClosePopup();
+            }
+
+            Loaded += Window_Loaded;
+
+        }
+
+        #region WindowLoadedEvent
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
             if (isEditMode)
             {
+                agArayuzuList = service.ListAgAnahtariAgArayuzu(agAnahtari.Id);
+                AgAnahtariAgArayuzDataGrid.ItemsSource = agArayuzuList;
+                if (agArayuzuList.Count > 0)
+                {
+                    AgAnahtariAgArayuzDataGrid.Visibility = Visibility.Visible;
+                    AgArayuzuNoDataRow.Visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    AgAnahtariAgArayuzDataGrid.Visibility = Visibility.Hidden;
+                    AgArayuzuNoDataRow.Visibility = Visibility.Visible;
+                }
+
+                gucArayuzuList = service.ListAgAnahtariGucArayuzu(agAnahtari.Id);
+                AgAnahtariGucArayuzDataGrid.ItemsSource = gucArayuzuList;
+                if (gucArayuzuList.Count > 0)
+                {
+                    AgAnahtariGucArayuzDataGrid.Visibility = Visibility.Visible;
+                    GucArayuzuNoDataRow.Visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    AgAnahtariGucArayuzDataGrid.Visibility = Visibility.Hidden;
+                    GucArayuzuNoDataRow.Visibility = Visibility.Visible;
+                }
+
                 DownloadButton.Visibility = Visibility.Visible;
+
+                if (string.IsNullOrEmpty(agAnahtari.KatalogDosyaAdi))
+                {
+                    DownloadButton.IsEnabled = false;
+                }
+                else
+                {
+                    DownloadButton.IsEnabled = true;
+                }
+
+                if (fromNode)
+                {
+                    //AgAnahtariTab
+                    GirdiAgArayuzuSayisi.IsEnabled = false;
+                    GirdiAgArayuzuSayisi.Opacity = 0.25;
+                    CiktiAgArayuzuSayisi.IsEnabled = false;
+                    CiktiAgArayuzuSayisi.Opacity = 0.25;
+                    GucArayuzuSayisi.IsEnabled = false;
+                    GucArayuzuSayisi.Opacity = 0.25;
+                    Sembol.IsEnabled = false;
+                    Sembol.Opacity = 0.25;
+
+                    //AgArayuzuTab
+                    AgArayuzuEkleBtn.IsEnabled = false;
+                    AgArayuzuEkleBtn.Opacity = 0.25;
+
+                    //GucArayuzuTab
+                    GucArayuzuEkleBtn.IsEnabled = false;
+                    GucArayuzuEkleBtn.Opacity = 0.25;
+                }
+                else
+                {
+                    var mainWindow = Owner as MainWindow;
+                    var nodes = mainWindow.ViewModel.NodesCanvas.Nodes.Items;
+
+                    if (!nodes.Any(n => n.Id == agAnahtari.Id))
+                    {
+                        fromNode = false;
+                        //AgAnahtariTab
+                        GirdiAgArayuzuSayisi.IsEnabled = true;
+                        GirdiAgArayuzuSayisi.Opacity = 1;
+                        CiktiAgArayuzuSayisi.IsEnabled = true;
+                        CiktiAgArayuzuSayisi.Opacity = 1;
+                        GucArayuzuSayisi.IsEnabled = true;
+                        GucArayuzuSayisi.Opacity = 1;
+                        Sembol.IsEnabled = true;
+                        Sembol.Opacity = 1;
+
+                        //AgArayuzuTab
+                        AgArayuzuEkleBtn.IsEnabled = true;
+                        AgArayuzuEkleBtn.Opacity = 1;
+
+                        //GucArayuzuTab
+                        GucArayuzuEkleBtn.IsEnabled = true;
+                        GucArayuzuEkleBtn.Opacity = 1;
+                    }
+                    else
+                    {
+                        fromNode = true;
+                        //AgAnahtariTab
+                        GirdiAgArayuzuSayisi.IsEnabled = false;
+                        GirdiAgArayuzuSayisi.Opacity = 0.25;
+                        CiktiAgArayuzuSayisi.IsEnabled = false;
+                        CiktiAgArayuzuSayisi.Opacity = 0.25;
+                        GucArayuzuSayisi.IsEnabled = false;
+                        GucArayuzuSayisi.Opacity = 0.25;
+                        Sembol.IsEnabled = false;
+                        Sembol.Opacity = 0.25;
+
+                        //AgArayuzuTab
+                        AgArayuzuEkleBtn.IsEnabled = false;
+                        AgArayuzuEkleBtn.Opacity = 0.25;
+
+                        //GucArayuzuTab
+                        GucArayuzuEkleBtn.IsEnabled = false;
+                        GucArayuzuEkleBtn.Opacity = 0.25;
+                    }
+                }
             }
             else
             {
+                agArayuzuList = new List<AgArayuzu>();
+                gucArayuzuList = new List<GucArayuzu>();
+
                 DownloadButton.Visibility = Visibility.Hidden;
 
                 AgAnahtariAgArayuzDataGrid.Visibility = Visibility.Hidden;
@@ -82,32 +198,10 @@ namespace AYP
                 AgAnahtariGucArayuzDataGrid.Visibility = Visibility.Hidden;
                 GucArayuzuNoDataRow.Visibility = Visibility.Visible;
             }
-
-            if (fromNode)
-            {
-                GirdiAgArayuzuSayisi.IsEnabled = false;
-                GirdiAgArayuzuSayisi.Opacity = 0.25;
-                CiktiAgArayuzuSayisi.IsEnabled = false;
-                CiktiAgArayuzuSayisi.Opacity = 0.25;
-                GucArayuzuSayisi.IsEnabled = false;
-                GucArayuzuSayisi.Opacity = 0.25;
-            }
-            else
-            {
-                GirdiAgArayuzuSayisi.IsEnabled = true;
-                GirdiAgArayuzuSayisi.Opacity = 1;
-                CiktiAgArayuzuSayisi.IsEnabled = true;
-                CiktiAgArayuzuSayisi.Opacity = 1;
-                GucArayuzuSayisi.IsEnabled = true;
-                GucArayuzuSayisi.Opacity = 1;
-            }
-
-            if (agAnahtari.AgAnahtariTurList.Count() == 0)
-            {
-                Loaded += (s, e) => ClosePopup();
-            }
         }
+        #endregion
 
+        #region Save/UpdateEvent
         private void Save_AgAnahtari(object sender, RoutedEventArgs e)
         {
             if (gucArayuzuList.Count == agAnahtari.GucArayuzuSayisi)
@@ -131,11 +225,12 @@ namespace AYP
                         if (agArayuzuList.Count == totalCount)
                         {
                             response = service.SaveAgAnahtari(agAnahtari, agArayuzuList, gucArayuzuList);
+                            OpenResponseModal(response);
                         }
                         else
                         {
                             NotifyWarningPopup nfp = new NotifyWarningPopup();
-                            nfp.msg.Text = "Lütfen, bütün sayısını tanımladığınız ağ arayüzleri için veri girişi yapınız!";
+                            nfp.msg.Text = "Lütfen, sayısını tanımladığınız bütün ağ arayüzleri için veri girişi yapınız!";
                             nfp.Owner = Owner;
                             nfp.Show();
                         }
@@ -143,39 +238,60 @@ namespace AYP
                     else
                     {
                         response = service.SaveAgAnahtari(agAnahtari, new List<AgArayuzu>(), gucArayuzuList);
+                        OpenResponseModal(response);
                     }
                 }
                 else
                 {
-                    response = service.UpdateAgAnahtari(agAnahtari);
-                }
+                    if (fromNode)
+                    {
+                        response = service.UpdateAgAnahtari(agAnahtari, new List<AgArayuzu>(), new List<GucArayuzu>());
+                        OpenResponseModal(response);
+                    }
+                    else
+                    {
+                        if ((agAnahtari.GirdiAgArayuzuSayisi != null && agAnahtari.GirdiAgArayuzuSayisi != 0) || (agAnahtari.CiktiAgArayuzuSayisi != null && agAnahtari.CiktiAgArayuzuSayisi != 0))
+                        {
+                            int totalCount = 0;
+                            if (agAnahtari.GirdiAgArayuzuSayisi != null && agAnahtari.GirdiAgArayuzuSayisi != 0)
+                            {
+                                totalCount += agAnahtari.GirdiAgArayuzuSayisi.Value;
+                            }
+                            if (agAnahtari.CiktiAgArayuzuSayisi != null && agAnahtari.CiktiAgArayuzuSayisi != 0)
+                            {
+                                totalCount += agAnahtari.CiktiAgArayuzuSayisi.Value;
+                            }
 
-                if (!response.HasError)
-                {
-                    NotifySuccessPopup nfp = new NotifySuccessPopup();
-                    nfp.msg.Text = response.Message;
-                    nfp.Owner = Owner;
-                    nfp.Show();
-
-                    (Owner as MainWindow).ListAgAnahtari();
-                    ClosePopup();
-                }
-                else
-                {
-                    NotifyWarningPopup nfp = new NotifyWarningPopup();
-                    nfp.msg.Text = response.Message;
-                    nfp.Owner = Owner;
-                    nfp.Show();
+                            if (agArayuzuList.Count == totalCount)
+                            {
+                                response = service.UpdateAgAnahtari(agAnahtari, agArayuzuList, gucArayuzuList);
+                                OpenResponseModal(response);
+                            }
+                            else
+                            {
+                                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                                nfp.msg.Text = "Lütfen, sayısını tanımladığınız bütün ağ arayüzleri için veri girişi yapınız!";
+                                nfp.Owner = Owner;
+                                nfp.Show();
+                            }
+                        }
+                        else
+                        {
+                            response = service.UpdateAgAnahtari(agAnahtari, new List<AgArayuzu>(), gucArayuzuList);
+                            OpenResponseModal(response);
+                        }
+                    }
                 }
             }
             else
             {
-                NotifyWarningPopup nfp = new NotifyWarningPopup();
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
                 nfp.msg.Text = "Lütfen, bütün güç arayüzleri için veri girişi yapınız!";
                 nfp.Owner = Owner;
                 nfp.Show();
             }
         }
+        #endregion
 
         #region PopupCloseEvents
         private void ClosePopup()
@@ -591,45 +707,30 @@ namespace AYP
 
         private void GucArayuzKullanimAmaci_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (gucArayuzu.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti)
+            if (!fromNode)
             {
-                ag1.IsEnabled = false; ag1.Opacity = 0.25;
-                ag2.IsEnabled = false; ag2.Opacity = 0.25;
-                ag3.IsEnabled = false; ag3.Opacity = 0.25;
-                ag4.IsEnabled = false; ag4.Opacity = 0.25;
-                ag5.IsEnabled = false; ag5.Opacity = 0.25;
-                ag6.IsEnabled = false; ag6.Opacity = 0.25;
-                ag7.IsEnabled = false; ag7.Opacity = 0.25;
-                ag8.IsEnabled = false; ag8.Opacity = 0.25;
-                ag9.IsEnabled = false; ag9.Opacity = 0.25;
-                ag10.IsEnabled = false; ag10.Opacity = 0.25;
-                ag11.IsEnabled = false; ag11.Opacity = 0.25;
-                ag12.IsEnabled = false; ag12.Opacity = 0.25;
-
-                ag13.IsEnabled = true; ag13.Opacity = 1;
-                ag14.IsEnabled = true; ag14.Opacity = 1;
-                ag15.IsEnabled = true; ag15.Opacity = 1;
-                ag16.IsEnabled = true; ag16.Opacity = 1;
-            }
-            else
-            {
-                ag1.IsEnabled = true; ag1.Opacity = 1;
-                ag2.IsEnabled = true; ag2.Opacity = 1;
-                ag3.IsEnabled = true; ag3.Opacity = 1;
-                ag4.IsEnabled = true; ag4.Opacity = 1;
-                ag5.IsEnabled = true; ag5.Opacity = 1;
-                ag6.IsEnabled = true; ag6.Opacity = 1;
-                ag7.IsEnabled = true; ag7.Opacity = 1;
-                ag8.IsEnabled = true; ag8.Opacity = 1;
-                ag9.IsEnabled = true; ag9.Opacity = 1;
-                ag10.IsEnabled = true; ag10.Opacity = 1;
-                ag11.IsEnabled = true; ag11.Opacity = 1;
-                ag12.IsEnabled = true; ag12.Opacity = 1;
-
-                ag13.IsEnabled = false; ag13.Opacity = 0.25;
-                ag14.IsEnabled = false; ag14.Opacity = 0.25;
-                ag15.IsEnabled = false; ag15.Opacity = 0.25;
-                ag16.IsEnabled = false; ag16.Opacity = 0.25;
+                if (gucArayuzu.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti)
+                {
+                    ag2.IsEnabled = false; ag2.Opacity = 0.25;
+                    ag4.IsEnabled = false; ag4.Opacity = 0.25;
+                    ag6.IsEnabled = false; ag6.Opacity = 0.25;
+                    ag8.IsEnabled = false; ag8.Opacity = 0.25;
+                    ag10.IsEnabled = false; ag10.Opacity = 0.25;
+                    ag12.IsEnabled = false; ag12.Opacity = 0.25;
+                    ag14.IsEnabled = true; ag14.Opacity = 1;
+                    ag16.IsEnabled = true; ag16.Opacity = 1;
+                }
+                else
+                {
+                    ag2.IsEnabled = true; ag2.Opacity = 1;
+                    ag4.IsEnabled = true; ag4.Opacity = 1;
+                    ag6.IsEnabled = true; ag6.Opacity = 1;
+                    ag8.IsEnabled = true; ag8.Opacity = 1;
+                    ag10.IsEnabled = true; ag10.Opacity = 1;
+                    ag12.IsEnabled = true; ag12.Opacity = 1;
+                    ag14.IsEnabled = false; ag14.Opacity = 0.25;
+                    ag16.IsEnabled = false; ag16.Opacity = 0.25;
+                }
             }
 
             ListPortForGucArayuzu();
@@ -646,31 +747,41 @@ namespace AYP
 
             if (Validator.TryValidateObject(agArayuzu, validationContext, results, true))
             {
-                if (checkedAgArayuzuRow != null)
-                {
-                    var ctx = checkedAgArayuzuRow.DataContext;
-                    var obj = (AgArayuzu)ctx;
-                    agArayuzuList.Remove(obj);
-                    checkedAgArayuzuRow = null;
-                }
-
-                AgAnahtariAgArayuzDataGrid.ItemsSource = null;
-
                 agArayuzu.KL_KullanimAmaci = agArayuzu.KullanimAmaciList.Where(kal => kal.Id == agArayuzu.KullanimAmaciId).FirstOrDefault();
                 agArayuzu.KL_Kapasite = agArayuzu.KapasiteList.Where(kl => kl.Id == agArayuzu.KapasiteId).FirstOrDefault();
                 agArayuzu.KL_FizikselOrtam = agArayuzu.FizikselOrtamList.Where(fo => fo.Id == agArayuzu.FizikselOrtamId).FirstOrDefault();
 
-                agArayuzuList.Add(agArayuzu);
-                AgAnahtariAgArayuzDataGrid.ItemsSource = agArayuzuList;
-                AgAnahtariAgArayuzDataGrid.Visibility = Visibility.Visible;
-                AgArayuzuNoDataRow.Visibility = Visibility.Hidden;
+                if (!agArayuzuList.Any(x => x.Port == agArayuzu.Port && x.KullanimAmaciId == agArayuzu.KullanimAmaciId))
+                {
+                    if (checkedAgArayuzuRow != null)
+                    {
+                        var ctx = checkedAgArayuzuRow.DataContext;
+                        var obj = (AgArayuzu)ctx;
+                        agArayuzuList.Remove(obj);
+                        checkedAgArayuzuRow = null;
+                    }
 
-                AgArayuzuTab.DataContext = null;
-                agArayuzu = new AgArayuzu();
-                ListKapasite();
-                ListFizikselOrtam();
-                ListKullanimAmaciForAgArayuzu();
-                AgArayuzuTab.DataContext = agArayuzu;
+                    AgAnahtariAgArayuzDataGrid.ItemsSource = null;
+
+                    agArayuzuList.Add(agArayuzu);
+                    AgAnahtariAgArayuzDataGrid.ItemsSource = agArayuzuList;
+                    AgAnahtariAgArayuzDataGrid.Visibility = Visibility.Visible;
+                    AgArayuzuNoDataRow.Visibility = Visibility.Hidden;
+
+                    AgArayuzuTab.DataContext = null;
+                    agArayuzu = new AgArayuzu();
+                    ListKapasite();
+                    ListFizikselOrtam();
+                    ListKullanimAmaciForAgArayuzu();
+                    AgArayuzuTab.DataContext = agArayuzu;
+                }
+                else
+                {
+                    NotifyInfoPopup nfp = new NotifyInfoPopup();
+                    nfp.msg.Text = agArayuzu.KL_KullanimAmaci.Ad + " kullanım amacı ile " + agArayuzu.Port + " için veri girilmiştir"; ;
+                    nfp.Owner = Owner;
+                    nfp.Show();
+                }
             }
             else
             {
@@ -707,6 +818,8 @@ namespace AYP
 
         private void AgArayuzuRow_Unchecked(object sender, RoutedEventArgs e)
         {
+            checkedAgArayuzuRow = null;
+
             AgArayuzuTab.DataContext = null;
             agArayuzu = new AgArayuzu();
             ListKapasite();
@@ -717,27 +830,37 @@ namespace AYP
 
         private void AgArayuzuDelete_Row(object sender, RoutedEventArgs e)
         {
-            var row = (Button)sender;
-            var ctx = row.DataContext;            
-            var obj = (AgArayuzu)ctx;
-
-            AgAnahtariAgArayuzDataGrid.ItemsSource = null;
-            agArayuzuList.Remove(obj);
-            AgAnahtariAgArayuzDataGrid.ItemsSource = agArayuzuList;
-
-            if (agArayuzuList.Count == 0)
+            if (!fromNode)
             {
-                AgAnahtariAgArayuzDataGrid.Visibility = Visibility.Hidden;
-                AgArayuzuNoDataRow.Visibility = Visibility.Visible;
-            }
+                var row = (Button)sender;
+                var ctx = row.DataContext;
+                var obj = (AgArayuzu)ctx;
 
-            checkedAgArayuzuRow = null;
-            AgArayuzuTab.DataContext = null;
-            agArayuzu = new AgArayuzu();
-            ListKapasite();
-            ListFizikselOrtam();
-            ListKullanimAmaciForAgArayuzu();
-            AgArayuzuTab.DataContext = agArayuzu;
+                AgAnahtariAgArayuzDataGrid.ItemsSource = null;
+                agArayuzuList.Remove(obj);
+                AgAnahtariAgArayuzDataGrid.ItemsSource = agArayuzuList;
+
+                if (agArayuzuList.Count == 0)
+                {
+                    AgAnahtariAgArayuzDataGrid.Visibility = Visibility.Hidden;
+                    AgArayuzuNoDataRow.Visibility = Visibility.Visible;
+                }
+
+                checkedAgArayuzuRow = null;
+                AgArayuzuTab.DataContext = null;
+                agArayuzu = new AgArayuzu();
+                ListKapasite();
+                ListFizikselOrtam();
+                ListKullanimAmaciForAgArayuzu();
+                AgArayuzuTab.DataContext = agArayuzu;
+            }
+            else
+            {
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                nfp.msg.Text = "Seçtiğiniz ağ arayüzü proje içerisinde kullanımda olduğu için silinemez.";
+                nfp.Owner = Owner;
+                nfp.Show();
+            }
         }
 
         private void ButtonAddGucArayuzu_Click(object sender, RoutedEventArgs e)
@@ -749,29 +872,39 @@ namespace AYP
 
             if (Validator.TryValidateObject(gucArayuzu, validationContext, results, true))
             {
-                if (checkedGucArayuzuRow != null)
-                {
-                    var ctx = checkedGucArayuzuRow.DataContext;
-                    var obj = (GucArayuzu)ctx;
-                    gucArayuzuList.Remove(obj);
-                    checkedGucArayuzuRow = null;
-                }
-
-                AgAnahtariGucArayuzDataGrid.ItemsSource = null;
-
                 gucArayuzu.KL_KullanimAmaci = gucArayuzu.KullanimAmaciList.Where(kal => kal.Id == gucArayuzu.KullanimAmaciId).FirstOrDefault();
-                gucArayuzu.KL_GerilimTipi = gucArayuzu.GerilimTipiList.Where(fo => fo.Id == gucArayuzu.GerilimTipiId).FirstOrDefault();
+                gucArayuzu.KL_GerilimTipi = gucArayuzu.GerilimTipiList.Where(gt => gt.Id == gucArayuzu.GerilimTipiId).FirstOrDefault();
 
-                gucArayuzuList.Add(gucArayuzu);
-                AgAnahtariGucArayuzDataGrid.ItemsSource = gucArayuzuList;
-                AgAnahtariGucArayuzDataGrid.Visibility = Visibility.Visible;
-                GucArayuzuNoDataRow.Visibility = Visibility.Hidden;
+                if (!gucArayuzuList.Any(x => x.Port == gucArayuzu.Port))
+                {
+                    if (checkedGucArayuzuRow != null)
+                    {
+                        var ctx = checkedGucArayuzuRow.DataContext;
+                        var obj = (GucArayuzu)ctx;
+                        gucArayuzuList.Remove(obj);
+                        checkedGucArayuzuRow = null;
+                    }
 
-                GucArayuzuTab.DataContext = null;
-                gucArayuzu = new GucArayuzu();
-                ListGerilimTipi();
-                ListKullanimAmaciForGucArayuzu();
-                GucArayuzuTab.DataContext = gucArayuzu;
+                    AgAnahtariGucArayuzDataGrid.ItemsSource = null;
+
+                    gucArayuzuList.Add(gucArayuzu);
+                    AgAnahtariGucArayuzDataGrid.ItemsSource = gucArayuzuList;
+                    AgAnahtariGucArayuzDataGrid.Visibility = Visibility.Visible;
+                    GucArayuzuNoDataRow.Visibility = Visibility.Hidden;
+
+                    GucArayuzuTab.DataContext = null;
+                    gucArayuzu = new GucArayuzu();
+                    ListGerilimTipi();
+                    ListKullanimAmaciForGucArayuzu();
+                    GucArayuzuTab.DataContext = gucArayuzu;
+                }
+                else
+                {
+                    NotifyInfoPopup nfp = new NotifyInfoPopup();
+                    nfp.msg.Text = gucArayuzu.Port + " için veri girilmiştir";
+                    nfp.Owner = Owner;
+                    nfp.Show();
+                }
             }
             else
             {
@@ -808,6 +941,8 @@ namespace AYP
 
         private void GucArayuzuRow_Unchecked(object sender, RoutedEventArgs e)
         {
+            checkedGucArayuzuRow = null;
+
             GucArayuzuTab.DataContext = null;
             gucArayuzu = new GucArayuzu();
             ListGerilimTipi();
@@ -817,21 +952,53 @@ namespace AYP
 
         private void GucArayuzuDelete_Row(object sender, RoutedEventArgs e)
         {
-            var row = (Button)sender;
-            var ctx = row.DataContext;
-            var obj = (GucArayuzu)ctx;
-
-            AgAnahtariGucArayuzDataGrid.ItemsSource = null;
-            gucArayuzuList.Remove(obj);
-            AgAnahtariGucArayuzDataGrid.ItemsSource = gucArayuzuList;
-
-            if (gucArayuzuList.Count == 0)
+            if (!fromNode)
             {
-                AgAnahtariGucArayuzDataGrid.Visibility = Visibility.Hidden;
-                GucArayuzuNoDataRow.Visibility = Visibility.Visible;
+                var row = (Button)sender;
+                var ctx = row.DataContext;
+                var obj = (GucArayuzu)ctx;
+
+                AgAnahtariGucArayuzDataGrid.ItemsSource = null;
+                gucArayuzuList.Remove(obj);
+                AgAnahtariGucArayuzDataGrid.ItemsSource = gucArayuzuList;
+
+                if (gucArayuzuList.Count == 0)
+                {
+                    AgAnahtariGucArayuzDataGrid.Visibility = Visibility.Hidden;
+                    GucArayuzuNoDataRow.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                nfp.msg.Text = "Seçtiğiniz güç arayüzü proje içerisinde kullanımda olduğu için silinemez.";
+                nfp.Owner = Owner;
+                nfp.Show();
             }
         }
         #endregion
 
+        #region OpenResponseModalEvent
+        private void OpenResponseModal(ResponseModel response)
+        {
+            if (!response.HasError)
+            {
+                NotifySuccessPopup nfp = new NotifySuccessPopup();
+                nfp.msg.Text = response.Message;
+                nfp.Owner = Owner;
+                nfp.Show();
+
+                (Owner as MainWindow).ListAgAnahtari();
+                ClosePopup();
+            }
+            else
+            {
+                NotifyWarningPopup nfp = new NotifyWarningPopup();
+                nfp.msg.Text = response.Message;
+                nfp.Owner = Owner;
+                nfp.Show();
+            }
+        }
+        #endregion
     }
 }

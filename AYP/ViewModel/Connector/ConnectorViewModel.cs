@@ -16,7 +16,7 @@ namespace AYP.ViewModel
 {
     public partial class ConnectorViewModel : ReactiveObject
     {
-        [Reactive] public Point PositionConnectPoint { get; set; } 
+        [Reactive] public Point PositionConnectPoint { get; set; }
         [Reactive] public string Name { get; set; }
         [Reactive] public bool TextEnable { get; set; } = false;
         [Reactive] public bool? Visible { get; set; } = true;
@@ -31,6 +31,18 @@ namespace AYP.ViewModel
         [Reactive] public NodesCanvasViewModel NodesCanvas { get; set; }
         [Reactive] public bool Selected { get; set; }
         [Reactive] public Guid UniqueId { get; set; }
+        [Reactive] public int? KapasiteId { get; set; }
+        [Reactive] public int? FiikselOrtamId { get; set; }
+        [Reactive] public int KullanimAmaciId { get; set; }
+        [Reactive] public int? GerilimTipiId { get; set; }
+        [Reactive] public decimal GirdiDuraganGerilimDegeri1 { get; set; }
+        [Reactive] public decimal GirdiDuraganGerilimDegeri2 { get; set; }
+        [Reactive] public decimal GirdiDuraganGerilimDegeri3 { get; set; }
+        [Reactive] public decimal GirdiMinimumGerilimDegeri { get; set; }
+        [Reactive] public decimal GirdiMaksimumGerilimDegeri { get; set; }
+        [Reactive] public decimal GirdiTukettigiGucMiktari { get; set; }
+        [Reactive] public string CiktiDuraganGerilimDegeri { get; set; }
+        [Reactive] public decimal CiktiUrettigiGucKapasitesi { get; set; }
 
         public ConnectorViewModel(NodesCanvasViewModel nodesCanvas, NodeViewModel viewModelNode, string name, Point myPoint, Guid uniqueId)
         {

@@ -24,23 +24,27 @@ namespace AYP
     /// </summary>
     public partial class GucUreticiPopupWindow : Window
     {
-        public bool isEditMode = false;
 
         private AYPContext context;
 
         private IGucUreticiService service;
         private IKodListeService kodListeService;
 
-        private NotificationManager notificationManager;
-
         GucUretici gucUretici;
         GucArayuzu gucArayuzu;
 
         List<GucArayuzu> gucArayuzuList;
         private CheckBox checkedGucArayuzuRow = null;
+
+        public bool isEditMode = false;
+        public bool fromNode = false;
+
         public GucUreticiPopupWindow(GucUretici _gucUretici, bool fromNode)
         {
-            if(_gucUretici != null)
+            this.fromNode = fromNode;
+
+            gucArayuzu = new GucArayuzu();
+            if (_gucUretici != null)
             {
                 gucUretici = _gucUretici;
                 isEditMode = true;
@@ -48,54 +52,117 @@ namespace AYP
             else
             {
                 gucUretici = new GucUretici();
-                gucArayuzu = new GucArayuzu();
-
-                gucArayuzuList = new List<GucArayuzu>();
                 isEditMode = false;
             }
 
-            this.notificationManager = new NotificationManager();
             this.context = new AYPContext();
             service = new GucUreticiService(this.context);
             kodListeService = new KodListeService(this.context);
             InitializeComponent();
             SetGucUreticiTurList();
-
-            DataContext = gucUretici;
-
-            if (isEditMode)
-            {
-                DownloadButton.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                DownloadButton.Visibility = Visibility.Hidden;
-
-                GucUreticiGucArayuzDataGrid.Visibility = Visibility.Hidden;
-                GucArayuzuNoDataRow.Visibility = Visibility.Visible;
-            }
-
-            if(fromNode)
-            {
-                GirdiGucArayuzuSayisi.IsEnabled = false;
-                GirdiGucArayuzuSayisi.Opacity = 0.25;
-                CiktiGucArayuzuSayisi.IsEnabled = false;
-                CiktiGucArayuzuSayisi.Opacity = 0.25;
-            }
-            else
-            {
-                GirdiGucArayuzuSayisi.IsEnabled = true;
-                GirdiGucArayuzuSayisi.Opacity = 1;
-                CiktiGucArayuzuSayisi.IsEnabled = true;
-                CiktiGucArayuzuSayisi.Opacity = 1;
-            }
+            GucUreticiTab.DataContext = gucUretici;
 
             if (gucUretici.GucUreticiTurList.Count() == 0)
             {
                 Loaded += (s, e) => ClosePopup();
             }
+
+            Loaded += Window_Loaded;
         }
 
+        #region WindowLoadedEvent
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (isEditMode)
+            {
+                gucArayuzuList = service.ListGucUreticiGucArayuzu(gucUretici.Id);
+                GucUreticiGucArayuzDataGrid.ItemsSource = gucArayuzuList;
+                if (gucArayuzuList.Count > 0)
+                {
+                    GucUreticiGucArayuzDataGrid.Visibility = Visibility.Visible;
+                    GucArayuzuNoDataRow.Visibility = Visibility.Hidden;
+                }
+                else
+                {
+                    GucUreticiGucArayuzDataGrid.Visibility = Visibility.Hidden;
+                    GucArayuzuNoDataRow.Visibility = Visibility.Visible;
+                }
+
+                DownloadButton.Visibility = Visibility.Visible;
+
+                if (string.IsNullOrEmpty(gucUretici.KatalogDosyaAdi))
+                {
+                    DownloadButton.IsEnabled = false;
+                }
+                else
+                {
+                    DownloadButton.IsEnabled = true;
+                }
+
+                if (fromNode)
+                {
+                    //GucUreticiTab
+                    GirdiGucArayuzuSayisi.IsEnabled = false;
+                    GirdiGucArayuzuSayisi.Opacity = 0.25;
+                    CiktiGucArayuzuSayisi.IsEnabled = false;
+                    CiktiGucArayuzuSayisi.Opacity = 0.25;
+                    Sembol.IsEnabled = false;
+                    Sembol.Opacity = 0.25;
+
+                    //GucArayuzuTab
+                    GucArayuzuEkleBtn.IsEnabled = false;
+                    GucArayuzuEkleBtn.Opacity = 0.25;
+                }
+                else
+                {
+                    var mainWindow = Owner as MainWindow;
+                    var nodes = mainWindow.ViewModel.NodesCanvas.Nodes.Items;
+
+                    if (!nodes.Any(n => n.Id == gucUretici.Id))
+                    {
+                        fromNode = false;
+                        //GucUreticiTab
+                        GirdiGucArayuzuSayisi.IsEnabled = true;
+                        GirdiGucArayuzuSayisi.Opacity = 1;
+                        CiktiGucArayuzuSayisi.IsEnabled = true;
+                        CiktiGucArayuzuSayisi.Opacity = 1;
+                        Sembol.IsEnabled = true;
+                        Sembol.Opacity = 1;
+
+                        //GucArayuzuTab
+                        GucArayuzuEkleBtn.IsEnabled = true;
+                        GucArayuzuEkleBtn.Opacity = 1;
+                    }
+                    else
+                    {
+                        fromNode = true;
+                        //GucUreticiTab
+                        GirdiGucArayuzuSayisi.IsEnabled = false;
+                        GirdiGucArayuzuSayisi.Opacity = 0.25;
+                        CiktiGucArayuzuSayisi.IsEnabled = false;
+                        CiktiGucArayuzuSayisi.Opacity = 0.25;
+                        Sembol.IsEnabled = false;
+                        Sembol.Opacity = 0.25;
+
+                        //GucArayuzuTab
+                        GucArayuzuEkleBtn.IsEnabled = false;
+                        GucArayuzuEkleBtn.Opacity = 0.25;
+                    }
+                }
+            }
+            else
+            {
+                gucArayuzuList = new List<GucArayuzu>();
+
+                DownloadButton.Visibility = Visibility.Hidden;
+
+                GucUreticiGucArayuzDataGrid.Visibility = Visibility.Hidden;
+                GucArayuzuNoDataRow.Visibility = Visibility.Visible;
+            }
+        }
+        #endregion
+
+        #region PopupCloseEvents
         private void ClosePopup()
         {
             Close();
@@ -107,6 +174,7 @@ namespace AYP
         {
             ClosePopup();
         }
+        #endregion
 
         #region TabTransitionEvents
         private void GucUreticiNextButton_Click(object sender, RoutedEventArgs e)
@@ -216,6 +284,7 @@ nfp.Show();
         }
         #endregion
 
+        #region Save/UpdateEvent
         private void Save_GucUretici(object sender, RoutedEventArgs e)
         {
             if (gucArayuzuList.Count == gucUretici.CiktiGucArayuzuSayisi + gucUretici.GirdiGucArayuzuSayisi)
@@ -228,7 +297,15 @@ nfp.Show();
                 }
                 else
                 {
-                    response = service.UpdateGucUretici(gucUretici);
+                    if (fromNode)
+                    {
+                        response = service.UpdateGucUretici(gucUretici, new List<GucArayuzu>());
+                    }
+                    else
+                    {
+                        response = service.UpdateGucUretici(gucUretici, gucArayuzuList);
+
+                    }
                 }
 
                 if (!response.HasError)
@@ -251,12 +328,13 @@ nfp.Show();
             }
             else
             {
-                NotifyWarningPopup nfp = new NotifyWarningPopup();
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
                 nfp.msg.Text = "Lütfen, bütün güç arayüzleri için veri girişi yapınız!";
                 nfp.Owner = Owner;
                 nfp.Show();
             }
         }
+        #endregion
 
         #region OpenKatalogFileDialogEvent
         private void BtnOpenKatalogFile_Click(object sender, RoutedEventArgs e)
@@ -363,45 +441,30 @@ nfp.Show();
         #region KullanimAmaciSelectionChangedEvent
         private void GucArayuzKullanimAmaci_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (gucArayuzu.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti)
+            if (!fromNode)
             {
-                ag1.IsEnabled = false; ag1.Opacity = 0.25;
-                ag2.IsEnabled = false; ag2.Opacity = 0.25;
-                ag3.IsEnabled = false; ag3.Opacity = 0.25;
-                ag4.IsEnabled = false; ag4.Opacity = 0.25;
-                ag5.IsEnabled = false; ag5.Opacity = 0.25;
-                ag6.IsEnabled = false; ag6.Opacity = 0.25;
-                ag7.IsEnabled = false; ag7.Opacity = 0.25;
-                ag8.IsEnabled = false; ag8.Opacity = 0.25;
-                ag9.IsEnabled = false; ag9.Opacity = 0.25;
-                ag10.IsEnabled = false; ag10.Opacity = 0.25;
-                ag11.IsEnabled = false; ag11.Opacity = 0.25;
-                ag12.IsEnabled = false; ag12.Opacity = 0.25;
-
-                ag13.IsEnabled = true; ag13.Opacity = 1;
-                ag14.IsEnabled = true; ag14.Opacity = 1;
-                ag15.IsEnabled = true; ag15.Opacity = 1;
-                ag16.IsEnabled = true; ag16.Opacity = 1;
-            }
-            else
-            {
-                ag1.IsEnabled = true; ag1.Opacity = 1;
-                ag2.IsEnabled = true; ag2.Opacity = 1;
-                ag3.IsEnabled = true; ag3.Opacity = 1;
-                ag4.IsEnabled = true; ag4.Opacity = 1;
-                ag5.IsEnabled = true; ag5.Opacity = 1;
-                ag6.IsEnabled = true; ag6.Opacity = 1;
-                ag7.IsEnabled = true; ag7.Opacity = 1;
-                ag8.IsEnabled = true; ag8.Opacity = 1;
-                ag9.IsEnabled = true; ag9.Opacity = 1;
-                ag10.IsEnabled = true; ag10.Opacity = 1;
-                ag11.IsEnabled = true; ag11.Opacity = 1;
-                ag12.IsEnabled = true; ag12.Opacity = 1;
-
-                ag13.IsEnabled = false; ag13.Opacity = 0.25;
-                ag14.IsEnabled = false; ag14.Opacity = 0.25;
-                ag15.IsEnabled = false; ag15.Opacity = 0.25;
-                ag16.IsEnabled = false; ag16.Opacity = 0.25;
+                if (gucArayuzu.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti)
+                {
+                    ag2.IsEnabled = false; ag2.Opacity = 0.25;
+                    ag4.IsEnabled = false; ag4.Opacity = 0.25;
+                    ag6.IsEnabled = false; ag6.Opacity = 0.25;
+                    ag8.IsEnabled = false; ag8.Opacity = 0.25;
+                    ag10.IsEnabled = false; ag10.Opacity = 0.25;
+                    ag12.IsEnabled = false; ag12.Opacity = 0.25;
+                    ag14.IsEnabled = true; ag14.Opacity = 1;
+                    ag16.IsEnabled = true; ag16.Opacity = 1;
+                }
+                else
+                {
+                    ag2.IsEnabled = true; ag2.Opacity = 1;
+                    ag4.IsEnabled = true; ag4.Opacity = 1;
+                    ag6.IsEnabled = true; ag6.Opacity = 1;
+                    ag8.IsEnabled = true; ag8.Opacity = 1;
+                    ag10.IsEnabled = true; ag10.Opacity = 1;
+                    ag12.IsEnabled = true; ag12.Opacity = 1;
+                    ag14.IsEnabled = false; ag14.Opacity = 0.25;
+                    ag16.IsEnabled = false; ag16.Opacity = 0.25;
+                }
             }
 
             ListPortForGucArayuzu();
@@ -491,29 +554,35 @@ nfp.Show();
         #region TextChangedEvents
         private void VerimlilikOrani_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(VerimlilikOrani.Text) && VerimlilikOrani.Text != " ")
+            if (!fromNode)
             {
-                DahiliGucTuketimDegeri.IsEnabled = false;
-                DahiliGucTuketimDegeri.Opacity = 0.25;
-            }
-            else
-            {
-                DahiliGucTuketimDegeri.IsEnabled = true;
-                DahiliGucTuketimDegeri.Opacity = 1;
+                if (!string.IsNullOrEmpty(VerimlilikOrani.Text) && VerimlilikOrani.Text != " ")
+                {
+                    DahiliGucTuketimDegeri.IsEnabled = false;
+                    DahiliGucTuketimDegeri.Opacity = 0.25;
+                }
+                else
+                {
+                    DahiliGucTuketimDegeri.IsEnabled = true;
+                    DahiliGucTuketimDegeri.Opacity = 1;
+                }
             }
         }
 
         private void DahiliGucTuketimDegeri_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(!string.IsNullOrEmpty(DahiliGucTuketimDegeri.Text) && DahiliGucTuketimDegeri.Text != " ")
+            if (!fromNode)
             {
-                VerimlilikOrani.IsEnabled = false;
-                VerimlilikOrani.Opacity = 0.25;
-            }
-            else
-            {
-                VerimlilikOrani.IsEnabled = true;
-                VerimlilikOrani.Opacity = 1;
+                if (!string.IsNullOrEmpty(DahiliGucTuketimDegeri.Text) && DahiliGucTuketimDegeri.Text != " ")
+                {
+                    VerimlilikOrani.IsEnabled = false;
+                    VerimlilikOrani.Opacity = 0.25;
+                }
+                else
+                {
+                    VerimlilikOrani.IsEnabled = true;
+                    VerimlilikOrani.Opacity = 1;
+                }
             }
         }
         #endregion
@@ -528,29 +597,39 @@ nfp.Show();
 
             if (Validator.TryValidateObject(gucArayuzu, validationContext, results, true))
             {
-                if (checkedGucArayuzuRow != null)
-                {
-                    var ctx = checkedGucArayuzuRow.DataContext;
-                    var obj = (GucArayuzu)ctx;
-                    gucArayuzuList.Remove(obj);
-                    checkedGucArayuzuRow = null;
-                }
-
-                GucUreticiGucArayuzDataGrid.ItemsSource = null;
-
                 gucArayuzu.KL_KullanimAmaci = gucArayuzu.KullanimAmaciList.Where(kal => kal.Id == gucArayuzu.KullanimAmaciId).FirstOrDefault();
                 gucArayuzu.KL_GerilimTipi = gucArayuzu.GerilimTipiList.Where(fo => fo.Id == gucArayuzu.GerilimTipiId).FirstOrDefault();
 
-                gucArayuzuList.Add(gucArayuzu);
-                GucUreticiGucArayuzDataGrid.ItemsSource = gucArayuzuList;
-                GucUreticiGucArayuzDataGrid.Visibility = Visibility.Visible;
-                GucArayuzuNoDataRow.Visibility = Visibility.Hidden;
+                if (!gucArayuzuList.Any(x => x.Port == gucArayuzu.Port && x.KullanimAmaciId == gucArayuzu.KullanimAmaciId))
+                {
+                    if (checkedGucArayuzuRow != null)
+                    {
+                        var ctx = checkedGucArayuzuRow.DataContext;
+                        var obj = (GucArayuzu)ctx;
+                        gucArayuzuList.Remove(obj);
+                        checkedGucArayuzuRow = null;
+                    }
 
-                GucArayuzuTab.DataContext = null;
-                gucArayuzu = new GucArayuzu();
-                ListGerilimTipi();
-                ListKullanimAmaciForGucArayuzu();
-                GucArayuzuTab.DataContext = gucArayuzu;
+                    GucUreticiGucArayuzDataGrid.ItemsSource = null;
+
+                    gucArayuzuList.Add(gucArayuzu);
+                    GucUreticiGucArayuzDataGrid.ItemsSource = gucArayuzuList;
+                    GucUreticiGucArayuzDataGrid.Visibility = Visibility.Visible;
+                    GucArayuzuNoDataRow.Visibility = Visibility.Hidden;
+
+                    GucArayuzuTab.DataContext = null;
+                    gucArayuzu = new GucArayuzu();
+                    ListGerilimTipi();
+                    ListKullanimAmaciForGucArayuzu();
+                    GucArayuzuTab.DataContext = gucArayuzu;
+                }
+                else
+                {
+                    NotifyInfoPopup nfp = new NotifyInfoPopup();
+                    nfp.msg.Text = gucArayuzu.KL_KullanimAmaci.Ad + " kullanım amacı ile " + gucArayuzu.Port + " için veri girilmiştir"; ;
+                    nfp.Owner = Owner;
+                    nfp.Show();
+                }
             }
             else
             {
@@ -587,6 +666,8 @@ nfp.Show();
 
         private void GucArayuzuRow_Unchecked(object sender, RoutedEventArgs e)
         {
+            checkedGucArayuzuRow = null;
+
             GucArayuzuTab.DataContext = null;
             gucArayuzu = new GucArayuzu();
             ListGerilimTipi();
@@ -596,19 +677,30 @@ nfp.Show();
 
         private void GucArayuzuDelete_Row(object sender, RoutedEventArgs e)
         {
-            var row = (Button)sender;
-            var ctx = row.DataContext;
-            var obj = (GucArayuzu)ctx;
-
-            GucUreticiGucArayuzDataGrid.ItemsSource = null;
-            gucArayuzuList.Remove(obj);
-            GucUreticiGucArayuzDataGrid.ItemsSource = gucArayuzuList;
-
-            if (gucArayuzuList.Count == 0)
+            if (!fromNode)
             {
-                GucUreticiGucArayuzDataGrid.Visibility = Visibility.Hidden;
-                GucArayuzuNoDataRow.Visibility = Visibility.Visible;
+                var row = (Button)sender;
+                var ctx = row.DataContext;
+                var obj = (GucArayuzu)ctx;
+
+                GucUreticiGucArayuzDataGrid.ItemsSource = null;
+                gucArayuzuList.Remove(obj);
+                GucUreticiGucArayuzDataGrid.ItemsSource = gucArayuzuList;
+
+                if (gucArayuzuList.Count == 0)
+                {
+                    GucUreticiGucArayuzDataGrid.Visibility = Visibility.Hidden;
+                    GucArayuzuNoDataRow.Visibility = Visibility.Visible;
+                }
             }
+            else
+            {
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                nfp.msg.Text = "Seçtiğiniz güç arayüzü proje içerisinde kullanımda olduğu için silinemez.";
+                nfp.Owner = Owner;
+                nfp.Show();
+            }
+
         }
         #endregion
     }

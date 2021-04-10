@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reactive;
 using System.Text;
 using System.Windows;
+using AYP.Enums;
 
 namespace AYP.ViewModel
 {
@@ -109,20 +110,41 @@ namespace AYP.ViewModel
                 NodesCanvas.LogDebug("Transition with name \"{0}\" was added", CurrentConnector.Name);
             }
 
-            if (OutputSayisi >= Transitions.Items.Count())
+            if (TypeId == (int)TipEnum.UcBirim || TypeId == (int)TipEnum.AgAnahtari)
             {
-                double width = Size.Width == 0 ? 80 : Size.Width;
-                CurrentConnector = new ConnectorViewModel(NodesCanvas, this, "", Point1.Addition(width, 54), Guid.NewGuid())
+                if (AgArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).Count() >= Transitions.Items.Count())
                 {
-                    TextEnable = false
-                };
+                    double width = Size.Width == 0 ? 80 : Size.Width;
+                    CurrentConnector = new ConnectorViewModel(NodesCanvas, this, "", Point1.Addition(width, 54), Guid.NewGuid())
+                    {
+                        TextEnable = false
+                    };
 
-                if (OutputSayisi == Transitions.Items.Count())
-                {
-                    CurrentConnector.Visible = false;
+                    if (AgArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).Count() == Transitions.Items.Count())
+                    {
+                        CurrentConnector.Visible = false;
+                    }
+
+                    Transitions.Insert(0, CurrentConnector);
                 }
+            }
+            else
+            {
+                if (GucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).Count() >= Transitions.Items.Count())
+                {
+                    double width = Size.Width == 0 ? 80 : Size.Width;
+                    CurrentConnector = new ConnectorViewModel(NodesCanvas, this, "", Point1.Addition(width, 54), Guid.NewGuid())
+                    {
+                        TextEnable = false
+                    };
 
-                Transitions.Insert(0, CurrentConnector);
+                    if (GucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).Count() == Transitions.Items.Count())
+                    {
+                        CurrentConnector.Visible = false;
+                    }
+
+                    Transitions.Insert(0, CurrentConnector);
+                }
             }
         }
         private void UnSelectedAllConnectors()

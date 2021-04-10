@@ -55,14 +55,5 @@ namespace AYP.Entities
 
         [NotMapped]
         public List<string> PortList { get; set; }
-
-        [NotMapped]
-        public string Kapasite { get; set; }
-
-        [NotMapped]
-        public string KullanimAmaci { get; set; }
-
-        [NotMapped]
-        public string FizikselOrtam { get; set; }
     }
 }

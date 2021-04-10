@@ -118,22 +118,22 @@
                     <TextBox Text="{Binding Adi}" Style="{DynamicResource StyleTextBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,95,0,10" VerticalAlignment="Top" />
 
                     <Label FontSize="16" Foreground="#ffffff" Content="Kullanım Amacı *" Grid.Row="0" Grid.Column="1" Margin="10,140,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <ComboBox SelectedValue="{Binding KullanimAmaciId}" ItemsSource="{Binding KullanimAmaciList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,170,0,10" VerticalAlignment="Top" SelectionChanged="AgArayuzuKullanimAmaci_SelectionChanged">
+                    <ComboBox Name="AgArayuzuKullanimAmaciList" SelectedValue="{Binding KullanimAmaciId}" ItemsSource="{Binding KullanimAmaciList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,170,0,10" VerticalAlignment="Top" SelectionChanged="AgArayuzuKullanimAmaci_SelectionChanged">
                     </ComboBox>
 
                     <Label FontSize="16" Foreground="#ffffff" Content="Fiziksel Ortam *" Grid.Row="0" Grid.Column="1" Margin="10,215,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <ComboBox SelectedValue="{Binding FizikselOrtamId}" ItemsSource="{Binding FizikselOrtamList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,245,0,10" VerticalAlignment="Top" >
+                    <ComboBox Name="AgArayuzuFizikselOrtamList" SelectedValue="{Binding FizikselOrtamId}" ItemsSource="{Binding FizikselOrtamList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,245,0,10" VerticalAlignment="Top" >
                     </ComboBox>
 
                     <Label FontSize="16" Foreground="#ffffff" Content="Kapasite *" Grid.Row="0" Grid.Column="1" Margin="10,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <ComboBox SelectedValue="{Binding KapasiteId}" ItemsSource="{Binding KapasiteList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,320,0,10" VerticalAlignment="Top" >
+                    <ComboBox Name="AgArayuzuKapasiteList" SelectedValue="{Binding KapasiteId}" ItemsSource="{Binding KapasiteList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,320,0,10" VerticalAlignment="Top" >
                     </ComboBox>
 
                     <Label FontSize="16" Foreground="#ffffff" Content="Port *" Grid.Row="0" Grid.Column="1" Margin="10,365,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <ComboBox Name="AgArayuzuPortList" SelectedValue="{Binding Port}" ItemsSource="{Binding PortList}" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,395,0,10" VerticalAlignment="Top" >
                     </ComboBox>
 
-                    <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,440,0,10" Background="#222d35" Width="250" Click="ButtonAddAgArayuzu_Click">
+                    <Button Name="AgArayuzuEkleBtn" Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,440,0,10" Background="#222d35" Width="250" Click="ButtonAddAgArayuzu_Click">
                         <Grid>
                             <!--<Image Source="Images/save.png" Height="20" Width="25" Margin="2,0,0,0" HorizontalAlignment="Left"/>-->
                             <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="100,0,0,0">Ekle</TextBlock>
@@ -251,11 +251,11 @@
                     <TextBox Name="GucArayuzuAdi" Text="{Binding Adi}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="10,95,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
                     <Label FontSize="16" Foreground="#ffffff" Content="Kullanım Amacı *" Grid.Row="0" Grid.Column="1" Margin="10,130,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <ComboBox SelectedValue="{Binding KullanimAmaciId}" ItemsSource="{Binding KullanimAmaciList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Name="UcBirimGucArayuzKullanimAmaci" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,160,0,10" VerticalAlignment="Top" SelectionChanged="GucArayuzKullanimAmaci_SelectionChanged" >
+                    <ComboBox Name="GucArayuzuKullanimAmaciList" SelectedValue="{Binding KullanimAmaciId}" ItemsSource="{Binding KullanimAmaciList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,160,0,10" VerticalAlignment="Top" SelectionChanged="GucArayuzKullanimAmaci_SelectionChanged" >
                     </ComboBox>
 
                     <Label FontSize="16" Foreground="#ffffff" Content="Gerilim Tipi *" Grid.Row="0" Grid.Column="1" Margin="10,195,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <ComboBox  SelectedValue="{Binding GerilimTipiId}" ItemsSource="{Binding GerilimTipiList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,225,0,10" VerticalAlignment="Top" >
+                    <ComboBox Name="GucArayuzuGerilimTipiList" SelectedValue="{Binding GerilimTipiId}" ItemsSource="{Binding GerilimTipiList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,225,0,10" VerticalAlignment="Top" >
                     </ComboBox>
 
                     <Label Name="ag1" FontSize="16" Foreground="#ffffff" Content="Girdi Durağan Gerilim Değeri 1" Grid.Row="0" Grid.Column="1" Margin="10,260,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -294,7 +294,7 @@
                     <ComboBox Name="GucArayuzuPortList" SelectedValue="{Binding Port}" ItemsSource="{Binding PortList}" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,810,0,10" VerticalAlignment="Top" >
                     </ComboBox>
 
-                    <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,855,0,10" Background="#222d35" Width="250" Click="ButtonAddGucArayuzu_Click">
+                    <Button Name="GucArayuzuEkleBtn" Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,855,0,10" Background="#222d35" Width="250" Click="ButtonAddGucArayuzu_Click">
                         <Grid>
                             <!--<Image Source="Images/save.png" Height="20" Width="25" Margin="2,0,0,0" HorizontalAlignment="Left"/>-->
                             <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="100,0,0,0">Ekle</TextBlock>
@@ -353,7 +353,7 @@
                                                     <ColumnDefinition Width="130" />
                                                     <ColumnDefinition Width="130" />
                                                 </Grid.ColumnDefinitions>
-                                                <Button Style="{DynamicResource StyleTableProcessButton}" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Click="GucArayuzuDelete_Row">
+                                                <Button Name="GucArayuzuSilBtn" Style="{DynamicResource StyleTableProcessButton}" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Click="GucArayuzuDelete_Row">
                                                     <Grid>
                                                         <Image Source="Images/delete.png" Height="15" Width="30" Margin="5,0,0,0" HorizontalAlignment="Left"/>
                                                     </Grid>

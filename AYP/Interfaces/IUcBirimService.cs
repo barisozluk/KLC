@@ -11,9 +11,11 @@ namespace AYP.Interfaces
     {
         ResponseModel SaveUcBirimTur(UcBirimTur ucBirimTur);
         ResponseModel SaveUcBirim(UcBirim ucBirim, List<AgArayuzu> agArayuzuList, List<GucArayuzu> gucArayuzuList);
-        ResponseModel UpdateUcBirim(UcBirim ucBirim);
+        ResponseModel UpdateUcBirim(UcBirim ucBirim, List<AgArayuzu> agArayuzuList, List<GucArayuzu> gucArayuzuList);
         List<UcBirimTur> ListUcBirimTur();
         List<UcBirim> ListUcBirim();
+        List<AgArayuzu> ListUcBirimAgArayuzu(int ucBirimId);
+        List<GucArayuzu> ListUcBirimGucArayuzu(int ucBirimId);
         UcBirim GetUcBirimById(int ucBirimId);
         ResponseModel SaveTopluEdit(List<int> selectedIdList, string ureticiAdi);
 

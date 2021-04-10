@@ -14,6 +14,8 @@ using AYP.Helpers.Extensions;
 using DynamicData;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using AYP.Entities;
+using AYP.Enums;
 
 namespace AYP.ViewModel
 {
@@ -42,12 +44,15 @@ namespace AYP.ViewModel
         [Reactive] public int Id { get; set; }
         [Reactive] public int TypeId { get; set; }
         [Reactive] public Guid UniqueId { get; set; }
-        [Reactive] public int InputSayisi { get; set; }
-        [Reactive] public int OutputSayisi { get; set; }
-        [Reactive] public int GucArayuzuSayisi { get; set; }
+        //[Reactive] public int InputSayisi { get; set; }
+        //[Reactive] public int OutputSayisi { get; set; }
+        //[Reactive] public int GucArayuzuSayisi { get; set; }
 
         [Reactive] public List<ConnectorViewModel> InputList { get; set; }
         [Reactive] public List<ConnectorViewModel> GucInputList { get; set; }
+
+        [Reactive] public List<AgArayuzu> AgArayuzuList { get; set; }
+        [Reactive] public List<GucArayuzu> GucArayuzuList { get; set; }
 
         public SourceList<ConnectorViewModel> Transitions { get; set; } = new SourceList<ConnectorViewModel>();
         public ObservableCollectionExtended<ConnectorViewModel> TransitionsForView = new ObservableCollectionExtended<ConnectorViewModel>();
@@ -60,8 +65,8 @@ namespace AYP.ViewModel
         }
 
 
-        public NodeViewModel(NodesCanvasViewModel nodesCanvas, string name, Guid uniqueId = default(Guid), Point point = default(Point), int id = default(int), int typeId = default(int), 
-                                int inputSayisi = default(int), int outputSayisi = default(int), int gucArayuzuSayisi = 0, List<ConnectorViewModel> inputList = default, List<ConnectorViewModel> gucInputList = default)
+        public NodeViewModel(NodesCanvasViewModel nodesCanvas, string name, Guid uniqueId = default(Guid), Point point = default(Point), int id = default(int), int typeId = default(int),
+                               List<AgArayuzu> agArayuzuList = default, List<GucArayuzu> gucArayuzuList = default, List<ConnectorViewModel> inputList = default, List<ConnectorViewModel> gucInputList = default)
         {
             NodesCanvas = nodesCanvas;
             Name = name;
@@ -89,9 +94,11 @@ namespace AYP.ViewModel
                 GucInputList = new List<ConnectorViewModel>();
             }
 
-            InputSayisi = inputSayisi;
-            OutputSayisi = outputSayisi;
-            GucArayuzuSayisi = gucArayuzuSayisi;
+            AgArayuzuList = agArayuzuList;
+            GucArayuzuList = gucArayuzuList;
+            //InputSayisi = inputSayisi;
+            //OutputSayisi = outputSayisi;
+            //GucArayuzuSayisi = gucArayuzuSayisi;
 
             Transitions.Connect().ObserveOnDispatcher().Bind(TransitionsForView).Subscribe();
 
@@ -102,7 +109,10 @@ namespace AYP.ViewModel
 
             if(GucInputList.Count() == 0)
             {
-                SetupGucInputConnectors();
+                if (TypeId == (int)TipEnum.UcBirim || TypeId == (int)TipEnum.AgAnahtari)
+                {
+                    SetupGucInputConnectors();
+                }
             }
 
             SetupOutputConnectors();
@@ -137,34 +147,64 @@ namespace AYP.ViewModel
 
         private void SetupInputConnectors()
         {
-            for (int i = 0; i < InputSayisi; i++)
+            if(TypeId == (int)TipEnum.UcBirim || TypeId == (int)TipEnum.AgAnahtari)
             {
-                if (i == 0)
+                for (int i = 0; i < AgArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Girdi).Count(); i++)
                 {
-                    InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 36 + (i * 23)), Guid.NewGuid()));
-                }
-                else if (i == 1)
-                {
-                    InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 34 + (i * 20)), Guid.NewGuid()));
-                }
-                else if (i == 2)
-                {
-                    InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 31 + (i * 19)), Guid.NewGuid()));
-                }
-                else if (i == 3)
-                {
-                    InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 33 + (i * 18)), Guid.NewGuid()));
-                }
-                else if (i == 4)
-                {
-                    InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 36 + (i * 17)), Guid.NewGuid()));
+                    if (i == 0)
+                    {
+                        InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 36 + (i * 23)), Guid.NewGuid()));
+                    }
+                    else if (i == 1)
+                    {
+                        InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 34 + (i * 20)), Guid.NewGuid()));
+                    }
+                    else if (i == 2)
+                    {
+                        InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 31 + (i * 19)), Guid.NewGuid()));
+                    }
+                    else if (i == 3)
+                    {
+                        InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 33 + (i * 18)), Guid.NewGuid()));
+                    }
+                    else if (i == 4)
+                    {
+                        InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 36 + (i * 17)), Guid.NewGuid()));
+                    }
                 }
             }
+            else
+            {
+                for (int i = 0; i < GucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Girdi).Count(); i++)
+                {
+                    if (i == 0)
+                    {
+                        InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 36 + (i * 23)), Guid.NewGuid()));
+                    }
+                    else if (i == 1)
+                    {
+                        InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 34 + (i * 20)), Guid.NewGuid()));
+                    }
+                    else if (i == 2)
+                    {
+                        InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 31 + (i * 19)), Guid.NewGuid()));
+                    }
+                    else if (i == 3)
+                    {
+                        InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 33 + (i * 18)), Guid.NewGuid()));
+                    }
+                    else if (i == 4)
+                    {
+                        InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 36 + (i * 17)), Guid.NewGuid()));
+                    }
+                }
+            }
+            
         }
 
         private void SetupGucInputConnectors()
         {
-            for (int i = 0; i < GucArayuzuSayisi; i++)
+            for (int i = 0; i < GucArayuzuList.Count(); i++)
             {
                 GucInputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 160 + (i * 23)), Guid.NewGuid()));
             }
@@ -215,9 +255,9 @@ namespace AYP.ViewModel
             element.Add(new XAttribute("Id", Id));
             element.Add(new XAttribute("TypeId", TypeId));
             element.Add(new XAttribute("UniqueId", UniqueId));
-            element.Add(new XAttribute("InputSayisi", InputSayisi));
-            element.Add(new XAttribute("OutputSayisi", OutputSayisi));
-            element.Add(new XAttribute("GucArayuzuSayisi", GucArayuzuSayisi));
+            //element.Add(new XAttribute("InputSayisi", InputSayisi));
+            //element.Add(new XAttribute("OutputSayisi", OutputSayisi));
+            //element.Add(new XAttribute("GucArayuzuSayisi", GucArayuzuSayisi));
             element.Add(new XAttribute("Position", PointExtensition.PointToString(Point1)));
 
             return element;
@@ -255,7 +295,7 @@ namespace AYP.ViewModel
                 return viewModelNode;
             }
 
-            viewModelNode = new NodeViewModel(nodesCanvas, name, uniqueId, position, id, typeId, inputSayisi, outputSayisi, gucArayuzuSayisi);
+            //viewModelNode = new NodeViewModel(nodesCanvas, name, uniqueId, position, id, typeId, inputSayisi, outputSayisi, gucArayuzuSayisi);
 
             var inputList = new List<ConnectorViewModel>();
             var gucInputList = new List<ConnectorViewModel>();

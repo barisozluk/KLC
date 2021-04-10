@@ -24,6 +24,7 @@ using System.Threading;
 using AYP.Enums;
 using AYP.Helpers.Notifications;
 using System.Windows.Controls;
+using AYP.Entities;
 
 namespace AYP.ViewModel
 {
@@ -32,6 +33,9 @@ namespace AYP.ViewModel
         public Guid UniqueId { get; set; }
         public List<NodeViewModel> NodeList { get; set; }
         public List<ConnectorViewModel> TransitionList { get; set; }
+        public List<AgArayuzu> AgArayuzuList { get; set; }
+        public List<GucArayuzu> GucArayuzuList { get; set; }
+
     }
 
     public partial class NodesCanvasViewModel
@@ -298,12 +302,25 @@ namespace AYP.ViewModel
                 model.UniqueId = Guid.NewGuid();
                 model.NodeList = nodeList;
                 model.TransitionList = transitionList;
+
+                AgArayuzu temp = new AgArayuzu();
+                temp.Adi = "Grup Girdi";
+                temp.KullanimAmaciId = (int)KullanimAmaciEnum.Girdi;
+                temp.Port = "Port 1";
+                model.AgArayuzuList.Add(temp);
+
+                temp = new AgArayuzu();
+                temp.Adi = "Grup Çıktı";
+                temp.KullanimAmaciId = (int)KullanimAmaciEnum.Cikti;
+                temp.Port = "Port 1";
+                model.AgArayuzuList.Add(temp);
+
                 GroupList.Add(model);
 
                 CommandDeleteSelectedNodes.Execute();
                 CommandDeleteSelectedConnectors.Execute();
 
-                NodeViewModel newNode = new NodeViewModel(this, "Grup " + GroupList.Count, model.UniqueId, new Point(), 0, 9, 1, 1, 1);
+                NodeViewModel newNode = new NodeViewModel(this, "Grup " + GroupList.Count, model.UniqueId, new Point(), 0, 9, model.AgArayuzuList, new List<GucArayuzu>());
                 Nodes.Add(newNode);
             }
         }
@@ -408,7 +425,7 @@ namespace AYP.ViewModel
                     GucUreticiCount++;
                 }
 
-                var newNode = new NodeViewModel(this, GetNameForNewNode(node.TypeId), node.UniqueId, nodePoint, node.Id, node.TypeId, node.InputSayisi, node.OutputSayisi, node.GucArayuzuSayisi);
+                var newNode = new NodeViewModel(this, GetNameForNewNode(node.TypeId), node.UniqueId, nodePoint, node.Id, node.TypeId, node.AgArayuzuList, node.GucArayuzuList);
                 Nodes.Add(newNode);
                 LogDebug("Node with name \"{0}\" was copied", GetNameForNewNode(node.TypeId));
                 AddToProjectHierarchy(newNode);
@@ -1183,7 +1200,7 @@ namespace AYP.ViewModel
                 }
                 
                 newNode = new NodeViewModel(this, GetNameForNewNode(parameter.Node.TypeId), Guid.NewGuid(), parameter.Point, parameter.Node.Id, parameter.Node.TypeId, 
-                                parameter.Node.InputSayisi, parameter.Node.OutputSayisi, parameter.Node.GucArayuzuSayisi);
+                                parameter.Node.AgArayuzuList, parameter.Node.GucArayuzuList);
                 
                 if(NodesCount == 0)
                 {
@@ -1424,7 +1441,7 @@ namespace AYP.ViewModel
             if (!ItSaved)
             {
                 NewAppPopupWindow newapp = new NewAppPopupWindow();
-                newapp.Owner = MainWindow.AppWindow;
+                newapp.Owner = MainWindow;
                 newapp.ShowDialog();
                 //Dialog.ShowMessageBox("Kaydetmeden ��kmak istedi�inize emin misiniz?", "Uyar�", MessageBoxButton.YesNo);
                 return newapp.returnvalue;// Dialog.Result == DialogResult.Yes;
@@ -1438,24 +1455,24 @@ namespace AYP.ViewModel
         {
             System.Windows.Controls.TreeViewItem newChild = new System.Windows.Controls.TreeViewItem();
             newChild.Header = hierarchyNode.Name;
-            MainWindow.AppWindow.ProjectHierarchyAdd(newChild);
+            MainWindow.ProjectHierarchyAdd(newChild);
         }
 
         private void DeleteWithRedoFromProjectHierarchy(NodeViewModel hierarchyNode)
         {
-            MainWindow.AppWindow.ProjectHierarchyDeleteWithRedo(hierarchyNode);
+            MainWindow.ProjectHierarchyDeleteWithRedo(hierarchyNode);
         }
         private void DeleteFromProjectHierarchy(List<NodeViewModel> NodesToDelete)
         {
-            MainWindow.AppWindow.ProjectHierarchyDelete(NodesToDelete);
+            MainWindow.ProjectHierarchyDelete(NodesToDelete);
         }
         private void AddChildToProjectHierarchyWithTransitions(ConnectorViewModel connectorViewModel)
         {
-            MainWindow.AppWindow.ProjectHierarchyAddChild(connectorViewModel);
+            MainWindow.ProjectHierarchyAddChild(connectorViewModel);
         }
         private void DeleteProjectHierarchy()
         {
-            MainWindow.AppWindow.ProjeHiyerarsi.Items.Clear();
+            MainWindow.ProjeHiyerarsi.Items.Clear();
         }
 
         #endregion
