@@ -32,25 +32,45 @@ namespace AYP.ViewModel
         [Reactive] public bool Selected { get; set; }
         [Reactive] public Guid UniqueId { get; set; }
         [Reactive] public int? KapasiteId { get; set; }
-        [Reactive] public int? FiikselOrtamId { get; set; }
+        [Reactive] public int? FizikselOrtamId { get; set; }
         [Reactive] public int KullanimAmaciId { get; set; }
         [Reactive] public int? GerilimTipiId { get; set; }
-        [Reactive] public decimal GirdiDuraganGerilimDegeri1 { get; set; }
-        [Reactive] public decimal GirdiDuraganGerilimDegeri2 { get; set; }
-        [Reactive] public decimal GirdiDuraganGerilimDegeri3 { get; set; }
-        [Reactive] public decimal GirdiMinimumGerilimDegeri { get; set; }
-        [Reactive] public decimal GirdiMaksimumGerilimDegeri { get; set; }
-        [Reactive] public decimal GirdiTukettigiGucMiktari { get; set; }
+        [Reactive] public decimal? GirdiDuraganGerilimDegeri1 { get; set; }
+        [Reactive] public decimal? GirdiDuraganGerilimDegeri2 { get; set; }
+        [Reactive] public decimal? GirdiDuraganGerilimDegeri3 { get; set; }
+        [Reactive] public decimal? GirdiMinimumGerilimDegeri { get; set; }
+        [Reactive] public decimal? GirdiMaksimumGerilimDegeri { get; set; }
+        [Reactive] public decimal? GirdiTukettigiGucMiktari { get; set; }
         [Reactive] public string CiktiDuraganGerilimDegeri { get; set; }
-        [Reactive] public decimal CiktiUrettigiGucKapasitesi { get; set; }
+        [Reactive] public decimal? CiktiUrettigiGucKapasitesi { get; set; }
+        [Reactive] public string Label { get; set; }
+        [Reactive] public int TypeId { get; set; }
 
-        public ConnectorViewModel(NodesCanvasViewModel nodesCanvas, NodeViewModel viewModelNode, string name, Point myPoint, Guid uniqueId)
+        public ConnectorViewModel(NodesCanvasViewModel nodesCanvas, NodeViewModel viewModelNode, string name, Point myPoint, Guid uniqueId, int? kapasiteId = default(int), int? fizikselOrtamId = default(int),
+            int? gerilimTipiId = default(int), int kullanimAmaciId = default(int), decimal? girdiDuraganGerilimDegeri1 = default(decimal), decimal? girdiDuraganGerilimDegeri2 = default(decimal), decimal? girdiDuraganGerilimDegeri3 = default(decimal),
+            decimal? girdiMinimumGerilimDegeri = default(decimal), decimal? girdiMaksimumGerilimDegeri = default(decimal), decimal? girdiTukettigiGucMiktari = default(decimal),
+            string ciktiDuraganGerilimDegeri = default(string), decimal? ciktiUrettigiGucKapasitesi = default(decimal), string label = default(string), int typeId = default(int))
         {
             Node = viewModelNode;
             NodesCanvas = nodesCanvas;
             Name = name;
+            Label = label;
             PositionConnectPoint = myPoint;
             UniqueId = uniqueId;
+            KapasiteId = kapasiteId;
+            KullanimAmaciId = kullanimAmaciId;
+            FizikselOrtamId = fizikselOrtamId;
+            GerilimTipiId = gerilimTipiId;
+            GirdiDuraganGerilimDegeri1 = girdiDuraganGerilimDegeri1;
+            GirdiDuraganGerilimDegeri2 = girdiDuraganGerilimDegeri2;
+            GirdiDuraganGerilimDegeri3 = girdiDuraganGerilimDegeri3;
+            GirdiMinimumGerilimDegeri = girdiMinimumGerilimDegeri;
+            GirdiMaksimumGerilimDegeri = girdiMaksimumGerilimDegeri;
+            GirdiTukettigiGucMiktari = girdiTukettigiGucMiktari;
+            CiktiDuraganGerilimDegeri = ciktiDuraganGerilimDegeri;
+            CiktiUrettigiGucKapasitesi = ciktiUrettigiGucKapasitesi;
+            TypeId = typeId;
+
             SetupCommands();
             SetupSubscriptions();
         }

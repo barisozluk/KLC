@@ -16,6 +16,7 @@ using AYP.Helpers;
 using AYP.ViewModel;
 using System.Windows.Shapes;
 using AYP.Helpers.Extensions;
+using AYP.Enums;
 
 namespace AYP.View
 {
@@ -51,7 +52,7 @@ namespace AYP.View
         {
             this.WhenActivated(disposable =>
             {
-                this.OneWayBind(this.ViewModel, x => x.Name, x => x.TextBoxElement.Text).DisposeWith(disposable);
+                this.OneWayBind(this.ViewModel, x => x.Label, x => x.TextBoxElement.Text).DisposeWith(disposable);
 
                 this.OneWayBind(this.ViewModel, x => x.TextEnable, x => x.TextBoxElement.IsEnabled).DisposeWith(disposable);
 

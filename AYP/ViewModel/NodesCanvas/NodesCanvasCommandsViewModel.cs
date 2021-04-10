@@ -303,6 +303,7 @@ namespace AYP.ViewModel
                 model.NodeList = nodeList;
                 model.TransitionList = transitionList;
 
+                model.AgArayuzuList = new List<AgArayuzu>();
                 AgArayuzu temp = new AgArayuzu();
                 temp.Adi = "Grup Girdi";
                 temp.KullanimAmaciId = (int)KullanimAmaciEnum.Girdi;

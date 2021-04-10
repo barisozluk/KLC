@@ -9,6 +9,7 @@ using ReactiveUI.Fody.Helpers;
 
 using AYP.Helpers;
 using AYP.Helpers.Extensions;
+using AYP.Enums;
 
 namespace AYP.ViewModel
 {
@@ -74,7 +75,37 @@ namespace AYP.ViewModel
         }
         private void Select(bool value)
         {
-            this.Stroke =  Application.Current.Resources[value ? "ColorSelectedElement": "ColorConnect"] as SolidColorBrush;
+            
+                if (this.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu || this.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
+                {
+                    if (this.FromConnector.KapasiteId == (int)KapasiteEnum.Ethernet)
+                    {
+                        this.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorEthernet"] as SolidColorBrush;
+                    }
+                    else if (this.FromConnector.KapasiteId == (int)KapasiteEnum.FastEthernet)
+                    {
+                        this.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorFastEthernet"] as SolidColorBrush;
+                    }
+                    else if (this.FromConnector.KapasiteId == (int)KapasiteEnum.GigabitEthernet)
+                    {
+                        this.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorGigabitEthernet"] as SolidColorBrush;
+                    }
+                    else if (this.FromConnector.KapasiteId == (int)KapasiteEnum._10GigabitEthernet)
+                    {
+                        this.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnector10GigabitEthernet"] as SolidColorBrush;
+                    }
+                    else if (this.FromConnector.KapasiteId == (int)KapasiteEnum._40GigabitEthernet)
+                    {
+                        this.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnector40GigabitEthernet"] as SolidColorBrush;
+                    }
+                }
+                else
+                {
+                    this.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorGucArayuzu"] as SolidColorBrush;
+                }
+            
+
+            //this.Stroke =  Application.Current.Resources[value ? "ColorSelectedElement": "ColorConnect"] as SolidColorBrush;
         }
         private void StartPointUpdate(Point point)
         {

@@ -60,7 +60,7 @@ namespace AYP.View
 
                 this.OneWayBind(this.ViewModel, x => x.Visible, x => x.RightConnectorElement.Visibility).DisposeWith(disposable);
 
-                this.OneWayBind(this.ViewModel, x => x.Name, x => x.TextBoxElement.Text).DisposeWith(disposable);
+                this.OneWayBind(this.ViewModel, x => x.Label, x => x.TextBoxElement.Text).DisposeWith(disposable);
 
                 this.OneWayBind(this.ViewModel, x => x.TextEnable, x => x.TextBoxElement.IsEnabled).DisposeWith(disposable);
 

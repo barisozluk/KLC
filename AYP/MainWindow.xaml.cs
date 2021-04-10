@@ -632,7 +632,6 @@ namespace AYP
 
         private void target_Drop(object sender, DragEventArgs e)
         {
-            //aGARAYUZU VE GUC ARAYUZU YOLLANACAK
             if (IsDragDropEvent)
             {
                 Point droppedpoint = e.GetPosition(sender as NodesCanvas);
@@ -646,9 +645,6 @@ namespace AYP
                     var ucBirim = (UcBirim)dataCxtx;
                     model.Id = ucBirim.Id;
                     model.TypeId = ucBirim.TipId;
-                    //model.InputSayisi = ucBirim.GirdiAgArayuzuSayisi.HasValue ? ucBirim.GirdiAgArayuzuSayisi.Value : 0;
-                    //model.OutputSayisi = ucBirim.CiktiAgArayuzuSayisi.HasValue ? ucBirim.CiktiAgArayuzuSayisi.Value : 0;
-                    //model.GucArayuzuSayisi = ucBirim.GucArayuzuSayisi;
                     model.AgArayuzuList = ucBirimService.ListUcBirimAgArayuzu(ucBirim.Id);
                     model.GucArayuzuList = ucBirimService.ListUcBirimGucArayuzu(ucBirim.Id);
                 }
@@ -657,9 +653,6 @@ namespace AYP
                     var agAnahtari = (AgAnahtari)dataCxtx;
                     model.Id = agAnahtari.Id;
                     model.TypeId = agAnahtari.TipId;
-                    //model.InputSayisi = agAnahtari.GirdiAgArayuzuSayisi.HasValue ? agAnahtari.GirdiAgArayuzuSayisi.Value : 0;
-                    //model.OutputSayisi = agAnahtari.CiktiAgArayuzuSayisi.HasValue ? agAnahtari.CiktiAgArayuzuSayisi.Value : 0;
-                    //model.GucArayuzuSayisi = agAnahtari.GucArayuzuSayisi;
                     model.AgArayuzuList = agAnahtariService.ListAgAnahtariAgArayuzu(agAnahtari.Id);
                     model.GucArayuzuList = agAnahtariService.ListAgAnahtariGucArayuzu(agAnahtari.Id);
                 }
@@ -668,8 +661,6 @@ namespace AYP
                     var gucUretici = (GucUretici)dataCxtx;
                     model.Id = gucUretici.Id;
                     model.TypeId = gucUretici.TipId;
-                    //model.InputSayisi = gucUretici.GirdiGucArayuzuSayisi;
-                    //model.OutputSayisi = gucUretici.CiktiGucArayuzuSayisi;
                     model.AgArayuzuList = new List<AgArayuzu>(); 
                     model.GucArayuzuList = gucUreticiService.ListGucUreticiGucArayuzu(gucUretici.Id);
                 }

@@ -9,6 +9,7 @@ using System.Reactive;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using AYP.Enums;
 
 namespace AYP.ViewModel
 {
@@ -169,10 +170,48 @@ namespace AYP.ViewModel
             this.FormStroke = Application.Current.Resources["ColorNodesCanvasBackground"] as SolidColorBrush;
             this.Foreground = Application.Current.Resources[this.Selected ? "ColorSelectedElement" : "ColorConnectorForeground"] as SolidColorBrush;
             if (!this.ItsLoop)
-                this.FormFill = Application.Current.Resources[this.Selected ? "ColorSelectedElement" : "ColorConnector"] as SolidColorBrush;
-            else
-                this.FormFill = Application.Current.Resources[this.Selected ? "IconSelectedLoop" : "IconLoop"] as DrawingBrush;
+            {
+                if (this.Node.TypeId == (int)TipEnum.UcBirim || this.Node.TypeId == (int)TipEnum.AgAnahtari)
+                {
+                    if (TypeId == (int)TipEnum.UcBirimAgArayuzu || TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
+                    {
+                        if (this.KapasiteId == (int)KapasiteEnum.Ethernet)
+                        {
+                            this.FormFill = Application.Current.Resources[this.Selected ? "ColorSelectedElement" : "ColorConnectorEthernet"] as SolidColorBrush;
+                        }
+                        else if (this.KapasiteId == (int)KapasiteEnum.FastEthernet)
+                        {
+                            this.FormFill = Application.Current.Resources[this.Selected ? "ColorSelectedElement" : "ColorConnectorFastEthernet"] as SolidColorBrush;
+                        }
+                        else if (this.KapasiteId == (int)KapasiteEnum.GigabitEthernet)
+                        {
+                            this.FormFill = Application.Current.Resources[this.Selected ? "ColorSelectedElement" : "ColorConnectorGigabitEthernet"] as SolidColorBrush;
+                        }
+                        else if (this.KapasiteId == (int)KapasiteEnum._10GigabitEthernet)
+                        {
+                            this.FormFill = Application.Current.Resources[this.Selected ? "ColorSelectedElement" : "ColorConnector10GigabitEthernet"] as SolidColorBrush;
+                        }
+                        else if (this.KapasiteId == (int)KapasiteEnum._40GigabitEthernet)
+                        {
+                            this.FormFill = Application.Current.Resources[this.Selected ? "ColorSelectedElement" : "ColorConnector40GigabitEthernet"] as SolidColorBrush;
+                        }
+                    }
+                    else
+                    {
+                        this.FormFill = Application.Current.Resources[this.Selected ? "ColorSelectedElement" : "ColorConnectorGucArayuzu"] as SolidColorBrush;
+                    }
+                }
+                else
+                {
+                    this.FormFill = Application.Current.Resources[this.Selected ? "ColorSelectedElement" : "ColorConnectorGucArayuzu"] as SolidColorBrush;
+                }
+                //this.FormFill = Application.Current.Resources[this.Selected ? "ColorSelectedElement" : "ColorConnector"] as SolidColorBrush;
 
+            }
+            else
+            {
+                this.FormFill = Application.Current.Resources[this.Selected ? "IconSelectedLoop" : "IconLoop"] as DrawingBrush;
+            }
         }
         private void Select(SelectMode selectMode)
         {
