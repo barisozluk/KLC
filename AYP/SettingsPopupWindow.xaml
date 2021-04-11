@@ -5,34 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AYP"
         mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterOwner"
-        Title="SettingsPopupWindow" Height="255" Width="415" Background="Transparent">
+        Title="SettingsPopupWindow" Height="290" Width="550" Background="Transparent">
 
     <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid.RowDefinitions>
-                <RowDefinition Height="255"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10" />
-                <ColumnDefinition Width="395" />
+                <ColumnDefinition Width="530" />
                 <ColumnDefinition Width="10" />
             </Grid.ColumnDefinitions>
 
-            <Label Name="Versiyon" Style="{DynamicResource StyleDescribingMainTitle}" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <Label Name="Latest" Content="Bu versiyon ile gelen yenilikler " Style="{DynamicResource StyleDescribingMainTitle}" Grid.Row="0" Grid.Column="1" Margin="0,50,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <Label Name="Latestt" Style="{DynamicResource StyleDescribingMainTitle}" Grid.Row="0" Grid.Column="1" Margin="0,100,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14" Height="90">
+            <Label Name="Versiyon" Style="{DynamicResource StyleDescribingMainTitle}" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="530"/>
+            <Label Name="Latest" Content="Bu versiyon ile gelen yenilikler " Style="{DynamicResource StyleDescribingMainTitle}" Grid.Row="0" Grid.Column="1" Margin="0,50,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="530"/>
+            <Label Name="Latestt" Style="{DynamicResource StyleDescribingMainTitle}" Grid.Row="0" Grid.Column="1" Margin="0,100,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14" Height="130" Width="530">
                 <TextBlock FontSize="14">
-                    • Çizim ekranında gruplama ve dağıtma işlemi gerçekleştirildi.
+                    • Arayüz tanımlama ekranları güncellendi.
                     <LineBreak></LineBreak>
-                     • Çift tıklama ile bilgi kartı ekranı açılması işlemi gerçekleştirildi.
+                    • Toolbar kısayolları eklendi.
                     <LineBreak></LineBreak>
-                   	• Üst menü separatörler ile ayrıldı.
+                    • Sağ buton context menüsü güncellendi. 
+                    <LineBreak></LineBreak>
+                   	• Çoklu cihaz ekleme özelliği eklendi.
                      <LineBreak></LineBreak>
-                    • Sürükle-Bırak yapısı eklendi.
+                    • Arayüz ve kablo stilleri yapıldı, bunlara bağlı olarak ana ekrana lejant eklendi.
+                    <LineBreak></LineBreak>
+                    • Bağlantı oluşturma esnasında yapılacak bazı doğrulamalar eklendi.
                 </TextBlock>
             </Label>
 
-            <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,205,0,10" Click="VersiyonPopupClose_Click" >
+            <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,240,0,10" Click="VersiyonPopupClose_Click" >
                 <Grid>
                     <Image Source="Images/check.png" Height="20" Width="20" Margin="7,0,0,0" HorizontalAlignment="Left"/>
                     <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="70,0,0,0">Tamam</TextBlock>

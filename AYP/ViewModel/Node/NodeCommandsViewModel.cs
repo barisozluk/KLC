@@ -115,26 +115,35 @@ namespace AYP.ViewModel
             {
                 if (AgArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).Count() >= Transitions.Items.Count())
                 {
-                    AgArayuzuList = AgArayuzuList.OrderBy(o => o.Port).ToList();
-                    var outputList = AgArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).ToList();
-
-                    var adi = outputList[Transitions.Items.Count()].Adi;
-                    var kapasiteId = outputList[Transitions.Items.Count()].KapasiteId;
-                    var fizikselOrtamId = outputList[Transitions.Items.Count()].FizikselOrtamId;
-                    var kullanimAmaciId = outputList[Transitions.Items.Count()].KullanimAmaciId;
-                    var typeId = outputList[Transitions.Items.Count()].TipId.Value;
-
-                    double width = Size.Width == 0 ? 80 : Size.Width;
-                    CurrentConnector = new ConnectorViewModel(NodesCanvas, this, "", Point1.Addition(width, 54), Guid.NewGuid(), kapasiteId, fizikselOrtamId, null, kullanimAmaciId, null, null, null, null, null, null, null, null, adi, typeId)
+                    if (AgArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).Count() != Transitions.Items.Count())
                     {
-                        TextEnable = false
-                    };
+                        AgArayuzuList = AgArayuzuList.OrderBy(o => o.Port).ToList();
+                        var outputList = AgArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).ToList();
 
-                    if (AgArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).Count() == Transitions.Items.Count())
+                        var adi = outputList[Transitions.Items.Count()].Adi;
+                        var kapasiteId = outputList[Transitions.Items.Count()].KapasiteId;
+                        var fizikselOrtamId = outputList[Transitions.Items.Count()].FizikselOrtamId;
+                        var kullanimAmaciId = outputList[Transitions.Items.Count()].KullanimAmaciId;
+                        var typeId = outputList[Transitions.Items.Count()].TipId.Value;
+
+                        double width = Size.Width == 0 ? 80 : Size.Width;
+                        CurrentConnector = new ConnectorViewModel(NodesCanvas, this, "", Point1.Addition(width, 54), Guid.NewGuid(), kapasiteId, fizikselOrtamId, null, kullanimAmaciId, null, null, null, null, null, null, null, null, adi, typeId)
+                        {
+                            TextEnable = false
+                        };
+
+                    }
+                    else
                     {
+                        double width = Size.Width == 0 ? 80 : Size.Width;
+                        CurrentConnector = new ConnectorViewModel(NodesCanvas, this, "", Point1.Addition(width, 54), Guid.NewGuid())
+                        {
+                            TextEnable = false
+                        };
+
                         CurrentConnector.Visible = false;
                     }
-
+                    
                     Transitions.Insert(0, CurrentConnector);
                 }
             }
@@ -142,32 +151,40 @@ namespace AYP.ViewModel
             {
                 if (GucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).Count() >= Transitions.Items.Count())
                 {
-                    GucArayuzuList = GucArayuzuList.OrderBy(o => o.Port).ToList();
-                    var outputList = GucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).ToList();
-
-                    var adi = outputList[Transitions.Items.Count()].Adi;
-                    var gerilimTipiId = outputList[Transitions.Items.Count()].GerilimTipiId;
-                    var kullanimAmaciId = outputList[Transitions.Items.Count()].KullanimAmaciId;
-                    var ciktiDuraganGerilimDegeri = outputList.First().CiktiDuraganGerilimDegeri;
-                    var ciktiUrettigiGucKapasitesi = outputList[Transitions.Items.Count()].CiktiUrettigiGucKapasitesi;
-                    var girdiDuraganGerilimDegeri1 = outputList[Transitions.Items.Count()].GirdiDuraganGerilimDegeri1;
-                    var girdiDuraganGerilimDegeri2 = outputList[Transitions.Items.Count()].GirdiDuraganGerilimDegeri2;
-                    var girdiDuraganGerilimDegeri3 = outputList[Transitions.Items.Count()].GirdiDuraganGerilimDegeri3;
-                    var girdiMaksimumGerilimDegeri = outputList[Transitions.Items.Count()].GirdiMaksimumGerilimDegeri;
-                    var girdiMinimumGerilimDegeri = outputList[Transitions.Items.Count()].GirdiMinimumGerilimDegeri;
-                    var girdiTukettigiGucMiktari = outputList[Transitions.Items.Count()].GirdiTukettigiGucMiktari;
-                    var typeId = outputList[Transitions.Items.Count()].TipId.Value;
-
-                    double width = Size.Width == 0 ? 80 : Size.Width;
-                    CurrentConnector = new ConnectorViewModel(NodesCanvas, this, "", Point1.Addition(width, 54), Guid.NewGuid(), null, null, gerilimTipiId, kullanimAmaciId,
-                            girdiDuraganGerilimDegeri1, girdiDuraganGerilimDegeri2, girdiDuraganGerilimDegeri3, girdiMinimumGerilimDegeri, girdiMaksimumGerilimDegeri, girdiTukettigiGucMiktari,
-                            ciktiDuraganGerilimDegeri, ciktiUrettigiGucKapasitesi, adi, typeId)
+                    if (GucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).Count() != Transitions.Items.Count())
                     {
-                        TextEnable = false
-                    };
+                        GucArayuzuList = GucArayuzuList.OrderBy(o => o.Port).ToList();
+                        var outputList = GucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).ToList();
 
-                    if (GucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).Count() == Transitions.Items.Count())
+                        var adi = outputList[Transitions.Items.Count()].Adi;
+                        var gerilimTipiId = outputList[Transitions.Items.Count()].GerilimTipiId;
+                        var kullanimAmaciId = outputList[Transitions.Items.Count()].KullanimAmaciId;
+                        var ciktiDuraganGerilimDegeri = outputList.First().CiktiDuraganGerilimDegeri;
+                        var ciktiUrettigiGucKapasitesi = outputList[Transitions.Items.Count()].CiktiUrettigiGucKapasitesi;
+                        var girdiDuraganGerilimDegeri1 = outputList[Transitions.Items.Count()].GirdiDuraganGerilimDegeri1;
+                        var girdiDuraganGerilimDegeri2 = outputList[Transitions.Items.Count()].GirdiDuraganGerilimDegeri2;
+                        var girdiDuraganGerilimDegeri3 = outputList[Transitions.Items.Count()].GirdiDuraganGerilimDegeri3;
+                        var girdiMaksimumGerilimDegeri = outputList[Transitions.Items.Count()].GirdiMaksimumGerilimDegeri;
+                        var girdiMinimumGerilimDegeri = outputList[Transitions.Items.Count()].GirdiMinimumGerilimDegeri;
+                        var girdiTukettigiGucMiktari = outputList[Transitions.Items.Count()].GirdiTukettigiGucMiktari;
+                        var typeId = outputList[Transitions.Items.Count()].TipId.Value;
+
+                        double width = Size.Width == 0 ? 80 : Size.Width;
+                        CurrentConnector = new ConnectorViewModel(NodesCanvas, this, "", Point1.Addition(width, 54), Guid.NewGuid(), null, null, gerilimTipiId, kullanimAmaciId,
+                                girdiDuraganGerilimDegeri1, girdiDuraganGerilimDegeri2, girdiDuraganGerilimDegeri3, girdiMinimumGerilimDegeri, girdiMaksimumGerilimDegeri, girdiTukettigiGucMiktari,
+                                ciktiDuraganGerilimDegeri, ciktiUrettigiGucKapasitesi, adi, typeId)
+                        {
+                            TextEnable = false
+                        };
+                    }
+                    else
                     {
+                        double width = Size.Width == 0 ? 80 : Size.Width;
+                        CurrentConnector = new ConnectorViewModel(NodesCanvas, this, "", Point1.Addition(width, 54), Guid.NewGuid())
+                        {
+                            TextEnable = false
+                        };
+
                         CurrentConnector.Visible = false;
                     }
 

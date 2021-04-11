@@ -14,6 +14,7 @@ using System.Reactive.Linq;
 using System.Windows.Markup;
 using AYP.ViewModel;
 using AYP.Helpers;
+using AYP.Enums;
 
 namespace AYP.View
 {
@@ -61,9 +62,22 @@ namespace AYP.View
 
                 this.OneWayBind(this.ViewModel, x => x.EndPoint, x => x.BezierSegmentElement.Point3).DisposeWith(disposable);
 
-                this.OneWayBind(this.ViewModel, x => x.StrokeDashArray, x => x.PathElement.StrokeDashArray).DisposeWith(disposable);
+                if (this.ViewModel.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu || this.ViewModel.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu)
+                {
+                    if (this.ViewModel.FromConnector.FizikselOrtamId == (int)FizikselOrtamEnum.Bakir)
+                    {
+                        this.OneWayBind(this.ViewModel, x => x.StrokeDashArrayBakir, x => x.PathElement.StrokeDashArray).DisposeWith(disposable);
 
-                //this.OneWayBind(this.ViewModel, x => x.FromConnector.NodesCanvas.Scale.Value, x => x.PathElement.StrokeThickness).DisposeWith(disposable);
+                    }
+                    else if (this.ViewModel.FromConnector.FizikselOrtamId == (int)FizikselOrtamEnum.FiberOptik)
+                    {
+                        this.OneWayBind(this.ViewModel, x => x.StrokeDashArrayFiber, x => x.PathElement.StrokeDashArray).DisposeWith(disposable);
+                    }
+                }
+                else
+                {
+                    this.OneWayBind(this.ViewModel, x => x.StrokeDashArrayGuc, x => x.PathElement.StrokeDashArray).DisposeWith(disposable);
+                }
 
                 this.WhenAnyValue(x => x.ViewModel.ToConnector).Where(x=>x!=null).Subscribe(_ => UpdateZindex()).DisposeWith(disposable);
             

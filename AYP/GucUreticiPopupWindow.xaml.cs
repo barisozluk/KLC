@@ -189,6 +189,9 @@ namespace AYP
                 GucUreticiTab.IsSelected = false;
                 GucArayuzuTab.IsSelected = true;
 
+                WindowStartupLocation = WindowStartupLocation.Manual;
+                Top = 42;
+                Left = 530;
                 Width = 860;
                 Height = 995;
                 GucUreticiTab.Width = 426;
@@ -199,7 +202,7 @@ namespace AYP
                 ListGerilimTipi();
                 ListKullanimAmaciForGucArayuzu();
                 GucArayuzuTab.DataContext = gucArayuzu;
-        }
+            }
             else
             {
                 foreach (var result in results)
@@ -209,71 +212,74 @@ namespace AYP
                         if (memberName == "GucUreticiTurId")
                         {
                             GucUreticiTur.BorderBrush = new SolidColorBrush(Colors.Red);
-    }
+                        }
 
                         if (memberName == "StokNo")
                         {
-
                             StokNo.BorderBrush = new SolidColorBrush(Colors.Red);
-    Style style = Application.Current.FindResource("StyleTextBox") as Style;
-    StokNo.Style = style;
+                            Style style = Application.Current.FindResource("StyleTextBox") as Style;
+                            StokNo.Style = style;
                         }
 
-if (memberName == "Tanim")
-{
-    Tanim.BorderBrush = new SolidColorBrush(Colors.Red);
-}
+                        if (memberName == "Tanim")
+                        {
+                            Tanim.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
 
-if (memberName == "UreticiAdi")
-{
-    Uretici.BorderBrush = new SolidColorBrush(Colors.Red);
-}
+                        if (memberName == "UreticiAdi")
+                        {
+                            Uretici.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
 
-if (memberName == "UreticiParcaNo")
-{
-    UreticiParcaNo.BorderBrush = new SolidColorBrush(Colors.Red);
-}
+                        if (memberName == "UreticiParcaNo")
+                        {
+                            UreticiParcaNo.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
 
-if (memberName == "GirdiGucArayuzuSayisi")
-{
-    GirdiGucArayuzuSayisi.BorderBrush = new SolidColorBrush(Colors.Red);
-}
+                        if (memberName == "GirdiGucArayuzuSayisi")
+                        {
+                            GirdiGucArayuzuSayisi.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
 
-if (memberName == "CiktiGucArayuzuSayisi")
-{
-    CiktiGucArayuzuSayisi.BorderBrush = new SolidColorBrush(Colors.Red);
-}
+                        if (memberName == "CiktiGucArayuzuSayisi")
+                        {
+                            CiktiGucArayuzuSayisi.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
 
-if (memberName == "VerimlilikDegeri")
-{
-    VerimlilikOrani.BorderBrush = new SolidColorBrush(Colors.Red);
-}
+                        if (memberName == "VerimlilikDegeri")
+                        {
+                            VerimlilikOrani.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
 
-if (memberName == "DahiliGucTuketimDegeri")
-{
-    DahiliGucTuketimDegeri.BorderBrush = new SolidColorBrush(Colors.Red);
-}
+                        if (memberName == "DahiliGucTuketimDegeri")
+                        {
+                            DahiliGucTuketimDegeri.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
 
-if (memberName == "Katalog" || memberName == "KatalogDosyaAdi")
-{
-    Katalog.BorderBrush = new SolidColorBrush(Colors.Red);
-}
+                        if (memberName == "Katalog" || memberName == "KatalogDosyaAdi")
+                        {
+                            Katalog.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
 
-if (memberName == "Sembol" || memberName == "SembolDosyaAdi")
-{
-    Sembol.BorderBrush = new SolidColorBrush(Colors.Red);
-}
+                        if (memberName == "Sembol" || memberName == "SembolDosyaAdi")
+                        {
+                            Sembol.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
                     }
                 }
+                
                 NotifyInfoPopup nfp = new NotifyInfoPopup();
-nfp.msg.Text = "Lütfen, zorunlu alanları doldurunuz.";
-nfp.Owner = Owner;
-nfp.Show();
+                nfp.msg.Text = "Lütfen, zorunlu alanları doldurunuz.";
+                nfp.Owner = Owner;
+                nfp.Show();
             }
         }
 
         private void GucArayuzuPreviousButton_Click(object sender, RoutedEventArgs e)
         {
+            WindowStartupLocation = WindowStartupLocation.Manual;
+            Top = 212;
+            Left = 720;
             GucArayuzuTab.IsSelected = false;
             GucUreticiTab.IsSelected = true;
             Width = 480;

@@ -28,10 +28,14 @@ namespace AYP.ViewModel
 
         [Reactive] public NodesCanvasViewModel NodesCanvas { get; set; }
 
-        [Reactive] public DoubleCollection StrokeDashArray { get; set; } = new DoubleCollection() { 10, 3 };
+        [Reactive] public DoubleCollection StrokeDashArrayFiber { get; set; } = new DoubleCollection() { 0, 0 };
+        [Reactive] public DoubleCollection StrokeDashArrayBakir { get; set; } = new DoubleCollection() { 10, 3 };
+        [Reactive] public DoubleCollection StrokeDashArrayGuc { get; set; } = new DoubleCollection() { 20, 6 };
 
         [Reactive] public double StrokeThickness { get; set; } = 1;
         [Reactive] public bool IsVisible { get; set; } = true;
+        [Reactive] public decimal? Uzunluk { get; set; }
+
 
         private IDisposable subscriptionOnConnectorPositionChange;
         private IDisposable subscriptionOnOutputPositionChange;
@@ -50,7 +54,6 @@ namespace AYP.ViewModel
             this.WhenAnyValue(x => x.ToConnector.PositionConnectPoint).Subscribe(value => EndPointUpdate(value));
             this.WhenAnyValue(x => x.FromConnector.Selected).Subscribe(value => Select(value));
             this.WhenAnyValue(x => x.NodesCanvas.Theme).Subscribe(_ => Select(this.FromConnector.Selected));
-            this.WhenAnyValue(x => x.ToConnector).Where(x => x != null).Subscribe(_ => StrokeDashArray = null);
         }
         private void UpdateSubscriptionForPosition(bool nodeIsCollapse)
         {

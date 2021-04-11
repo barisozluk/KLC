@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using AYP.Enums;
+using AYP.Validations;
 
 namespace AYP.ViewModel
 {
@@ -75,16 +76,11 @@ namespace AYP.ViewModel
         }
 
         private void ConnectPointDrop()
-        {  
-            
-            if (NodesCanvas.DraggedConnect.FromConnector.Node.TypeId == 1 && this.Node.TypeId == 1)
-            {
-                NotifyWarningPopup nfp = new NotifyWarningPopup();
-                nfp.msg.Text = "Uç birim uç birime bağlanamaz.";
-                nfp.Owner = this.NodesCanvas.MainWindow;
-                nfp.Show();
-            }
-            else
+        {
+            Validation validation = new Validation();
+            var valid = validation.ValidateDuringDraw(NodesCanvas, this);
+
+            if(valid)
             {
                 var connect = NodesCanvas.DraggedConnect;
                 if (connect.FromConnector.Node != this.Node)

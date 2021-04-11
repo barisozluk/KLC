@@ -305,7 +305,7 @@
             </Border>
         </Popup>
 
-        <Grid Height="160" Width="160" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,38">
+        <Grid Height="220" Width="160" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,38">
             <Border Background="Transparent" CornerRadius="4,4,4,4" BorderThickness="1,1,1,1" BorderBrush="#222d35"/>
 
             <Rectangle VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,10,10" Width="15" Height="15" Fill="{DynamicResource ColorConnectorEthernet}" ></Rectangle>
@@ -325,6 +325,66 @@
 
             <Rectangle VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,135,10,10" Width="15" Height="15" Fill="{DynamicResource ColorConnectorGucArayuzu}" ></Rectangle>
             <TextBlock Text="Güç Arayüzü" Foreground="White" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40,134,10,10"></TextBlock>
+
+            <Border BorderThickness="0,1,0,0" Margin="10,167,10,10" VerticalAlignment="Top" HorizontalAlignment="Left" Width="65">
+                <Border.BorderBrush>
+                    <DrawingBrush Viewport="0,0,10,10" ViewportUnits="Absolute" TileMode="Tile">
+                        <DrawingBrush.Drawing>
+                            <DrawingGroup>
+                                <GeometryDrawing Brush="White">
+                                    <GeometryDrawing.Geometry>
+                                        <GeometryGroup>
+                                            <RectangleGeometry Rect="0,0,50,50" />
+                                            <RectangleGeometry Rect="50,50,50,50" />
+                                        </GeometryGroup>
+                                    </GeometryDrawing.Geometry>
+                                </GeometryDrawing>
+                            </DrawingGroup>
+                        </DrawingBrush.Drawing>
+                    </DrawingBrush>
+                </Border.BorderBrush>
+            </Border>
+            <TextBlock Text="Bakır" Foreground="White" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="85,159,10,10"></TextBlock>
+
+            <Border BorderThickness="0,1,0,0" Margin="10,185,10,10" VerticalAlignment="Top" HorizontalAlignment="Left" Width="65">
+                <Border.BorderBrush>
+                    <DrawingBrush Viewport="0,0,15,15" ViewportUnits="Absolute" TileMode="Tile">
+                        <DrawingBrush.Drawing>
+                            <DrawingGroup>
+                                <GeometryDrawing Brush="White">
+                                    <GeometryDrawing.Geometry>
+                                        <GeometryGroup>
+                                            <RectangleGeometry Rect="50,0,50,50" />
+                                            <RectangleGeometry Rect="50,50,50,50" />
+                                        </GeometryGroup>
+                                    </GeometryDrawing.Geometry>
+                                </GeometryDrawing>
+                            </DrawingGroup>
+                        </DrawingBrush.Drawing>
+                    </DrawingBrush>
+                </Border.BorderBrush>
+            </Border>
+            <TextBlock Text="Fiber" Foreground="White" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="85,177,10,10"></TextBlock>
+
+            <Border BorderThickness="0,1,0,0" Margin="10,203,10,10" VerticalAlignment="Top" HorizontalAlignment="Left" Width="65">
+                <Border.BorderBrush>
+                    <DrawingBrush Viewport="0,0,18,18" ViewportUnits="Absolute" TileMode="Tile">
+                        <DrawingBrush.Drawing>
+                            <DrawingGroup>
+                                <GeometryDrawing Brush="White">
+                                    <GeometryDrawing.Geometry>
+                                        <GeometryGroup>
+                                            <RectangleGeometry Rect="0,0,50,50" />
+                                            <RectangleGeometry Rect="50,50,50,50" />
+                                        </GeometryGroup>
+                                    </GeometryDrawing.Geometry>
+                                </GeometryDrawing>
+                            </DrawingGroup>
+                        </DrawingBrush.Drawing>
+                    </DrawingBrush>
+                </Border.BorderBrush>
+            </Border>
+            <TextBlock Text="Güç Kablosu" Foreground="White" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="85,195,10,10"></TextBlock>
         </Grid>
     </Grid>
     

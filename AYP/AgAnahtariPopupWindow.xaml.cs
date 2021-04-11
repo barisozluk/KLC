@@ -323,6 +323,9 @@ namespace AYP
                 {
                     AgArayuzuTab.IsSelected = true;
 
+                    WindowStartupLocation = WindowStartupLocation.Manual;
+                    Top = 250;
+                    Left = 535;
                     Width = 850;
                     Height = 580;
 
@@ -340,6 +343,9 @@ namespace AYP
                 {
                     GucArayuzuTab.IsSelected = true;
 
+                    WindowStartupLocation = WindowStartupLocation.Manual;
+                    Top = 42;
+                    Left = 530;
                     Width = 860;
                     Height = 995;
                     AgAnahtariTab.Width = 282;
@@ -417,6 +423,9 @@ namespace AYP
             AgAnahtariTab.IsSelected = false;
             GucArayuzuTab.IsSelected = true;
 
+            WindowStartupLocation = WindowStartupLocation.Manual;
+            Top = 42;
+            Left = 530;
             Width = 860;
             Height = 995;
             AgAnahtariTab.Width = 282;
@@ -434,6 +443,9 @@ namespace AYP
             AgArayuzuTab.IsSelected = false;
             AgAnahtariTab.IsSelected = true;
 
+            WindowStartupLocation = WindowStartupLocation.Manual;
+            Top = 237;
+            Left = 730;
             Width = 460;
             Height = 605;
             AgAnahtariTab.Width = 150;
@@ -455,6 +467,9 @@ namespace AYP
                 ListKullanimAmaciForAgArayuzu();
                 AgArayuzuTab.DataContext = agArayuzu;
 
+                WindowStartupLocation = WindowStartupLocation.Manual;
+                Top = 250;
+                Left = 535;
                 Width = 850;
                 Height = 580;
                 AgAnahtariTab.Width = 280;
@@ -464,6 +479,9 @@ namespace AYP
             else
             {
                 AgAnahtariTab.IsSelected = true;
+                WindowStartupLocation = WindowStartupLocation.Manual;
+                Top = 237;
+                Left = 730;
                 Width = 460;
                 Height = 605;
                 AgAnahtariTab.Width = 150;
