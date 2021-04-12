@@ -98,7 +98,7 @@ namespace AYP.ViewModel
             if (!string.IsNullOrEmpty(Name))
             {
                 int index = Node.Transitions.Items.IndexOf(this);
-                this.PositionConnectPoint = Node.CurrentConnector.PositionConnectPoint.Addition(0, index*19);
+                this.PositionConnectPoint = Node.CurrentConnector.PositionConnectPoint.Addition(0, index * 20);
             }
         }
         private void UpdatePositionOnWidthChange(double value)

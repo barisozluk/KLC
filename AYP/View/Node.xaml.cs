@@ -80,7 +80,7 @@ namespace AYP.View
                 this.WhenAnyValue(v => v.BorderElement.ActualWidth, v => v.BorderElement.ActualHeight, (width, height) => new Size(width, height))
                      .BindTo(this, v => v.ViewModel.Size).DisposeWith(disposable);
 
-                int i = 5;
+                int i = 0;
                 foreach (var input in this.ViewModel.InputList)
                 {
                     LeftConnector left = new LeftConnector();
@@ -89,10 +89,9 @@ namespace AYP.View
                     Grid.SetRow(left, 0);
                     Grid.SetColumn(left, 0);
                     GridElement.Children.Add(left);
-                    i += 17;
+                    i += 20;
                 }
 
-                i = 110;
                 foreach (var input in this.ViewModel.GucInputList)
                 {
                     LeftConnector left = new LeftConnector();
@@ -101,7 +100,7 @@ namespace AYP.View
                     Grid.SetRow(left, 0);
                     Grid.SetColumn(left, 0);
                     GridElement.Children.Add(left);
-                    i += 17;
+                    i += 20;
                 }
 
                 this.OneWayBind(this.ViewModel, x => x.Output, x => x.Output.ViewModel).DisposeWith(disposable);

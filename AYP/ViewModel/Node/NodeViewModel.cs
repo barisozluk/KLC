@@ -164,26 +164,7 @@ namespace AYP.ViewModel
                     var kullanimAmaciId = inputList[i].KullanimAmaciId;
                     var typeId = inputList[i].TipId.Value;
 
-                    if (i == 0)
-                    {
-                        InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 36 + (i * 23)), Guid.NewGuid(), kapasiteId, fizikselOrtamId, null, kullanimAmaciId, null, null, null, null, null, null, null, null, adi, typeId));
-                    }
-                    else if (i == 1)
-                    {
-                        InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 34 + (i * 20)), Guid.NewGuid(), kapasiteId, fizikselOrtamId, null, kullanimAmaciId, null, null, null, null, null, null, null, null, adi, typeId));
-                    }
-                    else if (i == 2)
-                    {
-                        InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 31 + (i * 19)), Guid.NewGuid(), kapasiteId, fizikselOrtamId, null, kullanimAmaciId, null, null, null, null, null, null, null, null, adi, typeId));
-                    }
-                    else if (i == 3)
-                    {
-                        InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 33 + (i * 18)), Guid.NewGuid(), kapasiteId, fizikselOrtamId, null, kullanimAmaciId, null, null, null, null, null, null, null, null, adi, typeId));
-                    }
-                    else if (i == 4)
-                    {
-                        InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 36 + (i * 17)), Guid.NewGuid(), kapasiteId, fizikselOrtamId, null, kullanimAmaciId, null, null, null, null, null, null, null, null, adi, typeId));
-                    }
+                    InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 30 + (i * 20)), Guid.NewGuid(), kapasiteId, fizikselOrtamId, null, kullanimAmaciId, null, null, null, null, null, null, null, null, adi, typeId));
                 }
             }
             else
@@ -206,36 +187,11 @@ namespace AYP.ViewModel
                     var girdiTukettigiGucMiktari = inputList[i].GirdiTukettigiGucMiktari;
                     var typeId = inputList[i].TipId.Value;
 
-                    if (i == 0)
-                    {
-                        InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 36 + (i * 23)), Guid.NewGuid(), null, null, gerilimTipiId, kullanimAmaciId, 
+                    
+                    InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 30 + (i * 20)), Guid.NewGuid(), null, null, gerilimTipiId, kullanimAmaciId, 
                             girdiDuraganGerilimDegeri1, girdiDuraganGerilimDegeri2, girdiDuraganGerilimDegeri3, girdiMinimumGerilimDegeri, girdiMaksimumGerilimDegeri, girdiTukettigiGucMiktari,
                             ciktiDuraganGerilimDegeri, ciktiUrettigiGucKapasitesi, adi, typeId));
-                    }
-                    else if (i == 1)
-                    {
-                        InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 34 + (i * 20)), Guid.NewGuid(), null, null, gerilimTipiId, kullanimAmaciId,
-                            girdiDuraganGerilimDegeri1, girdiDuraganGerilimDegeri2, girdiDuraganGerilimDegeri3, girdiMinimumGerilimDegeri, girdiMaksimumGerilimDegeri, girdiTukettigiGucMiktari,
-                            ciktiDuraganGerilimDegeri, ciktiUrettigiGucKapasitesi, adi, typeId));
-                    }
-                    else if (i == 2)
-                    {
-                        InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 31 + (i * 19)), Guid.NewGuid(), null, null, gerilimTipiId, kullanimAmaciId,
-                            girdiDuraganGerilimDegeri1, girdiDuraganGerilimDegeri2, girdiDuraganGerilimDegeri3, girdiMinimumGerilimDegeri, girdiMaksimumGerilimDegeri, girdiTukettigiGucMiktari,
-                            ciktiDuraganGerilimDegeri, ciktiUrettigiGucKapasitesi, adi, typeId));
-                    }
-                    else if (i == 3)
-                    {
-                        InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 33 + (i * 18)), Guid.NewGuid(), null, null, gerilimTipiId, kullanimAmaciId,
-                            girdiDuraganGerilimDegeri1, girdiDuraganGerilimDegeri2, girdiDuraganGerilimDegeri3, girdiMinimumGerilimDegeri, girdiMaksimumGerilimDegeri, girdiTukettigiGucMiktari,
-                            ciktiDuraganGerilimDegeri, ciktiUrettigiGucKapasitesi, adi, typeId));
-                    }
-                    else if (i == 4)
-                    {
-                        InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 36 + (i * 17)), Guid.NewGuid(), null, null, gerilimTipiId, kullanimAmaciId,
-                            girdiDuraganGerilimDegeri1, girdiDuraganGerilimDegeri2, girdiDuraganGerilimDegeri3, girdiMinimumGerilimDegeri, girdiMaksimumGerilimDegeri, girdiTukettigiGucMiktari,
-                            ciktiDuraganGerilimDegeri, ciktiUrettigiGucKapasitesi, adi, typeId));
-                    }
+                    
                 }
             }
             
@@ -245,22 +201,22 @@ namespace AYP.ViewModel
         {
             GucArayuzuList = GucArayuzuList.OrderBy(o => o.Port).ToList();
 
-            for (int i = 0; i < GucArayuzuList.Count(); i++)
+            for (int i = 1; i <= GucArayuzuList.Count(); i++)
             {
-                var adi = GucArayuzuList[i].Adi;
-                var gerilimTipiId = GucArayuzuList[i].GerilimTipiId;
-                var kullanimAmaciId = GucArayuzuList[i].KullanimAmaciId;
-                var ciktiDuraganGerilimDegeri = GucArayuzuList[i].CiktiDuraganGerilimDegeri;
-                var ciktiUrettigiGucKapasitesi = GucArayuzuList[i].CiktiUrettigiGucKapasitesi;
-                var girdiDuraganGerilimDegeri1 = GucArayuzuList[i].GirdiDuraganGerilimDegeri1;
-                var girdiDuraganGerilimDegeri2 = GucArayuzuList[i].GirdiDuraganGerilimDegeri2;
-                var girdiDuraganGerilimDegeri3 = GucArayuzuList[i].GirdiDuraganGerilimDegeri3;
-                var girdiMaksimumGerilimDegeri = GucArayuzuList[i].GirdiMaksimumGerilimDegeri;
-                var girdiMinimumGerilimDegeri = GucArayuzuList[i].GirdiMinimumGerilimDegeri;
-                var girdiTukettigiGucMiktari = GucArayuzuList[i].GirdiTukettigiGucMiktari;
-                var typeId = GucArayuzuList[i].TipId.Value;
+                var adi = GucArayuzuList[i-1].Adi;
+                var gerilimTipiId = GucArayuzuList[i-1].GerilimTipiId;
+                var kullanimAmaciId = GucArayuzuList[i-1].KullanimAmaciId;
+                var ciktiDuraganGerilimDegeri = GucArayuzuList[i-1].CiktiDuraganGerilimDegeri;
+                var ciktiUrettigiGucKapasitesi = GucArayuzuList[i-1].CiktiUrettigiGucKapasitesi;
+                var girdiDuraganGerilimDegeri1 = GucArayuzuList[i-1].GirdiDuraganGerilimDegeri1;
+                var girdiDuraganGerilimDegeri2 = GucArayuzuList[i-1].GirdiDuraganGerilimDegeri2;
+                var girdiDuraganGerilimDegeri3 = GucArayuzuList[i-1].GirdiDuraganGerilimDegeri3;
+                var girdiMaksimumGerilimDegeri = GucArayuzuList[i-1].GirdiMaksimumGerilimDegeri;
+                var girdiMinimumGerilimDegeri = GucArayuzuList[i-1].GirdiMinimumGerilimDegeri;
+                var girdiTukettigiGucMiktari = GucArayuzuList[i-1].GirdiTukettigiGucMiktari;
+                var typeId = GucArayuzuList[i-1].TipId.Value;
 
-                GucInputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 160 + (i * 23)), Guid.NewGuid(), null, null, gerilimTipiId, kullanimAmaciId,
+                GucInputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, (((InputList.Count-1) * 20) + 30) + (i * 20)), Guid.NewGuid(), null, null, gerilimTipiId, kullanimAmaciId,
                             girdiDuraganGerilimDegeri1, girdiDuraganGerilimDegeri2, girdiDuraganGerilimDegeri3, girdiMinimumGerilimDegeri, girdiMaksimumGerilimDegeri, girdiTukettigiGucMiktari,
                             ciktiDuraganGerilimDegeri, ciktiUrettigiGucKapasitesi, adi, typeId));
             }
