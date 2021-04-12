@@ -34,7 +34,7 @@ namespace AYP.ViewModel
 
         [Reactive] public double StrokeThickness { get; set; } = 1;
         [Reactive] public bool IsVisible { get; set; } = true;
-        [Reactive] public decimal? Uzunluk { get; set; }
+        [Reactive] public decimal Uzunluk { get; set; } = new decimal(20.8);
 
 
         private IDisposable subscriptionOnConnectorPositionChange;

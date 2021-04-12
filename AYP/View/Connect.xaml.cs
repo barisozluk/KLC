@@ -80,7 +80,6 @@ namespace AYP.View
                 }
 
                 this.WhenAnyValue(x => x.ViewModel.ToConnector).Where(x=>x!=null).Subscribe(_ => UpdateZindex()).DisposeWith(disposable);
-            
             });
         }
 
@@ -100,6 +99,21 @@ namespace AYP.View
             {
                 this.ViewModel.WhenAnyValue(x => x.IsVisible).Subscribe(value => OnEventVisible(value)).DisposeWith(disposable);
             });
+
+            this.WhenActivated(disposable =>
+            {
+                this.ViewModel.WhenAnyValue(x => x.StartPoint).Subscribe(value => OnEventStartPoint(value)).DisposeWith(disposable);
+            });
+
+            this.WhenActivated(disposable =>
+            {
+                this.ViewModel.WhenAnyValue(x => x.EndPoint).Subscribe(value => OnEventEndPoint(value)).DisposeWith(disposable);
+            });
+
+            this.WhenActivated(disposable =>
+            {
+                this.ViewModel.WhenAnyValue(x => x.Uzunluk).Subscribe(value => OnEventUzunluk(value)).DisposeWith(disposable);
+            });
         }
 
         private void OnEventVisible(bool isVisible)
@@ -112,6 +126,25 @@ namespace AYP.View
             {
                 this.Visibility = Visibility.Visible;
             }
+        }
+
+        private void OnEventStartPoint(Point value)
+        {
+            double middleX = (value.X + this.ViewModel.EndPoint.X) / 2;
+            double middleY = (value.Y + this.ViewModel.EndPoint.Y) / 2;
+            UzunlukBorder.Margin = new Thickness(middleX, middleY, 0, 0);
+        }
+
+        private void OnEventEndPoint(Point value)
+        {
+            double middleX = (value.X + this.ViewModel.StartPoint.X) / 2;
+            double middleY = (value.Y + this.ViewModel.StartPoint.Y) / 2;
+            UzunlukBorder.Margin = new Thickness(middleX, middleY, 0, 0);
+        }
+
+        private void OnEventUzunluk(decimal value)
+        {
+            Uzunluk.Text = value.ToString() + "m";
         }
         #endregion
     }
