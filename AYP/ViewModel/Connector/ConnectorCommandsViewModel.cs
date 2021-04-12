@@ -91,6 +91,9 @@ namespace AYP.ViewModel
                 {
                     connect.FromConnector.SetAsLoop();
                 }
+
+                CableLengthPopupWindow cl = new CableLengthPopupWindow(connect);
+                cl.ShowDialog();
             }
             
 

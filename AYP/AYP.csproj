@@ -121,6 +121,9 @@
     <Compile Update="AgAnahtariGucArayuzuPopupWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="CableLenghtPopupWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="MultipleCopyPopupWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -150,6 +153,11 @@
   </ItemGroup>
 
   <ItemGroup>
+
+    <Page Update="CableLenghtPopupWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
 
     <Page Update="MultipleCopyPopupWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
