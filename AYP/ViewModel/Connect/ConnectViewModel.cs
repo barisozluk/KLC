@@ -28,7 +28,7 @@ namespace AYP.ViewModel
 
         [Reactive] public NodesCanvasViewModel NodesCanvas { get; set; }
 
-        [Reactive] public DoubleCollection StrokeDashArrayFiber { get; set; } = new DoubleCollection() { 0, 0 };
+        [Reactive] public DoubleCollection StrokeDashArrayFiber { get; set; } = new DoubleCollection() { 1, 2 };
         [Reactive] public DoubleCollection StrokeDashArrayBakir { get; set; } = new DoubleCollection() { 10, 3 };
         [Reactive] public DoubleCollection StrokeDashArrayGuc { get; set; } = new DoubleCollection() { 20, 6 };
 

@@ -308,12 +308,14 @@ namespace AYP.ViewModel
                 temp.Adi = "Grup Girdi";
                 temp.KullanimAmaciId = (int)KullanimAmaciEnum.Girdi;
                 temp.Port = "Port 1";
+                temp.TipId = (int)TipEnum.AgAnahtariAgArayuzu;
                 model.AgArayuzuList.Add(temp);
 
                 temp = new AgArayuzu();
                 temp.Adi = "Grup Çıktı";
                 temp.KullanimAmaciId = (int)KullanimAmaciEnum.Cikti;
                 temp.Port = "Port 1";
+                temp.TipId = (int)TipEnum.AgAnahtariAgArayuzu;
                 model.AgArayuzuList.Add(temp);
 
                 GroupList.Add(model);
@@ -1110,6 +1112,10 @@ namespace AYP.ViewModel
         private void DeleteConnect(ConnectViewModel ViewModelConnect)
         {
             Connects.Remove(ViewModelConnect);
+            ViewModelConnect.FromConnector.Node.Transitions.Remove(ViewModelConnect.FromConnector);
+            ViewModelConnect.FromConnector.Node.Transitions.Remove(ViewModelConnect.FromConnector.Node.CurrentConnector);
+            ViewModelConnect.FromConnector.Node.CurrentConnector = null;
+            ViewModelConnect.FromConnector.Node.CommandAddEmptyConnector.ExecuteWithSubscribe();
         }
         private void ValidateNodeName((NodeViewModel objectForValidate, string newValue) obj)
         {

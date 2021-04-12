@@ -19,12 +19,12 @@
     <SolidColorBrush x:Key="ColorConnectorFastEthernet" Color="Blue"/>
     <SolidColorBrush x:Key="ColorConnectorGigabitEthernet" Color="Red"/>
     <SolidColorBrush x:Key="ColorConnector10GigabitEthernet" Color="Pink"/>
-    <SolidColorBrush x:Key="ColorConnector40GigabitEthernet" Color="Yellow"/>
-    <SolidColorBrush x:Key="ColorConnectorGucArayuzu" Color="Brown"/>
+    <SolidColorBrush x:Key="ColorConnector40GigabitEthernet" Color="Cyan"/>
+    <SolidColorBrush x:Key="ColorConnectorGucArayuzu" Color="Yellow"/>
 
     <SolidColorBrush x:Key="ColorConnectorForeground" Color="White"/>
 
-    <SolidColorBrush x:Key="ColorCutter" Color="#D23030"/>
+    <SolidColorBrush x:Key="ColorCutter" Color="White"/>
     
 
     <SolidColorBrush x:Key="ColorButtonStroke" Color="LightGray"/>
