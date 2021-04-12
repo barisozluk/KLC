@@ -92,7 +92,13 @@ namespace AYP.ViewModel
                     connect.FromConnector.SetAsLoop();
                 }
 
+                this.NodesCanvas.MainWindow.IsEnabled = false;
+                System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+                blur.Radius = 2;
+                this.NodesCanvas.MainWindow.Effect = blur;
+
                 CableLengthPopupWindow cl = new CableLengthPopupWindow(connect);
+                cl.Owner = this.NodesCanvas.MainWindow;
                 cl.ShowDialog();
             }
             
