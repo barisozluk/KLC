@@ -114,12 +114,6 @@ namespace AYP.View
             {
                 this.ViewModel.WhenAnyValue(x => x.Uzunluk).Subscribe(value => OnEventUzunluk(value)).DisposeWith(disposable);
             });
-
-            this.WhenActivated(disposable =>
-            {
-                this.WhenAnyValue(x => x.PathElement.IsMouseOver).Subscribe(value => OnEventMouseOver(value)).DisposeWith(disposable);
-
-            });
         }
 
         private void OnEventVisible(bool isVisible)
@@ -151,12 +145,6 @@ namespace AYP.View
         private void OnEventUzunluk(decimal value)
         {
             Uzunluk.Text = value.ToString() + " m";
-        }
-
-        private void OnEventMouseOver(bool value)
-        {
-            this.ViewModel.Stroke = value ? Application.Current.Resources["ColorSelectedElement"] as SolidColorBrush
-                                             : Application.Current.Resources["ColorNodesCanvasBackground"] as SolidColorBrush;
         }
 
         #endregion

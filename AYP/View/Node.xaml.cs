@@ -92,17 +92,6 @@ namespace AYP.View
                     i += 20;
                 }
 
-                foreach (var input in this.ViewModel.GucInputList)
-                {
-                    LeftConnector left = new LeftConnector();
-                    left.ViewModel = input;
-                    left.Margin = new Thickness(0, i, 0, 0);
-                    Grid.SetRow(left, 0);
-                    Grid.SetColumn(left, 0);
-                    GridElement.Children.Add(left);
-                    i += 20;
-                }
-
                 i = 0;
                 foreach (var output in this.ViewModel.OutputList)
                 {

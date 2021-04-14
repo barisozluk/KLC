@@ -120,9 +120,8 @@ namespace AYP.ViewModel
         private void StartPointUpdate(Point point)
         {
             var offset1 = ((FromConnector.Node.InputList.Count() - 1) * 20);
-            var offset2 = FromConnector.Node.GucInputList.Count > 0 ? (FromConnector.Node.GucInputList.Count() * 20) : 0;
 
-            StartPoint = point.Addition(0, (offset1 + offset2) - 5);
+            StartPoint = point.Addition(0, (offset1 - 5));
         }
         private void EndPointUpdate(Point point)
         {
