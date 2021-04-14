@@ -308,7 +308,7 @@
             </Border>
         </Popup>
 
-        <Grid Height="220" Width="160" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,38">
+        <Grid Height="240" Width="160" Grid.Column="3" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,38">
             <Border Background="Transparent" CornerRadius="4,4,4,4" BorderThickness="1,1,1,1" BorderBrush="#222d35"/>
 
             <Rectangle VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,10,10" Width="15" Height="15" Fill="{DynamicResource ColorConnectorEthernet}" ></Rectangle>
@@ -326,10 +326,13 @@
             <Rectangle VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,110,10,10" Width="15" Height="15" Fill="{DynamicResource ColorConnector40GigabitEthernet}" ></Rectangle>
             <TextBlock Text="40-Gigabit Ethernet" Foreground="White" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40,109,10,10"></TextBlock>
 
-            <Rectangle VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,135,10,10" Width="15" Height="15" Fill="{DynamicResource ColorConnectorGucArayuzu}" ></Rectangle>
-            <TextBlock Text="Güç Arayüzü" Foreground="White" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40,134,10,10"></TextBlock>
+            <Rectangle VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,135,10,10" Width="15" Height="15" Fill="{DynamicResource ColorConnectorAC}" ></Rectangle>
+            <TextBlock Text="AC" Foreground="White" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40,134,10,10"></TextBlock>
+            
+            <Rectangle VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,160,10,10" Width="15" Height="15" Fill="{DynamicResource ColorConnectorDC}" ></Rectangle>
+            <TextBlock Text="DC" Foreground="White" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40,159,10,10"></TextBlock>
 
-            <Border BorderThickness="0,1,0,0" Margin="10,167,10,10" VerticalAlignment="Top" HorizontalAlignment="Left" Width="65">
+            <Border BorderThickness="0,1,0,0" Margin="10,190,10,10" VerticalAlignment="Top" HorizontalAlignment="Left" Width="65">
                 <Border.BorderBrush>
                     <DrawingBrush Viewport="0,0,10,10" ViewportUnits="Absolute" TileMode="Tile">
                         <DrawingBrush.Drawing>
@@ -347,9 +350,9 @@
                     </DrawingBrush>
                 </Border.BorderBrush>
             </Border>
-            <TextBlock Text="Bakır" Foreground="White" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="85,159,10,10"></TextBlock>
+            <TextBlock Text="Bakır" Foreground="White" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="85,182,10,10"></TextBlock>
 
-            <Border BorderThickness="0,1,0,0" Margin="10,185,10,10" VerticalAlignment="Top" HorizontalAlignment="Left" Width="65">
+            <Border BorderThickness="0,1,0,0" Margin="10,208,10,10" VerticalAlignment="Top" HorizontalAlignment="Left" Width="65">
                 <Border.BorderBrush>
                     <DrawingBrush Viewport="0,0,5,5" ViewportUnits="Absolute" TileMode="Tile">
                         <DrawingBrush.Drawing>
@@ -367,9 +370,9 @@
                     </DrawingBrush>
                 </Border.BorderBrush>
             </Border>
-            <TextBlock Text="Fiber" Foreground="White" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="85,177,10,10"></TextBlock>
+            <TextBlock Text="Fiber" Foreground="White" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="85,199,10,10"></TextBlock>
 
-            <Border BorderThickness="0,1,0,0" Margin="10,203,10,10" VerticalAlignment="Top" HorizontalAlignment="Left" Width="65">
+            <Border BorderThickness="0,1,0,0" Margin="10,225,10,10" VerticalAlignment="Top" HorizontalAlignment="Left" Width="65">
                 <Border.BorderBrush>
                     <DrawingBrush Viewport="0,0,18,18" ViewportUnits="Absolute" TileMode="Tile">
                         <DrawingBrush.Drawing>
@@ -387,7 +390,7 @@
                     </DrawingBrush>
                 </Border.BorderBrush>
             </Border>
-            <TextBlock Text="Güç Kablosu" Foreground="White" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="85,195,10,10"></TextBlock>
+            <TextBlock Text="Güç Kablosu" Foreground="White" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="85,215,10,10"></TextBlock>
         </Grid>
     </Grid>
     

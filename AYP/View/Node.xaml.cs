@@ -187,6 +187,10 @@ namespace AYP.View
                     }
                 }
             }
+            else
+            {
+                this.ViewModel.NodesCanvas.CommandUngroup.ExecuteWithSubscribe();
+            }
 
             e.Handled = true;
         }

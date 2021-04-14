@@ -20,7 +20,8 @@
     <SolidColorBrush x:Key="ColorConnectorGigabitEthernet" Color="Red"/>
     <SolidColorBrush x:Key="ColorConnector10GigabitEthernet" Color="Pink"/>
     <SolidColorBrush x:Key="ColorConnector40GigabitEthernet" Color="Cyan"/>
-    <SolidColorBrush x:Key="ColorConnectorGucArayuzu" Color="Yellow"/>
+    <SolidColorBrush x:Key="ColorConnectorAC" Color="Yellow"/>
+    <SolidColorBrush x:Key="ColorConnectorDC" Color="Orange"/>
 
     <SolidColorBrush x:Key="ColorConnectorForeground" Color="White"/>
 

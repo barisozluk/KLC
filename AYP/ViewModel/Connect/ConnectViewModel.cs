@@ -104,7 +104,14 @@ namespace AYP.ViewModel
                 }
                 else
                 {
-                    this.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorGucArayuzu"] as SolidColorBrush;
+                    if(this.FromConnector.GerilimTipiId == (int)GerilimTipiEnum.AC)
+                    {
+                        this.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorAC"] as SolidColorBrush;
+                    }
+                    else if(this.FromConnector.GerilimTipiId == (int)GerilimTipiEnum.DC)
+                    {
+                        this.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorDC"] as SolidColorBrush;
+                    }
                 }
             
 
