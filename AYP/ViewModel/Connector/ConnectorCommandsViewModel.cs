@@ -203,12 +203,26 @@ namespace AYP.ViewModel
                     }
                     else
                     {
-                        this.FormFill = Application.Current.Resources[this.Selected ? "ColorSelectedElement" : "ColorConnectorGucArayuzu"] as SolidColorBrush;
+                        if(this.GerilimTipiId == (int)GerilimTipiEnum.AC)
+                        {
+                            this.FormFill = Application.Current.Resources[this.Selected ? "ColorSelectedElement" : "ColorConnectorAC"] as SolidColorBrush;
+                        }
+                        else if (this.GerilimTipiId == (int)GerilimTipiEnum.DC)
+                        {
+                            this.FormFill = Application.Current.Resources[this.Selected ? "ColorSelectedElement" : "ColorConnectorDC"] as SolidColorBrush;
+                        }
                     }
                 }
                 else
                 {
-                    this.FormFill = Application.Current.Resources[this.Selected ? "ColorSelectedElement" : "ColorConnectorGucArayuzu"] as SolidColorBrush;
+                    if (this.GerilimTipiId == (int)GerilimTipiEnum.AC)
+                    {
+                        this.FormFill = Application.Current.Resources[this.Selected ? "ColorSelectedElement" : "ColorConnectorAC"] as SolidColorBrush;
+                    }
+                    else if (this.GerilimTipiId == (int)GerilimTipiEnum.DC)
+                    {
+                        this.FormFill = Application.Current.Resources[this.Selected ? "ColorSelectedElement" : "ColorConnectorDC"] as SolidColorBrush;
+                    }
                 }
                 //this.FormFill = Application.Current.Resources[this.Selected ? "ColorSelectedElement" : "ColorConnector"] as SolidColorBrush;
 
