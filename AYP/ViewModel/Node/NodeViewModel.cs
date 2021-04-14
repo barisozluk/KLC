@@ -43,6 +43,7 @@ namespace AYP.ViewModel
         [Reactive] public Guid UniqueId { get; set; }
         [Reactive] public List<ConnectorViewModel> InputList { get; set; }
         [Reactive] public List<ConnectorViewModel> GucInputList { get; set; }
+        [Reactive] public List<ConnectorViewModel> OutputList { get; set; }
 
         [Reactive] public List<AgArayuzu> AgArayuzuList { get; set; }
         [Reactive] public List<GucArayuzu> GucArayuzuList { get; set; }
@@ -57,9 +58,9 @@ namespace AYP.ViewModel
             SetupBinding();
         }
 
-
         public NodeViewModel(NodesCanvasViewModel nodesCanvas, string name, Guid uniqueId = default(Guid), Point point = default(Point), int id = default(int), int typeId = default(int),
-                               List<AgArayuzu> agArayuzuList = default, List<GucArayuzu> gucArayuzuList = default, List<ConnectorViewModel> inputList = default, List<ConnectorViewModel> gucInputList = default)
+                               List<AgArayuzu> agArayuzuList = default, List<GucArayuzu> gucArayuzuList = default, List<ConnectorViewModel> inputList = default, List<ConnectorViewModel> gucInputList = default,
+                               List<ConnectorViewModel> outputList = default)
         {
             NodesCanvas = nodesCanvas;
             Name = name;
@@ -69,7 +70,10 @@ namespace AYP.ViewModel
             TypeId = typeId;
             UniqueId = uniqueId;
 
-            if(inputList != null && inputList.Count() > 0)
+            AgArayuzuList = agArayuzuList;
+            GucArayuzuList = gucArayuzuList;
+
+            if (inputList != null && inputList.Count() > 0)
             {
                 InputList = inputList;
             }
@@ -87,8 +91,14 @@ namespace AYP.ViewModel
                 GucInputList = new List<ConnectorViewModel>();
             }
 
-            AgArayuzuList = agArayuzuList;
-            GucArayuzuList = gucArayuzuList;
+            if (outputList != null && outputList.Count() > 0)
+            {
+                OutputList = outputList;
+            }
+            else
+            {
+                OutputList = new List<ConnectorViewModel>();
+            }
 
             Transitions.Connect().ObserveOnDispatcher().Bind(TransitionsForView).Subscribe();
 
@@ -105,19 +115,9 @@ namespace AYP.ViewModel
                 }
             }
 
-            if (TypeId == (int)TipEnum.UcBirim || TypeId == (int)TipEnum.AgAnahtari || TypeId == (int)TipEnum.Group)
+            if(OutputList.Count() == 0)
             {
-                if (AgArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).Count() > 0)
-                {
-                    SetupOutputConnectors();
-                }
-            }
-            else
-            {
-                if (GucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).Count() > 0)
-                {
-                    SetupOutputConnectors();
-                }
+                SetupOutputConnectors();
             }
 
             SetupCommands();
@@ -227,44 +227,53 @@ namespace AYP.ViewModel
             if (TypeId == (int)TipEnum.UcBirim || TypeId == (int)TipEnum.AgAnahtari || TypeId == (int)TipEnum.Group)
             {
                 AgArayuzuList = AgArayuzuList.OrderBy(o => o.Port).ToList();
-                var outputList = AgArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti);
+                var outputList = AgArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).ToList();
 
-                var adi = outputList.First().Adi;
-                var kapasiteId = outputList.First().KapasiteId;
-                var fizikselOrtamId = outputList.First().FizikselOrtamId;
-                var kullanimAmaciId = outputList.First().KullanimAmaciId;
-                var typeId = outputList.First().TipId.Value;
-
-                Output = new ConnectorViewModel(NodesCanvas, this, "Çıktı", Point1.Addition(80, 54), Guid.NewGuid(), kapasiteId, fizikselOrtamId, null, kullanimAmaciId, null, null, null, null, null, null, null, null, adi, typeId)
+                for (int i = 0; i < outputList.Count(); i++)
                 {
-                    Visible = null
-                };
+                    var adi = outputList[i].Adi;
+                    var kapasiteId = outputList[i].KapasiteId;
+                    var fizikselOrtamId = outputList[i].FizikselOrtamId;
+                    var kullanimAmaciId = outputList[i].KullanimAmaciId;
+                    var typeId = outputList[i].TipId.Value;
 
+                    var output = new ConnectorViewModel(NodesCanvas, this, "Çıktı", Point1.Addition(80, 54 + (i * 20)), Guid.NewGuid(), kapasiteId, fizikselOrtamId, null, kullanimAmaciId, null, null, null, null, null, null, null, null, adi, typeId)
+                    {
+                        Visible = null
+                    };
+
+                    OutputList.Add(output);
+                }
             }
             else
             {
                 GucArayuzuList = GucArayuzuList.OrderBy(o => o.Port).ToList();
-                var outputList = GucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti);
+                var outputList = GucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).ToList();
 
-                var adi = outputList.First().Adi;
-                var gerilimTipiId = outputList.First().GerilimTipiId;
-                var kullanimAmaciId = outputList.First().KullanimAmaciId;
-                var ciktiDuraganGerilimDegeri = outputList.First().CiktiDuraganGerilimDegeri;
-                var ciktiUrettigiGucKapasitesi = outputList.First().CiktiUrettigiGucKapasitesi;
-                var girdiDuraganGerilimDegeri1 = outputList.First().GirdiDuraganGerilimDegeri1;
-                var girdiDuraganGerilimDegeri2 = outputList.First().GirdiDuraganGerilimDegeri2;
-                var girdiDuraganGerilimDegeri3 = outputList.First().GirdiDuraganGerilimDegeri3;
-                var girdiMaksimumGerilimDegeri = outputList.First().GirdiMaksimumGerilimDegeri;
-                var girdiMinimumGerilimDegeri = outputList.First().GirdiMinimumGerilimDegeri;
-                var girdiTukettigiGucMiktari = outputList.First().GirdiTukettigiGucMiktari;
-                var typeId = outputList.First().TipId.Value;
-
-                Output = new ConnectorViewModel(NodesCanvas, this, "Çıktı", Point1.Addition(80, 54), Guid.NewGuid(), null, null, gerilimTipiId, kullanimAmaciId,
-                            girdiDuraganGerilimDegeri1, girdiDuraganGerilimDegeri2, girdiDuraganGerilimDegeri3, girdiMinimumGerilimDegeri, girdiMaksimumGerilimDegeri, girdiTukettigiGucMiktari,
-                            ciktiDuraganGerilimDegeri, ciktiUrettigiGucKapasitesi, adi, typeId)
+                for (int i = 0; i < outputList.Count(); i++)
                 {
-                    Visible = null
-                };
+                    var adi = outputList[i].Adi;
+                    var gerilimTipiId = outputList[i].GerilimTipiId;
+                    var kullanimAmaciId = outputList[i].KullanimAmaciId;
+                    var ciktiDuraganGerilimDegeri = outputList[i].CiktiDuraganGerilimDegeri;
+                    var ciktiUrettigiGucKapasitesi = outputList[i].CiktiUrettigiGucKapasitesi;
+                    var girdiDuraganGerilimDegeri1 = outputList[i].GirdiDuraganGerilimDegeri1;
+                    var girdiDuraganGerilimDegeri2 = outputList[i].GirdiDuraganGerilimDegeri2;
+                    var girdiDuraganGerilimDegeri3 = outputList[i].GirdiDuraganGerilimDegeri3;
+                    var girdiMaksimumGerilimDegeri = outputList[i].GirdiMaksimumGerilimDegeri;
+                    var girdiMinimumGerilimDegeri = outputList[i].GirdiMinimumGerilimDegeri;
+                    var girdiTukettigiGucMiktari = outputList[i].GirdiTukettigiGucMiktari;
+                    var typeId = outputList[i].TipId.Value;
+
+                    var output = new ConnectorViewModel(NodesCanvas, this, "Çıktı", Point1.Addition(80, 54 + (i * 20)), Guid.NewGuid(), null, null, gerilimTipiId, kullanimAmaciId,
+                                girdiDuraganGerilimDegeri1, girdiDuraganGerilimDegeri2, girdiDuraganGerilimDegeri3, girdiMinimumGerilimDegeri, girdiMaksimumGerilimDegeri, girdiTukettigiGucMiktari,
+                                ciktiDuraganGerilimDegeri, ciktiUrettigiGucKapasitesi, adi, typeId)
+                    {
+                        Visible = null
+                    };
+
+                    OutputList.Add(output);
+                }
             }
                    
             AddEmptyConnector();
@@ -287,12 +296,12 @@ namespace AYP.ViewModel
             {
 
                 TransitionsVisible = true;
-                Output.Visible = null;
+                //Output.Visible = null;
             }
             else
             {
                 TransitionsVisible = null;
-                Output.Visible = true;
+                //Output.Visible = true;
                 UnSelectedAllConnectors();
             }
             NotSaved();
@@ -306,9 +315,6 @@ namespace AYP.ViewModel
             element.Add(new XAttribute("Id", Id));
             element.Add(new XAttribute("TypeId", TypeId));
             element.Add(new XAttribute("UniqueId", UniqueId));
-            //element.Add(new XAttribute("InputSayisi", InputSayisi));
-            //element.Add(new XAttribute("OutputSayisi", OutputSayisi));
-            //element.Add(new XAttribute("GucArayuzuSayisi", GucArayuzuSayisi));
             element.Add(new XAttribute("Position", PointExtensition.PointToString(Point1)));
 
             return element;
@@ -327,9 +333,6 @@ namespace AYP.ViewModel
             int id = Convert.ToInt32(node.Attribute("Id")?.Value);
             int typeId = Convert.ToInt32(node.Attribute("TypeId")?.Value);
             Guid uniqueId = new Guid(node.Attribute("UniqueId")?.Value);
-            int inputSayisi = Convert.ToInt32(node.Attribute("InputSayisi")?.Value);
-            int outputSayisi = Convert.ToInt32(node.Attribute("OutputSayisi")?.Value);
-            int gucArayuzuSayisi = Convert.ToInt32(node.Attribute("GucArayuzuSayisi")?.Value);
 
             Point position = new Point();
             PointExtensition.TryParseFromString(node.Attribute("Position")?.Value, out position); 
@@ -387,6 +390,24 @@ namespace AYP.ViewModel
             viewModelNode.GucInputList = gucInputList;
 
             return viewModelNode;
+        }
+
+        public void SetPositionsForCopyPaste()
+        {
+            foreach(var input in InputList)
+            {
+                input.PositionConnectPoint.Addition(15, 15);
+            }
+
+            foreach (var input in GucInputList)
+            {
+                input.PositionConnectPoint.Addition(15, 15);
+            }
+
+            foreach (var output in OutputList)
+            {
+                output.PositionConnectPoint.Addition(15, 15);
+            }
         }
     }
 }

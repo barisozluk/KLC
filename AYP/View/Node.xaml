@@ -32,7 +32,7 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>-->
 
-                <View:RightConnector x:Name="Output" Grid.Row="1" Grid.Column="1"/>
+                <!--<View:RightConnector x:Name="Output" Grid.Row="1" Grid.Column="1"/>-->
             </Grid>
             <!--Control for Transactions-->
             <ItemsControl x:Name="ItemsControlTransitions" 

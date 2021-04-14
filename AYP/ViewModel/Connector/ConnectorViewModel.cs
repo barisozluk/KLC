@@ -98,7 +98,7 @@ namespace AYP.ViewModel
             if (!string.IsNullOrEmpty(Name))
             {
                 int index = Node.Transitions.Items.IndexOf(this);
-                this.PositionConnectPoint = Node.CurrentConnector.PositionConnectPoint.Addition(0, index * 20);
+                this.PositionConnectPoint = Node.CurrentConnector.PositionConnectPoint.Addition(0, index);
             }
         }
         private void UpdatePositionOnWidthChange(double value)
@@ -193,7 +193,7 @@ namespace AYP.ViewModel
             {
                 viewModelConnect = new ConnectViewModel(nodeFrom.NodesCanvas, nodeFrom.CurrentConnector);
                 viewModelConnect.ToConnector = new ConnectorViewModel(nodesCanvas, nodeTo, toInputName, toInputPosition, toInputUniqueId);
-                nodeFrom.CommandAddEmptyConnector.ExecuteWithSubscribe();
+                //nodeFrom.CommandAddEmptyConnector.ExecuteWithSubscribe();
             }     
 
             return viewModelConnect;

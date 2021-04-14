@@ -90,7 +90,7 @@ namespace AYP
                 }
                 else if (cihazTur == (int)TipEnum.AgAnahtari)
                 {
-                    var response = serviceUcBirim.SaveTopluEdit(selectedIds, Uretici.Text);
+                    var response = serviceAgAnahtari.SaveTopluEdit(selectedIds, Uretici.Text);
 
                     if (!response.HasError)
                     {
@@ -110,7 +110,7 @@ namespace AYP
                 }
                 else if (cihazTur == (int)TipEnum.GucUretici)
                 {
-                    var response =  serviceUcBirim.SaveTopluEdit(selectedIds, Uretici.Text);
+                    var response =  serviceGucUreticisi.SaveTopluEdit(selectedIds, Uretici.Text);
 
                     if (!response.HasError)
                     {

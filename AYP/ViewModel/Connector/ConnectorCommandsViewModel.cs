@@ -63,7 +63,7 @@ namespace AYP.ViewModel
                 return;
             ToLoop();
             ItsLoop = true;
-            Node.CommandAddEmptyConnector.ExecuteWithSubscribe();
+            //Node.CommandAddEmptyConnector.ExecuteWithSubscribe();
         }
         private void ToLoop()
         {            
@@ -114,7 +114,7 @@ namespace AYP.ViewModel
             else
             {
                 NodesCanvas.CommandAddConnectorWithConnect.Execute(Node.CurrentConnector);
-                Node.CommandAddEmptyConnector.ExecuteWithSubscribe();
+                //Node.CommandAddEmptyConnector.ExecuteWithSubscribe();
                 NodesCanvas.DraggedConnect = null;
             }
         }

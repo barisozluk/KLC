@@ -85,6 +85,7 @@ namespace AYP.View
             this.WhenActivated(disposable =>
             {
                 this.WhenAnyValue(x => x.EllipseElement.IsMouseOver).Subscribe(value => OnEventMouseOver(value)).DisposeWith(disposable);
+
             });
         }
         #endregion Setup Subcriptions
@@ -138,6 +139,8 @@ namespace AYP.View
 
         private void ConnectorDrag(MouseButtonEventArgs e)
         {
+            this.ViewModel.Node.CurrentConnector = this.ViewModel;
+
             if (this.ViewModel.NodesCanvas.ClickMode == NodeCanvasClickMode.Default)
             {
                 if (!this.ViewModel.TextEnable)
