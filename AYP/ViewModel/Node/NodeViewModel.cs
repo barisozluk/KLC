@@ -351,5 +351,37 @@ namespace AYP.ViewModel
 
             return viewModelNode;
         }
+
+        public NodeViewModel Clone()
+        {
+            return new NodeViewModel
+            {
+                AgArayuzuList = AgArayuzuList,
+                CanBeDelete = CanBeDelete,
+                CurrentConnector = CurrentConnector,
+                GucArayuzuList = GucArayuzuList,
+                HeaderWidth = HeaderWidth,
+                Id = Id,
+                IndexStartSelectConnectors = IndexStartSelectConnectors,
+                InputList = InputList,
+                IsCollapse = IsCollapse,
+                IsVisible = IsVisible,
+                Name = Name,
+                NameEnable = NameEnable,
+                NodesCanvas = NodesCanvas,
+                Output = Output,
+                OutputList = OutputList,
+                Point1 = Point1,
+                Point2 = Point2,
+                RollUpVisible = RollUpVisible,
+                Selected = Selected,
+                Size = Size,
+                Transitions = Transitions,
+                TransitionsVisible = TransitionsVisible,
+                TypeId = TypeId,
+                UniqueId = UniqueId,
+                Zindex = Zindex
+            };
+        }
     }
 }

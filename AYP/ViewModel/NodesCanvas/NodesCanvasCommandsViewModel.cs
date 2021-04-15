@@ -255,27 +255,44 @@ namespace AYP.ViewModel
 
         private void CopyToClipboard()
         {
-            NodeClipboard.Clear();
-            TransitionClipboard.Clear();
+            //NodeClipboard.Clear();
+            //TransitionClipboard.Clear();
 
-            var copiedNodeList = new List<NodeViewModel>();
-            var copiedTransitionList = new List<ConnectorViewModel>();
+            //var copiedNodeList = new List<NodeViewModel>();
+            //var copiedTransitionList = new List<ConnectorViewModel>();
 
-            foreach (var node in this.Nodes.Items.Where(x => x.Selected))
-            {
-                copiedNodeList.Add(node);
-            }
+            //foreach (var node in this.Nodes.Items.Where(x => x.Selected))
+            //{
+            //    node.Point1.Addition(15, 15);
 
-            foreach (var node in this.Nodes.Items.Where(x => x.Selected))
-            {
-                foreach(var transition in node.Transitions.Items.Where(x => x.Selected))
-                {
-                    copiedTransitionList.Add(transition);
-                }
-            }
+            //    foreach(var input in node.InputList)
+            //    {
+            //        input.PositionConnectPoint.Addition(15, 15);
+            //    }
 
-            NodeClipboard.AddRange(copiedNodeList);
-            TransitionClipboard.AddRange(copiedTransitionList);
+            //    foreach (var output in node.OutputList)
+            //    {
+            //        output.PositionConnectPoint.Addition(15, 15);
+            //    }
+
+            //    foreach (var transition in node.Transitions.Items)
+            //    {
+            //        transition.PositionConnectPoint.Addition(15, 15);
+            //    }
+
+            //    copiedNodeList.Add(node);
+            //}
+
+            //foreach (var node in this.Nodes.Items.Where(x => x.Selected))
+            //{
+            //    foreach(var transition in node.Transitions.Items.Where(x => x.Selected))
+            //    {
+            //        copiedTransitionList.Add(transition);
+            //    }
+            //}
+
+            //NodeClipboard.AddRange(copiedNodeList);
+            //TransitionClipboard.AddRange(copiedTransitionList);
         }
 
         private void Paste()

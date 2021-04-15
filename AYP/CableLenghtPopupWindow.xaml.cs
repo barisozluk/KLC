@@ -35,7 +35,9 @@ namespace AYP
         public CableLengthPopupWindow(ConnectViewModel connect)
         {
             this.connect = connect;
-            InitializeComponent();    
+            InitializeComponent();
+
+            Uzunluk.Text = this.connect.Uzunluk.ToString();
         }
 
         private void ClosePopup()

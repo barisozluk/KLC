@@ -15,13 +15,14 @@ using System.Windows.Markup;
 using AYP.ViewModel;
 using AYP.Helpers;
 using AYP.Enums;
+using AYP.Helpers.Transformations;
 
 namespace AYP.View
 {
     /// <summary>
     /// Interaction logic for ViewConnect.xaml
     /// </summary>
-    public partial class Connect : UserControl, IViewFor<ConnectViewModel>
+    public partial class Connect : UserControl, IViewFor<ConnectViewModel>, CanBeMove
     {
         #region ViewModel
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(nameof(ViewModel), typeof(ConnectViewModel), typeof(Connect), new PropertyMetadata(null));
@@ -114,6 +115,69 @@ namespace AYP.View
             {
                 this.ViewModel.WhenAnyValue(x => x.Uzunluk).Subscribe(value => OnEventUzunluk(value)).DisposeWith(disposable);
             });
+
+            this.WhenActivated(disposable =>
+            {
+                this.WhenAnyValue(x => x.IsMouseOver).Subscribe(value => OnEventMouseOver(value)).DisposeWith(disposable);
+            });
+
+            this.WhenActivated(disposable =>
+            {
+                this.Events().MouseDoubleClick.Subscribe(e => OnEventMouseDoubleClick(e)).DisposeWith(disposable);
+            });
+        }
+
+        private void OnEventMouseOver(bool value)
+        {
+           
+                if (this.ViewModel.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu || this.ViewModel.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
+                {
+                    if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum.Ethernet)
+                    {
+                        this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorEthernet"] as SolidColorBrush;
+                    }
+                    else if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum.FastEthernet)
+                    {
+                        this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorFastEthernet"] as SolidColorBrush;
+                    }
+                    else if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum.GigabitEthernet)
+                    {
+                        this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorGigabitEthernet"] as SolidColorBrush;
+                    }
+                    else if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum._10GigabitEthernet)
+                    {
+                        this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnector10GigabitEthernet"] as SolidColorBrush;
+                    }
+                    else if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum._40GigabitEthernet)
+                    {
+                        this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnector40GigabitEthernet"] as SolidColorBrush;
+                    }
+                }
+                else
+                {
+                    if (this.ViewModel.FromConnector.GerilimTipiId == (int)GerilimTipiEnum.AC)
+                    {
+                        this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorAC"] as SolidColorBrush;
+                    }
+                    else if (this.ViewModel.FromConnector.GerilimTipiId == (int)GerilimTipiEnum.DC)
+                    {
+                        this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorDC"] as SolidColorBrush;
+                    }
+                }
+        }
+
+        private void OnEventMouseDoubleClick(MouseButtonEventArgs e)
+        {
+            this.ViewModel.NodesCanvas.MainWindow.IsEnabled = false;
+            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.ViewModel.NodesCanvas.MainWindow.Effect = blur;
+
+            CableLengthPopupWindow cl = new CableLengthPopupWindow(this.ViewModel);
+            cl.Owner = this.ViewModel.NodesCanvas.MainWindow;
+            cl.ShowDialog();
+
+            e.Handled = true;
         }
 
         private void OnEventVisible(bool isVisible)
