@@ -113,9 +113,6 @@ namespace AYP.ViewModel
                         this.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorDC"] as SolidColorBrush;
                     }
                 }
-            
-
-            //this.Stroke =  Application.Current.Resources[value ? "ColorSelectedElement": "ColorConnect"] as SolidColorBrush;
         }
         private void StartPointUpdate(Point point)
         {
