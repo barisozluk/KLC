@@ -45,7 +45,6 @@ namespace AYP.ViewModel
         [Reactive] public decimal? CiktiUrettigiGucKapasitesi { get; set; }
         [Reactive] public string Label { get; set; }
         [Reactive] public int TypeId { get; set; }
-
         public ConnectorViewModel(NodesCanvasViewModel nodesCanvas, NodeViewModel viewModelNode, string name, Point myPoint, Guid uniqueId, int? kapasiteId = default(int), int? fizikselOrtamId = default(int),
             int? gerilimTipiId = default(int), int kullanimAmaciId = default(int), decimal? girdiDuraganGerilimDegeri1 = default(decimal), decimal? girdiDuraganGerilimDegeri2 = default(decimal), decimal? girdiDuraganGerilimDegeri3 = default(decimal),
             decimal? girdiMinimumGerilimDegeri = default(decimal), decimal? girdiMaksimumGerilimDegeri = default(decimal), decimal? girdiTukettigiGucMiktari = default(decimal),

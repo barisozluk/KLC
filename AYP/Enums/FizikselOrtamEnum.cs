@@ -8,5 +8,5 @@ namespace AYP.Enums
         {
             Bakir = 1,
             FiberOptik = 2
-    }
+        }
 }
