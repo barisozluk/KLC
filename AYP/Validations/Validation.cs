@@ -22,15 +22,15 @@ namespace AYP.Validations
                 }
                 else if (toConnector.Node.TypeId == (int)TipEnum.AgAnahtari)
                 {
-                    foreach (var connect in fromConnector.NodesCanvas.Connects)
-                    {
-                        if (connect.FromConnector == fromConnector)
-                        {
-                            OpenModal("Bağlantı birebir olmalıdır.", NodesCanvas);
-                            response = false;
-                            break;
-                        }
-                    }
+                    //foreach (var connect in fromConnector.NodesCanvas.Connects)
+                    //{
+                    //    if (connect.FromConnector == fromConnector)
+                    //    {
+                    //        OpenModal("Bağlantı birebir olmalıdır.", NodesCanvas);
+                    //        response = false;
+                    //        break;
+                    //    }
+                    //}
 
                     foreach (var connect in toConnector.NodesCanvas.Connects)
                     {
@@ -97,15 +97,15 @@ namespace AYP.Validations
             {
                 if (toConnector.Node.TypeId == (int)TipEnum.UcBirim)
                 {
-                    foreach (var connect in fromConnector.NodesCanvas.Connects)
-                    {
-                        if (connect.FromConnector == fromConnector)
-                        {
-                            OpenModal("Bağlantı birebir olmalıdır.", NodesCanvas);
-                            response = false;
-                            break;
-                        }
-                    }
+                    //foreach (var connect in fromConnector.NodesCanvas.Connects)
+                    //{
+                    //    if (connect.FromConnector == fromConnector)
+                    //    {
+                    //        OpenModal("Bağlantı birebir olmalıdır.", NodesCanvas);
+                    //        response = false;
+                    //        break;
+                    //    }
+                    //}
 
                     foreach (var connect in toConnector.NodesCanvas.Connects)
                     {
@@ -165,15 +165,15 @@ namespace AYP.Validations
                 }
                 else if (toConnector.Node.TypeId == (int)TipEnum.AgAnahtari)
                 {
-                    foreach (var connect in fromConnector.NodesCanvas.Connects)
-                    {
-                        if (connect.FromConnector == fromConnector)
-                        {
-                            OpenModal("Bağlantı birebir olmalıdır.", NodesCanvas);
-                            response = false;
-                            break;
-                        }
-                    }
+                    //foreach (var connect in fromConnector.NodesCanvas.Connects)
+                    //{
+                    //    if (connect.FromConnector == fromConnector)
+                    //    {
+                    //        OpenModal("Bağlantı birebir olmalıdır.", NodesCanvas);
+                    //        response = false;
+                    //        break;
+                    //    }
+                    //}
 
                     foreach (var connect in toConnector.NodesCanvas.Connects)
                     {

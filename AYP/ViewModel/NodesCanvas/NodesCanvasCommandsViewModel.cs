@@ -1134,6 +1134,8 @@ namespace AYP.ViewModel
         private void DeleteConnect(ConnectViewModel ViewModelConnect)
         {
             Connects.Remove(ViewModelConnect);
+            ViewModelConnect.FromConnector.AgAkisList = new List<AgAkis>();
+            ViewModelConnect.ToConnector.AgAkisList = new List<AgAkis>();
             //ViewModelConnect.FromConnector.Node.Transitions.Remove(ViewModelConnect.FromConnector);
             //ViewModelConnect.FromConnector.Node.Transitions.Remove(ViewModelConnect.FromConnector.Node.CurrentConnector);
             ViewModelConnect.FromConnector.Node.CurrentConnector = null;

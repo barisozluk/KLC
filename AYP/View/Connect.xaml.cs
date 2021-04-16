@@ -16,6 +16,7 @@ using AYP.ViewModel;
 using AYP.Helpers;
 using AYP.Enums;
 using AYP.Helpers.Transformations;
+using AYP.Helpers.Enums;
 
 namespace AYP.View
 {
@@ -118,12 +119,17 @@ namespace AYP.View
 
             this.WhenActivated(disposable =>
             {
+                this.ViewModel.WhenAnyValue(x => x.AgYuku).Subscribe(value => OnEventAgYuku(value)).DisposeWith(disposable);
+            });
+
+            this.WhenActivated(disposable =>
+            {
                 this.WhenAnyValue(x => x.IsMouseOver).Subscribe(value => OnEventMouseOver(value)).DisposeWith(disposable);
             });
 
             this.WhenActivated(disposable =>
             {
-                this.Events().MouseDoubleClick.Subscribe(e => OnEventMouseDoubleClick(e)).DisposeWith(disposable);
+                this.Events().MouseLeftButtonDown.Subscribe(e => OnEventMouseClick(e)).DisposeWith(disposable);
             });
         }
 
@@ -166,16 +172,40 @@ namespace AYP.View
                 }
         }
 
-        private void OnEventMouseDoubleClick(MouseButtonEventArgs e)
+        private void OnEventMouseClick(MouseButtonEventArgs e)
         {
-            this.ViewModel.NodesCanvas.MainWindow.IsEnabled = false;
-            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
-            blur.Radius = 2;
-            this.ViewModel.NodesCanvas.MainWindow.Effect = blur;
+            if (this.ViewModel.NodesCanvas.ClickMode == NodeCanvasClickMode.Default)
+            {
+                if (Keyboard.IsKeyDown(Key.LeftCtrl))
+                {
+                    this.ViewModel.NodesCanvas.MainWindow.IsEnabled = false;
+                    System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+                    blur.Radius = 2;
+                    this.ViewModel.NodesCanvas.MainWindow.Effect = blur;
 
-            CableLengthPopupWindow cl = new CableLengthPopupWindow(this.ViewModel);
-            cl.Owner = this.ViewModel.NodesCanvas.MainWindow;
-            cl.ShowDialog();
+                    CableLengthPopupWindow cl = new CableLengthPopupWindow(this.ViewModel);
+                    cl.Owner = this.ViewModel.NodesCanvas.MainWindow;
+                    cl.ShowDialog();
+                }
+                else
+                {
+                    if (this.ViewModel.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu)
+                    {
+                        this.ViewModel.NodesCanvas.MainWindow.IsEnabled = false;
+                        System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+                        blur.Radius = 2;
+                        this.ViewModel.NodesCanvas.MainWindow.Effect = blur;
+
+                        UcBirimAgAkisPopupWindow agAkisiPopup = new UcBirimAgAkisPopupWindow(this.ViewModel.FromConnector);
+                        agAkisiPopup.Owner = this.ViewModel.NodesCanvas.MainWindow;
+                        agAkisiPopup.ShowDialog();
+                    }
+                    else if (this.ViewModel.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
+                    {
+
+                    }
+                }
+            }
 
             e.Handled = true;
         }
@@ -196,7 +226,8 @@ namespace AYP.View
         {
             double middleX = (value.X + this.ViewModel.EndPoint.X) / 2;
             double middleY = (value.Y + this.ViewModel.EndPoint.Y) / 2;
-            UzunlukBorder.Margin = new Thickness(middleX, middleY, 0, 0);
+            UzunlukBorder.Margin = new Thickness(middleX , middleY, 0, 0);
+            AgYukuBorder.Margin = new Thickness(middleX, middleY - 25, 0, 0);
         }
 
         private void OnEventEndPoint(Point value)
@@ -204,12 +235,18 @@ namespace AYP.View
             double middleX = (value.X + this.ViewModel.StartPoint.X) / 2;
             double middleY = (value.Y + this.ViewModel.StartPoint.Y) / 2;
             UzunlukBorder.Margin = new Thickness(middleX, middleY, 0, 0);
+            AgYukuBorder.Margin = new Thickness(middleX, middleY - 25, 0, 0);
         }
 
         private void OnEventUzunluk(decimal value)
         {
             Uzunluk.Text = value.ToString() + " m";
         }
+        private void OnEventAgYuku(decimal value)
+        {
+            AgYuku.Text = value.ToString() + " mbps";
+        }
+
 
         #endregion
     }

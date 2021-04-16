@@ -19,8 +19,8 @@ namespace AYP.DbContext
 
             protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             {
-                optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["AYPContext"].ConnectionString);
-                //optionsBuilder.UseSqlServer(@"Data Source=localhost\SQL;Integrated Security=True;Database=master");
+                //optionsBuilder.UseSqlServer(ConfigurationManager.ConnectionStrings["AYPContext"].ConnectionString);
+                optionsBuilder.UseSqlServer(@"Data Source=localhost\SQL;Integrated Security=True;Database=master");
             }
 
             public DbSet<KL_Tip> KL_Tip { get; set; }
@@ -71,11 +71,11 @@ namespace AYP.DbContext
                 );
 
                 modelBuilder.Entity<KL_Kapasite>().HasData(
-                   new KL_Kapasite() { Ad = "Ethernet", Id = 1 },
-                   new KL_Kapasite() { Ad = "Fast Ethernet", Id = 2 },
-                   new KL_Kapasite() { Ad = "Gigabit Ethernet", Id = 3 },
-                   new KL_Kapasite() { Ad = "10-Gigabit Ethernet", Id = 4 },
-                   new KL_Kapasite() { Ad = "40-Gigabit Ethernet", Id = 5 }
+                   new KL_Kapasite() { Ad = "Ethernet", Id = 1, MinKapasite = 0, MaxKapasite = 10 },
+                   new KL_Kapasite() { Ad = "Fast Ethernet", Id = 2, MinKapasite = 10, MaxKapasite = 100 },
+                   new KL_Kapasite() { Ad = "Gigabit Ethernet", Id = 3, MinKapasite = 100, MaxKapasite = 1000 },
+                   new KL_Kapasite() { Ad = "10-Gigabit Ethernet", Id = 4, MinKapasite = 1000, MaxKapasite = 10000 },
+                   new KL_Kapasite() { Ad = "40-Gigabit Ethernet", Id = 5, MinKapasite = 10000, MaxKapasite = 40000 }
                 );
 
                 modelBuilder.Entity<UcBirimTur>().HasData(

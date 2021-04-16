@@ -142,11 +142,13 @@ namespace AYP.ViewModel
                 {
                     var adi = inputList[i].Adi;
                     var kapasiteId = inputList[i].KapasiteId;
+                    var minKapasite = inputList[i].KL_Kapasite.MinKapasite;
+                    var maxKapasite = inputList[i].KL_Kapasite.MaxKapasite;
                     var fizikselOrtamId = inputList[i].FizikselOrtamId;
                     var kullanimAmaciId = inputList[i].KullanimAmaciId;
                     var typeId = inputList[i].TipId.Value;
 
-                    InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 30 + (i * 20)), Guid.NewGuid(), kapasiteId, fizikselOrtamId, null, kullanimAmaciId, null, null, null, null, null, null, null, null, adi, typeId));
+                    InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 30 + (i * 20)), Guid.NewGuid(), kapasiteId, minKapasite, maxKapasite, fizikselOrtamId, null, kullanimAmaciId, null, null, null, null, null, null, null, null, adi, typeId));
                 }
             }
 
@@ -172,7 +174,7 @@ namespace AYP.ViewModel
                     var typeId = inputList[i].TipId.Value;
 
 
-                    InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 30 + ((i + count) * 20)), Guid.NewGuid(), null, null, gerilimTipiId, kullanimAmaciId,
+                    InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 30 + ((i + count) * 20)), Guid.NewGuid(), null, null, null, null, gerilimTipiId, kullanimAmaciId,
                             girdiDuraganGerilimDegeri1, girdiDuraganGerilimDegeri2, girdiDuraganGerilimDegeri3, girdiMinimumGerilimDegeri, girdiMaksimumGerilimDegeri, girdiTukettigiGucMiktari,
                             ciktiDuraganGerilimDegeri, ciktiUrettigiGucKapasitesi, adi, typeId));
 
@@ -192,11 +194,13 @@ namespace AYP.ViewModel
                 {
                     var adi = outputList[i].Adi;
                     var kapasiteId = outputList[i].KapasiteId;
+                    var minKapasite = outputList[i].KL_Kapasite.MinKapasite;
+                    var maxKapasite = outputList[i].KL_Kapasite.MaxKapasite;
                     var fizikselOrtamId = outputList[i].FizikselOrtamId;
                     var kullanimAmaciId = outputList[i].KullanimAmaciId;
                     var typeId = outputList[i].TipId.Value;
 
-                    var output = new ConnectorViewModel(NodesCanvas, this, "Çıktı", Point1.Addition(80, 54 + (i * 20)), Guid.NewGuid(), kapasiteId, fizikselOrtamId, null, kullanimAmaciId, null, null, null, null, null, null, null, null, adi, typeId)
+                    var output = new ConnectorViewModel(NodesCanvas, this, "Çıktı", Point1.Addition(80, 54 + (i * 20)), Guid.NewGuid(), kapasiteId, minKapasite, maxKapasite, fizikselOrtamId, null, kullanimAmaciId, null, null, null, null, null, null, null, null, adi, typeId)
                     {
                         Visible = null
                     };
@@ -226,7 +230,7 @@ namespace AYP.ViewModel
                     var girdiTukettigiGucMiktari = outputList[i].GirdiTukettigiGucMiktari;
                     var typeId = outputList[i].TipId.Value;
 
-                    var output = new ConnectorViewModel(NodesCanvas, this, "Çıktı", Point1.Addition(80, 54 + ( (i + count) * 20)), Guid.NewGuid(), null, null, gerilimTipiId, kullanimAmaciId,
+                    var output = new ConnectorViewModel(NodesCanvas, this, "Çıktı", Point1.Addition(80, 54 + ( (i + count) * 20)), Guid.NewGuid(), null, null, null, null, gerilimTipiId, kullanimAmaciId,
                                 girdiDuraganGerilimDegeri1, girdiDuraganGerilimDegeri2, girdiDuraganGerilimDegeri3, girdiMinimumGerilimDegeri, girdiMaksimumGerilimDegeri, girdiTukettigiGucMiktari,
                                 ciktiDuraganGerilimDegeri, ciktiUrettigiGucKapasitesi, adi, typeId)
                     {

@@ -1,6 +1,8 @@
 ﻿using AYP.DbContext.AYP.DbContexts;
 using AYP.Entities;
+using AYP.Enums;
 using AYP.Interfaces;
+using AYP.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -93,5 +95,59 @@ namespace AYP.Services
 
             return response;
         }
+
+        public List<KodListModel> ListAgAkisTipi()
+        {
+            List<KodListModel> response = new List<KodListModel>();
+
+            using (var transaction = context.Database.BeginTransaction(IsolationLevel.ReadUncommitted))
+            {
+                try
+                {
+                    response = Enum.GetValues(typeof(AgAkisTipEnum))
+                            .Cast<AgAkisTipEnum>()
+                            .Select(s => new KodListModel
+                            {
+                                Id = Convert.ToInt32(s),
+                                Ad = Convert.ToInt32(s) == 1 ? "Unicast" : (Convert.ToInt32(s) == 2 ? "Multicast" : "Broadcast")
+                            })
+                            .ToList();
+
+                }
+                catch (Exception exception)
+                {
+
+                }
+            }
+
+            return response;
+        }
+        public List<KodListModel> ListAgAkisProtokolu()
+        {
+            List<KodListModel> response = new List<KodListModel>();
+
+            using (var transaction = context.Database.BeginTransaction(IsolationLevel.ReadUncommitted))
+            {
+                try
+                {
+                    response = Enum.GetValues(typeof(AgAkisProtokuluEnum))
+                            .Cast<AgAkisProtokuluEnum>()
+                            .Select(s => new KodListModel
+                            {
+                                Id = Convert.ToInt32(s),
+                                Ad = Convert.ToInt32(s) == 1 ? "TCP" : "UDP"
+                            })
+                            .ToList();
+
+                }
+                catch (Exception exception)
+                {
+
+                }
+            }
+
+            return response;
+        }
+
     }
 }
