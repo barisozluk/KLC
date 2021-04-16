@@ -82,6 +82,11 @@ namespace AYP.View
                 }
 
                 this.WhenAnyValue(x => x.ViewModel.ToConnector).Where(x=>x!=null).Subscribe(_ => UpdateZindex()).DisposeWith(disposable);
+                this.WhenAnyValue(x => x.ViewModel.FromConnector.TypeId).Where(x => x != (int)TipEnum.AgAnahtariGucArayuzu &&
+                                        x != (int)TipEnum.UcBirimGucArayuzu && 
+                                        x != (int)TipEnum.GucUreticiGucArayuzu)
+                                .Subscribe(_ => AgYukuBorder.Visibility = Visibility.Visible).DisposeWith(disposable);
+
             });
         }
 
@@ -202,7 +207,43 @@ namespace AYP.View
                     }
                     else if (this.ViewModel.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
                     {
+                        bool isConnectExist = false;
+                        foreach(var input in this.ViewModel.FromConnector.Node.InputList)
+                        {
+                            foreach (var connect in this.ViewModel.NodesCanvas.Connects)
+                            {
+                                if (connect.ToConnector == input)
+                                {
+                                    if (connect.ToConnector.AgAkisList.Count > 0)
+                                    {
+                                        isConnectExist = true;
+                                        break;
+                                    }
+                                }
+                            }
 
+                            if (isConnectExist)
+                                break;
+                        }
+
+                        if (isConnectExist)
+                        {
+                            this.ViewModel.NodesCanvas.MainWindow.IsEnabled = false;
+                            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+                            blur.Radius = 2;
+                            this.ViewModel.NodesCanvas.MainWindow.Effect = blur;
+
+                            AgAnahtariAgAkisPopupWindow agAkisiPopup = new AgAnahtariAgAkisPopupWindow(this.ViewModel.FromConnector);
+                            agAkisiPopup.Owner = this.ViewModel.NodesCanvas.MainWindow;
+                            agAkisiPopup.ShowDialog();
+                        }
+                        else
+                        {
+                            NotifyInfoPopup nfp = new NotifyInfoPopup();
+                            nfp.msg.Text = "Ağ anahtarı için tanımlanmış bir ağ akışı olmadığıdan bu bağlantı için ağ akışı oluşturulamaz.";
+                            nfp.Owner = this.ViewModel.NodesCanvas.MainWindow;
+                            nfp.Show();
+                        }
                     }
                 }
             }

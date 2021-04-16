@@ -147,6 +147,9 @@
     <Compile Update="NotifySuccessPopup.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="AgAnahtariAgAkisPopupWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="WithoutSavePopupWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -196,6 +199,10 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Styles\StyleAgAnahtariAgAkisFormPanel.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\StyleUcBirimAgAkisFormPanel.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
@@ -215,6 +222,11 @@
     </Page>
 
     <Page Update="NotifySuccessPopup.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+
+    <Page Update="AgAnahtariAgAkisPopupWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

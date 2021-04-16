@@ -1,5 +1,6 @@
 ﻿using AYP.DbContext.AYP.DbContexts;
 using AYP.Entities;
+using AYP.Enums;
 using AYP.Interfaces;
 using AYP.Models;
 using AYP.Services;
@@ -21,23 +22,23 @@ using System.Windows.Shapes;
 namespace AYP
 {
     /// <summary>
-    /// Interaction logic for UcBirimAgAkisPopupWindow.xaml
+    /// Interaction logic for AgAnahtariAgAkisPopupWindow.xaml
     /// </summary>
-    public partial class UcBirimAgAkisPopupWindow : Window
+    public partial class AgAnahtariAgAkisPopupWindow : Window
     {
         private AYPContext context;
 
         IKodListeService kodListeService;
 
-        ConnectorViewModel ucBirimAgArayuzu;
+        ConnectorViewModel agAnahtariAgArayuzu;
         AgAkis agAkis;
         private CheckBox checkedAgAkisRow = null;
         private decimal toplam = 0;
 
-        public UcBirimAgAkisPopupWindow(ConnectorViewModel ucBirimAgArayuzu)
+        public AgAnahtariAgAkisPopupWindow(ConnectorViewModel agAnahtariAgArayuzu)
         {
-            this.ucBirimAgArayuzu = ucBirimAgArayuzu;
-            toplam = this.ucBirimAgArayuzu.AgAkisList.Select(s => s.Yuk).Sum();
+            this.agAnahtariAgArayuzu = agAnahtariAgArayuzu;
+            toplam = this.agAnahtariAgArayuzu.AgAkisList.Select(s => s.Yuk).Sum();
 
             agAkis = new AgAkis();
             this.context = new AYPContext();
@@ -45,9 +46,9 @@ namespace AYP
             InitializeComponent();
             MainTitle.Content = "Ağ Akışı - " + toplam + " Mbps";
 
-            if (this.ucBirimAgArayuzu.AgAkisList.Count > 0)
+            if (this.agAnahtariAgArayuzu.AgAkisList.Count > 0)
             {
-                AgAkisDataGrid.ItemsSource = this.ucBirimAgArayuzu.AgAkisList;
+                AgAkisDataGrid.ItemsSource = this.agAnahtariAgArayuzu.AgAkisList;
                 AgAkisDataGrid.Visibility = Visibility.Visible;
                 AgAkisNoDataRow.Visibility = Visibility.Hidden;
             }
@@ -57,7 +58,8 @@ namespace AYP
                 AgAkisNoDataRow.Visibility = Visibility.Visible;
             }
 
-            agAkis.AgArayuzuId = this.ucBirimAgArayuzu.UniqueId;
+            agAkis.AgArayuzuId = this.agAnahtariAgArayuzu.UniqueId;
+            SetAgArayuzuInputList();
             SetAgAkisTipiList();
             SetAgAkisProtokoluList();
             DataContext = agAkis;
@@ -66,14 +68,14 @@ namespace AYP
         #region PopupCloseEvents
         private void ClosePopup()
         {
-            this.ucBirimAgArayuzu.Connect.AgYuku = toplam;
+            this.agAnahtariAgArayuzu.Connect.AgYuku = toplam;
 
             Close();
             Owner.IsEnabled = true;
             Owner.Effect = null;
         }
 
-        private void ButtonUcBirimAgAkisPopupClose_Click(object sender, RoutedEventArgs e)
+        private void ButtonAgAnahtariAgAkisPopupClose_Click(object sender, RoutedEventArgs e)
         {
             ClosePopup();
         }
@@ -134,6 +136,12 @@ namespace AYP
             agAkis.AgAkisProtokoluList = kodListeService.ListAgAkisProtokolu();
             agAkis.AgAkisProtokoluId = agAkis.AgAkisProtokoluList[0].Id;
         }
+        private void SetAgArayuzuInputList()
+        {
+            agAkis.InputList = agAnahtariAgArayuzu.Node.InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu).ToList(); 
+            agAkis.IliskiliAgArayuzuId = agAkis.InputList[0].UniqueId;
+        }
+
         #endregion
 
         #region TableEvents
@@ -144,56 +152,92 @@ namespace AYP
 
             if (Validator.TryValidateObject(agAkis, validationContext, results, true))
             {
-                decimal total = 0;
-                if (checkedAgAkisRow != null)
+                var inputToplamAgYuku = this.agAnahtariAgArayuzu.Node.InputList.Where(x => x.UniqueId == agAkis.IliskiliAgArayuzuId).Select(s => s.AgAkisList.Select(k => k.Yuk).Sum()).FirstOrDefault();
+                if (inputToplamAgYuku != 0)
                 {
-                    var ctx = checkedAgAkisRow.DataContext;
-                    var obj = (AgAkis)ctx;
-
-                    total = (this.ucBirimAgArayuzu.AgAkisList.Select(s => s.Yuk).Sum() + agAkis.Yuk) - obj.Yuk;
-
-                }
-                else
-                {
-                    total = this.ucBirimAgArayuzu.AgAkisList.Select(s => s.Yuk).Sum() + agAkis.Yuk;
-                }
-
-                if (this.ucBirimAgArayuzu.MaxKapasite >= total)
-                {
-                    toplam = total;
-                    MainTitle.Content = "Ağ Akışı - " + toplam + " Mbps";
-
+                    decimal inputToplamAgAkisi = 0;
                     if (checkedAgAkisRow != null)
                     {
                         var ctx = checkedAgAkisRow.DataContext;
                         var obj = (AgAkis)ctx;
-                        this.ucBirimAgArayuzu.AgAkisList.Remove(obj);
-                        checkedAgAkisRow = null;
+
+                        inputToplamAgAkisi = (this.agAnahtariAgArayuzu.AgAkisList.Where(x => x.IliskiliAgArayuzuId == agAkis.IliskiliAgArayuzuId).Select(s => s.Yuk).Sum() + agAkis.Yuk) - obj.Yuk;
+                    }
+                    else
+                    {
+                        inputToplamAgAkisi = this.agAnahtariAgArayuzu.AgAkisList.Where(x => x.IliskiliAgArayuzuId == agAkis.IliskiliAgArayuzuId).Select(s => s.Yuk).Sum() + agAkis.Yuk;
                     }
 
-                    AgAkisDataGrid.ItemsSource = null;
-                    agAkis.Id = Guid.NewGuid();
-                    agAkis.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluList.Where(x => x.Id == agAkis.AgAkisProtokoluId).Select(s => s.Ad).FirstOrDefault();
-                    agAkis.AgAkisTipiAdi = agAkis.AgAkisTipiList.Where(x => x.Id == agAkis.AgAkisTipiId).Select(s => s.Ad).FirstOrDefault();
+                    if (inputToplamAgYuku - inputToplamAgAkisi >= 0)
+                    {
+                        decimal total = 0;
+                        if (checkedAgAkisRow != null)
+                        {
+                            var ctx = checkedAgAkisRow.DataContext;
+                            var obj = (AgAkis)ctx;
 
-                    this.ucBirimAgArayuzu.AgAkisList.Add(agAkis);
-                    SetToConnectorAgAkis();
+                            total = (this.agAnahtariAgArayuzu.AgAkisList.Select(s => s.Yuk).Sum() + agAkis.Yuk) - obj.Yuk;
 
-                    AgAkisDataGrid.ItemsSource = this.ucBirimAgArayuzu.AgAkisList;
-                    AgAkisDataGrid.Visibility = Visibility.Visible;
-                    AgAkisNoDataRow.Visibility = Visibility.Hidden;
+                        }
+                        else
+                        {
+                            total = this.agAnahtariAgArayuzu.AgAkisList.Select(s => s.Yuk).Sum() + agAkis.Yuk;
+                        }
 
-                    DataContext = null;
-                    agAkis = new AgAkis();
-                    agAkis.AgArayuzuId = this.ucBirimAgArayuzu.UniqueId;
-                    SetAgAkisProtokoluList();
-                    SetAgAkisTipiList();
-                    DataContext = agAkis;
+                        if (this.agAnahtariAgArayuzu.MaxKapasite >= total)
+                        {
+                            toplam = total;
+                            MainTitle.Content = "Ağ Akışı - " + toplam + " Mbps";
+
+                            if (checkedAgAkisRow != null)
+                            {
+                                var ctx = checkedAgAkisRow.DataContext;
+                                var obj = (AgAkis)ctx;
+                                this.agAnahtariAgArayuzu.AgAkisList.Remove(obj);
+                                checkedAgAkisRow = null;
+                            }
+
+                            AgAkisDataGrid.ItemsSource = null;
+                            agAkis.Id = Guid.NewGuid();
+                            agAkis.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluList.Where(x => x.Id == agAkis.AgAkisProtokoluId).Select(s => s.Ad).FirstOrDefault();
+                            agAkis.AgAkisTipiAdi = agAkis.AgAkisTipiList.Where(x => x.Id == agAkis.AgAkisTipiId).Select(s => s.Ad).FirstOrDefault();
+                            agAkis.IliskiliAgArayuzuAdi = agAkis.InputList.Where(x => x.UniqueId == agAkis.IliskiliAgArayuzuId).Select(s => s.Label).FirstOrDefault();
+
+                            this.agAnahtariAgArayuzu.AgAkisList.Add(agAkis);
+                            SetToConnectorAgAkis();
+
+                            AgAkisDataGrid.ItemsSource = this.agAnahtariAgArayuzu.AgAkisList;
+                            AgAkisDataGrid.Visibility = Visibility.Visible;
+                            AgAkisNoDataRow.Visibility = Visibility.Hidden;
+
+                            DataContext = null;
+                            agAkis = new AgAkis();
+                            agAkis.AgArayuzuId = this.agAnahtariAgArayuzu.UniqueId;
+                            SetAgArayuzuInputList();
+                            SetAgAkisProtokoluList();
+                            SetAgAkisTipiList();
+                            DataContext = agAkis;
+                        }
+                        else
+                        {
+                            NotifyInfoPopup nfp = new NotifyInfoPopup();
+                            nfp.msg.Text = "Ağın iletebileceği yük kapasitesini (" + this.agAnahtariAgArayuzu.MinKapasite + " - " + this.agAnahtariAgArayuzu.MaxKapasite + " Mbps) aştınız!";
+                            nfp.Owner = Owner;
+                            nfp.Show();
+                        }
+                    }
+                    else
+                    {
+                        NotifyInfoPopup nfp = new NotifyInfoPopup();
+                        nfp.msg.Text = "Seçtiğiniz girdinin toplam ağ yükünü aştınız.";
+                        nfp.Owner = Owner;
+                        nfp.Show();
+                    }
                 }
                 else
                 {
                     NotifyInfoPopup nfp = new NotifyInfoPopup();
-                    nfp.msg.Text = "Ağın iletebileceği yük kapasitesini (" + this.ucBirimAgArayuzu.MinKapasite  + " - " + this.ucBirimAgArayuzu.MaxKapasite + " Mbps) aştınız!";
+                    nfp.msg.Text = "Seçtiğiniz girdi için ağ akışı tanımlaması yapılmadığı için, bu girdi için ağ akışı tanımlanamz.";
                     nfp.Owner = Owner;
                     nfp.Show();
                 }
@@ -232,7 +276,8 @@ namespace AYP
             checkedAgAkisRow = null;
             DataContext = null;
             agAkis = new AgAkis();
-            agAkis.AgArayuzuId = this.ucBirimAgArayuzu.UniqueId;
+            agAkis.AgArayuzuId = this.agAnahtariAgArayuzu.UniqueId;
+            SetAgArayuzuInputList();
             SetAgAkisTipiList();
             SetAgAkisProtokoluList();
             DataContext = agAkis;
@@ -246,14 +291,14 @@ namespace AYP
                 var obj = (AgAkis)ctx;
 
                 AgAkisDataGrid.ItemsSource = null;
-                this.ucBirimAgArayuzu.AgAkisList.Remove(obj);
-                toplam = this.ucBirimAgArayuzu.AgAkisList.Select(s => s.Yuk).Sum();
+                this.agAnahtariAgArayuzu.AgAkisList.Remove(obj);
+                toplam = this.agAnahtariAgArayuzu.AgAkisList.Select(s => s.Yuk).Sum();
                 MainTitle.Content = "Ağ Akışı - " + toplam + " Mbps";
 
                 SetToConnectorAgAkis();
-                AgAkisDataGrid.ItemsSource = this.ucBirimAgArayuzu.AgAkisList;
+                AgAkisDataGrid.ItemsSource = this.agAnahtariAgArayuzu.AgAkisList;
 
-                if (this.ucBirimAgArayuzu.AgAkisList.Count == 0)
+                if (this.agAnahtariAgArayuzu.AgAkisList.Count == 0)
                 {
                     AgAkisDataGrid.Visibility = Visibility.Hidden;
                     AgAkisNoDataRow.Visibility = Visibility.Visible;
@@ -262,7 +307,8 @@ namespace AYP
                 checkedAgAkisRow = null;
                 DataContext = null;
                 agAkis = new AgAkis();
-                agAkis.AgArayuzuId = this.ucBirimAgArayuzu.UniqueId;
+                agAkis.AgArayuzuId = this.agAnahtariAgArayuzu.UniqueId;
+                SetAgArayuzuInputList();
                 SetAgAkisTipiList();
                 SetAgAkisProtokoluList();
                 DataContext = agAkis;
@@ -271,17 +317,17 @@ namespace AYP
 
         private void SetToConnectorAgAkis()
         {
-            this.ucBirimAgArayuzu.Connect.ToConnector.AgAkisList.Clear();
-            foreach (var agAkis in this.ucBirimAgArayuzu.AgAkisList)
+            this.agAnahtariAgArayuzu.Connect.ToConnector.AgAkisList.Clear();
+            foreach (var agAkis in this.agAnahtariAgArayuzu.AgAkisList)
             {
                 var temp = new AgAkis();
                 temp.Id = Guid.NewGuid();
-                temp.AgArayuzuId = this.ucBirimAgArayuzu.Connect.ToConnector.UniqueId;
+                temp.AgArayuzuId = this.agAnahtariAgArayuzu.Connect.ToConnector.UniqueId;
                 temp.Yuk = agAkis.Yuk;
                 temp.AgAkisProtokoluId = agAkis.AgAkisProtokoluId;
                 temp.AgAkisTipiId = agAkis.AgAkisTipiId;
 
-                this.ucBirimAgArayuzu.Connect.ToConnector.AgAkisList.Add(temp);
+                this.agAnahtariAgArayuzu.Connect.ToConnector.AgAkisList.Add(temp);
             }
         }
     }

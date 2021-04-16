@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:view="clr-namespace:AYP.View" xmlns:styles="clr-namespace:AYP.Styles"
-        mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="Manual" Left="0" Top="0"
+        mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterScreen" Left="0" Top="0"
         Title="MainWindow" Height="1080" Width="1920">
 
     <Grid Margin="0" Background="#182026" AutomationProperties.IsRowHeader="True" AutomationProperties.IsColumnHeader="True">

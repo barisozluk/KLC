@@ -7,7 +7,7 @@
              mc:Ignorable="d"  Focusable="True"
              d:DesignHeight="450" d:DesignWidth="800" IsHitTestVisible="True">
     <Grid x:Name="GridElement">
-        <Border x:Name="AgYukuBorder">
+        <Border x:Name="AgYukuBorder" Visibility="Hidden">
             <TextBlock x:Name="AgYuku" Foreground="White" FontSize="12" FontWeight="Bold"></TextBlock>
         </Border>
         <Path x:Name="PathElement" StrokeDashCap="Round" StrokeLineJoin="Round" Stroke="{DynamicResource ColorConnect}"  StrokeDashArray="10,3" StrokeEndLineCap="Round" StrokeStartLineCap="Round">

@@ -18,6 +18,9 @@
     <Page Update="Styles\StyleDescribingGucArayuzuFormPanel.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Styles\StyleAgAnahtariAgAkisFormPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\StyleUcBirimAgAkisFormPanel.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -29,6 +32,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\StyleCheckBox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="AgAnahtariAgAkisPopupWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="UcBirimAgAkisPopupWindow.xaml">
