@@ -409,7 +409,7 @@ namespace AYP.Validations
             return response;
         }
 
-        private bool FizikselOrtamValidasyon(NodesCanvasViewModel NodesCanvas, ConnectorViewModel fromConnector, ConnectorViewModel toConnector)
+        public bool FizikselOrtamValidasyon(NodesCanvasViewModel NodesCanvas, ConnectorViewModel fromConnector, ConnectorViewModel toConnector)
         {
             var response = true;
 
@@ -457,7 +457,7 @@ namespace AYP.Validations
             return response;
         }
 
-        private bool KapasiteValidasyon(NodesCanvasViewModel NodesCanvas, ConnectorViewModel fromConnector, ConnectorViewModel toConnector)
+        public bool KapasiteValidasyon(NodesCanvasViewModel NodesCanvas, ConnectorViewModel fromConnector, ConnectorViewModel toConnector)
         {
             var response = true;
 

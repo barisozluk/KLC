@@ -155,6 +155,10 @@ namespace AYP
                 this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandEditSelected, x => x.ButtonEditSelected).DisposeWith(disposable);
                 this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandGroup, x => x.ButtonGroup).DisposeWith(disposable);
                 this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandUngroup, x => x.ButtonUngroup).DisposeWith(disposable);
+
+                //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandYildizTopolojiOlustur, x => x.ButtonYildizTopoloji).DisposeWith(disposable);
+                //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandHalkaTopolojiOlustur, x => x.ButtonHalkaTopoloji).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandZincirTopolojiOlustur, x => x.ButtonZincirTopoloji).DisposeWith(disposable);
             });
         }
         #endregion Setup Binding
