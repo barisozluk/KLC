@@ -576,7 +576,7 @@ namespace AYP
 
         private void ListKullanimAmaciForGucArayuzu()
         {
-            gucArayuzu.KullanimAmaciList = kodListeService.ListKullanimAmaci();
+            gucArayuzu.KullanimAmaciList = kodListeService.ListKullanimAmaci().Where(x => x.Id == 1).ToList();
             if (gucArayuzu.KullanimAmaciList.Count() > 0)
             {
                 gucArayuzu.KullanimAmaciId = gucArayuzu.KullanimAmaciList[0].Id;

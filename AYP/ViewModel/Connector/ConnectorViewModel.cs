@@ -11,6 +11,7 @@ using System.Linq;
 using AYP.Helpers.Extensions;
 using System.Reactive.Linq;
 using DynamicData;
+using AYP.Enums;
 
 namespace AYP.ViewModel
 {
@@ -45,11 +46,13 @@ namespace AYP.ViewModel
         [Reactive] public decimal? CiktiUrettigiGucKapasitesi { get; set; }
         [Reactive] public string Label { get; set; }
         [Reactive] public int TypeId { get; set; }
+        [Reactive] public decimal KalanKapasite { get; set; }
+
 
         public ConnectorViewModel(NodesCanvasViewModel nodesCanvas, NodeViewModel viewModelNode, string name, Point myPoint, Guid uniqueId, int? kapasiteId = default(int), int? fizikselOrtamId = default(int),
             int? gerilimTipiId = default(int), int kullanimAmaciId = default(int), decimal? girdiDuraganGerilimDegeri1 = default(decimal), decimal? girdiDuraganGerilimDegeri2 = default(decimal), decimal? girdiDuraganGerilimDegeri3 = default(decimal),
             decimal? girdiMinimumGerilimDegeri = default(decimal), decimal? girdiMaksimumGerilimDegeri = default(decimal), decimal? girdiTukettigiGucMiktari = default(decimal),
-            string ciktiDuraganGerilimDegeri = default(string), decimal? ciktiUrettigiGucKapasitesi = default(decimal), string label = default(string), int typeId = default(int))
+            string ciktiDuraganGerilimDegeri = default(string), decimal? ciktiUrettigiGucKapasitesi = default(decimal), string label = default(string), int typeId = default(int), decimal kalanKapasite = default(decimal))
         {
             Node = viewModelNode;
             NodesCanvas = nodesCanvas;
@@ -70,6 +73,7 @@ namespace AYP.ViewModel
             CiktiDuraganGerilimDegeri = ciktiDuraganGerilimDegeri;
             CiktiUrettigiGucKapasitesi = ciktiUrettigiGucKapasitesi;
             TypeId = typeId;
+            KalanKapasite = kalanKapasite;
 
             SetupCommands();
             SetupSubscriptions();

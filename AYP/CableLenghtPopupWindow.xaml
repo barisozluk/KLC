@@ -19,10 +19,8 @@
                 <ColumnDefinition Width="10" />
             </Grid.ColumnDefinitions>
 
-            <Label Style="{DynamicResource StyleDescribingMainTitle}" Content="Kablo Boyu" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <Button Style="{DynamicResource StyleCloseDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,0,0" Click="ButtonCableLengthPopupClose_Click" >
-                <Rectangle Fill="{DynamicResource IconClose}"  Height="15" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
-            </Button>
+            <Label Style="{DynamicResource StyleDescribingMainTitle}" Width="440" Content="Kablo Boyu" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+
 
             <Rectangle Style="{DynamicResource StyleDescribingTurFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Kablo boyunu giriniz : " Grid.Row="0" Grid.Column="1" Margin="0,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>

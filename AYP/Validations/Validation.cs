@@ -196,6 +196,24 @@ namespace AYP.Validations
                             else if (toConnector.TypeId == (int)TipEnum.UcBirimGucArayuzu)
                             {
                                 response = GerilimTipiValidasyon(NodesCanvas, fromConnector, toConnector);
+                                if(response)
+                                {
+                                    response = GucValidasyon(NodesCanvas, fromConnector, toConnector);
+                                    if (!response)
+                                    {
+                                        OpenModal("Güç hesabı hatası", NodesCanvas);
+                                        response = false;
+                                    }
+                                    else
+                                    {
+                                        response = GerilimValidasyon(NodesCanvas, fromConnector, toConnector);
+                                        if (!response)
+                                        {
+                                            OpenModal("Gerilim hesabı hatası", NodesCanvas);
+                                            response = false;
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -224,6 +242,24 @@ namespace AYP.Validations
                             else if (toConnector.TypeId == (int)TipEnum.AgAnahtariGucArayuzu)
                             {
                                 response = GerilimTipiValidasyon(NodesCanvas, fromConnector, toConnector);
+                                if(response)
+                                {
+                                    response = GucValidasyon(NodesCanvas, fromConnector, toConnector);
+                                    if (!response)
+                                    {
+                                        OpenModal("Güç hesabı hatası", NodesCanvas);
+                                        response = false;
+                                    }
+                                    else
+                                    {
+                                        response = GerilimValidasyon(NodesCanvas, fromConnector, toConnector);
+                                        if (!response)
+                                        {
+                                            OpenModal("Gerilim hesabı hatası", NodesCanvas);
+                                            response = false;
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -243,8 +279,65 @@ namespace AYP.Validations
                     if (response)
                     {
                         response = GerilimTipiValidasyon(NodesCanvas, fromConnector, toConnector);
+
+                        if(response)
+                        {
+                            response = GucValidasyon(NodesCanvas, fromConnector, toConnector);
+                            if(!response)
+                            {
+                                OpenModal("Güç hesabı hatası", NodesCanvas);
+                                response = false;
+                            }
+                            else
+                            {
+                                response = GerilimValidasyon(NodesCanvas, fromConnector, toConnector);
+                                if (!response)
+                                {
+                                    OpenModal("Gerilim hesabı hatası", NodesCanvas);
+                                    response = false;
+                                }
+                            }
+                        }
                     }
                 }
+            }
+
+            return response;
+        }
+
+        private bool GerilimValidasyon(NodesCanvasViewModel NodesCanvas, ConnectorViewModel fromConnector, ConnectorViewModel toConnector)
+        {
+            var response = true;
+            if(toConnector.GirdiDuraganGerilimDegeri1.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
+            {
+                if (toConnector.GirdiDuraganGerilimDegeri2.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
+                {
+                    if (toConnector.GirdiDuraganGerilimDegeri3.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
+                    {
+                        if (!(toConnector.GirdiMinimumGerilimDegeri.Value <= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri) &&
+                            toConnector.GirdiMaksimumGerilimDegeri.Value >= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri)))
+                        {
+                            response = false;
+                        }
+                    }
+                }
+            }
+
+            return response;
+        }
+
+
+        private bool GucValidasyon(NodesCanvasViewModel NodesCanvas, ConnectorViewModel fromConnector, ConnectorViewModel toConnector)
+        {
+            var response = true;
+
+            if (fromConnector.KalanKapasite - toConnector.GirdiTukettigiGucMiktari.Value < 0)
+            {
+                response = false;
+            }
+            else
+            {
+                fromConnector.KalanKapasite = fromConnector.KalanKapasite - toConnector.GirdiTukettigiGucMiktari.Value;
             }
 
             return response;
