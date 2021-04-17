@@ -268,7 +268,7 @@ namespace AYP.View
             double middleX = (value.X + this.ViewModel.EndPoint.X) / 2;
             double middleY = (value.Y + this.ViewModel.EndPoint.Y) / 2;
             UzunlukBorder.Margin = new Thickness(middleX , middleY, 0, 0);
-            AgYukuBorder.Margin = new Thickness(middleX, middleY - 25, 0, 0);
+            AgYukuBorder.Margin = new Thickness(value.X + 10, value.Y - 10, 0, 0);
         }
 
         private void OnEventEndPoint(Point value)
@@ -276,7 +276,7 @@ namespace AYP.View
             double middleX = (value.X + this.ViewModel.StartPoint.X) / 2;
             double middleY = (value.Y + this.ViewModel.StartPoint.Y) / 2;
             UzunlukBorder.Margin = new Thickness(middleX, middleY, 0, 0);
-            AgYukuBorder.Margin = new Thickness(middleX, middleY - 25, 0, 0);
+            AgYukuBorder.Margin = new Thickness(this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y - 10, 0, 0);
         }
 
         private void OnEventUzunluk(decimal value)

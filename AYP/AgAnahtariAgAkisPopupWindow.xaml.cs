@@ -168,6 +168,11 @@ namespace AYP
                         inputToplamAgAkisi = this.agAnahtariAgArayuzu.AgAkisList.Where(x => x.IliskiliAgArayuzuId == agAkis.IliskiliAgArayuzuId).Select(s => s.Yuk).Sum() + agAkis.Yuk;
                     }
 
+                    foreach(var output in this.agAnahtariAgArayuzu.Node.Transitions.Items)
+                    {
+                        inputToplamAgAkisi += output.AgAkisList.Where(x => x.IliskiliAgArayuzuId == agAkis.IliskiliAgArayuzuId).Select(s => s.Yuk).Sum();
+                    }
+
                     if (inputToplamAgYuku - inputToplamAgAkisi >= 0)
                     {
                         decimal total = 0;
@@ -184,7 +189,7 @@ namespace AYP
                             total = this.agAnahtariAgArayuzu.AgAkisList.Select(s => s.Yuk).Sum() + agAkis.Yuk;
                         }
 
-                        if (this.agAnahtariAgArayuzu.MaxKapasite >= total)
+                        if (this.agAnahtariAgArayuzu.MinKapasite <= total && this.agAnahtariAgArayuzu.MaxKapasite >= total)
                         {
                             toplam = total;
                             MainTitle.Content = "Ağ Akışı - " + toplam + " Mbps";
@@ -221,7 +226,7 @@ namespace AYP
                         else
                         {
                             NotifyInfoPopup nfp = new NotifyInfoPopup();
-                            nfp.msg.Text = "Ağın iletebileceği yük kapasitesini (" + this.agAnahtariAgArayuzu.MinKapasite + " - " + this.agAnahtariAgArayuzu.MaxKapasite + " Mbps) aştınız!";
+                            nfp.msg.Text = "Ağın iletebileceği yük kapasitesi " + this.agAnahtariAgArayuzu.MinKapasite + " - " + this.agAnahtariAgArayuzu.MaxKapasite + " Mbps arasında olmalıdır!";
                             nfp.Owner = Owner;
                             nfp.Show();
                         }
