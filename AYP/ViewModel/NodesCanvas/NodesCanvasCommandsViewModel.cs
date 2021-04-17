@@ -1134,8 +1134,13 @@ namespace AYP.ViewModel
         private void DeleteConnect(ConnectViewModel ViewModelConnect)
         {
             Connects.Remove(ViewModelConnect);
+
             ViewModelConnect.FromConnector.AgAkisList = new List<AgAkis>();
             ViewModelConnect.ToConnector.AgAkisList = new List<AgAkis>();
+            if(ViewModelConnect.FromConnector.Node.TypeId == (int)TipEnum.GucUretici)
+            {
+                ViewModelConnect.FromConnector.KalanKapasite += ViewModelConnect.ToConnector.GirdiTukettigiGucMiktari.Value;
+            }
             //ViewModelConnect.FromConnector.Node.Transitions.Remove(ViewModelConnect.FromConnector);
             //ViewModelConnect.FromConnector.Node.Transitions.Remove(ViewModelConnect.FromConnector.Node.CurrentConnector);
             ViewModelConnect.FromConnector.Node.CurrentConnector = null;
@@ -1238,7 +1243,7 @@ namespace AYP.ViewModel
                 }
                 
                 newNode = new NodeViewModel(this, GetNameForNewNode(parameter.Node.TypeId), Guid.NewGuid(), parameter.Point, parameter.Node.Id, parameter.Node.TypeId, 
-                                parameter.Node.AgArayuzuList, parameter.Node.GucArayuzuList);
+                                parameter.Node.AgArayuzuList, parameter.Node.GucArayuzuList,new List<ConnectorViewModel>(), new List<ConnectorViewModel>(), parameter.Node.VerimlilikOrani, parameter.Node.DahiliGucTuketimDegeri);
                 
                 if(NodesCount == 0)
                 {

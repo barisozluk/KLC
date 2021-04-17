@@ -38,6 +38,10 @@ namespace AYP.ViewModel
         [Reactive] public NodesCanvasViewModel NodesCanvas { get; set; }
         [Reactive] public int IndexStartSelectConnectors { get; set; } = 0;
         [Reactive] public double HeaderWidth { get; set; } = 80;
+        [Reactive] public decimal VerimlilikOrani { get; set; }
+        [Reactive] public decimal DahiliGucTuketimDegeri { get; set; }
+
+
         [Reactive] public int Id { get; set; }
         [Reactive] public int TypeId { get; set; }
         [Reactive] public Guid UniqueId { get; set; }
@@ -58,7 +62,8 @@ namespace AYP.ViewModel
         }
 
         public NodeViewModel(NodesCanvasViewModel nodesCanvas, string name, Guid uniqueId = default(Guid), Point point = default(Point), int id = default(int), int typeId = default(int),
-                               List<AgArayuzu> agArayuzuList = default, List<GucArayuzu> gucArayuzuList = default, List<ConnectorViewModel> inputList = default, List<ConnectorViewModel> outputList = default)
+                               List<AgArayuzu> agArayuzuList = default, List<GucArayuzu> gucArayuzuList = default, List<ConnectorViewModel> inputList = default, List<ConnectorViewModel> outputList = default,
+                               decimal verimlilikOrani = default, decimal dahiliGucTuketimDegeri = default)
         {
             NodesCanvas = nodesCanvas;
             Name = name;
@@ -67,6 +72,8 @@ namespace AYP.ViewModel
             Id = id;
             TypeId = typeId;
             UniqueId = uniqueId;
+            VerimlilikOrani = verimlilikOrani;
+            DahiliGucTuketimDegeri = dahiliGucTuketimDegeri;
 
             AgArayuzuList = agArayuzuList;
             GucArayuzuList = gucArayuzuList;
@@ -205,6 +212,18 @@ namespace AYP.ViewModel
                         Visible = null
                     };
 
+                    if (output.TypeId == (int)TipEnum.GucUreticiGucArayuzu && output.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti)
+                    {
+                        if(VerimlilikOrani == 0)
+                        {
+                            output.KalanKapasite = (output.CiktiUrettigiGucKapasitesi.Value - DahiliGucTuketimDegeri);
+                        }
+                        else
+                        {
+                            output.KalanKapasite = (VerimlilikOrani * output.CiktiUrettigiGucKapasitesi.Value);
+                        }
+                        
+                    }
                     OutputList.Add(output);
                 }
             }
@@ -237,6 +256,18 @@ namespace AYP.ViewModel
                         Visible = null
                     };
 
+                    if (output.TypeId == (int)TipEnum.GucUreticiGucArayuzu && output.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti)
+                    {
+                        if (VerimlilikOrani == 0)
+                        {
+                            output.KalanKapasite = (output.CiktiUrettigiGucKapasitesi.Value - DahiliGucTuketimDegeri);
+                        }
+                        else
+                        {
+                            output.KalanKapasite = (VerimlilikOrani * output.CiktiUrettigiGucKapasitesi.Value);
+                        }
+
+                    }
                     OutputList.Add(output);
                 }
             }
