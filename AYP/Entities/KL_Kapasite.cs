@@ -12,6 +12,8 @@ namespace AYP.Entities
 
         [Required]
         public string Ad { get; set;  }
-        
+        public int MinKapasite { get; set; }
+        public int MaxKapasite { get; set; }
+
     }
 }

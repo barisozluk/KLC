@@ -195,7 +195,7 @@ namespace AYP.ViewModel
             foreach(var output in OutputList)
             {
                 CurrentConnector = new ConnectorViewModel(NodesCanvas, this, output.Name, output.PositionConnectPoint, output.UniqueId,
-                    output.KapasiteId, output.FizikselOrtamId, output.GerilimTipiId, output.KullanimAmaciId,
+                    output.KapasiteId, output.MinKapasite, output.MaxKapasite, output.FizikselOrtamId, output.GerilimTipiId, output.KullanimAmaciId,
                     output.GirdiDuraganGerilimDegeri1, output.GirdiDuraganGerilimDegeri2, output.GirdiDuraganGerilimDegeri3,
                     output.GirdiMinimumGerilimDegeri, output.GirdiMaksimumGerilimDegeri, output.GirdiTukettigiGucMiktari, output.CiktiDuraganGerilimDegeri,
                     output.CiktiUrettigiGucKapasitesi, output.Label, output.TypeId)

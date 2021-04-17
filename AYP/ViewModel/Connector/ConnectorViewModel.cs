@@ -12,6 +12,8 @@ using AYP.Helpers.Extensions;
 using System.Reactive.Linq;
 using DynamicData;
 using AYP.Enums;
+using System.Collections.Generic;
+using AYP.Entities;
 
 namespace AYP.ViewModel
 {
@@ -33,6 +35,8 @@ namespace AYP.ViewModel
         [Reactive] public bool Selected { get; set; }
         [Reactive] public Guid UniqueId { get; set; }
         [Reactive] public int? KapasiteId { get; set; }
+        [Reactive] public int? MinKapasite { get; set; }
+        [Reactive] public int? MaxKapasite { get; set; }
         [Reactive] public int? FizikselOrtamId { get; set; }
         [Reactive] public int KullanimAmaciId { get; set; }
         [Reactive] public int? GerilimTipiId { get; set; }
@@ -46,10 +50,11 @@ namespace AYP.ViewModel
         [Reactive] public decimal? CiktiUrettigiGucKapasitesi { get; set; }
         [Reactive] public string Label { get; set; }
         [Reactive] public int TypeId { get; set; }
+        [Reactive] public List<AgAkis> AgAkisList { get; set; } = new List<AgAkis>();
         [Reactive] public decimal KalanKapasite { get; set; }
 
 
-        public ConnectorViewModel(NodesCanvasViewModel nodesCanvas, NodeViewModel viewModelNode, string name, Point myPoint, Guid uniqueId, int? kapasiteId = default(int), int? fizikselOrtamId = default(int),
+        public ConnectorViewModel(NodesCanvasViewModel nodesCanvas, NodeViewModel viewModelNode, string name, Point myPoint, Guid uniqueId, int? kapasiteId = default(int), int? minKapasite = default(int), int? maxKapasite = default(int), int? fizikselOrtamId = default(int),
             int? gerilimTipiId = default(int), int kullanimAmaciId = default(int), decimal? girdiDuraganGerilimDegeri1 = default(decimal), decimal? girdiDuraganGerilimDegeri2 = default(decimal), decimal? girdiDuraganGerilimDegeri3 = default(decimal),
             decimal? girdiMinimumGerilimDegeri = default(decimal), decimal? girdiMaksimumGerilimDegeri = default(decimal), decimal? girdiTukettigiGucMiktari = default(decimal),
             string ciktiDuraganGerilimDegeri = default(string), decimal? ciktiUrettigiGucKapasitesi = default(decimal), string label = default(string), int typeId = default(int), decimal kalanKapasite = default(decimal))
@@ -61,6 +66,8 @@ namespace AYP.ViewModel
             PositionConnectPoint = myPoint;
             UniqueId = uniqueId;
             KapasiteId = kapasiteId;
+            MinKapasite = minKapasite;
+            MaxKapasite = maxKapasite;
             KullanimAmaciId = kullanimAmaciId;
             FizikselOrtamId = fizikselOrtamId;
             GerilimTipiId = gerilimTipiId;

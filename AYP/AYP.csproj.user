@@ -7,10 +7,21 @@
     <ActiveDebugProfile>AYP</ActiveDebugProfile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Update="UcBirimAgAkisPopupWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="CableLenghtPopupWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\StyleDescribingGucArayuzuFormPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleAgAnahtariAgAkisFormPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleUcBirimAgAkisFormPanel.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\StyleTableProcessButton.xaml">
@@ -21,6 +32,12 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\StyleCheckBox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="AgAnahtariAgAkisPopupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="UcBirimAgAkisPopupWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

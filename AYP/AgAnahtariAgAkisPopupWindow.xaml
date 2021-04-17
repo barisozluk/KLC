@@ -1,0 +1,120 @@
+﻿<Window x:Class="AYP.AgAnahtariAgAkisPopupWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AYP"
+        mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterOwner"
+        Title="AgAnahtariAgAkisPopupWindow" Height="425" Width="810" Background="Transparent">
+
+    <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">
+
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="425"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="790" />
+                <ColumnDefinition Width="10" />
+            </Grid.ColumnDefinitions>
+
+            <Label Name="MainTitle" Style="{DynamicResource StyleDescribingMainTitle}" Content="Ağ Akışı" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="745"/>
+            <Button Style="{DynamicResource StyleCloseDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,0,0" Click="ButtonAgAnahtariAgAkisPopupClose_Click" >
+                <Rectangle Fill="{DynamicResource IconClose}"  Height="15" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
+            </Button>
+
+            <Rectangle Style="{DynamicResource StyleAgAnahtariAgAkisFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+
+            <Label FontSize="16" Foreground="#ffffff" Content="Yük *" Grid.Row="0" Grid.Column="1" Margin="10,65,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <TextBox Name="Yuk" PreviewTextInput="DecimalValidationTextBox" Text="{Binding Yuk}" Style="{DynamicResource StyleTextBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,95,0,10" VerticalAlignment="Top" />
+
+            <Label FontSize="16" Foreground="#ffffff" Content="Ağ Akış Tipi *" Grid.Row="0" Grid.Column="1" Margin="10,140,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <ComboBox SelectedValue="{Binding AgAkisTipiId}" ItemsSource="{Binding AgAkisTipiList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,170,0,10" VerticalAlignment="Top">
+            </ComboBox>
+
+            <Label FontSize="16" Foreground="#ffffff" Content="Ağ Akış Protokolü *" Grid.Row="0" Grid.Column="1" Margin="10,215,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <ComboBox SelectedValue="{Binding AgAkisProtokoluId}" ItemsSource="{Binding AgAkisProtokoluList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,245,0,10" VerticalAlignment="Top" >
+            </ComboBox>
+
+            <Label FontSize="16" Foreground="#ffffff" Content="İlişkili Olduğu Girdi *" Grid.Row="0" Grid.Column="1" Margin="10,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <ComboBox SelectedValue="{Binding IliskiliAgArayuzuId}" ItemsSource="{Binding InputList}" DisplayMemberPath="Label" SelectedValuePath="UniqueId" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,320,0,10" VerticalAlignment="Top" >
+            </ComboBox>
+
+            <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,365,0,10" Background="#222d35" Width="250" Click="ButtonAddAgAkis_Click">
+                <Grid>
+                    <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="100,0,0,0">Ekle</TextBlock>
+                </Grid>
+            </Button>
+
+            <StackPanel Grid.Row="0" Grid.Column="1" Margin="270,65,10,10">
+                <ScrollViewer MaxHeight="245" VerticalScrollBarVisibility="Auto">
+                    <Grid>
+                        <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30" />
+                                <ColumnDefinition Width="30" />
+                                <ColumnDefinition Width="110" />
+                                <ColumnDefinition Width="110" />
+                                <ColumnDefinition Width="110" />
+                                <ColumnDefinition Width="120" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Background="#222d35" BorderThickness="1,1,1,1" BorderBrush="#13191e" Height="35" Width="30" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="30" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Padding="20,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="110" FontSize="12" Foreground="#ffffff" Content="Yük (Mbps)" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Padding="20,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="110" FontSize="12" Foreground="#ffffff" Content="Ağ Akış Tipi" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Padding="5,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="110" FontSize="12" Foreground="#ffffff" Content="Ağ Akış Protokolü" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Padding="10,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="120" FontSize="12" Foreground="#ffffff" Content="İlişkili Olduğu Girdi" Grid.Row="0" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+
+                        <ItemsControl Visibility="Hidden" Name="AgAkisDataGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,35,0,0">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="30" />
+                                            <ColumnDefinition Width="110" />
+                                            <ColumnDefinition Width="110" />
+                                            <ColumnDefinition Width="110" />
+                                            <ColumnDefinition Width="120" />
+                                        </Grid.ColumnDefinitions>
+                                        <Button Style="{DynamicResource StyleTableProcessButton}" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Click="AgAkisDelete_Row">
+                                            <Grid>
+                                                <Image Source="Images/delete.png" Height="15" Width="30" Margin="5,0,0,0" HorizontalAlignment="Left"/>
+                                            </Grid>
+                                        </Button>
+                                        <Label Background="#222d35" BorderThickness="1,1,1,1" BorderBrush="#13191e" Height="30" Width="30" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <CheckBox IsChecked="False" Checked="AgAkisRow_Checked" Unchecked="AgAkisRow_Unchecked" BorderBrush="#13191e"/>
+                                        </Label>
+                                        <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="110" FontSize="12" Foreground="#ffffff" Content="{Binding Yuk}" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="110" FontSize="12" Foreground="#ffffff" Content="{Binding AgAkisTipiAdi}" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="110" FontSize="12" Foreground="#ffffff" Content="{Binding AgAkisProtokoluAdi}" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="120" FontSize="12" Foreground="#ffffff" Content="{Binding IliskiliAgArayuzuAdi}" Grid.Row="0" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <Grid Name="AgAkisNoDataRow" Visibility="Hidden" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,35,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="510" />
+                            </Grid.ColumnDefinitions>
+                            <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="1,1,1,1" BorderBrush="#13191e" Height="30" Width="510" FontSize="12" Foreground="#ffffff" Content="Eşleşen Kayıt Bulunamadı." Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </Grid>
+                </ScrollViewer>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

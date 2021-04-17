@@ -526,7 +526,6 @@ namespace AYP
         #endregion
 
         #region GetListEvents
-
         private void SetUcBirimTurList()
         {   
             ucBirim.UcBirimTurList = service.ListUcBirimTur();

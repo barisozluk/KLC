@@ -35,6 +35,7 @@ namespace AYP.ViewModel
         [Reactive] public double StrokeThickness { get; set; } = 1;
         [Reactive] public bool IsVisible { get; set; } = true;
         [Reactive] public decimal Uzunluk { get; set; }
+        [Reactive] public decimal AgYuku { get; set; }
 
 
         private IDisposable subscriptionOnConnectorPositionChange;
@@ -113,9 +114,6 @@ namespace AYP.ViewModel
                         this.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorDC"] as SolidColorBrush;
                     }
                 }
-            
-
-            //this.Stroke =  Application.Current.Resources[value ? "ColorSelectedElement": "ColorConnect"] as SolidColorBrush;
         }
         private void StartPointUpdate(Point point)
         {

@@ -44,15 +44,15 @@ namespace AYP.View
         #region SetupBinding
         private void SetupBinding()
         {
-            this.WhenActivated(disposable =>
-            {
-                this.OneWayBind(this.ViewModel, x => x.Node.Name, x => x.TextBoxElementStateFrom.Text).DisposeWith(disposable);
-                this.OneWayBind(this.ViewModel, x => x.Name, x => x.TextBoxElementTransitionName.Text).DisposeWith(disposable);
-                if (this.ViewModel.ItsLoop)
-                    this.OneWayBind(this.ViewModel, x => x.Node.Name, x => x.TextBoxElementStateTo.Text).DisposeWith(disposable);
-                else
-                    this.OneWayBind(this.ViewModel, x => x.Connect.ToConnector.Node.Name, x => x.TextBoxElementStateTo.Text).DisposeWith(disposable);
-            });
+            //this.WhenActivated(disposable =>
+            //{
+            //    this.OneWayBind(this.ViewModel, x => x.Node.Name, x => x.TextBoxElementStateFrom.Text).DisposeWith(disposable);
+            //    this.OneWayBind(this.ViewModel, x => x.Name, x => x.TextBoxElementTransitionName.Text).DisposeWith(disposable);
+            //    if (this.ViewModel.ItsLoop)
+            //        this.OneWayBind(this.ViewModel, x => x.Node.Name, x => x.TextBoxElementStateTo.Text).DisposeWith(disposable);
+            //    else
+            //        this.OneWayBind(this.ViewModel, x => x.Connect.ToConnector.Node.Name, x => x.TextBoxElementStateTo.Text).DisposeWith(disposable);
+            //});
 
         }
         #endregion SetupBinding
@@ -98,10 +98,10 @@ namespace AYP.View
         }
         private void ValidateStateTo()
         {
-            if (TextBoxElementStateTo.Text != this.ViewModel.Connect.ToConnector.Node.Name)
-                this.ViewModel.Connect.ToConnector.Node.CommandValidateName.ExecuteWithSubscribe(TextBoxElementStateTo.Text);
-            if (TextBoxElementStateTo.Text != this.ViewModel.Connect.ToConnector.Node.Name)
-                TextBoxElementStateTo.Text = this.ViewModel.Connect.ToConnector.Node.Name;
+            //if (TextBoxElementStateTo.Text != this.ViewModel.Connect.ToConnector.Node.Name)
+            //    this.ViewModel.Connect.ToConnector.Node.CommandValidateName.ExecuteWithSubscribe(TextBoxElementStateTo.Text);
+            //if (TextBoxElementStateTo.Text != this.ViewModel.Connect.ToConnector.Node.Name)
+            //    TextBoxElementStateTo.Text = this.ViewModel.Connect.ToConnector.Node.Name;
         }
         #endregion SetupEvents
     }
