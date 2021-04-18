@@ -25,6 +25,7 @@ using AYP.Enums;
 using AYP.Interfaces;
 using AYP.Services;
 using AYP.DbContext.AYP.DbContexts;
+using System.IO;
 
 namespace AYP.View
 {
@@ -67,6 +68,8 @@ namespace AYP.View
 
                 this.OneWayBind(this.ViewModel, x => x.Name, x => x.NodeHeaderElement.TextBoxElement.Text).DisposeWith(disposable);
 
+                //this.OneWayBind(this.ViewModel, x => x.Sembol, x => x.NodeSembol.Source).DisposeWith(disposable);
+
                 this.Bind(this.ViewModel, x => x.NameEnable, x => x.NodeHeaderElement.TextBoxElement.IsEnabled).DisposeWith(disposable);
 
                 this.OneWayBind(this.ViewModel, x => x.Point1.X, x => x.TranslateTransformElement.X).DisposeWith(disposable);
@@ -103,6 +106,10 @@ namespace AYP.View
                     GridElement.Children.Add(right);
                     i += 20;
                 }
+
+                //var image = new BitmapImage();              
+                var image = LoadImageFromByteArray(this.ViewModel.Sembol);
+                NodeSembol.Source = image;
 
                 //this.OneWayBind(this.ViewModel, x => x.Output, x => x.Output.ViewModel).DisposeWith(disposable);
 
@@ -253,7 +260,24 @@ namespace AYP.View
                 this.Visibility = Visibility.Visible;
             }
         }
-        
+
+        private static BitmapImage LoadImageFromByteArray(byte[] imageData)
+        {
+            if (imageData == null || imageData.Length == 0) return null;
+            var image = new BitmapImage();
+            using (var mem = new MemoryStream(imageData))
+            {
+                mem.Position = 0;
+                image.BeginInit();
+                image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.UriSource = null;
+                image.StreamSource = mem;
+                image.EndInit();
+            }
+            image.Freeze();
+            return image;
+        }
 
         #endregion Setup Events
 
