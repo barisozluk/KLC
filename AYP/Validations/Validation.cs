@@ -433,6 +433,44 @@ namespace AYP.Validations
             return response;
         }
 
+        public bool FizikselOrtamValidasyonForTopoloji(NodesCanvasViewModel NodesCanvas, ConnectorViewModel fromConnector, ConnectorViewModel toConnector)
+        {
+            var response = true;
+
+            if (fromConnector.FizikselOrtamId == (int)FizikselOrtamEnum.Bakir)
+            {
+                if (toConnector.FizikselOrtamId == (int)FizikselOrtamEnum.FiberOptik)
+                {
+                    response = false;
+                }
+            }
+            else if (fromConnector.FizikselOrtamId == (int)FizikselOrtamEnum.FiberOptik)
+            {
+                if (toConnector.FizikselOrtamId == (int)FizikselOrtamEnum.Bakir)
+                {
+                    response = false;
+                }
+            }
+
+            return response;
+        }
+
+        public bool ToConnectorValidasyonForTopoloji(ConnectorViewModel toConnector)
+        {
+            bool response = true;
+
+            foreach (var connect in toConnector.NodesCanvas.Connects)
+            {
+                if (connect.ToConnector == toConnector)
+                {
+                    response = false;
+                    break;
+                }
+            }
+
+            return response;
+        }
+
         private bool GerilimTipiValidasyon(NodesCanvasViewModel NodesCanvas, ConnectorViewModel fromConnector, ConnectorViewModel toConnector)
         {
             var response = true;
@@ -520,6 +558,66 @@ namespace AYP.Validations
                 else if (toConnector.KapasiteId == (int)KapasiteEnum._10GigabitEthernet)
                 {
                     OpenModal("40-Gigabit Ethernet - 10-Gigabit Ethernet bağlantısı yapılamaz.", NodesCanvas);
+                    response = false;
+                }
+            }
+
+            return response;
+        }
+
+        public bool KapasiteValidasyonForTopoloji(NodesCanvasViewModel NodesCanvas, ConnectorViewModel fromConnector, ConnectorViewModel toConnector)
+        {
+            var response = true;
+
+            if (fromConnector.KapasiteId == (int)KapasiteEnum.FastEthernet)
+            {
+                if (toConnector.KapasiteId == (int)KapasiteEnum.Ethernet)
+                {
+                    response = false;
+                }
+            }
+            else if (fromConnector.KapasiteId == (int)KapasiteEnum.GigabitEthernet)
+            {
+                if (toConnector.KapasiteId == (int)KapasiteEnum.Ethernet)
+                {
+                    response = false;
+                }
+                else if (toConnector.KapasiteId == (int)KapasiteEnum.FastEthernet)
+                {
+                    response = false;
+                }
+            }
+            else if (fromConnector.KapasiteId == (int)KapasiteEnum._10GigabitEthernet)
+            {
+                if (toConnector.KapasiteId == (int)KapasiteEnum.Ethernet)
+                {
+                    response = false;
+                }
+                else if (toConnector.KapasiteId == (int)KapasiteEnum.FastEthernet)
+                {
+                    response = false;
+                }
+                else if (toConnector.KapasiteId == (int)KapasiteEnum.GigabitEthernet)
+                {
+                    response = false;
+                }
+            }
+            else if (fromConnector.KapasiteId == (int)KapasiteEnum._40GigabitEthernet)
+            {
+                if (toConnector.KapasiteId == (int)KapasiteEnum.Ethernet)
+                {
+                    response = false;
+                }
+                else if (toConnector.KapasiteId == (int)KapasiteEnum.FastEthernet)
+                {
+                    response = false;
+                }
+                else if (toConnector.KapasiteId == (int)KapasiteEnum.GigabitEthernet)
+                {
+                    response = false;
+                }
+                else if (toConnector.KapasiteId == (int)KapasiteEnum._10GigabitEthernet)
+                {
                     response = false;
                 }
             }
