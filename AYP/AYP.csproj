@@ -49,6 +49,9 @@
     <None Remove="Images\wattSymbol.png" />
     <None Remove="Images\zoomIn.png" />
     <None Remove="Images\zoomOut.png" />
+    <None Remove="Images\line.png" />
+    <None Remove="Images\ring.png" />
+    <None Remove="Images\star.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -115,6 +118,9 @@
     <Resource Include="Images\wattSymbol.png" />
     <Resource Include="Images\zoomIn.png" />
     <Resource Include="Images\zoomOut.png" />
+    <Resource Include="Images\line.png" />
+    <Resource Include="Images\ring.png" />
+    <Resource Include="Images\star.png" />
   </ItemGroup>
 
   <ItemGroup>
