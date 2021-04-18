@@ -6,7 +6,7 @@
         <Setter Property="Background" Value="#222d35" />
         <Setter Property="Foreground" Value="#ffffff" />
         <Setter Property="Height" Value="25"/>
-        <Setter Property="Width" Value="106"/>
+        <Setter Property="Width" Value="120"/>
 
         <Setter Property="Template">
             <Setter.Value>

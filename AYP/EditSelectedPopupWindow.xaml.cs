@@ -31,7 +31,6 @@ namespace AYP
 
         public int cihazTur;
         public List<int> selectedIds;
-        private string UreticiAdi = null;
 
         public MainWindow MainWindow { get; set; }
 
