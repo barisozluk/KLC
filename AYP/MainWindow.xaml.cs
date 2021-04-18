@@ -647,6 +647,7 @@ namespace AYP
                     model.TypeId = ucBirim.TipId;
                     model.AgArayuzuList = ucBirimService.ListUcBirimAgArayuzu(ucBirim.Id);
                     model.GucArayuzuList = ucBirimService.ListUcBirimGucArayuzu(ucBirim.Id);
+                    model.Sembol = ucBirim.Sembol;
                 }
                 else if (type.Name == "AgAnahtari")
                 {
@@ -655,6 +656,7 @@ namespace AYP
                     model.TypeId = agAnahtari.TipId;
                     model.AgArayuzuList = agAnahtariService.ListAgAnahtariAgArayuzu(agAnahtari.Id);
                     model.GucArayuzuList = agAnahtariService.ListAgAnahtariGucArayuzu(agAnahtari.Id);
+                    model.Sembol = agAnahtari.Sembol;
                 }
                 else if (type.Name == "GucUretici")
                 {
@@ -664,7 +666,8 @@ namespace AYP
                     model.AgArayuzuList = new List<AgArayuzu>(); 
                     model.GucArayuzuList = gucUreticiService.ListGucUreticiGucArayuzu(gucUretici.Id);
                     model.VerimlilikOrani = gucUretici.VerimlilikDegeri.HasValue ? gucUretici.VerimlilikDegeri.Value : 0;
-                    model.DahiliGucTuketimDegeri = gucUretici.DahiliGucTuketimDegeri.HasValue ? gucUretici.DahiliGucTuketimDegeri.Value : 0; 
+                    model.DahiliGucTuketimDegeri = gucUretici.DahiliGucTuketimDegeri.HasValue ? gucUretici.DahiliGucTuketimDegeri.Value : 0;
+                    model.Sembol = gucUretici.Sembol;
                 }
 
                 if (model.TypeId == (int)TipEnum.AgAnahtari || model.TypeId == (int)TipEnum.UcBirim)
