@@ -23,6 +23,11 @@
                     <RowDefinition />
                     <RowDefinition />
                 </Grid.RowDefinitions>
+                <Image Width="30" Height="30" Grid.Column="0" Grid.Row="0" VerticalAlignment="Top" HorizontalAlignment="Right" Opacity="0.5" Margin="0,2,5,0"
+                       RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" 
+                       x:Name="NodeSembol">
+                </Image>
+
 
                 <!--<ItemsControl x:Name="InputItemsControl">
                     <ItemsControl.ItemTemplate>

@@ -40,6 +40,7 @@ namespace AYP.ViewModel
         [Reactive] public double HeaderWidth { get; set; } = 80;
         [Reactive] public decimal VerimlilikOrani { get; set; }
         [Reactive] public decimal DahiliGucTuketimDegeri { get; set; }
+        [Reactive] public byte[] Sembol { get; set; }
 
 
         [Reactive] public int Id { get; set; }
@@ -63,7 +64,7 @@ namespace AYP.ViewModel
 
         public NodeViewModel(NodesCanvasViewModel nodesCanvas, string name, Guid uniqueId = default(Guid), Point point = default(Point), int id = default(int), int typeId = default(int),
                                List<AgArayuzu> agArayuzuList = default, List<GucArayuzu> gucArayuzuList = default, List<ConnectorViewModel> inputList = default, List<ConnectorViewModel> outputList = default,
-                               decimal verimlilikOrani = default, decimal dahiliGucTuketimDegeri = default)
+                               decimal verimlilikOrani = default, decimal dahiliGucTuketimDegeri = default, byte[] sembol = default)
         {
             NodesCanvas = nodesCanvas;
             Name = name;
@@ -74,6 +75,7 @@ namespace AYP.ViewModel
             UniqueId = uniqueId;
             VerimlilikOrani = verimlilikOrani;
             DahiliGucTuketimDegeri = dahiliGucTuketimDegeri;
+            Sembol = sembol;
 
             AgArayuzuList = agArayuzuList;
             GucArayuzuList = gucArayuzuList;
@@ -136,6 +138,7 @@ namespace AYP.ViewModel
             NodesCanvas.TransitionsCount++;
         }
         #endregion Setup Subscriptions
+
         #region Connectors
 
         private void SetupInputConnectors()
@@ -415,6 +418,7 @@ namespace AYP.ViewModel
                 TransitionsVisible = TransitionsVisible,
                 TypeId = TypeId,
                 UniqueId = UniqueId,
+                Sembol = Sembol,
                 Zindex = Zindex
             };
         }

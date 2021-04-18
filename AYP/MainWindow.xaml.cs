@@ -19,6 +19,8 @@ using System.Collections.Generic;
 using AYP.View;
 using AYP.ViewModel.Node;
 using AYP.Helpers.Notifications;
+using iTextSharp.text.pdf;
+using iTextSharp.text;
 
 namespace AYP
 {
@@ -654,6 +656,7 @@ namespace AYP
                     model.TypeId = ucBirim.TipId;
                     model.AgArayuzuList = ucBirimService.ListUcBirimAgArayuzu(ucBirim.Id);
                     model.GucArayuzuList = ucBirimService.ListUcBirimGucArayuzu(ucBirim.Id);
+                    model.Sembol = ucBirim.Sembol;
                 }
                 else if (type.Name == "AgAnahtari")
                 {
@@ -662,6 +665,7 @@ namespace AYP
                     model.TypeId = agAnahtari.TipId;
                     model.AgArayuzuList = agAnahtariService.ListAgAnahtariAgArayuzu(agAnahtari.Id);
                     model.GucArayuzuList = agAnahtariService.ListAgAnahtariGucArayuzu(agAnahtari.Id);
+                    model.Sembol = agAnahtari.Sembol;
                 }
                 else if (type.Name == "GucUretici")
                 {
@@ -671,7 +675,8 @@ namespace AYP
                     model.AgArayuzuList = new List<AgArayuzu>(); 
                     model.GucArayuzuList = gucUreticiService.ListGucUreticiGucArayuzu(gucUretici.Id);
                     model.VerimlilikOrani = gucUretici.VerimlilikDegeri.HasValue ? gucUretici.VerimlilikDegeri.Value : 0;
-                    model.DahiliGucTuketimDegeri = gucUretici.DahiliGucTuketimDegeri.HasValue ? gucUretici.DahiliGucTuketimDegeri.Value : 0; 
+                    model.DahiliGucTuketimDegeri = gucUretici.DahiliGucTuketimDegeri.HasValue ? gucUretici.DahiliGucTuketimDegeri.Value : 0;
+                    model.Sembol = gucUretici.Sembol;
                 }
 
                 if (model.TypeId == (int)TipEnum.AgAnahtari || model.TypeId == (int)TipEnum.UcBirim)
@@ -1032,5 +1037,125 @@ namespace AYP
             //pdfOpenProcess.WaitForExit();
         }
         #endregion
+
+        #region Raporlama
+        private void OnRaporClick(object sender, RoutedEventArgs e)
+        {
+            var nodes = this.ViewModel.NodesCanvas.Nodes.Items;
+            int nodeSayisi = this.ViewModel.NodesCanvas.Nodes.Count;
+
+            var ucBirimler = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.UcBirim).ToList();
+            int ucBirimNodeSayisi = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.UcBirim).ToList().Count;
+
+            var agAnahtarlari = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.AgAnahtari).ToList();
+            int agAnahtariSayisi = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.AgAnahtari).ToList().Count;
+
+            
+
+            //var kenarAnahtariSayisi = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.AgAnahtari).ToList().Where(kn => kn.)
+
+
+            if (nodeSayisi>0)
+            {
+                
+                Document doc = new Document(iTextSharp.text.PageSize.LETTER, 0f, 0f, 0f, 0f);
+                PdfWriter wr = PdfWriter.GetInstance(doc, new FileStream("C:\\Users\\goktu\\OneDrive\\Desktop\\itext\\test.pdf", FileMode.Create));
+                doc.Open();
+                iTextSharp.text.Paragraph mainHeader = new iTextSharp.text.Paragraph("AYP RAPORU");
+                mainHeader.Alignment = iTextSharp.text.Element.ALIGN_CENTER;
+                
+                mainHeader.SpacingAfter = 30;
+                doc.Add(mainHeader);
+                if (ucBirimNodeSayisi>0)
+                {
+                    
+                    PdfPCell headerUcBirim = new PdfPCell(new Phrase("Uç Birim Listesi"));
+                    headerUcBirim.HorizontalAlignment = iTextSharp.text.Element.ALIGN_CENTER;
+                    PdfPTable tableUcBirim = new PdfPTable(1);
+                    tableUcBirim.AddCell(headerUcBirim);
+
+                    for (int i = 0; i < ucBirimNodeSayisi; i++)
+                    {
+                        PdfPCell cell = new PdfPCell(new Phrase(ucBirimler[i].Name));
+                        cell.BackgroundColor = i % 2 == 0 ? BaseColor.LIGHT_GRAY : BaseColor.WHITE;
+                        tableUcBirim.AddCell(cell);
+                    }
+                    PdfPTable tableToplamUcBirim = new PdfPTable(2);
+                    PdfPCell cellToplam = new PdfPCell(new Phrase("Toplam"));
+                    PdfPCell cellDeger = new PdfPCell(new Phrase(ucBirimNodeSayisi.ToString()));
+                    
+                    tableToplamUcBirim.AddCell(cellToplam);
+                    tableToplamUcBirim.AddCell(cellDeger);
+                    tableToplamUcBirim.SpacingAfter = 20;
+                    
+                    doc.Add(tableUcBirim);
+                    doc.Add(tableToplamUcBirim);
+
+                    
+                }
+                if (agAnahtariSayisi > 0)
+                {
+
+                    PdfPCell headerAgAnahtari = new PdfPCell(new Phrase("Ağ Anahtarı Listesi"));
+                    headerAgAnahtari.HorizontalAlignment = iTextSharp.text.Element.ALIGN_CENTER;
+                    PdfPTable tableAgAnahtari = new PdfPTable(1);
+                    tableAgAnahtari.AddCell(headerAgAnahtari);
+
+                    for (int i = 0; i < agAnahtariSayisi; i++)
+                    {
+                        PdfPCell cell = new PdfPCell(new Phrase(agAnahtarlari[i].Name));
+                        cell.BackgroundColor = i % 2 == 0 ? BaseColor.LIGHT_GRAY : BaseColor.WHITE;
+                        tableAgAnahtari.AddCell(cell);
+                    }
+                    PdfPTable tableToplamAgAnahtari = new PdfPTable(2);
+                    PdfPCell cellToplam = new PdfPCell(new Phrase("Toplam"));
+                    PdfPCell cellDeger = new PdfPCell(new Phrase(agAnahtariSayisi.ToString()));
+
+                    tableToplamAgAnahtari.AddCell(cellToplam);
+                    tableToplamAgAnahtari.AddCell(cellDeger);
+                    tableToplamAgAnahtari.SpacingAfter = 20;
+
+                    doc.Add(tableAgAnahtari);
+                    doc.Add(tableToplamAgAnahtari);
+
+                }
+                if(ucBirimNodeSayisi > 0 && agAnahtariSayisi > 0)
+                {
+                    PdfPCell header = new PdfPCell(new Phrase("Kenar Ağ Anahtarı ve Bağlı Olduğu Uç Birim Raporu"));
+                    header.HorizontalAlignment = iTextSharp.text.Element.ALIGN_CENTER;
+                    PdfPTable tableHeader = new PdfPTable(1);
+                    tableHeader.AddCell(header);
+
+                    PdfPTable tableKenarUcBirim = new PdfPTable(2);
+                    PdfPCell header1 = new PdfPCell(new Phrase("Ağ Anahtarı Adı"));
+                    PdfPCell header2 = new PdfPCell(new Phrase("Uç Birim Adı"));
+                    tableKenarUcBirim.AddCell(header1);
+                    tableKenarUcBirim.AddCell(header2);
+
+                    for (int i = 0; i < agAnahtariSayisi; i++)
+                    {
+                        // Hem ağ anahtarı hem uç birim olduğu durumda
+                        // Kenar anahar sayısına göre for dönecek, her kenar anahtara bağlı uç birimleri gösterecek.
+                    }
+                    
+
+                    tableKenarUcBirim.SpacingAfter = 20;
+                    tableKenarUcBirim.SpacingBefore = 20;
+
+                    doc.Add(tableHeader);
+                    doc.Add(tableKenarUcBirim);
+                    
+                }
+
+                doc.Close();
+            }
+            else
+            {
+
+            }
+            
+        }
+        #endregion
+
     }
 }

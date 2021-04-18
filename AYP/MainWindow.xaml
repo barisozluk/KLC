@@ -27,7 +27,7 @@
         <Image Source="Images\kck-logo.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         <Separator BorderBrush="White" Grid.Column="0" Grid.Row="0" Margin="12,45,12,0" />
 
-        <Button x:Name="ButtonDefinitions" Style="{DynamicResource StyleLeftPanelUpButton}" Grid.Column="1" HorizontalAlignment="Left" Margin="5,0,0,0">Raporlar</Button>
+        <Button x:Name="ButtonDefinitions" Style="{DynamicResource StyleLeftPanelUpButton}" Grid.Column="1" HorizontalAlignment="Left" Margin="5,0,0,0" Click="OnRaporClick">Raporlar</Button>
         <!--SEPERATE BUTTON'S BG-->
         <Border Background="#222d35" Width="30" Height="34"  Grid.Column="3"  HorizontalAlignment="Left" Margin="22,1,0,0"/>
         <Border Background="White" Width="1" Height="25"  Grid.Column="3"  HorizontalAlignment="Left" Margin="42,0,0,0"/>
@@ -102,13 +102,13 @@
         </Button>
 
         <Button x:Name="ButtonYildizTopoloji" ToolTip="Yıldız Topoloji Oluştur" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="605,0,0,0">
-            <Image Source="Images\leftAlign.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
+            <Image Source="Images\star.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
         <Button x:Name="ButtonHalkaTopoloji" ToolTip="Halka Topoloji Oluştur" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="645,0,0,0">
-            <Image Source="Images\rightAlign.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
+            <Image Source="Images\ring.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
         <Button x:Name="ButtonZincirTopoloji" ToolTip="Zincir Topoloji Oluştur" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="685,0,0,0">
-            <Image Source="Images\middle.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
+            <Image Source="Images\line.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
         
         <Button x:Name="ButtonBites"  Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,10,10,0" Grid.Row="1" VerticalAlignment="Top">

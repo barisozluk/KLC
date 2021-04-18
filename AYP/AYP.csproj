@@ -49,9 +49,13 @@
     <None Remove="Images\wattSymbol.png" />
     <None Remove="Images\zoomIn.png" />
     <None Remove="Images\zoomOut.png" />
+    <None Remove="Images\line.png" />
+    <None Remove="Images\ring.png" />
+    <None Remove="Images\star.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="iTextSharp" Version="5.5.13.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.4">
@@ -115,6 +119,9 @@
     <Resource Include="Images\wattSymbol.png" />
     <Resource Include="Images\zoomIn.png" />
     <Resource Include="Images\zoomOut.png" />
+    <Resource Include="Images\line.png" />
+    <Resource Include="Images\ring.png" />
+    <Resource Include="Images\star.png" />
   </ItemGroup>
 
   <ItemGroup>
