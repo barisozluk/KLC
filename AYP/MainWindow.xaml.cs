@@ -19,6 +19,11 @@ using System.Collections.Generic;
 using AYP.View;
 using AYP.ViewModel.Node;
 using AYP.Helpers.Notifications;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using System.Text;
+using Newtonsoft.Json;
+using Microsoft.Data.SqlClient;
 
 namespace AYP
 {
@@ -1030,6 +1035,39 @@ namespace AYP
             };
             pdfOpenProcess.Start();
             //pdfOpenProcess.WaitForExit();
+        }
+        #endregion
+
+        #region Import/Export
+        private void ButtonExport_Click(object sender, RoutedEventArgs e)
+        {
+            //List<UcBirim> ucbirimler = new List<UcBirim>();
+            //foreach (var ub in ucBirimService.ListUcBirim())
+            //{
+            //    ucbirimler.Add(ub);// ucBirimService.ListUcBirim();
+            //}
+
+            //string json = JsonConvert.SerializeObject(ucbirimler, Formatting.Indented);
+            //File.WriteAllText(@"D:\path.json", json);
+
+            this.IsEnabled = false;
+            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.Effect = blur;
+            ExportLibraryPopupWindow popup = new ExportLibraryPopupWindow();
+            popup.Owner = this;
+            popup.ShowDialog();
+
+        }
+        private void ButtonImport_Click(object sender, RoutedEventArgs e)
+        {
+            this.IsEnabled = false;
+            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.Effect = blur;
+            ImportLibraryPopupWindow popup = new ImportLibraryPopupWindow();
+            popup.Owner = this;
+            popup.ShowDialog();
         }
         #endregion
     }

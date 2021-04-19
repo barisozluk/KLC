@@ -163,6 +163,15 @@
 
   <ItemGroup>
 
+    <Page Update="ImportLibraryPopupWindow .xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+
+    <Page Update="ExportLibraryPopupWindow .xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+
     <Page Update="CableLenghtPopupWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

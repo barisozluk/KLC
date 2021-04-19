@@ -126,10 +126,10 @@
         <Button x:Name="ButtonSaveAs" IsEnabled="False" ToolTip="Farklı Kaydet (Ctrl+Shift+S)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,195,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Image Source="Images\saveAsW.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
-        <Button x:Name="ButtonImport" ToolTip="İçeri Aktarma" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,240,10,0" Grid.Row="1" VerticalAlignment="Top" >
+        <Button x:Name="ButtonImport" ToolTip="İçeri Aktarma" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,240,10,0" Grid.Row="1" VerticalAlignment="Top" Click="ButtonImport_Click" >
             <Image Source="Images\ImportW.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
-        <Button x:Name="ButtonExport" ToolTip="Dışarı Aktarma" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,285,10,0" Grid.Row="1" VerticalAlignment="Top" >
+        <Button x:Name="ButtonExport" ToolTip="Dışarı Aktarma" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,285,10,0" Grid.Row="1" VerticalAlignment="Top" Click="ButtonExport_Click" >
             <Image Source="Images\openProjectW.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
 
