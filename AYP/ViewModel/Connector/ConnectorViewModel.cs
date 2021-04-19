@@ -1,4 +1,4 @@
-﻿ using System.Windows.Media;
+﻿using System.Windows.Media;
 using System.Windows;
 
 using ReactiveUI.Fody.Helpers;
@@ -52,6 +52,7 @@ namespace AYP.ViewModel
         [Reactive] public int TypeId { get; set; }
         [Reactive] public List<AgAkis> AgAkisList { get; set; } = new List<AgAkis>();
         [Reactive] public decimal? KalanKapasite { get; set; }
+        [Reactive] public double Artik { get; set; }
 
 
         public ConnectorViewModel(NodesCanvasViewModel nodesCanvas, NodeViewModel viewModelNode, string name, Point myPoint, Guid uniqueId, int? kapasiteId = default(int), int? minKapasite = default(int), int? maxKapasite = default(int), int? fizikselOrtamId = default(int),
@@ -91,14 +92,14 @@ namespace AYP.ViewModel
             this.WhenAnyValue(x => x.Selected).Subscribe(value => Select(value));
             this.WhenAnyValue(x => x.NodesCanvas.Theme).Subscribe(_ => UpdateResources());
 
-            if (this.Name!="Girdi")
+            if (this.Name != "Girdi")
             {
                 this.WhenAnyValue(x => x.Node.HeaderWidth).Buffer(2, 1).Subscribe(x => UpdatePositionOnWidthChange(x[1] - x[0]));
                 if (this.Name != "Çıktı")
                 {
-                    this.WhenAnyValue(x => x.Node.TransitionsForView.Count).Subscribe(x => UpdatePositionOnTransitionCountChange());                   
+                    this.WhenAnyValue(x => x.Node.TransitionsForView.Count).Subscribe(x => UpdatePositionOnTransitionCountChange());
                 }
-                
+
             }
 
             this.WhenAnyValue(x => x.Node.Point1).Buffer(2, 1).Subscribe(value => PositionConnectPoint = PositionConnectPoint.Addition(value[1].Subtraction(value[0])));
@@ -114,20 +115,21 @@ namespace AYP.ViewModel
         }
         private void UpdatePositionOnWidthChange(double value)
         {
+            Artik = value;
             this.PositionConnectPoint = this.PositionConnectPoint.Addition(value, 0);
         }
         private void UpdateResources()
         {
-           Select(this.Selected);
+            Select(this.Selected);
             if (this.ItsLoop)
             {
                 ToLoop();
             }
-        }           
-            
+        }
+
 
         #endregion Setup Subscriptions
-     
+
         public XElement ToInputXElement()
         {
             XElement element = new XElement("Input");
@@ -165,7 +167,7 @@ namespace AYP.ViewModel
             element.Add(new XAttribute("Name", Name));
             element.Add(new XAttribute("Label", Label));
             element.Add(new XAttribute("UniqueId", UniqueId));
-            element.Add(new XAttribute("Position", PointExtensition.PointToString(PositionConnectPoint)));
+            element.Add(new XAttribute("Position", PointExtensition.PointToString(PositionConnectPoint.Addition(Artik * -1, 0))));
             element.Add(!KapasiteId.HasValue ? null : new XAttribute("KapasiteId", KapasiteId));
             element.Add(!MinKapasite.HasValue ? null : new XAttribute("MinKapasite", MinKapasite));
             element.Add(!MaxKapasite.HasValue ? null : new XAttribute("MaxKapasite", MaxKapasite));
@@ -182,63 +184,8 @@ namespace AYP.ViewModel
             element.Add(!CiktiUrettigiGucKapasitesi.HasValue ? null : new XAttribute("CiktiUrettigiGucKapasitesi", CiktiUrettigiGucKapasitesi));
             element.Add(new XAttribute("TypeId", TypeId));
             element.Add(!KalanKapasite.HasValue ? null : new XAttribute("KalanKapasite", KalanKapasite));
-                        return element;
-        }
 
-        public static ConnectViewModel FromXElement(NodesCanvasViewModel nodesCanvas,XElement node, out string errorMessage, Func<string, bool> actionForCheck)
-        {
-            ConnectViewModel viewModelConnect = null;
-
-            errorMessage = null;
-            string name = node.Attribute("Name")?.Value;
-            Guid fromNodeUniqueId = new Guid(node.Attribute("FromNodeUniqueId")?.Value);
-            Guid toNodeUniqueId = new Guid(node.Attribute("ToNodeUniqueId")?.Value);
-            string toInputName = node.Attribute("ToInputName")?.Value;
-            Guid toInputUniqueId = new Guid(node.Attribute("ToInputUniqueId")?.Value);
-
-            Point toInputPosition;
-            PointExtensition.TryParseFromString(node.Attribute("ToInputPosition")?.Value, out toInputPosition);
-
-            if (string.IsNullOrEmpty(name))
-            {
-                errorMessage = "Connect without name";
-                return viewModelConnect;
-            }
-            //if (string.IsNullOrEmpty(from))
-            //{
-            //    errorMessage = "Connect without from point";
-            //    return viewModelConnect;
-            //}
-            //if (string.IsNullOrEmpty(to))
-            //{
-            //    errorMessage = "Connect without to point";
-            //    return viewModelConnect;
-            //}
-            if (actionForCheck(name))
-            {
-                errorMessage = String.Format("Contains more than one connect with name \"{0}\"", name);
-                return viewModelConnect;
-            }
-
-            NodeViewModel nodeFrom = nodesCanvas.Nodes.Items.Single(x => x.UniqueId == fromNodeUniqueId);
-            NodeViewModel nodeTo = nodesCanvas.Nodes.Items.Single(x => x.UniqueId == toNodeUniqueId);
-          
-            nodeFrom.CurrentConnector.Name = name;
-
-
-            if (nodeFrom == nodeTo)
-            {
-                nodeFrom.CurrentConnector.CommandSetAsLoop.ExecuteWithSubscribe();
-            }
-            else
-            {
-                viewModelConnect = new ConnectViewModel(nodeFrom.NodesCanvas, nodeFrom.CurrentConnector);
-                viewModelConnect.ToConnector = new ConnectorViewModel(nodesCanvas, nodeTo, toInputName, toInputPosition, toInputUniqueId);
-                //nodeFrom.CommandAddEmptyConnector.ExecuteWithSubscribe();
-            }     
-
-            return viewModelConnect;
+            return element;
         }
     }
-
 }

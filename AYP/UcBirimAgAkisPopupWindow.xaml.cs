@@ -271,6 +271,7 @@ namespace AYP
 
         private void SetToConnectorAgAkis()
         {
+            this.ucBirimAgArayuzu.Connect.ToConnector.AgAkisList = new List<AgAkis>();
             this.ucBirimAgArayuzu.Connect.ToConnector.AgAkisList.Clear();
             foreach (var agAkis in this.ucBirimAgArayuzu.AgAkisList)
             {

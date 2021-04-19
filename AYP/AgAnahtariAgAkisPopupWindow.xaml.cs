@@ -170,7 +170,7 @@ namespace AYP
 
                     foreach(var output in this.agAnahtariAgArayuzu.Node.Transitions.Items)
                     {
-                        inputToplamAgAkisi += output.AgAkisList.Where(x => x.IliskiliAgArayuzuId == agAkis.IliskiliAgArayuzuId).Select(s => s.Yuk).Sum();
+                        inputToplamAgAkisi += (output.AgAkisList.Where(x => x.IliskiliAgArayuzuId == agAkis.IliskiliAgArayuzuId).Select(s => s.Yuk).Sum() - inputToplamAgAkisi);
                     }
 
                     if (inputToplamAgYuku - inputToplamAgAkisi >= 0)
@@ -322,6 +322,7 @@ namespace AYP
 
         private void SetToConnectorAgAkis()
         {
+            this.agAnahtariAgArayuzu.Connect.ToConnector.AgAkisList = new List<AgAkis>();
             this.agAnahtariAgArayuzu.Connect.ToConnector.AgAkisList.Clear();
             foreach (var agAkis in this.agAnahtariAgArayuzu.AgAkisList)
             {

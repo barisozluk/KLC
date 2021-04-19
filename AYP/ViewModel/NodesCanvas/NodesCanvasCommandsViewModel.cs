@@ -1199,7 +1199,7 @@ namespace AYP.ViewModel
                 Error("not contanins StateMachine");
                 return;
             }
-            #region setup states/nodes
+            #region setup states/nodes/connectors
 
             var States = stateMachineXElement.Element("States")?.Elements()?.ToList() ?? new List<XElement>();
             NodeViewModel viewModelNode = null;
@@ -1250,20 +1250,18 @@ namespace AYP.ViewModel
 
             #endregion  setup start state
 
-            #endregion  setup states/nodes
+            #endregion  setup states/nodes/connectors
 
-            #region setup Transitions/connects
+            #region setup connects
 
-            //var Transitions = stateMachineXElement.Element("Transitions")?.Elements()?.ToList() ?? new List<XElement>();
-            //ConnectViewModel viewModelConnect;
-            //Transitions?.Reverse();
-            //foreach (var transition in Transitions)
-            //{
-
-            //    viewModelConnect = ConnectorViewModel.FromXElement(this, transition, out string errorMesage, ConnectsExist);
-            //    if (WithError(errorMesage, x => Connects.Add(x), viewModelConnect))
-            //        return;
-            //}
+            var Connects = stateMachineXElement.Element("Connects")?.Elements()?.ToList() ?? new List<XElement>();
+            ConnectViewModel viewModelConnect = null;
+            foreach (var connect in Connects)
+            {
+                viewModelConnect = ConnectViewModel.FromXElement(this, connect, out string errorMesage, ConnectsExist, stateMachineXElement);
+                if (WithError(errorMesage, x => this.Connects.Add(x), viewModelConnect))
+                    return;
+            }
             SchemePath = fileName;
 
             #endregion  setup Transitions/connects
@@ -1430,6 +1428,31 @@ namespace AYP.ViewModel
                 foreach (var output in Nodes.Items.SelectMany(x => x.OutputList))
                 {
                     outputs.Add(output.ToOutputXElement());
+                }
+
+                XElement connects = new XElement("Connects");
+                stateMachineXElement.Add(connects);
+                foreach (var connect in Connects)
+                {
+                    connects.Add(connect.ToXElement());
+                }
+
+                XElement agAkislari = new XElement("AgAkislari");
+                stateMachineXElement.Add(agAkislari);
+                foreach (var input in Nodes.Items.SelectMany(x => x.InputList))
+                {
+                    foreach (var agAkis in input.AgAkisList)
+                    {
+                        agAkislari.Add(agAkis.ToXElement());
+                    }
+                }
+
+                foreach (var output in Nodes.Items.SelectMany(x => x.Transitions.Items))
+                {
+                    foreach (var agAkis in output.AgAkisList)
+                    {
+                        agAkislari.Add(agAkis.ToXElement());
+                    }
                 }
 
                 XElement visualizationXElement = new XElement("Visualization");

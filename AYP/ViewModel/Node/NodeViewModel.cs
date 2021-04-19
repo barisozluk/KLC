@@ -67,7 +67,7 @@ namespace AYP.ViewModel
 
         public NodeViewModel(NodesCanvasViewModel nodesCanvas, string name, Guid uniqueId = default(Guid), Point point = default(Point), int id = default(int), int typeId = default(int),
                                List<AgArayuzu> agArayuzuList = default, List<GucArayuzu> gucArayuzuList = default, List<ConnectorViewModel> inputList = default, List<ConnectorViewModel> outputList = default,
-                               decimal? verimlilikOrani = default, decimal? dahiliGucTuketimDegeri = default, byte[] sembol = default, string stokNo = default, string tanim = default, string ureticiAdi = default, 
+                               decimal? verimlilikOrani = default, decimal? dahiliGucTuketimDegeri = default, byte[] sembol = default, string stokNo = default, string tanim = default, string ureticiAdi = default,
                                string ureticiParcaNo = default, string turAd = default)
         {
             NodesCanvas = nodesCanvas;
@@ -115,7 +115,7 @@ namespace AYP.ViewModel
                 SetupInputConnectors();
             }
 
-            if(OutputList.Count() == 0)
+            if (OutputList.Count() == 0)
             {
                 SetupOutputConnectors();
             }

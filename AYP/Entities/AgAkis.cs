@@ -3,6 +3,7 @@ using AYP.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml.Linq;
 
 namespace AYP.Entities
 {
@@ -21,6 +22,20 @@ namespace AYP.Entities
         public List<KodListModel> AgAkisTipiList { get; set; }
         public List<ConnectorViewModel> InputList { get; set; }
 
+        public XElement ToXElement()
+        {
+            XElement element = new XElement("AgAkis");
+            element.Add(new XAttribute("UniqueId", Id));
+            element.Add(new XAttribute("AgArayuzuUniqueId", AgArayuzuId));
+            element.Add(new XAttribute("Yuk", Yuk));
+            element.Add(new XAttribute("AgAkisTipiId", AgAkisTipiId));
+            //element.Add(new XAttribute("AgAkisTipiAdi", AgAkisTipiAdi));
+            element.Add(new XAttribute("AgAkisProtokoluId", AgAkisProtokoluId));
+            //element.Add(new XAttribute("AgAkisProtokoluAdi", AgAkisProtokoluAdi));
+            element.Add(!IliskiliAgArayuzuId.HasValue ? null : new XAttribute("IliskiliAgArayuzuUniqueId", IliskiliAgArayuzuId));
+            //element.Add(!IliskiliAgArayuzuId.HasValue ? null : new XAttribute("IliskiliAgArayuzuAdi", IliskiliAgArayuzuAdi));
 
+            return element;
+        }
     }
 }

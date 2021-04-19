@@ -27,8 +27,6 @@
                        RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased" 
                        x:Name="NodeSembol">
                 </Image>
-
-
                 <!--<ItemsControl x:Name="InputItemsControl">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
