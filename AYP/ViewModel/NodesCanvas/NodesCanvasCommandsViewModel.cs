@@ -1805,7 +1805,9 @@ namespace AYP.ViewModel
                 }
                 
                 newNode = new NodeViewModel(this, GetNameForNewNode(parameter.Node.TypeId), Guid.NewGuid(), parameter.Point, parameter.Node.Id, parameter.Node.TypeId, 
-                                parameter.Node.AgArayuzuList, parameter.Node.GucArayuzuList,new List<ConnectorViewModel>(), new List<ConnectorViewModel>(), parameter.Node.VerimlilikOrani, parameter.Node.DahiliGucTuketimDegeri, parameter.Node.Sembol);
+                                parameter.Node.AgArayuzuList, parameter.Node.GucArayuzuList,new List<ConnectorViewModel>(), new List<ConnectorViewModel>(), parameter.Node.VerimlilikOrani,
+                                parameter.Node.DahiliGucTuketimDegeri, parameter.Node.Sembol, parameter.Node.StokNo, parameter.Node.Tanim, parameter.Node.UreticiAdi, parameter.Node.UreticiParcaNo,
+                                parameter.Node.TurAd);
                 
                 if(NodesCount == 0)
                 {

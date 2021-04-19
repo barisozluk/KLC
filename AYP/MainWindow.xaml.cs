@@ -656,6 +656,11 @@ namespace AYP
                     model.AgArayuzuList = ucBirimService.ListUcBirimAgArayuzu(ucBirim.Id);
                     model.GucArayuzuList = ucBirimService.ListUcBirimGucArayuzu(ucBirim.Id);
                     model.Sembol = ucBirim.Sembol;
+                    model.Tanim = ucBirim.Tanim;
+                    model.StokNo = ucBirim.StokNo;
+                    model.UreticiAdi = ucBirim.UreticiAdi;
+                    model.UreticiParcaNo = ucBirim.UreticiParcaNo;
+                    model.TurAd = ucBirim.UcBirimTur.Ad;
                 }
                 else if (type.Name == "AgAnahtari")
                 {
@@ -665,6 +670,11 @@ namespace AYP
                     model.AgArayuzuList = agAnahtariService.ListAgAnahtariAgArayuzu(agAnahtari.Id);
                     model.GucArayuzuList = agAnahtariService.ListAgAnahtariGucArayuzu(agAnahtari.Id);
                     model.Sembol = agAnahtari.Sembol;
+                    model.Tanim = agAnahtari.Tanim;
+                    model.StokNo = agAnahtari.StokNo;
+                    model.UreticiAdi = agAnahtari.UreticiAdi;
+                    model.UreticiParcaNo = agAnahtari.UreticiParcaNo;
+                    model.TurAd = agAnahtari.AgAnahtariTur.Ad;
                 }
                 else if (type.Name == "GucUretici")
                 {
@@ -676,6 +686,11 @@ namespace AYP
                     model.VerimlilikOrani = gucUretici.VerimlilikDegeri.HasValue ? gucUretici.VerimlilikDegeri.Value : 0;
                     model.DahiliGucTuketimDegeri = gucUretici.DahiliGucTuketimDegeri.HasValue ? gucUretici.DahiliGucTuketimDegeri.Value : 0;
                     model.Sembol = gucUretici.Sembol;
+                    model.Tanim = gucUretici.Tanim;
+                    model.StokNo = gucUretici.StokNo;
+                    model.UreticiAdi = gucUretici.UreticiAdi;
+                    model.UreticiParcaNo = gucUretici.UreticiParcaNo;
+                    model.TurAd = gucUretici.GucUreticiTur.Ad;
                 }
 
                 if (model.TypeId == (int)TipEnum.AgAnahtari || model.TypeId == (int)TipEnum.UcBirim)

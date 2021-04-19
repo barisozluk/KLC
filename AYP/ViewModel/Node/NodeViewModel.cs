@@ -41,14 +41,16 @@ namespace AYP.ViewModel
         [Reactive] public decimal VerimlilikOrani { get; set; }
         [Reactive] public decimal DahiliGucTuketimDegeri { get; set; }
         [Reactive] public byte[] Sembol { get; set; }
-
-
         [Reactive] public int Id { get; set; }
+        [Reactive] public string StokNo { get; set; }
+        [Reactive] public string Tanim { get; set; }
+        [Reactive] public string UreticiAdi { get; set; }
+        [Reactive] public string UreticiParcaNo { get; set; }
+        [Reactive] public string TurAd { get; set; }
         [Reactive] public int TypeId { get; set; }
         [Reactive] public Guid UniqueId { get; set; }
         [Reactive] public List<ConnectorViewModel> InputList { get; set; }
         [Reactive] public List<ConnectorViewModel> OutputList { get; set; }
-
         [Reactive] public List<AgArayuzu> AgArayuzuList { get; set; }
         [Reactive] public List<GucArayuzu> GucArayuzuList { get; set; }
 
@@ -64,7 +66,8 @@ namespace AYP.ViewModel
 
         public NodeViewModel(NodesCanvasViewModel nodesCanvas, string name, Guid uniqueId = default(Guid), Point point = default(Point), int id = default(int), int typeId = default(int),
                                List<AgArayuzu> agArayuzuList = default, List<GucArayuzu> gucArayuzuList = default, List<ConnectorViewModel> inputList = default, List<ConnectorViewModel> outputList = default,
-                               decimal verimlilikOrani = default, decimal dahiliGucTuketimDegeri = default, byte[] sembol = default)
+                               decimal verimlilikOrani = default, decimal dahiliGucTuketimDegeri = default, byte[] sembol = default, string stokNo = default, string tanim = default, string ureticiAdi = default, 
+                               string ureticiParcaNo = default, string turAd = default)
         {
             NodesCanvas = nodesCanvas;
             Name = name;
@@ -76,6 +79,11 @@ namespace AYP.ViewModel
             VerimlilikOrani = verimlilikOrani;
             DahiliGucTuketimDegeri = dahiliGucTuketimDegeri;
             Sembol = sembol;
+            StokNo = stokNo;
+            Tanim = tanim;
+            UreticiAdi = ureticiAdi;
+            UreticiParcaNo = ureticiParcaNo;
+            TurAd = turAd;
 
             AgArayuzuList = agArayuzuList;
             GucArayuzuList = gucArayuzuList;
