@@ -1203,10 +1203,10 @@ namespace AYP
                 nfp.Owner = this;
                 nfp.Show();
             }
+        }
+        #endregion
 
-            #endregion
-
-#region Import/Export
+        #region Import/Export
         private void ButtonExport_Click(object sender, RoutedEventArgs e)
         {
             //List<UcBirim> ucbirimler = new List<UcBirim>();
@@ -1238,6 +1238,5 @@ namespace AYP
             popup.ShowDialog();
         }
         #endregion
-        }
     }
 }

@@ -2,10 +2,12 @@
 using AYP.Entities;
 using AYP.Helpers.Notifications;
 using AYP.Interfaces;
+using AYP.Models;
 using AYP.Services;
 using Microsoft.Data.SqlClient;
 using Microsoft.Win32;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
@@ -32,11 +34,19 @@ namespace AYP
 
         private void Import_ProjectLibrary(object sender, RoutedEventArgs e)
         {
-            List<GucArayuzu> ga1 = JsonConvert.DeserializeObject<List<GucArayuzu>>(File.ReadAllText(fileName)); 
-            using (StreamReader file = File.OpenText(fileName))
+            List<DbImportExportObjectModel> models = JsonConvert.DeserializeObject<List<DbImportExportObjectModel>>(File.ReadAllText(fileName));
+
+            var ucBirimList = new List<UcBirim>();
+
+            foreach (var model in models)
             {
-                JsonSerializer serializer = new JsonSerializer();
-                GucArayuzu ga = (GucArayuzu)serializer.Deserialize(file, typeof(GucArayuzu));
+                if (model.tableName == "UcBirim")
+                {
+                    foreach (var row in model.rows)
+                    {
+                        ucBirimList.Add(row.ToObject<UcBirim>());
+                    }
+                }
             }
         }
 
@@ -55,7 +65,7 @@ namespace AYP
             if (openFileDialog.ShowDialog() == true)
             {
                 fileName = openFileDialog.FileName;
-                ImportJSON.Text = fileName ;
+                ImportJSON.Text = fileName;
             }
         }
     }
