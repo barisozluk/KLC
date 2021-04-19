@@ -1627,18 +1627,8 @@ namespace AYP
                     doc.Close();
                 }
             }
-            //}
-            //else
-            //{
-            //    NotifyInfoPopup nfp = new NotifyInfoPopup();
-            //    nfp.msg.Text = "Güç planlama alanında bir çalışma yapılmadığından rapor alınamamaktadır.";
-            //    nfp.Owner = this;
-            //    nfp.Show();
-            //}
-
-            #endregion
-
         }
+        #endregion
         public string TurkceKarakter(string text)
         {
 
@@ -1668,5 +1658,38 @@ namespace AYP
 
             return text;
         }
+
+        #region Import/Export
+        private void ButtonExport_Click(object sender, RoutedEventArgs e)
+        {
+            //List<UcBirim> ucbirimler = new List<UcBirim>();
+            //foreach (var ub in ucBirimService.ListUcBirim())
+            //{
+            //    ucbirimler.Add(ub);// ucBirimService.ListUcBirim();
+            //}
+
+            //string json = JsonConvert.SerializeObject(ucbirimler, Formatting.Indented);
+            //File.WriteAllText(@"D:\path.json", json);
+
+            this.IsEnabled = false;
+            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.Effect = blur;
+            ExportLibraryPopupWindow popup = new ExportLibraryPopupWindow();
+            popup.Owner = this;
+            popup.ShowDialog();
+
+        }
+        private void ButtonImport_Click(object sender, RoutedEventArgs e)
+        {
+            this.IsEnabled = false;
+            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.Effect = blur;
+            ImportLibraryPopupWindow popup = new ImportLibraryPopupWindow();
+            popup.Owner = this;
+            popup.ShowDialog();
+        }
+        #endregion
     }
 }

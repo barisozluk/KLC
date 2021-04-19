@@ -216,6 +216,10 @@ namespace AYP.ViewModel
                     }
 
                 }
+                else
+                {
+                    CurrentConnector.KalanKapasite = null;
+                }
 
                 Transitions.Add(CurrentConnector);
             }

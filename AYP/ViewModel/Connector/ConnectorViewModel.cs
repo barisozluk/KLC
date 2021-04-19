@@ -51,13 +51,13 @@ namespace AYP.ViewModel
         [Reactive] public string Label { get; set; }
         [Reactive] public int TypeId { get; set; }
         [Reactive] public List<AgAkis> AgAkisList { get; set; } = new List<AgAkis>();
-        [Reactive] public decimal KalanKapasite { get; set; }
+        [Reactive] public decimal? KalanKapasite { get; set; }
 
 
         public ConnectorViewModel(NodesCanvasViewModel nodesCanvas, NodeViewModel viewModelNode, string name, Point myPoint, Guid uniqueId, int? kapasiteId = default(int), int? minKapasite = default(int), int? maxKapasite = default(int), int? fizikselOrtamId = default(int),
             int? gerilimTipiId = default(int), int kullanimAmaciId = default(int), decimal? girdiDuraganGerilimDegeri1 = default(decimal), decimal? girdiDuraganGerilimDegeri2 = default(decimal), decimal? girdiDuraganGerilimDegeri3 = default(decimal),
             decimal? girdiMinimumGerilimDegeri = default(decimal), decimal? girdiMaksimumGerilimDegeri = default(decimal), decimal? girdiTukettigiGucMiktari = default(decimal),
-            string ciktiDuraganGerilimDegeri = default(string), decimal? ciktiUrettigiGucKapasitesi = default(decimal), string label = default(string), int typeId = default(int), decimal kalanKapasite = default(decimal))
+            string ciktiDuraganGerilimDegeri = default(string), decimal? ciktiUrettigiGucKapasitesi = default(decimal), string label = default(string), int typeId = default(int), decimal? kalanKapasite = default)
         {
             Node = viewModelNode;
             NodesCanvas = nodesCanvas;
@@ -127,32 +127,62 @@ namespace AYP.ViewModel
             
 
         #endregion Setup Subscriptions
-        public XElement ToXElement()
+     
+        public XElement ToInputXElement()
         {
-            XElement element = new XElement("Transition");
+            XElement element = new XElement("Input");
+            element.Add(new XAttribute("NodeUniqueId", Node.UniqueId));
+            element.Add(new XAttribute("NodeName", Node.Name));
             element.Add(new XAttribute("Name", Name));
-            element.Add(new XAttribute("FromNode", Node.Name));
-            element.Add(new XAttribute("FromNodeUniqueId", Node.UniqueId));
-            var ToConnector = this.Connect?.ToConnector;
-            element.Add(new XAttribute("To", ToConnector.Node.Name));
-            element.Add(new XAttribute("ToNodeUniqueId", ToConnector.Node.UniqueId));
-            element.Add(new XAttribute("ToInputUniqueId", ToConnector.UniqueId));
-            element.Add(new XAttribute("ToInputName", ToConnector.Name));
-            element.Add(new XAttribute("ToInputPosition", PointExtensition.PointToString(ToConnector.PositionConnectPoint)));
+            element.Add(new XAttribute("Label", Label));
+            element.Add(new XAttribute("UniqueId", UniqueId));
+            element.Add(new XAttribute("Position", PointExtensition.PointToString(PositionConnectPoint)));
+            element.Add(!KapasiteId.HasValue ? null : new XAttribute("KapasiteId", KapasiteId));
+            element.Add(!MinKapasite.HasValue ? null : new XAttribute("MinKapasite", MinKapasite));
+            element.Add(!MaxKapasite.HasValue ? null : new XAttribute("MaxKapasite", MaxKapasite));
+            element.Add(new XAttribute("KullanimAmaciId", KullanimAmaciId));
+            element.Add(!FizikselOrtamId.HasValue ? null : new XAttribute("FizikselOrtamId", FizikselOrtamId));
+            element.Add(!GerilimTipiId.HasValue ? null : new XAttribute("GerilimTipiId", GerilimTipiId));
+            element.Add(!GirdiDuraganGerilimDegeri1.HasValue ? null : new XAttribute("GirdiDuraganGerilimDegeri1", GirdiDuraganGerilimDegeri1));
+            element.Add(!GirdiDuraganGerilimDegeri2.HasValue ? null : new XAttribute("GirdiDuraganGerilimDegeri2", GirdiDuraganGerilimDegeri2));
+            element.Add(!GirdiDuraganGerilimDegeri3.HasValue ? null : new XAttribute("GirdiDuraganGerilimDegeri3", GirdiDuraganGerilimDegeri3));
+            element.Add(!GirdiMinimumGerilimDegeri.HasValue ? null : new XAttribute("GirdiMinimumGerilimDegeri", GirdiMinimumGerilimDegeri));
+            element.Add(!GirdiMaksimumGerilimDegeri.HasValue ? null : new XAttribute("GirdiMaksimumGerilimDegeri", GirdiMaksimumGerilimDegeri));
+            element.Add(!GirdiTukettigiGucMiktari.HasValue ? null : new XAttribute("GirdiTukettigiGucMiktari", GirdiTukettigiGucMiktari));
+            element.Add(CiktiDuraganGerilimDegeri == null ? null : new XAttribute("CiktiDuraganGerilimDegeri", CiktiDuraganGerilimDegeri));
+            element.Add(!CiktiUrettigiGucKapasitesi.HasValue ? null : new XAttribute("CiktiUrettigiGucKapasitesi", CiktiUrettigiGucKapasitesi));
+            element.Add(new XAttribute("TypeId", TypeId));
+            element.Add(!KalanKapasite.HasValue ? null : new XAttribute("KalanKapasite", KalanKapasite));
 
             return element;
         }
 
-        public XElement ToInputXElement()
+        public XElement ToOutputXElement()
         {
-            XElement element = new XElement("Input");
+            XElement element = new XElement("Output");
+            element.Add(new XAttribute("NodeUniqueId", Node.UniqueId));
+            element.Add(new XAttribute("NodeName", Node.Name));
             element.Add(new XAttribute("Name", Name));
+            element.Add(new XAttribute("Label", Label));
             element.Add(new XAttribute("UniqueId", UniqueId));
             element.Add(new XAttribute("Position", PointExtensition.PointToString(PositionConnectPoint)));
-            element.Add(new XAttribute("NodeName", Node.Name));
-            element.Add(new XAttribute("NodeUniqueId", Node.UniqueId));
-
-            return element;
+            element.Add(!KapasiteId.HasValue ? null : new XAttribute("KapasiteId", KapasiteId));
+            element.Add(!MinKapasite.HasValue ? null : new XAttribute("MinKapasite", MinKapasite));
+            element.Add(!MaxKapasite.HasValue ? null : new XAttribute("MaxKapasite", MaxKapasite));
+            element.Add(new XAttribute("KullanimAmaciId", KullanimAmaciId));
+            element.Add(!FizikselOrtamId.HasValue ? null : new XAttribute("FizikselOrtamId", FizikselOrtamId));
+            element.Add(!GerilimTipiId.HasValue ? null : new XAttribute("GerilimTipiId", GerilimTipiId));
+            element.Add(!GirdiDuraganGerilimDegeri1.HasValue ? null : new XAttribute("GirdiDuraganGerilimDegeri1", GirdiDuraganGerilimDegeri1));
+            element.Add(!GirdiDuraganGerilimDegeri2.HasValue ? null : new XAttribute("GirdiDuraganGerilimDegeri2", GirdiDuraganGerilimDegeri2));
+            element.Add(!GirdiDuraganGerilimDegeri3.HasValue ? null : new XAttribute("GirdiDuraganGerilimDegeri3", GirdiDuraganGerilimDegeri3));
+            element.Add(!GirdiMinimumGerilimDegeri.HasValue ? null : new XAttribute("GirdiMinimumGerilimDegeri", GirdiMinimumGerilimDegeri));
+            element.Add(!GirdiMaksimumGerilimDegeri.HasValue ? null : new XAttribute("GirdiMaksimumGerilimDegeri", GirdiMaksimumGerilimDegeri));
+            element.Add(!GirdiTukettigiGucMiktari.HasValue ? null : new XAttribute("GirdiTukettigiGucMiktari", GirdiTukettigiGucMiktari));
+            element.Add(CiktiDuraganGerilimDegeri == null ? null : new XAttribute("CiktiDuraganGerilimDegeri", CiktiDuraganGerilimDegeri));
+            element.Add(!CiktiUrettigiGucKapasitesi.HasValue ? null : new XAttribute("CiktiUrettigiGucKapasitesi", CiktiUrettigiGucKapasitesi));
+            element.Add(new XAttribute("TypeId", TypeId));
+            element.Add(!KalanKapasite.HasValue ? null : new XAttribute("KalanKapasite", KalanKapasite));
+                        return element;
         }
 
         public static ConnectViewModel FromXElement(NodesCanvasViewModel nodesCanvas,XElement node, out string errorMessage, Func<string, bool> actionForCheck)

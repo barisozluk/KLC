@@ -1,9 +1,18 @@
-using DynamicData;
-using ReactiveUI;
+using AYP.DbContext.AYP.DbContexts;
+using AYP.Entities;
+using AYP.Enums;
 using AYP.Helpers;
 using AYP.Helpers.Commands;
 using AYP.Helpers.Enums;
 using AYP.Helpers.Extensions;
+using AYP.Helpers.Notifications;
+using AYP.Interfaces;
+using AYP.Services;
+using AYP.ViewModel.Node;
+using DynamicData;
+using Microsoft.Extensions.Configuration;
+using ReactiveUI;
+using Splat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,22 +21,7 @@ using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Xml.Linq;
-using Microsoft.Extensions.Configuration;
-using Splat;
-using System.Drawing.Drawing2D;
-using System.Windows.Media;
 using Matrix = System.Windows.Media.Matrix;
-using AYP.ViewModel.Node;
-using Newtonsoft.Json;
-using System.Threading.Tasks;
-using System.Threading;
-using AYP.Enums;
-using AYP.Helpers.Notifications;
-using System.Windows.Controls;
-using AYP.Entities;
-using AYP.DbContext.AYP.DbContexts;
-using AYP.Interfaces;
-using AYP.Services;
 
 namespace AYP.ViewModel
 {
@@ -125,7 +119,7 @@ namespace AYP.ViewModel
 
         #endregion commands with undo-redo
 
-        
+
         private void SetupCommands()
         {
 
@@ -159,7 +153,7 @@ namespace AYP.ViewModel
             CommandAddConnect = ReactiveCommand.Create<ConnectViewModel>(AddConnect);
             CommandDeleteConnect = ReactiveCommand.Create<ConnectViewModel>(DeleteConnect);
             CommandZoom = ReactiveCommand.Create<(Point point, double delta)>(Zoom);
-            CommandLogDebug = ReactiveCommand.Create<string>((message)=>LogDebug(message));
+            CommandLogDebug = ReactiveCommand.Create<string>((message) => LogDebug(message));
             CommandLogError = ReactiveCommand.Create<string>((message) => LogError(message));
             CommandLogInformation = ReactiveCommand.Create<string>((message) => LogInformation(message));
             CommandLogWarning = ReactiveCommand.Create<string>((message) => LogWarning(message));
@@ -167,8 +161,8 @@ namespace AYP.ViewModel
             CommandCut = ReactiveCommand.Create<Point>(StartCut);
             CommandAddDraggedConnect = ReactiveCommand.Create<ConnectorViewModel>(AddDraggedConnect);
             CommandDeleteDraggedConnect = ReactiveCommand.Create(DeleteDraggedConnect);
-                       
-            
+
+
             CommandPartMoveAllNode = ReactiveCommand.Create<Point>(PartMoveAllNode);
             CommandPartMoveAllSelectedNode = ReactiveCommand.Create<Point>(PartMoveAllSelectedNode);
             CommandAlignLeft = ReactiveCommand.Create<Point>(AlignLeft);
@@ -180,7 +174,7 @@ namespace AYP.ViewModel
             CommandFullMoveAllSelectedNode = new Command<Point, List<NodeViewModel>>(FullMoveAllSelectedNode, UnFullMoveAllSelectedNode, NotSaved);
             CommandAddConnectorWithConnect = new Command<ConnectorViewModel, ConnectorViewModel>(AddConnectorWithConnect, DeleteConnectorWithConnect, NotSaved);
             CommandAddNodeWithUndoRedo = new Command<ExternalNode, NodeViewModel>(AddNodeWithUndoRedo, DeleteNodetWithUndoRedo, NotSaved);
-             CommandDeleteSelectedNodes = new Command<List<NodeViewModel>, ElementsForDelete>(DeleteSelectedNodes, UnDeleteSelectedNodes, NotSaved);
+            CommandDeleteSelectedNodes = new Command<List<NodeViewModel>, ElementsForDelete>(DeleteSelectedNodes, UnDeleteSelectedNodes, NotSaved);
             CommandDeleteSelectedConnectors = new Command<List<ConnectorViewModel>, List<(int index, ConnectorViewModel connector)>>(DeleteSelectedConnectors, UnDeleteSelectedConnectors, NotSaved);
             CommandDeleteSelectedElements = new Command<DeleteMode, DeleteMode>(DeleteSelectedElements, UnDeleteSelectedElements);
             CommandChangeNodeName = new Command<(NodeViewModel node, string newName), (NodeViewModel node, string oldName)>(ChangeNodeName, UnChangeNodeName);
@@ -217,7 +211,7 @@ namespace AYP.ViewModel
         private void SelectedAll()
         {
             foreach (var node in Nodes.Items)
-            { 
+            {
                 node.Selected = true;
             }
         }
@@ -266,26 +260,26 @@ namespace AYP.ViewModel
         private void ZincirTopolojiOlustur()
         {
             List<NodeViewModel> selectedNodes = this.Nodes.Items.Where(x => x.Selected).ToList();
-            
+
             bool hepsiAgAnahtariMi = true;
             int omurgaVeyaToplamaSayisi = 0;
             Guid omurgaToplamaUniqueId = Guid.Empty;
 
             foreach (var node in this.Nodes.Items.Where(x => x.Selected))
             {
-                if(node.TypeId != (int)TipEnum.AgAnahtari)
+                if (node.TypeId != (int)TipEnum.AgAnahtari)
                 {
                     hepsiAgAnahtariMi = false;
                     break;
                 }
                 else
                 {
-                    using(AYPContext context = new AYPContext())
+                    using (AYPContext context = new AYPContext())
                     {
                         IAgAnahtariService service = new AgAnahtariService(context);
                         var agAnahtari = service.GetAgAnahtariById(node.Id);
 
-                        if(agAnahtari.AgAnahtariTur.Ad == "Omurga" || agAnahtari.AgAnahtariTur.Ad == "Toplama")
+                        if (agAnahtari.AgAnahtariTur.Ad == "Omurga" || agAnahtari.AgAnahtariTur.Ad == "Toplama")
                         {
                             omurgaVeyaToplamaSayisi++;
                             omurgaToplamaUniqueId = node.UniqueId;
@@ -294,7 +288,7 @@ namespace AYP.ViewModel
                 }
             }
 
-            if(!hepsiAgAnahtariMi)
+            if (!hepsiAgAnahtariMi)
             {
                 NotifyInfoPopup nfp = new NotifyInfoPopup();
                 nfp.msg.Text = "Zincir topoloji sadece ağ anahtarları arasında oluşturulabilir.";
@@ -303,7 +297,7 @@ namespace AYP.ViewModel
             }
             else
             {
-                if(omurgaVeyaToplamaSayisi != 1)
+                if (omurgaVeyaToplamaSayisi != 1)
                 {
                     NotifyInfoPopup nfp = new NotifyInfoPopup();
                     nfp.msg.Text = "Lütfen sadece 1 omurga veya toplama türünde ağ anahtarı seçiniz.";
@@ -315,13 +309,13 @@ namespace AYP.ViewModel
                     AYP.Validations.Validation validation = new AYP.Validations.Validation();
                     var list = new List<KeyValuePair<NodeViewModel, List<ConnectViewModel>>>();
 
-                    foreach(var selectedNode in selectedNodes.Where(x => x.UniqueId != omurgaToplamaUniqueId))
+                    foreach (var selectedNode in selectedNodes.Where(x => x.UniqueId != omurgaToplamaUniqueId))
                     {
                         var temp = new List<ConnectViewModel>();
                         foreach (var selectedNodeInner in selectedNodes)
                         {
                             bool connectOlusturulabilirMi = false;
-                            if(selectedNode != selectedNodeInner)
+                            if (selectedNode != selectedNodeInner)
                             {
                                 foreach (var output in selectedNode.Transitions.Items)
                                 {
@@ -333,10 +327,10 @@ namespace AYP.ViewModel
                                             {
                                                 bool isValid = validation.FizikselOrtamValidasyonForTopoloji(this, output, input);
 
-                                                if(isValid)
+                                                if (isValid)
                                                 {
                                                     isValid = validation.KapasiteValidasyonForTopoloji(this, output, input);
-                                                    if(isValid)
+                                                    if (isValid)
                                                     {
                                                         ConnectViewModel connect = new ConnectViewModel(this, output);
                                                         connect.ToConnector = input;
@@ -351,8 +345,8 @@ namespace AYP.ViewModel
                                             }
                                         }
 
-                                        if(connectOlusturulabilirMi)
-                                        { 
+                                        if (connectOlusturulabilirMi)
+                                        {
                                             break;
                                         }
                                     }
@@ -364,18 +358,18 @@ namespace AYP.ViewModel
                     }
 
                     var zincir = new List<NodeViewModel>();
-                    foreach(var selectedNode in selectedNodes)
+                    foreach (var selectedNode in selectedNodes)
                     {
-                            zincir = ZincirOlusturRecursive(selectedNode, list, zincir, omurgaToplamaUniqueId);
+                        zincir = ZincirOlusturRecursive(selectedNode, list, zincir, omurgaToplamaUniqueId);
 
-                            if (zincir.Count() == selectedNodes.Count() && zincir.Last().UniqueId == omurgaToplamaUniqueId)
-                            {
-                                break;
-                            }
-                            else
-                            {
-                                zincir.Clear();
-                            }
+                        if (zincir.Count() == selectedNodes.Count() && zincir.Last().UniqueId == omurgaToplamaUniqueId)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            zincir.Clear();
+                        }
                     }
 
                     if (zincir.Count > 0)
@@ -522,11 +516,11 @@ namespace AYP.ViewModel
                         {
                             var sonElemaninBaglanabildikleri = list.Where(x => x.Key == zincir.Last()).Select(s => s.Value).FirstOrDefault();
 
-                            if(sonElemaninBaglanabildikleri != null && sonElemaninBaglanabildikleri.Count() > 0)
+                            if (sonElemaninBaglanabildikleri != null && sonElemaninBaglanabildikleri.Count() > 0)
                             {
                                 var sonElemanIlkElemanaBaglanabilirMi = sonElemaninBaglanabildikleri.Where(x => x.ToConnector.Node == zincir.First()).Any();
-                                
-                                if(sonElemanIlkElemanaBaglanabilirMi)
+
+                                if (sonElemanIlkElemanaBaglanabilirMi)
                                 {
                                     break;
                                 }
@@ -616,12 +610,12 @@ namespace AYP.ViewModel
             }
             else
             {
-                if(zincir.Count() + 1 == Nodes.Items.Where(x => x.Selected).Count())
+                if (zincir.Count() + 1 == Nodes.Items.Where(x => x.Selected).Count())
                 {
                     zincir.Add(node);
                 }
             }
-             
+
             return zincir;
         }
 
@@ -729,7 +723,7 @@ namespace AYP.ViewModel
                         }
                     }
 
-                    if(list.Count() > 0)
+                    if (list.Count() > 0)
                     {
                         List<ConnectorViewModel> result = new List<ConnectorViewModel>();
                         result = YildizRecursive(list2, 0, result);
@@ -763,7 +757,7 @@ namespace AYP.ViewModel
             var temp = list;
 
             int i = 0;
-            foreach(var item in temp)
+            foreach (var item in temp)
             {
                 if (i == 0)
                 {
@@ -800,7 +794,7 @@ namespace AYP.ViewModel
                 i++;
             }
 
-            if (result.Count != Nodes.Items.Where(x => x.Selected).Count()-1)
+            if (result.Count != Nodes.Items.Where(x => x.Selected).Count() - 1)
             {
                 result.Clear();
 
@@ -810,7 +804,7 @@ namespace AYP.ViewModel
                     result = YildizRecursive(list, iterationCount, result);
                 }
             }
-            
+
 
             return result;
         }
@@ -936,7 +930,7 @@ namespace AYP.ViewModel
             var nodeList = new List<NodeViewModel>();
             foreach (var node in this.Nodes.Items.Where(x => x.Selected))
             {
-                nodeList.Add(node);    
+                nodeList.Add(node);
             }
 
             var transitionList = new List<ConnectorViewModel>();
@@ -1005,7 +999,7 @@ namespace AYP.ViewModel
                         {
                             groupedNode.Transitions.Add(transition);
 
-                            if(transition.Connect != null)
+                            if (transition.Connect != null)
                             {
                                 groupedNode.NodesCanvas.CommandAddConnect.ExecuteWithSubscribe(transition.Connect);
                             }
@@ -1022,8 +1016,8 @@ namespace AYP.ViewModel
             NotificationManager notificationManager = new NotificationManager();
             bool sameId = true;
             int typeId;
-            
-            if (Nodes.Items.Where(x => x.Selected).Count()<1)
+
+            if (Nodes.Items.Where(x => x.Selected).Count() < 1)
             {
                 NotifyInfoPopup nfp = new NotifyInfoPopup();
                 nfp.msg.Text = "Lütfen, En Az 1 Cihaz Seçiniz.";
@@ -1042,7 +1036,7 @@ namespace AYP.ViewModel
                         }
                     }
                 }
-                if(sameId)
+                if (sameId)
                 {
                     typeId = Nodes.Items.Where(x => x.Selected).FirstOrDefault().TypeId;
                     var list = Nodes.Items.Where(x => x.Selected).Select(s => s.Id).Distinct().ToList();
@@ -1050,14 +1044,14 @@ namespace AYP.ViewModel
                     es.Owner = this.MainWindow;
                     es.ShowDialog();
                 }
-                else if(!sameId)
+                else if (!sameId)
                 {
                     NotifyInfoPopup nfp = new NotifyInfoPopup();
                     nfp.msg.Text = "Lütfen, aynı tür cihazlar seçiniz.";
                     nfp.Owner = this.MainWindow;
                     nfp.Show();
-                }  
-            }   
+                }
+            }
         }
 
         private void LoadIcons()
@@ -1092,13 +1086,13 @@ namespace AYP.ViewModel
         private string GetNameForNewNode(int typeId)
         {
             string name = "";
-            if(typeId == (int)TipEnum.UcBirim)
+            if (typeId == (int)TipEnum.UcBirim)
             {
                 name = "Uç Birim #" + UcBirimCount;
             }
             else if (typeId == (int)TipEnum.AgAnahtari)
             {
-                name = "Ağ Anahtarı #" + AgAnahtariCount; 
+                name = "Ağ Anahtarı #" + AgAnahtariCount;
             }
             if (typeId == (int)TipEnum.GucUretici)
             {
@@ -1126,7 +1120,7 @@ namespace AYP.ViewModel
             {
                 connect.FromConnector.Selected = MyUtils.CheckIntersectCubicBezierCurveAndLine(connect.StartPoint, connect.Point1, connect.Point2, connect.EndPoint, cutterStartPoint, cutterEndPoint);
             }
-          
+
         }
         private void SelectNodes()
         {
@@ -1234,7 +1228,7 @@ namespace AYP.ViewModel
                 else
                 {
                     string startStateName = startStateAttribute.Value;
-                    if(string.IsNullOrEmpty(startStateName))
+                    if (string.IsNullOrEmpty(startStateName))
                     {
                         Error(string.Format("Name attribute of start state is empty.", startStateName));
                         return;
@@ -1260,16 +1254,16 @@ namespace AYP.ViewModel
 
             #region setup Transitions/connects
 
-            var Transitions = stateMachineXElement.Element("Transitions")?.Elements()?.ToList() ?? new List<XElement>();
-            ConnectViewModel viewModelConnect;
-            Transitions?.Reverse();
-            foreach (var transition in Transitions)
-            {
-                
-                viewModelConnect = ConnectorViewModel.FromXElement(this, transition, out string errorMesage, ConnectsExist);
-                if (WithError(errorMesage, x => Connects.Add(x), viewModelConnect))
-                    return;
-            }
+            //var Transitions = stateMachineXElement.Element("Transitions")?.Elements()?.ToList() ?? new List<XElement>();
+            //ConnectViewModel viewModelConnect;
+            //Transitions?.Reverse();
+            //foreach (var transition in Transitions)
+            //{
+
+            //    viewModelConnect = ConnectorViewModel.FromXElement(this, transition, out string errorMesage, ConnectsExist);
+            //    if (WithError(errorMesage, x => Connects.Add(x), viewModelConnect))
+            //        return;
+            //}
             SchemePath = fileName;
 
             #endregion  setup Transitions/connects
@@ -1277,11 +1271,11 @@ namespace AYP.ViewModel
             #region setup Visualization
             XElement Visualization = stateMachineXElement.Element("Visualization");
 
-          
+
             if (Visualization != null)
             {
                 var visualizationStates = Visualization.Elements()?.ToList();
-                if(visualizationStates!=null)
+                if (visualizationStates != null)
                 {
                     var nodes = this.Nodes.Items.ToDictionary(x => x.Name, x => x);
                     Point point;
@@ -1292,7 +1286,7 @@ namespace AYP.ViewModel
                     foreach (var visualization in visualizationStates)
                     {
                         name = visualization.Attribute("Name")?.Value;
-                        if(nodes.TryGetValue(name, out NodeViewModel node))
+                        if (nodes.TryGetValue(name, out NodeViewModel node))
                         {
                             pointAttribute = visualization.Attribute("Position")?.Value;
                             if (!PointExtensition.TryParseFromString(pointAttribute, out point))
@@ -1316,8 +1310,8 @@ namespace AYP.ViewModel
                         }
                     }
                 }
-                
-            
+
+
                 //NodeViewModel nodeViewModel = Nodes.w 
                 //var position = node.Attribute("Position")?.Value;
                 //Point point = string.IsNullOrEmpty(position) ? new Point() : PointExtensition.StringToPoint(position);
@@ -1347,7 +1341,7 @@ namespace AYP.ViewModel
                 return false;
             }
             void Error(string errorMessage)
-            {              
+            {
                 ClearScheme();
                 TransitionClipboard.Clear();
                 NodeClipboard.Clear();
@@ -1370,10 +1364,7 @@ namespace AYP.ViewModel
             }
             else
             {
-                WithValidateScheme(() =>
-                {
-                    Save(SchemePath);
-                });
+                Save(SchemePath);
             }
         }
         private void Exit()
@@ -1384,7 +1375,7 @@ namespace AYP.ViewModel
         }
         private void SaveAs()
         {
-            if(StartState == null)
+            if (StartState == null)
             {
                 NotifyWarningPopup nfp = new NotifyWarningPopup();
                 nfp.msg.Text = "Lütfen, en az 1 cihaz ekleyin.";
@@ -1393,20 +1384,16 @@ namespace AYP.ViewModel
             }
             else
             {
-                WithValidateScheme(() =>
-                {
-                    Dialog.ShowSaveFileDialog("XML-File | *.xml", SchemeName(), "Save scheme as...");
-                    if (Dialog.Result != DialogResult.Ok)
-                        return;
+                Dialog.ShowSaveFileDialog("XML-File | *.xml", SchemeName(), "Save scheme as...");
+                if (Dialog.Result != DialogResult.Ok)
+                    return;
 
-                    Save(Dialog.FileName);
-                });
+                Save(Dialog.FileName);
             }
-           
+
         }
         private void Save(string fileName)
         {
-           
             Mouse.OverrideCursor = Cursors.Wait;
             XDocument xDocument = new XDocument();
             XElement stateMachineXElement = new XElement("StateMachine");
@@ -1417,10 +1404,10 @@ namespace AYP.ViewModel
             {
                 states.Add(state.ToXElement());
             }
-            
+
             XElement startState = new XElement("StartState");
             stateMachineXElement.Add(startState);
-            if(StartState == null)
+            if (StartState == null)
             {
                 NotifyWarningPopup nfp = new NotifyWarningPopup();
                 nfp.msg.Text = "Lütfen, en az 1 cihaz ekleyin.";
@@ -1438,13 +1425,12 @@ namespace AYP.ViewModel
                     inputs.Add(input.ToInputXElement());
                 }
 
-                XElement transitions = new XElement("Transitions");
-                stateMachineXElement.Add(transitions);
-                foreach (var transition in Nodes.Items.SelectMany(x => x.TransitionsForView.Where(y => !string.IsNullOrEmpty(y.Name))))
+                XElement outputs = new XElement("Outputs");
+                stateMachineXElement.Add(outputs);
+                foreach (var output in Nodes.Items.SelectMany(x => x.OutputList))
                 {
-                    transitions.Add(transition.ToXElement());
+                    outputs.Add(output.ToOutputXElement());
                 }
-
 
                 XElement visualizationXElement = new XElement("Visualization");
                 stateMachineXElement.Add(visualizationXElement);
@@ -1452,7 +1438,6 @@ namespace AYP.ViewModel
                 {
                     visualizationXElement.Add(state.ToVisualizationXElement());
                 }
-
 
                 xDocument.Save(fileName);
                 ItSaved = true;
@@ -1466,39 +1451,6 @@ namespace AYP.ViewModel
                 nfp.Show();
                 LogDebug("Scheme was saved as \"{0}\"", SchemePath);
             }
-            
-        }
-        private void WithValidateScheme(Action action)
-        {
-            var unReachable = ValidateScheme();
-            if (unReachable.Count < 1)
-            {
-                action.Invoke();
-            }
-            else
-            {
-                NotifyWarningPopup nfp = new NotifyWarningPopup();
-                nfp.msg.Text = "Lütfen, cihazlar arasında bağlantı oluşturunuz.";
-                nfp.Owner = this.MainWindow;
-                nfp.Show();
-
-                
-
-
-
-                LogError("Nodes without connects: {0}", string.Join(",", unReachable));
-            }
-        }
-        private List<string> ValidateScheme()
-        {
-          Dictionary<string, bool> forValidate =  Nodes.Items.Where(x=>x!=StartState).ToDictionary(x => x.Name, x=>false);
-
-            foreach(var connect in Connects )
-            {
-                forValidate[connect.ToConnector.Node.Name] = true;
-            }
-
-          return forValidate.Where(x => !x.Value).Select(x=>x.Key).ToList();
         }
 
         private void StartSelect(Point point)
@@ -1666,7 +1618,7 @@ namespace AYP.ViewModel
         private void ZoomIn()
         {
             //Point point = new Point(RenderTransformMatrix.OffsetX, RenderTransformMatrix.OffsetY);
-            Zoom((ScaleCenter,1));
+            Zoom((ScaleCenter, 1));
         }
         private void ZoomOut()
         {
@@ -1699,7 +1651,7 @@ namespace AYP.ViewModel
 
             ViewModelConnect.FromConnector.AgAkisList = new List<AgAkis>();
             ViewModelConnect.ToConnector.AgAkisList = new List<AgAkis>();
-            if(ViewModelConnect.FromConnector.Node.TypeId == (int)TipEnum.GucUretici)
+            if (ViewModelConnect.FromConnector.Node.TypeId == (int)TipEnum.GucUretici)
             {
                 ViewModelConnect.FromConnector.KalanKapasite += ViewModelConnect.ToConnector.GirdiTukettigiGucMiktari.Value;
             }
@@ -1803,13 +1755,13 @@ namespace AYP.ViewModel
                 {
                     GucUreticiCount++;
                 }
-                
-                newNode = new NodeViewModel(this, GetNameForNewNode(parameter.Node.TypeId), Guid.NewGuid(), parameter.Point, parameter.Node.Id, parameter.Node.TypeId, 
-                                parameter.Node.AgArayuzuList, parameter.Node.GucArayuzuList,new List<ConnectorViewModel>(), new List<ConnectorViewModel>(), parameter.Node.VerimlilikOrani,
+
+                newNode = new NodeViewModel(this, GetNameForNewNode(parameter.Node.TypeId), Guid.NewGuid(), parameter.Point, parameter.Node.Id, parameter.Node.TypeId,
+                                parameter.Node.AgArayuzuList, parameter.Node.GucArayuzuList, new List<ConnectorViewModel>(), new List<ConnectorViewModel>(), parameter.Node.VerimlilikOrani,
                                 parameter.Node.DahiliGucTuketimDegeri, parameter.Node.Sembol, parameter.Node.StokNo, parameter.Node.Tanim, parameter.Node.UreticiAdi, parameter.Node.UreticiParcaNo,
                                 parameter.Node.TurAd);
-                
-                if(NodesCount == 0)
+
+                if (NodesCount == 0)
                 {
                     newNode.CanBeDelete = true;
                     StartState = newNode;
@@ -1847,7 +1799,7 @@ namespace AYP.ViewModel
             LogDebug("Transition with name \"{0}\" was added", result.Name);
             AddChildToProjectHierarchyWithTransitions(result);
             return result;
-            
+
             //parameter.Connect.ToConnector.Node.Name
         }
         private ConnectorViewModel DeleteConnectorWithConnect(ConnectorViewModel parameter, ConnectorViewModel result)
@@ -1912,9 +1864,9 @@ namespace AYP.ViewModel
         {
             if (result == null)
             {
-               
+
                 result = new List<(int index, ConnectorViewModel element)>();
-                foreach (var connector in parameter?? GetAllConnectors().Where(x => x.Selected))
+                foreach (var connector in parameter ?? GetAllConnectors().Where(x => x.Selected))
                 {
                     result.Add((connector.Node.GetConnectorIndex(connector), connector));
                 }
@@ -1926,7 +1878,7 @@ namespace AYP.ViewModel
             }
             return result;
         }
-        private List<(int index, ConnectorViewModel connector)> UnDeleteSelectedConnectors(List<ConnectorViewModel>  parameter, List<(int index, ConnectorViewModel connector)> result)
+        private List<(int index, ConnectorViewModel connector)> UnDeleteSelectedConnectors(List<ConnectorViewModel> parameter, List<(int index, ConnectorViewModel connector)> result)
         {
             foreach (var element in result)
             {
@@ -1966,8 +1918,8 @@ namespace AYP.ViewModel
             if (result == null)
             {
                 result = new ElementsForDelete();
-             
-                result.NodesToDelete = (parameter?.Where(x=>x.CanBeDelete)?? Nodes.Items.Where(x => x.Selected && x.CanBeDelete)).ToList();
+
+                result.NodesToDelete = (parameter?.Where(x => x.CanBeDelete) ?? Nodes.Items.Where(x => x.Selected && x.CanBeDelete)).ToList();
                 result.ConnectsToDelete = new List<ConnectViewModel>();
                 result.ConnectsToDeleteWithConnectors = new List<(int connectorIndex, ConnectViewModel connect)>();
 
@@ -1992,7 +1944,7 @@ namespace AYP.ViewModel
             Connects.RemoveMany(result.ConnectsToDelete);
             Nodes.RemoveMany(result.NodesToDelete);
             DeleteFromProjectHierarchy(result.NodesToDelete);
-            foreach(var node in result.NodesToDelete)
+            foreach (var node in result.NodesToDelete)
             {
                 LogDebug("Node with name \"{0}\" was removed", node.Name);
             }
@@ -2054,7 +2006,7 @@ namespace AYP.ViewModel
                 return newapp.returnvalue;// Dialog.Result == DialogResult.Yes;
             }
 
-            return true; 
+            return true;
         }
 
         #region Project Hierarchy Creations
@@ -2088,7 +2040,7 @@ namespace AYP.ViewModel
         {
 
             NotificationManager notificationManager = new NotificationManager();
-            
+
 
             if (Nodes.Items.Where(x => x.Selected).Count() < 1)
             {
