@@ -369,6 +369,25 @@ namespace AYP.Services
             return response;
         }
 
+        public UcBirimTur GetUcBirimTurById(int ucBirimTurId)
+        {
+            UcBirimTur response = new UcBirimTur();
+
+            using (var transaction = context.Database.BeginTransaction(IsolationLevel.ReadUncommitted))
+            {
+                try
+                {
+                    response = context.UcBirimTur.Where(ubt => ubt.Id == ucBirimTurId).FirstOrDefault();
+                }
+                catch (Exception exception)
+                {
+
+                }
+            }
+
+            return response;
+        }
+
         private ImageSource ByteToImage(byte[] imageData)
         {
             BitmapImage biImg = new BitmapImage();

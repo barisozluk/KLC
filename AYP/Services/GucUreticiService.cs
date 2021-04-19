@@ -42,6 +42,25 @@ namespace AYP.Services
             return response;
         }
 
+        public GucUreticiTur GetGucUreticiTurById(int gucUreticiTurId)
+        {
+            GucUreticiTur response = new GucUreticiTur();
+
+            using (var transaction = context.Database.BeginTransaction(IsolationLevel.ReadUncommitted))
+            {
+                try
+                {
+                    response = context.GucUreticiTur.Where(gut => gut.Id == gucUreticiTurId).FirstOrDefault();
+                }
+                catch (Exception exception)
+                {
+
+                }
+            }
+
+            return response;
+        }
+
         public List<GucUretici> ListGucUretici()
         {
             List<GucUretici> response = new List<GucUretici>();

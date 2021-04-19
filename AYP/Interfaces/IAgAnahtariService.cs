@@ -18,6 +18,6 @@ namespace AYP.Interfaces
         List<GucArayuzu> ListAgAnahtariGucArayuzu(int agAnahtariId);
         AgAnahtari GetAgAnahtariById(int agAnahtariId);
         ResponseModel SaveTopluEdit(List<int> selectedIdList, string ureticiAdi);
-
+        AgAnahtariTur GetAgAnahtariTurById(int agAnahtariTurId);
     }
 }

@@ -27,7 +27,9 @@
         <Image Source="Images\kck-logo.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         <Separator BorderBrush="White" Grid.Column="0" Grid.Row="0" Margin="12,45,12,0" />
 
-        <Button x:Name="ButtonDefinitions" Style="{DynamicResource StyleLeftPanelUpButton}" Grid.Column="1" HorizontalAlignment="Left" Margin="5,0,0,0">Raporlar</Button>
+        <Button Style="{DynamicResource StyleLeftPanelUpButton}" Grid.Column="1" HorizontalAlignment="Left" Margin="5,0,0,0" Click="OnAgPlanlamaRaporuClick" Content="Ağ Planlama Raporu"></Button>
+        <Button Style="{DynamicResource StyleLeftPanelUpButton}" Grid.Column="1" HorizontalAlignment="Left" Margin="130,0,0,0" Click="OnGucPlanlamaRaporuClick" Content="Güç Planlama Raporu"></Button>
+
         <!--SEPERATE BUTTON'S BG-->
         <Border Background="#222d35" Width="30" Height="34"  Grid.Column="3"  HorizontalAlignment="Left" Margin="22,1,0,0"/>
         <Border Background="White" Width="1" Height="25"  Grid.Column="3"  HorizontalAlignment="Left" Margin="42,0,0,0"/>
@@ -117,13 +119,13 @@
         <Button x:Name="ButtonNew" ToolTip="Yeni Proje (Ctrl+Shif+N)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,60,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Image Source="Images\newProjectW.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
-        <Button x:Name="ButtonOpen" IsEnabled="False" ToolTip="Proje Aç (Ctrl+Shift+O)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,105,10,0" Grid.Row="1" VerticalAlignment="Top" >
+        <Button x:Name="ButtonOpen" ToolTip="Proje Aç (Ctrl+Shift+O)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,105,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Image Source="Images\openProjectW.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
-        <Button x:Name="ButtonSave" IsEnabled="False" ToolTip="Kaydet (Ctrl+S)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,150,10,0" Grid.Row="1" VerticalAlignment="Top" >
+        <Button x:Name="ButtonSave" ToolTip="Kaydet (Ctrl+S)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,150,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Image Source="Images\saveW.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
-        <Button x:Name="ButtonSaveAs" IsEnabled="False" ToolTip="Farklı Kaydet (Ctrl+Shift+S)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,195,10,0" Grid.Row="1" VerticalAlignment="Top" >
+        <Button x:Name="ButtonSaveAs" ToolTip="Farklı Kaydet (Ctrl+Shift+S)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,195,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Image Source="Images\saveAsW.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
         <Button x:Name="ButtonImport" ToolTip="İçeri Aktarma" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,240,10,0" Grid.Row="1" VerticalAlignment="Top" Click="ButtonImport_Click" >

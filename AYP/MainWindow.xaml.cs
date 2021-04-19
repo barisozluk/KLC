@@ -1,29 +1,25 @@
-﻿using System;
+﻿using AYP.DbContext.AYP.DbContexts;
+using AYP.Entities;
+using AYP.Enums;
+using AYP.Helpers.Enums;
+using AYP.Interfaces;
+using AYP.Services;
+using AYP.View;
+using AYP.ViewModel;
+using AYP.ViewModel.Node;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using Microsoft.Win32;
+using ReactiveUI;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Reactive.Disposables;
-using System.Reactive.Linq;
-using ReactiveUI;
-using AYP.ViewModel;
-using AYP.Helpers.Enums;
-using System.IO;
-using System.Linq;
-using AYP.DbContext.AYP.DbContexts;
-using AYP.Interfaces;
-using AYP.Services;
-using AYP.Entities;
-using AYP.Enums;
-using Microsoft.Win32;
-using System.Collections.Generic;
-using AYP.View;
-using AYP.ViewModel.Node;
-using AYP.Helpers.Notifications;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Text;
-using Newtonsoft.Json;
-using Microsoft.Data.SqlClient;
 
 namespace AYP
 {
@@ -38,7 +34,7 @@ namespace AYP
         public bool toggleRight = true;
         public bool toggleLeft = true;
         public bool isClose = false;
-        public int midColSize ;
+        public int midColSize;
 
         public int selectedTipId = 0;
         UcBirim selectedUcBirim;
@@ -91,7 +87,7 @@ namespace AYP
 
         private void SetupBinding()
         {
-            
+
             this.WhenActivated(disposable =>
             {
                 //this.OneWayBind(this.ViewModel, x => x.Tests, x => x.TableOfTransitions.ItemsSource).DisposeWith(disposable);
@@ -164,6 +160,9 @@ namespace AYP
                 //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandYildizTopolojiOlustur, x => x.ButtonYildizTopoloji).DisposeWith(disposable);
                 //this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandHalkaTopolojiOlustur, x => x.ButtonHalkaTopoloji).DisposeWith(disposable);
                 this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandZincirTopolojiOlustur, x => x.ButtonZincirTopoloji).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandHalkaTopolojiOlustur, x => x.ButtonHalkaTopoloji).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandYildizTopolojiOlustur, x => x.ButtonYildizTopoloji).DisposeWith(disposable);
+
             });
         }
         #endregion Setup Binding
@@ -575,7 +574,7 @@ namespace AYP
         {
             bool fromNode = false;
 
-            if(selectedTipId == (int)TipEnum.UcBirim)
+            if (selectedTipId == (int)TipEnum.UcBirim)
             {
                 this.IsEnabled = false;
                 System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
@@ -585,7 +584,7 @@ namespace AYP
                 popup.Owner = this;
                 popup.ShowDialog();
             }
-            else if(selectedTipId == (int)TipEnum.AgAnahtari)
+            else if (selectedTipId == (int)TipEnum.AgAnahtari)
             {
                 this.IsEnabled = false;
                 System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
@@ -596,12 +595,12 @@ namespace AYP
                 popup.Owner = this;
                 popup.ShowDialog();
             }
-            else if(selectedTipId == (int)TipEnum.GucUretici)
+            else if (selectedTipId == (int)TipEnum.GucUretici)
             {
                 this.IsEnabled = false;
                 System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
-            blur.Radius = 2;
-            this.Effect = blur;
+                blur.Radius = 2;
+                this.Effect = blur;
 
                 GucUreticiPopupWindow popup = new GucUreticiPopupWindow(selectedGucUretici, fromNode);
                 popup.Owner = this;
@@ -647,7 +646,7 @@ namespace AYP
                 this.NodesCanvas.PositionMove = droppedpoint;
                 var dataCxtx = ClickedElement.DataContext;
                 var type = dataCxtx.GetType();
-                
+
                 NodeViewModel model = new NodeViewModel();
                 if (type.Name == "UcBirim")
                 {
@@ -657,6 +656,11 @@ namespace AYP
                     model.AgArayuzuList = ucBirimService.ListUcBirimAgArayuzu(ucBirim.Id);
                     model.GucArayuzuList = ucBirimService.ListUcBirimGucArayuzu(ucBirim.Id);
                     model.Sembol = ucBirim.Sembol;
+                    model.Tanim = ucBirim.Tanim;
+                    model.StokNo = ucBirim.StokNo;
+                    model.UreticiAdi = ucBirim.UreticiAdi;
+                    model.UreticiParcaNo = ucBirim.UreticiParcaNo;
+                    model.TurAd = ucBirimService.GetUcBirimTurById(ucBirim.UcBirimTurId).Ad;
                 }
                 else if (type.Name == "AgAnahtari")
                 {
@@ -666,22 +670,32 @@ namespace AYP
                     model.AgArayuzuList = agAnahtariService.ListAgAnahtariAgArayuzu(agAnahtari.Id);
                     model.GucArayuzuList = agAnahtariService.ListAgAnahtariGucArayuzu(agAnahtari.Id);
                     model.Sembol = agAnahtari.Sembol;
+                    model.Tanim = agAnahtari.Tanim;
+                    model.StokNo = agAnahtari.StokNo;
+                    model.UreticiAdi = agAnahtari.UreticiAdi;
+                    model.UreticiParcaNo = agAnahtari.UreticiParcaNo;
+                    model.TurAd = agAnahtariService.GetAgAnahtariTurById(agAnahtari.AgAnahtariTurId).Ad;
                 }
                 else if (type.Name == "GucUretici")
                 {
                     var gucUretici = (GucUretici)dataCxtx;
                     model.Id = gucUretici.Id;
                     model.TypeId = gucUretici.TipId;
-                    model.AgArayuzuList = new List<AgArayuzu>(); 
+                    model.AgArayuzuList = new List<AgArayuzu>();
                     model.GucArayuzuList = gucUreticiService.ListGucUreticiGucArayuzu(gucUretici.Id);
                     model.VerimlilikOrani = gucUretici.VerimlilikDegeri.HasValue ? gucUretici.VerimlilikDegeri.Value : 0;
                     model.DahiliGucTuketimDegeri = gucUretici.DahiliGucTuketimDegeri.HasValue ? gucUretici.DahiliGucTuketimDegeri.Value : 0;
                     model.Sembol = gucUretici.Sembol;
+                    model.Tanim = gucUretici.Tanim;
+                    model.StokNo = gucUretici.StokNo;
+                    model.UreticiAdi = gucUretici.UreticiAdi;
+                    model.UreticiParcaNo = gucUretici.UreticiParcaNo;
+                    model.TurAd = gucUreticiService.GetGucUreticiTurById(gucUretici.GucUreticiTurId).Ad;
                 }
 
                 if (model.TypeId == (int)TipEnum.AgAnahtari || model.TypeId == (int)TipEnum.UcBirim)
                 {
-                    if(agWorkspaceSeciliMi)
+                    if (agWorkspaceSeciliMi)
                     {
                         ExternalNode data = new ExternalNode();
                         data.Node = model;
@@ -860,7 +874,7 @@ namespace AYP
                 {
                     ProjeHiyerarsi.Items.Remove(searchfordelete2);
                 }
-            }            
+            }
         }
 
         public void ProjectHierarchyDelete(List<NodeViewModel> NodesToDelete)
@@ -875,7 +889,7 @@ namespace AYP
             foreach (TreeViewItem searchfordelete2 in treeList)
             {
                 foreach (var nodeViewModels in NodesToDelete)
-                { 
+                {
                     if (searchfordelete2.Header.ToString() == nodeViewModels.Name)
                     {
                         ProjeHiyerarsi.Items.Remove(searchfordelete2);
@@ -883,7 +897,7 @@ namespace AYP
                 }
             }
         }
-        
+
         public void ProjectHierarchyDeleteForChild(string deleteNodeForChild)
         {
             List<TreeViewItem> treeList = new List<TreeViewItem>();
@@ -902,7 +916,7 @@ namespace AYP
             }
         }
 
-	    public void ProjectHierarchyAddChild(ConnectorViewModel connectorViewModel)
+        public void ProjectHierarchyAddChild(ConnectorViewModel connectorViewModel)
         {
             List<TreeViewItem> treeList = new List<TreeViewItem>();
             ProjeHiyerarsi.ItemsSource = null;
@@ -926,52 +940,52 @@ namespace AYP
             }
         }
 
-	    private static readonly System.Reflection.PropertyInfo IsSelectionChangeActiveProperty = 
+        private static readonly System.Reflection.PropertyInfo IsSelectionChangeActiveProperty =
             typeof(TreeView).GetProperty("IsSelectionChangeActive", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
 
         public void AllowMultiSelection(TreeView treeView)
         {
-              if (IsSelectionChangeActiveProperty == null) return;
+            if (IsSelectionChangeActiveProperty == null) return;
 
-              var selectedItems = new List<TreeViewItem>();
-              treeView.SelectedItemChanged += (a, b) =>
-              {
-                  var treeViewItem = treeView.SelectedItem as TreeViewItem;
-                  if (treeViewItem == null) return;
+            var selectedItems = new List<TreeViewItem>();
+            treeView.SelectedItemChanged += (a, b) =>
+            {
+                var treeViewItem = treeView.SelectedItem as TreeViewItem;
+                if (treeViewItem == null) return;
 
-                  // allow multiple selection
-                  // when control key is pressed
-                  if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
-                  {
-                      // suppress selection change notification
-                      // select all selected items
-                      // then restore selection change notifications
-                      var isSelectionChangeActive = IsSelectionChangeActiveProperty.GetValue(treeView, null);
+                // allow multiple selection
+                // when control key is pressed
+                if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+                {
+                    // suppress selection change notification
+                    // select all selected items
+                    // then restore selection change notifications
+                    var isSelectionChangeActive = IsSelectionChangeActiveProperty.GetValue(treeView, null);
 
-                      IsSelectionChangeActiveProperty.SetValue(treeView, true, null);
-                      selectedItems.ForEach(item => item.IsSelected = true);
-                     
-                      IsSelectionChangeActiveProperty.SetValue (treeView, isSelectionChangeActive, null);
-                  }
-                  else
-                  {
-                      // deselect all selected items except the current one
-                      selectedItems.ForEach(item => item.IsSelected = (item == treeViewItem));
-                      selectedItems.Clear();
-                  }
+                    IsSelectionChangeActiveProperty.SetValue(treeView, true, null);
+                    selectedItems.ForEach(item => item.IsSelected = true);
 
-                  if (!selectedItems.Contains(treeViewItem))
-                  {
-                      selectedItems.Add(treeViewItem);
-                  }
-                  else
-                  {
-                      // deselect if already selected
-                      treeViewItem.IsSelected = false;
-                      selectedItems.Remove(treeViewItem);
-                  }
-                  NodeSelect(selectedItems);
-              };
+                    IsSelectionChangeActiveProperty.SetValue(treeView, isSelectionChangeActive, null);
+                }
+                else
+                {
+                    // deselect all selected items except the current one
+                    selectedItems.ForEach(item => item.IsSelected = (item == treeViewItem));
+                    selectedItems.Clear();
+                }
+
+                if (!selectedItems.Contains(treeViewItem))
+                {
+                    selectedItems.Add(treeViewItem);
+                }
+                else
+                {
+                    // deselect if already selected
+                    treeViewItem.IsSelected = false;
+                    selectedItems.Remove(treeViewItem);
+                }
+                NodeSelect(selectedItems);
+            };
         }
 
         private void NodeSelect(List<TreeViewItem> selectedItems)
@@ -994,7 +1008,7 @@ namespace AYP
         #region ExpanderCloser
         private void e1_Expanded(object sender, RoutedEventArgs e)
         {
-            e2.IsExpanded= false;
+            e2.IsExpanded = false;
             e3.IsExpanded = false;
         }
 
@@ -1038,7 +1052,161 @@ namespace AYP
         }
         #endregion
 
-        #region Import/Export
+        #region Raporlama
+        private void OnAgPlanlamaRaporuClick(object sender, RoutedEventArgs e)
+        {
+            var agPlanlamaNodes = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId != (int)TipEnum.GucUretici);
+
+            if (agPlanlamaNodes.Count() > 0)
+            {
+                using (var fbd = new System.Windows.Forms.FolderBrowserDialog())
+                {
+                    System.Windows.Forms.DialogResult result = fbd.ShowDialog();
+
+                    if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                    {
+                        string path = fbd.SelectedPath;
+
+                        var ucBirimler = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.UcBirim).ToList();
+                        var agAnahtarlari = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.AgAnahtari).ToList();
+                        //var kenarAnahtariSayisi = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.AgAnahtari).ToList().Where(kn => kn.)
+
+                        Document doc = new Document(iTextSharp.text.PageSize.LETTER, 0f, 0f, 0f, 0f);
+                        PdfWriter wr = PdfWriter.GetInstance(doc, new FileStream(path + "\\Ağ Planlama Raporu.pdf", FileMode.Create));
+                        doc.Open();
+                        Paragraph mainHeader = new Paragraph("AYP AG PLANLAMA RAPORU");
+                        mainHeader.Alignment = iTextSharp.text.Element.ALIGN_CENTER;
+
+                        mainHeader.SpacingAfter = 30;
+                        doc.Add(mainHeader);
+
+                        if (ucBirimler.Count > 0)
+                        {
+                            PdfPCell headerUcBirim = new PdfPCell(new Phrase("Uç Birim Listesi"));
+                            headerUcBirim.HorizontalAlignment = iTextSharp.text.Element.ALIGN_CENTER;
+                            headerUcBirim.BorderColor = new BaseColor(34, 45, 53);
+                            PdfPTable tableUcBirim = new PdfPTable(1);
+                            tableUcBirim.AddCell(headerUcBirim);
+
+                            for (int i = 0; i < ucBirimler.Count; i++)
+                            {
+                                var phrase = new Phrase(ucBirimler[i].Name);
+                                PdfPCell cell = new PdfPCell(phrase);
+                                cell.BorderColor = new BaseColor(34, 45, 53);
+                                tableUcBirim.AddCell(cell);
+                            }
+                            PdfPTable tableToplamUcBirim = new PdfPTable(2);
+                            PdfPCell cellToplam = new PdfPCell(new Phrase("Toplam"));
+                            cellToplam.BorderColor = new BaseColor(34, 45, 53);
+                            PdfPCell cellDeger = new PdfPCell(new Phrase(ucBirimler.Count.ToString()));
+                            cellDeger.BorderColor = new BaseColor(34, 45, 53);
+
+                            tableToplamUcBirim.AddCell(cellToplam);
+                            tableToplamUcBirim.AddCell(cellDeger);
+                            tableToplamUcBirim.SpacingAfter = 20;
+
+                            doc.Add(tableUcBirim);
+                            doc.Add(tableToplamUcBirim);
+                        }
+
+                        if (agAnahtarlari.Count > 0)
+                        {
+                            PdfPCell headerAgAnahtari = new PdfPCell(new Phrase("Ag Anahtarı Listesi"));
+                            headerAgAnahtari.HorizontalAlignment = iTextSharp.text.Element.ALIGN_CENTER;
+                            headerAgAnahtari.HorizontalAlignment = iTextSharp.text.Element.ALIGN_CENTER;
+                            headerAgAnahtari.BorderColor = new BaseColor(34, 45, 53);
+                            PdfPTable tableAgAnahtari = new PdfPTable(1);
+                            tableAgAnahtari.AddCell(headerAgAnahtari);
+
+                            for (int i = 0; i < agAnahtarlari.Count; i++)
+                            {
+                                PdfPCell cell = new PdfPCell(new Phrase(agAnahtarlari[i].Name));
+                                cell.BorderColor = new BaseColor(34, 45, 53);
+                                tableAgAnahtari.AddCell(cell);
+                            }
+                            PdfPTable tableToplamAgAnahtari = new PdfPTable(2);
+                            PdfPCell cellToplam = new PdfPCell(new Phrase("Toplam"));
+                            cellToplam.BorderColor = new BaseColor(34, 45, 53);
+                            PdfPCell cellDeger = new PdfPCell(new Phrase(agAnahtarlari.Count.ToString()));
+                            cellDeger.BorderColor = new BaseColor(34, 45, 53);
+
+                            tableToplamAgAnahtari.AddCell(cellToplam);
+                            tableToplamAgAnahtari.AddCell(cellDeger);
+                            tableToplamAgAnahtari.SpacingAfter = 20;
+
+                            doc.Add(tableAgAnahtari);
+                            doc.Add(tableToplamAgAnahtari);
+                        }
+
+                        //if (ucBirimNodeSayisi > 0 && agAnahtariSayisi > 0)
+                        //{
+                        //    PdfPCell header = new PdfPCell(new Phrase("Kenar Ağ Anahtarı ve Bağlı Olduğu Uç Birim Raporu"));
+                        //    header.HorizontalAlignment = iTextSharp.text.Element.ALIGN_CENTER;
+                        //    PdfPTable tableHeader = new PdfPTable(1);
+                        //    tableHeader.AddCell(header);
+
+                        //    PdfPTable tableKenarUcBirim = new PdfPTable(2);
+                        //    PdfPCell header1 = new PdfPCell(new Phrase("Ağ Anahtarı Adı"));
+                        //    PdfPCell header2 = new PdfPCell(new Phrase("Uç Birim Adı"));
+                        //    tableKenarUcBirim.AddCell(header1);
+                        //    tableKenarUcBirim.AddCell(header2);
+
+                        //    for (int i = 0; i < agAnahtariSayisi; i++)
+                        //    {
+                        //        // Hem ağ anahtarı hem uç birim olduğu durumda
+                        //        // Kenar anahar sayısına göre for dönecek, her kenar anahtara bağlı uç birimleri gösterecek.
+                        //    }
+
+
+                        //    tableKenarUcBirim.SpacingAfter = 20;
+                        //    tableKenarUcBirim.SpacingBefore = 20;
+
+                        //    doc.Add(tableHeader);
+                        //    doc.Add(tableKenarUcBirim);
+
+                        //}
+
+                        doc.Close();
+
+                    }
+                }
+            }
+            else
+            {
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                nfp.msg.Text = "Ağ planlama alanında bir çalışma yapılmadığından rapor alınamamaktadır.";
+                nfp.Owner = this;
+                nfp.Show();
+            }
+        }
+
+        private void OnGucPlanlamaRaporuClick(object sender, RoutedEventArgs e)
+        {
+            var gucPlanlamaNodes = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.GucUretici);
+
+            if (gucPlanlamaNodes.Count() > 0)
+            {
+                using (var fbd = new System.Windows.Forms.FolderBrowserDialog())
+                {
+                    System.Windows.Forms.DialogResult result = fbd.ShowDialog();
+
+                    if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                    {
+                        string path = fbd.SelectedPath;
+                    }
+                }
+            }
+            else
+            {
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                nfp.msg.Text = "Güç planlama alanında bir çalışma yapılmadığından rapor alınamamaktadır.";
+                nfp.Owner = this;
+                nfp.Show();
+            }
+
+            #endregion
+
+#region Import/Export
         private void ButtonExport_Click(object sender, RoutedEventArgs e)
         {
             //List<UcBirim> ucbirimler = new List<UcBirim>();
@@ -1070,5 +1238,6 @@ namespace AYP
             popup.ShowDialog();
         }
         #endregion
+        }
     }
 }
