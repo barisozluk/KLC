@@ -36,15 +36,111 @@ namespace AYP
         {
             List<DbImportExportObjectModel> models = JsonConvert.DeserializeObject<List<DbImportExportObjectModel>>(File.ReadAllText(fileName));
 
+            var gucArayuzuList = new List<GucArayuzu>();
+            var gucUreticiList = new List<GucUretici>();
             var ucBirimList = new List<UcBirim>();
+            var agAnahtariAgArayuzuList = new List<AgAnahtariAgArayuzu>();
+            var agAnahtariGucArayuzuList = new List<AgAnahtariGucArayuzu>();
+            var gucUreticiGucArayuzuList = new List<GucUreticiGucArayuzu>();
+            var ucBirimAgArayuzuList = new List<UcBirimAgArayuzu>();
+            var ucBirimGucArayuzuList = new List<UcBirimGucArayuzu>();
+            var agAnahtariTurList = new List<AgAnahtariTur>();
+            var gucUreticiTurList = new List<GucUreticiTur>();
+            var ucBirimTurList = new List<UcBirimTur>();
+            var agAnahtariList = new List<AgAnahtari>();
+            var agArayuzuList = new List<AgArayuzu>();
 
             foreach (var model in models)
             {
-                if (model.tableName == "UcBirim")
+                if (model.tableName == "GucArayuzu")
+                {
+                    foreach (var row in model.rows)
+                    {
+                        gucArayuzuList.Add(row.ToObject<GucArayuzu>());
+                    }
+                }
+                else if (model.tableName == "GucUretici")
+                {
+                    foreach (var row in model.rows)
+                    {
+                        gucUreticiList.Add(row.ToObject<GucUretici>());
+                    }
+                }
+                else if (model.tableName == "UcBirim")
                 {
                     foreach (var row in model.rows)
                     {
                         ucBirimList.Add(row.ToObject<UcBirim>());
+                    }
+                }
+                else if (model.tableName == "AgAnahtariAgArayuzu")
+                {
+                    foreach (var row in model.rows)
+                    {
+                        agAnahtariAgArayuzuList.Add(row.ToObject<AgAnahtariAgArayuzu>());
+                    }
+                }
+                else if (model.tableName == "AgAnahtariGucArayuzu")
+                {
+                    foreach (var row in model.rows)
+                    {
+                        agAnahtariGucArayuzuList.Add(row.ToObject<AgAnahtariGucArayuzu>());
+                    }
+                }
+                else if (model.tableName == "GucUreticiGucArayuzu")
+                {
+                    foreach (var row in model.rows)
+                    {
+                        gucUreticiGucArayuzuList.Add(row.ToObject<GucUreticiGucArayuzu>());
+                    }
+                }
+                else if (model.tableName == "UcBirimAgArayuzu")
+                {
+                    foreach (var row in model.rows)
+                    {
+                        ucBirimAgArayuzuList.Add(row.ToObject<UcBirimAgArayuzu>());
+                    }
+                }
+                else if (model.tableName == "UcBirimGucArayuzu")
+                {
+                    foreach (var row in model.rows)
+                    {
+                        ucBirimGucArayuzuList.Add(row.ToObject<UcBirimGucArayuzu>());
+                    }
+                }
+                else if (model.tableName == "AgAnahtariTur")
+                {
+                    foreach (var row in model.rows)
+                    {
+                        agAnahtariTurList.Add(row.ToObject<AgAnahtariTur>());
+                    }
+                }
+                else if (model.tableName == "GucUreticiTur")
+                {
+                    foreach (var row in model.rows)
+                    {
+                        gucUreticiTurList.Add(row.ToObject<GucUreticiTur>());
+                    }
+                }
+                else if (model.tableName == "UcBirimTur")
+                {
+                    foreach (var row in model.rows)
+                    {
+                        ucBirimTurList.Add(row.ToObject<UcBirimTur>());
+                    }
+                }
+                else if (model.tableName == "AgAnahtari")
+                {
+                    foreach (var row in model.rows)
+                    {
+                        agAnahtariList.Add(row.ToObject<AgAnahtari>());
+                    }
+                }
+                else if (model.tableName == "AgArayuzu")
+                {
+                    foreach (var row in model.rows)
+                    {
+                        agArayuzuList.Add(row.ToObject<AgArayuzu>());
                     }
                 }
             }
