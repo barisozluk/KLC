@@ -18,6 +18,6 @@ namespace AYP.Interfaces
         List<GucArayuzu> ListUcBirimGucArayuzu(int ucBirimId);
         UcBirim GetUcBirimById(int ucBirimId);
         ResponseModel SaveTopluEdit(List<int> selectedIdList, string ureticiAdi);
-
+        UcBirimTur GetUcBirimTurById(int ucBirimTurId);
     }
 }

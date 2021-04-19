@@ -660,7 +660,7 @@ namespace AYP
                     model.StokNo = ucBirim.StokNo;
                     model.UreticiAdi = ucBirim.UreticiAdi;
                     model.UreticiParcaNo = ucBirim.UreticiParcaNo;
-                    model.TurAd = ucBirim.UcBirimTur.Ad;
+                    model.TurAd = ucBirimService.GetUcBirimTurById(ucBirim.UcBirimTurId).Ad;
                 }
                 else if (type.Name == "AgAnahtari")
                 {
@@ -674,7 +674,7 @@ namespace AYP
                     model.StokNo = agAnahtari.StokNo;
                     model.UreticiAdi = agAnahtari.UreticiAdi;
                     model.UreticiParcaNo = agAnahtari.UreticiParcaNo;
-                    model.TurAd = agAnahtari.AgAnahtariTur.Ad;
+                    model.TurAd = agAnahtariService.GetAgAnahtariTurById(agAnahtari.AgAnahtariTurId).Ad;
                 }
                 else if (type.Name == "GucUretici")
                 {
@@ -690,7 +690,7 @@ namespace AYP
                     model.StokNo = gucUretici.StokNo;
                     model.UreticiAdi = gucUretici.UreticiAdi;
                     model.UreticiParcaNo = gucUretici.UreticiParcaNo;
-                    model.TurAd = gucUretici.GucUreticiTur.Ad;
+                    model.TurAd = gucUreticiService.GetGucUreticiTurById(gucUretici.GucUreticiTurId).Ad;
                 }
 
                 if (model.TypeId == (int)TipEnum.AgAnahtari || model.TypeId == (int)TipEnum.UcBirim)

@@ -17,6 +17,6 @@ namespace AYP.Interfaces
         List<GucArayuzu> ListGucUreticiGucArayuzu(int gucUreticiId);
         GucUretici GetGucUreticiById(int gucUreticiId);
         ResponseModel SaveTopluEdit(List<int> selectedIdList, string ureticiAdi);
-
+        GucUreticiTur GetGucUreticiTurById(int gucUreticiTurId);
     }
 }

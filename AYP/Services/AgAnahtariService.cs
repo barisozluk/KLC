@@ -370,6 +370,25 @@ namespace AYP.Services
             return response;
         }
 
+        public AgAnahtariTur GetAgAnahtariTurById(int agAnahtariTurId)
+        {
+            AgAnahtariTur response = new AgAnahtariTur();
+
+            using (var transaction = context.Database.BeginTransaction(IsolationLevel.ReadUncommitted))
+            {
+                try
+                {
+                    response = context.AgAnahtariTur.Where(aat => aat.Id == agAnahtariTurId).FirstOrDefault();
+                }
+                catch (Exception exception)
+                {
+
+                }
+            }
+
+            return response;
+        }
+
         private ImageSource ByteToImage(byte[] imageData)
         {
             BitmapImage biImg = new BitmapImage();

@@ -318,10 +318,15 @@ namespace AYP.ViewModel
         public XElement ToXElement()
         {
             XElement element = new XElement("State");
-            element.Add(new XAttribute("Name", Name));
-            element.Add(new XAttribute("Id", Id));
-            element.Add(new XAttribute("TypeId", TypeId));
             element.Add(new XAttribute("UniqueId", UniqueId));
+            element.Add(new XAttribute("Id", Id));
+            element.Add(new XAttribute("Name", Name));
+            element.Add(new XAttribute("Tanim", Tanim));
+            element.Add(new XAttribute("StokNo", StokNo));
+            element.Add(new XAttribute("UreticiAdi", UreticiAdi));
+            element.Add(new XAttribute("UreticiParcaNo", UreticiParcaNo));
+            element.Add(new XAttribute("Tur", TurAd));
+            element.Add(new XAttribute("TypeId", TypeId));
             element.Add(new XAttribute("Position", PointExtensition.PointToString(Point1)));
 
             return element;
