@@ -345,5 +345,84 @@ namespace AYP.Services
             }
             return response;
         }
+
+        public void ImportGucUreticiLibrary(GucUreticiTur gucUreticiTur, List<GucUretici> gucUreticiList, List<GucUreticiGucArayuzu> guGucArayuzuList, List<GucArayuzu> gucArayuzuList)
+        {
+            using (var transaction = context.Database.BeginTransaction(IsolationLevel.ReadUncommitted))
+            {
+                try
+                {
+                    GucUreticiTur gucUreticiTurItem = context.GucUreticiTur.Where(gut => gut.Ad.ToLower() == gucUreticiTur.Ad.ToLower()).FirstOrDefault();
+
+                    if (gucUreticiTurItem == null)
+                    {
+                        gucUreticiTurItem = new GucUreticiTur();
+                        context.GucUreticiTur.Add(gucUreticiTurItem);
+                        gucUreticiTurItem.Ad = gucUreticiTur.Ad;
+
+                        context.SaveChanges();
+                    }
+
+                    foreach (var gucUretici in gucUreticiList)
+                    {
+                        GucUretici gucUreticiItem = context.GucUretici.Where(gu => gu.StokNo == gucUretici.StokNo).FirstOrDefault();
+
+                        if (gucUreticiItem == null)
+                        {
+                            gucUreticiItem = new GucUretici();
+                            context.GucUretici.Add(gucUreticiItem);
+                            gucUreticiItem.CiktiGucArayuzuSayisi = gucUretici.CiktiGucArayuzuSayisi;
+                            gucUreticiItem.GirdiGucArayuzuSayisi = gucUretici.GirdiGucArayuzuSayisi;
+                            gucUreticiItem.Katalog = gucUretici.Katalog;
+                            gucUreticiItem.KatalogDosyaAdi = gucUretici.KatalogDosyaAdi;
+                            gucUreticiItem.Sembol = gucUretici.Sembol;
+                            gucUreticiItem.SembolDosyaAdi = gucUretici.SembolDosyaAdi;
+                            gucUreticiItem.StokNo = gucUretici.StokNo;
+                            gucUreticiItem.Tanim = gucUretici.Tanim;
+                            gucUreticiItem.TipId = gucUretici.TipId;
+                            gucUreticiItem.GucUreticiTurId = gucUreticiTurItem.Id;
+                            gucUreticiItem.UreticiAdi = gucUretici.UreticiAdi;
+                            gucUreticiItem.UreticiParcaNo = gucUretici.UreticiParcaNo;
+                            context.SaveChanges();
+
+                            var gaIdList = guGucArayuzuList.Where(guga => guga.GucUreticiId == gucUretici.Id).Select(s => s.GucArayuzuId).ToList();
+                            var gaList = gucArayuzuList.Where(ga => gaIdList.Contains(ga.Id)).ToList();
+                            foreach (var gucArayuzu in gaList)
+                            {
+                                GucArayuzu dbItemGucArayuzu = new GucArayuzu();
+                                context.GucArayuzu.Add(dbItemGucArayuzu);
+                                dbItemGucArayuzu.CiktiDuraganGerilimDegeri = gucArayuzu.CiktiDuraganGerilimDegeri;
+                                dbItemGucArayuzu.CiktiUrettigiGucKapasitesi = gucArayuzu.CiktiUrettigiGucKapasitesi;
+                                dbItemGucArayuzu.GirdiDuraganGerilimDegeri1 = gucArayuzu.GirdiDuraganGerilimDegeri1;
+                                dbItemGucArayuzu.GirdiDuraganGerilimDegeri2 = gucArayuzu.GirdiDuraganGerilimDegeri2;
+                                dbItemGucArayuzu.GirdiDuraganGerilimDegeri3 = gucArayuzu.GirdiDuraganGerilimDegeri3;
+                                dbItemGucArayuzu.GirdiMaksimumGerilimDegeri = gucArayuzu.GirdiMaksimumGerilimDegeri;
+                                dbItemGucArayuzu.GirdiMinimumGerilimDegeri = gucArayuzu.GirdiMinimumGerilimDegeri;
+                                dbItemGucArayuzu.GirdiTukettigiGucMiktari = gucArayuzu.GirdiTukettigiGucMiktari;
+                                dbItemGucArayuzu.GerilimTipiId = gucArayuzu.GerilimTipiId;
+                                dbItemGucArayuzu.KullanimAmaciId = gucArayuzu.KullanimAmaciId;
+                                dbItemGucArayuzu.TipId = gucArayuzu.TipId;
+                                dbItemGucArayuzu.Adi = gucArayuzu.Adi;
+                                dbItemGucArayuzu.Port = gucArayuzu.Port;
+                                context.SaveChanges();
+
+                                GucUreticiGucArayuzu dbItem1 = new GucUreticiGucArayuzu();
+                                context.GucUreticiGucArayuzu.Add(dbItem1);
+                                dbItem1.GucArayuzuId = dbItemGucArayuzu.Id;
+                                dbItem1.GucUreticiId = gucUreticiItem.Id;
+                                context.SaveChanges();
+                            }
+                        }
+                    }
+
+                    transaction.Commit();
+                }
+                catch (Exception exception)
+                {
+                    context.Reset();
+                    transaction.Rollback();
+                }
+            }
+        }
     }
 }

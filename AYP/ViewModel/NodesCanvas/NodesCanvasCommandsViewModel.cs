@@ -923,6 +923,8 @@ namespace AYP.ViewModel
             //        CommandAddConnect.ExecuteWithSubscribe(newConnect);
             //    }
             //}
+
+            
         }
 
         private void Group()

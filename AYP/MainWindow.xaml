@@ -160,7 +160,7 @@
         <Rectangle Style="{DynamicResource StyleLeftPanel}" Grid.Column="1" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top"/>
         <Rectangle x:Name="midRec" Style="{DynamicResource StyleMainPanel}" Grid.Column="3" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="1106"/>
         <Rectangle Style="{DynamicResource StyleMainPanel}" Grid.Column="3" HorizontalAlignment="Left" Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="1106"/>
-        <view:NodesCanvas x:Name="NodesCanvas" Grid.Row="1" Grid.Column="3" Margin="0,35,0,28" AllowDrop="True" Drop="target_Drop"/>
+        <view:NodesCanvas x:Name="NodesCanvas" Grid.Row="1" Grid.Column="3" Height="900" Width="1106" Margin="0,35,0,28" AllowDrop="True" Drop="target_Drop"/>
 
         <Grid Height="35" Grid.Column="3" Grid.Row="1" VerticalAlignment="Top">
             <Border Background="#222d35" CornerRadius="4,4,0,0" />
@@ -421,8 +421,6 @@
         <KeyBinding x:Name="BindingOpen"    Gesture="Ctrl+Shift+O" />
         <KeyBinding x:Name="BindingNew"     Gesture="Ctrl+Shift+N"/>
         <KeyBinding x:Name="BindingExit"    Gesture="Alt+F4"/>
-        <KeyBinding x:Name="BindingExportToJPEG"   Gesture="Ctrl+Shift+Alt+J"/>
-        <KeyBinding x:Name="BindingExportToPNG"   Gesture="Ctrl+Shift+Alt+P"/>
     </Window.InputBindings>
     
 </Window>

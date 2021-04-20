@@ -426,5 +426,106 @@ namespace AYP.Services
             }
             return response;
         }
+
+        public void ImportUcBirimLibrary(UcBirimTur ucBirimTur, List<UcBirim> ucBirimList, List<UcBirimAgArayuzu> ubAgArayuzuList, List<AgArayuzu> agArayuzuList, List<UcBirimGucArayuzu> ubGucArayuzuList, List<GucArayuzu> gucArayuzuList)
+        {
+            using (var transaction = context.Database.BeginTransaction(IsolationLevel.ReadUncommitted))
+            {
+                try
+                {
+                    UcBirimTur ucBirimTurItem = context.UcBirimTur.Where(ubt => ubt.Ad.ToLower() == ucBirimTur.Ad.ToLower()).FirstOrDefault();
+
+                    if(ucBirimTurItem == null)
+                    {
+                        ucBirimTurItem = new UcBirimTur();
+                        context.UcBirimTur.Add(ucBirimTurItem);
+                        ucBirimTurItem.Ad = ucBirimTur.Ad;
+
+                        context.SaveChanges();
+                    }
+                    
+                    foreach(var ucBirim in ucBirimList)
+                    {
+                        UcBirim ucBirimItem = context.UcBirim.Where(ub => ub.StokNo == ucBirim.StokNo).FirstOrDefault();
+                        
+                        if(ucBirimItem == null)
+                        {
+                            ucBirimItem = new UcBirim();
+                            context.UcBirim.Add(ucBirimItem);
+                            ucBirimItem.CiktiAgArayuzuSayisi = ucBirim.CiktiAgArayuzuSayisi;
+                            ucBirimItem.GirdiAgArayuzuSayisi = ucBirim.GirdiAgArayuzuSayisi;
+                            ucBirimItem.GucArayuzuSayisi = ucBirim.GucArayuzuSayisi;
+                            ucBirimItem.Katalog = ucBirim.Katalog;
+                            ucBirimItem.KatalogDosyaAdi = ucBirim.KatalogDosyaAdi;
+                            ucBirimItem.Sembol = ucBirim.Sembol;
+                            ucBirimItem.SembolDosyaAdi = ucBirim.SembolDosyaAdi;
+                            ucBirimItem.StokNo = ucBirim.StokNo;
+                            ucBirimItem.Tanim = ucBirim.Tanim;
+                            ucBirimItem.TipId = ucBirim.TipId;
+                            ucBirimItem.UcBirimTurId = ucBirimTurItem.Id;
+                            ucBirimItem.UreticiAdi = ucBirim.UreticiAdi;
+                            ucBirimItem.UreticiParcaNo = ucBirim.UreticiParcaNo;
+                            context.SaveChanges();
+
+                            var aaIdList = ubAgArayuzuList.Where(ubaa => ubaa.UcBirimId == ucBirim.Id).Select(s => s.AgArayuzuId).ToList();
+                            var aaList = agArayuzuList.Where(aa => aaIdList.Contains(aa.Id)).ToList();
+                            foreach (var agArayuzu in aaList)
+                            {
+                                AgArayuzu dbItemAgArayuzu = new AgArayuzu();
+                                context.AgArayuzu.Add(dbItemAgArayuzu);
+                                dbItemAgArayuzu.FizikselOrtamId = agArayuzu.FizikselOrtamId;
+                                dbItemAgArayuzu.KapasiteId = agArayuzu.KapasiteId;
+                                dbItemAgArayuzu.KullanimAmaciId = agArayuzu.KullanimAmaciId;
+                                dbItemAgArayuzu.TipId = agArayuzu.TipId;
+                                dbItemAgArayuzu.Adi = agArayuzu.Adi;
+                                dbItemAgArayuzu.Port = agArayuzu.Port;
+                                context.SaveChanges();
+
+                                UcBirimAgArayuzu dbItem1 = new UcBirimAgArayuzu();
+                                context.UcBirimAgArayuzu.Add(dbItem1);
+                                dbItem1.AgArayuzuId = dbItemAgArayuzu.Id;
+                                dbItem1.UcBirimId = ucBirimItem.Id;
+                                context.SaveChanges();
+                            }
+
+                            var gaIdList = ubGucArayuzuList.Where(ubga => ubga.UcBirimId == ucBirim.Id).Select(s => s.GucArayuzuId).ToList();
+                            var gaList = gucArayuzuList.Where(ga => gaIdList.Contains(ga.Id)).ToList();
+                            foreach (var gucArayuzu in gaList)
+                            {
+                                GucArayuzu dbItemGucArayuzu = new GucArayuzu();
+                                context.GucArayuzu.Add(dbItemGucArayuzu);
+                                dbItemGucArayuzu.CiktiDuraganGerilimDegeri = gucArayuzu.CiktiDuraganGerilimDegeri;
+                                dbItemGucArayuzu.CiktiUrettigiGucKapasitesi = gucArayuzu.CiktiUrettigiGucKapasitesi;
+                                dbItemGucArayuzu.GirdiDuraganGerilimDegeri1 = gucArayuzu.GirdiDuraganGerilimDegeri1;
+                                dbItemGucArayuzu.GirdiDuraganGerilimDegeri2 = gucArayuzu.GirdiDuraganGerilimDegeri2;
+                                dbItemGucArayuzu.GirdiDuraganGerilimDegeri3 = gucArayuzu.GirdiDuraganGerilimDegeri3;
+                                dbItemGucArayuzu.GirdiMaksimumGerilimDegeri = gucArayuzu.GirdiMaksimumGerilimDegeri;
+                                dbItemGucArayuzu.GirdiMinimumGerilimDegeri = gucArayuzu.GirdiMinimumGerilimDegeri;
+                                dbItemGucArayuzu.GirdiTukettigiGucMiktari = gucArayuzu.GirdiTukettigiGucMiktari;
+                                dbItemGucArayuzu.GerilimTipiId = gucArayuzu.GerilimTipiId;
+                                dbItemGucArayuzu.KullanimAmaciId = gucArayuzu.KullanimAmaciId;
+                                dbItemGucArayuzu.TipId = gucArayuzu.TipId;
+                                dbItemGucArayuzu.Adi = gucArayuzu.Adi;
+                                dbItemGucArayuzu.Port = gucArayuzu.Port;
+                                context.SaveChanges();
+
+                                UcBirimGucArayuzu dbItem1 = new UcBirimGucArayuzu();
+                                context.UcBirimGucArayuzu.Add(dbItem1);
+                                dbItem1.GucArayuzuId = dbItemGucArayuzu.Id;
+                                dbItem1.UcBirimId = ucBirimItem.Id;
+                                context.SaveChanges();
+                            }
+                        }
+                    }
+
+                    transaction.Commit();
+                }
+                catch (Exception exception)
+                {
+                    context.Reset();
+                    transaction.Rollback();
+                }
+            }
+        }
     }
 }
