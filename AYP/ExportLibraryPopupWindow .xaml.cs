@@ -34,7 +34,7 @@ namespace AYP
         {
             try
             {
-                using (var connection = new SqlConnection("Data Source=localhost\\SQL;Trusted_Connection=True;Database=master"))
+                using (var connection = new SqlConnection("Data Source=localhost\\SQLEXPRESS;Trusted_Connection=True;Database=master"))
                 {
                     connection.Open();
 
