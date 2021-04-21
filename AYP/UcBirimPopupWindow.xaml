@@ -54,11 +54,11 @@
                     <TextBox Name="UreticiParcaNo" Text="{Binding UreticiParcaNo}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,245,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Girdi Ağ Arayüz Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Grid.Row="0" Grid.Column="1" Margin="162,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox Name="GirdiAgArayuzuSayisi" ToolTip="1 ile 5 arasında giriniz" PreviewTextInput="NumberValidationTextBox" Text="{Binding GirdiAgArayuzuSayisi, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="*" Grid.Row="0" Grid.Column="1" Margin="162,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Name="GirdiAgArayuzuSayisi" ToolTip="0 ile 5 arasında giriniz" PreviewTextInput="NumberValidationTextBox" Text="{Binding GirdiAgArayuzuSayisi, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Çıktı Ağ Arayüz Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Grid.Row="0" Grid.Column="1" Margin="162,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="*" Grid.Row="0" Grid.Column="1" Margin="162,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <TextBox Name="CiktiAgArayuzuSayisi" ToolTip="1 ile 5 arasında giriniz" PreviewTextInput="NumberValidationTextBox" Text="{Binding CiktiAgArayuzuSayisi, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Güç Arayüzü Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -103,11 +103,11 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="830" />
+                        <ColumnDefinition Width="860" />
                         <ColumnDefinition Width="10" />
                     </Grid.ColumnDefinitions>
 
-                    <Label Style="{DynamicResource StyleDescribingMainTitle}" Content="Uç Birim Ağ Arayüzü" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="785"/>
+                    <Label Style="{DynamicResource StyleDescribingMainTitle}" Content="Uç Birim Ağ Arayüzü" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="815"/>
                     <Button Style="{DynamicResource StyleCloseDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,0,0" Click="ButtonUcBirimPopupClose_Click" >
                         <Rectangle Fill="{DynamicResource IconClose}"  Height="15" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
                     </Button>
@@ -164,6 +164,7 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="30" />
                                         <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="30" />
                                         <ColumnDefinition Width="100" />
                                         <ColumnDefinition Width="100" />
                                         <ColumnDefinition Width="120" />
@@ -173,11 +174,12 @@
 
                                     <Label Background="#222d35" BorderThickness="1,1,1,1" BorderBrush="#13191e" Height="35" Width="30" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <Label Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="30" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <Label Padding="40,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="100" FontSize="12" Foreground="#ffffff" Content="Adı" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <Label Padding="7,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="100" FontSize="12" Foreground="#ffffff" Content="Kullanım Amacı" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <Label Padding="35,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="120" FontSize="12" Foreground="#ffffff" Content="Kapasite" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <Label Padding="10,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="100" FontSize="12" Foreground="#ffffff" Content="Fiziksel Ortam" Grid.Row="0" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <Label Padding="23,8,0,0" Background="#222d35" BorderThickness="0,1,0,1" BorderBrush="#13191e" Height="35" Width="70" FontSize="12" Foreground="#ffffff" Content="Port" Grid.Row="0" Grid.Column="6" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Label Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="30" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Label Padding="40,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="100" FontSize="12" Foreground="#ffffff" Content="Adı" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Label Padding="7,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="100" FontSize="12" Foreground="#ffffff" Content="Kullanım Amacı" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Label Padding="35,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="120" FontSize="12" Foreground="#ffffff" Content="Kapasite" Grid.Row="0" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Label Padding="10,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="100" FontSize="12" Foreground="#ffffff" Content="Fiziksel Ortam" Grid.Row="0" Grid.Column="6" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Label Padding="23,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="70" FontSize="12" Foreground="#ffffff" Content="Port" Grid.Row="0" Grid.Column="7" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Grid>
 
                                 <ItemsControl Visibility="Hidden" Name="UcBirimAgArayuzDataGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,35,0,0">
@@ -190,26 +192,32 @@
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="30" />
                                                     <ColumnDefinition Width="30" />
+                                                    <ColumnDefinition Width="30" />
                                                     <ColumnDefinition Width="100" />
                                                     <ColumnDefinition Width="100" />
                                                     <ColumnDefinition Width="120" />
                                                     <ColumnDefinition Width="100" />
                                                     <ColumnDefinition Width="70" />
                                                 </Grid.ColumnDefinitions>
-                                                <Button Style="{DynamicResource StyleTableProcessButton}" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Click="AgArayuzuDelete_Row">
+                                                <Button ToolTip="Sil" Style="{DynamicResource StyleTableProcessButton}" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Click="AgArayuzuDelete_Row">
                                                     <Grid>
                                                         <Image Source="Images/delete.png" Height="15" Width="30" Margin="5,0,0,0" HorizontalAlignment="Left"/>
                                                     </Grid>
                                                 </Button>
-                                                <Label Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="30" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <Button ToolTip="Çoğalt" Style="{DynamicResource StyleTableProcessButton}" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="0" Grid.Column="1" Click="AgArayuzuDuplicate_Row">
+                                                    <Grid>
+                                                        <Image Source="Images/multipleSelect.png" Height="15" Width="30" Margin="5,0,0,0" HorizontalAlignment="Left"/>
+                                                    </Grid>
+                                                </Button>
+                                                <Label ToolTip="Seç" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="30" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
                                                     <CheckBox IsChecked="False" Checked="AgArayuzuRow_Checked" Unchecked="AgArayuzuRow_Unchecked" BorderBrush="#13191e"/>
                                                 </Label>
 
-                                                <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="100" FontSize="12" Foreground="#ffffff" Content="{Binding Adi}" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="100" FontSize="12" Foreground="#ffffff" Content="{Binding KL_KullanimAmaci.Ad}" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="120" FontSize="12" Foreground="#ffffff" Content="{Binding KL_Kapasite.Ad}" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="100" FontSize="12" Foreground="#ffffff" Content="{Binding KL_FizikselOrtam.Ad}" Grid.Row="0" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,0,1" BorderBrush="#13191e" Height="30" Width="70" FontSize="12" Foreground="#ffffff" Content="{Binding Port}" Grid.Row="0" Grid.Column="6" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="100" FontSize="12" Foreground="#ffffff" Content="{Binding Adi}" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="100" FontSize="12" Foreground="#ffffff" Content="{Binding KL_KullanimAmaci.Ad}" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="120" FontSize="12" Foreground="#ffffff" Content="{Binding KL_Kapasite.Ad}" Grid.Row="0" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="100" FontSize="12" Foreground="#ffffff" Content="{Binding KL_FizikselOrtam.Ad}" Grid.Row="0" Grid.Column="6" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,0,1" BorderBrush="#13191e" Height="30" Width="70" FontSize="12" Foreground="#ffffff" Content="{Binding Port}" Grid.Row="0" Grid.Column="7" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </Grid>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
@@ -220,9 +228,9 @@
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="550" />
+                                        <ColumnDefinition Width="580" />
                                     </Grid.ColumnDefinitions>
-                                    <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="1,1,1,1" BorderBrush="#13191e" Height="30" Width="550" FontSize="12" Foreground="#ffffff" Content="Eşleşen Kayıt Bulunamadı." Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="1,1,1,1" BorderBrush="#13191e" Height="30" Width="580" FontSize="12" Foreground="#ffffff" Content="Eşleşen Kayıt Bulunamadı." Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Grid>
                             </Grid>
                         </ScrollViewer>
@@ -237,11 +245,11 @@
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="10" />
-                        <ColumnDefinition Width="830" />
+                        <ColumnDefinition Width="860" />
                         <ColumnDefinition Width="10" />
                     </Grid.ColumnDefinitions>
 
-                    <Label Style="{DynamicResource StyleDescribingGucUreticiMainTitle}" Content="Uç Birim Güç Arayüzü" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="785"/>
+                    <Label Style="{DynamicResource StyleDescribingGucUreticiMainTitle}" Content="Uç Birim Güç Arayüzü" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="815"/>
                     <Button Style="{DynamicResource StyleCloseDescribingButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,0,0" Click="ButtonUcBirimPopupClose_Click" >
                         <Rectangle Fill="{DynamicResource IconClose}"  Height="15" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
                     </Button>
@@ -324,6 +332,7 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="30" />
                                         <ColumnDefinition Width="30" />
+                                        <ColumnDefinition Width="30" />
                                         <ColumnDefinition Width="150" />
                                         <ColumnDefinition Width="130" />
                                         <ColumnDefinition Width="130" />
@@ -332,10 +341,11 @@
 
                                     <Label Background="#222d35" BorderThickness="1,1,1,1" BorderBrush="#13191e" Height="35" Width="30" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <Label Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="30" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <Label Padding="60,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="150" FontSize="12" Foreground="#ffffff" Content="Adı" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <Label Padding="30,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="130" FontSize="12" Foreground="#ffffff" Content="Port" Grid.Row="0" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <Label Padding="20,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="130" FontSize="12" Foreground="#ffffff" Content="Kullanım Amacı" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    <Label Padding="35,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="130" FontSize="12" Foreground="#ffffff" Content="Gerilim Tipi" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Label Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="30" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Label Padding="60,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="150" FontSize="12" Foreground="#ffffff" Content="Adı" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Label Padding="20,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="130" FontSize="12" Foreground="#ffffff" Content="Kullanım Amacı" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Label Padding="35,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="130" FontSize="12" Foreground="#ffffff" Content="Gerilim Tipi" Grid.Row="0" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Label Padding="30,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="130" FontSize="12" Foreground="#ffffff" Content="Port" Grid.Row="0" Grid.Column="6" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Grid>
 
                                 <ItemsControl Visibility="Hidden" Name="UcBirimGucArayuzDataGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,35,0,0">
@@ -348,23 +358,29 @@
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="30" />
                                                     <ColumnDefinition Width="30" />
+                                                    <ColumnDefinition Width="30" />
                                                     <ColumnDefinition Width="150" />
                                                     <ColumnDefinition Width="130" />
                                                     <ColumnDefinition Width="130" />
                                                     <ColumnDefinition Width="130" />
                                                 </Grid.ColumnDefinitions>
-                                                <Button Name="GucArayuzuSilBtn" Style="{DynamicResource StyleTableProcessButton}" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Click="GucArayuzuDelete_Row">
+                                                <Button ToolTip="Sil" Name="GucArayuzuSilBtn" Style="{DynamicResource StyleTableProcessButton}" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Click="GucArayuzuDelete_Row">
                                                     <Grid>
                                                         <Image Source="Images/delete.png" Height="15" Width="30" Margin="5,0,0,0" HorizontalAlignment="Left"/>
                                                     </Grid>
                                                 </Button>
-                                                <Label Background="#222d35" BorderThickness="1,1,1,1" BorderBrush="#13191e" Height="30" Width="30" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <Button ToolTip="Çoğalt" Style="{DynamicResource StyleTableProcessButton}" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="0" Grid.Column="1" Click="GucArayuzuDuplicate_Row">
+                                                    <Grid>
+                                                        <Image Source="Images/multipleSelect.png" Height="15" Width="30" Margin="5,0,0,0" HorizontalAlignment="Left"/>
+                                                    </Grid>
+                                                </Button>
+                                                <Label ToolTip="Seç" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="30" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
                                                     <CheckBox IsChecked="False" Checked="GucArayuzuRow_Checked" Unchecked="GucArayuzuRow_Unchecked" BorderBrush="#13191e"/>
                                                 </Label>
-                                                <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="150" FontSize="12" Foreground="#ffffff" Content="{Binding Adi}" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="130" FontSize="12" Foreground="#ffffff" Content="{Binding KL_GerilimTipi.Ad}" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="130" FontSize="12" Foreground="#ffffff" Content="{Binding KL_KullanimAmaci.Ad}" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="130" FontSize="12" Foreground="#ffffff" Content="{Binding Port}" Grid.Row="0" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="150" FontSize="12" Foreground="#ffffff" Content="{Binding Adi}" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="130" FontSize="12" Foreground="#ffffff" Content="{Binding KL_GerilimTipi.Ad}" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="130" FontSize="12" Foreground="#ffffff" Content="{Binding KL_KullanimAmaci.Ad}" Grid.Row="0" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,0,1" BorderBrush="#13191e" Height="30" Width="130" FontSize="12" Foreground="#ffffff" Content="{Binding Port}" Grid.Row="0" Grid.Column="6" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </Grid>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
@@ -375,9 +391,9 @@
                                         <RowDefinition />
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="550" />
+                                        <ColumnDefinition Width="580" />
                                     </Grid.ColumnDefinitions>
-                                    <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="1,1,1,1" BorderBrush="#13191e" Height="30" Width="550" FontSize="12" Foreground="#ffffff" Content="Eşleşen Kayıt Bulunamadı." Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="1,1,1,1" BorderBrush="#13191e" Height="30" Width="580" FontSize="12" Foreground="#ffffff" Content="Eşleşen Kayıt Bulunamadı." Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Grid>
                             </Grid>
                         </ScrollViewer>

@@ -33,7 +33,7 @@ namespace AYP
         GucUretici gucUretici;
         GucArayuzu gucArayuzu;
 
-        List<GucArayuzu> gucArayuzuList;
+        public List<GucArayuzu> gucArayuzuList;
         private CheckBox checkedGucArayuzuRow = null;
 
         public bool isEditMode = false;
@@ -191,11 +191,11 @@ namespace AYP
 
                 WindowStartupLocation = WindowStartupLocation.Manual;
                 Top = 42;
-                Left = 530;
-                Width = 860;
+                Left = 515;
+                Width = 890;
                 Height = 995;
-                GucUreticiTab.Width = 426;
-                GucArayuzuTab.Width = 426;
+                GucUreticiTab.Width = 441;
+                GucArayuzuTab.Width = 441;
                 WindowStartupLocation = WindowStartupLocation.CenterOwner;
 
                 GucArayuzuTab.DataContext = null;
@@ -267,7 +267,7 @@ namespace AYP
                         }
                     }
                 }
-                
+
                 NotifyInfoPopup nfp = new NotifyInfoPopup();
                 nfp.msg.Text = "Lütfen, zorunlu alanları doldurunuz.";
                 nfp.Owner = Owner;
@@ -286,7 +286,7 @@ namespace AYP
             Height = 655;
             GucUreticiTab.Width = 236;
             GucArayuzuTab.Width = 236;
-            
+
         }
         #endregion
 
@@ -707,6 +707,51 @@ namespace AYP
                 nfp.Show();
             }
 
+        }
+
+        private void GucArayuzuDuplicate_Row(object sender, RoutedEventArgs e)
+        {
+            var row = (Button)sender;
+            var ctx = row.DataContext;
+            var obj = (GucArayuzu)ctx;
+
+            var portList = new List<string>();
+
+            if (obj.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti)
+            {
+                for (int i = 1; i <= gucUretici.CiktiGucArayuzuSayisi; i++)
+                {
+                    if (!gucArayuzuList.Where(x => x.Port == "Port " + i && x.KullanimAmaciId == obj.KullanimAmaciId).Any())
+                    {
+                        portList.Add("Port " + i);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 1; i <= gucUretici.GirdiGucArayuzuSayisi; i++)
+                {
+                    if (!gucArayuzuList.Where(x => x.Port == "Port " + i && x.KullanimAmaciId == obj.KullanimAmaciId).Any())
+                    {
+                        portList.Add("Port " + i);
+                    }
+                }
+            }
+
+            this.IsEnabled = false;
+            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.Effect = blur;
+
+            DuplicateArayuzPopupWindow popup = new DuplicateArayuzPopupWindow((int)TipEnum.GucUretici, null, obj, portList);
+            popup.Owner = this;
+            popup.ShowDialog();
+        }
+
+        public void UpdateGucArayuzuTable()
+        {
+            GucUreticiGucArayuzDataGrid.ItemsSource = null;
+            GucUreticiGucArayuzDataGrid.ItemsSource = gucArayuzuList;
         }
         #endregion
     }
