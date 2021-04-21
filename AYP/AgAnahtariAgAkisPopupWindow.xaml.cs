@@ -189,7 +189,7 @@ namespace AYP
                             total = this.agAnahtariAgArayuzu.AgAkisList.Select(s => s.Yuk).Sum() + agAkis.Yuk;
                         }
 
-                        if (this.agAnahtariAgArayuzu.MinKapasite <= total && this.agAnahtariAgArayuzu.MaxKapasite >= total)
+                        if (this.agAnahtariAgArayuzu.MaxKapasite >= total)
                         {
                             toplam = total;
                             MainTitle.Content = "Ağ Akışı - " + toplam + " Mbps";
