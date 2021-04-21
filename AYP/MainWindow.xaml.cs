@@ -2,6 +2,7 @@
 using AYP.Entities;
 using AYP.Enums;
 using AYP.Helpers.Enums;
+using AYP.Helpers.Extensions;
 using AYP.Interfaces;
 using AYP.Services;
 using AYP.View;
@@ -20,6 +21,8 @@ using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace AYP
 {
@@ -1064,10 +1067,11 @@ namespace AYP
                 using (var fbd = new System.Windows.Forms.FolderBrowserDialog())
                 {
                     System.Windows.Forms.DialogResult result = fbd.ShowDialog();
-                    
+
                     if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                     {
                         string path = fbd.SelectedPath;
+                        byte[] capture = CaptureNodesCanvas();
 
                         var ucBirimler = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.UcBirim).ToList();
                         var agAnahtarlari = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.AgAnahtari).ToList();
@@ -1080,13 +1084,21 @@ namespace AYP
                         Document doc = new Document(iTextSharp.text.PageSize.LETTER, 0f, 0f, 0f, 0f);
                         PdfWriter wr = PdfWriter.GetInstance(doc, new FileStream(path + "\\Ağ Planlama Raporu.pdf", FileMode.Create));
                         doc.Open();
+                        doc.SetMargins(0, 0, 25, 0);
+
                         string mainH = "AYP AĞ PLANLAMA RAPORU";
                         mainH = TurkceKarakter(mainH);
                         Paragraph mainHeader = new Paragraph(mainH, font);
                         mainHeader.Alignment = iTextSharp.text.Element.ALIGN_CENTER;
-
                         mainHeader.SpacingAfter = 30;
                         doc.Add(mainHeader);
+
+                        var img = iTextSharp.text.Image.GetInstance(capture);
+                        img.ScaleAbsolute(550, 550);
+                        img.Alignment = iTextSharp.text.Element.ALIGN_CENTER;
+                        doc.Add(img);
+
+                        doc.NewPage();
 
                         if (ucBirimler.Count > 0)
                         {
@@ -1148,8 +1160,8 @@ namespace AYP
                             string Turu = "Türü";
                             Adi = TurkceKarakter(Adi);
                             Turu = TurkceKarakter(Turu);
-                           
-                            
+
+
                             PdfPTable tableAgAnahtari = new PdfPTable(2);
                             PdfPCell birinci = new PdfPCell(new Phrase(Adi, font));
                             PdfPCell ikinci = new PdfPCell(new Phrase(Turu, font));
@@ -1187,7 +1199,7 @@ namespace AYP
                         {
                             string baslik = "Kenar Ağ Anahtarı ve Bağlı Olduğu Uç Birimler Listesi";
                             baslik = TurkceKarakter(baslik);
-                            PdfPCell header = new PdfPCell(new Phrase(baslik,font));
+                            PdfPCell header = new PdfPCell(new Phrase(baslik, font));
                             header.HorizontalAlignment = iTextSharp.text.Element.ALIGN_CENTER;
                             PdfPTable tableHeader = new PdfPTable(1);
                             tableHeader.AddCell(header);
@@ -1199,30 +1211,30 @@ namespace AYP
                             PdfPTable tableKenarUcBirim = new PdfPTable(3);
                             PdfPCell header1 = new PdfPCell(new Phrase(agAdi, font));
                             PdfPCell header2 = new PdfPCell(new Phrase(ucAdi, font));
-                            PdfPCell header3 = new PdfPCell(new Phrase("Yük Değeri",font));
-                            
+                            PdfPCell header3 = new PdfPCell(new Phrase("Yük Değeri", font));
+
                             tableKenarUcBirim.AddCell(header1);
                             tableKenarUcBirim.AddCell(header2);
                             tableKenarUcBirim.AddCell(header3);
-                            
+
 
                             foreach (var connect in this.ViewModel.NodesCanvas.Connects.OrderBy(o => o.ToConnector.Node.Name))
                             {
-                                if(kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
+                                if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
                                 {
-                                    if(ucBirimler.Contains(connect.FromConnector.Node))
+                                    if (ucBirimler.Contains(connect.FromConnector.Node))
                                     {
-                                            string agAdiNode = connect.ToConnector.Node.Name;
-                                            string ucAdiNode = connect.FromConnector.Node.Name;
-                                            agAdiNode = TurkceKarakter(agAdiNode);
-                                            ucAdiNode = TurkceKarakter(ucAdiNode);
-                                            PdfPCell ag = new PdfPCell(new Phrase(agAdiNode, font));
-                                            PdfPCell uc = new PdfPCell(new Phrase(ucAdiNode, font));
-                                            PdfPCell yuk = new PdfPCell(new Phrase(connect.AgYuku.ToString()));
+                                        string agAdiNode = connect.ToConnector.Node.Name;
+                                        string ucAdiNode = connect.FromConnector.Node.Name;
+                                        agAdiNode = TurkceKarakter(agAdiNode);
+                                        ucAdiNode = TurkceKarakter(ucAdiNode);
+                                        PdfPCell ag = new PdfPCell(new Phrase(agAdiNode, font));
+                                        PdfPCell uc = new PdfPCell(new Phrase(ucAdiNode, font));
+                                        PdfPCell yuk = new PdfPCell(new Phrase(connect.AgYuku.ToString()));
 
-                                            tableKenarUcBirim.AddCell(ag);
-                                            tableKenarUcBirim.AddCell(uc);
-                                            tableKenarUcBirim.AddCell(yuk);
+                                        tableKenarUcBirim.AddCell(ag);
+                                        tableKenarUcBirim.AddCell(uc);
+                                        tableKenarUcBirim.AddCell(yuk);
                                     }
                                 }
                                 if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
@@ -1246,11 +1258,11 @@ namespace AYP
 
                             tableKenarUcBirim.SpacingAfter = 20;
                             doc.Add(tableHeader);
-                            
+
                             doc.Add(tableKenarUcBirim);
                         }
 
-                        if(toplamaAgAnahtarlari.Count > 0)
+                        if (toplamaAgAnahtarlari.Count > 0)
                         {
                             string baslik = "Toplama Ağ Anahtarı ve Bağlı Olduğu Kenar Anahtarları Listesi";
                             baslik = TurkceKarakter(baslik);
@@ -1331,7 +1343,7 @@ namespace AYP
                             h3 = TurkceKarakter(h3);
 
                             PdfPTable tableOmurga = new PdfPTable(3);
-                            PdfPCell header1 = new PdfPCell(new Phrase(h1,font));
+                            PdfPCell header1 = new PdfPCell(new Phrase(h1, font));
                             PdfPCell header2 = new PdfPCell(new Phrase(h2, font));
                             PdfPCell header3 = new PdfPCell(new Phrase(h3, font));
 
@@ -1360,7 +1372,7 @@ namespace AYP
 
                                         tableOmurga.AddCell(omurga);
                                         tableOmurga.AddCell(anahtar);
-                                        tableOmurga.AddCell(anahtarTuru); 
+                                        tableOmurga.AddCell(anahtarTuru);
                                     }
                                 }
                                 if (omurgaAgAnahtarlari.Contains(connect.ToConnector.Node))
@@ -1412,13 +1424,14 @@ namespace AYP
 
             //if (gucPlanlamaNodes.Count() > 0)
             //{
-                using (var fbd = new System.Windows.Forms.FolderBrowserDialog())
-                {
-                    System.Windows.Forms.DialogResult result = fbd.ShowDialog();
+            using (var fbd = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                System.Windows.Forms.DialogResult result = fbd.ShowDialog();
 
-                    if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
-                    {
+                if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                {
                     string path = fbd.SelectedPath;
+                    byte[] capture = CaptureNodesCanvas();
 
                     var ucBirimler = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.UcBirim).ToList();
                     var agAnahtarlari = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.AgAnahtari).ToList();
@@ -1427,14 +1440,22 @@ namespace AYP
                     Document doc = new Document(iTextSharp.text.PageSize.LETTER, 0f, 0f, 0f, 0f);
                     PdfWriter wr = PdfWriter.GetInstance(doc, new FileStream(path + "\\Güç Planlama Raporu.pdf", FileMode.Create));
                     doc.Open();
+                    doc.SetMargins(0, 0, 25, 0);
+
                     string mainH = "AYP GÜÇ PLANLAMA RAPORU";
                     mainH = TurkceKarakter(mainH);
                     Paragraph mainHeader = new Paragraph(mainH, font);
                     mainHeader.Alignment = iTextSharp.text.Element.ALIGN_CENTER;
-
-                    mainHeader.SpacingAfter = 30;
+                    mainHeader.SpacingAfter = 20;
                     doc.Add(mainHeader);
 
+                    var img = iTextSharp.text.Image.GetInstance(capture);
+                    img.ScaleAbsolute(550, 550);
+                    img.Alignment = iTextSharp.text.Element.ALIGN_CENTER;
+                    doc.Add(img);
+
+                    doc.NewPage();
+                    
                     if (ucBirimler.Count > 0 || agAnahtarlari.Count > 0)
                     {
                         string gucTuketiciH = "Güç Tüketiciler Listesi";
@@ -1453,8 +1474,6 @@ namespace AYP
                         Adi = TurkceKarakter(Adi);
                         Turu = TurkceKarakter(Turu);
                         Tanimi = TurkceKarakter(Tanimi);
-
-
 
                         PdfPTable tableAgAnahtari = new PdfPTable(2);
                         PdfPCell birinci = new PdfPCell(new Phrase(Adi, font));
@@ -1482,7 +1501,7 @@ namespace AYP
                             tableGucTuketiciler.AddCell(cell2);
                             tableGucTuketiciler.AddCell(cell3);
                         }
-                        for(int j=0 ; j<agAnahtarlari.Count; j++)
+                        for (int j = 0; j < agAnahtarlari.Count; j++)
                         {
                             string agAnahtariName = agAnahtarlari[j].Name;
                             string agAnahtariTanim = agAnahtarlari[j].Tanim;
@@ -1498,12 +1517,13 @@ namespace AYP
                             tableGucTuketiciler.AddCell(cell2);
                             tableGucTuketiciler.AddCell(cell3);
                         }
+
                         tableGucTuketiciler.SpacingAfter = 20;
                         doc.Add(tableGucTuketiciHeader);
                         doc.Add(tableGucTuketiciler);
                     }
 
-                    if(gucUreticiler.Count > 0)
+                    if (gucUreticiler.Count > 0)
                     {
                         string gucUreticiH = "Güç Üreticiler Listesi";
                         gucUreticiH = TurkceKarakter(gucUreticiH);
@@ -1526,7 +1546,7 @@ namespace AYP
                         tableGucUreticiler.AddCell(birinci);
                         tableGucUreticiler.AddCell(ikinci);
 
-                        for (int i=0;i<gucUreticiler.Count; i++)
+                        for (int i = 0; i < gucUreticiler.Count; i++)
                         {
                             string gucUreticiAdi = gucUreticiler[i].Name;
                             string gucUreticiTur = gucUreticiler[i].TurAd;
@@ -1544,7 +1564,7 @@ namespace AYP
                         doc.Add(tableGucUreticiler);
                     }
 
-                    if(gucUreticiler.Count > 0)
+                    if (gucUreticiler.Count > 0)
                     {
                         PdfPCell header = new PdfPCell(new Phrase("Güç Üreticiler ve Bağlı Oldukları Güç Tüketiciler Listesi"));
                         header.HorizontalAlignment = iTextSharp.text.Element.ALIGN_CENTER;
@@ -1617,18 +1637,13 @@ namespace AYP
                         tableGucDegeri.SpacingAfter = 20;
                         doc.Add(tableHeader);
                         doc.Add(tableGucDegeri);
-
-                        //tableKenarUcBirim.SpacingAfter = 20;
-                        //doc.Add(tableHeader);
-
-                        //doc.Add(tableKenarUcBirim);
                     }
-                        
+
                     doc.Close();
                 }
             }
         }
-        #endregion
+
         public string TurkceKarakter(string text)
         {
 
@@ -1659,18 +1674,33 @@ namespace AYP
             return text;
         }
 
+        private byte[] CaptureNodesCanvas()
+        {
+            Rect bounds = VisualTreeHelper.GetDescendantBounds(NodesCanvas);
+            RenderTargetBitmap rtb = new RenderTargetBitmap((Int32)bounds.Width, (Int32)bounds.Height, 96, 96, PixelFormats.Pbgra32);
+            DrawingVisual dv = new DrawingVisual();
+
+            using (DrawingContext dc = dv.RenderOpen())
+            {
+                VisualBrush vb = new VisualBrush(NodesCanvas);
+                dc.DrawRectangle(vb, null, new Rect(new Point(), bounds.Size));
+            }
+
+            rtb.Render(dv);
+            MemoryStream stream = new MemoryStream();
+            BitmapEncoder encoder = new BmpBitmapEncoder();
+            encoder.Frames.Add(BitmapFrame.Create(rtb));
+            encoder.Save(stream);
+
+            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(stream);
+
+            return stream.ToArray();
+        }
+        #endregion
+
         #region Import/Export
         private void ButtonExport_Click(object sender, RoutedEventArgs e)
         {
-            //List<UcBirim> ucbirimler = new List<UcBirim>();
-            //foreach (var ub in ucBirimService.ListUcBirim())
-            //{
-            //    ucbirimler.Add(ub);// ucBirimService.ListUcBirim();
-            //}
-
-            //string json = JsonConvert.SerializeObject(ucbirimler, Formatting.Indented);
-            //File.WriteAllText(@"D:\path.json", json);
-
             this.IsEnabled = false;
             System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
             blur.Radius = 2;

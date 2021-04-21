@@ -8,6 +8,7 @@ using Microsoft.Win32;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Configuration;
 using System.IO;
 using System.Windows;
 using System.Windows.Media;
@@ -34,7 +35,7 @@ namespace AYP
         {
             try
             {
-                using (var connection = new SqlConnection("Data Source=localhost\\SQLEXPRESS;Trusted_Connection=True;Database=master"))
+                using (var connection = new SqlConnection(ConfigurationManager.ConnectionStrings["AYPContext"].ConnectionString))
                 {
                     connection.Open();
 

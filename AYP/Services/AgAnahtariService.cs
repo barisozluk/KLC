@@ -427,5 +427,106 @@ namespace AYP.Services
             }
             return response;
         }
+
+        public void ImportAgAnahtariLibrary(AgAnahtariTur agAnahtariTur, List<AgAnahtari> agAnahtariList, List<AgAnahtariAgArayuzu> aaAgArayuzuList, List<AgArayuzu> agArayuzuList, List<AgAnahtariGucArayuzu> aaGucArayuzuList, List<GucArayuzu> gucArayuzuList)
+        {
+            using (var transaction = context.Database.BeginTransaction(IsolationLevel.ReadUncommitted))
+            {
+                try
+                {
+                    AgAnahtariTur agAnahtariTurItem = context.AgAnahtariTur.Where(aat => aat.Ad.ToLower() == agAnahtariTur.Ad.ToLower()).FirstOrDefault();
+
+                    if (agAnahtariTurItem == null)
+                    {
+                        agAnahtariTurItem = new AgAnahtariTur();
+                        context.AgAnahtariTur.Add(agAnahtariTurItem);
+                        agAnahtariTurItem.Ad = agAnahtariTur.Ad;
+
+                        context.SaveChanges();
+                    }
+
+                    foreach (var agAnahtari in agAnahtariList)
+                    {
+                        AgAnahtari agAnahtariItem = context.AgAnahtari.Where(aa => aa.StokNo == agAnahtari.StokNo).FirstOrDefault();
+
+                        if (agAnahtariItem == null)
+                        {
+                            agAnahtariItem = new AgAnahtari();
+                            context.AgAnahtari.Add(agAnahtariItem);
+                            agAnahtariItem.CiktiAgArayuzuSayisi = agAnahtari.CiktiAgArayuzuSayisi;
+                            agAnahtariItem.GirdiAgArayuzuSayisi = agAnahtari.GirdiAgArayuzuSayisi;
+                            agAnahtariItem.GucArayuzuSayisi = agAnahtari.GucArayuzuSayisi;
+                            agAnahtariItem.Katalog = agAnahtari.Katalog;
+                            agAnahtariItem.KatalogDosyaAdi = agAnahtari.KatalogDosyaAdi;
+                            agAnahtariItem.Sembol = agAnahtari.Sembol;
+                            agAnahtariItem.SembolDosyaAdi = agAnahtari.SembolDosyaAdi;
+                            agAnahtariItem.StokNo = agAnahtari.StokNo;
+                            agAnahtariItem.Tanim = agAnahtari.Tanim;
+                            agAnahtariItem.TipId = agAnahtari.TipId;
+                            agAnahtariItem.AgAnahtariTurId = agAnahtariTurItem.Id;
+                            agAnahtariItem.UreticiAdi = agAnahtari.UreticiAdi;
+                            agAnahtariItem.UreticiParcaNo = agAnahtari.UreticiParcaNo;
+                            context.SaveChanges();
+
+                            var aaIdList = aaAgArayuzuList.Where(aaaa => aaaa.AgAnahtariId == agAnahtari.Id).Select(s => s.AgArayuzuId).ToList();
+                            var aaList = agArayuzuList.Where(aa => aaIdList.Contains(aa.Id)).ToList();
+                            foreach (var agArayuzu in aaList)
+                            {
+                                AgArayuzu dbItemAgArayuzu = new AgArayuzu();
+                                context.AgArayuzu.Add(dbItemAgArayuzu);
+                                dbItemAgArayuzu.FizikselOrtamId = agArayuzu.FizikselOrtamId;
+                                dbItemAgArayuzu.KapasiteId = agArayuzu.KapasiteId;
+                                dbItemAgArayuzu.KullanimAmaciId = agArayuzu.KullanimAmaciId;
+                                dbItemAgArayuzu.TipId = agArayuzu.TipId;
+                                dbItemAgArayuzu.Adi = agArayuzu.Adi;
+                                dbItemAgArayuzu.Port = agArayuzu.Port;
+                                context.SaveChanges();
+
+                                AgAnahtariAgArayuzu dbItem1 = new AgAnahtariAgArayuzu();
+                                context.AgAnahtariAgArayuzu.Add(dbItem1);
+                                dbItem1.AgArayuzuId = dbItemAgArayuzu.Id;
+                                dbItem1.AgAnahtariId = agAnahtariItem.Id;
+                                context.SaveChanges();
+                            }
+
+                            var gaIdList = aaGucArayuzuList.Where(aaga => aaga.AgAnahtariId == agAnahtari.Id).Select(s => s.GucArayuzuId).ToList();
+                            var gaList = gucArayuzuList.Where(ga => gaIdList.Contains(ga.Id)).ToList();
+                            foreach (var gucArayuzu in gaList)
+                            {
+                                GucArayuzu dbItemGucArayuzu = new GucArayuzu();
+                                context.GucArayuzu.Add(dbItemGucArayuzu);
+                                dbItemGucArayuzu.CiktiDuraganGerilimDegeri = gucArayuzu.CiktiDuraganGerilimDegeri;
+                                dbItemGucArayuzu.CiktiUrettigiGucKapasitesi = gucArayuzu.CiktiUrettigiGucKapasitesi;
+                                dbItemGucArayuzu.GirdiDuraganGerilimDegeri1 = gucArayuzu.GirdiDuraganGerilimDegeri1;
+                                dbItemGucArayuzu.GirdiDuraganGerilimDegeri2 = gucArayuzu.GirdiDuraganGerilimDegeri2;
+                                dbItemGucArayuzu.GirdiDuraganGerilimDegeri3 = gucArayuzu.GirdiDuraganGerilimDegeri3;
+                                dbItemGucArayuzu.GirdiMaksimumGerilimDegeri = gucArayuzu.GirdiMaksimumGerilimDegeri;
+                                dbItemGucArayuzu.GirdiMinimumGerilimDegeri = gucArayuzu.GirdiMinimumGerilimDegeri;
+                                dbItemGucArayuzu.GirdiTukettigiGucMiktari = gucArayuzu.GirdiTukettigiGucMiktari;
+                                dbItemGucArayuzu.GerilimTipiId = gucArayuzu.GerilimTipiId;
+                                dbItemGucArayuzu.KullanimAmaciId = gucArayuzu.KullanimAmaciId;
+                                dbItemGucArayuzu.TipId = gucArayuzu.TipId;
+                                dbItemGucArayuzu.Adi = gucArayuzu.Adi;
+                                dbItemGucArayuzu.Port = gucArayuzu.Port;
+                                context.SaveChanges();
+
+                                AgAnahtariGucArayuzu dbItem1 = new AgAnahtariGucArayuzu();
+                                context.AgAnahtariGucArayuzu.Add(dbItem1);
+                                dbItem1.GucArayuzuId = dbItemGucArayuzu.Id;
+                                dbItem1.AgAnahtariId = agAnahtariItem.Id;
+                                context.SaveChanges();
+                            }
+                        }
+                    }
+
+                    transaction.Commit();
+                }
+                catch (Exception exception)
+                {
+                    context.Reset();
+                    transaction.Rollback();
+                }
+            }
+        }
     }
 }

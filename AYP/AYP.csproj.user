@@ -12,10 +12,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="ImportLibraryPopupWindow .xaml">
+    <Page Update="ImportLibraryPopupWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="ExportLibraryPopupWindow .xaml">
+    <Page Update="ExportLibraryPopupWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="CableLenghtPopupWindow.xaml">

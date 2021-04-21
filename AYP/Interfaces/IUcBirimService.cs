@@ -19,5 +19,6 @@ namespace AYP.Interfaces
         UcBirim GetUcBirimById(int ucBirimId);
         ResponseModel SaveTopluEdit(List<int> selectedIdList, string ureticiAdi);
         UcBirimTur GetUcBirimTurById(int ucBirimTurId);
+        void ImportUcBirimLibrary(UcBirimTur ucBirimTur, List<UcBirim> ucBirimList, List<UcBirimAgArayuzu> ubAgArayuzuList, List<AgArayuzu> agArayuzuList, List<UcBirimGucArayuzu> ubGucArayuzuList, List<GucArayuzu> gucArayuzuList);
     }
 }

@@ -19,5 +19,6 @@ namespace AYP.Interfaces
         AgAnahtari GetAgAnahtariById(int agAnahtariId);
         ResponseModel SaveTopluEdit(List<int> selectedIdList, string ureticiAdi);
         AgAnahtariTur GetAgAnahtariTurById(int agAnahtariTurId);
+        void ImportAgAnahtariLibrary(AgAnahtariTur agAnahtariTur, List<AgAnahtari> agAnahtariList, List<AgAnahtariAgArayuzu> aaAgArayuzuList, List<AgArayuzu> agArayuzuList, List<AgAnahtariGucArayuzu> aaGucArayuzuList, List<GucArayuzu> gucArayuzuList);
     }
 }
