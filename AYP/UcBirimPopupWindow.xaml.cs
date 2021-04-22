@@ -25,7 +25,7 @@ namespace AYP
     /// Interaction logic for UcBirimPopupWindow.xaml
     /// </summary>
     public partial class UcBirimPopupWindow : Window
-    {        
+    {
         private AYPContext context;
 
         private IUcBirimService service;
@@ -35,9 +35,9 @@ namespace AYP
         AgArayuzu agArayuzu;
         GucArayuzu gucArayuzu;
 
-        List<AgArayuzu> agArayuzuList;
+        public List<AgArayuzu> agArayuzuList;
         private CheckBox checkedAgArayuzuRow = null;
-        List<GucArayuzu> gucArayuzuList;
+        public List<GucArayuzu> gucArayuzuList;
         private CheckBox checkedGucArayuzuRow = null;
 
         public bool isEditMode = false;
@@ -206,41 +206,25 @@ namespace AYP
         #region Save/UpdateEvent
         private void Save_UcBirim(object sender, RoutedEventArgs e)
         {
-            if(gucArayuzuList.Count == ucBirim.GucArayuzuSayisi)
+            if (gucArayuzuList.Count == ucBirim.GucArayuzuSayisi)
             {
                 var response = new ResponseModel();
 
                 if (!isEditMode)
                 {
-                    if ((ucBirim.GirdiAgArayuzuSayisi != null && ucBirim.GirdiAgArayuzuSayisi != 0) || (ucBirim.CiktiAgArayuzuSayisi != null && ucBirim.CiktiAgArayuzuSayisi != 0))
-                    {
-                        int totalCount = 0;
-                        if(ucBirim.GirdiAgArayuzuSayisi != null && ucBirim.GirdiAgArayuzuSayisi != 0)
-                        {
-                            totalCount += ucBirim.GirdiAgArayuzuSayisi.Value;
-                        }
-                        if (ucBirim.CiktiAgArayuzuSayisi != null && ucBirim.CiktiAgArayuzuSayisi != 0)
-                        {
-                            totalCount += ucBirim.CiktiAgArayuzuSayisi.Value;
-                        }
+                    int totalCount = ucBirim.GirdiAgArayuzuSayisi + ucBirim.CiktiAgArayuzuSayisi;
 
-                        if (agArayuzuList.Count == totalCount)
-                        {
-                            response = service.SaveUcBirim(ucBirim, agArayuzuList, gucArayuzuList);
-                            OpenResponseModal(response);
-                        }
-                        else
-                        {
-                            NotifyInfoPopup nfp = new NotifyInfoPopup();
-                            nfp.msg.Text = "Lütfen, sayısını tanımladığınız bütün ağ arayüzleri için veri girişi yapınız!";
-                            nfp.Owner = Owner;
-                            nfp.Show();
-                        }
+                    if (agArayuzuList.Count == totalCount)
+                    {
+                        response = service.SaveUcBirim(ucBirim, agArayuzuList, gucArayuzuList);
+                        OpenResponseModal(response);
                     }
                     else
                     {
-                        response = service.SaveUcBirim(ucBirim, new List<AgArayuzu>(), gucArayuzuList);
-                        OpenResponseModal(response);
+                        NotifyInfoPopup nfp = new NotifyInfoPopup();
+                        nfp.msg.Text = "Lütfen, sayısını tanımladığınız bütün ağ arayüzleri için veri girişi yapınız!";
+                        nfp.Owner = Owner;
+                        nfp.Show();
                     }
                 }
                 else
@@ -252,35 +236,19 @@ namespace AYP
                     }
                     else
                     {
-                        if ((ucBirim.GirdiAgArayuzuSayisi != null && ucBirim.GirdiAgArayuzuSayisi != 0) || (ucBirim.CiktiAgArayuzuSayisi != null && ucBirim.CiktiAgArayuzuSayisi != 0))
-                        {
-                            int totalCount = 0;
-                            if (ucBirim.GirdiAgArayuzuSayisi != null && ucBirim.GirdiAgArayuzuSayisi != 0)
-                            {
-                                totalCount += ucBirim.GirdiAgArayuzuSayisi.Value;
-                            }
-                            if (ucBirim.CiktiAgArayuzuSayisi != null && ucBirim.CiktiAgArayuzuSayisi != 0)
-                            {
-                                totalCount += ucBirim.CiktiAgArayuzuSayisi.Value;
-                            }
+                        int totalCount = ucBirim.GirdiAgArayuzuSayisi + ucBirim.CiktiAgArayuzuSayisi;
 
-                            if (agArayuzuList.Count == totalCount)
-                            {
-                                response = service.UpdateUcBirim(ucBirim, agArayuzuList, gucArayuzuList);
-                                OpenResponseModal(response);
-                            }
-                            else
-                            {
-                                NotifyInfoPopup nfp = new NotifyInfoPopup();
-                                nfp.msg.Text = "Lütfen, sayısını tanımladığınız bütün ağ arayüzleri için veri girişi yapınız!";
-                                nfp.Owner = Owner;
-                                nfp.Show();
-                            }
+                        if (agArayuzuList.Count == totalCount)
+                        {
+                            response = service.UpdateUcBirim(ucBirim, agArayuzuList, gucArayuzuList);
+                            OpenResponseModal(response);
                         }
                         else
                         {
-                            response = service.UpdateUcBirim(ucBirim, new List<AgArayuzu>(), gucArayuzuList);
-                            OpenResponseModal(response);
+                            NotifyInfoPopup nfp = new NotifyInfoPopup();
+                            nfp.msg.Text = "Lütfen, sayısını tanımladığınız bütün ağ arayüzleri için veri girişi yapınız!";
+                            nfp.Owner = Owner;
+                            nfp.Show();
                         }
                     }
                 }
@@ -320,44 +288,22 @@ namespace AYP
             if (Validator.TryValidateObject(ucBirim, validationContext, results, true))
             {
                 UcBirimTab.IsSelected = false;
+                AgArayuzuTab.IsSelected = true;
+                AgArayuzuTab.DataContext = null;
+                ListKapasite();
+                ListFizikselOrtam();
+                ListKullanimAmaciForAgArayuzu();
+                AgArayuzuTab.DataContext = agArayuzu;
 
-                if ((ucBirim.GirdiAgArayuzuSayisi != null && ucBirim.GirdiAgArayuzuSayisi != 0) || (ucBirim.CiktiAgArayuzuSayisi != null && ucBirim.CiktiAgArayuzuSayisi != 0))
-                {
-                    AgArayuzuTab.IsSelected = true;
-                    AgArayuzuTab.DataContext = null;
-                    ListKapasite();
-                    ListFizikselOrtam();
-                    ListKullanimAmaciForAgArayuzu();
-                    AgArayuzuTab.DataContext = agArayuzu;
+                WindowStartupLocation = WindowStartupLocation.Manual;
+                Top = 250;
+                Left = 520;
+                Width = 880;
+                Height = 580;
 
-                    WindowStartupLocation = WindowStartupLocation.Manual;
-                    Top = 250;
-                    Left = 535;
-                    Width = 850;
-                    Height = 580;
-
-                    UcBirimTab.Width = 280;
-                    AgArayuzuTab.Width = 281;
-                    GucArayuzuTab.Width = 281;
-                }
-                else
-                {
-                    GucArayuzuTab.IsSelected = true;
-
-                    WindowStartupLocation = WindowStartupLocation.Manual;
-                    Top = 42;
-                    Left = 530;
-                    Width = 860;
-                    Height = 995;
-                    UcBirimTab.Width = 282;
-                    AgArayuzuTab.Width = 285;
-                    GucArayuzuTab.Width = 285;
-
-                    GucArayuzuTab.DataContext = null;
-                    ListGerilimTipi();
-                    ListKullanimAmaciForGucArayuzu();
-                    GucArayuzuTab.DataContext = gucArayuzu;
-                }
+                UcBirimTab.Width = 290;
+                AgArayuzuTab.Width = 291;
+                GucArayuzuTab.Width = 291;
             }
             else
             {
@@ -426,12 +372,12 @@ namespace AYP
 
             WindowStartupLocation = WindowStartupLocation.Manual;
             Top = 42;
-            Left = 530;
-            Width = 860;
+            Left = 515;
+            Width = 890;
             Height = 995;
-            UcBirimTab.Width = 282;
-            AgArayuzuTab.Width = 285;
-            GucArayuzuTab.Width = 285;
+            UcBirimTab.Width = 292;
+            AgArayuzuTab.Width = 295;
+            GucArayuzuTab.Width = 295;
 
             GucArayuzuTab.DataContext = null;
             ListKullanimAmaciForGucArayuzu();
@@ -457,39 +403,23 @@ namespace AYP
         private void GucArayuzuPreviousButton_Click(object sender, RoutedEventArgs e)
         {
             GucArayuzuTab.IsSelected = false;
+            AgArayuzuTab.IsSelected = true;
 
-            if ((ucBirim.GirdiAgArayuzuSayisi != null && ucBirim.GirdiAgArayuzuSayisi != 0) || (ucBirim.CiktiAgArayuzuSayisi != null && ucBirim.CiktiAgArayuzuSayisi != 0))
-            {
-                AgArayuzuTab.IsSelected = true;
+            AgArayuzuTab.DataContext = null;
+            agArayuzu = new AgArayuzu();
+            ListKapasite();
+            ListFizikselOrtam();
+            ListKullanimAmaciForAgArayuzu();
+            AgArayuzuTab.DataContext = agArayuzu;
 
-                AgArayuzuTab.DataContext = null;
-                agArayuzu = new AgArayuzu();
-                ListKapasite();
-                ListFizikselOrtam();
-                ListKullanimAmaciForAgArayuzu();
-                AgArayuzuTab.DataContext = agArayuzu;
-
-                WindowStartupLocation = WindowStartupLocation.Manual;
-                Top = 250;
-                Left = 535;
-                Width = 850;
-                Height = 580;
-                UcBirimTab.Width = 280;
-                AgArayuzuTab.Width = 281;
-                GucArayuzuTab.Width = 281;
-            }
-            else
-            {
-                UcBirimTab.IsSelected = true;
-                WindowStartupLocation = WindowStartupLocation.Manual;
-                Top = 237;
-                Left = 730;
-                Width = 460;
-                Height = 605;
-                UcBirimTab.Width = 150;
-                AgArayuzuTab.Width = 151;
-                GucArayuzuTab.Width = 151;
-            }
+            WindowStartupLocation = WindowStartupLocation.Manual;
+            Top = 250;
+            Left = 520;
+            Width = 880;
+            Height = 580;
+            UcBirimTab.Width = 290;
+            AgArayuzuTab.Width = 291;
+            GucArayuzuTab.Width = 291;
         }
         #endregion
 
@@ -527,7 +457,7 @@ namespace AYP
 
         #region GetListEvents
         private void SetUcBirimTurList()
-        {   
+        {
             ucBirim.UcBirimTurList = service.ListUcBirimTur();
 
             if (ucBirim.UcBirimTurList.Count() > 0)
@@ -730,7 +660,6 @@ namespace AYP
 
         private void GucArayuzKullanimAmaci_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //yeni
             if (!fromNode)
             {
                 if (gucArayuzu.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti)
@@ -885,7 +814,50 @@ namespace AYP
                 nfp.Owner = Owner;
                 nfp.Show();
             }
+        }
 
+        private void AgArayuzuDuplicate_Row(object sender, RoutedEventArgs e)
+        {
+            var row = (Button)sender;
+            var ctx = row.DataContext;
+            var obj = (AgArayuzu)ctx;
+
+            var portList = new List<string>();
+            if (obj.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti)
+            {
+                for (int i = 1; i <= ucBirim.CiktiAgArayuzuSayisi; i++)
+                {
+                    if (!agArayuzuList.Where(x => x.Port == "Port " + i && x.KullanimAmaciId == obj.KullanimAmaciId).Any())
+                    {
+                        portList.Add("Port " + i);
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 1; i <= ucBirim.GirdiAgArayuzuSayisi; i++)
+                {
+                    if (!agArayuzuList.Where(x => x.Port == "Port " + i && x.KullanimAmaciId == obj.KullanimAmaciId).Any())
+                    {
+                        portList.Add("Port " + i);
+                    }
+                }
+            }
+
+            this.IsEnabled = false;
+            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.Effect = blur;
+
+            DuplicateArayuzPopupWindow popup = new DuplicateArayuzPopupWindow((int)TipEnum.UcBirim, obj, null, portList);
+            popup.Owner = this;
+            popup.ShowDialog();
+        }
+
+        public void UpdateAgArayuzuTable()
+        {
+            UcBirimAgArayuzDataGrid.ItemsSource = null;
+            UcBirimAgArayuzDataGrid.ItemsSource = agArayuzuList; ;
         }
 
         private void ButtonAddGucArayuzu_Click(object sender, RoutedEventArgs e)
@@ -1000,6 +972,38 @@ namespace AYP
                 nfp.Owner = Owner;
                 nfp.Show();
             }
+        }
+
+        private void GucArayuzuDuplicate_Row(object sender, RoutedEventArgs e)
+        {
+            var row = (Button)sender;
+            var ctx = row.DataContext;
+            var obj = (GucArayuzu)ctx;
+
+            var portList = new List<string>();
+
+            for (int i = 1; i <= ucBirim.GucArayuzuSayisi; i++)
+            {
+                if (!gucArayuzuList.Where(x => x.Port == "Port " + i && x.KullanimAmaciId == obj.KullanimAmaciId).Any())
+                {
+                    portList.Add("Port " + i);
+                }
+            }
+
+            this.IsEnabled = false;
+            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.Effect = blur;
+
+            DuplicateArayuzPopupWindow popup = new DuplicateArayuzPopupWindow((int)TipEnum.UcBirim, null, obj, portList);
+            popup.Owner = this;
+            popup.ShowDialog();
+        }
+
+        public void UpdateGucArayuzuTable()
+        {
+            UcBirimGucArayuzDataGrid.ItemsSource = null;
+            UcBirimGucArayuzDataGrid.ItemsSource = gucArayuzuList;
         }
         #endregion
 

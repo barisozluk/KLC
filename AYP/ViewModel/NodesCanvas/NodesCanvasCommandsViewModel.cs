@@ -27,6 +27,7 @@ namespace AYP.ViewModel
 {
     public class GroupModel
     {
+        public string Name { get; set; }
         public Guid UniqueId { get; set; }
         public List<NodeViewModel> NodeList { get; set; }
         public List<ConnectorViewModel> TransitionList { get; set; }
@@ -924,7 +925,7 @@ namespace AYP.ViewModel
             //    }
             //}
 
-            
+
         }
 
         private void Group()
@@ -947,6 +948,7 @@ namespace AYP.ViewModel
             if (nodeList.Count() > 1)
             {
                 GroupModel model = new GroupModel();
+                model.Name = "Grup " + (GroupList.Count + 1);
                 model.UniqueId = Guid.NewGuid();
                 model.NodeList = nodeList;
                 model.TransitionList = transitionList;
@@ -956,6 +958,7 @@ namespace AYP.ViewModel
                 temp.Adi = "Grup Girdi";
                 temp.KullanimAmaciId = (int)KullanimAmaciEnum.Girdi;
                 temp.Port = "Port 1";
+                temp.KL_Kapasite = new KL_Kapasite();
                 temp.TipId = (int)TipEnum.AgAnahtariAgArayuzu;
                 model.AgArayuzuList.Add(temp);
 
@@ -963,6 +966,7 @@ namespace AYP.ViewModel
                 temp.Adi = "Grup Çıktı";
                 temp.KullanimAmaciId = (int)KullanimAmaciEnum.Cikti;
                 temp.Port = "Port 1";
+                temp.KL_Kapasite = new KL_Kapasite();
                 temp.TipId = (int)TipEnum.AgAnahtariAgArayuzu;
                 model.AgArayuzuList.Add(temp);
 
@@ -973,6 +977,23 @@ namespace AYP.ViewModel
 
                 NodeViewModel newNode = new NodeViewModel(this, "Grup " + GroupList.Count, model.UniqueId, new Point(), 0, 9, model.AgArayuzuList, new List<GucArayuzu>());
                 Nodes.Add(newNode);
+                AddToProjectHierarchy(newNode);
+
+                foreach (var node in nodeList)
+                {
+                    AddChildToProjectHierarchyWithTransitions(newNode.Name, node);
+
+                    //foreach(var group in GroupList)
+                    //{
+                    //    if(group.Name == node.Name)
+                    //    {
+                    //        foreach(var item in group.NodeList)
+                    //        {
+                    //            AddChildToProjectHierarchyWithTransitions(group.Name, item);
+                    //        }
+                    //    }
+                    //}
+                }
             }
         }
 
@@ -991,6 +1012,7 @@ namespace AYP.ViewModel
                 if (group != null)
                 {
                     Nodes.Remove(node);
+                    DeleteWithRedoFromProjectHierarchy(node);
 
                     foreach (var groupedNode in group.NodeList)
                     {
@@ -1006,8 +1028,9 @@ namespace AYP.ViewModel
                                 groupedNode.NodesCanvas.CommandAddConnect.ExecuteWithSubscribe(transition.Connect);
                             }
                         }
-                        Nodes.Add(groupedNode);
 
+                        Nodes.Add(groupedNode);
+                        AddToProjectHierarchy(groupedNode);
                     }
                 }
             }
@@ -1814,7 +1837,6 @@ namespace AYP.ViewModel
         {
             if (result == null)
             {
-                AddChildToProjectHierarchyWithTransitions(parameter);
                 return parameter;
             }
             else
@@ -1822,7 +1844,6 @@ namespace AYP.ViewModel
 
             result.Node.CommandAddConnectorWithConnect.ExecuteWithSubscribe((1, result));
             LogDebug("Transition with name \"{0}\" was added", result.Name);
-            AddChildToProjectHierarchyWithTransitions(result);
             return result;
 
             //parameter.Connect.ToConnector.Node.Name
@@ -1968,9 +1989,10 @@ namespace AYP.ViewModel
 
             Connects.RemoveMany(result.ConnectsToDelete);
             Nodes.RemoveMany(result.NodesToDelete);
-            DeleteFromProjectHierarchy(result.NodesToDelete);
+
             foreach (var node in result.NodesToDelete)
             {
+                DeleteWithRedoFromProjectHierarchy(node);
                 LogDebug("Node with name \"{0}\" was removed", node.Name);
             }
 
@@ -2035,6 +2057,8 @@ namespace AYP.ViewModel
         }
 
         #region Project Hierarchy Creations
+
+        //Duracak
         private void AddToProjectHierarchy(NodeViewModel hierarchyNode)
         {
             System.Windows.Controls.TreeViewItem newChild = new System.Windows.Controls.TreeViewItem();
@@ -2042,17 +2066,16 @@ namespace AYP.ViewModel
             MainWindow.ProjectHierarchyAdd(newChild);
         }
 
+        //Duracak
         private void DeleteWithRedoFromProjectHierarchy(NodeViewModel hierarchyNode)
         {
             MainWindow.ProjectHierarchyDeleteWithRedo(hierarchyNode);
         }
-        private void DeleteFromProjectHierarchy(List<NodeViewModel> NodesToDelete)
+
+        //Duracak
+        private void AddChildToProjectHierarchyWithTransitions(string rootName, NodeViewModel childNode)
         {
-            MainWindow.ProjectHierarchyDelete(NodesToDelete);
-        }
-        private void AddChildToProjectHierarchyWithTransitions(ConnectorViewModel connectorViewModel)
-        {
-            MainWindow.ProjectHierarchyAddChild(connectorViewModel);
+            MainWindow.ProjectHierarchyAddChild(rootName, childNode);
         }
         private void DeleteProjectHierarchy()
         {

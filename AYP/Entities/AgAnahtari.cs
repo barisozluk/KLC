@@ -45,10 +45,10 @@ namespace AYP.Entities
         public AgAnahtariTur AgAnahtariTur { get; set; }
 
         [Range(1, int.MaxValue)]
-        public int? GirdiAgArayuzuSayisi { get; set; }
+        public int GirdiAgArayuzuSayisi { get; set; }
 
         [Range(1, int.MaxValue)]
-        public int? CiktiAgArayuzuSayisi { get; set; }
+        public int CiktiAgArayuzuSayisi { get; set; }
 
         [Range(1, int.MaxValue)]
         public int GucArayuzuSayisi { get; set; }
