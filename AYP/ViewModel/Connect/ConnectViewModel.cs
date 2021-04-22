@@ -42,6 +42,7 @@ namespace AYP.ViewModel
         [Reactive] public bool IsVisible { get; set; } = true;
         [Reactive] public decimal Uzunluk { get; set; }
         [Reactive] public decimal AgYuku { get; set; }
+        [Reactive] public int KabloKesitOnerisi { get; set; }
 
 
         private IDisposable subscriptionOnConnectorPositionChange;

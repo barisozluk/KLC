@@ -121,16 +121,20 @@ namespace AYP.View
             {
                 this.ViewModel.WhenAnyValue(x => x.Uzunluk).Subscribe(value => OnEventUzunluk(value)).DisposeWith(disposable);
             });
+            this.WhenActivated(disposable =>
+            {
+                this.Uzunluk.WhenAnyValue(x => x.IsMouseOver).Subscribe(value => OnEventUzunlukMouseOver(value)).DisposeWith(disposable);
+            });
 
             this.WhenActivated(disposable =>
             {
                 this.ViewModel.WhenAnyValue(x => x.AgYuku).Subscribe(value => OnEventAgYuku(value)).DisposeWith(disposable);
             });
 
-            this.WhenActivated(disposable =>
-            {
-                this.WhenAnyValue(x => x.IsMouseOver).Subscribe(value => OnEventMouseOver(value)).DisposeWith(disposable);
-            });
+            //this.WhenActivated(disposable =>
+            //{
+            //    this.WhenAnyValue(x => x.IsMouseOver).Subscribe(value => OnEventMouseOver(value)).DisposeWith(disposable);
+            //});
 
             this.WhenActivated(disposable =>
             {
@@ -138,44 +142,44 @@ namespace AYP.View
             });
         }
 
-        private void OnEventMouseOver(bool value)
-        {
+        //private void OnEventMouseOver(bool value)
+        //{
            
-                if (this.ViewModel.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu || this.ViewModel.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
-                {
-                    if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum.Ethernet)
-                    {
-                        this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorEthernet"] as SolidColorBrush;
-                    }
-                    else if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum.FastEthernet)
-                    {
-                        this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorFastEthernet"] as SolidColorBrush;
-                    }
-                    else if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum.GigabitEthernet)
-                    {
-                        this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorGigabitEthernet"] as SolidColorBrush;
-                    }
-                    else if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum._10GigabitEthernet)
-                    {
-                        this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnector10GigabitEthernet"] as SolidColorBrush;
-                    }
-                    else if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum._40GigabitEthernet)
-                    {
-                        this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnector40GigabitEthernet"] as SolidColorBrush;
-                    }
-                }
-                else
-                {
-                    if (this.ViewModel.FromConnector.GerilimTipiId == (int)GerilimTipiEnum.AC)
-                    {
-                        this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorAC"] as SolidColorBrush;
-                    }
-                    else if (this.ViewModel.FromConnector.GerilimTipiId == (int)GerilimTipiEnum.DC)
-                    {
-                        this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorDC"] as SolidColorBrush;
-                    }
-                }
-        }
+        //        if (this.ViewModel.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu || this.ViewModel.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
+        //        {
+        //            if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum.Ethernet)
+        //            {
+        //                this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorEthernet"] as SolidColorBrush;
+        //            }
+        //            else if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum.FastEthernet)
+        //            {
+        //                this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorFastEthernet"] as SolidColorBrush;
+        //            }
+        //            else if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum.GigabitEthernet)
+        //            {
+        //                this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorGigabitEthernet"] as SolidColorBrush;
+        //            }
+        //            else if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum._10GigabitEthernet)
+        //            {
+        //                this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnector10GigabitEthernet"] as SolidColorBrush;
+        //            }
+        //            else if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum._40GigabitEthernet)
+        //            {
+        //                this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnector40GigabitEthernet"] as SolidColorBrush;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (this.ViewModel.FromConnector.GerilimTipiId == (int)GerilimTipiEnum.AC)
+        //            {
+        //                this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorAC"] as SolidColorBrush;
+        //            }
+        //            else if (this.ViewModel.FromConnector.GerilimTipiId == (int)GerilimTipiEnum.DC)
+        //            {
+        //                this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorDC"] as SolidColorBrush;
+        //            }
+        //        }
+        //}
 
         private void OnEventMouseClick(MouseButtonEventArgs e)
         {
@@ -282,6 +286,44 @@ namespace AYP.View
         private void OnEventUzunluk(decimal value)
         {
             Uzunluk.Text = value.ToString() + " m";
+        }
+
+        private void OnEventUzunlukMouseOver(bool value)
+        {
+            if (this.ViewModel.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu || this.ViewModel.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
+            {
+                if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum.Ethernet)
+                {
+                    this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorEthernet"] as SolidColorBrush;
+                }
+                else if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum.FastEthernet)
+                {
+                    this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorFastEthernet"] as SolidColorBrush;
+                }
+                else if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum.GigabitEthernet)
+                {
+                    this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorGigabitEthernet"] as SolidColorBrush;
+                }
+                else if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum._10GigabitEthernet)
+                {
+                    this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnector10GigabitEthernet"] as SolidColorBrush;
+                }
+                else if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum._40GigabitEthernet)
+                {
+                    this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnector40GigabitEthernet"] as SolidColorBrush;
+                }
+            }
+            else
+            {
+                if (this.ViewModel.FromConnector.GerilimTipiId == (int)GerilimTipiEnum.AC)
+                {
+                    this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorAC"] as SolidColorBrush;
+                }
+                else if (this.ViewModel.FromConnector.GerilimTipiId == (int)GerilimTipiEnum.DC)
+                {
+                    this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorDC"] as SolidColorBrush;
+                }
+            }
         }
         private void OnEventAgYuku(decimal value)
         {

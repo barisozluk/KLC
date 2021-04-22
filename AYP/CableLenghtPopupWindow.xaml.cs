@@ -1,4 +1,5 @@
-﻿using AYP.DbContext.AYP.DbContexts;
+﻿using AYP.Calculations;
+using AYP.DbContext.AYP.DbContexts;
 using AYP.Entities;
 using AYP.Enums;
 using AYP.Helpers.Notifications;
@@ -50,7 +51,6 @@ namespace AYP
         private void ButtonCableLengthPopupClose_Click(object sender, RoutedEventArgs e)
         {
             ClosePopup();
-            
         }
 
         private void Save_CableLengthPopup(object sender, RoutedEventArgs e)
@@ -63,6 +63,26 @@ namespace AYP
             else
             {
                 Uzunluk.BorderBrush = new SolidColorBrush(Colors.Red);
+            }
+        }
+
+        private void Calculate_CableLengthPopup(object sender, RoutedEventArgs e)
+        {
+            Calculation calculations = new Calculation();
+            if(connect.FromConnector.TypeId == 3 || connect.FromConnector.TypeId == 8)
+            { 
+                KabloKesit.Text = (calculations.CableSuggestionCalculation((double)connect.ToConnector.GirdiTukettigiGucMiktari,(double)connect.ToConnector.GirdiDuraganGerilimDegeri1)).ToString() + " mm^2";
+                isiKaybi.Text = (calculations.HeatLossCalculation((double)connect.ToConnector.GirdiTukettigiGucMiktari, (double)connect.ToConnector.GirdiDuraganGerilimDegeri1, KabloTipiTur.SelectedIndex, (double)connect.Uzunluk)).ToString() + " W";
+                GerilimDusumu.Text = (calculations.VoltageDropCalculation((double)connect.Uzunluk, (double)connect.ToConnector.GirdiTukettigiGucMiktari, KabloTipiTur.SelectedIndex, Convert.ToDouble(connect.FromConnector.CiktiDuraganGerilimDegeri))).ToString() + " V";
+                if (BataryaKapasite.Text != "")
+                    BeslemeSuresi.Text = (calculations.FeedingTimeCalculation((double)connect.FromConnector.CiktiUrettigiGucKapasitesi, Convert.ToDouble(connect.FromConnector.CiktiDuraganGerilimDegeri), Convert.ToDouble(BataryaKapasite.Text))).ToString() + " hrs";
+            }
+            else
+            {
+                NotifyWarningPopup nfp = new NotifyWarningPopup();
+                nfp.msg.Text = "Hesaplamalar güç üretici ve güç arayüzleri arasında yapılmalıdır.";
+                nfp.Owner = Owner;
+                nfp.Show();
             }
         }
 
