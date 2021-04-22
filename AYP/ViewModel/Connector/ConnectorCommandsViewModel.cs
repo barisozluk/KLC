@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using AYP.Enums;
 using AYP.Validations;
+using AYP.Models;
 
 namespace AYP.ViewModel
 {
@@ -90,6 +91,14 @@ namespace AYP.ViewModel
                 else
                 {
                     connect.FromConnector.SetAsLoop();
+                }
+
+                if (connect.FromConnector.Node.TypeId == (int)TipEnum.AgAnahtari || connect.FromConnector.Node.TypeId == (int)TipEnum.UcBirim)
+                {
+                    DogulamaModel dogrulama = new DogulamaModel();
+                    dogrulama.Mesaj = connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için ağ akışı tanımlayınız!";
+                    dogrulama.Connector = connect.FromConnector;
+                    connect.NodesCanvas.MainWindow.DogrulamaDataGrid.Items.Add(dogrulama);
                 }
 
                 this.NodesCanvas.MainWindow.IsEnabled = false;

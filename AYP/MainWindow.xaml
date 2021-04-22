@@ -181,13 +181,34 @@
         </Button>
         
         <Label x:Name="dogrulamaLabel" Style="{DynamicResource StyleMainTitle}" Content="Doğrulama" Grid.Column="5" Margin="0,505,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <StackPanel Grid.Row="1" Grid.Column="5" Margin="0,550,0,10">
+            <ScrollViewer MaxHeight="240" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="10,0,10,0">
+                <Grid>
+                    <ItemsControl Name="DogrulamaDataGrid" HorizontalAlignment="Left" VerticalAlignment="Top">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition MinWidth="362" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label MouseDoubleClick="OpenAgAkisPanel" Padding="5,3,0,0" Background="#13191e" BorderThickness="1,1,1,1" BorderBrush="#222d35" Height="25" MinWidth="362" FontSize="12" FontWeight="Medium" Foreground="Red" Content="{Binding Mesaj}" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Grid>
+            </ScrollViewer>
+        </StackPanel>
+
         <Label x:Name="bilgiKartiLabel" Style="{DynamicResource StyleDeviceMainTitle}" Content="Bilgi Kartı" Grid.Column="5" Margin="10,826,0,0" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <Button Style="{DynamicResource StyleAddDeviceButton}" Grid.Column="5" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,826,10,0" Click="BilgiKartiDetay_Click" >
             <Button.Content>
                 <Image Source="Images\edit.png" Height="15" Width="15" Margin="7,0,0,0"></Image>
             </Button.Content>
         </Button>
-        
         <!--<Rectangle Style="{DynamicResource StyleBilgiKartiPanel}" Grid.Row="1" Grid.Column="5" Margin="10,871,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" />-->
         <Label FontSize="14" Foreground="#ffffff" Content="Tanım" Grid.Row="1" Grid.Column="5" Margin="10,871,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
         <TextBlock Name="Tanim" FontSize="14" Foreground="#ffffff" Grid.Row="1" Grid.Column="5" Margin="200,876,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
