@@ -851,20 +851,17 @@ namespace AYP
         #endregion
 
         #region ProjectHierarchy
+
+        //Duracak
         public void ProjectHierarchyAdd(TreeViewItem AddedItem)
         {
-            //Style style = Application.Current.FindResource("StyleProjectHierarchy") as Style;
-            //ProjeHiyerarsi.ItemContainerStyle= style;
-            //ProjeHiyerarsi.Style = style;
             ProjeHiyerarsi.ItemsSource = null;
             ProjeHiyerarsi.Items.Add(AddedItem);
         }
 
+        //Duracak
         public void ProjectHierarchyDeleteWithRedo(NodeViewModel DeletedItem)
         {
-            //Style style = Application.Current.FindResource("StyleProjectHierarchy") as Style;
-            //ProjeHiyerarsi.ItemContainerStyle= style;
-            //ProjeHiyerarsi.Style = style;
             ProjeHiyerarsi.ItemsSource = null;
             List<TreeViewItem> treeList = new List<TreeViewItem>();
             foreach (TreeViewItem searchfordelete in ProjeHiyerarsi.Items)
@@ -919,26 +916,23 @@ namespace AYP
             }
         }
 
-        public void ProjectHierarchyAddChild(ConnectorViewModel connectorViewModel)
+        public void ProjectHierarchyAddChild(string rootName, NodeViewModel childNode)
         {
             List<TreeViewItem> treeList = new List<TreeViewItem>();
             ProjeHiyerarsi.ItemsSource = null;
-            string rootNode = connectorViewModel.Connect.FromConnector.Node.Name;
-            string toNode = connectorViewModel.Connect.ToConnector.Node.Name;
 
             foreach (TreeViewItem searchfordelete in ProjeHiyerarsi.Items)
             {
                 treeList.Add(searchfordelete);
-                //treeList.Remove(toNode);
             }
+
             foreach (TreeViewItem searchfordelete2 in treeList)
             {
-                //parameter.Connect.ToConnector.Node.Name;
-                if (searchfordelete2.Header.ToString() == rootNode)
+                if (searchfordelete2.Header.ToString() == rootName)
                 {
-                    searchfordelete2.Items.Add(toNode);
-                    ProjectHierarchyDeleteForChild(toNode);
-
+                    TreeViewItem newItem = new TreeViewItem();
+                    newItem.Header = childNode.Name;
+                    searchfordelete2.Items.Add(newItem);
                 }
             }
         }

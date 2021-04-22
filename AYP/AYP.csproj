@@ -128,6 +128,9 @@
     <Compile Update="AgAnahtariGucArayuzuPopupWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="DuplicateArayuzPopupWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="CableLenghtPopupWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -163,6 +166,11 @@
   </ItemGroup>
 
   <ItemGroup>
+
+    <Page Update="DuplicateArayuzPopupWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
 
     <Page Update="ImportLibraryPopupWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
@@ -206,6 +214,16 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="SettingsPopupWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Styles\StyleArayuzCogaltFormPanel.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Styles\StyleListBoxItem.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleListBox.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Styles\StyleCutButton.xaml">

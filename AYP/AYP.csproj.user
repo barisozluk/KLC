@@ -12,6 +12,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="DuplicateArayuzPopupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="ImportLibraryPopupWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -19,6 +22,15 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="CableLenghtPopupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleArayuzCogaltFormPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleListBoxItem.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleListBox.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\StyleDescribingGucArayuzuFormPanel.xaml">

@@ -107,7 +107,6 @@
                                 <Border 
                                 x:Name="DropDownBorder"
                                 Background="#222d35"
-
                                 BorderThickness="1"
                                 CornerRadius="4"
                                 BorderBrush="#367bf5"/>
