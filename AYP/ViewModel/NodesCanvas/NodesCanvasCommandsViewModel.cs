@@ -40,7 +40,7 @@ namespace AYP.ViewModel
     public partial class NodesCanvasViewModel
     {
         private List<NodeViewModel> NodeClipboard;
-        private List<ConnectorViewModel> TransitionClipboard;
+        private List<ConnectViewModel> ConnectClipboard;
 
         private List<GroupModel> GroupList;
 
@@ -183,7 +183,7 @@ namespace AYP.ViewModel
             CommandChangeConnectName = new Command<(ConnectorViewModel connector, string newName), (ConnectorViewModel connector, string oldName)>(ChangeConnectName, UnChangeConnectName);
 
             NodeClipboard = new List<NodeViewModel>();
-            TransitionClipboard = new List<ConnectorViewModel>();
+            ConnectClipboard = new List<ConnectViewModel>();
             GroupList = new List<GroupModel>();
 
             CommandCopy = ReactiveCommand.Create(CopyToClipboard);
@@ -837,104 +837,92 @@ namespace AYP.ViewModel
 
         private void CopyToClipboard()
         {
-            //NodeClipboard.Clear();
-            ////TransitionClipboard.Clear();
+            NodeClipboard.Clear();
+            ConnectClipboard.Clear();
 
-            //var copiedNodeList = new List<NodeViewModel>();
-            ////var copiedTransitionList = new List<ConnectorViewModel>();
+            var copiedNodeList = new List<NodeViewModel>();
+            var copiedConnectList = new List<ConnectViewModel>();
 
-            //foreach (var node in this.Nodes.Items.Where(x => x.Selected))
-            //{
-            //    copiedNodeList.Add(node);
-            //}
+            foreach (var node in this.Nodes.Items.Where(x => x.Selected))
+            {
+                copiedNodeList.Add(node);
+            }
 
-            ////foreach (var node in this.Nodes.Items.Where(x => x.Selected))
-            ////{
-            ////    foreach(var transition in node.Transitions.Items.Where(x => x.Selected))
-            ////    {
-            ////        copiedTransitionList.Add(transition);
-            ////    }
-            ////}
+            foreach (var node in this.Nodes.Items.Where(x => x.Selected))
+            {
+                foreach (var transition in node.Transitions.Items.Where(x => x.Selected))
+                {
+                    if (transition.Connect != null)
+                    {
+                        copiedConnectList.Add(transition.Connect);
+                    }
+                }
+            }
 
-            //NodeClipboard.AddRange(copiedNodeList);
-            ////TransitionClipboard.AddRange(copiedTransitionList);
+            NodeClipboard.AddRange(copiedNodeList);
+            ConnectClipboard.AddRange(copiedConnectList);
         }
 
         private void Paste()
         {
-            //var temp = new List<NodeViewModel>();
+            var temp = new List<NodeViewModel>();
 
-            //foreach (var node in NodeClipboard)
-            //{
-            //    if (node.TypeId == (int)TipEnum.UcBirim)
-            //    {
-            //        UcBirimCount++;
-            //    }
-            //    else if (node.TypeId == (int)TipEnum.AgAnahtari)
-            //    {
-            //        AgAnahtariCount++;
-            //    }
-            //    else if (node.TypeId == (int)TipEnum.GucUretici)
-            //    {
-            //        GucUreticiCount++;
-            //    }
+            foreach (var node in NodeClipboard)
+            {
+                if (node.TypeId == (int)TipEnum.UcBirim)
+                {
+                    UcBirimCount++;
+                }
+                else if (node.TypeId == (int)TipEnum.AgAnahtari)
+                {
+                    AgAnahtariCount++;
+                }
+                else if (node.TypeId == (int)TipEnum.GucUretici)
+                {
+                    GucUreticiCount++;
+                }
 
-            //    var newNode = node.Clone();
-            //    //newNode.Transitions.Clear();
-            //    //newNode.CommandAddEmptyConnector.ExecuteWithSubscribe();
-            //    newNode.Transitions.Connect().ObserveOnDispatcher().Bind(newNode.TransitionsForView).Subscribe();
-            //    Nodes.Add(newNode);
-            //    LogDebug("Node with name \"{0}\" was copied", GetNameForNewNode(node.TypeId));
-            //    AddToProjectHierarchy(newNode);
-            //    temp.Add(newNode);
-            //}
+                var newPoint = node.Point1.Addition(50, 50);
+                var newNode = new NodeViewModel(this, GetNameForNewNode(node.TypeId), Guid.NewGuid(), newPoint, node.Id, node.TypeId,
+                    node.AgArayuzuList, node.GucArayuzuList, new List<ConnectorViewModel>(), new List<ConnectorViewModel>(), node.VerimlilikOrani,
+                    node.DahiliGucTuketimDegeri, node.Sembol, node.StokNo, node.Tanim, node.UreticiAdi, node.UreticiParcaNo, node.TurAd);
 
+                Nodes.Add(newNode);
+                LogDebug("Node with name \"{0}\" was copied", GetNameForNewNode(node.TypeId));
+                AddToProjectHierarchy(newNode);
+                temp.Add(newNode);
+            }
 
-            //foreach (var transition in TransitionClipboard)
-            //{
-            //    if (transition.Connect != null)
-            //    {
-            //        ConnectorViewModel fromConnector = null;
-            //        ConnectorViewModel toConnector = null;
+            foreach(var node in temp)
+            {
+                foreach(var output in node.Transitions.Items)
+                {
+                    var oldConnect = ConnectClipboard
+                                          .Where(x => x.FromConnector.Label == output.Label &&
+                                           x.FromConnector.PositionConnectPoint.Addition((x.FromConnector.Artik * -1) + 50, 50) == output.PositionConnectPoint)
+                                          .FirstOrDefault();
 
-            //        foreach (var node in temp)
-            //        {
-            //            fromConnector = node.Transitions.Items.Where(x => x.UniqueId == transition.Connect.FromConnector.UniqueId).FirstOrDefault();
-            //            if (fromConnector != null)
-            //            {
-            //                break;
-            //            }
-            //        }
-
-            //        foreach (var node in temp)
-            //        {
-            //            toConnector = node.InputList.Where(x => x.UniqueId == transition.Connect.ToConnector.UniqueId).FirstOrDefault();
-            //            if (toConnector != null)
-            //            {
-            //                break;
-            //            }
-            //        }
-
-            //        if (toConnector == null)
-            //        {
-            //            foreach (var node in temp)
-            //            {
-            //                toConnector = node.GucInputList.Where(x => x.UniqueId == transition.Connect.ToConnector.UniqueId).FirstOrDefault();
-            //                if (toConnector != null)
-            //                {
-            //                    break;
-            //                }
-            //            }
-            //        }
-
-            //        var newConnect = new ConnectViewModel(this, fromConnector);
-            //        newConnect.ToConnector = toConnector;
-            //        newConnect.Uzunluk = transition.Connect.Uzunluk;
-            //        CommandAddConnect.ExecuteWithSubscribe(newConnect);
-            //    }
-            //}
-
-
+                    if (oldConnect != null)
+                    {
+                        foreach (var node2 in temp)
+                        {
+                            if (node != node2)
+                            {
+                                foreach (var input in node2.InputList)
+                                {
+                                    if (input.Label == oldConnect.ToConnector.Label && input.PositionConnectPoint == oldConnect.ToConnector.PositionConnectPoint.Addition(50,50))
+                                    {
+                                        var newConnect = new ConnectViewModel(this, output);
+                                        newConnect.ToConnector = input;
+                                        output.Connect = newConnect;
+                                        AddConnect(newConnect);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private void Group()
@@ -1188,9 +1176,6 @@ namespace AYP.ViewModel
             if (!WithoutSaving())
                 return;
             ClearScheme();
-            TransitionClipboard.Clear();
-            NodeClipboard.Clear();
-            GroupList.Clear();
             this.SetupStartState();
         }
         private void ClearScheme()
@@ -1210,6 +1195,9 @@ namespace AYP.ViewModel
             StartState = null;
             DeleteProjectHierarchy();
             DeleteDogrulamaPaneli();
+            ConnectClipboard.Clear();
+            NodeClipboard.Clear();
+            GroupList.Clear();
         }
         private void Open()
         {
@@ -1222,9 +1210,6 @@ namespace AYP.ViewModel
             Mouse.OverrideCursor = Cursors.Wait;
             string fileName = Dialog.FileName;
             ClearScheme();
-            TransitionClipboard.Clear();
-            NodeClipboard.Clear();
-            GroupList.Clear();
 
             WithoutMessages = true;
             XDocument xDocument = XDocument.Load(fileName);
@@ -1390,9 +1375,6 @@ namespace AYP.ViewModel
             void Error(string errorMessage)
             {
                 ClearScheme();
-                TransitionClipboard.Clear();
-                NodeClipboard.Clear();
-                GroupList.Clear();
 
                 NotifyWarningPopup nfp = new NotifyWarningPopup();
                 nfp.msg.Text = "Dosya formatı hatalıdır.";

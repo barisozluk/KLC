@@ -569,7 +569,7 @@ namespace AYP.ViewModel
 
         public NodeViewModel Clone()
         {
-            return new NodeViewModel
+            var clone =  new NodeViewModel
             {
                 AgArayuzuList = AgArayuzuList,
                 CanBeDelete = CanBeDelete,
@@ -598,6 +598,8 @@ namespace AYP.ViewModel
                 Sembol = Sembol,
                 Zindex = Zindex
             };
+
+            return clone;
         }
     }
 }
