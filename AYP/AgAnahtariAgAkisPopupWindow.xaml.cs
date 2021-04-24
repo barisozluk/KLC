@@ -117,7 +117,7 @@ namespace AYP
             bool varMi = false;
             foreach(var item in (Owner as MainWindow).DogrulamaDataGrid.Items)
             { 
-                if((item as DogulamaModel).Mesaj == mesaj)
+                if((item as DogrulamaModel).Mesaj == mesaj)
                 {
                     varMi = true;
                 }
@@ -125,7 +125,7 @@ namespace AYP
 
             if (!varMi)
             {
-                DogulamaModel dogrulama = new DogulamaModel();
+                DogrulamaModel dogrulama = new DogrulamaModel();
                 dogrulama.Mesaj = mesaj;
                 dogrulama.Connector = agAnahtariAgArayuzu;
                 (Owner as MainWindow).DogrulamaDataGrid.Items.Add(dogrulama);
@@ -136,13 +136,13 @@ namespace AYP
         {
             if ((Owner as MainWindow).DogrulamaDataGrid.Items.Count > 0)
             {
-                DogulamaModel deletedObj = null;
+                DogrulamaModel deletedObj = null;
 
                 foreach (var item in (Owner as MainWindow).DogrulamaDataGrid.Items)
                 {
-                    if ((item as DogulamaModel).Connector == agAnahtariAgArayuzu)
+                    if ((item as DogrulamaModel).Connector == agAnahtariAgArayuzu)
                     {
-                        deletedObj = (item as DogulamaModel);
+                        deletedObj = (item as DogrulamaModel);
                         break;
                     }
                 }

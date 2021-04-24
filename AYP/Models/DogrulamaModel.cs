@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace AYP.Models
 {
-    public class DogulamaModel : ReactiveObject
+    public class DogrulamaModel : ReactiveObject
     {
         public string Mesaj { get; set; }
 
@@ -23,10 +23,10 @@ namespace AYP.Models
             return element;
         }
 
-        public static DogulamaModel FromXElement(NodesCanvasViewModel nodesCanvas, XElement node, out string errorMessage, Func<string, bool> actionForCheck)
+        public static DogrulamaModel FromXElement(NodesCanvasViewModel nodesCanvas, XElement node, out string errorMessage, Func<string, bool> actionForCheck)
         {
             errorMessage = null;
-            DogulamaModel viewModelDogrulama = null;
+            DogrulamaModel viewModelDogrulama = null;
 
             Guid fromConnectorUniqueId = new Guid(node.Attribute("ConnectorUniqueId")?.Value);
             string mesaj = node.Attribute("Mesaj")?.Value;
@@ -34,7 +34,7 @@ namespace AYP.Models
             foreach(var item in nodesCanvas.Nodes.Items)
             {
                 var connector = item.Transitions.Items.Where(x => x.UniqueId == fromConnectorUniqueId).FirstOrDefault();
-                viewModelDogrulama = new DogulamaModel();
+                viewModelDogrulama = new DogrulamaModel();
                 viewModelDogrulama.Mesaj = mesaj;
                 viewModelDogrulama.Connector = connector;
 

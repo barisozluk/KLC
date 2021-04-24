@@ -187,66 +187,72 @@ namespace AYP.View
             {
                 if (Keyboard.IsKeyDown(Key.LeftCtrl))
                 {
-                    this.ViewModel.NodesCanvas.MainWindow.IsEnabled = false;
-                    System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
-                    blur.Radius = 2;
-                    this.ViewModel.NodesCanvas.MainWindow.Effect = blur;
-
-                    CableLengthPopupWindow cl = new CableLengthPopupWindow(this.ViewModel);
-                    cl.Owner = this.ViewModel.NodesCanvas.MainWindow;
-                    cl.ShowDialog();
-                }
-                else
-                {
-                    if (this.ViewModel.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu)
+                    if (this.ViewModel.FromConnector.Node.TypeId != (int)TipEnum.Group && this.ViewModel.ToConnector.Node.TypeId != (int)TipEnum.Group)
                     {
                         this.ViewModel.NodesCanvas.MainWindow.IsEnabled = false;
                         System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
                         blur.Radius = 2;
                         this.ViewModel.NodesCanvas.MainWindow.Effect = blur;
 
-                        UcBirimAgAkisPopupWindow agAkisiPopup = new UcBirimAgAkisPopupWindow(this.ViewModel.FromConnector);
-                        agAkisiPopup.Owner = this.ViewModel.NodesCanvas.MainWindow;
-                        agAkisiPopup.ShowDialog();
+                        CableLengthPopupWindow cl = new CableLengthPopupWindow(this.ViewModel);
+                        cl.Owner = this.ViewModel.NodesCanvas.MainWindow;
+                        cl.ShowDialog();
                     }
-                    else if (this.ViewModel.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
+                }
+                else
+                {
+                    if (this.ViewModel.FromConnector.Node.TypeId != (int)TipEnum.Group && this.ViewModel.ToConnector.Node.TypeId != (int)TipEnum.Group)
                     {
-                        bool isConnectExist = false;
-                        foreach(var input in this.ViewModel.FromConnector.Node.InputList)
-                        {
-                            foreach (var connect in this.ViewModel.NodesCanvas.Connects)
-                            {
-                                if (connect.ToConnector == input)
-                                {
-                                    if (connect.ToConnector.AgAkisList.Count > 0)
-                                    {
-                                        isConnectExist = true;
-                                        break;
-                                    }
-                                }
-                            }
-
-                            if (isConnectExist)
-                                break;
-                        }
-
-                        if (isConnectExist)
+                        if (this.ViewModel.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu)
                         {
                             this.ViewModel.NodesCanvas.MainWindow.IsEnabled = false;
                             System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
                             blur.Radius = 2;
                             this.ViewModel.NodesCanvas.MainWindow.Effect = blur;
 
-                            AgAnahtariAgAkisPopupWindow agAkisiPopup = new AgAnahtariAgAkisPopupWindow(this.ViewModel.FromConnector);
+                            UcBirimAgAkisPopupWindow agAkisiPopup = new UcBirimAgAkisPopupWindow(this.ViewModel.FromConnector);
                             agAkisiPopup.Owner = this.ViewModel.NodesCanvas.MainWindow;
                             agAkisiPopup.ShowDialog();
                         }
-                        else
+                        else if (this.ViewModel.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
                         {
-                            NotifyInfoPopup nfp = new NotifyInfoPopup();
-                            nfp.msg.Text = "Ağ anahtarı için tanımlanmış bir ağ akışı olmadığıdan bu bağlantı için ağ akışı oluşturulamaz.";
-                            nfp.Owner = this.ViewModel.NodesCanvas.MainWindow;
-                            nfp.Show();
+                            bool isConnectExist = false;
+                            foreach (var input in this.ViewModel.FromConnector.Node.InputList)
+                            {
+                                foreach (var connect in this.ViewModel.NodesCanvas.Connects)
+                                {
+                                    if (connect.ToConnector == input)
+                                    {
+                                        if (connect.ToConnector.AgAkisList.Count > 0)
+                                        {
+                                            isConnectExist = true;
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                if (isConnectExist)
+                                    break;
+                            }
+
+                            if (isConnectExist)
+                            {
+                                this.ViewModel.NodesCanvas.MainWindow.IsEnabled = false;
+                                System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+                                blur.Radius = 2;
+                                this.ViewModel.NodesCanvas.MainWindow.Effect = blur;
+
+                                AgAnahtariAgAkisPopupWindow agAkisiPopup = new AgAnahtariAgAkisPopupWindow(this.ViewModel.FromConnector);
+                                agAkisiPopup.Owner = this.ViewModel.NodesCanvas.MainWindow;
+                                agAkisiPopup.ShowDialog();
+                            }
+                            else
+                            {
+                                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                                nfp.msg.Text = "Ağ anahtarı için tanımlanmış bir ağ akışı olmadığıdan bu bağlantı için ağ akışı oluşturulamaz.";
+                                nfp.Owner = this.ViewModel.NodesCanvas.MainWindow;
+                                nfp.Show();
+                            }
                         }
                     }
                 }

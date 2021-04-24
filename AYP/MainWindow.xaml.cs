@@ -1721,7 +1721,7 @@ namespace AYP
         private void OpenAgAkisPanel(object sender, MouseButtonEventArgs e)
         {
             var context = (sender as Label).DataContext;
-            var obj = (context as DogulamaModel);
+            var obj = (context as DogrulamaModel);
 
             this.IsEnabled = false;
             System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();

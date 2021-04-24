@@ -107,7 +107,7 @@ namespace AYP.ViewModel
                     output.KapasiteId, output.MinKapasite, output.MaxKapasite, output.FizikselOrtamId, output.GerilimTipiId, output.KullanimAmaciId,
                     output.GirdiDuraganGerilimDegeri1, output.GirdiDuraganGerilimDegeri2, output.GirdiDuraganGerilimDegeri3,
                     output.GirdiMinimumGerilimDegeri, output.GirdiMaksimumGerilimDegeri, output.GirdiTukettigiGucMiktari, output.CiktiDuraganGerilimDegeri,
-                    output.CiktiUrettigiGucKapasitesi, output.Label, output.TypeId)
+                    output.CiktiUrettigiGucKapasitesi, output.Label, output.TypeId, output.Id, output.Port)
                 {
                     TextEnable = true,
                     Visible = true

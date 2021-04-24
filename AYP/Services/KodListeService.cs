@@ -77,6 +77,25 @@ namespace AYP.Services
             return response;
         }
 
+        public KL_Kapasite GetKapasiteById(int id)
+        {
+            KL_Kapasite response = new KL_Kapasite();
+
+            using (var transaction = context.Database.BeginTransaction(IsolationLevel.ReadUncommitted))
+            {
+                try
+                {
+                    response = context.KL_Kapasite.Where(k => k.Id == id).FirstOrDefault();
+                }
+                catch (Exception exception)
+                {
+
+                }
+            }
+
+            return response;
+        }
+
         public List<KL_KullanimAmaci> ListKullanimAmaci()
         {
             List<KL_KullanimAmaci> response = new List<KL_KullanimAmaci>();

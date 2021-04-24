@@ -90,7 +90,7 @@ namespace AYP
 
         private void AddToDogrulamaPaneli(string mesaj)
         {
-            DogulamaModel dogrulama = new DogulamaModel();
+            DogrulamaModel dogrulama = new DogrulamaModel();
             dogrulama.Mesaj = mesaj;
             dogrulama.Connector = ucBirimAgArayuzu;
             (Owner as MainWindow).DogrulamaDataGrid.Items.Add(dogrulama);
@@ -100,13 +100,13 @@ namespace AYP
         {
             if ((Owner as MainWindow).DogrulamaDataGrid.Items.Count > 0)
             {
-                DogulamaModel deletedObj = null;
+                DogrulamaModel deletedObj = null;
 
                 foreach (var item in (Owner as MainWindow).DogrulamaDataGrid.Items)
                 {
-                    if ((item as DogulamaModel).Connector == ucBirimAgArayuzu)
+                    if ((item as DogrulamaModel).Connector == ucBirimAgArayuzu)
                     {
-                        deletedObj = (item as DogulamaModel);
+                        deletedObj = (item as DogrulamaModel);
                         break;
                     }
                 }

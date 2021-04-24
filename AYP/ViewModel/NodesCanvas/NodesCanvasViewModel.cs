@@ -59,6 +59,7 @@ namespace AYP.ViewModel
         public int UcBirimCount = 0;
         public int AgAnahtariCount = 0;
         public int GucUreticiCount = 0;
+        public int GroupCount = 0;
 
         public int NodesCount = 0;
         public int TransitionsCount = 0;
