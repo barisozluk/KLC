@@ -624,31 +624,47 @@ namespace AYP.ViewModel
 
             foreach (var node in this.Nodes.Items.Where(x => x.Selected))
             {
-                if (node.TypeId != (int)TipEnum.AgAnahtari)
+
+                if (node.TypeId != (int)TipEnum.AgAnahtari && node.TypeId != (int)TipEnum.Group)
                 {
                     hepsiAgAnahtariMi = false;
                     break;
                 }
                 else
                 {
-                    using (AYPContext context = new AYPContext())
+                    if (node.TypeId == (int)TipEnum.AgAnahtari)
                     {
-                        IAgAnahtariService service = new AgAnahtariService(context);
-                        var agAnahtari = service.GetAgAnahtariById(node.Id);
-
-                        if (agAnahtari.AgAnahtariTur.Ad == "Omurga" || agAnahtari.AgAnahtariTur.Ad == "Toplama")
+                        using (AYPContext context = new AYPContext())
                         {
-                            omurgaVeyaToplamaSayisi++;
-                            omurgaToplamaUniqueId = node.UniqueId;
+                            IAgAnahtariService service = new AgAnahtariService(context);
+                            var agAnahtari = service.GetAgAnahtariById(node.Id);
+
+                            if (agAnahtari.AgAnahtariTur.Ad == "Omurga" || agAnahtari.AgAnahtariTur.Ad == "Toplama")
+                            {
+                                omurgaVeyaToplamaSayisi++;
+                                omurgaToplamaUniqueId = node.UniqueId;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (node.Transitions.Items != null && node.Transitions.Items.Count() > 0)
+                        {
+                            hepsiAgAnahtariMi = node.Transitions.Items.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu).Any();
+                        }
+                        else
+                        {
+                            hepsiAgAnahtariMi = false;
                         }
                     }
                 }
+
             }
 
             if (!hepsiAgAnahtariMi)
             {
                 NotifyInfoPopup nfp = new NotifyInfoPopup();
-                nfp.msg.Text = "Zincir topoloji sadece ağ anahtarları arasında oluşturulabilir.";
+                nfp.msg.Text = "Yıldız topoloji sadece ağ anahtarları arasında oluşturulabilir.";
                 nfp.Owner = this.MainWindow;
                 nfp.Show();
             }
@@ -737,6 +753,23 @@ namespace AYP.ViewModel
                                     var connect = item.Value.Where(x => x.ToConnector == result[count]).FirstOrDefault();
                                     connect.FromConnector.Connect = connect;
                                     CommandAddConnect.ExecuteWithSubscribe(connect);
+
+                                    if (connect.FromConnector.Node.TypeId == (int)TipEnum.Group)
+                                    {
+                                        var groupNode = GroupList.Where(x => x.UniqueId == connect.FromConnector.Node.UniqueId).FirstOrDefault();
+
+                                        foreach (var node in groupNode.NodeList)
+                                        {
+                                            var output = node.Transitions.Items.Where(x => x.Label == connect.FromConnector.Label).FirstOrDefault();
+                                            if (output != null)
+                                            {
+                                                ConnectViewModel c = new ConnectViewModel(this, output);
+                                                c.ToConnector = connect.ToConnector;
+                                                groupNode.ExternalConnectList.Add(c);
+                                                break;
+                                            }
+                                        }
+                                    }
 
                                     AddToDogrulamaPaneli(connect.FromConnector, connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için ağ akışı tanımlayınız!");
                                     count++;
@@ -835,7 +868,7 @@ namespace AYP.ViewModel
             foreach (var node in this.Nodes.Items.Where(x => x.Selected))
             {
                 copiedNodeList.Add(node);
-            }                
+            }
 
             foreach (var node in this.Nodes.Items.Where(x => x.Selected))
             {
@@ -976,13 +1009,13 @@ namespace AYP.ViewModel
             }
 
             var tempInternalConnectList = new List<ConnectViewModel>();
-            foreach(var internalConnect in willBeCopiedGroup.InternalConnectList)
+            foreach (var internalConnect in willBeCopiedGroup.InternalConnectList)
             {
                 var oldFromConnector = internalConnect.FromConnector;
                 var oldToConnector = internalConnect.ToConnector;
 
                 ConnectViewModel connect = null;
-                foreach(var node in temp)
+                foreach (var node in temp)
                 {
                     var newFromConnector = node.Transitions.Items.Where(x => x.Label == oldFromConnector.Label &&
                         x.PositionConnectPoint == oldFromConnector.PositionConnectPoint.Addition((oldFromConnector.Artik * -1) + 50, 50))
