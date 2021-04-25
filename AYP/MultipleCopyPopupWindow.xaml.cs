@@ -34,7 +34,7 @@ namespace AYP
         public MultipleCopyPopupWindow(NodeViewModel _selectedNode)
         {
             this.selectedNode = _selectedNode;
-            InitializeComponent();    
+            InitializeComponent();
         }
 
         private void ClosePopup()
@@ -47,7 +47,7 @@ namespace AYP
         private void ButtonMultipleCopyPopupClose_Click(object sender, RoutedEventArgs e)
         {
             ClosePopup();
-            
+
         }
 
         private void Save_MultipleCopy(object sender, RoutedEventArgs e)
@@ -62,9 +62,12 @@ namespace AYP
                     data.Node = selectedNode;
                     data.Point = nodePoint;
                     selectedNode.NodesCanvas.CommandAddNodeWithUndoRedo.Execute(data);
-
-                    this.ClosePopup();
                 }
+
+
+
+
+                this.ClosePopup();
             }
             else
             {

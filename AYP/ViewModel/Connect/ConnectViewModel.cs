@@ -124,7 +124,11 @@ namespace AYP.ViewModel
         }
         private void StartPointUpdate(Point point)
         {
-            if (FromConnector.Node.InputList.Count() - 1 != 0)
+            if (FromConnector.Node.InputList.Count() == 0)
+            {
+                StartPoint = point.Addition(0, 10);
+            }
+            else if (FromConnector.Node.InputList.Count() - 1 != 0)
             {
                 int offset1 = ((FromConnector.Node.InputList.Count() - 1) * 20);
                 StartPoint = point.Addition(0, (offset1 - 5));
