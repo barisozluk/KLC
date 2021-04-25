@@ -67,7 +67,7 @@ namespace AYP.ViewModel
             //Node.CommandAddEmptyConnector.ExecuteWithSubscribe();
         }
         private void ToLoop()
-        {            
+        {
             this.FormStrokeThickness = 0;
             this.FormFill = Application.Current.Resources["IconLoop"] as DrawingBrush;
         }
@@ -81,12 +81,46 @@ namespace AYP.ViewModel
             Validation validation = new Validation();
             var valid = validation.ValidateDuringDraw(NodesCanvas, this);
 
-            if(valid)
+            if (valid)
             {
                 var connect = NodesCanvas.DraggedConnect;
                 if (connect.FromConnector.Node != this.Node)
                 {
                     connect.ToConnector = this;
+                    var temp = connect.FromConnector;
+                    if (connect.FromConnector.Node.TypeId == (int)TipEnum.Group)
+                    {
+                        var groupNode = this.NodesCanvas.GroupList.Where(x => x.UniqueId == connect.FromConnector.Node.UniqueId).FirstOrDefault();
+
+                        foreach (var node in groupNode.NodeList)
+                        {
+                            var output = node.Transitions.Items.Where(x => x.Label == connect.FromConnector.Label).FirstOrDefault();
+                            if (output != null)
+                            {
+                                ConnectViewModel c = new ConnectViewModel(this.NodesCanvas, output);
+                                c.ToConnector = connect.ToConnector;
+                                groupNode.ExternalConnectList.Add(c);
+                                break;
+                            }
+                        }
+
+                    }
+
+                    if (connect.ToConnector.Node.TypeId == (int)TipEnum.Group)
+                    {
+                        var groupNode = this.NodesCanvas.GroupList.Where(x => x.UniqueId == connect.ToConnector.Node.UniqueId).FirstOrDefault();
+                        foreach (var node in groupNode.NodeList)
+                        {
+                            var input = node.InputList.Where(x => x.Label == connect.ToConnector.Label).FirstOrDefault();
+                            if (input != null)
+                            {
+                                ConnectViewModel c = new ConnectViewModel(this.NodesCanvas, connect.FromConnector);
+                                c.ToConnector = input;
+                                groupNode.ExternalConnectList.Add(c);
+                                break;
+                            }
+                        }
+                    }
                 }
                 else
                 {
@@ -101,16 +135,18 @@ namespace AYP.ViewModel
                     connect.NodesCanvas.MainWindow.DogrulamaDataGrid.Items.Add(dogrulama);
                 }
 
-                this.NodesCanvas.MainWindow.IsEnabled = false;
-                System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
-                blur.Radius = 2;
-                this.NodesCanvas.MainWindow.Effect = blur;
+                if (connect.FromConnector.Node.TypeId != (int)TipEnum.Group)
+                {
+                    this.NodesCanvas.MainWindow.IsEnabled = false;
+                    System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+                    blur.Radius = 2;
+                    this.NodesCanvas.MainWindow.Effect = blur;
 
-                CableLengthPopupWindow cl = new CableLengthPopupWindow(connect);
-                cl.Owner = this.NodesCanvas.MainWindow;
-                cl.ShowDialog();
+                    CableLengthPopupWindow cl = new CableLengthPopupWindow(connect);
+                    cl.Owner = this.NodesCanvas.MainWindow;
+                    cl.ShowDialog();
+                }
             }
-            
 
         }
 
@@ -212,7 +248,7 @@ namespace AYP.ViewModel
                     }
                     else
                     {
-                        if(this.GerilimTipiId == (int)GerilimTipiEnum.AC)
+                        if (this.GerilimTipiId == (int)GerilimTipiEnum.AC)
                         {
                             this.FormFill = Application.Current.Resources[this.Selected ? "ColorSelectedElement" : "ColorConnectorAC"] as SolidColorBrush;
                         }
