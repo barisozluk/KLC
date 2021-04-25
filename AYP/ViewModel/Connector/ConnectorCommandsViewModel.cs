@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using AYP.Enums;
 using AYP.Validations;
+using AYP.Models;
 
 namespace AYP.ViewModel
 {
@@ -90,6 +91,14 @@ namespace AYP.ViewModel
                 else
                 {
                     connect.FromConnector.SetAsLoop();
+                }
+
+                if (connect.FromConnector.Node.TypeId == (int)TipEnum.AgAnahtari || connect.FromConnector.Node.TypeId == (int)TipEnum.UcBirim)
+                {
+                    DogrulamaModel dogrulama = new DogrulamaModel();
+                    dogrulama.Mesaj = connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için ağ akışı tanımlayınız!";
+                    dogrulama.Connector = connect.FromConnector;
+                    connect.NodesCanvas.MainWindow.DogrulamaDataGrid.Items.Add(dogrulama);
                 }
 
                 this.NodesCanvas.MainWindow.IsEnabled = false;
@@ -176,7 +185,7 @@ namespace AYP.ViewModel
             this.Foreground = Application.Current.Resources[this.Selected ? "ColorSelectedElement" : "ColorConnectorForeground"] as SolidColorBrush;
             if (!this.ItsLoop)
             {
-                if (this.Node.TypeId == (int)TipEnum.UcBirim || this.Node.TypeId == (int)TipEnum.AgAnahtari)
+                if (this.Node.TypeId == (int)TipEnum.UcBirim || this.Node.TypeId == (int)TipEnum.AgAnahtari || this.Node.TypeId == (int)TipEnum.Group)
                 {
                     if (TypeId == (int)TipEnum.UcBirimAgArayuzu || TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
                     {

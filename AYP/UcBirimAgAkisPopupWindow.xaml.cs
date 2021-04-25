@@ -43,6 +43,7 @@ namespace AYP
             this.context = new AYPContext();
             kodListeService = new KodListeService(context);
             InitializeComponent();
+
             MainTitle.Content = "Ağ Akışı - " + toplam + " Mbps";
 
             if (this.ucBirimAgArayuzu.AgAkisList.Count > 0)
@@ -61,16 +62,57 @@ namespace AYP
             SetAgAkisTipiList();
             SetAgAkisProtokoluList();
             DataContext = agAkis;
+
+            Loaded += Window_Loaded;
         }
+
+        #region WindowLoadedEvent
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            RemoveFromDogrulamaPaneli();
+        }
+        #endregion
 
         #region PopupCloseEvents
         private void ClosePopup()
         {
             this.ucBirimAgArayuzu.Connect.AgYuku = toplam;
 
+            if (toplam == 0)
+            {
+                AddToDogrulamaPaneli(ucBirimAgArayuzu.Node.Name + "/" + ucBirimAgArayuzu.Label + " için ağ akışı tanımlayınız!");
+            }
+
             Close();
             Owner.IsEnabled = true;
             Owner.Effect = null;
+        }
+
+        private void AddToDogrulamaPaneli(string mesaj)
+        {
+            DogrulamaModel dogrulama = new DogrulamaModel();
+            dogrulama.Mesaj = mesaj;
+            dogrulama.Connector = ucBirimAgArayuzu;
+            (Owner as MainWindow).DogrulamaDataGrid.Items.Add(dogrulama);
+        }
+
+        private void RemoveFromDogrulamaPaneli()
+        {
+            if ((Owner as MainWindow).DogrulamaDataGrid.Items.Count > 0)
+            {
+                DogrulamaModel deletedObj = null;
+
+                foreach (var item in (Owner as MainWindow).DogrulamaDataGrid.Items)
+                {
+                    if ((item as DogrulamaModel).Connector == ucBirimAgArayuzu)
+                    {
+                        deletedObj = (item as DogrulamaModel);
+                        break;
+                    }
+                }
+
+                (Owner as MainWindow).DogrulamaDataGrid.Items.Remove(deletedObj);
+            }
         }
 
         private void ButtonUcBirimAgAkisPopupClose_Click(object sender, RoutedEventArgs e)
@@ -193,7 +235,7 @@ namespace AYP
                 else
                 {
                     NotifyInfoPopup nfp = new NotifyInfoPopup();
-                    nfp.msg.Text = "Ağın iletebileceği yük kapasitesini (" + this.ucBirimAgArayuzu.MinKapasite  + " - " + this.ucBirimAgArayuzu.MaxKapasite + " Mbps) aştınız!";
+                    nfp.msg.Text = "Ağın iletebileceği yük kapasitesini (" + this.ucBirimAgArayuzu.MinKapasite + " - " + this.ucBirimAgArayuzu.MaxKapasite + " Mbps) aştınız!";
                     nfp.Owner = Owner;
                     nfp.Show();
                 }
@@ -240,32 +282,32 @@ namespace AYP
 
         private void AgAkisDelete_Row(object sender, RoutedEventArgs e)
         {
-            
-                var row = (Button)sender;
-                var ctx = row.DataContext;
-                var obj = (AgAkis)ctx;
 
-                AgAkisDataGrid.ItemsSource = null;
-                this.ucBirimAgArayuzu.AgAkisList.Remove(obj);
-                toplam = this.ucBirimAgArayuzu.AgAkisList.Select(s => s.Yuk).Sum();
-                MainTitle.Content = "Ağ Akışı - " + toplam + " Mbps";
+            var row = (Button)sender;
+            var ctx = row.DataContext;
+            var obj = (AgAkis)ctx;
 
-                SetToConnectorAgAkis();
-                AgAkisDataGrid.ItemsSource = this.ucBirimAgArayuzu.AgAkisList;
+            AgAkisDataGrid.ItemsSource = null;
+            this.ucBirimAgArayuzu.AgAkisList.Remove(obj);
+            toplam = this.ucBirimAgArayuzu.AgAkisList.Select(s => s.Yuk).Sum();
+            MainTitle.Content = "Ağ Akışı - " + toplam + " Mbps";
 
-                if (this.ucBirimAgArayuzu.AgAkisList.Count == 0)
-                {
-                    AgAkisDataGrid.Visibility = Visibility.Hidden;
-                    AgAkisNoDataRow.Visibility = Visibility.Visible;
-                }
+            SetToConnectorAgAkis();
+            AgAkisDataGrid.ItemsSource = this.ucBirimAgArayuzu.AgAkisList;
 
-                checkedAgAkisRow = null;
-                DataContext = null;
-                agAkis = new AgAkis();
-                agAkis.AgArayuzuId = this.ucBirimAgArayuzu.UniqueId;
-                SetAgAkisTipiList();
-                SetAgAkisProtokoluList();
-                DataContext = agAkis;
+            if (this.ucBirimAgArayuzu.AgAkisList.Count == 0)
+            {
+                AgAkisDataGrid.Visibility = Visibility.Hidden;
+                AgAkisNoDataRow.Visibility = Visibility.Visible;
+            }
+
+            checkedAgAkisRow = null;
+            DataContext = null;
+            agAkis = new AgAkis();
+            agAkis.AgArayuzuId = this.ucBirimAgArayuzu.UniqueId;
+            SetAgAkisTipiList();
+            SetAgAkisProtokoluList();
+            DataContext = agAkis;
         }
         #endregion
 

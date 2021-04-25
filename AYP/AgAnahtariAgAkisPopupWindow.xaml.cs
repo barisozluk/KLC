@@ -63,16 +63,92 @@ namespace AYP
             SetAgAkisTipiList();
             SetAgAkisProtokoluList();
             DataContext = agAkis;
+
+            Loaded += Window_Loaded;
         }
+
+        #region WindowLoadedEvent
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            RemoveFromDogrulamaPaneli();
+        }
+        #endregion
 
         #region PopupCloseEvents
         private void ClosePopup()
         {
             this.agAnahtariAgArayuzu.Connect.AgYuku = toplam;
 
+            if (toplam == 0)
+            {
+                AddToDogrulamaPaneli(agAnahtariAgArayuzu.Node.Name + "/" + agAnahtariAgArayuzu.Label + " için ağ akışı tanımlayınız!");
+            }
+            else
+            {
+                decimal toplamGiren = 0;
+                foreach (var input in agAnahtariAgArayuzu.Node.InputList)
+                {
+                    toplamGiren += input.AgAkisList.Select(s => s.Yuk).Sum();
+                }
+
+                decimal toplamCikan = 0;
+                foreach (var output in agAnahtariAgArayuzu.Node.Transitions.Items)
+                {
+                    toplamCikan += output.AgAkisList.Select(s => s.Yuk).Sum();
+                }
+
+                if (toplamGiren != toplamCikan)
+                {
+                    AddToDogrulamaPaneli(agAnahtariAgArayuzu.Node.Name + "/" + agAnahtariAgArayuzu.Connect.ToConnector.Node.Name + " için giren, çıkan yük eşit değil!");
+                }
+                else
+                {
+                    RemoveFromDogrulamaPaneli();
+                }
+            }
+
             Close();
             Owner.IsEnabled = true;
             Owner.Effect = null;
+        }
+
+        private void AddToDogrulamaPaneli(string mesaj)
+        {
+            bool varMi = false;
+            foreach(var item in (Owner as MainWindow).DogrulamaDataGrid.Items)
+            { 
+                if((item as DogrulamaModel).Mesaj == mesaj)
+                {
+                    varMi = true;
+                }
+            }
+
+            if (!varMi)
+            {
+                DogrulamaModel dogrulama = new DogrulamaModel();
+                dogrulama.Mesaj = mesaj;
+                dogrulama.Connector = agAnahtariAgArayuzu;
+                (Owner as MainWindow).DogrulamaDataGrid.Items.Add(dogrulama);
+            }
+        }
+
+        private void RemoveFromDogrulamaPaneli()
+        {
+            if ((Owner as MainWindow).DogrulamaDataGrid.Items.Count > 0)
+            {
+                DogrulamaModel deletedObj = null;
+
+                foreach (var item in (Owner as MainWindow).DogrulamaDataGrid.Items)
+                {
+                    if ((item as DogrulamaModel).Connector == agAnahtariAgArayuzu)
+                    {
+                        deletedObj = (item as DogrulamaModel);
+                        break;
+                    }
+                }
+
+                (Owner as MainWindow).DogrulamaDataGrid.Items.Remove(deletedObj);
+            }
         }
 
         private void ButtonAgAnahtariAgAkisPopupClose_Click(object sender, RoutedEventArgs e)
@@ -155,6 +231,15 @@ namespace AYP
                 var inputToplamAgYuku = this.agAnahtariAgArayuzu.Node.InputList.Where(x => x.UniqueId == agAkis.IliskiliAgArayuzuId).Select(s => s.AgAkisList.Select(k => k.Yuk).Sum()).FirstOrDefault();
                 if (inputToplamAgYuku != 0)
                 {
+                    decimal temp = 0;
+                    foreach (var output in this.agAnahtariAgArayuzu.Node.Transitions.Items)
+                    {
+                        if (output != agAnahtariAgArayuzu)
+                        {
+                            temp += output.AgAkisList.Where(x => x.IliskiliAgArayuzuId == agAkis.IliskiliAgArayuzuId).Select(s => s.Yuk).Sum();
+                        }
+                    }
+
                     decimal inputToplamAgAkisi = 0;
                     if (checkedAgAkisRow != null)
                     {
@@ -168,11 +253,7 @@ namespace AYP
                         inputToplamAgAkisi = this.agAnahtariAgArayuzu.AgAkisList.Where(x => x.IliskiliAgArayuzuId == agAkis.IliskiliAgArayuzuId).Select(s => s.Yuk).Sum() + agAkis.Yuk;
                     }
 
-                    foreach(var output in this.agAnahtariAgArayuzu.Node.Transitions.Items)
-                    {
-                        inputToplamAgAkisi += (output.AgAkisList.Where(x => x.IliskiliAgArayuzuId == agAkis.IliskiliAgArayuzuId).Select(s => s.Yuk).Sum() - inputToplamAgAkisi);
-                    }
-
+                    inputToplamAgAkisi = temp + inputToplamAgAkisi;
                     if (inputToplamAgYuku - inputToplamAgAkisi >= 0)
                     {
                         decimal total = 0;
@@ -332,6 +413,7 @@ namespace AYP
                 temp.Yuk = agAkis.Yuk;
                 temp.AgAkisProtokoluId = agAkis.AgAkisProtokoluId;
                 temp.AgAkisTipiId = agAkis.AgAkisTipiId;
+                temp.IliskiliAgArayuzuId = agAkis.IliskiliAgArayuzuId;
 
                 this.agAnahtariAgArayuzu.Connect.ToConnector.AgAkisList.Add(temp);
             }

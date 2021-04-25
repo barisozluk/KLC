@@ -42,6 +42,7 @@ namespace AYP.ViewModel
         [Reactive] public bool IsVisible { get; set; } = true;
         [Reactive] public decimal Uzunluk { get; set; }
         [Reactive] public decimal AgYuku { get; set; }
+        [Reactive] public int KabloKesitOnerisi { get; set; }
 
 
         private IDisposable subscriptionOnConnectorPositionChange;
@@ -187,8 +188,8 @@ namespace AYP.ViewModel
             Point endPoint = new Point();
             PointExtensition.TryParseFromString(node.Attribute("EndPoint")?.Value, out endPoint);
 
-            var fromConnectorNodeOutputList = nodesCanvas.Nodes.Items.Where(x => x.UniqueId == fromConnectorNodeUniqueId).Select(s => s.OutputList).FirstOrDefault();
-            var fromConnector = fromConnectorNodeOutputList.Where(x => x.UniqueId == fromConnectorUniqueId).FirstOrDefault();
+            var fromConnectorNodeOutputList = nodesCanvas.Nodes.Items.Where(x => x.UniqueId == fromConnectorNodeUniqueId).Select(s => s.Transitions).FirstOrDefault();
+            var fromConnector = fromConnectorNodeOutputList.Items.Where(x => x.UniqueId == fromConnectorUniqueId).FirstOrDefault();
 
             var toConnectorNodeInputList = nodesCanvas.Nodes.Items.Where(x => x.UniqueId == toConnectorNodeUniqueId).Select(s => s.InputList).FirstOrDefault();
             var toConnector = toConnectorNodeInputList.Where(x => x.UniqueId == toConnectorUniqueId).FirstOrDefault();

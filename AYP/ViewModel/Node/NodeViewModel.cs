@@ -168,8 +168,10 @@ namespace AYP.ViewModel
                         var fizikselOrtamId = inputList[i].FizikselOrtamId;
                         var kullanimAmaciId = inputList[i].KullanimAmaciId;
                         var typeId = inputList[i].TipId.Value;
+                        var id = inputList[i].Id;
+                        var port = inputList[i].Port;
 
-                        InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 30 + (i * 20)), Guid.NewGuid(), kapasiteId, minKapasite, maxKapasite, fizikselOrtamId, null, kullanimAmaciId, null, null, null, null, null, null, null, null, adi, typeId, null));
+                        InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 30 + (i * 20)), Guid.NewGuid(), kapasiteId, minKapasite, maxKapasite, fizikselOrtamId, null, kullanimAmaciId, null, null, null, null, null, null, null, null, adi, typeId, id, port, null));
                     }
                 }
             }
@@ -196,11 +198,12 @@ namespace AYP.ViewModel
                         var girdiMinimumGerilimDegeri = inputList[i].GirdiMinimumGerilimDegeri;
                         var girdiTukettigiGucMiktari = inputList[i].GirdiTukettigiGucMiktari;
                         var typeId = inputList[i].TipId.Value;
-
+                        var id = inputList[i].Id;
+                        var port = inputList[i].Port;
 
                         InputList.Add(new ConnectorViewModel(NodesCanvas, this, "Girdi", Point1.Addition(0, 30 + ((i + count) * 20)), Guid.NewGuid(), null, null, null, null, gerilimTipiId, kullanimAmaciId,
                                 girdiDuraganGerilimDegeri1, girdiDuraganGerilimDegeri2, girdiDuraganGerilimDegeri3, girdiMinimumGerilimDegeri, girdiMaksimumGerilimDegeri, girdiTukettigiGucMiktari,
-                                ciktiDuraganGerilimDegeri, ciktiUrettigiGucKapasitesi, adi, typeId, null));
+                                ciktiDuraganGerilimDegeri, ciktiUrettigiGucKapasitesi, adi, typeId, id, port, null));
 
                     }
                 }
@@ -225,8 +228,10 @@ namespace AYP.ViewModel
                         var fizikselOrtamId = outputList[i].FizikselOrtamId;
                         var kullanimAmaciId = outputList[i].KullanimAmaciId;
                         var typeId = outputList[i].TipId.Value;
+                        var id = outputList[i].Id;
+                        var port = outputList[i].Port;
 
-                        var output = new ConnectorViewModel(NodesCanvas, this, "Çıktı", Point1.Addition(80, 54 + (i * 20)), Guid.NewGuid(), kapasiteId, minKapasite, maxKapasite, fizikselOrtamId, null, kullanimAmaciId, null, null, null, null, null, null, null, null, adi, typeId)
+                        var output = new ConnectorViewModel(NodesCanvas, this, "Çıktı", Point1.Addition(80, 54 + (i * 20)), Guid.NewGuid(), kapasiteId, minKapasite, maxKapasite, fizikselOrtamId, null, kullanimAmaciId, null, null, null, null, null, null, null, null, adi, typeId, id, port)
                         {
                             Visible = null
                         };
@@ -275,10 +280,12 @@ namespace AYP.ViewModel
                         var girdiMinimumGerilimDegeri = outputList[i].GirdiMinimumGerilimDegeri;
                         var girdiTukettigiGucMiktari = outputList[i].GirdiTukettigiGucMiktari;
                         var typeId = outputList[i].TipId.Value;
+                        var id = outputList[i].Id;
+                        var port = outputList[i].Port;
 
                         var output = new ConnectorViewModel(NodesCanvas, this, "Çıktı", Point1.Addition(80, 54 + ((i + count) * 20)), Guid.NewGuid(), null, null, null, null, gerilimTipiId, kullanimAmaciId,
                                     girdiDuraganGerilimDegeri1, girdiDuraganGerilimDegeri2, girdiDuraganGerilimDegeri3, girdiMinimumGerilimDegeri, girdiMaksimumGerilimDegeri, girdiTukettigiGucMiktari,
-                                    ciktiDuraganGerilimDegeri, ciktiUrettigiGucKapasitesi, adi, typeId)
+                                    ciktiDuraganGerilimDegeri, ciktiUrettigiGucKapasitesi, adi, typeId, id, port)
                         {
                             Visible = null
                         };
@@ -406,6 +413,9 @@ namespace AYP.ViewModel
             {
                 if (new Guid(input.Attribute("NodeUniqueId")?.Value) == uniqueId)
                 {
+                    string portInput = input.Attribute("Port")?.Value;
+                    int idInput = Convert.ToInt32(input.Attribute("Id")?.Value);
+
                     string nameInput = input.Attribute("Name")?.Value;
                     string labelInput = input.Attribute("Label")?.Value;
                     Guid uniqueIdInput = new Guid(input.Attribute("UniqueId")?.Value);
@@ -474,7 +484,7 @@ namespace AYP.ViewModel
                     var newConnector = new ConnectorViewModel(nodesCanvas, viewModelNode, nameInput, positionInput, uniqueIdInput, kapasiteIdInput, minKapasiteInput, maxKapasiteInput,
                         fizikselOrtamIdInput, gerilimTipiIdInput, kullanimAmaciIdInput, girdiDuraganGerilimDegeri1Input, girdiDuraganGerilimDegeri2Input, girdiDuraganGerilimDegeri3Input,
                         girdiMinimumGerilimDegeriInput, girdiMaksimumGerilimDegeriInput, girdiTukettigiGucMiktariInput, ciktiDuraganGerilimDegeriInput, ciktiUrettigiGucKapasitesiInput, labelInput,
-                        typeIdInput, kalanKapasiteInput);
+                        typeIdInput, idInput, portInput, kalanKapasiteInput);
 
                     inputList.Add(newConnector);
                 }
@@ -485,6 +495,8 @@ namespace AYP.ViewModel
             {
                 if (new Guid(output.Attribute("NodeUniqueId")?.Value) == uniqueId)
                 {
+                    string portOutput = output.Attribute("Port")?.Value;
+                    int idOutput = Convert.ToInt32(output.Attribute("Id")?.Value);
                     string nameOutput = output.Attribute("Name")?.Value;
                     string labelOutput = output.Attribute("Label")?.Value;
                     Guid uniqueIdOutput = new Guid(output.Attribute("UniqueId")?.Value);
@@ -553,7 +565,7 @@ namespace AYP.ViewModel
                     var newConnector = new ConnectorViewModel(nodesCanvas, viewModelNode, nameOutput, positionOutput, uniqueIdOutput, kapasiteIdOutput, minKapasiteOutput, maxKapasiteOutput,
                         fizikselOrtamIdOutput, gerilimTipiIdOutput, kullanimAmaciIdOutput, girdiDuraganGerilimDegeri1Output, girdiDuraganGerilimDegeri2Output, girdiDuraganGerilimDegeri3Output,
                         girdiMinimumGerilimDegeriOutput, girdiMaksimumGerilimDegeriOutput, girdiTukettigiGucMiktariOutput, ciktiDuraganGerilimDegeriOutput, ciktiUrettigiGucKapasitesiOutput, labelOutput,
-                        typeIdOutput, kalanKapasiteOutput);
+                        typeIdOutput, idOutput, portOutput, kalanKapasiteOutput);
 
                     newConnector.Visible = null;
                     outputList.Add(newConnector);
@@ -569,7 +581,7 @@ namespace AYP.ViewModel
 
         public NodeViewModel Clone()
         {
-            return new NodeViewModel
+            var clone =  new NodeViewModel
             {
                 AgArayuzuList = AgArayuzuList,
                 CanBeDelete = CanBeDelete,
@@ -581,23 +593,25 @@ namespace AYP.ViewModel
                 InputList = InputList,
                 IsCollapse = IsCollapse,
                 IsVisible = IsVisible,
-                Name = Name,
+                Name = NodesCanvas.GetNameForNewNode(TypeId),
                 NameEnable = NameEnable,
                 NodesCanvas = NodesCanvas,
                 Output = Output,
                 OutputList = OutputList,
-                Point1 = Point1,
+                Point1 = Point1.Addition(50,50),
                 Point2 = Point2,
                 RollUpVisible = RollUpVisible,
                 Selected = Selected,
                 Size = Size,
-                Transitions = Transitions,
+                Transitions = new SourceList<ConnectorViewModel>(),
                 TransitionsVisible = TransitionsVisible,
                 TypeId = TypeId,
-                UniqueId = UniqueId,
+                UniqueId = new Guid(),
                 Sembol = Sembol,
                 Zindex = Zindex
             };
+
+            return clone;
         }
     }
 }

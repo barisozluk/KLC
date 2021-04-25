@@ -4,6 +4,7 @@ using AYP.Enums;
 using AYP.Helpers.Enums;
 using AYP.Helpers.Extensions;
 using AYP.Interfaces;
+using AYP.Models;
 using AYP.Services;
 using AYP.View;
 using AYP.ViewModel;
@@ -1049,7 +1050,7 @@ namespace AYP
         }
         #endregion
 
-        #region Raporlama
+        #region RaporlamaEvents
         private void OnAgPlanlamaRaporuClick(object sender, RoutedEventArgs e)
         {
             var agPlanlamaNodes = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId != (int)TipEnum.GucUretici);
@@ -1692,7 +1693,7 @@ namespace AYP
         }
         #endregion
 
-        #region Import/Export
+        #region Import/ExportEvents
         private void ButtonExport_Click(object sender, RoutedEventArgs e)
         {
             this.IsEnabled = false;
@@ -1713,6 +1714,32 @@ namespace AYP
             ImportLibraryPopupWindow popup = new ImportLibraryPopupWindow();
             popup.Owner = this;
             popup.ShowDialog();
+        }
+        #endregion
+
+        #region DogrulamaPaneliEvents
+        private void OpenAgAkisPanel(object sender, MouseButtonEventArgs e)
+        {
+            var context = (sender as Label).DataContext;
+            var obj = (context as DogrulamaModel);
+
+            this.IsEnabled = false;
+            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.Effect = blur;
+
+            if (obj.Connector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
+            {
+                AgAnahtariAgAkisPopupWindow popup = new AgAnahtariAgAkisPopupWindow(obj.Connector);
+                popup.Owner = this;
+                popup.ShowDialog();
+            }
+            else if(obj.Connector.TypeId == (int)TipEnum.UcBirimAgArayuzu)
+            {
+                UcBirimAgAkisPopupWindow popup = new UcBirimAgAkisPopupWindow(obj.Connector);
+                popup.Owner = this;
+                popup.ShowDialog();
+            }
         }
         #endregion
     }

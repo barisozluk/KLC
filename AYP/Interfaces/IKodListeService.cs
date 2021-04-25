@@ -9,6 +9,7 @@ namespace AYP.Interfaces
     public interface IKodListeService
     {
         List<KL_Kapasite> ListKapasite();
+        KL_Kapasite GetKapasiteById(int id);
         List<KL_GerilimTipi> ListGerilimTipi();
         List<KL_KullanimAmaci> ListKullanimAmaci();
         List<KL_FizikselOrtam> ListFizikselOrtam();

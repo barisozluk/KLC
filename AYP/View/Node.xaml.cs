@@ -95,17 +95,17 @@ namespace AYP.View
                     i += 20;
                 }
 
-                i = 0;
-                foreach (var output in this.ViewModel.OutputList)
-                {
-                    RightConnector right = new RightConnector();
-                    right.ViewModel = output;
-                    right.Margin = new Thickness(0, i, 0, 0);
-                    Grid.SetRow(right, 1);
-                    Grid.SetColumn(right, 0);
-                    GridElement.Children.Add(right);
-                    i += 20;
-                }
+                //i = 0;
+                //foreach (var output in this.ViewModel.OutputList)
+                //{
+                //    RightConnector right = new RightConnector();
+                //    right.ViewModel = output;
+                //    right.Margin = new Thickness(0, i, 0, 0);
+                //    Grid.SetRow(right, 1);
+                //    Grid.SetColumn(right, 0);
+                //    GridElement.Children.Add(right);
+                //    i += 20;
+                //}
 
                 //var image = new BitmapImage();              
                 var image = LoadImageFromByteArray(this.ViewModel.Sembol);

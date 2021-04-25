@@ -20,12 +20,12 @@ namespace AYP.Calculations
         /// 
         /// </summary>
         /// <returns></returns>
-        public double VoltageDropCalculation(int length, double InputPower, int kablotipi, int gerilim)// double KabloKesit, int gerilim)
+        public double VoltageDropCalculation(double length, double InputPower, int kablotipi, double gerilim)// double KabloKesit, int gerilim)
         {
             double VoltageDrop = 0;
             //double slice = CableSuggestionCalculation(InputPower, Voltage);
             int K = 0;
-            if (kablotipi == 1)
+            if (kablotipi == 0)
                 K = 56;
             else
                 K = 35;
@@ -76,7 +76,7 @@ namespace AYP.Calculations
             else if (slice == 300)
                 r = 0.07;
 
-            if (kablotipi == 1)
+            if (kablotipi == 0)
                 HeatLoss = (2 * Math.Pow(Current, 2) * r * length) / 1000;
             else
                 HeatLoss = (2 * Math.Pow(Current, 2) * r * 1.64 * length) / 1000;
@@ -142,19 +142,20 @@ namespace AYP.Calculations
         /// </summary>
         /// <param name="powers"></param>
         /// <param name="Voltage"></param>
-        /// <param name="batterycapacity"></param>
+        /// <param name="batterycapacity">Ah cinsinden</param>
+        /// Akım A cinsinden
         /// <returns></returns>
-        public double FeedingTimeCalculation(List<double> powers, double Voltage, double batterycapacity)
+        public double FeedingTimeCalculation(double powers, double Voltage, double batterycapacity) //List<double> 
         {
             double current = 0;
-            double totalpowers = 0;
-            foreach (var power in powers)
-            {
-                totalpowers += power;
-            }
-            current = totalpowers / Voltage;
+            //double totalpowers = 0;
+            //foreach (var power in powers)
+            //{
+            //    totalpowers += power;
+            //}
+            current = (powers / Voltage);
 
-            return batterycapacity / current;
+            return (batterycapacity / current) * 0.707;
         }
     }
 }
