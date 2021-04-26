@@ -18,7 +18,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition />
             </Grid.RowDefinitions>
-            <styles:MyTextBox x:Name="TextBoxElement"  Grid.Column="0" VerticalAlignment="Center" ScrollViewer.CanContentScroll="True" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#ffffff"  Padding="10,2,0,2"  />
+            <styles:MyTextBox x:Name="TextBoxElement" Grid.Column="0" VerticalAlignment="Center" ScrollViewer.CanContentScroll="True" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#ffffff"  Padding="10,2,0,2"  />
             <Button Name ="ButtonCollapse" Grid.Column="1" Style="{DynamicResource StyleNodeCollapseButton}"  HorizontalAlignment="Center" VerticalAlignment="Center" Margin="5" >
                 <Button.RenderTransform>
                     <TransformGroup>
