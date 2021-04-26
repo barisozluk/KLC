@@ -1137,6 +1137,7 @@ namespace AYP.ViewModel
                 connect.AgYuku = internalConnect.AgYuku;
                 connect.KabloKesitOnerisi = internalConnect.KabloKesitOnerisi;
                 connect.Uzunluk = internalConnect.Uzunluk;
+
                 tempInternalConnectList.Add(connect);
             }
 
@@ -1929,21 +1930,12 @@ namespace AYP.ViewModel
         }
         private void SaveAs()
         {
-            if (StartState == null)
-            {
-                NotifyWarningPopup nfp = new NotifyWarningPopup();
-                nfp.msg.Text = "Lütfen, en az 1 cihaz ekleyin.";
-                nfp.Owner = this.MainWindow;
-                nfp.Show();
-            }
-            else
-            {
+            
                 Dialog.ShowSaveFileDialog("XML-File | *.xml", SchemeName(), "Save scheme as...");
                 if (Dialog.Result != DialogResult.Ok)
                     return;
 
                 Save(Dialog.FileName);
-            }
 
         }
         private void Save(string fileName)
