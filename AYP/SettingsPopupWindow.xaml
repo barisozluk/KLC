@@ -22,17 +22,17 @@
             <Label Name="Latest" Content="Bu versiyon ile gelen yenilikler " Style="{DynamicResource StyleDescribingMainTitle}" Grid.Row="0" Grid.Column="1" Margin="0,50,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="530"/>
             <Label Name="Latestt" Style="{DynamicResource StyleDescribingMainTitle}" Grid.Row="0" Grid.Column="1" Margin="0,100,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14" Height="130" Width="530">
                 <TextBlock FontSize="14">
-                    • Arayüz tanımlama ekranları güncellendi.
+                    • Topoloji Oluşturma işlemleri eklendi.
                     <LineBreak></LineBreak>
-                    • Toolbar kısayolları eklendi.
+                    • Ağ Akışları ve doğrulamaları eklendi.
                     <LineBreak></LineBreak>
-                    • Sağ buton context menüsü güncellendi. 
+                    • Hesaplamalar eklendi. 
                     <LineBreak></LineBreak>
-                   	• Çoklu cihaz ekleme özelliği eklendi.
+                   	• Grupla/dağıt ve kopyala/yapıştır işlemleri güncellendi.
                      <LineBreak></LineBreak>
-                    • Arayüz ve kablo stilleri yapıldı, bunlara bağlı olarak ana ekrana lejant eklendi.
+                    • Proje kaydet/aç ve kütüphane içeri/dışarı aktar işlemleri eklendi.
                     <LineBreak></LineBreak>
-                    • Bağlantı oluşturma esnasında yapılacak bazı doğrulamalar eklendi.
+                    • Sembol kütüphanesi eklendi.
                 </TextBlock>
             </Label>
 

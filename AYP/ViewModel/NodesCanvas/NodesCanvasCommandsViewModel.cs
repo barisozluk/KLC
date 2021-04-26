@@ -434,7 +434,7 @@ namespace AYP.ViewModel
             if (!hepsiAgAnahtariMi)
             {
                 NotifyInfoPopup nfp = new NotifyInfoPopup();
-                nfp.msg.Text = "Zincir topoloji sadece ağ anahtarları arasında oluşturulabilir.";
+                nfp.msg.Text = "Halka topoloji sadece ağ anahtarları arasında oluşturulabilir.";
                 nfp.Owner = this.MainWindow;
                 nfp.Show();
             }
@@ -553,6 +553,7 @@ namespace AYP.ViewModel
                                 var connect = connects.Where(k => k.ToConnector.Node == nextNode).FirstOrDefault();
                                 connect.FromConnector.Connect = connect;
                                 CommandAddConnect.ExecuteWithSubscribe(connect);
+
                                 AddToDogrulamaPaneli(connect.FromConnector, connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için ağ akışı tanımlayınız!");
                             }
                             else
@@ -563,6 +564,7 @@ namespace AYP.ViewModel
                                 var connect = connects.Where(k => k.ToConnector.Node == nextNode).FirstOrDefault();
                                 connect.FromConnector.Connect = connect;
                                 CommandAddConnect.ExecuteWithSubscribe(connect);
+
                                 AddToDogrulamaPaneli(connect.FromConnector, connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için ağ akışı tanımlayınız!");
                             }
 
@@ -770,8 +772,11 @@ namespace AYP.ViewModel
                                             }
                                         }
                                     }
+                                    else
+                                    {
+                                        AddToDogrulamaPaneli(connect.FromConnector, connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için ağ akışı tanımlayınız!");
+                                    }
 
-                                    AddToDogrulamaPaneli(connect.FromConnector, connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için ağ akışı tanımlayınız!");
                                     count++;
                                 }
                             }
@@ -1815,94 +1820,103 @@ namespace AYP.ViewModel
         }
         private void Save(string fileName)
         {
-            Mouse.OverrideCursor = Cursors.Wait;
-            XDocument xDocument = new XDocument();
-            XElement stateMachineXElement = new XElement("StateMachine");
-            xDocument.Add(stateMachineXElement);
-            XElement states = new XElement("States");
-            stateMachineXElement.Add(states);
-            foreach (var state in Nodes.Items)
+            if (GroupList.Count == 0)
             {
-                states.Add(state.ToXElement());
-            }
+                Mouse.OverrideCursor = Cursors.Wait;
+                XDocument xDocument = new XDocument();
+                XElement stateMachineXElement = new XElement("StateMachine");
+                xDocument.Add(stateMachineXElement);
+                XElement states = new XElement("States");
+                stateMachineXElement.Add(states);
+                foreach (var state in Nodes.Items)
+                {
+                    states.Add(state.ToXElement());
+                }
 
-            XElement startState = new XElement("StartState");
-            stateMachineXElement.Add(startState);
-            if (StartState == null)
-            {
-                NotifyWarningPopup nfp = new NotifyWarningPopup();
-                nfp.msg.Text = "Lütfen, en az 1 cihaz ekleyin.";
-                nfp.Owner = this.MainWindow;
-                nfp.Show();
+                XElement startState = new XElement("StartState");
+                stateMachineXElement.Add(startState);
+                if (StartState == null)
+                {
+                    NotifyWarningPopup nfp = new NotifyWarningPopup();
+                    nfp.msg.Text = "Lütfen, en az 1 cihaz ekleyin.";
+                    nfp.Owner = this.MainWindow;
+                    nfp.Show();
+                }
+                else
+                {
+                    startState.Add(new XAttribute("Name", StartState.Name));
+
+                    XElement inputs = new XElement("Inputs");
+                    stateMachineXElement.Add(inputs);
+                    foreach (var input in Nodes.Items.SelectMany(x => x.InputList))
+                    {
+                        inputs.Add(input.ToInputXElement());
+                    }
+
+                    XElement outputs = new XElement("Outputs");
+                    stateMachineXElement.Add(outputs);
+                    foreach (var output in Nodes.Items.SelectMany(x => x.OutputList))
+                    {
+                        outputs.Add(output.ToOutputXElement());
+                    }
+
+                    XElement connects = new XElement("Connects");
+                    stateMachineXElement.Add(connects);
+                    foreach (var connect in Connects)
+                    {
+                        connects.Add(connect.ToXElement());
+                    }
+
+                    XElement agAkislari = new XElement("AgAkislari");
+                    stateMachineXElement.Add(agAkislari);
+                    foreach (var input in Nodes.Items.SelectMany(x => x.InputList))
+                    {
+                        foreach (var agAkis in input.AgAkisList)
+                        {
+                            agAkislari.Add(agAkis.ToXElement());
+                        }
+                    }
+
+                    foreach (var output in Nodes.Items.SelectMany(x => x.Transitions.Items))
+                    {
+                        foreach (var agAkis in output.AgAkisList)
+                        {
+                            agAkislari.Add(agAkis.ToXElement());
+                        }
+                    }
+
+                    XElement dogrulamalar = new XElement("Dogrulamalar");
+                    stateMachineXElement.Add(dogrulamalar);
+                    foreach (var item in this.MainWindow.DogrulamaDataGrid.Items)
+                    {
+                        dogrulamalar.Add((item as DogrulamaModel).ToXElement());
+                    }
+
+                    XElement visualizationXElement = new XElement("Visualization");
+                    stateMachineXElement.Add(visualizationXElement);
+                    foreach (var state in Nodes.Items)
+                    {
+                        visualizationXElement.Add(state.ToVisualizationXElement());
+                    }
+
+                    xDocument.Save(fileName);
+                    ItSaved = true;
+                    SchemePath = fileName;
+                    Mouse.OverrideCursor = null;
+
+                    NotifySuccessPopup nfp = new NotifySuccessPopup();
+                    nfp.msg.Text = "Proje başarıyla kaydedildi.";
+                    nfp.Owner = this.MainWindow;
+                    nfp.Show();
+                    LogDebug("Scheme was saved as \"{0}\"", SchemePath);
+                }
             }
             else
             {
-                startState.Add(new XAttribute("Name", StartState.Name));
-
-                XElement inputs = new XElement("Inputs");
-                stateMachineXElement.Add(inputs);
-                foreach (var input in Nodes.Items.SelectMany(x => x.InputList))
-                {
-                    inputs.Add(input.ToInputXElement());
-                }
-
-                XElement outputs = new XElement("Outputs");
-                stateMachineXElement.Add(outputs);
-                foreach (var output in Nodes.Items.SelectMany(x => x.OutputList))
-                {
-                    outputs.Add(output.ToOutputXElement());
-                }
-
-                XElement connects = new XElement("Connects");
-                stateMachineXElement.Add(connects);
-                foreach (var connect in Connects)
-                {
-                    connects.Add(connect.ToXElement());
-                }
-
-                XElement agAkislari = new XElement("AgAkislari");
-                stateMachineXElement.Add(agAkislari);
-                foreach (var input in Nodes.Items.SelectMany(x => x.InputList))
-                {
-                    foreach (var agAkis in input.AgAkisList)
-                    {
-                        agAkislari.Add(agAkis.ToXElement());
-                    }
-                }
-
-                foreach (var output in Nodes.Items.SelectMany(x => x.Transitions.Items))
-                {
-                    foreach (var agAkis in output.AgAkisList)
-                    {
-                        agAkislari.Add(agAkis.ToXElement());
-                    }
-                }
-
-                XElement dogrulamalar = new XElement("Dogrulamalar");
-                stateMachineXElement.Add(dogrulamalar);
-                foreach (var item in this.MainWindow.DogrulamaDataGrid.Items)
-                {
-                    dogrulamalar.Add((item as DogrulamaModel).ToXElement());
-                }
-
-                XElement visualizationXElement = new XElement("Visualization");
-                stateMachineXElement.Add(visualizationXElement);
-                foreach (var state in Nodes.Items)
-                {
-                    visualizationXElement.Add(state.ToVisualizationXElement());
-                }
-
-                xDocument.Save(fileName);
-                ItSaved = true;
-                SchemePath = fileName;
-                Mouse.OverrideCursor = null;
-
-                NotificationManager nm = new NotificationManager();
-                NotifySuccessPopup nfp = new NotifySuccessPopup();
-                nfp.msg.Text = "Proje başarıyla kaydedildi.";
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                nfp.msg.Text = "Lütfen, projenizde var olan grupları dağıttıktan sonra projeyi kaydediniz!";
                 nfp.Owner = this.MainWindow;
                 nfp.Show();
-                LogDebug("Scheme was saved as \"{0}\"", SchemePath);
             }
         }
 
@@ -2141,6 +2155,7 @@ namespace AYP.ViewModel
                 ViewModelConnect.ToConnector.AgAkisList = new List<AgAkis>();
             }
 
+            ViewModelConnect.FromConnector.Connect = null;
             ViewModelConnect.FromConnector.Node.CurrentConnector = null;
         }
         private void ValidateNodeName((NodeViewModel objectForValidate, string newValue) obj)
