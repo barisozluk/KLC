@@ -443,8 +443,8 @@ namespace AYP
         private void BtnOpenSembolFile_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = Directory.GetCurrentDirectory() + "\\SembolKutuphanesi";
             openFileDialog.Filter = "Image files (*.png;*.jpeg)|*.png;*.jpeg";
-
             if (openFileDialog.ShowDialog() == true)
             {
                 ucBirim.SembolDosyaAdi = Path.GetFileName(openFileDialog.FileName);
