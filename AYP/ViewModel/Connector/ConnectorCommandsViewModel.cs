@@ -12,6 +12,11 @@ using System.Windows.Media;
 using AYP.Enums;
 using AYP.Validations;
 using AYP.Models;
+using AYP.Entities;
+using System.Collections.Generic;
+using AYP.Interfaces;
+using AYP.DbContext.AYP.DbContexts;
+using AYP.Services;
 
 namespace AYP.ViewModel
 {
@@ -42,7 +47,6 @@ namespace AYP.ViewModel
             CommandValidateName = ReactiveCommand.Create<string>(ValidateName);
 
             CommandSelect = ReactiveCommand.Create<SelectMode>(Select);
-
 
             NotSavedSubscribe();
         }
@@ -79,7 +83,7 @@ namespace AYP.ViewModel
         private void ConnectPointDrop()
         {
             Validation validation = new Validation();
-            var valid = validation.ValidateDuringDraw(NodesCanvas, this);
+            var valid = validation.ValidateDuringDrawEnd(NodesCanvas, this);
 
             if (valid)
             {
@@ -127,12 +131,83 @@ namespace AYP.ViewModel
                     connect.FromConnector.SetAsLoop();
                 }
 
-                if (connect.FromConnector.Node.TypeId == (int)TipEnum.AgAnahtari || connect.FromConnector.Node.TypeId == (int)TipEnum.UcBirim)
+                if (connect.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu)
                 {
                     DogrulamaModel dogrulama = new DogrulamaModel();
                     dogrulama.Mesaj = connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için ağ akışı tanımlayınız!";
                     dogrulama.Connector = connect.FromConnector;
                     connect.NodesCanvas.MainWindow.DogrulamaDataGrid.Items.Add(dogrulama);
+                }
+                else if (connect.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
+                {
+                    int connectSayisi = 0;
+                    foreach (var output in connect.FromConnector.Node.Transitions.Items)
+                    {
+                        if (output.Connect != null)
+                        {
+                            connectSayisi++;
+                        }
+                    }
+
+                    foreach (var output in connect.FromConnector.Node.Transitions.Items)
+                    {
+                        if (output.Connect != null)
+                        {
+                            if (connect.FromConnector.Node.InputList.Count() > 0)
+                            {
+                                output.AgAkisList = new List<AgAkis>();
+                            }
+
+                            foreach (var input in connect.FromConnector.Node.InputList)
+                            {
+                                if (input.AgAkisList != null && input.AgAkisList.Count() > 0)
+                                {
+                                    foreach (var agAkis in input.AgAkisList)
+                                    {
+                                        var temp = new AgAkis();
+                                        temp.Id = Guid.NewGuid();
+                                        temp.AgArayuzuId = output.UniqueId;
+                                        temp.Yuk = agAkis.Yuk / connectSayisi;
+                                        temp.AgAkisTipiId = agAkis.AgAkisTipiId;
+                                        temp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
+                                        temp.AgAkisProtokoluId = agAkis.AgAkisProtokoluId;
+                                        temp.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluAdi;
+                                        temp.IliskiliAgArayuzuId = input.UniqueId;
+                                        temp.IliskiliAgArayuzuAdi = input.Label;
+
+                                        output.AgAkisList.Add(temp);
+                                    }
+                                }
+                            }
+
+                            output.Connect.ToConnector.AgAkisList = new List<AgAkis>();
+                            foreach (var agAkis in output.AgAkisList)
+                            {
+                                var temp = new AgAkis();
+                                temp.Id = Guid.NewGuid();
+                                temp.AgArayuzuId = output.Connect.ToConnector.UniqueId;
+                                temp.Yuk = agAkis.Yuk;
+                                temp.AgAkisProtokoluId = agAkis.AgAkisProtokoluId;
+                                temp.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluAdi;
+                                temp.AgAkisTipiId = agAkis.AgAkisTipiId;
+                                temp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
+                                temp.IliskiliAgArayuzuId = agAkis.IliskiliAgArayuzuId;
+                                temp.IliskiliAgArayuzuAdi = agAkis.IliskiliAgArayuzuAdi;
+
+                                output.Connect.ToConnector.AgAkisList.Add(temp);
+                            }
+
+                            output.Connect.AgYuku = output.AgAkisList.Select(s => s.Yuk).Sum();
+
+                            if(output.Connect.AgYuku == 0 && output.Node.TypeId != (int)TipEnum.Group)
+                            {
+                                DogrulamaModel dogrulama = new DogrulamaModel();
+                                dogrulama.Mesaj = output.Connect.FromConnector.Node.Name + "/" + output.Connect.FromConnector.Label + " için ağ akışı tanımlayınız!";
+                                dogrulama.Connector = output.Connect.FromConnector;
+                                connect.NodesCanvas.MainWindow.DogrulamaDataGrid.Items.Add(dogrulama);
+                            }
+                        }
+                    }
                 }
 
                 if (connect.FromConnector.Node.TypeId != (int)TipEnum.Group)
