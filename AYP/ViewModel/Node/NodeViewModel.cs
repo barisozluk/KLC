@@ -17,6 +17,9 @@ using System.Collections.Generic;
 using AYP.Entities;
 using AYP.Enums;
 using System.Text;
+using AYP.DbContext.AYP.DbContexts;
+using AYP.Services;
+using AYP.Interfaces;
 
 namespace AYP.ViewModel
 {
@@ -349,16 +352,37 @@ namespace AYP.ViewModel
             element.Add(new XAttribute("UniqueId", UniqueId));
             element.Add(new XAttribute("Id", Id));
             element.Add(new XAttribute("Name", Name));
-            element.Add(new XAttribute("Tanim", Tanim));
-            element.Add(new XAttribute("StokNo", StokNo));
-            element.Add(new XAttribute("UreticiAdi", UreticiAdi));
-            element.Add(new XAttribute("UreticiParcaNo", UreticiParcaNo));
-            element.Add(new XAttribute("Tur", TurAd));
+            element.Add(Tanim == null ? null : new XAttribute("Tanim", Tanim));
+            element.Add(StokNo == null ? null : new XAttribute("StokNo", StokNo));
+            element.Add(UreticiAdi == null ? null : new XAttribute("UreticiAdi", UreticiAdi));
+            element.Add(UreticiParcaNo == null ? null : new XAttribute("UreticiParcaNo", UreticiParcaNo));
+            element.Add(TurAd == null ? null : new XAttribute("Tur", TurAd));
             element.Add(new XAttribute("TypeId", TypeId));
             element.Add(new XAttribute("Position", PointExtensition.PointToString(Point1)));
             element.Add(!VerimlilikOrani.HasValue ? null : new XAttribute("VerimlilikOrani", VerimlilikOrani));
             element.Add(!DahiliGucTuketimDegeri.HasValue ? null : new XAttribute("DahiliGucTuketimDegeri", DahiliGucTuketimDegeri));
-            element.Add(new XAttribute("Sembol", Convert.ToBase64String(Sembol)));
+            element.Add(Sembol == null ? null : new XAttribute("Sembol", Convert.ToBase64String(Sembol)));
+
+            return element;
+        }
+
+        public XElement ToGroupNodeXElement(Guid GroupId)
+        {
+            XElement element = new XElement("GroupNode");
+            element.Add(new XAttribute("UniqueId", UniqueId));
+            element.Add(new XAttribute("Id", Id));
+            element.Add(new XAttribute("Name", Name));
+            element.Add(Tanim == null ? null : new XAttribute("Tanim", Tanim));
+            element.Add(StokNo == null ? null : new XAttribute("StokNo", StokNo));
+            element.Add(UreticiAdi == null ? null : new XAttribute("UreticiAdi", UreticiAdi));
+            element.Add(UreticiParcaNo == null ? null : new XAttribute("UreticiParcaNo", UreticiParcaNo));
+            element.Add(TurAd == null ? null : new XAttribute("Tur", TurAd));
+            element.Add(new XAttribute("TypeId", TypeId));
+            element.Add(new XAttribute("Position", PointExtensition.PointToString(Point1)));
+            element.Add(!VerimlilikOrani.HasValue ? null : new XAttribute("VerimlilikOrani", VerimlilikOrani));
+            element.Add(!DahiliGucTuketimDegeri.HasValue ? null : new XAttribute("DahiliGucTuketimDegeri", DahiliGucTuketimDegeri));
+            element.Add(Sembol == null ? null : new XAttribute("Sembol", Convert.ToBase64String(Sembol)));
+            element.Add(new XAttribute("GroupId", GroupId));
 
             return element;
         }
@@ -390,7 +414,7 @@ namespace AYP.ViewModel
             decimal? dahiliGucTuketimDegeri = 0;
             if (node.Attribute("DahiliGucTuketimDegeri")?.Value == null) { dahiliGucTuketimDegeri = null; }
             else { dahiliGucTuketimDegeri = Convert.ToDecimal(node.Attribute("DahiliGucTuketimDegeri")?.Value); }
-            byte[] sembol = Convert.FromBase64String(node.Attribute("Sembol")?.Value);
+            byte[] sembol = node.Attribute("Sembol")?.Value != null ? Convert.FromBase64String(node.Attribute("Sembol")?.Value) : null;
 
 
             if (string.IsNullOrEmpty(name))
@@ -573,46 +597,111 @@ namespace AYP.ViewModel
                 }
             }
 
+            var agArayuzuList = new List<AgArayuzu>();
+            var gucArayuzuList = new List<GucArayuzu>();
+
+            var AgArayuzus = stateMachineXElement.Element("AgArayuzus")?.Elements()?.ToList() ?? new List<XElement>();
+            foreach (var agArayuzu in AgArayuzus)
+            {
+                if (new Guid(agArayuzu.Attribute("NodeUniqueId")?.Value) == uniqueId)
+                {
+                    AgArayuzu item = new AgArayuzu();
+
+                    int itemId = Convert.ToInt32(agArayuzu.Attribute("Id")?.Value);
+                    string adi = agArayuzu.Attribute("Adi")?.Value;
+                    string port = agArayuzu.Attribute("Port")?.Value;
+                    int kullanimAmaciId = Convert.ToInt32(agArayuzu.Attribute("KullanimAmaciId")?.Value);
+                    int fizikselOrtamId = Convert.ToInt32(agArayuzu.Attribute("FizikselOrtamId")?.Value);
+                    int kapasiteId = Convert.ToInt32(agArayuzu.Attribute("KapasiteId")?.Value);
+                    int tipId = Convert.ToInt32(agArayuzu.Attribute("TipId")?.Value);
+
+                    using (AYPContext context = new AYPContext())
+                    {
+                        IKodListeService service = new KodListeService(context);
+                        item.Adi = adi;
+                        item.Id = itemId;
+                        item.FizikselOrtamId = fizikselOrtamId;
+                        item.KapasiteId = kapasiteId;
+                        item.KL_Kapasite = service.GetKapasiteById(kapasiteId);
+                        item.KullanimAmaciId = kullanimAmaciId;
+                        item.Port = port;
+                        item.TipId = tipId;
+                    }
+
+                    agArayuzuList.Add(item);
+                }
+            }
+
+            var GucArayuzus = stateMachineXElement.Element("GucArayuzus")?.Elements()?.ToList() ?? new List<XElement>();
+            foreach (var gucArayuzu in GucArayuzus)
+            {
+                if (new Guid(gucArayuzu.Attribute("NodeUniqueId")?.Value) == uniqueId)
+                {
+                    GucArayuzu item = new GucArayuzu();
+
+                    int itemId = Convert.ToInt32(gucArayuzu.Attribute("Id")?.Value);
+                    string adi = gucArayuzu.Attribute("Adi")?.Value;
+                    string port = gucArayuzu.Attribute("Port")?.Value;
+                    int kullanimAmaciId = Convert.ToInt32(gucArayuzu.Attribute("KullanimAmaciId")?.Value);
+                    int gerilimTipiId = Convert.ToInt32(gucArayuzu.Attribute("GerilimTipiId")?.Value);
+                    int tipId = Convert.ToInt32(gucArayuzu.Attribute("TipId")?.Value);
+
+                    decimal? girdiDuraganGerilimDegeri1 = 0;
+                    if (gucArayuzu.Attribute("GirdiDuraganGerilimDegeri1")?.Value == null) { girdiDuraganGerilimDegeri1 = null; }
+                    else { girdiDuraganGerilimDegeri1 = Convert.ToDecimal(gucArayuzu.Attribute("GirdiDuraganGerilimDegeri1")?.Value); }
+
+                    decimal? girdiDuraganGerilimDegeri2 = 0;
+                    if (gucArayuzu.Attribute("GirdiDuraganGerilimDegeri2")?.Value == null) { girdiDuraganGerilimDegeri2 = null; }
+                    else { girdiDuraganGerilimDegeri2 = Convert.ToDecimal(gucArayuzu.Attribute("GirdiDuraganGerilimDegeri2")?.Value); }
+
+                    decimal? girdiDuraganGerilimDegeri3 = 0;
+                    if (gucArayuzu.Attribute("GirdiDuraganGerilimDegeri3")?.Value == null) { girdiDuraganGerilimDegeri3 = null; }
+                    else { girdiDuraganGerilimDegeri3 = Convert.ToDecimal(gucArayuzu.Attribute("GirdiDuraganGerilimDegeri3")?.Value); }
+
+                    decimal? girdiMinimumGerilimDegeri = 0;
+                    if (gucArayuzu.Attribute("GirdiMinimumGerilimDegeri")?.Value == null) { girdiMinimumGerilimDegeri = null; }
+                    else { girdiMinimumGerilimDegeri = Convert.ToDecimal(gucArayuzu.Attribute("GirdiMinimumGerilimDegeri")?.Value); }
+
+                    decimal? girdiMaksimumGerilimDegeri = 0;
+                    if (gucArayuzu.Attribute("GirdiMaksimumGerilimDegeri")?.Value == null) { girdiMaksimumGerilimDegeri = null; }
+                    else { girdiMaksimumGerilimDegeri = Convert.ToDecimal(gucArayuzu.Attribute("GirdiMaksimumGerilimDegeri")?.Value); }
+
+                    decimal? girdiTukettigiGucMiktari = 0;
+                    if (gucArayuzu.Attribute("GirdiTukettigiGucMiktari")?.Value == null) { girdiTukettigiGucMiktari = null; }
+                    else { girdiTukettigiGucMiktari = Convert.ToDecimal(gucArayuzu.Attribute("GirdiTukettigiGucMiktari")?.Value); }
+
+                    decimal? ciktiUrettigiGucKapasitesi = 0;
+                    if (gucArayuzu.Attribute("CiktiUrettigiGucKapasitesi")?.Value == null) { ciktiUrettigiGucKapasitesi = null; }
+                    else { ciktiUrettigiGucKapasitesi = Convert.ToDecimal(gucArayuzu.Attribute("CiktiUrettigiGucKapasitesi")?.Value); }
+
+                    string ciktiDuraganGerilimDegeri = gucArayuzu.Attribute("CiktiDuraganGerilimDegeri")?.Value;
+
+                    item.Adi = adi;
+                    item.Id = itemId;
+                    item.CiktiDuraganGerilimDegeri = ciktiDuraganGerilimDegeri;
+                    item.CiktiUrettigiGucKapasitesi = ciktiUrettigiGucKapasitesi;
+                    item.GerilimTipiId = gerilimTipiId;
+                    item.GirdiDuraganGerilimDegeri1 = girdiDuraganGerilimDegeri1;
+                    item.GirdiDuraganGerilimDegeri2 = girdiDuraganGerilimDegeri2;
+                    item.GirdiDuraganGerilimDegeri3 = girdiDuraganGerilimDegeri3;
+                    item.GirdiMaksimumGerilimDegeri = girdiMaksimumGerilimDegeri;
+                    item.GirdiMinimumGerilimDegeri = girdiMinimumGerilimDegeri;
+                    item.GirdiTukettigiGucMiktari = girdiTukettigiGucMiktari;
+                    item.KullanimAmaciId = kullanimAmaciId;
+                    item.Port = port;
+                    item.TipId = tipId;
+
+                    gucArayuzuList.Add(item);
+                }
+            }
+
             viewModelNode.InputList = inputList;
             viewModelNode.OutputList = outputList;
+            viewModelNode.GucArayuzuList = gucArayuzuList;
+            viewModelNode.AgArayuzuList = agArayuzuList;
             viewModelNode.AddEmptyConnector();
 
             return viewModelNode;
-        }
-
-        public NodeViewModel Clone()
-        {
-            var clone =  new NodeViewModel
-            {
-                AgArayuzuList = AgArayuzuList,
-                CanBeDelete = CanBeDelete,
-                CurrentConnector = CurrentConnector,
-                GucArayuzuList = GucArayuzuList,
-                HeaderWidth = HeaderWidth,
-                Id = Id,
-                IndexStartSelectConnectors = IndexStartSelectConnectors,
-                InputList = InputList,
-                IsCollapse = IsCollapse,
-                IsVisible = IsVisible,
-                Name = NodesCanvas.GetNameForNewNode(TypeId),
-                NameEnable = NameEnable,
-                NodesCanvas = NodesCanvas,
-                Output = Output,
-                OutputList = OutputList,
-                Point1 = Point1.Addition(50,50),
-                Point2 = Point2,
-                RollUpVisible = RollUpVisible,
-                Selected = Selected,
-                Size = Size,
-                Transitions = new SourceList<ConnectorViewModel>(),
-                TransitionsVisible = TransitionsVisible,
-                TypeId = TypeId,
-                UniqueId = new Guid(),
-                Sembol = Sembol,
-                Zindex = Zindex
-            };
-
-            return clone;
         }
     }
 }

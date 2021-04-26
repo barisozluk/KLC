@@ -1294,7 +1294,7 @@ namespace AYP.ViewModel
 
                     GroupList.Add(model);
                     NodeViewModel newNode = new NodeViewModel(this, model.Name, model.UniqueId, new Point(), 0, 9, model.AgArayuzuList, model.GucArayuzuList);
-                    
+
                     foreach (var output in newNode.Transitions.Items)
                     {
                         foreach (var node in model.NodeList)
@@ -1744,45 +1744,45 @@ namespace AYP.ViewModel
                 }
             }
 
-            #region setup start state
+            //#region setup start state
 
-            var startStateElement = stateMachineXElement.Element("StartState");
-            if (startStateElement == null)
-            {
-                this.SetupStartState();
-            }
-            else
-            {
-                var startStateAttribute = startStateElement.Attribute("Name");
-                if (startStateAttribute == null)
-                {
-                    Error("Start state element don't has name attribute");
-                    return;
-                }
-                else
-                {
-                    string startStateName = startStateAttribute.Value;
-                    if (string.IsNullOrEmpty(startStateName))
-                    {
-                        Error(string.Format("Name attribute of start state is empty.", startStateName));
-                        return;
-                    }
+            //var startStateElement = stateMachineXElement.Element("StartState");
+            //if (startStateElement == null)
+            //{
+            //    this.SetupStartState();
+            //}
+            //else
+            //{
+            //    var startStateAttribute = startStateElement.Attribute("Name");
+            //    if (startStateAttribute == null)
+            //    {
+            //        Error("Start state element don't has name attribute");
+            //        return;
+            //    }
+            //    else
+            //    {
+            //        string startStateName = startStateAttribute.Value;
+            //        if (string.IsNullOrEmpty(startStateName))
+            //        {
+            //            Error(string.Format("Name attribute of start state is empty.", startStateName));
+            //            return;
+            //        }
 
-                    var startNode = this.Nodes.Items.SingleOrDefault(x => x.Name == startStateName);
-                    if (startNode == null)
-                    {
-                        Error(string.Format("Unable to set start state. Node with name \"{0}\" don't exists", startStateName));
-                        return;
-                    }
-                    else
-                    {
-                        this.SetAsStart(startNode);
-                    }
-                }
+            //        var startNode = this.Nodes.Items.SingleOrDefault(x => x.Name == startStateName);
+            //        if (startNode == null)
+            //        {
+            //            Error(string.Format("Unable to set start state. Node with name \"{0}\" don't exists", startStateName));
+            //            return;
+            //        }
+            //        else
+            //        {
+            //            this.SetAsStart(startNode);
+            //        }
+            //    }
 
-            }
+            //}
 
-            #endregion  setup start state
+            //#endregion  setup start state
 
             #endregion  setup states/nodes/connectors
 
@@ -1813,6 +1813,17 @@ namespace AYP.ViewModel
             SchemePath = fileName;
 
             #endregion  setup Transitions/connects
+
+            //#region setup Groups
+            //var Groups = stateMachineXElement.Element("Groups")?.Elements()?.ToList() ?? new List<XElement>();
+            //GroupUngroupModel viewModelGroup = null;
+            //foreach (var group in Groups)
+            //{
+            //    viewModelGroup = GroupUngroupModel.FromXElement(this, group, out string errorMesage, ConnectsExist, stateMachineXElement);
+            //    if (WithError(errorMesage, x => this.MainWindow.DogrulamaDataGrid.Items.Add(x), viewModelDogrulama))
+            //        return;
+            //}
+            //#endregion
 
             #region setup Visualization
             XElement Visualization = stateMachineXElement.Element("Visualization");
@@ -1937,104 +1948,202 @@ namespace AYP.ViewModel
         }
         private void Save(string fileName)
         {
-            if (GroupList.Count == 0)
+            Mouse.OverrideCursor = Cursors.Wait;
+            XDocument xDocument = new XDocument();
+            XElement stateMachineXElement = new XElement("StateMachine");
+            xDocument.Add(stateMachineXElement);
+            XElement states = new XElement("States");
+            stateMachineXElement.Add(states);
+            foreach (var state in Nodes.Items)
             {
-                Mouse.OverrideCursor = Cursors.Wait;
-                XDocument xDocument = new XDocument();
-                XElement stateMachineXElement = new XElement("StateMachine");
-                xDocument.Add(stateMachineXElement);
-                XElement states = new XElement("States");
-                stateMachineXElement.Add(states);
-                foreach (var state in Nodes.Items)
+                states.Add(state.ToXElement());
+            }
+
+            XElement inputs = new XElement("Inputs");
+            stateMachineXElement.Add(inputs);
+            foreach (var input in Nodes.Items.SelectMany(x => x.InputList))
+            {
+                inputs.Add(input.ToInputXElement());
+            }
+
+            XElement outputs = new XElement("Outputs");
+            stateMachineXElement.Add(outputs);
+            foreach (var output in Nodes.Items.SelectMany(x => x.OutputList))
+            {
+                outputs.Add(output.ToOutputXElement());
+            }
+
+            XElement gucArayuzus = new XElement("GucArayuzus");
+            stateMachineXElement.Add(gucArayuzus);
+            foreach (var node in Nodes.Items)
+            {
+                foreach (var gucArayuzu in node.GucArayuzuList)
                 {
-                    states.Add(state.ToXElement());
-                }
-
-                XElement startState = new XElement("StartState");
-                stateMachineXElement.Add(startState);
-                if (StartState == null)
-                {
-                    NotifyWarningPopup nfp = new NotifyWarningPopup();
-                    nfp.msg.Text = "Lütfen, en az 1 cihaz ekleyin.";
-                    nfp.Owner = this.MainWindow;
-                    nfp.Show();
-                }
-                else
-                {
-                    startState.Add(new XAttribute("Name", StartState.Name));
-
-                    XElement inputs = new XElement("Inputs");
-                    stateMachineXElement.Add(inputs);
-                    foreach (var input in Nodes.Items.SelectMany(x => x.InputList))
-                    {
-                        inputs.Add(input.ToInputXElement());
-                    }
-
-                    XElement outputs = new XElement("Outputs");
-                    stateMachineXElement.Add(outputs);
-                    foreach (var output in Nodes.Items.SelectMany(x => x.OutputList))
-                    {
-                        outputs.Add(output.ToOutputXElement());
-                    }
-
-                    XElement connects = new XElement("Connects");
-                    stateMachineXElement.Add(connects);
-                    foreach (var connect in Connects)
-                    {
-                        connects.Add(connect.ToXElement());
-                    }
-
-                    XElement agAkislari = new XElement("AgAkislari");
-                    stateMachineXElement.Add(agAkislari);
-                    foreach (var input in Nodes.Items.SelectMany(x => x.InputList))
-                    {
-                        foreach (var agAkis in input.AgAkisList)
-                        {
-                            agAkislari.Add(agAkis.ToXElement());
-                        }
-                    }
-
-                    foreach (var output in Nodes.Items.SelectMany(x => x.Transitions.Items))
-                    {
-                        foreach (var agAkis in output.AgAkisList)
-                        {
-                            agAkislari.Add(agAkis.ToXElement());
-                        }
-                    }
-
-                    XElement dogrulamalar = new XElement("Dogrulamalar");
-                    stateMachineXElement.Add(dogrulamalar);
-                    foreach (var item in this.MainWindow.DogrulamaDataGrid.Items)
-                    {
-                        dogrulamalar.Add((item as DogrulamaModel).ToXElement());
-                    }
-
-                    XElement visualizationXElement = new XElement("Visualization");
-                    stateMachineXElement.Add(visualizationXElement);
-                    foreach (var state in Nodes.Items)
-                    {
-                        visualizationXElement.Add(state.ToVisualizationXElement());
-                    }
-
-                    xDocument.Save(fileName);
-                    ItSaved = true;
-                    SchemePath = fileName;
-                    Mouse.OverrideCursor = null;
-
-                    NotifySuccessPopup nfp = new NotifySuccessPopup();
-                    nfp.msg.Text = "Proje başarıyla kaydedildi.";
-                    nfp.Owner = this.MainWindow;
-                    nfp.Show();
-                    LogDebug("Scheme was saved as \"{0}\"", SchemePath);
+                    gucArayuzus.Add(gucArayuzu.ToXElement(node.UniqueId));
                 }
             }
-            else
+
+            XElement agArayuzus = new XElement("AgArayuzus");
+            stateMachineXElement.Add(agArayuzus);
+            foreach (var node in Nodes.Items)
             {
-                NotifyInfoPopup nfp = new NotifyInfoPopup();
-                nfp.msg.Text = "Lütfen, projenizde var olan grupları dağıttıktan sonra projeyi kaydediniz!";
-                nfp.Owner = this.MainWindow;
-                nfp.Show();
+                foreach (var agArayuzu in node.AgArayuzuList)
+                {
+                    agArayuzus.Add(agArayuzu.ToXElement(node.UniqueId));
+                }
             }
+
+            XElement connects = new XElement("Connects");
+            stateMachineXElement.Add(connects);
+            foreach (var connect in Connects)
+            {
+                connects.Add(connect.ToXElement());
+            }
+
+            XElement agAkislari = new XElement("AgAkislari");
+            stateMachineXElement.Add(agAkislari);
+            foreach (var input in Nodes.Items.SelectMany(x => x.InputList))
+            {
+                foreach (var agAkis in input.AgAkisList)
+                {
+                    agAkislari.Add(agAkis.ToXElement());
+                }
+            }
+
+            foreach (var output in Nodes.Items.SelectMany(x => x.Transitions.Items))
+            {
+                foreach (var agAkis in output.AgAkisList)
+                {
+                    agAkislari.Add(agAkis.ToXElement());
+                }
+            }
+
+            XElement dogrulamalar = new XElement("Dogrulamalar");
+            stateMachineXElement.Add(dogrulamalar);
+            foreach (var item in this.MainWindow.DogrulamaDataGrid.Items)
+            {
+                dogrulamalar.Add((item as DogrulamaModel).ToXElement());
+            }
+
+            //XElement groups = new XElement("Groups");
+            //stateMachineXElement.Add(groups);
+            //foreach (var group in this.GroupList)
+            //{
+            //    groups.Add(group.ToXElement());
+            //}
+
+            //XElement nodes = new XElement("GroupNodes");
+            //stateMachineXElement.Add(nodes);
+            //foreach (var group in GroupList)
+            //{
+            //    foreach (var node in group.NodeList)
+            //    {
+            //        nodes.Add(node.ToGroupNodeXElement(group.UniqueId));
+            //    }
+            //}
+
+            //XElement groupNodeInputs = new XElement("GroupNodeInputs");
+            //stateMachineXElement.Add(groupNodeInputs);
+            //foreach (var group in GroupList)
+            //{
+            //    foreach (var input in group.NodeList.SelectMany(x => x.InputList))
+            //    {
+            //        groupNodeInputs.Add(input.ToGroupInputXEelement());
+            //    }
+            //}
+
+            //XElement groupNodeOutputs = new XElement("GroupNodeOutputs");
+            //stateMachineXElement.Add(groupNodeOutputs);
+            //foreach (var group in GroupList)
+            //{
+            //    foreach (var output in group.NodeList.SelectMany(x => x.Transitions.Items))
+            //    {
+            //        groupNodeOutputs.Add(output.ToGroupOutputXEelement());
+            //    }
+            //}
+
+            //XElement groupNodeAgAkislari = new XElement("GroupNodeAgAkislari");
+            //stateMachineXElement.Add(groupNodeAgAkislari);
+            //foreach (var group in GroupList)
+            //{
+            //    foreach (var input in group.NodeList.SelectMany(x => x.InputList))
+            //    {
+            //        foreach (var agAkis in input.AgAkisList)
+            //        {
+            //            groupNodeAgAkislari.Add(agAkis.ToXElement());
+            //        }
+            //    }
+            //}
+
+            //foreach (var group in GroupList)
+            //{
+            //    foreach (var output in group.NodeList.SelectMany(x => x.Transitions.Items))
+            //    {
+            //        foreach (var agAkis in output.AgAkisList)
+            //        {
+            //            groupNodeAgAkislari.Add(agAkis.ToXElement());
+            //        }
+            //    }
+            //}
+
+            //XElement internalConnects = new XElement("GroupInternalConnects");
+            //stateMachineXElement.Add(internalConnects);
+            //foreach (var group in GroupList)
+            //{
+            //    foreach (var internalConnect in group.InternalConnectList)
+            //    {
+            //        internalConnects.Add(internalConnect.ToInternalXElement(group.UniqueId));
+            //    }
+            //}
+
+            //XElement externalConnects = new XElement("GroupExternalConnects");
+            //stateMachineXElement.Add(externalConnects);
+            //foreach (var group in GroupList)
+            //{
+            //    foreach (var externalConnect in group.ExternalConnectList)
+            //    {
+            //        externalConnects.Add(externalConnect.ToExternalXElement(group.UniqueId));
+            //    }
+            //}
+
+            //XElement gucArayuzus = new XElement("GroupGucArayuzus");
+            //stateMachineXElement.Add(gucArayuzus);
+            //foreach (var group in GroupList)
+            //{
+            //    foreach (var gucArayuzu in group.GucArayuzuList)
+            //    {
+            //        gucArayuzus.Add(gucArayuzu.ToXElement(group.UniqueId));
+            //    }
+            //}
+
+            //XElement agArayuzus = new XElement("GroupAgArayuzus");
+            //stateMachineXElement.Add(agArayuzus);
+            //foreach (var group in GroupList)
+            //{
+            //    foreach (var agArayuzu in group.AgArayuzuList)
+            //    {
+            //        agArayuzus.Add(agArayuzu.ToXElement(group.UniqueId));
+            //    }
+            //}
+
+            XElement visualizationXElement = new XElement("Visualization");
+            stateMachineXElement.Add(visualizationXElement);
+            foreach (var state in Nodes.Items)
+            {
+                visualizationXElement.Add(state.ToVisualizationXElement());
+            }
+
+            xDocument.Save(fileName);
+            ItSaved = true;
+            SchemePath = fileName;
+            Mouse.OverrideCursor = null;
+
+            NotifySuccessPopup nfp = new NotifySuccessPopup();
+            nfp.msg.Text = "Proje başarıyla kaydedildi.";
+            nfp.Owner = this.MainWindow;
+            nfp.Show();
+            LogDebug("Scheme was saved as \"{0}\"", SchemePath);
+
         }
 
         private void StartSelect(Point point)
