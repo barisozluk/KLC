@@ -1010,6 +1010,18 @@ namespace AYP.ViewModel
                     node.AgArayuzuList, node.GucArayuzuList, new List<ConnectorViewModel>(), new List<ConnectorViewModel>(), node.VerimlilikOrani,
                     node.DahiliGucTuketimDegeri, node.Sembol, node.StokNo, node.Tanim, node.UreticiAdi, node.UreticiParcaNo, node.TurAd);
 
+                foreach(var output in newNode.Transitions.Items)
+                {
+                    var oldOutput = node.Transitions.Items.Where(x => x.Label == output.Label).FirstOrDefault();
+                    output.AgAkisList = oldOutput.AgAkisList;
+                }
+
+                foreach (var input in newNode.InputList)
+                {
+                    var oldInput = node.InputList.Where(x => x.Label == input.Label).FirstOrDefault();
+                    oldInput.AgAkisList = oldInput.AgAkisList;
+                }
+
                 temp.Add(newNode);
             }
 

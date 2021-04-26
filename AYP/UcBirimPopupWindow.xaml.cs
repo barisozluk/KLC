@@ -189,6 +189,10 @@ namespace AYP
             }
             else
             {
+                GirdiAgArayuzuSayisi.Text = "";
+                CiktiAgArayuzuSayisi.Text = "";
+                GucArayuzuSayisi.Text = "";
+
                 agArayuzuList = new List<AgArayuzu>();
                 gucArayuzuList = new List<GucArayuzu>();
 

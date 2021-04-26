@@ -184,24 +184,40 @@ namespace AYP
             var validationContext = new ValidationContext(gucUretici, null, null);
             var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
 
+
             if (Validator.TryValidateObject(gucUretici, validationContext, results, true))
             {
-                GucUreticiTab.IsSelected = false;
-                GucArayuzuTab.IsSelected = true;
+                if ((gucUretici.VerimlilikDegeri != 0 && gucUretici.VerimlilikDegeri != null) || (gucUretici.DahiliGucTuketimDegeri != 0 && gucUretici.DahiliGucTuketimDegeri != null))
+                {
+                    GucUreticiTab.IsSelected = false;
+                    GucArayuzuTab.IsSelected = true;
 
-                WindowStartupLocation = WindowStartupLocation.Manual;
-                Top = 42;
-                Left = 515;
-                Width = 890;
-                Height = 995;
-                GucUreticiTab.Width = 441;
-                GucArayuzuTab.Width = 441;
-                WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                    WindowStartupLocation = WindowStartupLocation.Manual;
+                    Top = 42;
+                    Left = 515;
+                    Width = 890;
+                    Height = 995;
+                    GucUreticiTab.Width = 441;
+                    GucArayuzuTab.Width = 441;
+                    WindowStartupLocation = WindowStartupLocation.CenterOwner;
 
-                GucArayuzuTab.DataContext = null;
-                ListGerilimTipi();
-                ListKullanimAmaciForGucArayuzu();
-                GucArayuzuTab.DataContext = gucArayuzu;
+                    GucArayuzuTab.DataContext = null;
+                    ListGerilimTipi();
+                    ListKullanimAmaciForGucArayuzu();
+                    GucArayuzuTab.DataContext = gucArayuzu;
+                }
+                else
+                {
+                    if (gucUretici.VerimlilikDegeri == 0 || gucUretici.VerimlilikDegeri == null)
+                    {
+                        VerimlilikOrani.BorderBrush = new SolidColorBrush(Colors.Red);
+                    }
+
+                    if (gucUretici.DahiliGucTuketimDegeri == 0 || gucUretici.DahiliGucTuketimDegeri == null)
+                    {
+                        DahiliGucTuketimDegeri.BorderBrush = new SolidColorBrush(Colors.Red);
+                    }
+                }
             }
             else
             {
@@ -244,16 +260,6 @@ namespace AYP
                         if (memberName == "CiktiGucArayuzuSayisi")
                         {
                             CiktiGucArayuzuSayisi.BorderBrush = new SolidColorBrush(Colors.Red);
-                        }
-
-                        if (memberName == "VerimlilikDegeri")
-                        {
-                            VerimlilikOrani.BorderBrush = new SolidColorBrush(Colors.Red);
-                        }
-
-                        if (memberName == "DahiliGucTuketimDegeri")
-                        {
-                            DahiliGucTuketimDegeri.BorderBrush = new SolidColorBrush(Colors.Red);
                         }
 
                         if (memberName == "Katalog" || memberName == "KatalogDosyaAdi")

@@ -322,7 +322,9 @@ namespace AYP
                 temp.AgArayuzuId = this.ucBirimAgArayuzu.Connect.ToConnector.UniqueId;
                 temp.Yuk = agAkis.Yuk;
                 temp.AgAkisProtokoluId = agAkis.AgAkisProtokoluId;
+                temp.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluAdi;
                 temp.AgAkisTipiId = agAkis.AgAkisTipiId;
+                temp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
 
                 this.ucBirimAgArayuzu.Connect.ToConnector.AgAkisList.Add(temp);
             }

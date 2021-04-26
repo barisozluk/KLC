@@ -8,7 +8,38 @@ namespace AYP.Validations
 {
     public class Validation
     {
-        public bool ValidateDuringDraw(NodesCanvasViewModel NodesCanvas, ConnectorViewModel toConnector)
+        public bool ValidateDuringDrawStart(NodesCanvasViewModel NodesCanvas, ConnectorViewModel fromConnector)
+        {
+            bool response = true;
+
+            if (fromConnector.Node.TypeId == (int)TipEnum.UcBirim)
+            {
+                foreach (var connect in fromConnector.NodesCanvas.Connects)
+                {
+                    if (connect.FromConnector == fromConnector)
+                    {
+                        OpenModal("Bir uç birim çıktı ağ arayüzünden sadece bir bağlantı olmalıdır.", NodesCanvas);
+                        response = false;
+                        break;
+                    }
+                }
+            }
+            else if (fromConnector.Node.TypeId == (int)TipEnum.AgAnahtari)
+            {
+                foreach (var connect in fromConnector.NodesCanvas.Connects)
+                {
+                    if (connect.FromConnector == fromConnector)
+                    {
+                        OpenModal("Bir ağ anahtarı çıktı ağ arayüzünden sadece bir bağlantı olmalıdır.", NodesCanvas);
+                        response = false;
+                        break;
+                    }
+                }
+            }
+
+            return response;
+        }
+        public bool ValidateDuringDrawEnd(NodesCanvasViewModel NodesCanvas, ConnectorViewModel toConnector)
         {
             var fromConnector = NodesCanvas.DraggedConnect.FromConnector;
             bool response = true;
@@ -22,16 +53,6 @@ namespace AYP.Validations
                 }
                 else if (toConnector.Node.TypeId == (int)TipEnum.AgAnahtari)
                 {
-                    //foreach (var connect in fromConnector.NodesCanvas.Connects)
-                    //{
-                    //    if (connect.FromConnector == fromConnector)
-                    //    {
-                    //        OpenModal("Bağlantı birebir olmalıdır.", NodesCanvas);
-                    //        response = false;
-                    //        break;
-                    //    }
-                    //}
-
                     foreach (var connect in toConnector.NodesCanvas.Connects)
                     {
                         if (connect.ToConnector == toConnector)

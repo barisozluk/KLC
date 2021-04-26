@@ -10,9 +10,7 @@ using System.Windows.Navigation;
 using System.Windows.Controls.Primitives;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-
 using ReactiveUI;
-
 using AYP.Helpers;
 using AYP.ViewModel;
 using AYP.Helpers.Transformations;
@@ -127,11 +125,18 @@ namespace AYP.View
                 }
                 else
                 {
-                    this.ViewModel.CommandConnectPointDrag.ExecuteWithSubscribe();
-                    DataObject data = new DataObject();
-                    data.SetData("Node", this.ViewModel.Node);
-                    DragDrop.DoDragDrop(this, data, DragDropEffects.Move);
-                    this.ViewModel.CommandCheckConnectPointDrop.ExecuteWithSubscribe();
+                    AYP.Validations.Validation validation = new AYP.Validations.Validation();
+                    var valid = validation.ValidateDuringDrawStart(this.ViewModel.NodesCanvas, this.ViewModel);
+
+                    if (valid)
+                    {
+                        this.ViewModel.CommandConnectPointDrag.ExecuteWithSubscribe();
+                        DataObject data = new DataObject();
+                        data.SetData("Node", this.ViewModel.Node);
+                        DragDrop.DoDragDrop(this, data, DragDropEffects.Move);
+                        this.ViewModel.CommandCheckConnectPointDrop.ExecuteWithSubscribe();
+                    }
+
                     e.Handled = true;
                 }
             }
