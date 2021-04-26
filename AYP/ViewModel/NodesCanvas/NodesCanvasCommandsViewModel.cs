@@ -2390,6 +2390,18 @@ namespace AYP.ViewModel
             Nodes.Add(newNode);
             if (newNode.TypeId == (int)TipEnum.Group)
             {
+                foreach (var output in newNode.Transitions.Items)
+                {
+                    var oldOutput = parameter.Node.Transitions.Items.Where(x => x.Label == output.Label).FirstOrDefault();
+                    output.AgAkisList = oldOutput.AgAkisList;
+                }
+
+                foreach (var input in newNode.InputList)
+                {
+                    var oldInput = parameter.Node.InputList.Where(x => x.Label == input.Label).FirstOrDefault();
+                    input.AgAkisList = oldInput.AgAkisList;
+                }
+
                 var willBeCopiedGroup = GroupList.Where(x => x.UniqueId == parameter.Node.UniqueId).FirstOrDefault();
                 CopyPasteGroup(willBeCopiedGroup, newNode);
             }

@@ -142,6 +142,7 @@ namespace AYP.ViewModel
 
             //this.WhenAnyValue(x => x.Transitions.Count).Subscribe(value => UpdateCount(value));
         }
+
         private void UpdateCount(int value)
         {
             NodesCanvas.TransitionsCount++;

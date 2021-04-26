@@ -16,7 +16,6 @@ using ReactiveUI;
 using DynamicData;
 
 using AYP.ViewModel;
-using AYP.Helpers;
 using AYP.Helpers.Transformations;
 using AYP.Helpers.Enums;
 using AYP.Helpers.Extensions;
@@ -26,6 +25,7 @@ using AYP.Interfaces;
 using AYP.Services;
 using AYP.DbContext.AYP.DbContexts;
 using System.IO;
+using System.Windows.Threading;
 
 namespace AYP.View
 {
@@ -48,13 +48,15 @@ namespace AYP.View
             set { ViewModel = (NodeViewModel)value; }
         }
         #endregion ViewModel
+
+        DispatcherTimer _typingTimer;
+
         public Node()
         {
             InitializeComponent();
             SetupBinding();
             SetupEvents();
             SetupCommands();
-         
         }
 
         #region Setup Binding
@@ -62,7 +64,7 @@ namespace AYP.View
         {
             this.WhenActivated(disposable =>
             {
-                Canvas.SetZIndex((UIElement)this.VisualParent,this.ViewModel.Zindex);
+                Canvas.SetZIndex((UIElement)this.VisualParent, this.ViewModel.Zindex);
 
                 this.OneWayBind(this.ViewModel, x => x.BorderBrush, x => x.BorderElement.BorderBrush).DisposeWith(disposable);
 
@@ -136,19 +138,55 @@ namespace AYP.View
         {
             this.WhenActivated(disposable =>
             {
-                this.WhenAnyValue(x=>x.IsMouseOver).Subscribe(value=> OnEventMouseOver(value)).DisposeWith(disposable);
+                this.WhenAnyValue(x => x.IsMouseOver).Subscribe(value => OnEventMouseOver(value)).DisposeWith(disposable);
                 this.Events().MouseLeftButtonDown.Subscribe(e => OnEventMouseLeftDowns(e)).DisposeWith(disposable);
                 this.Events().MouseDown.Subscribe(e => OnEventMouseDown(e)).DisposeWith(disposable);
                 this.Events().MouseUp.Subscribe(e => OnEventMouseUp(e)).DisposeWith(disposable);
                 this.Events().MouseMove.Subscribe(e => OnMouseMove(e)).DisposeWith(disposable);
                 this.Events().MouseDoubleClick.Subscribe(e => OnMouseDoubleClicked(e)).DisposeWith(disposable);
 
-                this.NodeHeaderElement.ButtonCollapse.Events().Click.Subscribe(_ => ViewModel.IsCollapse=!ViewModel.IsCollapse).DisposeWith(disposable);
+                this.NodeHeaderElement.TextBoxElement.Events().TextChanged.Subscribe(e => UpdateHiararchyPanel(e));
+                this.NodeHeaderElement.ButtonCollapse.Events().Click.Subscribe(_ => ViewModel.IsCollapse = !ViewModel.IsCollapse).DisposeWith(disposable);
                 this.NodeHeaderElement.Events().LostFocus.Subscribe(e => Validate(e)).DisposeWith(disposable);
-                this.ViewModel.WhenAnyValue(x=>x.IsCollapse).Subscribe(value=> OnEventCollapse(value)).DisposeWith(disposable);
+                this.ViewModel.WhenAnyValue(x => x.IsCollapse).Subscribe(value => OnEventCollapse(value)).DisposeWith(disposable);
                 this.ViewModel.WhenAnyValue(x => x.IsVisible).Subscribe(value => OnEventVisible(value)).DisposeWith(disposable);
 
             });
+        }
+        private void UpdateHiararchyPanel(TextChangedEventArgs e)
+        {
+            if (_typingTimer == null)
+            {
+                _typingTimer = new DispatcherTimer();
+                _typingTimer.Interval = TimeSpan.FromMilliseconds(1000);
+                _typingTimer.Tick += new EventHandler(this.handleTypingTimerTimeout);
+            }
+            
+            _typingTimer.Stop();
+            _typingTimer.Tag = NodeHeaderElement.TextBoxElement.Text;
+            _typingTimer.Start();
+        }
+
+        private void handleTypingTimerTimeout(object sender, EventArgs e)
+        {
+            var timer = sender as DispatcherTimer;
+            if (timer == null)
+            {
+                return;
+            }
+
+            var isbn = timer.Tag.ToString();
+            foreach (TreeViewItem item in this.ViewModel.NodesCanvas.MainWindow.ProjeHiyerarsi.Items)
+            {
+                if (item.Header == this.ViewModel.Name)
+                {
+                    item.Header = isbn;
+                    this.ViewModel.Name = isbn;
+                    break;
+                }
+            }
+
+            timer.Stop();
         }
 
         private void OnMouseDoubleClicked(MouseButtonEventArgs e)
@@ -206,7 +244,7 @@ namespace AYP.View
         private void OnEventMouseOver(bool value)
         {
             if (this.ViewModel.Selected != true)
-                this.ViewModel.BorderBrush = value?Application.Current.Resources["ColorSelectedElement"] as SolidColorBrush
+                this.ViewModel.BorderBrush = value ? Application.Current.Resources["ColorSelectedElement"] as SolidColorBrush
                                                  : Application.Current.Resources["ColorNodeBorderBrush"] as SolidColorBrush;
         }
         private void OnEventMouseLeftDowns(MouseButtonEventArgs e)
@@ -214,7 +252,7 @@ namespace AYP.View
             NodeCanvasClickMode clickMode = this.ViewModel.NodesCanvas.ClickMode;
             if (clickMode == NodeCanvasClickMode.Delete)
             {
-                 this.ViewModel.NodesCanvas.CommandDeleteSelectedNodes.Execute(new List<NodeViewModel>() { this.ViewModel });
+                this.ViewModel.NodesCanvas.CommandDeleteSelectedNodes.Execute(new List<NodeViewModel>() { this.ViewModel });
             }
             else
             {
