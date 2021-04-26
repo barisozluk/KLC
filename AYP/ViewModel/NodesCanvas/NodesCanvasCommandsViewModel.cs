@@ -1814,16 +1814,16 @@ namespace AYP.ViewModel
 
             #endregion  setup Transitions/connects
 
-            //#region setup Groups
-            //var Groups = stateMachineXElement.Element("Groups")?.Elements()?.ToList() ?? new List<XElement>();
-            //GroupUngroupModel viewModelGroup = null;
-            //foreach (var group in Groups)
-            //{
-            //    viewModelGroup = GroupUngroupModel.FromXElement(this, group, out string errorMesage, ConnectsExist, stateMachineXElement);
-            //    if (WithError(errorMesage, x => this.MainWindow.DogrulamaDataGrid.Items.Add(x), viewModelDogrulama))
-            //        return;
-            //}
-            //#endregion
+            #region setup Groups
+            var Groups = stateMachineXElement.Element("Groups")?.Elements()?.ToList() ?? new List<XElement>();
+            GroupUngroupModel viewModelGroup = null;
+            foreach (var group in Groups)
+            {
+                viewModelGroup = GroupUngroupModel.FromXElement(this, group, out string errorMesage, ConnectsExist, stateMachineXElement);
+                if (WithError(errorMesage, x => this.GroupList.Add(x), viewModelGroup))
+                    return;
+            }
+            #endregion
 
             #region setup Visualization
             XElement Visualization = stateMachineXElement.Element("Visualization");
@@ -2025,106 +2025,132 @@ namespace AYP.ViewModel
                 dogrulamalar.Add((item as DogrulamaModel).ToXElement());
             }
 
-            //XElement groups = new XElement("Groups");
-            //stateMachineXElement.Add(groups);
-            //foreach (var group in this.GroupList)
-            //{
-            //    groups.Add(group.ToXElement());
-            //}
+            XElement groups = new XElement("Groups");
+            stateMachineXElement.Add(groups);
+            foreach (var group in this.GroupList)
+            {
+                groups.Add(group.ToXElement());
+            }
 
-            //XElement nodes = new XElement("GroupNodes");
-            //stateMachineXElement.Add(nodes);
-            //foreach (var group in GroupList)
-            //{
-            //    foreach (var node in group.NodeList)
-            //    {
-            //        nodes.Add(node.ToGroupNodeXElement(group.UniqueId));
-            //    }
-            //}
+            XElement nodes = new XElement("GroupNodes");
+            stateMachineXElement.Add(nodes);
+            foreach (var group in GroupList)
+            {
+                foreach (var node in group.NodeList)
+                {
+                    nodes.Add(node.ToGroupNodeXElement(group.UniqueId));
+                }
+            }
 
-            //XElement groupNodeInputs = new XElement("GroupNodeInputs");
-            //stateMachineXElement.Add(groupNodeInputs);
-            //foreach (var group in GroupList)
-            //{
-            //    foreach (var input in group.NodeList.SelectMany(x => x.InputList))
-            //    {
-            //        groupNodeInputs.Add(input.ToGroupInputXEelement());
-            //    }
-            //}
+            XElement groupNodeInputs = new XElement("GroupNodeInputs");
+            stateMachineXElement.Add(groupNodeInputs);
+            foreach (var group in GroupList)
+            {
+                foreach (var input in group.NodeList.SelectMany(x => x.InputList))
+                {
+                    groupNodeInputs.Add(input.ToGroupInputXEelement());
+                }
+            }
 
-            //XElement groupNodeOutputs = new XElement("GroupNodeOutputs");
-            //stateMachineXElement.Add(groupNodeOutputs);
-            //foreach (var group in GroupList)
-            //{
-            //    foreach (var output in group.NodeList.SelectMany(x => x.Transitions.Items))
-            //    {
-            //        groupNodeOutputs.Add(output.ToGroupOutputXEelement());
-            //    }
-            //}
+            XElement groupNodeOutputs = new XElement("GroupNodeOutputs");
+            stateMachineXElement.Add(groupNodeOutputs);
+            foreach (var group in GroupList)
+            {
+                foreach (var output in group.NodeList.SelectMany(x => x.Transitions.Items))
+                {
+                    groupNodeOutputs.Add(output.ToGroupOutputXEelement());
+                }
+            }
 
-            //XElement groupNodeAgAkislari = new XElement("GroupNodeAgAkislari");
-            //stateMachineXElement.Add(groupNodeAgAkislari);
-            //foreach (var group in GroupList)
-            //{
-            //    foreach (var input in group.NodeList.SelectMany(x => x.InputList))
-            //    {
-            //        foreach (var agAkis in input.AgAkisList)
-            //        {
-            //            groupNodeAgAkislari.Add(agAkis.ToXElement());
-            //        }
-            //    }
-            //}
+            XElement groupNodeAgArayuzus = new XElement("GroupNodeAgArayuzus");
+            stateMachineXElement.Add(groupNodeAgArayuzus);
+            foreach (var group in GroupList)
+            {
+                foreach (var node in group.NodeList)
+                {
+                    foreach (var agArayuzu in node.AgArayuzuList)
+                    {
+                        groupNodeAgArayuzus.Add(agArayuzu.ToXElement(node.UniqueId));
+                    }
+                }
+            }
 
-            //foreach (var group in GroupList)
-            //{
-            //    foreach (var output in group.NodeList.SelectMany(x => x.Transitions.Items))
-            //    {
-            //        foreach (var agAkis in output.AgAkisList)
-            //        {
-            //            groupNodeAgAkislari.Add(agAkis.ToXElement());
-            //        }
-            //    }
-            //}
+            XElement groupNodeGucArayuzus = new XElement("GroupNodeGucArayuzus");
+            stateMachineXElement.Add(groupNodeGucArayuzus);
+            foreach (var group in GroupList)
+            {
+                foreach (var node in group.NodeList)
+                {
+                    foreach (var gucArayuzu in node.GucArayuzuList)
+                    {
+                        groupNodeGucArayuzus.Add(gucArayuzu.ToXElement(node.UniqueId));
+                    }
+                }
+            }
 
-            //XElement internalConnects = new XElement("GroupInternalConnects");
-            //stateMachineXElement.Add(internalConnects);
-            //foreach (var group in GroupList)
-            //{
-            //    foreach (var internalConnect in group.InternalConnectList)
-            //    {
-            //        internalConnects.Add(internalConnect.ToInternalXElement(group.UniqueId));
-            //    }
-            //}
+            XElement groupNodeAgAkislari = new XElement("GroupNodeAgAkislari");
+            stateMachineXElement.Add(groupNodeAgAkislari);
+            foreach (var group in GroupList)
+            {
+                foreach (var input in group.NodeList.SelectMany(x => x.InputList))
+                {
+                    foreach (var agAkis in input.AgAkisList)
+                    {
+                        groupNodeAgAkislari.Add(agAkis.ToXElement());
+                    }
+                }
+            }
 
-            //XElement externalConnects = new XElement("GroupExternalConnects");
-            //stateMachineXElement.Add(externalConnects);
-            //foreach (var group in GroupList)
-            //{
-            //    foreach (var externalConnect in group.ExternalConnectList)
-            //    {
-            //        externalConnects.Add(externalConnect.ToExternalXElement(group.UniqueId));
-            //    }
-            //}
+            foreach (var group in GroupList)
+            {
+                foreach (var output in group.NodeList.SelectMany(x => x.Transitions.Items))
+                {
+                    foreach (var agAkis in output.AgAkisList)
+                    {
+                        groupNodeAgAkislari.Add(agAkis.ToXElement());
+                    }
+                }
+            }
 
-            //XElement gucArayuzus = new XElement("GroupGucArayuzus");
-            //stateMachineXElement.Add(gucArayuzus);
-            //foreach (var group in GroupList)
-            //{
-            //    foreach (var gucArayuzu in group.GucArayuzuList)
-            //    {
-            //        gucArayuzus.Add(gucArayuzu.ToXElement(group.UniqueId));
-            //    }
-            //}
+            XElement internalConnects = new XElement("GroupInternalConnects");
+            stateMachineXElement.Add(internalConnects);
+            foreach (var group in GroupList)
+            {
+                foreach (var internalConnect in group.InternalConnectList)
+                {
+                    internalConnects.Add(internalConnect.ToInternalXElement(group.UniqueId));
+                }
+            }
 
-            //XElement agArayuzus = new XElement("GroupAgArayuzus");
-            //stateMachineXElement.Add(agArayuzus);
-            //foreach (var group in GroupList)
-            //{
-            //    foreach (var agArayuzu in group.AgArayuzuList)
-            //    {
-            //        agArayuzus.Add(agArayuzu.ToXElement(group.UniqueId));
-            //    }
-            //}
+            XElement externalConnects = new XElement("GroupExternalConnects");
+            stateMachineXElement.Add(externalConnects);
+            foreach (var group in GroupList)
+            {
+                foreach (var externalConnect in group.ExternalConnectList)
+                {
+                    externalConnects.Add(externalConnect.ToExternalXElement(group.UniqueId));
+                }
+            }
+
+            XElement groupGucArayuzus = new XElement("GroupGucArayuzus");
+            stateMachineXElement.Add(groupGucArayuzus);
+            foreach (var group in GroupList)
+            {
+                foreach (var gucArayuzu in group.GucArayuzuList)
+                {
+                    groupGucArayuzus.Add(gucArayuzu.ToGroupXElement(group.UniqueId));
+                }
+            }
+
+            XElement groupAgArayuzus = new XElement("GroupAgArayuzus");
+            stateMachineXElement.Add(groupAgArayuzus);
+            foreach (var group in GroupList)
+            {
+                foreach (var agArayuzu in group.AgArayuzuList)
+                {
+                    groupAgArayuzus.Add(agArayuzu.ToGroupXElement(group.UniqueId));
+                }
+            }
 
             XElement visualizationXElement = new XElement("Visualization");
             stateMachineXElement.Add(visualizationXElement);

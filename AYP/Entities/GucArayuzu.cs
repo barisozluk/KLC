@@ -83,7 +83,7 @@ namespace AYP.Entities
             return element;
         }
 
-        public XElement ToGroupXElement(Guid GroupUniqueId)
+        public XElement ToGroupXElement(Guid GroupId)
         {
             XElement element = new XElement("GroupGucArayuzu");
             element.Add(new XAttribute("Id", Id));
@@ -100,7 +100,7 @@ namespace AYP.Entities
             element.Add(!GirdiTukettigiGucMiktari.HasValue ? null : new XAttribute("GirdiTukettigiGucMiktari", GirdiTukettigiGucMiktari));
             element.Add(CiktiDuraganGerilimDegeri == null ? null : new XAttribute("CiktiDuraganGerilimDegeri", CiktiDuraganGerilimDegeri));
             element.Add(!CiktiUrettigiGucKapasitesi.HasValue ? null : new XAttribute("CiktiUrettigiGucKapasitesi", CiktiUrettigiGucKapasitesi));
-            element.Add(new XAttribute("GroupUniqueId", GroupUniqueId));
+            element.Add(new XAttribute("GroupId", GroupId));
 
             return element;
         }

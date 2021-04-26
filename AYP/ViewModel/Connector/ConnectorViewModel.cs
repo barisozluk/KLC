@@ -161,7 +161,6 @@ namespace AYP.ViewModel
             element.Add(!KalanKapasite.HasValue ? null : new XAttribute("KalanKapasite", KalanKapasite));
             element.Add(new XAttribute("Id", Id));
             element.Add(new XAttribute("Port", Port));
-            element.Add(new XAttribute("Artik", Artik));
 
             return element;
         }
@@ -224,7 +223,6 @@ namespace AYP.ViewModel
             element.Add(!KalanKapasite.HasValue ? null : new XAttribute("KalanKapasite", KalanKapasite));
             element.Add(new XAttribute("Id", Id));
             element.Add(new XAttribute("Port", Port));
-            element.Add(new XAttribute("Artik", Artik));
 
 
             return element;
@@ -238,7 +236,7 @@ namespace AYP.ViewModel
             element.Add(new XAttribute("Name", Name));
             element.Add(new XAttribute("Label", Label));
             element.Add(new XAttribute("UniqueId", UniqueId));
-            element.Add(new XAttribute("Position", PointExtensition.PointToString(PositionConnectPoint)));
+            element.Add(new XAttribute("Position", PointExtensition.PointToString(PositionConnectPoint.Addition(Artik * -1, 0))));
             element.Add(!KapasiteId.HasValue ? null : new XAttribute("KapasiteId", KapasiteId));
             element.Add(!MinKapasite.HasValue ? null : new XAttribute("MinKapasite", MinKapasite));
             element.Add(!MaxKapasite.HasValue ? null : new XAttribute("MaxKapasite", MaxKapasite));
