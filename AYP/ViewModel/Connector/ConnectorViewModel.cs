@@ -161,6 +161,7 @@ namespace AYP.ViewModel
             element.Add(!KalanKapasite.HasValue ? null : new XAttribute("KalanKapasite", KalanKapasite));
             element.Add(new XAttribute("Id", Id));
             element.Add(new XAttribute("Port", Port));
+            element.Add(new XAttribute("Artik", Artik));
 
             return element;
         }
@@ -192,6 +193,8 @@ namespace AYP.ViewModel
             element.Add(!KalanKapasite.HasValue ? null : new XAttribute("KalanKapasite", KalanKapasite));
             element.Add(new XAttribute("Id", Id));
             element.Add(new XAttribute("Port", Port));
+            element.Add(new XAttribute("Artik", Artik));
+
 
             return element;
         }
