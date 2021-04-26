@@ -1443,7 +1443,7 @@ namespace AYP.ViewModel
                                         connect.ToConnector.AgAkisList = internalConnect.ToConnector.AgAkisList;
                                         AddConnect(connect);
 
-                                        if (connect.AgYuku == 0)
+                                        if (connect.AgYuku == 0 && (connect.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu || connect.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu))
                                         {
                                             AddToDogrulamaPaneli(connect.FromConnector, connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için ağ akışı tanımlayınız!");
                                         }
@@ -1465,7 +1465,7 @@ namespace AYP.ViewModel
                                     connect.ToConnector.AgAkisList = externalConnect.ToConnector.AgAkisList;
                                     AddConnect(connect);
 
-                                    if (connect.AgYuku == 0)
+                                    if (connect.AgYuku == 0 && (connect.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu || connect.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu))
                                     {
                                         AddToDogrulamaPaneli(connect.FromConnector, connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için ağ akışı tanımlayınız!");
                                     }
@@ -1501,7 +1501,7 @@ namespace AYP.ViewModel
                                         connect.ToConnector.AgAkisList = internalConnect.ToConnector.AgAkisList;
                                         AddConnect(connect);
 
-                                        if (connect.AgYuku == 0)
+                                        if (connect.AgYuku == 0 && (connect.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu || connect.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu))
                                         {
                                             AddToDogrulamaPaneli(connect.FromConnector, connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için ağ akışı tanımlayınız!");
                                         }
@@ -1523,7 +1523,7 @@ namespace AYP.ViewModel
                                     connect.ToConnector.AgAkisList = externalConnect.ToConnector.AgAkisList;
                                     AddConnect(connect);
 
-                                    if (connect.AgYuku == 0)
+                                    if (connect.AgYuku == 0 && (connect.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu || connect.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu))
                                     {
                                         AddToDogrulamaPaneli(connect.FromConnector, connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için ağ akışı tanımlayınız!");
                                     }
@@ -1738,6 +1738,10 @@ namespace AYP.ViewModel
                 viewModelNode = NodeViewModel.FromXElement(this, state, out string errorMesage, NodesExist, stateMachineXElement);
                 if (WithError(errorMesage, x => Nodes.Add(x), viewModelNode))
                     return;
+                else
+                {
+                    AddToProjectHierarchy(viewModelNode);
+                }
             }
 
             #region setup start state
