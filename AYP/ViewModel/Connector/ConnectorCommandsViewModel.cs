@@ -153,7 +153,10 @@ namespace AYP.ViewModel
                     {
                         if (output.Connect != null)
                         {
-                            output.AgAkisList = new List<AgAkis>();
+                            if (connect.FromConnector.Node.InputList.Count() > 0)
+                            {
+                                output.AgAkisList = new List<AgAkis>();
+                            }
 
                             foreach (var input in connect.FromConnector.Node.InputList)
                             {
@@ -196,7 +199,7 @@ namespace AYP.ViewModel
 
                             output.Connect.AgYuku = output.AgAkisList.Select(s => s.Yuk).Sum();
 
-                            if(output.Connect.AgYuku == 0)
+                            if(output.Connect.AgYuku == 0 && output.Node.TypeId != (int)TipEnum.Group)
                             {
                                 DogrulamaModel dogrulama = new DogrulamaModel();
                                 dogrulama.Mesaj = output.Connect.FromConnector.Node.Name + "/" + output.Connect.FromConnector.Label + " için ağ akışı tanımlayınız!";

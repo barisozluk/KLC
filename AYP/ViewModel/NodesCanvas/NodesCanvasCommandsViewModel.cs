@@ -754,6 +754,7 @@ namespace AYP.ViewModel
                                 {
                                     var connect = item.Value.Where(x => x.ToConnector == result[count]).FirstOrDefault();
                                     connect.FromConnector.Connect = connect;
+                                    connect = OtoAgAkisiEkle(connect);
                                     CommandAddConnect.ExecuteWithSubscribe(connect);
 
                                     if (connect.FromConnector.Node.TypeId == (int)TipEnum.Group)
@@ -772,10 +773,10 @@ namespace AYP.ViewModel
                                             }
                                         }
                                     }
-                                    else
-                                    {
-                                        AddToDogrulamaPaneli(connect.FromConnector, connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için ağ akışı tanımlayınız!");
-                                    }
+                                    //else
+                                    //{
+                                    //    AddToDogrulamaPaneli(connect.FromConnector, connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için ağ akışı tanımlayınız!");
+                                    //}
 
                                     count++;
                                 }
@@ -862,6 +863,80 @@ namespace AYP.ViewModel
             return result;
         }
 
+        private ConnectViewModel OtoAgAkisiEkle(ConnectViewModel connect)
+        {
+            int connectSayisi = 0;
+            foreach (var output in connect.FromConnector.Node.Transitions.Items)
+            {
+                if (output.Connect != null)
+                {
+                    connectSayisi++;
+                }
+            }
+
+            foreach (var output in connect.FromConnector.Node.Transitions.Items)
+            {
+                if (output.Connect != null)
+                {
+                    if (connect.FromConnector.Node.InputList.Count() > 0)
+                    {
+                        output.AgAkisList = new List<AgAkis>();
+                    }
+
+                    foreach (var input in connect.FromConnector.Node.InputList)
+                    {
+                        if (input.AgAkisList != null && input.AgAkisList.Count() > 0)
+                        {
+                            foreach (var agAkis in input.AgAkisList)
+                            {
+                                var temp = new AgAkis();
+                                temp.Id = Guid.NewGuid();
+                                temp.AgArayuzuId = output.UniqueId;
+                                temp.Yuk = agAkis.Yuk / connectSayisi;
+                                temp.AgAkisTipiId = agAkis.AgAkisTipiId;
+                                temp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
+                                temp.AgAkisProtokoluId = agAkis.AgAkisProtokoluId;
+                                temp.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluAdi;
+                                temp.IliskiliAgArayuzuId = input.UniqueId;
+                                temp.IliskiliAgArayuzuAdi = input.Label;
+
+                                output.AgAkisList.Add(temp);
+                            }
+                        }
+                    }
+
+                    output.Connect.ToConnector.AgAkisList = new List<AgAkis>();
+                    foreach (var agAkis in output.AgAkisList)
+                    {
+                        var temp = new AgAkis();
+                        temp.Id = Guid.NewGuid();
+                        temp.AgArayuzuId = output.Connect.ToConnector.UniqueId;
+                        temp.Yuk = agAkis.Yuk;
+                        temp.AgAkisProtokoluId = agAkis.AgAkisProtokoluId;
+                        temp.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluAdi;
+                        temp.AgAkisTipiId = agAkis.AgAkisTipiId;
+                        temp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
+                        temp.IliskiliAgArayuzuId = agAkis.IliskiliAgArayuzuId;
+                        temp.IliskiliAgArayuzuAdi = agAkis.IliskiliAgArayuzuAdi;
+
+                        output.Connect.ToConnector.AgAkisList.Add(temp);
+                    }
+
+                    output.Connect.AgYuku = output.AgAkisList.Select(s => s.Yuk).Sum();
+
+                    if (output.Connect.AgYuku == 0 && output.Node.TypeId != (int)TipEnum.Group)
+                    {
+                        DogrulamaModel dogrulama = new DogrulamaModel();
+                        dogrulama.Mesaj = output.Connect.FromConnector.Node.Name + "/" + output.Connect.FromConnector.Label + " için ağ akışı tanımlayınız!";
+                        dogrulama.Connector = output.Connect.FromConnector;
+                        connect.NodesCanvas.MainWindow.DogrulamaDataGrid.Items.Add(dogrulama);
+                    }
+                }
+            }
+
+            return connect;
+        }
+
         private void CopyToClipboard()
         {
             NodeClipboard.Clear();
@@ -931,6 +1006,18 @@ namespace AYP.ViewModel
 
                     if (node.TypeId == (int)TipEnum.Group)
                     {
+                        foreach (var output in newNode.Transitions.Items)
+                        {
+                            var oldOutput = node.Transitions.Items.Where(x => x.Label == output.Label).FirstOrDefault();
+                            output.AgAkisList = oldOutput.AgAkisList;
+                        }
+
+                        foreach (var input in newNode.InputList)
+                        {
+                            var oldInput = node.InputList.Where(x => x.Label == input.Label).FirstOrDefault();
+                            input.AgAkisList = oldInput.AgAkisList;
+                        }
+
                         var willBeCopiedGroup = GroupList.Where(x => x.UniqueId == node.UniqueId).FirstOrDefault();
                         CopyPasteGroup(willBeCopiedGroup, newNode);
                     }
@@ -1009,18 +1096,6 @@ namespace AYP.ViewModel
                 var newNode = new NodeViewModel(this, GetNameForNewNode(node.TypeId), Guid.NewGuid(), newPoint, node.Id, node.TypeId,
                     node.AgArayuzuList, node.GucArayuzuList, new List<ConnectorViewModel>(), new List<ConnectorViewModel>(), node.VerimlilikOrani,
                     node.DahiliGucTuketimDegeri, node.Sembol, node.StokNo, node.Tanim, node.UreticiAdi, node.UreticiParcaNo, node.TurAd);
-
-                foreach(var output in newNode.Transitions.Items)
-                {
-                    var oldOutput = node.Transitions.Items.Where(x => x.Label == output.Label).FirstOrDefault();
-                    output.AgAkisList = oldOutput.AgAkisList;
-                }
-
-                foreach (var input in newNode.InputList)
-                {
-                    var oldInput = node.InputList.Where(x => x.Label == input.Label).FirstOrDefault();
-                    oldInput.AgAkisList = oldInput.AgAkisList;
-                }
 
                 temp.Add(newNode);
             }
@@ -1219,6 +1294,32 @@ namespace AYP.ViewModel
 
                     GroupList.Add(model);
                     NodeViewModel newNode = new NodeViewModel(this, model.Name, model.UniqueId, new Point(), 0, 9, model.AgArayuzuList, model.GucArayuzuList);
+                    
+                    foreach (var output in newNode.Transitions.Items)
+                    {
+                        foreach (var node in model.NodeList)
+                        {
+                            var oldOutput = node.Transitions.Items.Where(x => x.Label == output.Label).FirstOrDefault();
+
+                            if (oldOutput != null)
+                            {
+                                output.AgAkisList = oldOutput.AgAkisList;
+                            }
+                        }
+                    }
+
+                    foreach (var input in newNode.InputList)
+                    {
+                        foreach (var node in model.NodeList)
+                        {
+                            var oldInput = node.InputList.Where(x => x.Label == input.Label).FirstOrDefault();
+                            if (oldInput != null)
+                            {
+                                oldInput.AgAkisList = oldInput.AgAkisList;
+                            }
+                        }
+                    }
+
                     Nodes.Add(newNode);
                     AddToProjectHierarchy(newNode);
 
