@@ -169,6 +169,42 @@ namespace AYP.ViewModel
             return element;
         }
 
+        public XElement ToInternalXElement(Guid GroupUniqueId)
+        {
+            XElement element = new XElement("GroupInternalConnect");
+            element.Add(new XAttribute("FromConnectorNodeUniqueId", FromConnector.Node.UniqueId));
+            element.Add(new XAttribute("FromConnectorUniqueId", FromConnector.UniqueId));
+            element.Add(new XAttribute("ToConnectorUniqueId", ToConnector.UniqueId));
+            element.Add(new XAttribute("ToConnectorNodeUniqueId", ToConnector.Node.UniqueId));
+            element.Add(new XAttribute("KabloUzunlugu", Uzunluk));
+            element.Add(new XAttribute("AgYuku", AgYuku));
+            element.Add(new XAttribute("Point1", PointExtensition.PointToString(Point1)));
+            element.Add(new XAttribute("Point2", PointExtensition.PointToString(Point2)));
+            element.Add(new XAttribute("StartPoint", PointExtensition.PointToString(StartPoint)));
+            element.Add(new XAttribute("EndPoint", PointExtensition.PointToString(EndPoint)));
+            element.Add(new XAttribute("GroupUniqueId", GroupUniqueId));
+
+            return element;
+        }
+
+        public XElement ToExternalXElement(Guid GroupUniqueId)
+        {
+            XElement element = new XElement("GroupExternalConnect");
+            element.Add(new XAttribute("FromConnectorNodeUniqueId", FromConnector.Node.UniqueId));
+            element.Add(new XAttribute("FromConnectorUniqueId", FromConnector.UniqueId));
+            element.Add(new XAttribute("ToConnectorUniqueId", ToConnector.UniqueId));
+            element.Add(new XAttribute("ToConnectorNodeUniqueId", ToConnector.Node.UniqueId));
+            element.Add(new XAttribute("KabloUzunlugu", Uzunluk));
+            element.Add(new XAttribute("AgYuku", AgYuku));
+            element.Add(new XAttribute("Point1", PointExtensition.PointToString(Point1)));
+            element.Add(new XAttribute("Point2", PointExtensition.PointToString(Point2)));
+            element.Add(new XAttribute("StartPoint", PointExtensition.PointToString(StartPoint)));
+            element.Add(new XAttribute("EndPoint", PointExtensition.PointToString(EndPoint)));
+            element.Add(new XAttribute("GroupUniqueId", GroupUniqueId));
+
+            return element;
+        }
+
         public static ConnectViewModel FromXElement(NodesCanvasViewModel nodesCanvas, XElement node, out string errorMessage, Func<string, bool> actionForCheck, XElement stateMachineXElement)
         {
             errorMessage = null;

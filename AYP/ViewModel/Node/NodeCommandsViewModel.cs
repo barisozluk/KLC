@@ -99,7 +99,7 @@ namespace AYP.ViewModel
         }
 
 
-        private void AddEmptyConnector()
+        public void AddEmptyConnector()
         {        
             foreach(var output in OutputList)
             {

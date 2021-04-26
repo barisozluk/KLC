@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
+using System.Xml.Linq;
 
 namespace AYP.Entities
 {
@@ -55,5 +56,35 @@ namespace AYP.Entities
 
         [NotMapped]
         public List<string> PortList { get; set; }
+
+        public XElement ToXElement(Guid NodeUniqueId)
+        {
+            XElement element = new XElement("AgArayuzu");
+            element.Add(new XAttribute("Id", Id));
+            element.Add(new XAttribute("Adi", Adi));
+            element.Add(new XAttribute("Port", Port));
+            element.Add(new XAttribute("KullanimAmaciId", KullanimAmaciId));
+            element.Add(new XAttribute("FizikselOrtamId", FizikselOrtamId));
+            element.Add(new XAttribute("KapasiteId", KapasiteId));
+            element.Add(new XAttribute("TipId", TipId));
+            element.Add(new XAttribute("NodeUniqueId", NodeUniqueId));
+
+            return element;
+        }
+
+        public XElement ToGroupXElement(Guid GroupUniqueId)
+        {
+            XElement element = new XElement("GroupAgArayuzu");
+            element.Add(new XAttribute("Id", Id));
+            element.Add(new XAttribute("Adi", Adi));
+            element.Add(new XAttribute("Port", Port));
+            element.Add(new XAttribute("KullanimAmaciId", KullanimAmaciId));
+            element.Add(new XAttribute("FizikselOrtamId", FizikselOrtamId));
+            element.Add(new XAttribute("KapasiteId", KapasiteId));
+            element.Add(new XAttribute("TipId", TipId));
+            element.Add(new XAttribute("GroupUniqueId", GroupUniqueId));
+
+            return element;
+        }
     }
 }
