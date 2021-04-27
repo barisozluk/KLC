@@ -121,7 +121,7 @@ namespace AYP.ViewModel
                     }
                     else
                     {
-                        CurrentConnector.KalanKapasite = (VerimlilikOrani * CurrentConnector.CiktiUrettigiGucKapasitesi.Value);
+                        CurrentConnector.KalanKapasite = (VerimlilikOrani * CurrentConnector.CiktiUrettigiGucKapasitesi.Value) / 100;
                     }
 
                 }

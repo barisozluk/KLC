@@ -248,7 +248,7 @@ namespace AYP.ViewModel
                             }
                             else
                             {
-                                output.KalanKapasite = (VerimlilikOrani * output.CiktiUrettigiGucKapasitesi.Value);
+                                output.KalanKapasite = (VerimlilikOrani * output.CiktiUrettigiGucKapasitesi.Value) / 100;
                             }
 
                         }
@@ -302,7 +302,7 @@ namespace AYP.ViewModel
                             }
                             else
                             {
-                                output.KalanKapasite = (VerimlilikOrani * output.CiktiUrettigiGucKapasitesi.Value);
+                                output.KalanKapasite = (VerimlilikOrani * output.CiktiUrettigiGucKapasitesi.Value) / 100;
                             }
 
                         }
