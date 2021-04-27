@@ -96,10 +96,10 @@ namespace AYP.ViewModel
             this.WhenAnyValue(x => x.Selected).Subscribe(value => Select(value));
             this.WhenAnyValue(x => x.NodesCanvas.Theme).Subscribe(_ => UpdateResources());
 
-            if (this.Name != "Girdi")
+            if (this.Name != "Girdi" && this.Name != "girdi")
             {
                 this.WhenAnyValue(x => x.Node.HeaderWidth).Buffer(2, 1).Subscribe(x => UpdatePositionOnWidthChange(x[1] - x[0]));
-                if (this.Name != "Çıktı")
+                if (this.Name != "Çıktı" && this.Name != "çıktı")
                 {
                     this.WhenAnyValue(x => x.Node.TransitionsForView.Count).Subscribe(x => UpdatePositionOnTransitionCountChange());
                 }

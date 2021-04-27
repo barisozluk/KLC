@@ -1115,6 +1115,7 @@ namespace AYP.ViewModel
 
                     if (newFromConnector != null)
                     {
+                        newFromConnector.AgAkisList = oldFromConnector.AgAkisList;
                         connect = new ConnectViewModel(this, newFromConnector);
                         break;
                     }
@@ -1128,6 +1129,7 @@ namespace AYP.ViewModel
 
                     if (newToConnector != null)
                     {
+                        newToConnector.AgAkisList = oldToConnector.AgAkisList;
                         connect.ToConnector = newToConnector;
                         break;
                     }
@@ -1741,7 +1743,10 @@ namespace AYP.ViewModel
                     return;
                 else
                 {
-                    AddToProjectHierarchy(viewModelNode);
+                    if (viewModelNode.TypeId != (int)TipEnum.Group)
+                    {
+                        AddToProjectHierarchy(viewModelNode);
+                    }
                 }
             }
 
@@ -1823,6 +1828,17 @@ namespace AYP.ViewModel
                 viewModelGroup = GroupUngroupModel.FromXElement(this, group, out string errorMesage, ConnectsExist, stateMachineXElement);
                 if (WithError(errorMesage, x => this.GroupList.Add(x), viewModelGroup))
                     return;
+                else
+                {
+                    var rootNode = Nodes.Items.Where(x => x.UniqueId == viewModelGroup.UniqueId).FirstOrDefault();
+                    AddToProjectHierarchy(rootNode);
+
+
+                    foreach (var node in viewModelGroup.NodeList)
+                    {
+                        AddChildToProjectHierarchyWithTransitions(rootNode.Name, node);
+                    }
+                }
             }
             #endregion
 
