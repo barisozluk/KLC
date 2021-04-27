@@ -26,6 +26,7 @@ using AYP.Services;
 using AYP.DbContext.AYP.DbContexts;
 using System.IO;
 using System.Windows.Threading;
+using System.Linq;
 
 namespace AYP.View
 {
@@ -68,10 +69,6 @@ namespace AYP.View
 
                 this.OneWayBind(this.ViewModel, x => x.BorderBrush, x => x.BorderElement.BorderBrush).DisposeWith(disposable);
 
-                this.OneWayBind(this.ViewModel, x => x.Name, x => x.NodeHeaderElement.TextBoxElement.Text).DisposeWith(disposable);
-
-                //this.OneWayBind(this.ViewModel, x => x.Sembol, x => x.NodeSembol.Source).DisposeWith(disposable);
-
                 this.Bind(this.ViewModel, x => x.NameEnable, x => x.NodeHeaderElement.TextBoxElement.IsEnabled).DisposeWith(disposable);
 
                 this.OneWayBind(this.ViewModel, x => x.Point1.X, x => x.TranslateTransformElement.X).DisposeWith(disposable);
@@ -97,23 +94,8 @@ namespace AYP.View
                     i += 20;
                 }
 
-                //i = 0;
-                //foreach (var output in this.ViewModel.OutputList)
-                //{
-                //    RightConnector right = new RightConnector();
-                //    right.ViewModel = output;
-                //    right.Margin = new Thickness(0, i, 0, 0);
-                //    Grid.SetRow(right, 1);
-                //    Grid.SetColumn(right, 0);
-                //    GridElement.Children.Add(right);
-                //    i += 20;
-                //}
-
-                //var image = new BitmapImage();              
                 var image = LoadImageFromByteArray(this.ViewModel.Sembol);
                 NodeSembol.Source = image;
-
-                //this.OneWayBind(this.ViewModel, x => x.Output, x => x.Output.ViewModel).DisposeWith(disposable);
 
                 this.OneWayBind(this.ViewModel, x => x.TransitionsForView, x => x.ItemsControlTransitions.ItemsSource).DisposeWith(disposable);
 
@@ -145,26 +127,26 @@ namespace AYP.View
                 this.Events().MouseMove.Subscribe(e => OnMouseMove(e)).DisposeWith(disposable);
                 this.Events().MouseDoubleClick.Subscribe(e => OnMouseDoubleClicked(e)).DisposeWith(disposable);
 
-                this.NodeHeaderElement.TextBoxElement.Events().TextChanged.Subscribe(e => UpdateHiararchyPanel(e));
                 this.NodeHeaderElement.ButtonCollapse.Events().Click.Subscribe(_ => ViewModel.IsCollapse = !ViewModel.IsCollapse).DisposeWith(disposable);
                 this.NodeHeaderElement.Events().LostFocus.Subscribe(e => Validate(e)).DisposeWith(disposable);
                 this.ViewModel.WhenAnyValue(x => x.IsCollapse).Subscribe(value => OnEventCollapse(value)).DisposeWith(disposable);
                 this.ViewModel.WhenAnyValue(x => x.IsVisible).Subscribe(value => OnEventVisible(value)).DisposeWith(disposable);
+                this.ViewModel.WhenAnyValue(x => x.Name).Subscribe(value => UpdateHiararchyPanel(value)).DisposeWith(disposable);
 
             });
         }
-        private void UpdateHiararchyPanel(TextChangedEventArgs e)
+        private void UpdateHiararchyPanel(string value)
         {
-            if (_typingTimer == null)
+            foreach (TreeViewItem item in this.ViewModel.NodesCanvas.MainWindow.ProjeHiyerarsi.Items)
             {
-                _typingTimer = new DispatcherTimer();
-                _typingTimer.Interval = TimeSpan.FromMilliseconds(1000);
-                _typingTimer.Tick += new EventHandler(this.handleTypingTimerTimeout);
+                if (item.Header == this.NodeHeaderElement.TextBoxElement.Text)
+                {
+                    item.Header = value;
+                    break;
+                }
             }
-            
-            _typingTimer.Stop();
-            _typingTimer.Tag = NodeHeaderElement.TextBoxElement.Text;
-            _typingTimer.Start();
+
+            NodeHeaderElement.TextBoxElement.Text = value;
         }
 
         private void handleTypingTimerTimeout(object sender, EventArgs e)
@@ -235,7 +217,17 @@ namespace AYP.View
             }
             else
             {
-                this.ViewModel.NodesCanvas.CommandUngroup.ExecuteWithSubscribe();
+                var group = this.ViewModel.NodesCanvas.GroupList.Where(x => x.UniqueId == this.ViewModel.UniqueId).FirstOrDefault();
+
+                MainWindow mainWindow = this.ViewModel.NodesCanvas.MainWindow;
+                mainWindow.IsEnabled = false;
+                System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+                blur.Radius = 2;
+                mainWindow.Effect = blur;
+
+                GroupDetailPopupWindow popup = new GroupDetailPopupWindow(group);
+                popup.Owner = mainWindow;
+                popup.ShowDialog();
             }
 
             e.Handled = true;

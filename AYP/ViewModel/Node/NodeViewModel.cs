@@ -29,7 +29,7 @@ namespace AYP.ViewModel
         [Reactive] public Point Point2 { get; set; }
         [Reactive] public Size Size { get; set; }
         [Reactive] public string Name { get; set; }
-        [Reactive] public bool NameEnable { get; set; } = true;
+        [Reactive] public bool NameEnable { get; set; } = false;
         [Reactive] public bool Selected { get; set; }
         [Reactive] public Brush BorderBrush { get; set; } = Application.Current.Resources["ColorNodeBorder"] as SolidColorBrush;
         [Reactive] public bool? TransitionsVisible { get; set; } = true;

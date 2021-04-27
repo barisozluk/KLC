@@ -67,6 +67,7 @@ namespace AYP.ViewModel
         public ReactiveCommand<Unit, Unit> CommandZincirTopolojiOlustur { get; set; }
         public ReactiveCommand<Unit, Unit> CommandHalkaTopolojiOlustur { get; set; }
         public ReactiveCommand<Unit, Unit> CommandYildizTopolojiOlustur { get; set; }
+        public ReactiveCommand<Unit, Unit> CommandRename { get; set; }
 
 
         #endregion commands without parameter
@@ -103,7 +104,6 @@ namespace AYP.ViewModel
         public Command<List<NodeViewModel>, ElementsForDelete> CommandDeleteSelectedNodes { get; set; }
         public Command<List<ConnectorViewModel>, List<(int index, ConnectorViewModel element)>> CommandDeleteSelectedConnectors { get; set; }
         public Command<DeleteMode, DeleteMode> CommandDeleteSelectedElements { get; set; }
-
 
         public Command<(NodeViewModel node, string newName), (NodeViewModel node, string oldName)> CommandChangeNodeName { get; set; }
         public Command<(ConnectorViewModel connector, string newName), (ConnectorViewModel connector, string oldName)> CommandChangeConnectName { get; set; }
@@ -184,6 +184,7 @@ namespace AYP.ViewModel
             CommandZincirTopolojiOlustur = ReactiveCommand.Create(ZincirTopolojiOlustur);
             CommandHalkaTopolojiOlustur = ReactiveCommand.Create(HalkaTopolojiOlustur);
             CommandYildizTopolojiOlustur = ReactiveCommand.Create(YildizTopolojiOlustur);
+            CommandRename = ReactiveCommand.Create(RenameSelectedNodes);
 
             NotSavedSubscrube();
         }
@@ -247,6 +248,18 @@ namespace AYP.ViewModel
         //    LoadIcons();
         //    Theme = theme;
         //}
+
+        private void RenameSelectedNodes()
+        {
+            var selectedNodes = this.Nodes.Items.Where(x => x.Selected).ToList();
+            this.MainWindow.IsEnabled = false;
+            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.MainWindow.Effect = blur;
+            EditSelectedNodeNamePopupWindow popup = new EditSelectedNodeNamePopupWindow(selectedNodes);
+            popup.Owner = this.MainWindow;
+            popup.ShowDialog();
+        }
 
         private void ZincirTopolojiOlustur()
         {
@@ -1946,12 +1959,12 @@ namespace AYP.ViewModel
         }
         private void SaveAs()
         {
-            
-                Dialog.ShowSaveFileDialog("XML-File | *.xml", SchemeName(), "Save scheme as...");
-                if (Dialog.Result != DialogResult.Ok)
-                    return;
 
-                Save(Dialog.FileName);
+            Dialog.ShowSaveFileDialog("XML-File | *.xml", SchemeName(), "Save scheme as...");
+            if (Dialog.Result != DialogResult.Ok)
+                return;
+
+            Save(Dialog.FileName);
 
         }
         private void Save(string fileName)
@@ -2858,10 +2871,6 @@ namespace AYP.ViewModel
 
         private void CopyMultiple()
         {
-
-            NotificationManager notificationManager = new NotificationManager();
-
-
             if (Nodes.Items.Where(x => x.Selected).Count() < 1)
             {
                 NotifyInfoPopup nfp = new NotifyInfoPopup();

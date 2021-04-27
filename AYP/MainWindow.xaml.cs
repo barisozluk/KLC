@@ -33,7 +33,7 @@ namespace AYP
     public partial class MainWindow : Window, IViewFor<MainWindowViewModel>
     {
         private bool agWorkspaceSeciliMi = true;
-        private bool gucWorkspaceSeciliMi = true;
+        private bool gucWorkspaceSeciliMi = false;
 
         public bool toggleRight = true;
         public bool toggleLeft = true;
@@ -773,15 +773,15 @@ namespace AYP
 
                 foreach (var node in nodes)
                 {
-                    //if (node.TypeId == (int)TipEnum.GucUretici)
-                    //{
+                    if (node.TypeId == (int)TipEnum.GucUretici)
+                    {
                         //Node visible true
                         foreach (var connect in node.NodesCanvas.Connects.ToList())
                         {
                             connect.IsVisible = true;
                         }
                         node.IsVisible = true;
-                    //}
+                    }
                 }
             }
         }
@@ -794,15 +794,15 @@ namespace AYP
 
                 foreach (var node in nodes)
                 {
-                    //if (node.TypeId == (int)TipEnum.GucUretici)
-                    //{
+                    if (node.TypeId == (int)TipEnum.GucUretici)
+                    {
                         //Node visible false
                         foreach (var connect in node.NodesCanvas.Connects.ToList())
                         {
                             connect.IsVisible = false;
                         }
                         node.IsVisible = false;
-                    //}
+                    }
                 }
             }
         }
