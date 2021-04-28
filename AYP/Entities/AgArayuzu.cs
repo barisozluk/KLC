@@ -72,7 +72,7 @@ namespace AYP.Entities
             return element;
         }
 
-        public XElement ToGroupXElement(Guid GroupUniqueId)
+        public XElement ToGroupXElement(Guid GroupId)
         {
             XElement element = new XElement("GroupAgArayuzu");
             element.Add(new XAttribute("Id", Id));
@@ -82,7 +82,7 @@ namespace AYP.Entities
             element.Add(new XAttribute("FizikselOrtamId", FizikselOrtamId));
             element.Add(new XAttribute("KapasiteId", KapasiteId));
             element.Add(new XAttribute("TipId", TipId));
-            element.Add(new XAttribute("GroupUniqueId", GroupUniqueId));
+            element.Add(new XAttribute("GroupId", GroupId));
 
             return element;
         }

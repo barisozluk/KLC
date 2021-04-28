@@ -33,7 +33,7 @@ namespace AYP
     public partial class MainWindow : Window, IViewFor<MainWindowViewModel>
     {
         private bool agWorkspaceSeciliMi = true;
-        private bool gucWorkspaceSeciliMi = true;
+        private bool gucWorkspaceSeciliMi = false;
 
         public bool toggleRight = true;
         public bool toggleLeft = true;

@@ -14,7 +14,7 @@ using AYP.Services;
 
 namespace AYP.Models
 {
-    public class GroupUngroupModel: ReactiveObject
+    public class GroupUngroupModel : ReactiveObject
     {
         public string Name { get; set; }
         public Guid UniqueId { get; set; }
@@ -73,14 +73,15 @@ namespace AYP.Models
                     else { dahiliGucTuketimDegeri = Convert.ToDecimal(groupNode.Attribute("DahiliGucTuketimDegeri")?.Value); }
                     byte[] sembol = Convert.FromBase64String(groupNode.Attribute("Sembol")?.Value);
 
-                    NodeViewModel viewModelNode = new NodeViewModel(nodesCanvas, name, uniqueId, position, id, typeId, null, null, null, null, verimlilikOrani, dahiliGucTuketimDegeri, sembol, stokNo, tanim, ureticiAdi, ureticiParcaNo, turAd);
+                    NodeViewModel viewModelNode = new NodeViewModel(nodesCanvas, nodeName, nodeUniqueId, position, id, typeId, null, null, null, null, verimlilikOrani, dahiliGucTuketimDegeri, sembol, stokNo, tanim, ureticiAdi, ureticiParcaNo, turAd);
                     var inputList = new List<ConnectorViewModel>();
                     var outputList = new List<ConnectorViewModel>();
-
+                    var agArayuzuList = new List<AgArayuzu>();
+                    var gucArayuzuList = new List<GucArayuzu>();
                     var GroupNodeInputs = stateMachineXElement.Element("GroupNodeInputs")?.Elements()?.ToList() ?? new List<XElement>();
                     foreach (var input in GroupNodeInputs)
                     {
-                        if (new Guid(input.Attribute("NodeUniqueId")?.Value) == uniqueId)
+                        if (new Guid(input.Attribute("NodeUniqueId")?.Value) == nodeUniqueId)
                         {
                             string portInput = input.Attribute("Port")?.Value;
                             int idInput = Convert.ToInt32(input.Attribute("Id")?.Value);
@@ -162,7 +163,7 @@ namespace AYP.Models
                     var GroupNodeOutputs = stateMachineXElement.Element("GroupNodeOutputs")?.Elements()?.ToList() ?? new List<XElement>();
                     foreach (var output in GroupNodeOutputs)
                     {
-                        if (new Guid(output.Attribute("NodeUniqueId")?.Value) == uniqueId)
+                        if (new Guid(output.Attribute("NodeUniqueId")?.Value) == nodeUniqueId)
                         {
                             string portOutput = output.Attribute("Port")?.Value;
                             int idOutput = Convert.ToInt32(output.Attribute("Id")?.Value);
@@ -241,17 +242,209 @@ namespace AYP.Models
                         }
                     }
 
+                    var GroupNodeGucArayuzus = stateMachineXElement.Element("GroupNodeGucArayuzus")?.Elements()?.ToList() ?? new List<XElement>();
+                    foreach (var gucArayuzu in GroupNodeGucArayuzus)
+                    {
+                        if (new Guid(gucArayuzu.Attribute("NodeUniqueId")?.Value) == nodeUniqueId)
+                        {
+                            GucArayuzu item = new GucArayuzu();
+
+                            int itemId = Convert.ToInt32(gucArayuzu.Attribute("Id")?.Value);
+                            string adi = gucArayuzu.Attribute("Adi")?.Value;
+                            string port = gucArayuzu.Attribute("Port")?.Value;
+                            int kullanimAmaciId = Convert.ToInt32(gucArayuzu.Attribute("KullanimAmaciId")?.Value);
+                            int gerilimTipiId = Convert.ToInt32(gucArayuzu.Attribute("GerilimTipiId")?.Value);
+                            int tipId = Convert.ToInt32(gucArayuzu.Attribute("TipId")?.Value);
+
+                            decimal? girdiDuraganGerilimDegeri1 = 0;
+                            if (gucArayuzu.Attribute("GirdiDuraganGerilimDegeri1")?.Value == null) { girdiDuraganGerilimDegeri1 = null; }
+                            else { girdiDuraganGerilimDegeri1 = Convert.ToDecimal(gucArayuzu.Attribute("GirdiDuraganGerilimDegeri1")?.Value); }
+
+                            decimal? girdiDuraganGerilimDegeri2 = 0;
+                            if (gucArayuzu.Attribute("GirdiDuraganGerilimDegeri2")?.Value == null) { girdiDuraganGerilimDegeri2 = null; }
+                            else { girdiDuraganGerilimDegeri2 = Convert.ToDecimal(gucArayuzu.Attribute("GirdiDuraganGerilimDegeri2")?.Value); }
+
+                            decimal? girdiDuraganGerilimDegeri3 = 0;
+                            if (gucArayuzu.Attribute("GirdiDuraganGerilimDegeri3")?.Value == null) { girdiDuraganGerilimDegeri3 = null; }
+                            else { girdiDuraganGerilimDegeri3 = Convert.ToDecimal(gucArayuzu.Attribute("GirdiDuraganGerilimDegeri3")?.Value); }
+
+                            decimal? girdiMinimumGerilimDegeri = 0;
+                            if (gucArayuzu.Attribute("GirdiMinimumGerilimDegeri")?.Value == null) { girdiMinimumGerilimDegeri = null; }
+                            else { girdiMinimumGerilimDegeri = Convert.ToDecimal(gucArayuzu.Attribute("GirdiMinimumGerilimDegeri")?.Value); }
+
+                            decimal? girdiMaksimumGerilimDegeri = 0;
+                            if (gucArayuzu.Attribute("GirdiMaksimumGerilimDegeri")?.Value == null) { girdiMaksimumGerilimDegeri = null; }
+                            else { girdiMaksimumGerilimDegeri = Convert.ToDecimal(gucArayuzu.Attribute("GirdiMaksimumGerilimDegeri")?.Value); }
+
+                            decimal? girdiTukettigiGucMiktari = 0;
+                            if (gucArayuzu.Attribute("GirdiTukettigiGucMiktari")?.Value == null) { girdiTukettigiGucMiktari = null; }
+                            else { girdiTukettigiGucMiktari = Convert.ToDecimal(gucArayuzu.Attribute("GirdiTukettigiGucMiktari")?.Value); }
+
+                            decimal? ciktiUrettigiGucKapasitesi = 0;
+                            if (gucArayuzu.Attribute("CiktiUrettigiGucKapasitesi")?.Value == null) { ciktiUrettigiGucKapasitesi = null; }
+                            else { ciktiUrettigiGucKapasitesi = Convert.ToDecimal(gucArayuzu.Attribute("CiktiUrettigiGucKapasitesi")?.Value); }
+
+                            string ciktiDuraganGerilimDegeri = gucArayuzu.Attribute("CiktiDuraganGerilimDegeri")?.Value == null ? null : gucArayuzu.Attribute("CiktiDuraganGerilimDegeri")?.Value;
+
+                            item.Adi = adi;
+                            item.Id = itemId;
+                            item.CiktiDuraganGerilimDegeri = ciktiDuraganGerilimDegeri;
+                            item.CiktiUrettigiGucKapasitesi = ciktiUrettigiGucKapasitesi;
+                            item.GerilimTipiId = gerilimTipiId;
+                            item.GirdiDuraganGerilimDegeri1 = girdiDuraganGerilimDegeri1;
+                            item.GirdiDuraganGerilimDegeri2 = girdiDuraganGerilimDegeri2;
+                            item.GirdiDuraganGerilimDegeri3 = girdiDuraganGerilimDegeri3;
+                            item.GirdiMaksimumGerilimDegeri = girdiMaksimumGerilimDegeri;
+                            item.GirdiMinimumGerilimDegeri = girdiMinimumGerilimDegeri;
+                            item.GirdiTukettigiGucMiktari = girdiTukettigiGucMiktari;
+                            item.KullanimAmaciId = kullanimAmaciId;
+                            item.Port = port;
+                            item.TipId = tipId;
+
+                            gucArayuzuList.Add(item);
+                        }
+                    }
+
+                    var GroupNodeAgArayuzus = stateMachineXElement.Element("GroupNodeAgArayuzus")?.Elements()?.ToList() ?? new List<XElement>();
+                    foreach (var agArayuzu in GroupNodeAgArayuzus)
+                    {
+                        if (new Guid(agArayuzu.Attribute("NodeUniqueId")?.Value) == nodeUniqueId)
+                        {
+                            AgArayuzu item = new AgArayuzu();
+
+                            int itemId = Convert.ToInt32(agArayuzu.Attribute("Id")?.Value);
+                            string adi = agArayuzu.Attribute("Adi")?.Value;
+                            string port = agArayuzu.Attribute("Port")?.Value;
+                            int kullanimAmaciId = Convert.ToInt32(agArayuzu.Attribute("KullanimAmaciId")?.Value);
+                            int fizikselOrtamId = Convert.ToInt32(agArayuzu.Attribute("FizikselOrtamId")?.Value);
+                            int kapasiteId = Convert.ToInt32(agArayuzu.Attribute("KapasiteId")?.Value);
+                            int tipId = Convert.ToInt32(agArayuzu.Attribute("TipId")?.Value);
+
+                            using (AYPContext context = new AYPContext())
+                            {
+                                IKodListeService service = new KodListeService(context);
+                                item.Adi = adi;
+                                item.Id = itemId;
+                                item.FizikselOrtamId = fizikselOrtamId;
+                                item.KapasiteId = kapasiteId;
+                                item.KL_Kapasite = service.GetKapasiteById(kapasiteId);
+                                item.KullanimAmaciId = kullanimAmaciId;
+                                item.Port = port;
+                                item.TipId = tipId;
+                            }
+
+                            agArayuzuList.Add(item);
+                        }
+                    }
+
                     viewModelNode.InputList = inputList;
                     viewModelNode.OutputList = outputList;
+                    viewModelNode.AgArayuzuList = agArayuzuList;
+                    viewModelNode.GucArayuzuList = gucArayuzuList;
                     viewModelNode.AddEmptyConnector();
                     viewModelGroup.NodeList.Add(viewModelNode);
+                }
+            }
+
+            var GroupGucArayuzus = stateMachineXElement.Element("GroupGucArayuzus")?.Elements()?.ToList() ?? new List<XElement>();
+            foreach (var GroupGucArayuzu in GroupGucArayuzus)
+            {
+                if (new Guid(GroupGucArayuzu.Attribute("GroupId")?.Value) == uniqueId)
+                {
+                    GucArayuzu gucArayuzu = null;
+
+                    int itemId = Convert.ToInt32(GroupGucArayuzu.Attribute("Id")?.Value);
+                    string adi = GroupGucArayuzu.Attribute("Adi")?.Value;
+                    string port = GroupGucArayuzu.Attribute("Port")?.Value;
+                    int kullanimAmaciId = Convert.ToInt32(GroupGucArayuzu.Attribute("KullanimAmaciId")?.Value);
+                    int gerilimTipiId = Convert.ToInt32(GroupGucArayuzu.Attribute("GerilimTipiId")?.Value);
+                    int tipId = Convert.ToInt32(GroupGucArayuzu.Attribute("TipId")?.Value);
+
+                    decimal? girdiDuraganGerilimDegeri1 = 0;
+                    if (GroupGucArayuzu.Attribute("GirdiDuraganGerilimDegeri1")?.Value == null) { girdiDuraganGerilimDegeri1 = null; }
+                    else { girdiDuraganGerilimDegeri1 = Convert.ToDecimal(GroupGucArayuzu.Attribute("GirdiDuraganGerilimDegeri1")?.Value); }
+
+                    decimal? girdiDuraganGerilimDegeri2 = 0;
+                    if (GroupGucArayuzu.Attribute("GirdiDuraganGerilimDegeri2")?.Value == null) { girdiDuraganGerilimDegeri2 = null; }
+                    else { girdiDuraganGerilimDegeri2 = Convert.ToDecimal(GroupGucArayuzu.Attribute("GirdiDuraganGerilimDegeri2")?.Value); }
+
+                    decimal? girdiDuraganGerilimDegeri3 = 0;
+                    if (GroupGucArayuzu.Attribute("GirdiDuraganGerilimDegeri3")?.Value == null) { girdiDuraganGerilimDegeri3 = null; }
+                    else { girdiDuraganGerilimDegeri3 = Convert.ToDecimal(GroupGucArayuzu.Attribute("GirdiDuraganGerilimDegeri3")?.Value); }
+
+                    decimal? girdiMinimumGerilimDegeri = 0;
+                    if (GroupGucArayuzu.Attribute("GirdiMinimumGerilimDegeri")?.Value == null) { girdiMinimumGerilimDegeri = null; }
+                    else { girdiMinimumGerilimDegeri = Convert.ToDecimal(GroupGucArayuzu.Attribute("GirdiMinimumGerilimDegeri")?.Value); }
+
+                    decimal? girdiMaksimumGerilimDegeri = 0;
+                    if (GroupGucArayuzu.Attribute("GirdiMaksimumGerilimDegeri")?.Value == null) { girdiMaksimumGerilimDegeri = null; }
+                    else { girdiMaksimumGerilimDegeri = Convert.ToDecimal(GroupGucArayuzu.Attribute("GirdiMaksimumGerilimDegeri")?.Value); }
+
+                    decimal? girdiTukettigiGucMiktari = 0;
+                    if (GroupGucArayuzu.Attribute("GirdiTukettigiGucMiktari")?.Value == null) { girdiTukettigiGucMiktari = null; }
+                    else { girdiTukettigiGucMiktari = Convert.ToDecimal(GroupGucArayuzu.Attribute("GirdiTukettigiGucMiktari")?.Value); }
+
+                    decimal? ciktiUrettigiGucKapasitesi = 0;
+                    if (GroupGucArayuzu.Attribute("CiktiUrettigiGucKapasitesi")?.Value == null) { ciktiUrettigiGucKapasitesi = null; }
+                    else { ciktiUrettigiGucKapasitesi = Convert.ToDecimal(GroupGucArayuzu.Attribute("CiktiUrettigiGucKapasitesi")?.Value); }
+
+                    string ciktiDuraganGerilimDegeri = GroupGucArayuzu.Attribute("CiktiDuraganGerilimDegeri")?.Value == null ? null : GroupGucArayuzu.Attribute("CiktiDuraganGerilimDegeri")?.Value;
+
+                    gucArayuzu.Adi = adi;
+                    gucArayuzu.Id = itemId;
+                    gucArayuzu.CiktiDuraganGerilimDegeri = ciktiDuraganGerilimDegeri;
+                    gucArayuzu.CiktiUrettigiGucKapasitesi = ciktiUrettigiGucKapasitesi;
+                    gucArayuzu.GerilimTipiId = gerilimTipiId;
+                    gucArayuzu.GirdiDuraganGerilimDegeri1 = girdiDuraganGerilimDegeri1;
+                    gucArayuzu.GirdiDuraganGerilimDegeri2 = girdiDuraganGerilimDegeri2;
+                    gucArayuzu.GirdiDuraganGerilimDegeri3 = girdiDuraganGerilimDegeri3;
+                    gucArayuzu.GirdiMaksimumGerilimDegeri = girdiMaksimumGerilimDegeri;
+                    gucArayuzu.GirdiMinimumGerilimDegeri = girdiMinimumGerilimDegeri;
+                    gucArayuzu.GirdiTukettigiGucMiktari = girdiTukettigiGucMiktari;
+                    gucArayuzu.KullanimAmaciId = kullanimAmaciId;
+                    gucArayuzu.Port = port;
+                    gucArayuzu.TipId = tipId;
+
+                    viewModelGroup.GucArayuzuList.Add(gucArayuzu);
+                }
+            }
+
+            var GroupAgArayuzus = stateMachineXElement.Element("GroupAgArayuzus")?.Elements()?.ToList() ?? new List<XElement>();
+            foreach (var GroupAgArayuzu in GroupAgArayuzus)
+            {
+                if (new Guid(GroupAgArayuzu.Attribute("GroupId")?.Value) == uniqueId)
+                {
+                    AgArayuzu agArayuzu = new AgArayuzu();
+
+                    int itemId = Convert.ToInt32(GroupAgArayuzu.Attribute("Id")?.Value);
+                    string adi = GroupAgArayuzu.Attribute("Adi")?.Value;
+                    string port = GroupAgArayuzu.Attribute("Port")?.Value;
+                    int kullanimAmaciId = Convert.ToInt32(GroupAgArayuzu.Attribute("KullanimAmaciId")?.Value);
+                    int fizikselOrtamId = Convert.ToInt32(GroupAgArayuzu.Attribute("FizikselOrtamId")?.Value);
+                    int kapasiteId = Convert.ToInt32(GroupAgArayuzu.Attribute("KapasiteId")?.Value);
+                    int tipId = Convert.ToInt32(GroupAgArayuzu.Attribute("TipId")?.Value);
+
+                    using (AYPContext context = new AYPContext())
+                    {
+                        IKodListeService service = new KodListeService(context);
+                        agArayuzu.Adi = adi;
+                        agArayuzu.Id = itemId;
+                        agArayuzu.FizikselOrtamId = fizikselOrtamId;
+                        agArayuzu.KapasiteId = kapasiteId;
+                        agArayuzu.KL_Kapasite = service.GetKapasiteById(kapasiteId);
+                        agArayuzu.KullanimAmaciId = kullanimAmaciId;
+                        agArayuzu.Port = port;
+                        agArayuzu.TipId = tipId;
+                    }
+
+                    viewModelGroup.AgArayuzuList.Add(agArayuzu);
                 }
             }
 
             var GroupInternalConnects = stateMachineXElement.Element("GroupInternalConnects")?.Elements()?.ToList() ?? new List<XElement>();
             foreach (var groupInternalConnect in GroupInternalConnects)
             {
-                if (new Guid(groupInternalConnect.Attribute("GroupUniqueId")?.Value) == uniqueId)
+                if (new Guid(groupInternalConnect.Attribute("GroupId")?.Value) == uniqueId)
                 {
                     ConnectViewModel viewModelConnect = null;
 
@@ -272,100 +465,6 @@ namespace AYP.Models
 
                     Point endPoint = new Point();
                     PointExtensition.TryParseFromString(groupInternalConnect.Attribute("EndPoint")?.Value, out endPoint);
-
-                    var fromConnectorNodeOutputList = viewModelGroup.NodeList.Where(x => x.UniqueId == fromConnectorNodeUniqueId).Select(s => s.Transitions).FirstOrDefault();
-
-                    if (fromConnectorNodeOutputList != null)
-                    {
-                        var fromConnector = fromConnectorNodeOutputList.Items.Where(x => x.UniqueId == fromConnectorUniqueId).FirstOrDefault();
-
-                        var toConnectorNodeInputList = viewModelGroup.NodeList.Where(x => x.UniqueId == toConnectorNodeUniqueId).Select(s => s.InputList).FirstOrDefault();
-                        var toConnector = toConnectorNodeInputList.Where(x => x.UniqueId == toConnectorUniqueId).FirstOrDefault();
-
-                        viewModelConnect = new ConnectViewModel(nodesCanvas, fromConnector);
-                        viewModelConnect.ToConnector = toConnector;
-                        viewModelConnect.Uzunluk = kabloUzunlugu;
-                        viewModelConnect.AgYuku = agYuku;
-                        viewModelConnect.StartPoint = startPoint;
-                        viewModelConnect.EndPoint = endPoint;
-                        viewModelConnect.Point1 = point1;
-                        viewModelConnect.Point2 = point2;
-                        fromConnector.Connect = viewModelConnect;
-
-                        using (AYPContext context = new AYPContext())
-                        {
-                            IKodListeService service = new KodListeService(context);
-
-                            var AgAkislari = stateMachineXElement.Element("GroupNodeAgAkislari")?.Elements()?.ToList() ?? new List<XElement>();
-                            foreach (var agAkis in AgAkislari)
-                            {
-                                if (new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value) == fromConnector.UniqueId)
-                                {
-                                    var agAkisItem = new AgAkis();
-                                    agAkisItem.Id = new Guid(agAkis.Attribute("UniqueId")?.Value);
-                                    agAkisItem.AgAkisProtokoluId = Convert.ToInt32(agAkis.Attribute("AgAkisProtokoluId")?.Value);
-                                    agAkisItem.AgAkisTipiId = Convert.ToInt32(agAkis.Attribute("AgAkisTipiId")?.Value);
-                                    agAkisItem.AgAkisTipiAdi = service.ListAgAkisTipi().Where(x => x.Id == agAkisItem.AgAkisTipiId).Select(s => s.Ad).FirstOrDefault();
-                                    agAkisItem.AgAkisProtokoluAdi = service.ListAgAkisProtokolu().Where(x => x.Id == agAkisItem.AgAkisProtokoluId).Select(s => s.Ad).FirstOrDefault();
-                                    agAkisItem.AgArayuzuId = new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value);
-                                    if (agAkis.Attribute("IliskiliAgArayuzuUniqueId")?.Value == null)
-                                    {
-                                        agAkisItem.IliskiliAgArayuzuId = null;
-                                    }
-                                    else
-                                    {
-                                        agAkisItem.IliskiliAgArayuzuId = new Guid(agAkis.Attribute("IliskiliAgArayuzuUniqueId")?.Value);
-                                        agAkisItem.IliskiliAgArayuzuAdi = fromConnector.Node.InputList.Where(x => x.UniqueId == agAkisItem.IliskiliAgArayuzuId).Select(s => s.Label).FirstOrDefault();
-                                    }
-                                    agAkisItem.Yuk = Convert.ToDecimal(agAkis.Attribute("Yuk")?.Value);
-                                    fromConnector.AgAkisList.Add(agAkisItem);
-                                }
-                                else if (new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value) == toConnector.UniqueId)
-                                {
-                                    var agAkisItem = new AgAkis();
-                                    agAkisItem.Id = new Guid(agAkis.Attribute("UniqueId")?.Value);
-                                    agAkisItem.AgAkisProtokoluId = Convert.ToInt32(agAkis.Attribute("AgAkisProtokoluId")?.Value);
-                                    agAkisItem.AgAkisTipiId = Convert.ToInt32(agAkis.Attribute("AgAkisTipiId")?.Value);
-                                    agAkisItem.AgAkisTipiAdi = service.ListAgAkisTipi().Where(x => x.Id == agAkisItem.AgAkisTipiId).Select(s => s.Ad).FirstOrDefault();
-                                    agAkisItem.AgAkisProtokoluAdi = service.ListAgAkisProtokolu().Where(x => x.Id == agAkisItem.AgAkisProtokoluId).Select(s => s.Ad).FirstOrDefault();
-                                    agAkisItem.AgArayuzuId = new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value);
-                                    agAkisItem.IliskiliAgArayuzuId = null;
-
-                                    agAkisItem.Yuk = Convert.ToDecimal(agAkis.Attribute("Yuk")?.Value);
-                                    toConnector.AgAkisList.Add(agAkisItem);
-                                }
-                            }
-                        }
-
-                        viewModelGroup.InternalConnectList.Add(viewModelConnect);
-                    }
-                }
-            }
-
-            var GroupExternalConnects = stateMachineXElement.Element("GroupExternalConnects")?.Elements()?.ToList() ?? new List<XElement>();
-            foreach (var groupExternalConnect in GroupExternalConnects)
-            {
-                if (new Guid(groupExternalConnect.Attribute("GroupUniqueId")?.Value) == uniqueId)
-                {
-                    ConnectViewModel viewModelConnect = null;
-
-                    Guid fromConnectorUniqueId = new Guid(groupExternalConnect.Attribute("FromConnectorUniqueId")?.Value);
-                    Guid fromConnectorNodeUniqueId = new Guid(groupExternalConnect.Attribute("FromConnectorNodeUniqueId")?.Value);
-                    Guid toConnectorUniqueId = new Guid(groupExternalConnect.Attribute("ToConnectorUniqueId")?.Value);
-                    Guid toConnectorNodeUniqueId = new Guid(groupExternalConnect.Attribute("ToConnectorNodeUniqueId")?.Value);
-                    decimal kabloUzunlugu = Convert.ToDecimal(groupExternalConnect.Attribute("KabloUzunlugu")?.Value);
-                    decimal agYuku = Convert.ToDecimal(groupExternalConnect.Attribute("AgYuku")?.Value);
-                    Point point1 = new Point();
-                    PointExtensition.TryParseFromString(groupExternalConnect.Attribute("Point1")?.Value, out point1);
-
-                    Point point2 = new Point();
-                    PointExtensition.TryParseFromString(groupExternalConnect.Attribute("Point2")?.Value, out point2);
-
-                    Point startPoint = new Point();
-                    PointExtensition.TryParseFromString(groupExternalConnect.Attribute("StartPoint")?.Value, out startPoint);
-
-                    Point endPoint = new Point();
-                    PointExtensition.TryParseFromString(groupExternalConnect.Attribute("EndPoint")?.Value, out endPoint);
 
                     var fromConnectorNodeOutputList = viewModelGroup.NodeList.Where(x => x.UniqueId == fromConnectorNodeUniqueId).Select(s => s.Transitions).FirstOrDefault();
                     var fromConnector = fromConnectorNodeOutputList.Items.Where(x => x.UniqueId == fromConnectorUniqueId).FirstOrDefault();
@@ -428,101 +527,122 @@ namespace AYP.Models
                         }
                     }
 
-                    viewModelGroup.ExternalConnectList.Add(viewModelConnect);
+                    viewModelGroup.InternalConnectList.Add(viewModelConnect);
                 }
             }
 
-            var GroupGucArayuzus = stateMachineXElement.Element("GroupGucArayuzus")?.Elements()?.ToList() ?? new List<XElement>();
-            foreach (var GroupGucArayuzu in GroupGucArayuzus)
+
+            var GroupExternalConnects = stateMachineXElement.Element("GroupExternalConnects")?.Elements()?.ToList() ?? new List<XElement>();
+            foreach (var groupExternalConnect in GroupExternalConnects)
             {
-                if (new Guid(GroupGucArayuzu.Attribute("GroupUniqueId")?.Value) == uniqueId)
+                if (new Guid(groupExternalConnect.Attribute("GroupId")?.Value) == uniqueId)
                 {
-                    GucArayuzu gucArayuzu = null;
+                    ConnectViewModel viewModelConnect = null;
 
-                    int id = Convert.ToInt32(GroupGucArayuzu.Attribute("Id")?.Value);
-                    string adi = GroupGucArayuzu.Attribute("Adi")?.Value;
-                    string port = GroupGucArayuzu.Attribute("Port")?.Value;
-                    int kullanimAmaciId = Convert.ToInt32(GroupGucArayuzu.Attribute("KullanimAmaciId")?.Value);
-                    int gerilimTipiId = Convert.ToInt32(GroupGucArayuzu.Attribute("GerilimTipiId")?.Value);
-                    int tipId = Convert.ToInt32(GroupGucArayuzu.Attribute("TipId")?.Value);
+                    Guid fromConnectorUniqueId = new Guid(groupExternalConnect.Attribute("FromConnectorUniqueId")?.Value);
+                    Guid fromConnectorNodeUniqueId = new Guid(groupExternalConnect.Attribute("FromConnectorNodeUniqueId")?.Value);
+                    Guid toConnectorUniqueId = new Guid(groupExternalConnect.Attribute("ToConnectorUniqueId")?.Value);
+                    Guid toConnectorNodeUniqueId = new Guid(groupExternalConnect.Attribute("ToConnectorNodeUniqueId")?.Value);
+                    decimal kabloUzunlugu = Convert.ToDecimal(groupExternalConnect.Attribute("KabloUzunlugu")?.Value);
+                    decimal agYuku = Convert.ToDecimal(groupExternalConnect.Attribute("AgYuku")?.Value);
+                    Point point1 = new Point();
+                    PointExtensition.TryParseFromString(groupExternalConnect.Attribute("Point1")?.Value, out point1);
 
-                    decimal? girdiDuraganGerilimDegeri1 = 0;
-                    if (GroupGucArayuzu.Attribute("GirdiDuraganGerilimDegeri1")?.Value == null) { girdiDuraganGerilimDegeri1 = null; }
-                    else { girdiDuraganGerilimDegeri1 = Convert.ToDecimal(GroupGucArayuzu.Attribute("GirdiDuraganGerilimDegeri1")?.Value); }
+                    Point point2 = new Point();
+                    PointExtensition.TryParseFromString(groupExternalConnect.Attribute("Point2")?.Value, out point2);
 
-                    decimal? girdiDuraganGerilimDegeri2 = 0;
-                    if (GroupGucArayuzu.Attribute("GirdiDuraganGerilimDegeri2")?.Value == null) { girdiDuraganGerilimDegeri2 = null; }
-                    else { girdiDuraganGerilimDegeri2 = Convert.ToDecimal(GroupGucArayuzu.Attribute("GirdiDuraganGerilimDegeri2")?.Value); }
+                    Point startPoint = new Point();
+                    PointExtensition.TryParseFromString(groupExternalConnect.Attribute("StartPoint")?.Value, out startPoint);
 
-                    decimal? girdiDuraganGerilimDegeri3 = 0;
-                    if (GroupGucArayuzu.Attribute("GirdiDuraganGerilimDegeri3")?.Value == null) { girdiDuraganGerilimDegeri3 = null; }
-                    else { girdiDuraganGerilimDegeri3 = Convert.ToDecimal(GroupGucArayuzu.Attribute("GirdiDuraganGerilimDegeri3")?.Value); }
+                    Point endPoint = new Point();
+                    PointExtensition.TryParseFromString(groupExternalConnect.Attribute("EndPoint")?.Value, out endPoint);
 
-                    decimal? girdiMinimumGerilimDegeri = 0;
-                    if (GroupGucArayuzu.Attribute("GirdiMinimumGerilimDegeri")?.Value == null) { girdiMinimumGerilimDegeri = null; }
-                    else { girdiMinimumGerilimDegeri = Convert.ToDecimal(GroupGucArayuzu.Attribute("GirdiMinimumGerilimDegeri")?.Value); }
+                    var fromConnectorNodeOutputList = viewModelGroup.NodeList.Where(x => x.UniqueId == fromConnectorNodeUniqueId).Select(s => s.Transitions).FirstOrDefault();
+                    var fromConnector = fromConnectorNodeOutputList.Items.Where(x => x.UniqueId == fromConnectorUniqueId).FirstOrDefault();
+                    var toConnectorNodeInputList = new List<ConnectorViewModel>();
+                    ConnectorViewModel toConnector = null;
 
-                    decimal? girdiMaksimumGerilimDegeri = 0;
-                    if (GroupGucArayuzu.Attribute("GirdiMaksimumGerilimDegeri")?.Value == null) { girdiMaksimumGerilimDegeri = null; }
-                    else { girdiMaksimumGerilimDegeri = Convert.ToDecimal(GroupGucArayuzu.Attribute("GirdiMaksimumGerilimDegeri")?.Value); }
+                    if (fromConnectorNodeOutputList != null)
+                    {
+                        viewModelConnect = new ConnectViewModel(nodesCanvas, fromConnector);
 
-                    decimal? girdiTukettigiGucMiktari = 0;
-                    if (GroupGucArayuzu.Attribute("GirdiTukettigiGucMiktari")?.Value == null) { girdiTukettigiGucMiktari = null; }
-                    else { girdiTukettigiGucMiktari = Convert.ToDecimal(GroupGucArayuzu.Attribute("GirdiTukettigiGucMiktari")?.Value); }
+                        toConnectorNodeInputList = nodesCanvas.Nodes.Items.Where(x => x.UniqueId == toConnectorNodeUniqueId).Select(s => s.InputList).FirstOrDefault();
+                        toConnector = toConnectorNodeInputList.Where(x => x.UniqueId == toConnectorUniqueId).FirstOrDefault();
 
-                    decimal? ciktiUrettigiGucKapasitesi = 0;
-                    if (GroupGucArayuzu.Attribute("CiktiUrettigiGucKapasitesi")?.Value == null) { ciktiUrettigiGucKapasitesi = null; }
-                    else { ciktiUrettigiGucKapasitesi = Convert.ToDecimal(GroupGucArayuzu.Attribute("CiktiUrettigiGucKapasitesi")?.Value); }
+                        viewModelConnect.ToConnector = toConnector;
+                        viewModelConnect.Uzunluk = kabloUzunlugu;
+                        viewModelConnect.AgYuku = agYuku;
+                        viewModelConnect.StartPoint = startPoint;
+                        viewModelConnect.EndPoint = endPoint;
+                        viewModelConnect.Point1 = point1;
+                        viewModelConnect.Point2 = point2;
+                        fromConnector.Connect = viewModelConnect;
+                    }
+                    else
+                    {
+                        fromConnectorNodeOutputList = nodesCanvas.Nodes.Items.Where(x => x.UniqueId == fromConnectorNodeUniqueId).Select(s => s.Transitions).FirstOrDefault();
+                        fromConnector = fromConnectorNodeOutputList.Items.Where(x => x.UniqueId == fromConnectorUniqueId).FirstOrDefault();
+                        viewModelConnect = new ConnectViewModel(nodesCanvas, fromConnector);
 
-                    string ciktiDuraganGerilimDegeri = node.Attribute("CiktiDuraganGerilimDegeri")?.Value;
-                    gucArayuzu.Adi = adi;
-                    gucArayuzu.Id = id;
-                    gucArayuzu.CiktiDuraganGerilimDegeri = ciktiDuraganGerilimDegeri;
-                    gucArayuzu.CiktiUrettigiGucKapasitesi = ciktiUrettigiGucKapasitesi;
-                    gucArayuzu.GerilimTipiId = gerilimTipiId;
-                    gucArayuzu.GirdiDuraganGerilimDegeri1 = girdiDuraganGerilimDegeri1;
-                    gucArayuzu.GirdiDuraganGerilimDegeri2 = girdiDuraganGerilimDegeri2;
-                    gucArayuzu.GirdiDuraganGerilimDegeri3 = girdiDuraganGerilimDegeri3;
-                    gucArayuzu.GirdiMaksimumGerilimDegeri = girdiMaksimumGerilimDegeri;
-                    gucArayuzu.GirdiMinimumGerilimDegeri = girdiMinimumGerilimDegeri;
-                    gucArayuzu.GirdiTukettigiGucMiktari = girdiTukettigiGucMiktari;
-                    gucArayuzu.KullanimAmaciId = kullanimAmaciId;
-                    gucArayuzu.Port = port;
-                    gucArayuzu.TipId = tipId;
-
-                    viewModelGroup.GucArayuzuList.Add(gucArayuzu);
-                }
-            }
-
-            var GroupAgArayuzus = stateMachineXElement.Element("GroupAgArayuzus")?.Elements()?.ToList() ?? new List<XElement>();
-            foreach (var GroupAgArayuzu in GroupAgArayuzus)
-            {
-                if (new Guid(GroupAgArayuzu.Attribute("GroupUniqueId")?.Value) == uniqueId)
-                {
-                    AgArayuzu agArayuzu = null;
-
-                    int id = Convert.ToInt32(GroupAgArayuzu.Attribute("Id")?.Value);
-                    string adi = GroupAgArayuzu.Attribute("Adi")?.Value;
-                    string port = GroupAgArayuzu.Attribute("Port")?.Value;
-                    int kullanimAmaciId = Convert.ToInt32(GroupAgArayuzu.Attribute("KullanimAmaciId")?.Value);
-                    int fizikselOrtamId = Convert.ToInt32(GroupAgArayuzu.Attribute("FizikselOrtamId")?.Value);
-                    int kapasiteId = Convert.ToInt32(GroupAgArayuzu.Attribute("KapasiteId")?.Value);
-                    int tipId = Convert.ToInt32(GroupAgArayuzu.Attribute("TipId")?.Value);
+                        toConnectorNodeInputList = viewModelGroup.NodeList.Where(x => x.UniqueId == toConnectorNodeUniqueId).Select(s => s.InputList).FirstOrDefault();
+                        toConnector = toConnectorNodeInputList.Where(x => x.UniqueId == toConnectorUniqueId).FirstOrDefault();
+                        viewModelConnect.ToConnector = toConnector;
+                        viewModelConnect.Uzunluk = kabloUzunlugu;
+                        viewModelConnect.AgYuku = agYuku;
+                        viewModelConnect.StartPoint = startPoint;
+                        viewModelConnect.EndPoint = endPoint;
+                        viewModelConnect.Point1 = point1;
+                        viewModelConnect.Point2 = point2;
+                        fromConnector.Connect = viewModelConnect;
+                    }
+                    
 
                     using (AYPContext context = new AYPContext())
                     {
                         IKodListeService service = new KodListeService(context);
-                        agArayuzu.Adi = adi;
-                        agArayuzu.Id = id;
-                        agArayuzu.FizikselOrtamId = fizikselOrtamId;
-                        agArayuzu.KapasiteId = kapasiteId;
-                        agArayuzu.KL_Kapasite = service.GetKapasiteById(kapasiteId);
-                        agArayuzu.KullanimAmaciId = kullanimAmaciId;
-                        agArayuzu.Port = port;
-                        agArayuzu.TipId = tipId;
+
+                        var AgAkislari = stateMachineXElement.Element("GroupNodeAgAkislari")?.Elements()?.ToList() ?? new List<XElement>();
+                        foreach (var agAkis in AgAkislari)
+                        {
+                            if (new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value) == fromConnector.UniqueId)
+                            {
+                                var agAkisItem = new AgAkis();
+                                agAkisItem.Id = new Guid(agAkis.Attribute("UniqueId")?.Value);
+                                agAkisItem.AgAkisProtokoluId = Convert.ToInt32(agAkis.Attribute("AgAkisProtokoluId")?.Value);
+                                agAkisItem.AgAkisTipiId = Convert.ToInt32(agAkis.Attribute("AgAkisTipiId")?.Value);
+                                agAkisItem.AgAkisTipiAdi = service.ListAgAkisTipi().Where(x => x.Id == agAkisItem.AgAkisTipiId).Select(s => s.Ad).FirstOrDefault();
+                                agAkisItem.AgAkisProtokoluAdi = service.ListAgAkisProtokolu().Where(x => x.Id == agAkisItem.AgAkisProtokoluId).Select(s => s.Ad).FirstOrDefault();
+                                agAkisItem.AgArayuzuId = new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value);
+                                if (agAkis.Attribute("IliskiliAgArayuzuUniqueId")?.Value == null)
+                                {
+                                    agAkisItem.IliskiliAgArayuzuId = null;
+                                }
+                                else
+                                {
+                                    agAkisItem.IliskiliAgArayuzuId = new Guid(agAkis.Attribute("IliskiliAgArayuzuUniqueId")?.Value);
+                                    agAkisItem.IliskiliAgArayuzuAdi = fromConnector.Node.InputList.Where(x => x.UniqueId == agAkisItem.IliskiliAgArayuzuId).Select(s => s.Label).FirstOrDefault();
+                                }
+                                agAkisItem.Yuk = Convert.ToDecimal(agAkis.Attribute("Yuk")?.Value);
+                                fromConnector.AgAkisList.Add(agAkisItem);
+                            }
+                            else if (new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value) == toConnector.UniqueId)
+                            {
+                                var agAkisItem = new AgAkis();
+                                agAkisItem.Id = new Guid(agAkis.Attribute("UniqueId")?.Value);
+                                agAkisItem.AgAkisProtokoluId = Convert.ToInt32(agAkis.Attribute("AgAkisProtokoluId")?.Value);
+                                agAkisItem.AgAkisTipiId = Convert.ToInt32(agAkis.Attribute("AgAkisTipiId")?.Value);
+                                agAkisItem.AgAkisTipiAdi = service.ListAgAkisTipi().Where(x => x.Id == agAkisItem.AgAkisTipiId).Select(s => s.Ad).FirstOrDefault();
+                                agAkisItem.AgAkisProtokoluAdi = service.ListAgAkisProtokolu().Where(x => x.Id == agAkisItem.AgAkisProtokoluId).Select(s => s.Ad).FirstOrDefault();
+                                agAkisItem.AgArayuzuId = new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value);
+                                agAkisItem.IliskiliAgArayuzuId = null;
+
+                                agAkisItem.Yuk = Convert.ToDecimal(agAkis.Attribute("Yuk")?.Value);
+                                toConnector.AgAkisList.Add(agAkisItem);
+                            }
+                        }
                     }
 
-                    viewModelGroup.AgArayuzuList.Add(agArayuzu);
+                    viewModelGroup.ExternalConnectList.Add(viewModelConnect);
                 }
             }
 

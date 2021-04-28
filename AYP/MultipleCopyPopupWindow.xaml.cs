@@ -27,8 +27,6 @@ namespace AYP
     /// </summary>
     public partial class MultipleCopyPopupWindow : Window
     {
-
-
         public NodeViewModel selectedNode;
 
         public MultipleCopyPopupWindow(NodeViewModel _selectedNode)
@@ -54,20 +52,27 @@ namespace AYP
         {
             if (!String.IsNullOrEmpty(Adet.Text) && !String.IsNullOrWhiteSpace(Adet.Text))
             {
-                for (int i = 1; i <= Convert.ToInt32(Adet.Text); i++)
+                if (Convert.ToInt32(Adet.Text) <= 49)
                 {
-                    ExternalNode data = new ExternalNode();
-                    var nodePoint = new Point(selectedNode.Point1.X + (15 * i), selectedNode.Point1.Y + (15 * i));
+                    for (int i = 1; i <= Convert.ToInt32(Adet.Text); i++)
+                    {
+                        ExternalNode data = new ExternalNode();
+                        var nodePoint = new Point(selectedNode.Point1.X + (15 * i), selectedNode.Point1.Y + (15 * i));
 
-                    data.Node = selectedNode;
-                    data.Point = nodePoint;
-                    selectedNode.NodesCanvas.CommandAddNodeWithUndoRedo.Execute(data);
+                        data.Node = selectedNode;
+                        data.Point = nodePoint;
+                        selectedNode.NodesCanvas.CommandAddNodeWithUndoRedo.Execute(data);
+                    }
+
+                    this.ClosePopup();
                 }
-
-
-
-
-                this.ClosePopup();
+                else
+                {
+                    NotifyInfoPopup nfp = new NotifyInfoPopup();
+                    nfp.msg.Text = "Tek seferde en fazla 49 tane cihaz çoğaltabilirsiniz!";
+                    nfp.Owner = Owner;
+                    nfp.Show();
+                }
             }
             else
             {

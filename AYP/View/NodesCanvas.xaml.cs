@@ -135,6 +135,10 @@ namespace AYP.View
 
                 this.BindCommand(this.ViewModel, x => x.CommandEditSelected, x => x.ItemEditSelected).DisposeWith(disposable);
                 this.BindCommand(this.ViewModel, x => x.CommandCopyMultiple, x => x.ItemCopyMultiple).DisposeWith(disposable);
+                
+                this.BindCommand(this.ViewModel, x => x.CommandRename, x => x.BindingRename).DisposeWith(disposable);
+                this.BindCommand(this.ViewModel, x => x.CommandRename, x => x.ItemRename).DisposeWith(disposable);
+
 
             });
         }
@@ -279,6 +283,89 @@ namespace AYP.View
         private void OnEventPreviewMouseRightButtonDown(MouseButtonEventArgs e)
         {
             this.ViewModel.PositionLeft = e.GetPosition(this.CanvasElement);
+            int selectedNodeCount = this.ViewModel.Nodes.Items.Where(x => x.Selected).Count();
+
+            if(selectedNodeCount > 0)
+            {
+                ItemCollapsUp.IsEnabled = true;
+                ItemCollapsUp.Opacity = 1;
+
+                ItemExpandDown.IsEnabled = true;
+                ItemExpandDown.Opacity = 1;
+
+                ItemDelete.IsEnabled = true;
+                ItemDelete.Opacity = 1;
+
+                ItemRename.IsEnabled = true;
+                ItemRename.Opacity = 1;
+
+                ItemCopy.IsEnabled = true;
+                ItemCopy.Opacity = 1;
+
+                ItemAlignRight.IsEnabled = true;
+                ItemAlignRight.Opacity = 1;
+
+                ItemAlignCenter.IsEnabled = true;
+                ItemAlignCenter.Opacity = 1;
+
+                ItemAlignLeft.IsEnabled = true;
+                ItemAlignLeft.Opacity = 1;
+
+                ItemGroup.IsEnabled = true;
+                ItemGroup.Opacity = 1;
+
+                ItemUngroup.IsEnabled = true;
+                ItemUngroup.Opacity = 1;
+
+                ItemEditSelected.IsEnabled = true;
+                ItemEditSelected.Opacity = 1;
+
+                ItemCopyMultiple.IsEnabled = true;
+                ItemCopyMultiple.Opacity = 1;
+
+            }
+            else
+            {
+                ItemCollapsUp.IsEnabled = false;
+                ItemCollapsUp.Opacity = 0.25;
+
+                ItemExpandDown.IsEnabled = false;
+                ItemExpandDown.Opacity = 0.25;
+
+                ItemDelete.IsEnabled = false;
+                ItemDelete.Opacity = 0.25;
+
+                ItemRename.IsEnabled = false;
+                ItemRename.Opacity = 0.25;
+
+                ItemCopy.IsEnabled = false;
+                ItemCopy.Opacity = 0.25;
+
+                ItemAlignRight.IsEnabled = false;
+                ItemAlignRight.Opacity = 0.25;
+
+                ItemAlignCenter.IsEnabled = false;
+                ItemAlignCenter.Opacity = 0.25;
+
+                ItemAlignLeft.IsEnabled = false;
+                ItemAlignLeft.Opacity = 0.25;
+
+                ItemGroup.IsEnabled = false;
+                ItemGroup.Opacity = 0.25;
+
+                ItemUngroup.IsEnabled = false;
+                ItemUngroup.Opacity = 0.25;
+
+                ItemEditSelected.IsEnabled = false;
+                ItemEditSelected.Opacity = 0.25;
+
+                ItemCopyMultiple.IsEnabled = false;
+                ItemCopyMultiple.Opacity = 0.25;
+
+            }
+
+            ItemPaste.IsEnabled = this.ViewModel.NodeClipboard.Count() > 0 ? true : false;
+            ItemPaste.Opacity = this.ViewModel.NodeClipboard.Count() > 0 ? 1 : 0.25;
         }
 
         #endregion Setup Events

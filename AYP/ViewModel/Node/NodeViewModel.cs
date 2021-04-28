@@ -29,7 +29,7 @@ namespace AYP.ViewModel
         [Reactive] public Point Point2 { get; set; }
         [Reactive] public Size Size { get; set; }
         [Reactive] public string Name { get; set; }
-        [Reactive] public bool NameEnable { get; set; } = true;
+        [Reactive] public bool NameEnable { get; set; } = false;
         [Reactive] public bool Selected { get; set; }
         [Reactive] public Brush BorderBrush { get; set; } = Application.Current.Resources["ColorNodeBorder"] as SolidColorBrush;
         [Reactive] public bool? TransitionsVisible { get; set; } = true;
@@ -248,7 +248,7 @@ namespace AYP.ViewModel
                             }
                             else
                             {
-                                output.KalanKapasite = (VerimlilikOrani * output.CiktiUrettigiGucKapasitesi.Value);
+                                output.KalanKapasite = (VerimlilikOrani * output.CiktiUrettigiGucKapasitesi.Value) / 100;
                             }
 
                         }
@@ -302,7 +302,7 @@ namespace AYP.ViewModel
                             }
                             else
                             {
-                                output.KalanKapasite = (VerimlilikOrani * output.CiktiUrettigiGucKapasitesi.Value);
+                                output.KalanKapasite = (VerimlilikOrani * output.CiktiUrettigiGucKapasitesi.Value) / 100;
                             }
 
                         }
@@ -505,13 +505,12 @@ namespace AYP.ViewModel
                     decimal? kalanKapasiteInput = 0;
                     if (input.Attribute("KalanKapasite")?.Value == null) { kalanKapasiteInput = null; }
                     else { kalanKapasiteInput = Convert.ToDecimal(input.Attribute("KalanKapasite")?.Value); }
-                    double artik = Convert.ToInt32(input.Attribute("Artik")?.Value);
 
                     var newConnector = new ConnectorViewModel(nodesCanvas, viewModelNode, nameInput, positionInput, uniqueIdInput, kapasiteIdInput, minKapasiteInput, maxKapasiteInput,
                         fizikselOrtamIdInput, gerilimTipiIdInput, kullanimAmaciIdInput, girdiDuraganGerilimDegeri1Input, girdiDuraganGerilimDegeri2Input, girdiDuraganGerilimDegeri3Input,
                         girdiMinimumGerilimDegeriInput, girdiMaksimumGerilimDegeriInput, girdiTukettigiGucMiktariInput, ciktiDuraganGerilimDegeriInput, ciktiUrettigiGucKapasitesiInput, labelInput,
                         typeIdInput, idInput, portInput, kalanKapasiteInput);
-                    newConnector.Artik = artik;
+
                     inputList.Add(newConnector);
                 }
             }
@@ -587,13 +586,12 @@ namespace AYP.ViewModel
                     decimal? kalanKapasiteOutput = 0;
                     if (output.Attribute("KalanKapasite")?.Value == null) { kalanKapasiteOutput = null; }
                     else { kalanKapasiteOutput = Convert.ToDecimal(output.Attribute("KalanKapasite")?.Value); }
-                    double artik = Convert.ToInt32(output.Attribute("Artik")?.Value);
 
                     var newConnector = new ConnectorViewModel(nodesCanvas, viewModelNode, nameOutput, positionOutput, uniqueIdOutput, kapasiteIdOutput, minKapasiteOutput, maxKapasiteOutput,
                         fizikselOrtamIdOutput, gerilimTipiIdOutput, kullanimAmaciIdOutput, girdiDuraganGerilimDegeri1Output, girdiDuraganGerilimDegeri2Output, girdiDuraganGerilimDegeri3Output,
                         girdiMinimumGerilimDegeriOutput, girdiMaksimumGerilimDegeriOutput, girdiTukettigiGucMiktariOutput, ciktiDuraganGerilimDegeriOutput, ciktiUrettigiGucKapasitesiOutput, labelOutput,
                         typeIdOutput, idOutput, portOutput, kalanKapasiteOutput);
-                    newConnector.Artik = artik;
+
                     newConnector.Visible = null;
                     outputList.Add(newConnector);
                 }

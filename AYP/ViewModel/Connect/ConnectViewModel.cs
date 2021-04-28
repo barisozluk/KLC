@@ -169,7 +169,7 @@ namespace AYP.ViewModel
             return element;
         }
 
-        public XElement ToInternalXElement(Guid GroupUniqueId)
+        public XElement ToInternalXElement(Guid GroupId)
         {
             XElement element = new XElement("GroupInternalConnect");
             element.Add(new XAttribute("FromConnectorNodeUniqueId", FromConnector.Node.UniqueId));
@@ -182,12 +182,12 @@ namespace AYP.ViewModel
             element.Add(new XAttribute("Point2", PointExtensition.PointToString(Point2)));
             element.Add(new XAttribute("StartPoint", PointExtensition.PointToString(StartPoint)));
             element.Add(new XAttribute("EndPoint", PointExtensition.PointToString(EndPoint)));
-            element.Add(new XAttribute("GroupUniqueId", GroupUniqueId));
+            element.Add(new XAttribute("GroupId", GroupId));
 
             return element;
         }
 
-        public XElement ToExternalXElement(Guid GroupUniqueId)
+        public XElement ToExternalXElement(Guid GroupId)
         {
             XElement element = new XElement("GroupExternalConnect");
             element.Add(new XAttribute("FromConnectorNodeUniqueId", FromConnector.Node.UniqueId));
@@ -200,7 +200,7 @@ namespace AYP.ViewModel
             element.Add(new XAttribute("Point2", PointExtensition.PointToString(Point2)));
             element.Add(new XAttribute("StartPoint", PointExtensition.PointToString(StartPoint)));
             element.Add(new XAttribute("EndPoint", PointExtensition.PointToString(EndPoint)));
-            element.Add(new XAttribute("GroupUniqueId", GroupUniqueId));
+            element.Add(new XAttribute("GroupId", GroupId));
 
             return element;
         }
