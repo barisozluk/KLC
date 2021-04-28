@@ -32,8 +32,8 @@ namespace AYP
     /// </summary>
     public partial class MainWindow : Window, IViewFor<MainWindowViewModel>
     {
-        private bool agWorkspaceSeciliMi = true;
-        private bool gucWorkspaceSeciliMi = false;
+        private bool agWorkspaceSeciliMi = false;
+        private bool gucWorkspaceSeciliMi = true;
 
         public bool toggleRight = true;
         public bool toggleLeft = true;
@@ -77,6 +77,11 @@ namespace AYP
             SetupBinding();
             SetupEvents();
 
+            GucPlanlamaCheckBox.IsEnabled = gucWorkspaceSeciliMi;
+            GucPlanlamaCheckBox.IsChecked = gucWorkspaceSeciliMi;
+            AgPlanlamaCheckbox.IsEnabled = agWorkspaceSeciliMi;
+            AgPlanlamaCheckbox.IsChecked = agWorkspaceSeciliMi;
+
             context = new AYPContext();
             ucBirimService = new UcBirimService(context);
             agAnahtariService = new AgAnahtariService(context);
@@ -85,6 +90,7 @@ namespace AYP
             ListUcBirim();
             ListAgAnahtari();
             ListGucUretici();
+
         }
 
         #region Setup Binding
@@ -699,20 +705,10 @@ namespace AYP
 
                 if (model.TypeId == (int)TipEnum.AgAnahtari || model.TypeId == (int)TipEnum.UcBirim)
                 {
-                    if (agWorkspaceSeciliMi)
-                    {
-                        ExternalNode data = new ExternalNode();
-                        data.Node = model;
-                        data.Point = NodesCanvas.PositionMove;
-                        this.NodesCanvas.ViewModel.CommandAddNodeWithUndoRedo.Execute(data);
-                    }
-                    else
-                    {
-                        NotifyInfoPopup nfp = new NotifyInfoPopup();
-                        nfp.msg.Text = "Şu an Güç Planlama üzerine çalışmaktasınız, Uç Birim veya Ağ Anahtarı ekleyemezsiniz.";
-                        nfp.Owner = this;
-                        nfp.Show();
-                    }
+                    ExternalNode data = new ExternalNode();
+                    data.Node = model;
+                    data.Point = NodesCanvas.PositionMove;
+                    this.NodesCanvas.ViewModel.CommandAddNodeWithUndoRedo.Execute(data);
                 }
                 else
                 {
@@ -726,7 +722,7 @@ namespace AYP
                     else
                     {
                         NotifyInfoPopup nfp = new NotifyInfoPopup();
-                        nfp.msg.Text = "Şu an Ağ Planlama üzerine çalışmaktasınız, Uç Birim veya Ağ Anahtarı ekleyemezsiniz.";
+                        nfp.msg.Text = "Şu an Ağ Planlama üzerine çalışmaktasınız, Güç Üretici ekleyemezsiniz.";
                         nfp.Owner = this;
                         nfp.Show();
                     }
@@ -744,25 +740,43 @@ namespace AYP
         private void AgPlanlama_Checked(object sender, RoutedEventArgs e)
         {
             agWorkspaceSeciliMi = true;
+            gucWorkspaceSeciliMi = false;
+            GucPlanlamaCheckBox.IsEnabled = gucWorkspaceSeciliMi;
+            GucPlanlamaCheckBox.IsChecked = gucWorkspaceSeciliMi;
+            AgPlanlamaCheckbox.IsEnabled = agWorkspaceSeciliMi;
+            AgPlanlamaCheckbox.IsChecked = agWorkspaceSeciliMi;
             ShowAgComponents();
         }
 
         private void AgPlanlama_Unchecked(object sender, RoutedEventArgs e)
         {
             agWorkspaceSeciliMi = false;
-            HideAgComponents();
+            gucWorkspaceSeciliMi = true;
+            GucPlanlamaCheckBox.IsEnabled = gucWorkspaceSeciliMi;
+            GucPlanlamaCheckBox.IsChecked = gucWorkspaceSeciliMi;
+            AgPlanlamaCheckbox.IsEnabled = agWorkspaceSeciliMi;
+            AgPlanlamaCheckbox.IsChecked = agWorkspaceSeciliMi;
         }
 
         private void GucPlanlama_Checked(object sender, RoutedEventArgs e)
         {
             gucWorkspaceSeciliMi = true;
+            agWorkspaceSeciliMi = false;
+            GucPlanlamaCheckBox.IsEnabled = gucWorkspaceSeciliMi;
+            GucPlanlamaCheckBox.IsChecked = gucWorkspaceSeciliMi;
+            AgPlanlamaCheckbox.IsEnabled = agWorkspaceSeciliMi;
+            AgPlanlamaCheckbox.IsChecked = agWorkspaceSeciliMi;
             ShowGucComponents();
         }
 
         private void GucPlanlama_Unchecked(object sender, RoutedEventArgs e)
         {
             gucWorkspaceSeciliMi = false;
-            HideGucComponents();
+            agWorkspaceSeciliMi = true;
+            GucPlanlamaCheckBox.IsEnabled = gucWorkspaceSeciliMi;
+            GucPlanlamaCheckBox.IsChecked = gucWorkspaceSeciliMi;
+            AgPlanlamaCheckbox.IsEnabled = agWorkspaceSeciliMi;
+            AgPlanlamaCheckbox.IsChecked = agWorkspaceSeciliMi;
         }
 
         private void ShowGucComponents()
@@ -773,36 +787,11 @@ namespace AYP
 
                 foreach (var node in nodes)
                 {
-                    if (node.TypeId == (int)TipEnum.GucUretici)
-                    {
-                        //Node visible true
-                        foreach (var connect in node.NodesCanvas.Connects.ToList())
-                        {
-                            connect.IsVisible = true;
-                        }
-                        node.IsVisible = true;
-                    }
-                }
-            }
-        }
-
-        private void HideGucComponents()
-        {
-            if (this.ViewModel != null)
-            {
-                var nodes = this.ViewModel.NodesCanvas.Nodes.Items;
-
-                foreach (var node in nodes)
-                {
-                    if (node.TypeId == (int)TipEnum.GucUretici)
-                    {
-                        //Node visible false
-                        foreach (var connect in node.NodesCanvas.Connects.ToList())
-                        {
-                            connect.IsVisible = false;
-                        }
-                        node.IsVisible = false;
-                    }
+                    //foreach (var connect in node.NodesCanvas.Connects.ToList())
+                    //{
+                    //    connect.IsVisible = true;
+                    //}
+                    node.IsVisible = true;
                 }
             }
         }
@@ -817,33 +806,20 @@ namespace AYP
                 {
                     if (node.TypeId != (int)TipEnum.GucUretici)
                     {
-                        //Node visible true
-                        foreach (var connect in node.NodesCanvas.Connects.ToList())
-                        {
-                            connect.IsVisible = true;
-                        }
+                        ////Node visible true
+                        //foreach (var connect in node.NodesCanvas.Connects.ToList())
+                        //{
+                        //    connect.IsVisible = true;
+                        //}
                         node.IsVisible = true;
                     }
-                }
-            }
-        }
-
-        private void HideAgComponents()
-        {
-            if (this.ViewModel != null)
-            {
-                var nodes = this.ViewModel.NodesCanvas.Nodes.Items;
-
-                foreach (var node in nodes)
-                {
-                    if (node.TypeId != (int)TipEnum.GucUretici)
+                    else
                     {
                         //Node visible false
-
-                        foreach (var connect in node.NodesCanvas.Connects.ToList())
-                        {
-                            connect.IsVisible = false;
-                        }
+                        //foreach (var connect in node.NodesCanvas.Connects.ToList())
+                        //{
+                        //    connect.IsVisible = false;
+                        //}
                         node.IsVisible = false;
                     }
                 }
@@ -1447,7 +1423,7 @@ namespace AYP
                     doc.Add(img);
 
                     doc.NewPage();
-                    
+
                     if (ucBirimler.Count > 0 || agAnahtarlari.Count > 0)
                     {
                         string gucTuketiciH = "Güç Tüketiciler Listesi";
@@ -1731,7 +1707,7 @@ namespace AYP
                 popup.Owner = this;
                 popup.ShowDialog();
             }
-            else if(obj.Connector.TypeId == (int)TipEnum.UcBirimAgArayuzu)
+            else if (obj.Connector.TypeId == (int)TipEnum.UcBirimAgArayuzu)
             {
                 UcBirimAgAkisPopupWindow popup = new UcBirimAgAkisPopupWindow(obj.Connector);
                 popup.Owner = this;
