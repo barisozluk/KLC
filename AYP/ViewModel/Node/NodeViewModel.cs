@@ -160,7 +160,7 @@ namespace AYP.ViewModel
             {
                 if (AgArayuzuList != null)
                 {
-                    AgArayuzuList = AgArayuzuList.OrderBy(o => o.Port).ToList();
+                    AgArayuzuList = AgArayuzuList.OrderBy(o => Convert.ToInt32(o.Port.Substring(5))).ToList();
                     var inputList = AgArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Girdi).ToList();
 
                     for (int i = 0; i < AgArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Girdi).Count(); i++)
@@ -185,7 +185,7 @@ namespace AYP.ViewModel
                 if (GucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Girdi).Count() > 0)
                 {
                     int count = InputList.Count();
-                    GucArayuzuList = GucArayuzuList.OrderBy(o => o.Port).ToList();
+                    GucArayuzuList = GucArayuzuList.OrderBy(o => Convert.ToInt32(o.Port.Substring(5))).ToList();
                     var inputList = GucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Girdi).ToList();
 
                     for (int i = 0; i < inputList.Count(); i++)
@@ -220,7 +220,7 @@ namespace AYP.ViewModel
             {
                 if (AgArayuzuList != null)
                 {
-                    AgArayuzuList = AgArayuzuList.OrderBy(o => o.Port).ToList();
+                    AgArayuzuList = AgArayuzuList.OrderBy(o => Convert.ToInt32(o.Port.Substring(5))).ToList();
                     var outputList = AgArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).ToList();
 
                     for (int i = 0; i < outputList.Count(); i++)
@@ -267,7 +267,7 @@ namespace AYP.ViewModel
                 if (GucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).Count() > 0)
                 {
                     int count = OutputList.Count();
-                    GucArayuzuList = GucArayuzuList.OrderBy(o => o.Port).ToList();
+                    GucArayuzuList = GucArayuzuList.OrderBy(o => Convert.ToInt32(o.Port.Substring(5))).ToList();
                     var outputList = GucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).ToList();
 
                     for (int i = 0; i < outputList.Count(); i++)
@@ -414,20 +414,7 @@ namespace AYP.ViewModel
             decimal? dahiliGucTuketimDegeri = 0;
             if (node.Attribute("DahiliGucTuketimDegeri")?.Value == null) { dahiliGucTuketimDegeri = null; }
             else { dahiliGucTuketimDegeri = Convert.ToDecimal(node.Attribute("DahiliGucTuketimDegeri")?.Value); }
-            byte[] sembol = node.Attribute("Sembol")?.Value != null ? Convert.FromBase64String(node.Attribute("Sembol")?.Value) : null;
-
-
-            if (string.IsNullOrEmpty(name))
-            {
-                errorMessage = "Node without name";
-                return viewModelNode;
-            }
-
-            if (actionForCheck(name))
-            {
-                errorMessage = String.Format("Contains more than one node with name \"{0}\"", name);
-                return viewModelNode;
-            }
+            byte[] sembol = node.Attribute("Sembol")?.Value != null ? Convert.FromBase64String(node.Attribute("Sembol")?.Value) : null;            
 
             viewModelNode = new NodeViewModel(nodesCanvas, name, uniqueId, position, id, typeId, null, null, null, null, verimlilikOrani, dahiliGucTuketimDegeri, sembol, stokNo, tanim, ureticiAdi, ureticiParcaNo, turAd);
             var inputList = new List<ConnectorViewModel>();

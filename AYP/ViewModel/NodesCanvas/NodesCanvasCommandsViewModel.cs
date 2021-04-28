@@ -1870,27 +1870,27 @@ namespace AYP.ViewModel
                 var visualizationStates = Visualization.Elements()?.ToList();
                 if (visualizationStates != null)
                 {
-                    var nodes = this.Nodes.Items.ToDictionary(x => x.Name, x => x);
+                    var nodes = this.Nodes.Items.ToDictionary(x => x.UniqueId, x => x);
                     Point point;
                     bool isCollapse;
-                    string name;
+                    Guid uniqueId;
                     string pointAttribute;
                     string isCollapseAttribute;
                     foreach (var visualization in visualizationStates)
                     {
-                        name = visualization.Attribute("Name")?.Value;
-                        if (nodes.TryGetValue(name, out NodeViewModel node))
+                        uniqueId = new Guid(visualization.Attribute("UniqueId")?.Value);
+                        if (nodes.TryGetValue(uniqueId, out NodeViewModel node))
                         {
                             pointAttribute = visualization.Attribute("Position")?.Value;
                             if (!PointExtensition.TryParseFromString(pointAttribute, out point))
                             {
-                                Error(String.Format("Error parse attribute \'position\' for state with name \'{0}\'", name));
+                                Error(String.Format("Error parse attribute \'position\' for state with name \'{0}\'", uniqueId));
                                 return;
                             }
                             isCollapseAttribute = visualization.Attribute("IsCollapse")?.Value;
                             if (!bool.TryParse(isCollapseAttribute, out isCollapse))
                             {
-                                Error(String.Format("Error parse attribute \'isCollapse\' for state with name \'{0}\'", name));
+                                Error(String.Format("Error parse attribute \'isCollapse\' for state with name \'{0}\'", uniqueId));
                                 return;
                             }
                             node.Point1 = point;
@@ -1898,7 +1898,7 @@ namespace AYP.ViewModel
                         }
                         else
                         {
-                            Error(String.Format("Visualization for state with name \'{0}\' that not exist", name));
+                            Error(String.Format("Visualization for state with name \'{0}\' that not exist", uniqueId));
                             return;
                         }
                     }

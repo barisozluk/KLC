@@ -130,8 +130,10 @@ namespace AYP.ViewModel
             }
             else if (FromConnector.Node.InputList.Count() - 1 != 0)
             {
+                int index = FromConnector.Node.Transitions.Items.ToList().FindIndex(x => x.UniqueId == FromConnector.UniqueId);
+
                 int offset1 = ((FromConnector.Node.InputList.Count() - 1) * 20);
-                StartPoint = point.Addition(0, (offset1 - 5));
+                StartPoint = point.Addition(0, (offset1 - index - 5));
             }
             else
             {
