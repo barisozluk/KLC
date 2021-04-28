@@ -1014,7 +1014,7 @@ namespace AYP
         private void Help_Click(object sender, RoutedEventArgs e)
         {
             var pdfOpenProcess = new System.Diagnostics.Process();
-            string pdfPath = Directory.GetCurrentDirectory() + "\\SEMA-AYP-KK_v1.0_Kullanım Kılavuzu(001).pdf";
+            string pdfPath = Directory.GetCurrentDirectory() + "\\SEMA-AYP-KK_v2.0_Kullanım Kılavuzu(001).pdf";
 
             if (!File.Exists(pdfPath))
             {
