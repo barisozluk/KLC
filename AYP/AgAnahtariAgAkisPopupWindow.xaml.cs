@@ -44,7 +44,7 @@ namespace AYP
             this.context = new AYPContext();
             kodListeService = new KodListeService(context);
             InitializeComponent();
-            MainTitle.Content = "Ağ Akışı - " + toplam + " Mbps";
+            MainTitle.Content = "Ağ Akışı - " + toplam.ToString("0.##") + " Mbps";
 
             if (this.agAnahtariAgArayuzu.AgAkisList.Count > 0)
             {
@@ -273,7 +273,7 @@ namespace AYP
                         if (this.agAnahtariAgArayuzu.MaxKapasite >= total)
                         {
                             toplam = total;
-                            MainTitle.Content = "Ağ Akışı - " + toplam + " Mbps";
+                            MainTitle.Content = "Ağ Akışı - " + toplam.ToString("0.##") + " Mbps";
 
                             if (checkedAgAkisRow != null)
                             {
@@ -379,7 +379,7 @@ namespace AYP
                 AgAkisDataGrid.ItemsSource = null;
                 this.agAnahtariAgArayuzu.AgAkisList.Remove(obj);
                 toplam = this.agAnahtariAgArayuzu.AgAkisList.Select(s => s.Yuk).Sum();
-                MainTitle.Content = "Ağ Akışı - " + toplam + " Mbps";
+                MainTitle.Content = "Ağ Akışı - " + toplam.ToString("0.##") + " Mbps";
 
                 SetToConnectorAgAkis();
                 AgAkisDataGrid.ItemsSource = this.agAnahtariAgArayuzu.AgAkisList;

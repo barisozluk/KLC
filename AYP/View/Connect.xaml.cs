@@ -333,7 +333,7 @@ namespace AYP.View
         }
         private void OnEventAgYuku(decimal value)
         {
-            AgYuku.Text = value.ToString() + " mbps";
+            AgYuku.Text = value.ToString("0.##") + " mbps";
         }
 
 

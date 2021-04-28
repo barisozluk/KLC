@@ -126,10 +126,10 @@ namespace AYP.ViewModel
                         }
                     }
                 }
-                else
-                {
-                    connect.FromConnector.SetAsLoop();
-                }
+                //else
+                //{
+                //    connect.FromConnector.SetAsLoop();
+                //}
 
                 if (connect.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu)
                 {

@@ -9,8 +9,6 @@ using AYP.Services;
 using AYP.View;
 using AYP.ViewModel;
 using AYP.ViewModel.Node;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
 using Microsoft.Win32;
 using ReactiveUI;
 using System;
@@ -19,11 +17,21 @@ using System.IO;
 using System.Linq;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Kernel.Geom;
+using iText.Html2pdf;
+using iText.Layout.Element;
+using iText.IO.Image;
+using Image = iText.Layout.Element.Image;
+using iText.Html2pdf.Resolver.Font;
+using iText.Layout.Properties;
 
 namespace AYP
 {
@@ -652,7 +660,7 @@ namespace AYP
         {
             if (IsDragDropEvent)
             {
-                Point droppedpoint = e.GetPosition(sender as NodesCanvas);
+                System.Windows.Point droppedpoint = e.GetPosition(sender as NodesCanvas);
                 this.NodesCanvas.PositionMove = droppedpoint;
                 var dataCxtx = ClickedElement.DataContext;
                 var type = dataCxtx.GetType();
@@ -787,11 +795,12 @@ namespace AYP
 
                 foreach (var node in nodes)
                 {
-                    //foreach (var connect in node.NodesCanvas.Connects.ToList())
-                    //{
-                    //    connect.IsVisible = true;
-                    //}
                     node.IsVisible = true;
+                }
+
+                foreach (var connect in this.ViewModel.NodesCanvas.Connects)
+                {
+                    connect.IsVisible = true;
                 }
             }
         }
@@ -806,21 +815,23 @@ namespace AYP
                 {
                     if (node.TypeId != (int)TipEnum.GucUretici)
                     {
-                        ////Node visible true
-                        //foreach (var connect in node.NodesCanvas.Connects.ToList())
-                        //{
-                        //    connect.IsVisible = true;
-                        //}
                         node.IsVisible = true;
                     }
                     else
                     {
-                        //Node visible false
-                        //foreach (var connect in node.NodesCanvas.Connects.ToList())
-                        //{
-                        //    connect.IsVisible = false;
-                        //}
                         node.IsVisible = false;
+                    }
+                }
+
+                foreach (var connect in this.ViewModel.NodesCanvas.Connects)
+                {
+                    if (connect.FromConnector.Node.TypeId != (int)TipEnum.GucUretici && connect.ToConnector.Node.TypeId != (int)TipEnum.GucUretici)
+                    {
+                        connect.IsVisible = true;
+                    }
+                    else
+                    {
+                        connect.IsVisible = false;
                     }
                 }
             }
@@ -1024,12 +1035,19 @@ namespace AYP
         #endregion
 
         #region RaporlamaEvents
+
+        private void SetRaporHeader(Document doc)
+        {
+            ImageData imageData = iText.IO.Image.ImageDataFactory.Create("C:\\Users\\KLC\\Downloads\\header.png");
+            Image pdfImg = new Image(imageData);
+            pdfImg.SetWidth(532);
+            doc.Add(pdfImg);
+        }
+
         private void OnAgPlanlamaRaporuClick(object sender, RoutedEventArgs e)
         {
             var agPlanlamaNodes = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId != (int)TipEnum.GucUretici);
-            BaseFont arial = BaseFont.CreateFont("C:\\windows\\fonts\\arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
 
-            Font font = new Font(arial, 12, Font.NORMAL);
             if (agPlanlamaNodes.Count() > 0)
             {
                 using (var fbd = new System.Windows.Forms.FolderBrowserDialog())
@@ -1039,340 +1057,152 @@ namespace AYP
                     if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                     {
                         string path = fbd.SelectedPath;
-                        byte[] capture = CaptureNodesCanvas();
 
                         var ucBirimler = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.UcBirim).ToList();
                         var agAnahtarlari = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.AgAnahtari).ToList();
-                        var kenarAgAnahtarlari = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TurAd == "Kenar").ToList();
-                        var toplamaAgAnahtarlari = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TurAd == "Toplama").ToList();
-                        var omurgaAgAnahtarlari = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TurAd == "Omurga").ToList();
+                        var grouplar = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.Group).ToList();
 
-                        //var kenarAnahtariSayisi = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.AgAnahtari).ToList().Where(kn => kn.)
+                        foreach (var group in grouplar)
+                        {
+                            var nodeList = this.ViewModel.NodesCanvas.GroupList.Where(x => x.UniqueId == group.UniqueId).Select(s => s.NodeList).FirstOrDefault();
 
-                        Document doc = new Document(iTextSharp.text.PageSize.LETTER, 0f, 0f, 0f, 0f);
-                        PdfWriter wr = PdfWriter.GetInstance(doc, new FileStream(path + "\\Ağ Planlama Raporu.pdf", FileMode.Create));
-                        doc.Open();
-                        doc.SetMargins(0, 0, 25, 0);
+                            if (nodeList != null)
+                            {
+                                foreach (var node in nodeList)
+                                {
+                                    if (node.TypeId == (int)TipEnum.UcBirim)
+                                    {
+                                        ucBirimler.Add(node);
+                                    }
+                                    else if (node.TypeId == (int)TipEnum.AgAnahtari)
+                                    {
+                                        agAnahtarlari.Add(node);
+                                    }
+                                }
+                            }
+                        }
 
-                        string mainH = "AYP AĞ PLANLAMA RAPORU";
-                        mainH = TurkceKarakter(mainH);
-                        Paragraph mainHeader = new Paragraph(mainH, font);
-                        mainHeader.Alignment = iTextSharp.text.Element.ALIGN_CENTER;
-                        mainHeader.SpacingAfter = 30;
-                        doc.Add(mainHeader);
+                        var kenarAgAnahtarlari = agAnahtarlari.Where(x => x.TurAd == "Kenar").ToList();
+                        var toplamaAgAnahtarlari = agAnahtarlari.Where(x => x.TurAd == "Toplama").ToList();
+                        var omurgaAgAnahtarlari = agAnahtarlari.Where(x => x.TurAd == "Omurga").ToList();
 
-                        var img = iTextSharp.text.Image.GetInstance(capture);
-                        img.ScaleAbsolute(550, 550);
-                        img.Alignment = iTextSharp.text.Element.ALIGN_CENTER;
-                        doc.Add(img);
+                        var outputStream = new FileStream(path + "\\Ağ Planlama Raporu.pdf", FileMode.Create);
+                        PdfDocument pdf = new PdfDocument(new PdfWriter(outputStream));
+                        Document doc = new Document(pdf, PageSize.A4);
+                        doc.SetFontProvider(new DefaultFontProvider(true, true, true));
 
-                        doc.NewPage();
+                        SetRaporHeader(doc);
 
+                        Paragraph header = new Paragraph("SEMA - AYP AĞ PLANLAMA RAPORU");
+                        header.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        header.SetFontSize(16);
+                        header.SetBold();
+                        header.SetMarginLeft(130);
+                        header.SetMarginTop(120);
+                        doc.Add(header);
+
+                        SetUcBirimTable(doc, ucBirimler);
                         if (ucBirimler.Count > 0)
                         {
-                            string ucBirimH = "Uç Birimler Listesi";
-                            ucBirimH = TurkceKarakter(ucBirimH);
-                            PdfPCell headerUcBirim = new PdfPCell(new Phrase(ucBirimH, font));
-                            headerUcBirim.HorizontalAlignment = iTextSharp.text.Element.ALIGN_CENTER;
-                            headerUcBirim.BorderColor = new BaseColor(34, 45, 53);
-                            PdfPTable tableUcBirimHeader = new PdfPTable(1);
-                            tableUcBirimHeader.AddCell(headerUcBirim);
-                            PdfPTable tableUcBirim = new PdfPTable(2);
-                            string ucBirimAdi = "Adı";
-                            string ucBirimTanimi = "Tanımı";
-                            ucBirimAdi = TurkceKarakter(ucBirimAdi);
-                            ucBirimTanimi = TurkceKarakter(ucBirimTanimi);
-                            PdfPCell ucbirimAdBaslik = new PdfPCell(new Phrase(ucBirimAdi, font));
-                            PdfPCell ucBirimTanimBaslik = new PdfPCell(new Phrase(ucBirimTanimi, font));
-                            tableUcBirim.AddCell(ucbirimAdBaslik);
-                            tableUcBirim.AddCell(ucBirimTanimBaslik);
-
-                            for (int i = 0; i < ucBirimler.Count; i++)
-                            {
-
-                                string ucBirimName = ucBirimler[i].Name;
-                                ucBirimName = TurkceKarakter(ucBirimName);
-                                string ucBirimTanim = ucBirimler[i].Tanim;
-                                ucBirimTanim = TurkceKarakter(ucBirimTanim);
-                                PdfPCell cell = new PdfPCell(new Phrase(ucBirimName, font));
-                                PdfPCell cell2 = new PdfPCell(new Phrase(ucBirimTanim, font));
-                                cell.BorderColor = new BaseColor(34, 45, 53);
-                                tableUcBirim.AddCell(cell);
-                                tableUcBirim.AddCell(cell2);
-
-                            }
-                            PdfPTable tableToplamUcBirim = new PdfPTable(2);
-                            PdfPCell cellToplam = new PdfPCell(new Phrase("Toplam"));
-                            cellToplam.BorderColor = new BaseColor(34, 45, 53);
-                            PdfPCell cellDeger = new PdfPCell(new Phrase(ucBirimler.Count.ToString()));
-                            cellDeger.BorderColor = new BaseColor(34, 45, 53);
-
-                            tableToplamUcBirim.AddCell(cellToplam);
-                            tableToplamUcBirim.AddCell(cellDeger);
-                            tableToplamUcBirim.SpacingAfter = 20;
-                            doc.Add(tableUcBirimHeader);
-                            doc.Add(tableUcBirim);
-                            doc.Add(tableToplamUcBirim);
+                            doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                            SetRaporHeader(doc);
                         }
 
+                        SetAgAnahtariTable(doc, agAnahtarlari);
                         if (agAnahtarlari.Count > 0)
                         {
-                            PdfPCell headerAgAnahtari = new PdfPCell(new Phrase("Ag Anahtarı Listesi"));
-                            headerAgAnahtari.HorizontalAlignment = iTextSharp.text.Element.ALIGN_CENTER;
-                            headerAgAnahtari.HorizontalAlignment = iTextSharp.text.Element.ALIGN_CENTER;
-                            headerAgAnahtari.BorderColor = new BaseColor(34, 45, 53);
-                            PdfPTable tableAgAnahtariHeader = new PdfPTable(1);
-
-                            tableAgAnahtariHeader.AddCell(headerAgAnahtari);
-                            string Adi = "Adı";
-                            string Turu = "Türü";
-                            Adi = TurkceKarakter(Adi);
-                            Turu = TurkceKarakter(Turu);
-
-
-                            PdfPTable tableAgAnahtari = new PdfPTable(2);
-                            PdfPCell birinci = new PdfPCell(new Phrase(Adi, font));
-                            PdfPCell ikinci = new PdfPCell(new Phrase(Turu, font));
-                            tableAgAnahtari.AddCell(birinci);
-                            tableAgAnahtari.AddCell(ikinci);
-
-                            for (int i = 0; i < agAnahtarlari.Count; i++)
-                            {
-                                string agAdi = agAnahtarlari[i].Name;
-                                string agTuru = agAnahtarlari[i].TurAd;
-                                Adi = TurkceKarakter(Adi);
-                                Turu = TurkceKarakter(Turu);
-                                PdfPCell cell = new PdfPCell(new Phrase(agAdi, font));
-                                PdfPCell cell2 = new PdfPCell(new Phrase(agTuru, font));
-                                cell.BorderColor = new BaseColor(34, 45, 53);
-                                tableAgAnahtari.AddCell(cell);
-                                tableAgAnahtari.AddCell(cell2);
-                            }
-                            PdfPTable tableToplamAgAnahtari = new PdfPTable(2);
-                            PdfPCell cellToplam = new PdfPCell(new Phrase("Toplam"));
-                            cellToplam.BorderColor = new BaseColor(34, 45, 53);
-                            PdfPCell cellDeger = new PdfPCell(new Phrase(agAnahtarlari.Count.ToString()));
-                            cellDeger.BorderColor = new BaseColor(34, 45, 53);
-
-                            tableToplamAgAnahtari.AddCell(cellToplam);
-                            tableToplamAgAnahtari.AddCell(cellDeger);
-                            tableToplamAgAnahtari.SpacingAfter = 20;
-
-                            doc.Add(tableAgAnahtariHeader);
-                            doc.Add(tableAgAnahtari);
-                            doc.Add(tableToplamAgAnahtari);
+                            doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                            SetRaporHeader(doc);
                         }
 
-                        if (ucBirimler.Count > 0 && agAnahtarlari.Count > 0)
+                        List<ConnectViewModel> connectList = new List<ConnectViewModel>();
+                        foreach (var connect in this.ViewModel.NodesCanvas.Connects.OrderBy(o => o.ToConnector.Node.Name))
                         {
-                            string baslik = "Kenar Ağ Anahtarı ve Bağlı Olduğu Uç Birimler Listesi";
-                            baslik = TurkceKarakter(baslik);
-                            PdfPCell header = new PdfPCell(new Phrase(baslik, font));
-                            header.HorizontalAlignment = iTextSharp.text.Element.ALIGN_CENTER;
-                            PdfPTable tableHeader = new PdfPTable(1);
-                            tableHeader.AddCell(header);
+                            if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
+                            {
+                                if (ucBirimler.Contains(connect.FromConnector.Node))
+                                {
+                                    connectList.Add(connect);
+                                }
+                            }
+                            if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
+                            {
+                                if (ucBirimler.Contains(connect.ToConnector.Node))
+                                {
+                                    connectList.Add(connect);
+                                }
+                            }
+                        }
 
-                            string agAdi = "Ağ Anahtarı Adı";
-                            string ucAdi = "Uç Birim Adı";
-                            agAdi = TurkceKarakter(agAdi);
-                            ucAdi = TurkceKarakter(ucAdi);
-                            PdfPTable tableKenarUcBirim = new PdfPTable(3);
-                            PdfPCell header1 = new PdfPCell(new Phrase(agAdi, font));
-                            PdfPCell header2 = new PdfPCell(new Phrase(ucAdi, font));
-                            PdfPCell header3 = new PdfPCell(new Phrase("Yük Değeri", font));
+                        SetKenarToUcBirimTable(doc, connectList);
+                        if (connectList.Count > 0)
+                        {
+                            doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                            SetRaporHeader(doc);
+                        }
 
-                            tableKenarUcBirim.AddCell(header1);
-                            tableKenarUcBirim.AddCell(header2);
-                            tableKenarUcBirim.AddCell(header3);
-
-
-                            foreach (var connect in this.ViewModel.NodesCanvas.Connects.OrderBy(o => o.ToConnector.Node.Name))
+                        connectList = new List<ConnectViewModel>();
+                        foreach (var connect in this.ViewModel.NodesCanvas.Connects.OrderBy(o => o.ToConnector.Node.Name))
+                        {
+                            if (toplamaAgAnahtarlari.Contains(connect.ToConnector.Node))
+                            {
+                                if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
+                                {
+                                    connectList.Add(connect);
+                                }
+                            }
+                            if (toplamaAgAnahtarlari.Contains(connect.FromConnector.Node))
                             {
                                 if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
                                 {
-                                    if (ucBirimler.Contains(connect.FromConnector.Node))
-                                    {
-                                        string agAdiNode = connect.ToConnector.Node.Name;
-                                        string ucAdiNode = connect.FromConnector.Node.Name;
-                                        agAdiNode = TurkceKarakter(agAdiNode);
-                                        ucAdiNode = TurkceKarakter(ucAdiNode);
-                                        PdfPCell ag = new PdfPCell(new Phrase(agAdiNode, font));
-                                        PdfPCell uc = new PdfPCell(new Phrase(ucAdiNode, font));
-                                        PdfPCell yuk = new PdfPCell(new Phrase(connect.AgYuku.ToString()));
-
-                                        tableKenarUcBirim.AddCell(ag);
-                                        tableKenarUcBirim.AddCell(uc);
-                                        tableKenarUcBirim.AddCell(yuk);
-                                    }
+                                    connectList.Add(connect);
                                 }
+                            }
+                        }
+                        
+                        SetToplamaToKenarTable(doc, connectList);
+                        if (connectList.Count > 0)
+                        {
+                            doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                            SetRaporHeader(doc);
+                        }
+
+                        connectList = new List<ConnectViewModel>();
+                        foreach (var connect in this.ViewModel.NodesCanvas.Connects.OrderBy(o => o.ToConnector.Node.Name))
+                        {
+                            if (omurgaAgAnahtarlari.Contains(connect.ToConnector.Node))
+                            {
                                 if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
                                 {
-                                    if (ucBirimler.Contains(connect.ToConnector.Node))
-                                    {
-                                        string agAdiNode = connect.FromConnector.Node.Name;
-                                        string ucAdiNode = connect.ToConnector.Node.Name;
-                                        agAdiNode = TurkceKarakter(agAdiNode);
-                                        ucAdiNode = TurkceKarakter(ucAdiNode);
-                                        PdfPCell ag = new PdfPCell(new Phrase(agAdiNode, font));
-                                        PdfPCell uc = new PdfPCell(new Phrase(ucAdiNode, font));
-                                        PdfPCell yuk = new PdfPCell(new Phrase(connect.AgYuku.ToString()));
-
-                                        tableKenarUcBirim.AddCell(ag);
-                                        tableKenarUcBirim.AddCell(uc);
-                                        tableKenarUcBirim.AddCell(yuk);
-                                    }
+                                    connectList.Add(connect);
                                 }
                             }
-
-                            tableKenarUcBirim.SpacingAfter = 20;
-                            doc.Add(tableHeader);
-
-                            doc.Add(tableKenarUcBirim);
-                        }
-
-                        if (toplamaAgAnahtarlari.Count > 0)
-                        {
-                            string baslik = "Toplama Ağ Anahtarı ve Bağlı Olduğu Kenar Anahtarları Listesi";
-                            baslik = TurkceKarakter(baslik);
-                            PdfPCell header = new PdfPCell(new Phrase(baslik, font));
-                            header.HorizontalAlignment = iTextSharp.text.Element.ALIGN_CENTER;
-                            PdfPTable tableHeader = new PdfPTable(1);
-                            tableHeader.AddCell(header);
-
-                            PdfPTable tableToplamaKenar = new PdfPTable(2);
-                            string h1 = "Kenar Ağ Anahtarı Adı";
-                            string h2 = "Toplama Ağ Anahtarı Adı";
-                            h1 = TurkceKarakter(h1);
-                            h2 = TurkceKarakter(h2);
-                            PdfPCell header1 = new PdfPCell(new Phrase(h1, font));
-                            PdfPCell header2 = new PdfPCell(new Phrase(h2, font));
-
-                            tableToplamaKenar.AddCell(header1);
-                            tableToplamaKenar.AddCell(header2);
-
-
-                            foreach (var connect in this.ViewModel.NodesCanvas.Connects.OrderBy(o => o.ToConnector.Node.Name))
+                            if (omurgaAgAnahtarlari.Contains(connect.FromConnector.Node))
                             {
-                                if (toplamaAgAnahtarlari.Contains(connect.ToConnector.Node))
+                                if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
                                 {
-                                    if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
-                                    {
-                                        string kenarNode = connect.ToConnector.Node.Name;
-                                        string toplamaNode = connect.FromConnector.Node.Name;
-                                        kenarNode = TurkceKarakter(kenarNode);
-                                        toplamaNode = TurkceKarakter(toplamaNode);
-
-                                        PdfPCell kenar = new PdfPCell(new Phrase(kenarNode, font));
-                                        PdfPCell toplama = new PdfPCell(new Phrase(toplamaNode, font));
-
-                                        tableToplamaKenar.AddCell(toplama);
-                                        tableToplamaKenar.AddCell(kenar);
-                                    }
+                                    connectList.Add(connect);
                                 }
-                                if (toplamaAgAnahtarlari.Contains(connect.FromConnector.Node))
-                                {
-                                    if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
-                                    {
-                                        string kenarNode = connect.FromConnector.Node.Name;
-                                        string toplamaNode = connect.ToConnector.Node.Name;
-                                        kenarNode = TurkceKarakter(kenarNode);
-                                        toplamaNode = TurkceKarakter(toplamaNode);
-
-                                        PdfPCell kenar = new PdfPCell(new Phrase(kenarNode, font));
-                                        PdfPCell toplama = new PdfPCell(new Phrase(toplamaNode, font));
-
-                                        tableToplamaKenar.AddCell(toplama);
-                                        tableToplamaKenar.AddCell(kenar);
-                                    }
-                                }
-
-
                             }
-                            tableToplamaKenar.SpacingAfter = 20;
-                            doc.Add(tableHeader);
-
-                            doc.Add(tableToplamaKenar);
                         }
 
-                        if (omurgaAgAnahtarlari.Count > 0)
+                        SetOmurgaToKenarTable(doc, connectList);
+                        if (connectList.Count > 0)
                         {
-                            string baslik = "Omurga Ağ Anahtarı ve bağlı olduğu Ağ anahtarları Listesi";
-                            baslik = TurkceKarakter(baslik);
-                            PdfPCell header = new PdfPCell(new Phrase(baslik, font));
-                            header.HorizontalAlignment = iTextSharp.text.Element.ALIGN_CENTER;
-                            PdfPTable tableHeader = new PdfPTable(1);
-                            tableHeader.AddCell(header);
-
-                            string h1 = "Omurga Ağ Anahtarı Adı";
-                            string h2 = "Bağlı Olduğu Anahtarı Adı";
-                            string h3 = "Bağlı Olduğu anahtar Tipi";
-                            h1 = TurkceKarakter(h1);
-                            h2 = TurkceKarakter(h2);
-                            h3 = TurkceKarakter(h3);
-
-                            PdfPTable tableOmurga = new PdfPTable(3);
-                            PdfPCell header1 = new PdfPCell(new Phrase(h1, font));
-                            PdfPCell header2 = new PdfPCell(new Phrase(h2, font));
-                            PdfPCell header3 = new PdfPCell(new Phrase(h3, font));
-
-
-                            tableOmurga.AddCell(header1);
-                            tableOmurga.AddCell(header2);
-                            tableOmurga.AddCell(header3);
-
-
-                            foreach (var connect in this.ViewModel.NodesCanvas.Connects.OrderBy(o => o.ToConnector.Node.Name))
-                            {
-                                if (omurgaAgAnahtarlari.Contains(connect.FromConnector.Node))
-                                {
-                                    if (agAnahtarlari.Contains(connect.ToConnector.Node))
-                                    {
-                                        string omurgaNode = connect.FromConnector.Node.Name;
-                                        string anahtarNode = connect.ToConnector.Node.Name;
-                                        string anahtarTuruNode = connect.ToConnector.Node.TurAd;
-                                        omurgaNode = TurkceKarakter(omurgaNode);
-                                        anahtarNode = TurkceKarakter(anahtarNode);
-                                        anahtarTuruNode = TurkceKarakter(anahtarTuruNode);
-
-                                        PdfPCell omurga = new PdfPCell(new Phrase(omurgaNode, font));
-                                        PdfPCell anahtar = new PdfPCell(new Phrase(anahtarNode, font));
-                                        PdfPCell anahtarTuru = new PdfPCell(new Phrase(anahtarTuruNode, font));
-
-                                        tableOmurga.AddCell(omurga);
-                                        tableOmurga.AddCell(anahtar);
-                                        tableOmurga.AddCell(anahtarTuru);
-                                    }
-                                }
-                                if (omurgaAgAnahtarlari.Contains(connect.ToConnector.Node))
-                                {
-                                    if (agAnahtarlari.Contains(connect.FromConnector.Node))
-                                    {
-                                        string omurgaNode = connect.ToConnector.Node.Name;
-                                        string anahtarNode = connect.FromConnector.Node.Name;
-                                        string anahtarTuruNode = connect.FromConnector.Node.TurAd;
-                                        omurgaNode = TurkceKarakter(omurgaNode);
-                                        anahtarNode = TurkceKarakter(anahtarNode);
-                                        anahtarTuruNode = TurkceKarakter(anahtarTuruNode);
-
-                                        PdfPCell omurga = new PdfPCell(new Phrase(omurgaNode, font));
-                                        PdfPCell anahtar = new PdfPCell(new Phrase(anahtarNode, font));
-                                        PdfPCell anahtarTuru = new PdfPCell(new Phrase(anahtarTuruNode, font));
-
-                                        tableOmurga.AddCell(omurga);
-                                        tableOmurga.AddCell(anahtar);
-                                        tableOmurga.AddCell(anahtarTuru);
-                                    }
-                                }
-                            }
-                            tableOmurga.SpacingAfter = 20;
-
-                            doc.Add(tableHeader);
-
-                            doc.Add(tableOmurga);
+                            doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                            SetRaporHeader(doc);
                         }
+
+                        byte[] capture = CaptureNodesCanvas();
+                        var img = iText.IO.Image.ImageDataFactory.Create(capture);
+                        Image pdfImg = new Image(img);
+                        pdfImg.SetWidth(532);
+                        pdfImg.SetMarginTop(120);
+                        doc.Add(pdfImg);
 
                         doc.Close();
                     }
+
                 }
             }
             else
@@ -1384,14 +1214,801 @@ namespace AYP
             }
         }
 
+        private void SetUcBirimTable(Document doc, List<NodeViewModel> ucBirimler)
+        {
+            Paragraph ucBirimHeader = new Paragraph("1. Uç Birimler");
+            ucBirimHeader.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            ucBirimHeader.SetFontSize(11);
+            ucBirimHeader.SetBold();
+            ucBirimHeader.SetMarginTop(50);
+            doc.Add(ucBirimHeader);
+
+            if (ucBirimler.Count == 0)
+            {
+                Paragraph noUcBirimParagraph = new Paragraph("Uç Birim Bulunmamaktadır.");
+                noUcBirimParagraph.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                noUcBirimParagraph.SetFontSize(11);
+                noUcBirimParagraph.SetMarginTop(20);
+                doc.Add(noUcBirimParagraph);
+                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                SetRaporHeader(doc);
+            }
+
+            if (ucBirimler.Count > 0)
+            {
+                Table table = new Table(new float[] { 100, 143, 100, 100, 100, 100, 100 });
+                for (int j = 0; j < table.GetNumberOfColumns(); j++)
+                {
+                    Cell c = new Cell();
+
+                    if (j == 0)
+                    {
+                        c.Add(new Paragraph("Birim Adı"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 1)
+                    {
+                        c.Add(new Paragraph("Tanım"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 2)
+                    {
+                        c.Add(new Paragraph("Stok No"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 3)
+                    {
+                        c.Add(new Paragraph("Üretici"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 4)
+                    {
+                        c.Add(new Paragraph("Girdi Ağ Arayüzü Sayısı"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 5)
+                    {
+                        c.Add(new Paragraph("Çıktı Ağ Arayüzü Sayısı"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 6)
+                    {
+                        c.Add(new Paragraph("Güç Arayüzü Sayısı"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    table.AddCell(c);
+                }
+
+                int row = 0;
+                for (int j = 0; j < ucBirimler.Count; j++)
+                {
+                    Cell c = new Cell();
+                    c.Add(new Paragraph(ucBirimler[row].Name));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(ucBirimler[row].Tanim));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(ucBirimler[row].StokNo));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(ucBirimler[row].UreticiAdi));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(ucBirimler[row].InputList.Where(x => x.TypeId == (int)TipEnum.UcBirimAgArayuzu).Count().ToString()));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(ucBirimler[row].OutputList.Where(x => x.TypeId == (int)TipEnum.UcBirimAgArayuzu).Count().ToString()));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(ucBirimler[row].InputList.Where(x => x.TypeId == (int)TipEnum.UcBirimGucArayuzu).Count().ToString()));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    row++;
+                    if (row >= 10 && row % 10 == 0)
+                    {
+                        if (row == 10)
+                        {
+                            table.SetMarginTop(20);
+                            doc.Add(table);
+
+                            if (ucBirimler.Count > row)
+                            {
+                                table = new Table(new float[] { 100, 143, 100, 100, 100, 100, 100 });
+                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+
+                                SetRaporHeader(doc);
+                            }
+                        }
+                        else
+                        {
+                            table.SetMarginTop(120);
+                            doc.Add(table);
+
+                            if (ucBirimler.Count > row)
+                            {
+                                table = new Table(new float[] { 100, 143, 100, 100, 100, 100, 100 });
+                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+
+                                SetRaporHeader(doc);
+                            }
+                        }
+
+                    }
+                }
+
+                if (ucBirimler.Count > 10)
+                {
+                    table.SetMarginTop(120);
+                    doc.Add(table);
+                }
+                else if (ucBirimler.Count < 10)
+                {
+                    table.SetMarginTop(20);
+                    doc.Add(table);
+                }
+
+                Table tableTotal = new Table(new float[] { 400, 393 });
+                Cell c1 = new Cell();
+                c1.Add(new Paragraph("Toplam"));
+                c1.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                c1.SetFontSize(11);
+                c1.SetBold();
+                tableTotal.AddCell(c1);
+                c1 = new Cell();
+                c1.Add(new Paragraph(ucBirimler.Count.ToString()));
+                c1.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                c1.SetFontSize(11);
+                tableTotal.AddCell(c1);
+                doc.Add(tableTotal);
+            }
+        }
+
+        private void SetAgAnahtariTable(Document doc, List<NodeViewModel> agAnahtarlari)
+        {
+            Paragraph agAnahtariHeader = new Paragraph("2. Ağ Anahtarları");
+            agAnahtariHeader.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            agAnahtariHeader.SetFontSize(11);
+            agAnahtariHeader.SetBold();
+            agAnahtariHeader.SetMarginTop(120);
+            doc.Add(agAnahtariHeader);
+
+            if (agAnahtarlari.Count == 0)
+            {
+                Paragraph noAgAnahtariParagraph = new Paragraph("Ağ Anahtarı Bulunmamaktadır.");
+                noAgAnahtariParagraph.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                noAgAnahtariParagraph.SetFontSize(11);
+                noAgAnahtariParagraph.SetMarginTop(20);
+                doc.Add(noAgAnahtariParagraph);
+                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                SetRaporHeader(doc);
+            }
+
+            if (agAnahtarlari.Count > 0)
+            {
+                Table table = new Table(new float[] { 100, 143, 100, 100, 100, 100, 100 });
+                for (int j = 0; j < table.GetNumberOfColumns(); j++)
+                {
+                    Cell c = new Cell();
+
+                    if (j == 0)
+                    {
+                        c.Add(new Paragraph("Birim Adı"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 1)
+                    {
+                        c.Add(new Paragraph("Tanım"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 2)
+                    {
+                        c.Add(new Paragraph("Stok No"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 3)
+                    {
+                        c.Add(new Paragraph("Üretici"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 4)
+                    {
+                        c.Add(new Paragraph("Girdi Ağ Arayüzü Sayısı"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 5)
+                    {
+                        c.Add(new Paragraph("Çıktı Ağ Arayüzü Sayısı"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 6)
+                    {
+                        c.Add(new Paragraph("Güç Arayüzü Sayısı"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    table.AddCell(c);
+                }
+
+                int row = 0;
+                for (int j = 0; j < agAnahtarlari.Count; j++)
+                {
+                    Cell c = new Cell();
+                    c.Add(new Paragraph(agAnahtarlari[row].Name));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(agAnahtarlari[row].Tanim));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(agAnahtarlari[row].StokNo));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(agAnahtarlari[row].UreticiAdi));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(agAnahtarlari[row].InputList.Where(x => x.TypeId == (int)TipEnum.UcBirimAgArayuzu).Count().ToString()));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(agAnahtarlari[row].OutputList.Where(x => x.TypeId == (int)TipEnum.UcBirimAgArayuzu).Count().ToString()));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(agAnahtarlari[row].InputList.Where(x => x.TypeId == (int)TipEnum.UcBirimGucArayuzu).Count().ToString()));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    row++;
+                    if (row >= 10 && row % 10 == 0)
+                    {
+                        if (row == 10)
+                        {
+                            table.SetMarginTop(20);
+                            doc.Add(table);
+
+                            if (agAnahtarlari.Count > row)
+                            {
+                                table = new Table(new float[] { 100, 143, 100, 100, 100, 100, 100 });
+                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+
+                                SetRaporHeader(doc);
+                            }
+                        }
+                        else
+                        {
+                            table.SetMarginTop(120);
+                            doc.Add(table);
+
+                            if (agAnahtarlari.Count > row)
+                            {
+                                table = new Table(new float[] { 100, 143, 100, 100, 100, 100, 100 });
+                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+
+                                SetRaporHeader(doc);
+                            }
+                        }
+
+                    }
+                }
+
+                if (agAnahtarlari.Count > 10)
+                {
+                    table.SetMarginTop(120);
+                    doc.Add(table);
+                }
+                else if(agAnahtarlari.Count < 10)
+                {
+                    table.SetMarginTop(20);
+                    doc.Add(table);
+                }
+
+                Table tableTotal = new Table(new float[] { 400, 393 });
+                Cell c1 = new Cell();
+                c1.Add(new Paragraph("Toplam"));
+                c1.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                c1.SetFontSize(11);
+                c1.SetBold();
+                tableTotal.AddCell(c1);
+                c1 = new Cell();
+                c1.Add(new Paragraph(agAnahtarlari.Count.ToString()));
+                c1.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                c1.SetFontSize(11);
+                tableTotal.AddCell(c1);
+                doc.Add(tableTotal);
+            }
+        }
+
+        private void SetKenarToUcBirimTable(Document doc, List<ConnectViewModel> connectList)
+        {
+            Paragraph kenarUcBirimHeader = new Paragraph("3. Kenar Ağ Anahtarları ve Bağlı Olduğu Uç Birimler");
+            kenarUcBirimHeader.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            kenarUcBirimHeader.SetFontSize(11);
+            kenarUcBirimHeader.SetBold();
+            kenarUcBirimHeader.SetMarginTop(120);
+            doc.Add(kenarUcBirimHeader);
+
+            if (connectList.Count == 0)
+            {
+                Paragraph noBaglantiParagraph = new Paragraph("Uygun Bağlantı Bulunmamaktadır.");
+                noBaglantiParagraph.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                noBaglantiParagraph.SetFontSize(11);
+                noBaglantiParagraph.SetMarginTop(20);
+                doc.Add(noBaglantiParagraph);
+                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                SetRaporHeader(doc);
+            }
+
+            if (connectList.Count > 0)
+            {
+                Table table = new Table(new float[] { 300, 300 ,193 });
+                for (int j = 0; j < table.GetNumberOfColumns(); j++)
+                {
+                    Cell c = new Cell();
+
+                    if (j == 0)
+                    {
+                        c.Add(new Paragraph("Uç Birim Adı"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 1)
+                    {
+                        c.Add(new Paragraph("Ağ Anahtarı Adı"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 2)
+                    {
+                        c.Add(new Paragraph("Ağ Yükü (mbps)"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    table.AddCell(c);
+                }
+
+                int row = 0;
+                for (int j = 0; j < connectList.Count; j++)
+                {
+                    Cell c = new Cell();
+                    if(connectList[row].FromConnector.Node.TypeId == (int)TipEnum.UcBirim)
+                    {
+                        c.Add(new Paragraph(connectList[row].FromConnector.Node.Name));
+                    }
+                    else
+                    {
+                        c.Add(new Paragraph(connectList[row].ToConnector.Node.Name));
+                    }
+
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    if (connectList[row].FromConnector.Node.TypeId == (int)TipEnum.AgAnahtari)
+                    {
+                        c.Add(new Paragraph(connectList[row].FromConnector.Node.Name));
+                    }
+                    else
+                    {
+                        c.Add(new Paragraph(connectList[row].ToConnector.Node.Name));
+                    }
+
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(connectList[row].AgYuku.ToString("0.##")));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    row++;
+                    if (row >= 10 && row % 10 == 0)
+                    {
+                        if (row == 10)
+                        {
+                            table.SetMarginTop(20);
+                            doc.Add(table);
+
+                            if (connectList.Count > row)
+                            {
+                                table = new Table(new float[] { 300, 300, 193 });
+                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+
+                                SetRaporHeader(doc);
+                            }
+                        }
+                        else
+                        {
+                            table.SetMarginTop(120);
+                            doc.Add(table);
+
+                            if (connectList.Count > row)
+                            {
+                                table = new Table(new float[] { 300, 300, 193 });
+                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+
+                                SetRaporHeader(doc);
+                            }
+                        }
+
+                    }
+                }
+
+                if (connectList.Count > 10)
+                {
+                    table.SetMarginTop(120);
+                    doc.Add(table);
+                }
+                else if (connectList.Count < 10)
+                {
+                    table.SetMarginTop(20);
+                    doc.Add(table);
+                }
+            }
+        }
+
+        private void SetToplamaToKenarTable(Document doc, List<ConnectViewModel> connectList)
+        {
+            Paragraph toplamaKenarHeader = new Paragraph("4. Toplama Ağ Anahtarları ve Bağlı Olduğu Kenar Ağ Anahtarları");
+            toplamaKenarHeader.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            toplamaKenarHeader.SetFontSize(11);
+            toplamaKenarHeader.SetBold();
+            toplamaKenarHeader.SetMarginTop(120);
+            doc.Add(toplamaKenarHeader);
+
+            if (connectList.Count == 0)
+            {
+                Paragraph noBaglantiParagraph = new Paragraph("Uygun Bağlantı Bulunmamaktadır.");
+                noBaglantiParagraph.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                noBaglantiParagraph.SetFontSize(11);
+                noBaglantiParagraph.SetMarginTop(20);
+                doc.Add(noBaglantiParagraph);
+                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                SetRaporHeader(doc);
+            }
+
+            if (connectList.Count > 0)
+            {
+                Table table = new Table(new float[] { 300, 300, 193 });
+                for (int j = 0; j < table.GetNumberOfColumns(); j++)
+                {
+                    Cell c = new Cell();
+
+                    if (j == 0)
+                    {
+                        c.Add(new Paragraph("Toplama Ağ Anahtarı Adı"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 1)
+                    {
+                        c.Add(new Paragraph("Kenar Ağ Anahtarı Adı"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 2)
+                    {
+                        c.Add(new Paragraph("Ağ Yükü (mbps)"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    table.AddCell(c);
+                }
+
+                int row = 0;
+                for (int j = 0; j < connectList.Count; j++)
+                {
+                    Cell c = new Cell();
+                    if (connectList[row].FromConnector.Node.TurAd == "Toplama")
+                    {
+                        c.Add(new Paragraph(connectList[row].FromConnector.Node.Name));
+                    }
+                    else
+                    {
+                        c.Add(new Paragraph(connectList[row].ToConnector.Node.Name));
+                    }
+
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    if (connectList[row].FromConnector.Node.TurAd == "Kenar")
+                    {
+                        c.Add(new Paragraph(connectList[row].FromConnector.Node.Name));
+                    }
+                    else
+                    {
+                        c.Add(new Paragraph(connectList[row].ToConnector.Node.Name));
+                    }
+
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(connectList[row].AgYuku.ToString("0.##")));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    row++;
+                    if (row >= 10 && row % 10 == 0)
+                    {
+                        if (row == 10)
+                        {
+                            table.SetMarginTop(20);
+                            doc.Add(table);
+
+                            if (connectList.Count > row)
+                            {
+                                table = new Table(new float[] { 300, 300, 193 });
+                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+
+                                SetRaporHeader(doc);
+                            }
+                        }
+                        else
+                        {
+                            table.SetMarginTop(120);
+                            doc.Add(table);
+
+                            if (connectList.Count > row)
+                            {
+                                table = new Table(new float[] { 300, 300, 193 });
+                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+
+                                SetRaporHeader(doc);
+                            }
+                        }
+
+                    }
+                }
+
+                if (connectList.Count > 10)
+                {
+                    table.SetMarginTop(120);
+                    doc.Add(table);
+                }
+                else if (connectList.Count < 10)
+                {
+                    table.SetMarginTop(20);
+                    doc.Add(table);
+                }
+            }
+        }
+
+        private void SetOmurgaToKenarTable(Document doc, List<ConnectViewModel> connectList)
+        {
+            Paragraph omurgaKenarHeader = new Paragraph("5. Omurga Ağ Anahtarları ve Bağlı Olduğu Kenar Ağ Anahtarları");
+            omurgaKenarHeader.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            omurgaKenarHeader.SetFontSize(11);
+            omurgaKenarHeader.SetBold();
+            omurgaKenarHeader.SetMarginTop(120);
+            doc.Add(omurgaKenarHeader);
+
+            if (connectList.Count == 0)
+            {
+                Paragraph noBaglantiParagraph = new Paragraph("Uygun Bağlantı Bulunmamaktadır.");
+                noBaglantiParagraph.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                noBaglantiParagraph.SetFontSize(11);
+                noBaglantiParagraph.SetMarginTop(20);
+                doc.Add(noBaglantiParagraph);
+                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                SetRaporHeader(doc);
+            }
+
+            if (connectList.Count > 0)
+            {
+                Table table = new Table(new float[] { 300, 300, 193 });
+                for (int j = 0; j < table.GetNumberOfColumns(); j++)
+                {
+                    Cell c = new Cell();
+
+                    if (j == 0)
+                    {
+                        c.Add(new Paragraph("Omurga Ağ Anahtarı Adı"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 1)
+                    {
+                        c.Add(new Paragraph("Kenar Ağ Anahtarı Adı"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 2)
+                    {
+                        c.Add(new Paragraph("Ağ Yükü (mbps)"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    table.AddCell(c);
+                }
+
+                int row = 0;
+                for (int j = 0; j < connectList.Count; j++)
+                {
+                    Cell c = new Cell();
+                    if (connectList[row].FromConnector.Node.TurAd == "Omurga")
+                    {
+                        c.Add(new Paragraph(connectList[row].FromConnector.Node.Name));
+                    }
+                    else
+                    {
+                        c.Add(new Paragraph(connectList[row].ToConnector.Node.Name));
+                    }
+
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    if (connectList[row].FromConnector.Node.TurAd == "Kenar")
+                    {
+                        c.Add(new Paragraph(connectList[row].FromConnector.Node.Name));
+                    }
+                    else
+                    {
+                        c.Add(new Paragraph(connectList[row].ToConnector.Node.Name));
+                    }
+
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(connectList[row].AgYuku.ToString("0.##")));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    row++;
+                    if (row >= 10 && row % 10 == 0)
+                    {
+                        if (row == 10)
+                        {
+                            table.SetMarginTop(20);
+                            doc.Add(table);
+
+                            if (connectList.Count > row)
+                            {
+                                table = new Table(new float[] { 300, 300, 193 });
+                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+
+                                SetRaporHeader(doc);
+                            }
+                        }
+                        else
+                        {
+                            table.SetMarginTop(120);
+                            doc.Add(table);
+
+                            if (connectList.Count > row)
+                            {
+                                table = new Table(new float[] { 300, 300, 193 });
+                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+
+                                SetRaporHeader(doc);
+                            }
+                        }
+
+                    }
+                }
+
+                if (connectList.Count > 10)
+                {
+                    table.SetMarginTop(120);
+                    doc.Add(table);
+                }
+                else if (connectList.Count < 10)
+                {
+                    table.SetMarginTop(20);
+                    doc.Add(table);
+                }
+            }
+        }
+
         private void OnGucPlanlamaRaporuClick(object sender, RoutedEventArgs e)
         {
-            var gucPlanlamaNodes = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.GucUretici);
-            BaseFont arial = BaseFont.CreateFont("C:\\windows\\fonts\\arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-            Font font = new Font(arial, 12, Font.NORMAL);
-
-            //if (gucPlanlamaNodes.Count() > 0)
-            //{
             using (var fbd = new System.Windows.Forms.FolderBrowserDialog())
             {
                 System.Windows.Forms.DialogResult result = fbd.ShowDialog();
@@ -1399,247 +2016,580 @@ namespace AYP
                 if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
                     string path = fbd.SelectedPath;
-                    byte[] capture = CaptureNodesCanvas();
 
-                    var ucBirimler = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.UcBirim).ToList();
-                    var agAnahtarlari = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.AgAnahtari).ToList();
+                    var grouplar = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.Group).ToList();
+
+                    var gucTuketiciler = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.UcBirim || x.TypeId == (int)TipEnum.AgAnahtari).ToList();
                     var gucUreticiler = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.GucUretici).ToList();
 
-                    Document doc = new Document(iTextSharp.text.PageSize.LETTER, 0f, 0f, 0f, 0f);
-                    PdfWriter wr = PdfWriter.GetInstance(doc, new FileStream(path + "\\Güç Planlama Raporu.pdf", FileMode.Create));
-                    doc.Open();
-                    doc.SetMargins(0, 0, 25, 0);
-
-                    string mainH = "AYP GÜÇ PLANLAMA RAPORU";
-                    mainH = TurkceKarakter(mainH);
-                    Paragraph mainHeader = new Paragraph(mainH, font);
-                    mainHeader.Alignment = iTextSharp.text.Element.ALIGN_CENTER;
-                    mainHeader.SpacingAfter = 20;
-                    doc.Add(mainHeader);
-
-                    var img = iTextSharp.text.Image.GetInstance(capture);
-                    img.ScaleAbsolute(550, 550);
-                    img.Alignment = iTextSharp.text.Element.ALIGN_CENTER;
-                    doc.Add(img);
-
-                    doc.NewPage();
-
-                    if (ucBirimler.Count > 0 || agAnahtarlari.Count > 0)
+                    foreach(var group in grouplar)
                     {
-                        string gucTuketiciH = "Güç Tüketiciler Listesi";
-                        gucTuketiciH = TurkceKarakter(gucTuketiciH);
-                        PdfPCell headerGucTuketici = new PdfPCell(new Phrase(gucTuketiciH, font));
-                        headerGucTuketici.HorizontalAlignment = iTextSharp.text.Element.ALIGN_CENTER;
-                        headerGucTuketici.BorderColor = new BaseColor(34, 45, 53);
-                        PdfPTable tableGucTuketiciHeader = new PdfPTable(1);
-                        tableGucTuketiciHeader.AddCell(headerGucTuketici);
-                        PdfPTable tableGucTuketiciler = new PdfPTable(3);
+                        var nodeList = this.ViewModel.NodesCanvas.GroupList.Where(x => x.UniqueId == group.UniqueId).Select(s => s.NodeList).FirstOrDefault();
 
-                        string Adi = "Adı";
-                        string Turu = "Türü";
-                        string Tanimi = "Tanımı";
-
-                        Adi = TurkceKarakter(Adi);
-                        Turu = TurkceKarakter(Turu);
-                        Tanimi = TurkceKarakter(Tanimi);
-
-                        PdfPTable tableAgAnahtari = new PdfPTable(2);
-                        PdfPCell birinci = new PdfPCell(new Phrase(Adi, font));
-                        PdfPCell ikinci = new PdfPCell(new Phrase(Tanimi, font));
-                        PdfPCell ucuncu = new PdfPCell(new Phrase(Turu, font));
-
-                        tableGucTuketiciler.AddCell(birinci);
-                        tableGucTuketiciler.AddCell(ikinci);
-                        tableGucTuketiciler.AddCell(ucuncu);
-
-                        for (int i = 0; i < ucBirimler.Count; i++)
+                        if (nodeList != null)
                         {
-
-                            string ucBirimName = ucBirimler[i].Name;
-                            ucBirimName = TurkceKarakter(ucBirimName);
-                            string ucBirimTanim = ucBirimler[i].Tanim;
-                            ucBirimTanim = TurkceKarakter(ucBirimTanim);
-                            string ucBirimTur = ucBirimler[i].TurAd;
-                            ucBirimTur = TurkceKarakter(ucBirimTur);
-                            PdfPCell cell = new PdfPCell(new Phrase(ucBirimName, font));
-                            PdfPCell cell2 = new PdfPCell(new Phrase(ucBirimTanim, font));
-                            PdfPCell cell3 = new PdfPCell(new Phrase(ucBirimTur, font));
-                            cell.BorderColor = new BaseColor(34, 45, 53);
-                            tableGucTuketiciler.AddCell(cell);
-                            tableGucTuketiciler.AddCell(cell2);
-                            tableGucTuketiciler.AddCell(cell3);
-                        }
-                        for (int j = 0; j < agAnahtarlari.Count; j++)
-                        {
-                            string agAnahtariName = agAnahtarlari[j].Name;
-                            string agAnahtariTanim = agAnahtarlari[j].Tanim;
-                            string agAnahtariTur = agAnahtarlari[j].TurAd;
-                            agAnahtariName = TurkceKarakter(agAnahtariName);
-                            agAnahtariTanim = TurkceKarakter(agAnahtariTanim);
-                            agAnahtariTur = TurkceKarakter(agAnahtariTur);
-                            PdfPCell cell = new PdfPCell(new Phrase(agAnahtariName, font));
-                            PdfPCell cell2 = new PdfPCell(new Phrase(agAnahtariTanim, font));
-                            PdfPCell cell3 = new PdfPCell(new Phrase(agAnahtariTur, font));
-                            cell.BorderColor = new BaseColor(34, 45, 53);
-                            tableGucTuketiciler.AddCell(cell);
-                            tableGucTuketiciler.AddCell(cell2);
-                            tableGucTuketiciler.AddCell(cell3);
-                        }
-
-                        tableGucTuketiciler.SpacingAfter = 20;
-                        doc.Add(tableGucTuketiciHeader);
-                        doc.Add(tableGucTuketiciler);
-                    }
-
-                    if (gucUreticiler.Count > 0)
-                    {
-                        string gucUreticiH = "Güç Üreticiler Listesi";
-                        gucUreticiH = TurkceKarakter(gucUreticiH);
-                        PdfPCell headerGucUretici = new PdfPCell(new Phrase(gucUreticiH, font));
-                        headerGucUretici.HorizontalAlignment = iTextSharp.text.Element.ALIGN_CENTER;
-                        headerGucUretici.BorderColor = new BaseColor(34, 45, 53);
-                        PdfPTable tableGucUreticiHeader = new PdfPTable(1);
-                        tableGucUreticiHeader.AddCell(headerGucUretici);
-
-                        PdfPTable tableGucUreticiler = new PdfPTable(2);
-                        string Adi = "Adı";
-                        string Turu = "Türü";
-                        Adi = TurkceKarakter(Adi);
-                        Turu = TurkceKarakter(Turu);
-
-
-                        PdfPTable tableAgAnahtari = new PdfPTable(2);
-                        PdfPCell birinci = new PdfPCell(new Phrase(Adi, font));
-                        PdfPCell ikinci = new PdfPCell(new Phrase(Turu, font));
-                        tableGucUreticiler.AddCell(birinci);
-                        tableGucUreticiler.AddCell(ikinci);
-
-                        for (int i = 0; i < gucUreticiler.Count; i++)
-                        {
-                            string gucUreticiAdi = gucUreticiler[i].Name;
-                            string gucUreticiTur = gucUreticiler[i].TurAd;
-                            gucUreticiAdi = TurkceKarakter(gucUreticiAdi);
-                            gucUreticiTur = TurkceKarakter(gucUreticiTur);
-                            PdfPCell cell = new PdfPCell(new Phrase(gucUreticiAdi, font));
-                            PdfPCell cell2 = new PdfPCell(new Phrase(gucUreticiTur, font));
-                            cell.BorderColor = new BaseColor(34, 45, 53);
-                            tableGucUreticiler.AddCell(cell);
-                            tableGucUreticiler.AddCell(cell2);
-                        }
-
-                        tableGucUreticiler.SpacingAfter = 20;
-                        doc.Add(tableGucUreticiHeader);
-                        doc.Add(tableGucUreticiler);
-                    }
-
-                    if (gucUreticiler.Count > 0)
-                    {
-                        PdfPCell header = new PdfPCell(new Phrase("Güç Üreticiler ve Bağlı Oldukları Güç Tüketiciler Listesi"));
-                        header.HorizontalAlignment = iTextSharp.text.Element.ALIGN_CENTER;
-                        PdfPTable tableHeader = new PdfPTable(1);
-                        tableHeader.AddCell(header);
-
-                        string gucUretici = "Güç Üretici";
-                        string gucTuketici = "Güç Tüketici";
-                        string gucTuketiciTuru = "Güç Tüketici Türü";
-                        string gucTuketiciGucDegeri = "Güç Tüketici Güç Değeri";
-
-                        gucUretici = TurkceKarakter(gucUretici);
-                        gucTuketici = TurkceKarakter(gucTuketici);
-                        gucTuketiciTuru = TurkceKarakter(gucTuketiciTuru);
-                        gucTuketiciGucDegeri = TurkceKarakter(gucTuketiciGucDegeri);
-
-                        PdfPTable tableGucDegeri = new PdfPTable(4);
-                        PdfPCell header1 = new PdfPCell(new Phrase(gucUretici, font));
-                        PdfPCell header2 = new PdfPCell(new Phrase(gucTuketici, font));
-                        PdfPCell header3 = new PdfPCell(new Phrase(gucTuketiciTuru, font));
-                        PdfPCell header4 = new PdfPCell(new Phrase(gucTuketiciGucDegeri, font));
-                        tableGucDegeri.AddCell(header1);
-                        tableGucDegeri.AddCell(header2);
-                        tableGucDegeri.AddCell(header3);
-                        tableGucDegeri.AddCell(header4);
-
-
-
-                        foreach (var connect in this.ViewModel.NodesCanvas.Connects.OrderBy(o => o.ToConnector.Node.Name))
-                        {
-                            if (gucUreticiler.Contains(connect.FromConnector.Node))
+                            foreach (var node in nodeList)
                             {
-                                if (ucBirimler.Contains(connect.ToConnector.Node))
+                                if (node.TypeId != (int)TipEnum.GucUretici)
                                 {
-                                    string gucUreticiNode = connect.FromConnector.Node.Name;
-                                    string gucTuketiciNode = connect.ToConnector.Node.Name;
-                                    string gucTuketiciTuruNode = connect.ToConnector.Node.TurAd;
-
-                                    PdfPCell gu = new PdfPCell(new Phrase(gucUreticiNode, font));
-                                    PdfPCell gt = new PdfPCell(new Phrase(gucTuketiciNode, font));
-                                    PdfPCell gtt = new PdfPCell(new Phrase(gucTuketiciTuruNode, font));
-                                    PdfPCell gd = new PdfPCell(new Phrase("-"));
-
-                                    tableGucDegeri.AddCell(gu);
-                                    tableGucDegeri.AddCell(gt);
-                                    tableGucDegeri.AddCell(gtt);
-                                    tableGucDegeri.AddCell(gd);
-
+                                    gucTuketiciler.Add(node);
                                 }
-
-                                if (agAnahtarlari.Contains(connect.ToConnector.Node))
+                                else
                                 {
-                                    string gucUreticiNode = connect.FromConnector.Node.Name;
-                                    string gucTuketiciNode = connect.ToConnector.Node.Name;
-                                    string gucTuketiciTuruNode = connect.ToConnector.Node.TurAd;
-
-                                    PdfPCell gu = new PdfPCell(new Phrase(gucUreticiNode, font));
-                                    PdfPCell gt = new PdfPCell(new Phrase(gucTuketiciNode, font));
-                                    PdfPCell gtt = new PdfPCell(new Phrase(gucTuketiciTuruNode, font));
-                                    PdfPCell gd = new PdfPCell(new Phrase("-"));
-
-                                    tableGucDegeri.AddCell(gu);
-                                    tableGucDegeri.AddCell(gt);
-                                    tableGucDegeri.AddCell(gtt);
-                                    tableGucDegeri.AddCell(gd);
+                                    gucUreticiler.Add(node);
                                 }
                             }
                         }
-
-                        tableGucDegeri.SpacingAfter = 20;
-                        doc.Add(tableHeader);
-                        doc.Add(tableGucDegeri);
                     }
+
+                    var outputStream = new FileStream(path + "\\Güç Planlama Raporu.pdf", FileMode.Create);
+                    PdfDocument pdf = new PdfDocument(new PdfWriter(outputStream));
+                    Document doc = new Document(pdf, PageSize.A4);
+                    doc.SetFontProvider(new DefaultFontProvider(true, true, true));
+
+                    SetRaporHeader(doc);
+
+                    Paragraph header = new Paragraph("SEMA - AYP GÜÇ PLANLAMA RAPORU");
+                    header.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    header.SetFontSize(16);
+                    header.SetBold();
+                    header.SetMarginLeft(130);
+                    header.SetMarginTop(120);
+                    doc.Add(header);
+
+                    SetGucTuketicilerTable(doc, gucTuketiciler);
+                    if (gucTuketiciler.Count > 0)
+                    {
+                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        SetRaporHeader(doc);
+                    }
+
+                    SetGucUreticilerTable(doc, gucUreticiler);
+                    if (gucUreticiler.Count > 0)
+                    {
+                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        SetRaporHeader(doc);
+                    }
+
+                    List<ConnectViewModel> connectList = new List<ConnectViewModel>();
+                    foreach (var connect in this.ViewModel.NodesCanvas.Connects.OrderBy(o => o.ToConnector.Node.Name))
+                    {
+                        if (gucUreticiler.Contains(connect.FromConnector.Node))
+                        {
+                            if (gucTuketiciler.Contains(connect.ToConnector.Node))
+                            {
+                                connectList.Add(connect);
+                            }
+                        }
+                    }
+
+                    SetGucUreticiToGucTuketici(doc, connectList);
+                    if (connectList.Count > 0)
+                    {
+                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        SetRaporHeader(doc);
+                    }
+
+                    byte[] capture = CaptureNodesCanvas();
+                    var img = iText.IO.Image.ImageDataFactory.Create(capture);
+                    Image pdfImg = new Image(img);
+                    pdfImg.SetWidth(532);
+                    pdfImg.SetMarginTop(120);
+                    doc.Add(pdfImg);
 
                     doc.Close();
                 }
             }
         }
 
-        public string TurkceKarakter(string text)
+        private void SetGucUreticilerTable(Document doc, List<NodeViewModel> gucUreticiler)
+        {
+            Paragraph gucUreticiHeader = new Paragraph("2. Güç Üreticiler");
+            gucUreticiHeader.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            gucUreticiHeader.SetFontSize(11);
+            gucUreticiHeader.SetBold();
+            gucUreticiHeader.SetMarginTop(50);
+            doc.Add(gucUreticiHeader);
+
+            if (gucUreticiler.Count == 0)
+            {
+                Paragraph noGucUreticiParagraph = new Paragraph("Güç Üretici Bulunmamaktadır.");
+                noGucUreticiParagraph.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                noGucUreticiParagraph.SetFontSize(11);
+                noGucUreticiParagraph.SetMarginTop(20);
+                doc.Add(noGucUreticiParagraph);
+                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                SetRaporHeader(doc);
+            }
+
+            if (gucUreticiler.Count > 0)
+            {
+                Table table = new Table(new float[] { 125, 168, 125, 125, 125, 125 });
+                for (int j = 0; j < table.GetNumberOfColumns(); j++)
+                {
+                    Cell c = new Cell();
+
+                    if (j == 0)
+                    {
+                        c.Add(new Paragraph("Birim Adı"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 1)
+                    {
+                        c.Add(new Paragraph("Tanım"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 2)
+                    {
+                        c.Add(new Paragraph("Stok No"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 3)
+                    {
+                        c.Add(new Paragraph("Üretici"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 4)
+                    {
+                        c.Add(new Paragraph("Girdi Güç Arayüzü Sayısı"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 5)
+                    {
+                        c.Add(new Paragraph("Çıktı Güç Arayüzü Sayısı"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    table.AddCell(c);
+                }
+
+                int row = 0;
+                for (int j = 0; j < gucUreticiler.Count; j++)
+                {
+                    Cell c = new Cell();
+                    c.Add(new Paragraph(gucUreticiler[row].Name));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(gucUreticiler[row].Tanim));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(gucUreticiler[row].StokNo));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(gucUreticiler[row].UreticiAdi));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(gucUreticiler[row].InputList.Where(x => x.TypeId == (int)TipEnum.GucUreticiGucArayuzu).Count().ToString()));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(gucUreticiler[row].OutputList.Where(x => x.TypeId == (int)TipEnum.GucUreticiGucArayuzu).Count().ToString()));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    row++;
+                    if (row >= 10 && row % 10 == 0)
+                    {
+                        if (row == 10)
+                        {
+                            table.SetMarginTop(20);
+                            doc.Add(table);
+
+                            if (gucUreticiler.Count > row)
+                            {
+                                table = new Table(new float[] { 125, 168, 125, 125, 125, 125 });
+                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+
+                                SetRaporHeader(doc);
+                            }
+                        }
+                        else
+                        {
+                            table.SetMarginTop(120);
+                            doc.Add(table);
+
+                            if (gucUreticiler.Count > row)
+                            {
+                                table = new Table(new float[] { 125, 168, 125, 125, 125, 125 });
+                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+
+                                SetRaporHeader(doc);
+                            }
+                        }
+
+                    }
+                }
+
+                if (gucUreticiler.Count > 10)
+                {
+                    table.SetMarginTop(120);
+                    doc.Add(table);
+                }
+                else if (gucUreticiler.Count < 10)
+                {
+                    table.SetMarginTop(20);
+                    doc.Add(table);
+                }
+
+                Table tableTotal = new Table(new float[] { 400, 393 });
+                Cell c1 = new Cell();
+                c1.Add(new Paragraph("Toplam"));
+                c1.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                c1.SetFontSize(11);
+                c1.SetBold();
+                tableTotal.AddCell(c1);
+                c1 = new Cell();
+                c1.Add(new Paragraph(gucUreticiler.Count.ToString()));
+                c1.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                c1.SetFontSize(11);
+                tableTotal.AddCell(c1);
+                doc.Add(tableTotal);
+            }
+        }
+
+        private void SetGucTuketicilerTable(Document doc, List<NodeViewModel> gucTuketiciler)
+        {
+            Paragraph gucTuketiciHeader = new Paragraph("1. Güç Tüketiciler");
+            gucTuketiciHeader.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            gucTuketiciHeader.SetFontSize(11);
+            gucTuketiciHeader.SetBold();
+            gucTuketiciHeader.SetMarginTop(50);
+            doc.Add(gucTuketiciHeader);
+
+            if (gucTuketiciler.Count == 0)
+            {
+                Paragraph noGucTuketiciParagraph = new Paragraph("Güç Tüketici Bulunmamaktadır.");
+                noGucTuketiciParagraph.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                noGucTuketiciParagraph.SetFontSize(11);
+                noGucTuketiciParagraph.SetMarginTop(20);
+                doc.Add(noGucTuketiciParagraph);
+                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                SetRaporHeader(doc);
+            }
+
+            if (gucTuketiciler.Count > 0)
+            {
+                Table table = new Table(new float[] { 100, 143, 100, 100, 100, 100, 100 });
+                for (int j = 0; j < table.GetNumberOfColumns(); j++)
+                {
+                    Cell c = new Cell();
+
+                    if (j == 0)
+                    {
+                        c.Add(new Paragraph("Birim Adı"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 1)
+                    {
+                        c.Add(new Paragraph("Tanım"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 2)
+                    {
+                        c.Add(new Paragraph("Stok No"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 3)
+                    {
+                        c.Add(new Paragraph("Üretici"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 4)
+                    {
+                        c.Add(new Paragraph("Girdi Ağ Arayüzü Sayısı"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 5)
+                    {
+                        c.Add(new Paragraph("Çıktı Ağ Arayüzü Sayısı"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    if (j == 6)
+                    {
+                        c.Add(new Paragraph("Güç Arayüzü Sayısı"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
+
+                    table.AddCell(c);
+                }
+
+                int row = 0;
+                for (int j = 0; j < gucTuketiciler.Count; j++)
+                {
+                    Cell c = new Cell();
+                    c.Add(new Paragraph(gucTuketiciler[row].Name));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(gucTuketiciler[row].Tanim));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(gucTuketiciler[row].StokNo));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(gucTuketiciler[row].UreticiAdi));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(gucTuketiciler[row].InputList.Where(x => x.TypeId == (int)TipEnum.UcBirimAgArayuzu).Count().ToString()));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(gucTuketiciler[row].OutputList.Where(x => x.TypeId == (int)TipEnum.UcBirimAgArayuzu).Count().ToString()));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(gucTuketiciler[row].InputList.Where(x => x.TypeId == (int)TipEnum.UcBirimGucArayuzu).Count().ToString()));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
+
+                    row++;
+                    if (row >= 10 && row % 10 == 0)
+                    {
+                        if (row == 10)
+                        {
+                            table.SetMarginTop(20);
+                            doc.Add(table);
+
+                            if (gucTuketiciler.Count > row)
+                            {
+                                table = new Table(new float[] { 100, 143, 100, 100, 100, 100, 100 });
+                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+
+                                SetRaporHeader(doc);
+                            }
+                        }
+                        else
+                        {
+                            table.SetMarginTop(120);
+                            doc.Add(table);
+
+                            if (gucTuketiciler.Count > row)
+                            {
+                                table = new Table(new float[] { 100, 143, 100, 100, 100, 100, 100 });
+                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+
+                                SetRaporHeader(doc);
+                            }
+                        }
+
+                    }
+                }
+
+                if (gucTuketiciler.Count > 10)
+                {
+                    table.SetMarginTop(120);
+                    doc.Add(table);
+                }
+                else if (gucTuketiciler.Count < 10)
+                {
+                    table.SetMarginTop(20);
+                    doc.Add(table);
+                }
+
+                Table tableTotal = new Table(new float[] { 400, 393 });
+                Cell c1 = new Cell();
+                c1.Add(new Paragraph("Toplam"));
+                c1.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                c1.SetFontSize(11);
+                c1.SetBold();
+                tableTotal.AddCell(c1);
+                c1 = new Cell();
+                c1.Add(new Paragraph(gucTuketiciler.Count.ToString()));
+                c1.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                c1.SetFontSize(11);
+                tableTotal.AddCell(c1);
+                doc.Add(tableTotal);
+            }
+        }
+
+        private void SetGucUreticiToGucTuketici(Document doc, List<ConnectViewModel> connectList)
         {
 
-            text = text.Replace("İ", "\u0130");
+            Paragraph omurgaKenarHeader = new Paragraph("3. Güç Üreticiler ve Bağlı Olduğu Güç Tüketiciler");
+            omurgaKenarHeader.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            omurgaKenarHeader.SetFontSize(11);
+            omurgaKenarHeader.SetBold();
+            omurgaKenarHeader.SetMarginTop(120);
+            doc.Add(omurgaKenarHeader);
 
-            text = text.Replace("ı", "\u0131");
+            if (connectList.Count == 0)
+            {
+                Paragraph noBaglantiParagraph = new Paragraph("Uygun Bağlantı Bulunmamaktadır.");
+                noBaglantiParagraph.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                noBaglantiParagraph.SetFontSize(11);
+                noBaglantiParagraph.SetMarginTop(20);
+                doc.Add(noBaglantiParagraph);
+                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                SetRaporHeader(doc);
+            }
 
-            text = text.Replace("Ş", "\u015e");
+            if (connectList.Count > 0)
+            {
+                Table table = new Table(new float[] { 300, 300, 193 });
+                for (int j = 0; j < table.GetNumberOfColumns(); j++)
+                {
+                    Cell c = new Cell();
 
-            text = text.Replace("ş", "\u015f");
+                    if (j == 0)
+                    {
+                        c.Add(new Paragraph("Güç Üretici Adı"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
 
-            text = text.Replace("Ğ", "\u011e");
+                    if (j == 1)
+                    {
+                        c.Add(new Paragraph("Güç Tüketici Adı"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
 
-            text = text.Replace("ğ", "\u011f");
+                    if (j == 2)
+                    {
+                        c.Add(new Paragraph("Güç Niktarı (watt)"));
+                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontSize(11);
+                        c.SetBold();
+                    }
 
-            text = text.Replace("Ö", "\u00d6");
+                    table.AddCell(c);
+                }
 
-            text = text.Replace("ö", "\u00f6");
+                int row = 0;
+                for (int j = 0; j < connectList.Count; j++)
+                {
+                    Cell c = new Cell();
+                    c.Add(new Paragraph(connectList[row].FromConnector.Node.Name));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
 
-            text = text.Replace("ç", "\u00e7");
+                    c = new Cell();
+                    c.Add(new Paragraph(connectList[row].ToConnector.Node.Name));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
 
-            text = text.Replace("Ç", "\u00c7");
+                    c = new Cell();
+                    c.Add(new Paragraph("-"));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    table.AddCell(c);
 
-            text = text.Replace("ü", "\u00fc");
+                    row++;
+                    if (row >= 10 && row % 10 == 0)
+                    {
+                        if (row == 10)
+                        {
+                            table.SetMarginTop(20);
+                            doc.Add(table);
 
-            text = text.Replace("Ü", "\u00dc");
+                            if (connectList.Count > row)
+                            {
+                                table = new Table(new float[] { 100, 143, 100, 100, 100, 100, 100 });
+                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
-            return text;
+                                SetRaporHeader(doc);
+                            }
+                        }
+                        else
+                        {
+                            table.SetMarginTop(120);
+                            doc.Add(table);
+
+                            if (connectList.Count > row)
+                            {
+                                table = new Table(new float[] { 100, 143, 100, 100, 100, 100, 100 });
+                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+
+                                SetRaporHeader(doc);
+                            }
+                        }
+
+                    }
+                }
+
+                if (connectList.Count > 10)
+                {
+                    table.SetMarginTop(120);
+                    doc.Add(table);
+                }
+                else if (connectList.Count < 10)
+                {
+                    table.SetMarginTop(20);
+                    doc.Add(table);
+                }
+            }
         }
 
         private byte[] CaptureNodesCanvas()
@@ -1651,7 +2601,7 @@ namespace AYP
             using (DrawingContext dc = dv.RenderOpen())
             {
                 VisualBrush vb = new VisualBrush(NodesCanvas);
-                dc.DrawRectangle(vb, null, new Rect(new Point(), bounds.Size));
+                dc.DrawRectangle(vb, null, new Rect(new System.Windows.Point(), bounds.Size));
             }
 
             rtb.Render(dv);
@@ -1716,4 +2666,5 @@ namespace AYP
         }
         #endregion
     }
+
 }

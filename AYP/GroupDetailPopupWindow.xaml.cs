@@ -41,7 +41,7 @@ namespace AYP
             this.group.UniqueId = group.UniqueId;
             this.group.Name = group.Name;
             this.group.NodeList = new List<NodeViewModel>();
-            foreach(var node in group.NodeList)
+            foreach (var node in group.NodeList)
             {
                 this.group.NodeList.Add(node);
             }
@@ -68,28 +68,15 @@ namespace AYP
                     {
                         if (internalConnect.FromConnector == output)
                         {
-                            bool varMi = false;
-                            foreach (var connect in NodesCanvas.ViewModel.Connects)
-                            {
-                                if (connect.FromConnector == internalConnect.FromConnector && connect.ToConnector == internalConnect.ToConnector)
-                                {
-                                    varMi = true;
-                                    break;
-                                }
-                            }
-
-                            if (!varMi)
-                            {
-                                ConnectViewModel connect = new ConnectViewModel(NodesCanvas.ViewModel, output);
-                                connect.ToConnector = internalConnect.ToConnector;
-                                connect.FromConnector.Connect = connect;
-                                connect.AgYuku = internalConnect.AgYuku;
-                                connect.KabloKesitOnerisi = internalConnect.KabloKesitOnerisi;
-                                connect.Uzunluk = internalConnect.Uzunluk;
-                                connect.FromConnector.AgAkisList = internalConnect.FromConnector.AgAkisList;
-                                connect.ToConnector.AgAkisList = internalConnect.ToConnector.AgAkisList;
-                                NodesCanvas.ViewModel.Connects.Add(connect);
-                            }
+                            ConnectViewModel connect = new ConnectViewModel(NodesCanvas.ViewModel, output);
+                            connect.ToConnector = internalConnect.ToConnector;
+                            connect.FromConnector.Connect = connect;
+                            connect.AgYuku = internalConnect.AgYuku;
+                            connect.KabloKesitOnerisi = internalConnect.KabloKesitOnerisi;
+                            connect.Uzunluk = internalConnect.Uzunluk;
+                            connect.FromConnector.AgAkisList = internalConnect.FromConnector.AgAkisList;
+                            connect.ToConnector.AgAkisList = internalConnect.ToConnector.AgAkisList;
+                            NodesCanvas.ViewModel.Connects.Add(connect);
                         }
                     }
                 }
@@ -100,29 +87,17 @@ namespace AYP
                     {
                         if (internalConnect.ToConnector == input)
                         {
-                            bool varMi = false;
-                            foreach (var connect in NodesCanvas.ViewModel.Connects)
-                            {
-                                if (connect.FromConnector == internalConnect.FromConnector && connect.ToConnector == internalConnect.ToConnector)
-                                {
-                                    varMi = true;
-                                    break;
-                                }
-                            }
-
-                            if (!varMi)
-                            {
-                                ConnectViewModel connect = new ConnectViewModel(NodesCanvas.ViewModel, internalConnect.FromConnector);
-                                connect.ToConnector = input;
-                                connect.FromConnector.Connect = connect;
-                                connect.AgYuku = internalConnect.AgYuku;
-                                connect.KabloKesitOnerisi = internalConnect.KabloKesitOnerisi;
-                                connect.Uzunluk = internalConnect.Uzunluk;
-                                connect.FromConnector.AgAkisList = internalConnect.FromConnector.AgAkisList;
-                                connect.ToConnector.AgAkisList = internalConnect.ToConnector.AgAkisList;
-                                NodesCanvas.ViewModel.Connects.Add(connect);
-                            }
+                            ConnectViewModel connect = new ConnectViewModel(NodesCanvas.ViewModel, internalConnect.FromConnector);
+                            connect.ToConnector = input;
+                            connect.FromConnector.Connect = connect;
+                            connect.AgYuku = internalConnect.AgYuku;
+                            connect.KabloKesitOnerisi = internalConnect.KabloKesitOnerisi;
+                            connect.Uzunluk = internalConnect.Uzunluk;
+                            connect.FromConnector.AgAkisList = internalConnect.FromConnector.AgAkisList;
+                            connect.ToConnector.AgAkisList = internalConnect.ToConnector.AgAkisList;
+                            NodesCanvas.ViewModel.Connects.Add(connect);
                         }
+
                     }
                 }
             }
