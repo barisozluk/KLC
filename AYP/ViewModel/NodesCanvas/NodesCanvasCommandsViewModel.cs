@@ -1745,6 +1745,12 @@ namespace AYP.ViewModel
                 Error("not contanins StateMachine");
                 return;
             }
+
+            UcBirimCount = Convert.ToInt32(stateMachineXElement.Element("UcBirimCount")?.Value);
+            AgAnahtariCount = Convert.ToInt32(stateMachineXElement.Element("AgAnahtariCount")?.Value);
+            GucUreticiCount = Convert.ToInt32(stateMachineXElement.Element("GucUreticiCount")?.Value);
+            GroupCount = Convert.ToInt32(stateMachineXElement.Element("GroupCount")?.Value);
+
             #region setup states/nodes/connectors
 
             var States = stateMachineXElement.Element("States")?.Elements()?.ToList() ?? new List<XElement>();
@@ -1973,6 +1979,16 @@ namespace AYP.ViewModel
             XDocument xDocument = new XDocument();
             XElement stateMachineXElement = new XElement("StateMachine");
             xDocument.Add(stateMachineXElement);
+
+            XElement ubCount = new XElement("UcBirimCount", UcBirimCount);
+            stateMachineXElement.Add(ubCount);
+            XElement aaCount = new XElement("AgAnahtariCount", AgAnahtariCount);
+            stateMachineXElement.Add(aaCount);
+            XElement guCount = new XElement("GucUreticiCount", GucUreticiCount);
+            stateMachineXElement.Add(guCount);
+            XElement gCount = new XElement("GroupCount", GroupCount);
+            stateMachineXElement.Add(gCount);
+
             XElement states = new XElement("States");
             stateMachineXElement.Add(states);
             foreach (var state in Nodes.Items)
