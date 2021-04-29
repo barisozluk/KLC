@@ -76,7 +76,6 @@
                 <ResourceDictionary Source="Styles/StyleLeftPanelUpButton.xaml"/>
                 <ResourceDictionary Source="Styles/StyleMainPanelUpButton.xaml"/>
                 <ResourceDictionary Source="Styles/StyleCutButton.xaml"/>
-                <ResourceDictionary Source="Styles/StyleDatePicker.xaml" />
 
                 <ResourceDictionary Source="Styles/StyleAddDeviceButton.xaml"/>
                 <ResourceDictionary Source="Styles/StyleToolTip.xaml"/>

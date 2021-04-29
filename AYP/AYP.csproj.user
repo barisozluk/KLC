@@ -39,9 +39,6 @@
     <Page Update="Styles\StyleArayuzCogaltFormPanel.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Styles\StyleDatePicker.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Styles\StyleRaporBilgileriFormPanel.xaml">
       <SubType>Designer</SubType>
     </Page>

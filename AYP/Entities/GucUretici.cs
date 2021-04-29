@@ -43,10 +43,10 @@ namespace AYP.Entities
         [ForeignKey("GucUreticiTurId")]
         public GucUreticiTur GucUreticiTur { get; set; }
 
-        [Range(1, int.MaxValue)]
+        [Range(1, 10)]
         public int GirdiGucArayuzuSayisi { get; set; }
 
-        [Range(1, int.MaxValue)]
+        [Range(1, 10)]
         public int CiktiGucArayuzuSayisi { get; set; }
 
         public decimal? VerimlilikDegeri { get; set; }
