@@ -1705,6 +1705,7 @@ namespace AYP.ViewModel
         }
         private void ClearScheme()
         {
+            this.MainWindow.OpenProjectName.Content = "";
             this.Nodes.Clear();
             this.Connects.Clear();
             this.NodesCount = 0;
@@ -1735,6 +1736,7 @@ namespace AYP.ViewModel
                 return;
             Mouse.OverrideCursor = Cursors.Wait;
             string fileName = Dialog.FileName;
+            string filenamewithextension = System.IO.Path.GetFileName(Dialog.FileName);
             ClearScheme();
 
             WithoutMessages = true;
@@ -1918,6 +1920,8 @@ namespace AYP.ViewModel
             Mouse.OverrideCursor = null;
             WithoutMessages = false;
             LogDebug("Scheme was loaded from file \"{0}\"", SchemePath);
+
+            this.MainWindow.OpenProjectName.Content = filenamewithextension;
 
             bool WithError<T>(string errorMessage, Action<T> action, T obj)
             {

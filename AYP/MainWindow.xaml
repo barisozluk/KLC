@@ -142,7 +142,7 @@
             <Image Source="Images\help.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
 
-        <Label Grid.Column="5" HorizontalAlignment="Right" Margin="0,0,95,0" Foreground="#fff" Content="{Binding Path= versiyon}" ></Label>
+        <Label x:Name="OpenProjectName" Grid.Column="5" HorizontalAlignment="Right" Margin="0,0,95,0" Foreground="#fff" Padding="16" ></Label>
         <Button x:Name="ButtonMinimize" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="5" HorizontalAlignment="Right" Margin="0,0,35,0" Click="MinimizeButtonClick">
             <Rectangle x:Name="ButtonMinimizeRectangle" Fill="{DynamicResource IconMinimize}"  Height="2" Width="15" Margin="7,0,0,0" StrokeThickness="0"/>
         </Button>
