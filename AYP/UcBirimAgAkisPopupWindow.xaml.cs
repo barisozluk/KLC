@@ -92,6 +92,7 @@ namespace AYP
         {
             DogrulamaModel dogrulama = new DogrulamaModel();
             dogrulama.Mesaj = mesaj;
+            dogrulama.MesajTipi = "AgAkis";
             dogrulama.Connector = ucBirimAgArayuzu;
             (Owner as MainWindow).DogrulamaDataGrid.Items.Add(dogrulama);
         }
@@ -104,7 +105,7 @@ namespace AYP
 
                 foreach (var item in (Owner as MainWindow).DogrulamaDataGrid.Items)
                 {
-                    if ((item as DogrulamaModel).Connector == ucBirimAgArayuzu)
+                    if ((item as DogrulamaModel).Connector == ucBirimAgArayuzu || (item as DogrulamaModel).MesajTipi == "AgAkis")
                     {
                         deletedObj = (item as DogrulamaModel);
                         break;

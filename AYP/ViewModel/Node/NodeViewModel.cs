@@ -481,9 +481,9 @@ namespace AYP.ViewModel
                     if (input.Attribute("GirdiTukettigiGucMiktari")?.Value == null) { girdiTukettigiGucMiktariInput = null; }
                     else { girdiTukettigiGucMiktariInput = Convert.ToDecimal(input.Attribute("GirdiTukettigiGucMiktari")?.Value); }
 
-                    string ciktiDuraganGerilimDegeriInput;
+                    decimal? ciktiDuraganGerilimDegeriInput;
                     if (input.Attribute("CiktiDuraganGerilimDegeri")?.Value == null) { ciktiDuraganGerilimDegeriInput = null; }
-                    else { ciktiDuraganGerilimDegeriInput = input.Attribute("CiktiDuraganGerilimDegeri")?.Value; }
+                    else { ciktiDuraganGerilimDegeriInput = Convert.ToDecimal(input.Attribute("CiktiDuraganGerilimDegeri")?.Value); }
 
                     decimal? ciktiUrettigiGucKapasitesiInput = 0;
                     if (input.Attribute("CiktiUrettigiGucKapasitesi")?.Value == null) { ciktiUrettigiGucKapasitesiInput = null; }
@@ -562,9 +562,9 @@ namespace AYP.ViewModel
                     if (output.Attribute("GirdiTukettigiGucMiktari")?.Value == null) { girdiTukettigiGucMiktariOutput = null; }
                     else { girdiTukettigiGucMiktariOutput = Convert.ToDecimal(output.Attribute("GirdiTukettigiGucMiktari")?.Value); }
 
-                    string ciktiDuraganGerilimDegeriOutput;
+                    decimal? ciktiDuraganGerilimDegeriOutput;
                     if (output.Attribute("CiktiDuraganGerilimDegeri")?.Value == null) { ciktiDuraganGerilimDegeriOutput = null; }
-                    else { ciktiDuraganGerilimDegeriOutput = output.Attribute("CiktiDuraganGerilimDegeri")?.Value; }
+                    else { ciktiDuraganGerilimDegeriOutput = Convert.ToDecimal(output.Attribute("CiktiDuraganGerilimDegeri")?.Value); }
 
                     decimal? ciktiUrettigiGucKapasitesiOutput = 0;
                     if (output.Attribute("CiktiUrettigiGucKapasitesi")?.Value == null) { ciktiUrettigiGucKapasitesiOutput = null; }
@@ -661,7 +661,9 @@ namespace AYP.ViewModel
                     if (gucArayuzu.Attribute("CiktiUrettigiGucKapasitesi")?.Value == null) { ciktiUrettigiGucKapasitesi = null; }
                     else { ciktiUrettigiGucKapasitesi = Convert.ToDecimal(gucArayuzu.Attribute("CiktiUrettigiGucKapasitesi")?.Value); }
 
-                    string ciktiDuraganGerilimDegeri = gucArayuzu.Attribute("CiktiDuraganGerilimDegeri")?.Value;
+                    decimal? ciktiDuraganGerilimDegeri = 0;
+                    if (gucArayuzu.Attribute("CiktiDuraganGerilimDegeri")?.Value == null) { ciktiDuraganGerilimDegeri = null; }
+                    else { ciktiDuraganGerilimDegeri = Convert.ToDecimal(gucArayuzu.Attribute("CiktiDuraganGerilimDegeri")?.Value); }
 
                     item.Adi = adi;
                     item.Id = itemId;

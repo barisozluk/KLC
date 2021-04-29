@@ -46,7 +46,7 @@ namespace AYP.ViewModel
         [Reactive] public decimal? GirdiMinimumGerilimDegeri { get; set; }
         [Reactive] public decimal? GirdiMaksimumGerilimDegeri { get; set; }
         [Reactive] public decimal? GirdiTukettigiGucMiktari { get; set; }
-        [Reactive] public string CiktiDuraganGerilimDegeri { get; set; }
+        [Reactive] public decimal? CiktiDuraganGerilimDegeri { get; set; }
         [Reactive] public decimal? CiktiUrettigiGucKapasitesi { get; set; }
         [Reactive] public string Label { get; set; }
         [Reactive] public int TypeId { get; set; }
@@ -60,7 +60,7 @@ namespace AYP.ViewModel
         public ConnectorViewModel(NodesCanvasViewModel nodesCanvas, NodeViewModel viewModelNode, string name, Point myPoint, Guid uniqueId, int? kapasiteId = default(int), int? minKapasite = default(int), int? maxKapasite = default(int), int? fizikselOrtamId = default(int),
             int? gerilimTipiId = default(int), int kullanimAmaciId = default(int), decimal? girdiDuraganGerilimDegeri1 = default(decimal), decimal? girdiDuraganGerilimDegeri2 = default(decimal), decimal? girdiDuraganGerilimDegeri3 = default(decimal),
             decimal? girdiMinimumGerilimDegeri = default(decimal), decimal? girdiMaksimumGerilimDegeri = default(decimal), decimal? girdiTukettigiGucMiktari = default(decimal),
-            string ciktiDuraganGerilimDegeri = default(string), decimal? ciktiUrettigiGucKapasitesi = default(decimal), string label = default(string), int typeId = default(int), int id = default(int), string port = default, decimal? kalanKapasite = default)
+            decimal? ciktiDuraganGerilimDegeri = default(decimal), decimal? ciktiUrettigiGucKapasitesi = default(decimal), string label = default(string), int typeId = default(int), int id = default(int), string port = default, decimal? kalanKapasite = default)
         {
             Node = viewModelNode;
             NodesCanvas = nodesCanvas;

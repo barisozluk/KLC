@@ -110,7 +110,7 @@ namespace AYP.ViewModel
 
                     }
 
-                    if (connect.ToConnector.Node.TypeId == (int)TipEnum.Group)
+                    if (connect.FromConnector.Node.TypeId == (int)TipEnum.Group)
                     {
                         var groupNode = this.NodesCanvas.GroupList.Where(x => x.UniqueId == connect.ToConnector.Node.UniqueId).FirstOrDefault();
                         foreach (var node in groupNode.NodeList)

@@ -390,16 +390,19 @@ namespace AYP.Validations
         private bool GerilimValidasyon(NodesCanvasViewModel NodesCanvas, ConnectorViewModel fromConnector, ConnectorViewModel toConnector)
         {
             var response = true;
-            if(toConnector.GirdiDuraganGerilimDegeri1.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
+            if (fromConnector.CiktiDuraganGerilimDegeri != -1)
             {
-                if (toConnector.GirdiDuraganGerilimDegeri2.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
+                if (toConnector.GirdiDuraganGerilimDegeri1.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
                 {
-                    if (toConnector.GirdiDuraganGerilimDegeri3.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
+                    if (toConnector.GirdiDuraganGerilimDegeri2.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
                     {
-                        if (!(toConnector.GirdiMinimumGerilimDegeri.Value <= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri) &&
-                            toConnector.GirdiMaksimumGerilimDegeri.Value >= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri)))
+                        if (toConnector.GirdiDuraganGerilimDegeri3.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
                         {
-                            response = false;
+                            if (!(toConnector.GirdiMinimumGerilimDegeri.Value <= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri) &&
+                                toConnector.GirdiMaksimumGerilimDegeri.Value >= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri)))
+                            {
+                                response = false;
+                            }
                         }
                     }
                 }

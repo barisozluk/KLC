@@ -2760,7 +2760,7 @@ namespace AYP.ViewModel
 
             foreach (var connectToDelete in result.ConnectsToDelete)
             {
-                RemoveFromDogrulamaPaneli(connectToDelete.FromConnector);
+                //RemoveFromDogrulamaPaneli(connectToDelete.FromConnector);
             }
 
             foreach (var node in result.NodesToDelete)

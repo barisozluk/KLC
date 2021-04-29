@@ -530,6 +530,62 @@ namespace AYP
                 }
             }
         }
+
+        private void NegativeDecimalValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            var textBox = (TextBox)sender;
+
+            foreach (char ch in e.Text)
+            {
+                if (!Char.IsDigit(ch))
+                {
+                    if (ch.Equals('.') || ch.Equals(',') || ch.Equals('-'))
+                    {
+                        if (ch.Equals('-'))
+                        {
+                            int seperatorCount = textBox.Text.Where(t => t.Equals('-')).Count();
+
+                            if (seperatorCount == 0 && textBox.Text.Length == 0)
+                            {
+                                e.Handled = false;
+                            }
+                            else
+                            {
+                                e.Handled = true;
+                            }
+                        }
+                        else
+                        {
+                            int seperatorCount = textBox.Text.Where(t => t.Equals('.') || t.Equals(',')).Count();
+
+                            if (seperatorCount < 1)
+                            {
+                                if (textBox.Text.Length > 0)
+                                {
+                                    e.Handled = false;
+                                }
+                                else
+                                {
+                                    e.Handled = true;
+                                }
+                            }
+                            else
+                            {
+                                e.Handled = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        e.Handled = true;
+                    }
+                }
+                else
+                {
+                    e.Handled = false;
+                }
+            }
+        }
         #endregion
 
         #region DownloadKatalogEvent

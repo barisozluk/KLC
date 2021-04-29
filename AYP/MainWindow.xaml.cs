@@ -711,10 +711,20 @@ namespace AYP
 
                 if (model.TypeId == (int)TipEnum.AgAnahtari || model.TypeId == (int)TipEnum.UcBirim)
                 {
-                    ExternalNode data = new ExternalNode();
-                    data.Node = model;
-                    data.Point = NodesCanvas.PositionMove;
-                    this.NodesCanvas.ViewModel.CommandAddNodeWithUndoRedo.Execute(data);
+                    if (agWorkspaceSeciliMi)
+                    {
+                        ExternalNode data = new ExternalNode();
+                        data.Node = model;
+                        data.Point = NodesCanvas.PositionMove;
+                        this.NodesCanvas.ViewModel.CommandAddNodeWithUndoRedo.Execute(data);
+                    }
+                    else
+                    {
+                        NotifyInfoPopup nfp = new NotifyInfoPopup();
+                        nfp.msg.Text = "Şu an Ağ Planlama üzerine çalışmamaktasınız, Uç Birim veya Ağ Anahtarı ekleyemezsiniz.";
+                        nfp.Owner = this;
+                        nfp.Show();
+                    }
                 }
                 else
                 {
@@ -728,7 +738,7 @@ namespace AYP
                     else
                     {
                         NotifyInfoPopup nfp = new NotifyInfoPopup();
-                        nfp.msg.Text = "Şu an Ağ Planlama üzerine çalışmaktasınız, Güç Üretici ekleyemezsiniz.";
+                        nfp.msg.Text = "Şu an Güç Planlama üzerine çalışmamaktasınız, Güç Üretici ekleyemezsiniz.";
                         nfp.Owner = this;
                         nfp.Show();
                     }
@@ -1280,17 +1290,20 @@ namespace AYP
             blur.Radius = 2;
             this.Effect = blur;
 
-            if (obj.Connector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
+            if (obj.MesajTipi == "AgAkis")
             {
-                AgAnahtariAgAkisPopupWindow popup = new AgAnahtariAgAkisPopupWindow(obj.Connector);
-                popup.Owner = this;
-                popup.ShowDialog();
-            }
-            else if (obj.Connector.TypeId == (int)TipEnum.UcBirimAgArayuzu)
-            {
-                UcBirimAgAkisPopupWindow popup = new UcBirimAgAkisPopupWindow(obj.Connector);
-                popup.Owner = this;
-                popup.ShowDialog();
+                if (obj.Connector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
+                {
+                    AgAnahtariAgAkisPopupWindow popup = new AgAnahtariAgAkisPopupWindow(obj.Connector);
+                    popup.Owner = this;
+                    popup.ShowDialog();
+                }
+                else if (obj.Connector.TypeId == (int)TipEnum.UcBirimAgArayuzu)
+                {
+                    UcBirimAgAkisPopupWindow popup = new UcBirimAgAkisPopupWindow(obj.Connector);
+                    popup.Owner = this;
+                    popup.ShowDialog();
+                }
             }
         }
         #endregion
