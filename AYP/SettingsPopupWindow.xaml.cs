@@ -25,7 +25,7 @@ namespace AYP
         public SettingsPopupWindow()
         {
             InitializeComponent();
-            this.Versiyon.Content = "Versiyon : 1.0.5";
+            this.Versiyon.Content = "Versiyon : 1.0.6";
         }
 
         private void VersiyonPopupClose_Click(object sender, RoutedEventArgs e)

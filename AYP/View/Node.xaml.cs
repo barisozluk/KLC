@@ -137,12 +137,15 @@ namespace AYP.View
         }
         private void UpdateHiararchyPanel(string value)
         {
-            foreach (TreeViewItem item in this.ViewModel.NodesCanvas.MainWindow.ProjeHiyerarsi.Items)
+            if (this.ViewModel.NodesCanvas.MainWindow != null)
             {
-                if (item.Header == this.NodeHeaderElement.TextBoxElement.Text)
+                foreach (TreeViewItem item in this.ViewModel.NodesCanvas.MainWindow.ProjeHiyerarsi.Items)
                 {
-                    item.Header = value;
-                    break;
+                    if (item.Header == this.NodeHeaderElement.TextBoxElement.Text)
+                    {
+                        item.Header = value;
+                        break;
+                    }
                 }
             }
 

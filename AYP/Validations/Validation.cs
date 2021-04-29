@@ -112,7 +112,14 @@ namespace AYP.Validations
                 }
                 else if (toConnector.Node.TypeId == (int)TipEnum.GucUretici)
                 {
-
+                    if (fromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu)
+                    {
+                        if (toConnector.TypeId == (int)TipEnum.GucUreticiGucArayuzu)
+                        {
+                            OpenModal("Ağ arayüzü ile güç arayüzü birbirine bağlanamaz.", NodesCanvas);
+                            response = false;
+                        }
+                    }
                 }
             }
             else if (fromConnector.Node.TypeId == (int)TipEnum.AgAnahtari)
@@ -198,24 +205,6 @@ namespace AYP.Validations
                                 if (response)
                                 {
                                     response = KapasiteValidasyon(NodesCanvas, fromConnector, toConnector);
-
-                                    //if(response)
-                                    //{
-                                    //    decimal total = 0;
-                                    //    foreach(var input in fromConnector.Node.InputList)
-                                    //    {
-                                    //        if (input.AgAkisList != null && input.AgAkisList.Count() > 0)
-                                    //        {
-                                    //            total = input.AgAkisList.Select(s => s.Yuk).Sum();
-                                    //        }
-                                    //    }
-
-                                    //    if(total == 0)
-                                    //    {
-                                    //        OpenModal("Lütfen, öncelikle ağ anahtarına giren bir ağ akışı tanımlayınız!", NodesCanvas);
-                                    //        response = false;
-                                    //    }
-                                    //}
                                 }
                             }
                             else if (toConnector.TypeId == (int)TipEnum.AgAnahtariGucArayuzu)
@@ -253,7 +242,14 @@ namespace AYP.Validations
                 }
                 else if (toConnector.Node.TypeId == (int)TipEnum.GucUretici)
                 {
-
+                    if (fromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
+                    {
+                        if (toConnector.TypeId == (int)TipEnum.GucUreticiGucArayuzu)
+                        {
+                            OpenModal("Ağ arayüzü ile güç arayüzü birbirine bağlanamaz.", NodesCanvas);
+                            response = false;
+                        }
+                    }
                 }
             }
             else if (fromConnector.Node.TypeId == (int)TipEnum.GucUretici)

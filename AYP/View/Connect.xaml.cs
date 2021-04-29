@@ -277,16 +277,18 @@ namespace AYP.View
         {
             double middleX = (value.X + this.ViewModel.EndPoint.X) / 2;
             double middleY = (value.Y + this.ViewModel.EndPoint.Y) / 2;
-            UzunlukBorder.Margin = new Thickness(middleX , middleY, 0, 0);
-            AgYukuBorder.Margin = new Thickness(value.X + 10, value.Y - 10, 0, 0);
+            AgYukuBorder.Margin = new Thickness(this.ViewModel.StartPoint.X+10, this.ViewModel.StartPoint.Y, 0, 0);
+            UzunlukBorder.Margin = new Thickness(middleX , middleY, middleX, middleY);
+            
         }
 
         private void OnEventEndPoint(Point value)
         {
             double middleX = (value.X + this.ViewModel.StartPoint.X) / 2;
             double middleY = (value.Y + this.ViewModel.StartPoint.Y) / 2;
-            UzunlukBorder.Margin = new Thickness(middleX, middleY, 0, 0);
-            AgYukuBorder.Margin = new Thickness(this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y - 10, 0, 0);
+            AgYukuBorder.Margin = new Thickness(this.ViewModel.StartPoint.X+10, this.ViewModel.StartPoint.Y, 0, value.Y);
+            UzunlukBorder.Margin = new Thickness(middleX, middleY, middleX, middleY);
+            
         }
 
         private void OnEventUzunluk(decimal value)
@@ -333,7 +335,7 @@ namespace AYP.View
         }
         private void OnEventAgYuku(decimal value)
         {
-            AgYuku.Text = value.ToString() + " mbps";
+            AgYuku.Text = value.ToString("0.##") + " mbps";
         }
 
 
