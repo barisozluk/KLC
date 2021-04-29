@@ -1061,10 +1061,30 @@ namespace AYP
                         var ucBirimler = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.UcBirim).ToList();
                         var agAnahtarlari = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.AgAnahtari).ToList();
                         var grouplar = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.Group).ToList();
+                        var internalConnectList = new List<ConnectViewModel>();
+                        var externalConnectList = new List<ConnectViewModel>();
 
                         foreach (var group in grouplar)
                         {
                             var nodeList = this.ViewModel.NodesCanvas.GroupList.Where(x => x.UniqueId == group.UniqueId).Select(s => s.NodeList).FirstOrDefault();
+                            var temp = this.ViewModel.NodesCanvas.GroupList.Where(x => x.UniqueId == group.UniqueId).Select(s => s.InternalConnectList).FirstOrDefault();
+                            var temp2 = this.ViewModel.NodesCanvas.GroupList.Where(x => x.UniqueId == group.UniqueId).Select(s => s.ExternalConnectList).FirstOrDefault();
+
+                            if (temp != null)
+                            {
+                                foreach (var item in temp)
+                                {
+                                    internalConnectList.Add(item);
+                                }
+                            }
+
+                            if (temp2 != null)
+                            {
+                                foreach (var item in temp2)
+                                {
+                                    externalConnectList.Add(item);
+                                }
+                            }
 
                             if (nodeList != null)
                             {
@@ -1134,6 +1154,42 @@ namespace AYP
                             }
                         }
 
+                        foreach (var connect in internalConnectList.OrderBy(o => o.ToConnector.Node.Name))
+                        {
+                            if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
+                            {
+                                if (ucBirimler.Contains(connect.FromConnector.Node))
+                                {
+                                    connectList.Add(connect);
+                                }
+                            }
+                            if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
+                            {
+                                if (ucBirimler.Contains(connect.ToConnector.Node))
+                                {
+                                    connectList.Add(connect);
+                                }
+                            }
+                        }
+
+                        foreach (var connect in externalConnectList.OrderBy(o => o.ToConnector.Node.Name))
+                        {
+                            if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
+                            {
+                                if (ucBirimler.Contains(connect.FromConnector.Node))
+                                {
+                                    connectList.Add(connect);
+                                }
+                            }
+                            if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
+                            {
+                                if (ucBirimler.Contains(connect.ToConnector.Node))
+                                {
+                                    connectList.Add(connect);
+                                }
+                            }
+                        }
+
                         SetKenarToUcBirimTable(doc, connectList);
                         if (connectList.Count > 0)
                         {
@@ -1159,7 +1215,43 @@ namespace AYP
                                 }
                             }
                         }
-                        
+
+                        foreach (var connect in internalConnectList.OrderBy(o => o.ToConnector.Node.Name))
+                        {
+                            if (toplamaAgAnahtarlari.Contains(connect.ToConnector.Node))
+                            {
+                                if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
+                                {
+                                    connectList.Add(connect);
+                                }
+                            }
+                            if (toplamaAgAnahtarlari.Contains(connect.FromConnector.Node))
+                            {
+                                if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
+                                {
+                                    connectList.Add(connect);
+                                }
+                            }
+                        }
+
+                        foreach (var connect in externalConnectList.OrderBy(o => o.ToConnector.Node.Name))
+                        {
+                            if (toplamaAgAnahtarlari.Contains(connect.ToConnector.Node))
+                            {
+                                if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
+                                {
+                                    connectList.Add(connect);
+                                }
+                            }
+                            if (toplamaAgAnahtarlari.Contains(connect.FromConnector.Node))
+                            {
+                                if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
+                                {
+                                    connectList.Add(connect);
+                                }
+                            }
+                        }
+
                         SetToplamaToKenarTable(doc, connectList);
                         if (connectList.Count > 0)
                         {
@@ -1169,6 +1261,42 @@ namespace AYP
 
                         connectList = new List<ConnectViewModel>();
                         foreach (var connect in this.ViewModel.NodesCanvas.Connects.OrderBy(o => o.ToConnector.Node.Name))
+                        {
+                            if (omurgaAgAnahtarlari.Contains(connect.ToConnector.Node))
+                            {
+                                if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
+                                {
+                                    connectList.Add(connect);
+                                }
+                            }
+                            if (omurgaAgAnahtarlari.Contains(connect.FromConnector.Node))
+                            {
+                                if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
+                                {
+                                    connectList.Add(connect);
+                                }
+                            }
+                        }
+
+                        foreach (var connect in internalConnectList.OrderBy(o => o.ToConnector.Node.Name))
+                        {
+                            if (omurgaAgAnahtarlari.Contains(connect.ToConnector.Node))
+                            {
+                                if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
+                                {
+                                    connectList.Add(connect);
+                                }
+                            }
+                            if (omurgaAgAnahtarlari.Contains(connect.FromConnector.Node))
+                            {
+                                if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
+                                {
+                                    connectList.Add(connect);
+                                }
+                            }
+                        }
+
+                        foreach (var connect in externalConnectList.OrderBy(o => o.ToConnector.Node.Name))
                         {
                             if (omurgaAgAnahtarlari.Contains(connect.ToConnector.Node))
                             {
@@ -2018,6 +2146,8 @@ namespace AYP
                     string path = fbd.SelectedPath;
 
                     var grouplar = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.Group).ToList();
+                    var internalConnectList = new List<ConnectViewModel>();
+                    var externalConnectList = new List<ConnectViewModel>();
 
                     var gucTuketiciler = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.UcBirim || x.TypeId == (int)TipEnum.AgAnahtari).ToList();
                     var gucUreticiler = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.GucUretici).ToList();
@@ -2025,7 +2155,9 @@ namespace AYP
                     foreach(var group in grouplar)
                     {
                         var nodeList = this.ViewModel.NodesCanvas.GroupList.Where(x => x.UniqueId == group.UniqueId).Select(s => s.NodeList).FirstOrDefault();
-
+                        var temp = this.ViewModel.NodesCanvas.GroupList.Where(x => x.UniqueId == group.UniqueId).Select(s => s.InternalConnectList).FirstOrDefault();
+                        var temp2 = this.ViewModel.NodesCanvas.GroupList.Where(x => x.UniqueId == group.UniqueId).Select(s => s.ExternalConnectList).FirstOrDefault();
+                        
                         if (nodeList != null)
                         {
                             foreach (var node in nodeList)
@@ -2038,6 +2170,22 @@ namespace AYP
                                 {
                                     gucUreticiler.Add(node);
                                 }
+                            }
+                        }
+
+                        if(temp != null)
+                        {
+                            foreach(var item in temp)
+                            {
+                                internalConnectList.Add(item);
+                            }
+                        }
+
+                        if (temp2 != null)
+                        {
+                            foreach (var item in temp2)
+                            {
+                                externalConnectList.Add(item);
                             }
                         }
                     }
@@ -2073,6 +2221,28 @@ namespace AYP
 
                     List<ConnectViewModel> connectList = new List<ConnectViewModel>();
                     foreach (var connect in this.ViewModel.NodesCanvas.Connects.OrderBy(o => o.ToConnector.Node.Name))
+                    {
+                        if (gucUreticiler.Contains(connect.FromConnector.Node))
+                        {
+                            if (gucTuketiciler.Contains(connect.ToConnector.Node))
+                            {
+                                connectList.Add(connect);
+                            }
+                        }
+                    }
+
+                    foreach (var connect in internalConnectList.OrderBy(o => o.ToConnector.Node.Name))
+                    {
+                        if (gucUreticiler.Contains(connect.FromConnector.Node))
+                        {
+                            if (gucTuketiciler.Contains(connect.ToConnector.Node))
+                            {
+                                connectList.Add(connect);
+                            }
+                        }
+                    }
+
+                    foreach (var connect in externalConnectList.OrderBy(o => o.ToConnector.Node.Name))
                     {
                         if (gucUreticiler.Contains(connect.FromConnector.Node))
                         {
@@ -2473,12 +2643,12 @@ namespace AYP
         private void SetGucUreticiToGucTuketici(Document doc, List<ConnectViewModel> connectList)
         {
 
-            Paragraph omurgaKenarHeader = new Paragraph("3. Güç Üreticiler ve Bağlı Olduğu Güç Tüketiciler");
-            omurgaKenarHeader.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            omurgaKenarHeader.SetFontSize(11);
-            omurgaKenarHeader.SetBold();
-            omurgaKenarHeader.SetMarginTop(120);
-            doc.Add(omurgaKenarHeader);
+            Paragraph gucUreticiTuketiciHeader = new Paragraph("3. Güç Üreticiler ve Bağlı Olduğu Güç Tüketiciler");
+            gucUreticiTuketiciHeader.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            gucUreticiTuketiciHeader.SetFontSize(11);
+            gucUreticiTuketiciHeader.SetBold();
+            gucUreticiTuketiciHeader.SetMarginTop(120);
+            doc.Add(gucUreticiTuketiciHeader);
 
             if (connectList.Count == 0)
             {
@@ -2516,7 +2686,7 @@ namespace AYP
 
                     if (j == 2)
                     {
-                        c.Add(new Paragraph("Güç Niktarı (watt)"));
+                        c.Add(new Paragraph("Güç Miktarı (watt)"));
                         c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
                         c.SetFontSize(11);
                         c.SetBold();
@@ -2556,7 +2726,7 @@ namespace AYP
 
                             if (connectList.Count > row)
                             {
-                                table = new Table(new float[] { 100, 143, 100, 100, 100, 100, 100 });
+                                table = new Table(new float[] { 300, 300, 193 });
                                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
                                 SetRaporHeader(doc);
@@ -2569,7 +2739,7 @@ namespace AYP
 
                             if (connectList.Count > row)
                             {
-                                table = new Table(new float[] { 100, 143, 100, 100, 100, 100, 100 });
+                                table = new Table(new float[] { 300, 300, 193 });
                                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
                                 SetRaporHeader(doc);
