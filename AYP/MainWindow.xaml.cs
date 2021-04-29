@@ -1050,288 +1050,9 @@ namespace AYP
 
             if (agPlanlamaNodes.Count() > 0)
             {
-                using (var fbd = new System.Windows.Forms.FolderBrowserDialog())
-                {
-                    System.Windows.Forms.DialogResult result = fbd.ShowDialog();
-
-                    if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
-                    {
-                        string path = fbd.SelectedPath;
-
-                        var ucBirimler = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.UcBirim).ToList();
-                        var agAnahtarlari = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.AgAnahtari).ToList();
-                        var grouplar = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.Group).ToList();
-                        var internalConnectList = new List<ConnectViewModel>();
-                        var externalConnectList = new List<ConnectViewModel>();
-
-                        foreach (var group in grouplar)
-                        {
-                            var nodeList = this.ViewModel.NodesCanvas.GroupList.Where(x => x.UniqueId == group.UniqueId).Select(s => s.NodeList).FirstOrDefault();
-                            var temp = this.ViewModel.NodesCanvas.GroupList.Where(x => x.UniqueId == group.UniqueId).Select(s => s.InternalConnectList).FirstOrDefault();
-                            var temp2 = this.ViewModel.NodesCanvas.GroupList.Where(x => x.UniqueId == group.UniqueId).Select(s => s.ExternalConnectList).FirstOrDefault();
-
-                            if (temp != null)
-                            {
-                                foreach (var item in temp)
-                                {
-                                    internalConnectList.Add(item);
-                                }
-                            }
-
-                            if (temp2 != null)
-                            {
-                                foreach (var item in temp2)
-                                {
-                                    externalConnectList.Add(item);
-                                }
-                            }
-
-                            if (nodeList != null)
-                            {
-                                foreach (var node in nodeList)
-                                {
-                                    if (node.TypeId == (int)TipEnum.UcBirim)
-                                    {
-                                        ucBirimler.Add(node);
-                                    }
-                                    else if (node.TypeId == (int)TipEnum.AgAnahtari)
-                                    {
-                                        agAnahtarlari.Add(node);
-                                    }
-                                }
-                            }
-                        }
-
-                        var kenarAgAnahtarlari = agAnahtarlari.Where(x => x.TurAd == "Kenar").ToList();
-                        var toplamaAgAnahtarlari = agAnahtarlari.Where(x => x.TurAd == "Toplama").ToList();
-                        var omurgaAgAnahtarlari = agAnahtarlari.Where(x => x.TurAd == "Omurga").ToList();
-
-                        var outputStream = new FileStream(path + "\\Ağ Planlama Raporu.pdf", FileMode.Create);
-                        PdfDocument pdf = new PdfDocument(new PdfWriter(outputStream));
-                        Document doc = new Document(pdf, PageSize.A4);
-                        doc.SetFontProvider(new DefaultFontProvider(true, true, true));
-
-                        SetRaporHeader(doc);
-
-                        Paragraph header = new Paragraph("SEMA - AYP AĞ PLANLAMA RAPORU");
-                        header.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-                        header.SetFontSize(16);
-                        header.SetBold();
-                        header.SetMarginLeft(130);
-                        header.SetMarginTop(120);
-                        doc.Add(header);
-
-                        SetUcBirimTable(doc, ucBirimler);
-                        if (ucBirimler.Count > 0)
-                        {
-                            doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-                            SetRaporHeader(doc);
-                        }
-
-                        SetAgAnahtariTable(doc, agAnahtarlari);
-                        if (agAnahtarlari.Count > 0)
-                        {
-                            doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-                            SetRaporHeader(doc);
-                        }
-
-                        List<ConnectViewModel> connectList = new List<ConnectViewModel>();
-                        foreach (var connect in this.ViewModel.NodesCanvas.Connects.OrderBy(o => o.ToConnector.Node.Name))
-                        {
-                            if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
-                            {
-                                if (ucBirimler.Contains(connect.FromConnector.Node))
-                                {
-                                    connectList.Add(connect);
-                                }
-                            }
-                            if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
-                            {
-                                if (ucBirimler.Contains(connect.ToConnector.Node))
-                                {
-                                    connectList.Add(connect);
-                                }
-                            }
-                        }
-
-                        foreach (var connect in internalConnectList.OrderBy(o => o.ToConnector.Node.Name))
-                        {
-                            if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
-                            {
-                                if (ucBirimler.Contains(connect.FromConnector.Node))
-                                {
-                                    connectList.Add(connect);
-                                }
-                            }
-                            if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
-                            {
-                                if (ucBirimler.Contains(connect.ToConnector.Node))
-                                {
-                                    connectList.Add(connect);
-                                }
-                            }
-                        }
-
-                        foreach (var connect in externalConnectList.OrderBy(o => o.ToConnector.Node.Name))
-                        {
-                            if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
-                            {
-                                if (ucBirimler.Contains(connect.FromConnector.Node))
-                                {
-                                    connectList.Add(connect);
-                                }
-                            }
-                            if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
-                            {
-                                if (ucBirimler.Contains(connect.ToConnector.Node))
-                                {
-                                    connectList.Add(connect);
-                                }
-                            }
-                        }
-
-                        SetKenarToUcBirimTable(doc, connectList);
-                        if (connectList.Count > 0)
-                        {
-                            doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-                            SetRaporHeader(doc);
-                        }
-
-                        connectList = new List<ConnectViewModel>();
-                        foreach (var connect in this.ViewModel.NodesCanvas.Connects.OrderBy(o => o.ToConnector.Node.Name))
-                        {
-                            if (toplamaAgAnahtarlari.Contains(connect.ToConnector.Node))
-                            {
-                                if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
-                                {
-                                    connectList.Add(connect);
-                                }
-                            }
-                            if (toplamaAgAnahtarlari.Contains(connect.FromConnector.Node))
-                            {
-                                if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
-                                {
-                                    connectList.Add(connect);
-                                }
-                            }
-                        }
-
-                        foreach (var connect in internalConnectList.OrderBy(o => o.ToConnector.Node.Name))
-                        {
-                            if (toplamaAgAnahtarlari.Contains(connect.ToConnector.Node))
-                            {
-                                if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
-                                {
-                                    connectList.Add(connect);
-                                }
-                            }
-                            if (toplamaAgAnahtarlari.Contains(connect.FromConnector.Node))
-                            {
-                                if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
-                                {
-                                    connectList.Add(connect);
-                                }
-                            }
-                        }
-
-                        foreach (var connect in externalConnectList.OrderBy(o => o.ToConnector.Node.Name))
-                        {
-                            if (toplamaAgAnahtarlari.Contains(connect.ToConnector.Node))
-                            {
-                                if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
-                                {
-                                    connectList.Add(connect);
-                                }
-                            }
-                            if (toplamaAgAnahtarlari.Contains(connect.FromConnector.Node))
-                            {
-                                if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
-                                {
-                                    connectList.Add(connect);
-                                }
-                            }
-                        }
-
-                        SetToplamaToKenarTable(doc, connectList);
-                        if (connectList.Count > 0)
-                        {
-                            doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-                            SetRaporHeader(doc);
-                        }
-
-                        connectList = new List<ConnectViewModel>();
-                        foreach (var connect in this.ViewModel.NodesCanvas.Connects.OrderBy(o => o.ToConnector.Node.Name))
-                        {
-                            if (omurgaAgAnahtarlari.Contains(connect.ToConnector.Node))
-                            {
-                                if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
-                                {
-                                    connectList.Add(connect);
-                                }
-                            }
-                            if (omurgaAgAnahtarlari.Contains(connect.FromConnector.Node))
-                            {
-                                if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
-                                {
-                                    connectList.Add(connect);
-                                }
-                            }
-                        }
-
-                        foreach (var connect in internalConnectList.OrderBy(o => o.ToConnector.Node.Name))
-                        {
-                            if (omurgaAgAnahtarlari.Contains(connect.ToConnector.Node))
-                            {
-                                if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
-                                {
-                                    connectList.Add(connect);
-                                }
-                            }
-                            if (omurgaAgAnahtarlari.Contains(connect.FromConnector.Node))
-                            {
-                                if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
-                                {
-                                    connectList.Add(connect);
-                                }
-                            }
-                        }
-
-                        foreach (var connect in externalConnectList.OrderBy(o => o.ToConnector.Node.Name))
-                        {
-                            if (omurgaAgAnahtarlari.Contains(connect.ToConnector.Node))
-                            {
-                                if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
-                                {
-                                    connectList.Add(connect);
-                                }
-                            }
-                            if (omurgaAgAnahtarlari.Contains(connect.FromConnector.Node))
-                            {
-                                if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
-                                {
-                                    connectList.Add(connect);
-                                }
-                            }
-                        }
-
-                        SetOmurgaToKenarTable(doc, connectList);
-                        if (connectList.Count > 0)
-                        {
-                            doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-                            SetRaporHeader(doc);
-                        }
-
-                        byte[] capture = CaptureNodesCanvas();
-                        var img = iText.IO.Image.ImageDataFactory.Create(capture);
-                        Image pdfImg = new Image(img);
-                        pdfImg.SetWidth(532);
-                        pdfImg.SetMarginTop(120);
-                        doc.Add(pdfImg);
-
-                        doc.Close();
-                    }
-
-                }
+                RaporBilgileriPopupWindow popup = new RaporBilgileriPopupWindow();
+                popup.Owner = this;
+                popup.ShowDialog();
             }
             else
             {
@@ -1339,6 +1060,291 @@ namespace AYP
                 nfp.msg.Text = "Ağ planlama alanında bir çalışma yapılmadığından rapor alınamamaktadır.";
                 nfp.Owner = this;
                 nfp.Show();
+            }
+        }
+
+        private void AgPlanlamaRaporuOlustur()
+        {
+            using (var fbd = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                System.Windows.Forms.DialogResult result = fbd.ShowDialog();
+
+                if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                {
+                    string path = fbd.SelectedPath;
+
+                    var ucBirimler = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.UcBirim).ToList();
+                    var agAnahtarlari = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.AgAnahtari).ToList();
+                    var grouplar = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.Group).ToList();
+                    var internalConnectList = new List<ConnectViewModel>();
+                    var externalConnectList = new List<ConnectViewModel>();
+
+                    foreach (var group in grouplar)
+                    {
+                        var nodeList = this.ViewModel.NodesCanvas.GroupList.Where(x => x.UniqueId == group.UniqueId).Select(s => s.NodeList).FirstOrDefault();
+                        var temp = this.ViewModel.NodesCanvas.GroupList.Where(x => x.UniqueId == group.UniqueId).Select(s => s.InternalConnectList).FirstOrDefault();
+                        var temp2 = this.ViewModel.NodesCanvas.GroupList.Where(x => x.UniqueId == group.UniqueId).Select(s => s.ExternalConnectList).FirstOrDefault();
+
+                        if (temp != null)
+                        {
+                            foreach (var item in temp)
+                            {
+                                internalConnectList.Add(item);
+                            }
+                        }
+
+                        if (temp2 != null)
+                        {
+                            foreach (var item in temp2)
+                            {
+                                externalConnectList.Add(item);
+                            }
+                        }
+
+                        if (nodeList != null)
+                        {
+                            foreach (var node in nodeList)
+                            {
+                                if (node.TypeId == (int)TipEnum.UcBirim)
+                                {
+                                    ucBirimler.Add(node);
+                                }
+                                else if (node.TypeId == (int)TipEnum.AgAnahtari)
+                                {
+                                    agAnahtarlari.Add(node);
+                                }
+                            }
+                        }
+                    }
+
+                    var kenarAgAnahtarlari = agAnahtarlari.Where(x => x.TurAd == "Kenar").ToList();
+                    var toplamaAgAnahtarlari = agAnahtarlari.Where(x => x.TurAd == "Toplama").ToList();
+                    var omurgaAgAnahtarlari = agAnahtarlari.Where(x => x.TurAd == "Omurga").ToList();
+
+                    var outputStream = new FileStream(path + "\\Ağ Planlama Raporu.pdf", FileMode.Create);
+                    PdfDocument pdf = new PdfDocument(new PdfWriter(outputStream));
+                    Document doc = new Document(pdf, PageSize.A4);
+                    doc.SetFontProvider(new DefaultFontProvider(true, true, true));
+
+                    SetRaporHeader(doc);
+
+                    Paragraph header = new Paragraph("SEMA - AYP AĞ PLANLAMA RAPORU");
+                    header.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    header.SetFontSize(16);
+                    header.SetBold();
+                    header.SetMarginLeft(130);
+                    header.SetMarginTop(120);
+                    doc.Add(header);
+
+                    SetUcBirimTable(doc, ucBirimler);
+                    if (ucBirimler.Count > 0)
+                    {
+                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        SetRaporHeader(doc);
+                    }
+
+                    SetAgAnahtariTable(doc, agAnahtarlari);
+                    if (agAnahtarlari.Count > 0)
+                    {
+                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        SetRaporHeader(doc);
+                    }
+
+                    List<ConnectViewModel> connectList = new List<ConnectViewModel>();
+                    foreach (var connect in this.ViewModel.NodesCanvas.Connects.OrderBy(o => o.ToConnector.Node.Name))
+                    {
+                        if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
+                        {
+                            if (ucBirimler.Contains(connect.FromConnector.Node))
+                            {
+                                connectList.Add(connect);
+                            }
+                        }
+                        if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
+                        {
+                            if (ucBirimler.Contains(connect.ToConnector.Node))
+                            {
+                                connectList.Add(connect);
+                            }
+                        }
+                    }
+
+                    foreach (var connect in internalConnectList.OrderBy(o => o.ToConnector.Node.Name))
+                    {
+                        if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
+                        {
+                            if (ucBirimler.Contains(connect.FromConnector.Node))
+                            {
+                                connectList.Add(connect);
+                            }
+                        }
+                        if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
+                        {
+                            if (ucBirimler.Contains(connect.ToConnector.Node))
+                            {
+                                connectList.Add(connect);
+                            }
+                        }
+                    }
+
+                    foreach (var connect in externalConnectList.OrderBy(o => o.ToConnector.Node.Name))
+                    {
+                        if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
+                        {
+                            if (ucBirimler.Contains(connect.FromConnector.Node))
+                            {
+                                connectList.Add(connect);
+                            }
+                        }
+                        if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
+                        {
+                            if (ucBirimler.Contains(connect.ToConnector.Node))
+                            {
+                                connectList.Add(connect);
+                            }
+                        }
+                    }
+
+                    SetKenarToUcBirimTable(doc, connectList);
+                    if (connectList.Count > 0)
+                    {
+                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        SetRaporHeader(doc);
+                    }
+
+                    connectList = new List<ConnectViewModel>();
+                    foreach (var connect in this.ViewModel.NodesCanvas.Connects.OrderBy(o => o.ToConnector.Node.Name))
+                    {
+                        if (toplamaAgAnahtarlari.Contains(connect.ToConnector.Node))
+                        {
+                            if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
+                            {
+                                connectList.Add(connect);
+                            }
+                        }
+                        if (toplamaAgAnahtarlari.Contains(connect.FromConnector.Node))
+                        {
+                            if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
+                            {
+                                connectList.Add(connect);
+                            }
+                        }
+                    }
+
+                    foreach (var connect in internalConnectList.OrderBy(o => o.ToConnector.Node.Name))
+                    {
+                        if (toplamaAgAnahtarlari.Contains(connect.ToConnector.Node))
+                        {
+                            if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
+                            {
+                                connectList.Add(connect);
+                            }
+                        }
+                        if (toplamaAgAnahtarlari.Contains(connect.FromConnector.Node))
+                        {
+                            if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
+                            {
+                                connectList.Add(connect);
+                            }
+                        }
+                    }
+
+                    foreach (var connect in externalConnectList.OrderBy(o => o.ToConnector.Node.Name))
+                    {
+                        if (toplamaAgAnahtarlari.Contains(connect.ToConnector.Node))
+                        {
+                            if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
+                            {
+                                connectList.Add(connect);
+                            }
+                        }
+                        if (toplamaAgAnahtarlari.Contains(connect.FromConnector.Node))
+                        {
+                            if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
+                            {
+                                connectList.Add(connect);
+                            }
+                        }
+                    }
+
+                    SetToplamaToKenarTable(doc, connectList);
+                    if (connectList.Count > 0)
+                    {
+                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        SetRaporHeader(doc);
+                    }
+
+                    connectList = new List<ConnectViewModel>();
+                    foreach (var connect in this.ViewModel.NodesCanvas.Connects.OrderBy(o => o.ToConnector.Node.Name))
+                    {
+                        if (omurgaAgAnahtarlari.Contains(connect.ToConnector.Node))
+                        {
+                            if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
+                            {
+                                connectList.Add(connect);
+                            }
+                        }
+                        if (omurgaAgAnahtarlari.Contains(connect.FromConnector.Node))
+                        {
+                            if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
+                            {
+                                connectList.Add(connect);
+                            }
+                        }
+                    }
+
+                    foreach (var connect in internalConnectList.OrderBy(o => o.ToConnector.Node.Name))
+                    {
+                        if (omurgaAgAnahtarlari.Contains(connect.ToConnector.Node))
+                        {
+                            if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
+                            {
+                                connectList.Add(connect);
+                            }
+                        }
+                        if (omurgaAgAnahtarlari.Contains(connect.FromConnector.Node))
+                        {
+                            if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
+                            {
+                                connectList.Add(connect);
+                            }
+                        }
+                    }
+
+                    foreach (var connect in externalConnectList.OrderBy(o => o.ToConnector.Node.Name))
+                    {
+                        if (omurgaAgAnahtarlari.Contains(connect.ToConnector.Node))
+                        {
+                            if (kenarAgAnahtarlari.Contains(connect.FromConnector.Node))
+                            {
+                                connectList.Add(connect);
+                            }
+                        }
+                        if (omurgaAgAnahtarlari.Contains(connect.FromConnector.Node))
+                        {
+                            if (kenarAgAnahtarlari.Contains(connect.ToConnector.Node))
+                            {
+                                connectList.Add(connect);
+                            }
+                        }
+                    }
+
+                    SetOmurgaToKenarTable(doc, connectList);
+                    if (connectList.Count > 0)
+                    {
+                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        SetRaporHeader(doc);
+                    }
+
+                    byte[] capture = CaptureNodesCanvas();
+                    var img = iText.IO.Image.ImageDataFactory.Create(capture);
+                    Image pdfImg = new Image(img);
+                    pdfImg.SetWidth(532);
+                    pdfImg.SetMarginTop(120);
+                    doc.Add(pdfImg);
+
+                    doc.Close();
+                }
             }
         }
 
@@ -1506,7 +1512,7 @@ namespace AYP
                     }
                 }
 
-                if (ucBirimler.Count > 10)
+                if (ucBirimler.Count > 10 && ucBirimler.Count % 10 != 0)
                 {
                     table.SetMarginTop(120);
                     doc.Add(table);
@@ -1697,7 +1703,7 @@ namespace AYP
                     }
                 }
 
-                if (agAnahtarlari.Count > 10)
+                if (agAnahtarlari.Count > 10 && agAnahtarlari.Count % 10 != 0)
                 {
                     table.SetMarginTop(120);
                     doc.Add(table);
@@ -1848,7 +1854,7 @@ namespace AYP
                     }
                 }
 
-                if (connectList.Count > 10)
+                if (connectList.Count > 10 && connectList.Count % 10 != 0)
                 {
                     table.SetMarginTop(120);
                     doc.Add(table);
@@ -1985,7 +1991,7 @@ namespace AYP
                     }
                 }
 
-                if (connectList.Count > 10)
+                if (connectList.Count > 10 && connectList.Count % 10 != 0)
                 {
                     table.SetMarginTop(120);
                     doc.Add(table);
@@ -2122,7 +2128,7 @@ namespace AYP
                     }
                 }
 
-                if (connectList.Count > 10)
+                if (connectList.Count > 10 && connectList.Count % 10 != 0)
                 {
                     table.SetMarginTop(120);
                     doc.Add(table);
@@ -2137,6 +2143,69 @@ namespace AYP
 
         private void OnGucPlanlamaRaporuClick(object sender, RoutedEventArgs e)
         {
+            var grouplar = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.Group).ToList();
+            var internalConnectList = new List<ConnectViewModel>();
+            var externalConnectList = new List<ConnectViewModel>();
+
+            var gucTuketiciler = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.UcBirim || x.TypeId == (int)TipEnum.AgAnahtari).ToList();
+            var gucUreticiler = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.GucUretici).ToList();
+
+            foreach (var group in grouplar)
+            {
+                var nodeList = this.ViewModel.NodesCanvas.GroupList.Where(x => x.UniqueId == group.UniqueId).Select(s => s.NodeList).FirstOrDefault();
+                var temp = this.ViewModel.NodesCanvas.GroupList.Where(x => x.UniqueId == group.UniqueId).Select(s => s.InternalConnectList).FirstOrDefault();
+                var temp2 = this.ViewModel.NodesCanvas.GroupList.Where(x => x.UniqueId == group.UniqueId).Select(s => s.ExternalConnectList).FirstOrDefault();
+
+                if (nodeList != null)
+                {
+                    foreach (var node in nodeList)
+                    {
+                        if (node.TypeId != (int)TipEnum.GucUretici)
+                        {
+                            gucTuketiciler.Add(node);
+                        }
+                        else
+                        {
+                            gucUreticiler.Add(node);
+                        }
+                    }
+                }
+
+                if (temp != null)
+                {
+                    foreach (var item in temp)
+                    {
+                        internalConnectList.Add(item);
+                    }
+                }
+
+                if (temp2 != null)
+                {
+                    foreach (var item in temp2)
+                    {
+                        externalConnectList.Add(item);
+                    }
+                }
+            }
+
+            if (gucUreticiler.Count > 0 && gucTuketiciler.Count > 0)
+            {
+                RaporBilgileriPopupWindow popup = new RaporBilgileriPopupWindow();
+                popup.Owner = this;
+                popup.ShowDialog();
+                //GucPlanlamaRaporuOlustur(gucUreticiler, gucTuketiciler, internalConnectList, externalConnectList);
+            }
+            else
+            {
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                nfp.msg.Text = "Güç planlama alanında bir çalışma yapılmadığından rapor alınamamaktadır.";
+                nfp.Owner = this;
+                nfp.Show();
+            }
+        }
+
+        private void GucPlanlamaRaporuOlustur(List<NodeViewModel> gucUreticiler, List<NodeViewModel> gucTuketiciler, List<ConnectViewModel> internalConnectList, List<ConnectViewModel> externalConnectList)
+        {
             using (var fbd = new System.Windows.Forms.FolderBrowserDialog())
             {
                 System.Windows.Forms.DialogResult result = fbd.ShowDialog();
@@ -2144,51 +2213,6 @@ namespace AYP
                 if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
                     string path = fbd.SelectedPath;
-
-                    var grouplar = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.Group).ToList();
-                    var internalConnectList = new List<ConnectViewModel>();
-                    var externalConnectList = new List<ConnectViewModel>();
-
-                    var gucTuketiciler = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.UcBirim || x.TypeId == (int)TipEnum.AgAnahtari).ToList();
-                    var gucUreticiler = this.ViewModel.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.GucUretici).ToList();
-
-                    foreach(var group in grouplar)
-                    {
-                        var nodeList = this.ViewModel.NodesCanvas.GroupList.Where(x => x.UniqueId == group.UniqueId).Select(s => s.NodeList).FirstOrDefault();
-                        var temp = this.ViewModel.NodesCanvas.GroupList.Where(x => x.UniqueId == group.UniqueId).Select(s => s.InternalConnectList).FirstOrDefault();
-                        var temp2 = this.ViewModel.NodesCanvas.GroupList.Where(x => x.UniqueId == group.UniqueId).Select(s => s.ExternalConnectList).FirstOrDefault();
-                        
-                        if (nodeList != null)
-                        {
-                            foreach (var node in nodeList)
-                            {
-                                if (node.TypeId != (int)TipEnum.GucUretici)
-                                {
-                                    gucTuketiciler.Add(node);
-                                }
-                                else
-                                {
-                                    gucUreticiler.Add(node);
-                                }
-                            }
-                        }
-
-                        if(temp != null)
-                        {
-                            foreach(var item in temp)
-                            {
-                                internalConnectList.Add(item);
-                            }
-                        }
-
-                        if (temp2 != null)
-                        {
-                            foreach (var item in temp2)
-                            {
-                                externalConnectList.Add(item);
-                            }
-                        }
-                    }
 
                     var outputStream = new FileStream(path + "\\Güç Planlama Raporu.pdf", FileMode.Create);
                     PdfDocument pdf = new PdfDocument(new PdfWriter(outputStream));
@@ -2422,7 +2446,7 @@ namespace AYP
                     }
                 }
 
-                if (gucUreticiler.Count > 10)
+                if (gucUreticiler.Count > 10 && gucUreticiler.Count % 10 != 0)
                 {
                     table.SetMarginTop(120);
                     doc.Add(table);
@@ -2613,7 +2637,7 @@ namespace AYP
                     }
                 }
 
-                if (gucTuketiciler.Count > 10)
+                if (gucTuketiciler.Count > 10 && gucTuketiciler.Count % 10 != 0)
                 {
                     table.SetMarginTop(120);
                     doc.Add(table);
@@ -2749,7 +2773,7 @@ namespace AYP
                     }
                 }
 
-                if (connectList.Count > 10)
+                if (connectList.Count > 10 && connectList.Count % 10 != 0)
                 {
                     table.SetMarginTop(120);
                     doc.Add(table);
