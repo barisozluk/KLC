@@ -40,7 +40,7 @@ namespace AYP
     /// </summary>
     public partial class MainWindow : Window, IViewFor<MainWindowViewModel>
     {
-        private bool agWorkspaceSeciliMi = false;
+        private bool agWorkspaceSeciliMi = true;
         private bool gucWorkspaceSeciliMi = true;
 
         public bool toggleRight = true;
@@ -85,9 +85,7 @@ namespace AYP
             SetupBinding();
             SetupEvents();
 
-            GucPlanlamaCheckBox.IsEnabled = gucWorkspaceSeciliMi;
             GucPlanlamaCheckBox.IsChecked = gucWorkspaceSeciliMi;
-            AgPlanlamaCheckbox.IsEnabled = agWorkspaceSeciliMi;
             AgPlanlamaCheckbox.IsChecked = agWorkspaceSeciliMi;
 
             context = new AYPContext();
@@ -748,43 +746,25 @@ namespace AYP
         private void AgPlanlama_Checked(object sender, RoutedEventArgs e)
         {
             agWorkspaceSeciliMi = true;
-            gucWorkspaceSeciliMi = false;
-            GucPlanlamaCheckBox.IsEnabled = gucWorkspaceSeciliMi;
-            GucPlanlamaCheckBox.IsChecked = gucWorkspaceSeciliMi;
-            AgPlanlamaCheckbox.IsEnabled = agWorkspaceSeciliMi;
-            AgPlanlamaCheckbox.IsChecked = agWorkspaceSeciliMi;
             ShowAgComponents();
         }
 
         private void AgPlanlama_Unchecked(object sender, RoutedEventArgs e)
         {
             agWorkspaceSeciliMi = false;
-            gucWorkspaceSeciliMi = true;
-            GucPlanlamaCheckBox.IsEnabled = gucWorkspaceSeciliMi;
-            GucPlanlamaCheckBox.IsChecked = gucWorkspaceSeciliMi;
-            AgPlanlamaCheckbox.IsEnabled = agWorkspaceSeciliMi;
-            AgPlanlamaCheckbox.IsChecked = agWorkspaceSeciliMi;
+            HideAgComponents();
         }
 
         private void GucPlanlama_Checked(object sender, RoutedEventArgs e)
         {
             gucWorkspaceSeciliMi = true;
-            agWorkspaceSeciliMi = false;
-            GucPlanlamaCheckBox.IsEnabled = gucWorkspaceSeciliMi;
-            GucPlanlamaCheckBox.IsChecked = gucWorkspaceSeciliMi;
-            AgPlanlamaCheckbox.IsEnabled = agWorkspaceSeciliMi;
-            AgPlanlamaCheckbox.IsChecked = agWorkspaceSeciliMi;
             ShowGucComponents();
         }
 
         private void GucPlanlama_Unchecked(object sender, RoutedEventArgs e)
         {
             gucWorkspaceSeciliMi = false;
-            agWorkspaceSeciliMi = true;
-            GucPlanlamaCheckBox.IsEnabled = gucWorkspaceSeciliMi;
-            GucPlanlamaCheckBox.IsChecked = gucWorkspaceSeciliMi;
-            AgPlanlamaCheckbox.IsEnabled = agWorkspaceSeciliMi;
-            AgPlanlamaCheckbox.IsChecked = agWorkspaceSeciliMi;
+            HideGucComponents();
         }
 
         private void ShowGucComponents()
@@ -793,14 +773,84 @@ namespace AYP
             {
                 var nodes = this.ViewModel.NodesCanvas.Nodes.Items;
 
-                foreach (var node in nodes)
+                if (agWorkspaceSeciliMi)
                 {
-                    node.IsVisible = true;
-                }
+                    foreach (var node in nodes)
+                    {
+                        node.IsVisible = true;
+                    }
 
-                foreach (var connect in this.ViewModel.NodesCanvas.Connects)
+                    foreach (var connect in this.ViewModel.NodesCanvas.Connects)
+                    {
+                        connect.IsVisible = true;
+                    }
+                }
+                else
                 {
-                    connect.IsVisible = true;
+                    foreach (var node in nodes)
+                    {
+                        node.IsVisible = true;
+                    }
+
+                    foreach (var connect in this.ViewModel.NodesCanvas.Connects)
+                    {
+                        if (connect.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu || connect.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
+                        {
+                            connect.IsVisible = false;
+                        }
+
+                        if (connect.ToConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu || connect.ToConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
+                        {
+                            connect.IsVisible = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void HideGucComponents()
+        {
+            if (this.ViewModel != null)
+            {
+                var nodes = this.ViewModel.NodesCanvas.Nodes.Items;
+
+                if (agWorkspaceSeciliMi)
+                {
+                    foreach (var node in nodes)
+                    {
+                        if (node.TypeId != (int)TipEnum.GucUretici)
+                        {
+                            node.IsVisible = true;
+                        }
+                        else
+                        {
+                            node.IsVisible = false;
+                        }
+                    }
+
+                    foreach (var connect in this.ViewModel.NodesCanvas.Connects)
+                    {
+                        if (connect.FromConnector.Node.TypeId != (int)TipEnum.GucUretici && connect.ToConnector.Node.TypeId != (int)TipEnum.GucUretici)
+                        {
+                            connect.IsVisible = true;
+                        }
+                        else
+                        {
+                            connect.IsVisible = false;
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var node in nodes)
+                    {
+                        node.IsVisible = false;
+                    }
+
+                    foreach (var connect in this.ViewModel.NodesCanvas.Connects)
+                    {
+                        connect.IsVisible = false;
+                    }
                 }
             }
         }
@@ -811,31 +861,88 @@ namespace AYP
             {
                 var nodes = this.ViewModel.NodesCanvas.Nodes.Items;
 
-                foreach (var node in nodes)
+                if (agWorkspaceSeciliMi && gucWorkspaceSeciliMi)
                 {
-                    if (node.TypeId != (int)TipEnum.GucUretici)
+                    foreach (var node in nodes)
                     {
                         node.IsVisible = true;
                     }
-                    else
-                    {
-                        node.IsVisible = false;
-                    }
-                }
 
-                foreach (var connect in this.ViewModel.NodesCanvas.Connects)
-                {
-                    if (connect.FromConnector.Node.TypeId != (int)TipEnum.GucUretici && connect.ToConnector.Node.TypeId != (int)TipEnum.GucUretici)
+                    foreach (var connect in this.ViewModel.NodesCanvas.Connects)
                     {
                         connect.IsVisible = true;
                     }
-                    else
+                }
+                else
+                {
+                    foreach (var node in nodes)
+                    {
+                        if (node.TypeId != (int)TipEnum.GucUretici)
+                        {
+                            node.IsVisible = true;
+                        }
+                        else
+                        {
+                            node.IsVisible = false;
+                        }
+                    }
+
+                    foreach (var connect in this.ViewModel.NodesCanvas.Connects)
+                    {
+                        if (connect.FromConnector.Node.TypeId != (int)TipEnum.GucUretici && connect.ToConnector.Node.TypeId != (int)TipEnum.GucUretici)
+                        {
+                            connect.IsVisible = true;
+                        }
+                        else
+                        {
+                            connect.IsVisible = false;
+                        }
+                    }
+                }
+
+            }
+        }
+
+        private void HideAgComponents()
+        {
+            if (this.ViewModel != null)
+            {
+                var nodes = this.ViewModel.NodesCanvas.Nodes.Items;
+                if (gucWorkspaceSeciliMi)
+                {
+                    foreach (var node in nodes)
+                    {
+                        node.IsVisible = true;
+                    }
+
+                    foreach (var connect in this.ViewModel.NodesCanvas.Connects)
+                    {
+                        if (connect.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu || connect.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
+                        {
+                            connect.IsVisible = false;
+                        }
+
+                        if (connect.ToConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu || connect.ToConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
+                        {
+                            connect.IsVisible = false;
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var node in nodes)
+                    {
+                        node.IsVisible = false;
+                    }
+
+                    foreach (var connect in this.ViewModel.NodesCanvas.Connects)
                     {
                         connect.IsVisible = false;
                     }
                 }
             }
         }
+
         #endregion
 
         #region ProjectHierarchy
@@ -985,9 +1092,6 @@ namespace AYP
                 }
             }
         }
-
-
-
         #endregion
 
         #region ExpanderCloser

@@ -189,10 +189,6 @@ namespace AYP
             }
             else
             {
-                GirdiAgArayuzuSayisi.Text = "";
-                CiktiAgArayuzuSayisi.Text = "";
-                GucArayuzuSayisi.Text = "";
-
                 agArayuzuList = new List<AgArayuzu>();
                 gucArayuzuList = new List<GucArayuzu>();
 
@@ -216,7 +212,16 @@ namespace AYP
 
                 if (!isEditMode)
                 {
-                    int totalCount = ucBirim.GirdiAgArayuzuSayisi + ucBirim.CiktiAgArayuzuSayisi;
+                    int totalCount = 0;
+
+                    if (ucBirim.GirdiAgArayuzuSayisi.HasValue)
+                    {
+                        totalCount += ucBirim.GirdiAgArayuzuSayisi.Value;
+                    }
+                    if (ucBirim.CiktiAgArayuzuSayisi.HasValue)
+                    {
+                        totalCount += ucBirim.CiktiAgArayuzuSayisi.Value;
+                    }
 
                     if (agArayuzuList.Count == totalCount)
                     {
@@ -240,7 +245,16 @@ namespace AYP
                     }
                     else
                     {
-                        int totalCount = ucBirim.GirdiAgArayuzuSayisi + ucBirim.CiktiAgArayuzuSayisi;
+                        int totalCount = 0;
+
+                        if (ucBirim.GirdiAgArayuzuSayisi.HasValue)
+                        {
+                            totalCount += ucBirim.GirdiAgArayuzuSayisi.Value;
+                        }
+                        if (ucBirim.CiktiAgArayuzuSayisi.HasValue)
+                        {
+                            totalCount += ucBirim.CiktiAgArayuzuSayisi.Value;
+                        }
 
                         if (agArayuzuList.Count == totalCount)
                         {
@@ -291,23 +305,26 @@ namespace AYP
 
             if (Validator.TryValidateObject(ucBirim, validationContext, results, true))
             {
-                UcBirimTab.IsSelected = false;
-                AgArayuzuTab.IsSelected = true;
-                AgArayuzuTab.DataContext = null;
-                ListKapasite();
-                ListFizikselOrtam();
-                ListKullanimAmaciForAgArayuzu();
-                AgArayuzuTab.DataContext = agArayuzu;
+                if ((ucBirim.GirdiAgArayuzuSayisi.HasValue && ucBirim.GirdiAgArayuzuSayisi.Value > 0) || (ucBirim.CiktiAgArayuzuSayisi.HasValue && ucBirim.CiktiAgArayuzuSayisi.Value > 0))
+                {
+                    UcBirimTab.IsSelected = false;
+                    AgArayuzuTab.IsSelected = true;
+                    AgArayuzuTab.DataContext = null;
+                    ListKapasite();
+                    ListFizikselOrtam();
+                    ListKullanimAmaciForAgArayuzu();
+                    AgArayuzuTab.DataContext = agArayuzu;
 
-                WindowStartupLocation = WindowStartupLocation.Manual;
-                Top = 250;
-                Left = 520;
-                Width = 880;
-                Height = 580;
+                    WindowStartupLocation = WindowStartupLocation.Manual;
+                    Top = 250;
+                    Left = 520;
+                    Width = 880;
+                    Height = 580;
 
-                UcBirimTab.Width = 290;
-                AgArayuzuTab.Width = 291;
-                GucArayuzuTab.Width = 291;
+                    UcBirimTab.Width = 290;
+                    AgArayuzuTab.Width = 291;
+                    GucArayuzuTab.Width = 291;
+                }
             }
             else
             {

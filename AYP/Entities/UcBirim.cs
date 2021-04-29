@@ -44,10 +44,10 @@ namespace AYP.Entities
         public UcBirimTur UcBirimTur { get; set; }
 
         [Range(0, 5)]
-        public int GirdiAgArayuzuSayisi { get; set; }
+        public int? GirdiAgArayuzuSayisi { get; set; }
 
-        [Range(1,5)]
-        public int CiktiAgArayuzuSayisi { get; set; }
+        [Range(0,5)]
+        public int? CiktiAgArayuzuSayisi { get; set; }
 
         [Range(1, 5)]
         public int GucArayuzuSayisi { get; set; }
