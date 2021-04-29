@@ -159,18 +159,18 @@ namespace AYP.ViewModel
                                     {
                                         foreach (var agAkis in input.AgAkisList)
                                         {
-                                            var temp = new AgAkis();
-                                            temp.Id = Guid.NewGuid();
-                                            temp.AgArayuzuId = output.UniqueId;
-                                            temp.Yuk = agAkis.Yuk / connectSayisi;
-                                            temp.AgAkisTipiId = agAkis.AgAkisTipiId;
-                                            temp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
-                                            temp.AgAkisProtokoluId = agAkis.AgAkisProtokoluId;
-                                            temp.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluAdi;
-                                            temp.IliskiliAgArayuzuId = input.UniqueId;
-                                            temp.IliskiliAgArayuzuAdi = input.Label;
+                                            var tempAgAkis = new AgAkis();
+                                            tempAgAkis.Id = Guid.NewGuid();
+                                            tempAgAkis.AgArayuzuId = output.UniqueId;
+                                            tempAgAkis.Yuk = agAkis.Yuk / connectSayisi;
+                                            tempAgAkis.AgAkisTipiId = agAkis.AgAkisTipiId;
+                                            tempAgAkis.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
+                                            tempAgAkis.AgAkisProtokoluId = agAkis.AgAkisProtokoluId;
+                                            tempAgAkis.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluAdi;
+                                            tempAgAkis.IliskiliAgArayuzuId = input.UniqueId;
+                                            tempAgAkis.IliskiliAgArayuzuAdi = input.Label;
 
-                                            output.AgAkisList.Add(temp);
+                                            output.AgAkisList.Add(tempAgAkis);
                                         }
                                     }
                                 }
@@ -178,18 +178,18 @@ namespace AYP.ViewModel
                                 output.Connect.ToConnector.AgAkisList = new List<AgAkis>();
                                 foreach (var agAkis in output.AgAkisList)
                                 {
-                                    var temp = new AgAkis();
-                                    temp.Id = Guid.NewGuid();
-                                    temp.AgArayuzuId = output.Connect.ToConnector.UniqueId;
-                                    temp.Yuk = agAkis.Yuk;
-                                    temp.AgAkisProtokoluId = agAkis.AgAkisProtokoluId;
-                                    temp.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluAdi;
-                                    temp.AgAkisTipiId = agAkis.AgAkisTipiId;
-                                    temp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
-                                    temp.IliskiliAgArayuzuId = agAkis.IliskiliAgArayuzuId;
-                                    temp.IliskiliAgArayuzuAdi = agAkis.IliskiliAgArayuzuAdi;
+                                    var tempAgAkis = new AgAkis();
+                                    tempAgAkis.Id = Guid.NewGuid();
+                                    tempAgAkis.AgArayuzuId = output.Connect.ToConnector.UniqueId;
+                                    tempAgAkis.Yuk = agAkis.Yuk;
+                                    tempAgAkis.AgAkisProtokoluId = agAkis.AgAkisProtokoluId;
+                                    tempAgAkis.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluAdi;
+                                    tempAgAkis.AgAkisTipiId = agAkis.AgAkisTipiId;
+                                    tempAgAkis.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
+                                    tempAgAkis.IliskiliAgArayuzuId = agAkis.IliskiliAgArayuzuId;
+                                    tempAgAkis.IliskiliAgArayuzuAdi = agAkis.IliskiliAgArayuzuAdi;
 
-                                    output.Connect.ToConnector.AgAkisList.Add(temp);
+                                    output.Connect.ToConnector.AgAkisList.Add(tempAgAkis);
                                 }
 
                                 output.Connect.AgYuku = output.AgAkisList.Select(s => s.Yuk).Sum();
