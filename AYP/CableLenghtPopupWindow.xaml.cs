@@ -71,11 +71,11 @@ namespace AYP
             Calculation calculations = new Calculation();
             if(connect.FromConnector.TypeId == 3 || connect.FromConnector.TypeId == 8)
             { 
-                KabloKesit.Text = (calculations.CableSuggestionCalculation((double)connect.ToConnector.GirdiTukettigiGucMiktari,(double)connect.ToConnector.GirdiDuraganGerilimDegeri1)).ToString() + " mm^2";
-                isiKaybi.Text = (calculations.HeatLossCalculation((double)connect.ToConnector.GirdiTukettigiGucMiktari, (double)connect.ToConnector.GirdiDuraganGerilimDegeri1, KabloTipiTur.SelectedIndex, (double)connect.Uzunluk)).ToString() + " W";
-                GerilimDusumu.Text = (calculations.VoltageDropCalculation((double)connect.Uzunluk, (double)connect.ToConnector.GirdiTukettigiGucMiktari, KabloTipiTur.SelectedIndex, Convert.ToDouble(connect.FromConnector.CiktiDuraganGerilimDegeri))).ToString() + " V";
+                KabloKesit.Text = (calculations.CableSuggestionCalculation((double)connect.ToConnector.GirdiTukettigiGucMiktari,(double)connect.ToConnector.GirdiDuraganGerilimDegeri1)).ToString();
+                isiKaybi.Text = (calculations.HeatLossCalculation((double)connect.ToConnector.GirdiTukettigiGucMiktari, (double)connect.ToConnector.GirdiDuraganGerilimDegeri1, KabloTipiTur.SelectedIndex, (double)connect.Uzunluk)).ToString();
+                GerilimDusumu.Text = (calculations.VoltageDropCalculation((double)connect.Uzunluk, (double)connect.ToConnector.GirdiTukettigiGucMiktari, KabloTipiTur.SelectedIndex, Convert.ToDouble(connect.FromConnector.CiktiDuraganGerilimDegeri))).ToString();
                 if (BataryaKapasite.Text != "")
-                    BeslemeSuresi.Text = (calculations.FeedingTimeCalculation((double)connect.FromConnector.CiktiUrettigiGucKapasitesi, Convert.ToDouble(connect.FromConnector.CiktiDuraganGerilimDegeri), Convert.ToDouble(BataryaKapasite.Text))).ToString() + " hrs";
+                    BeslemeSuresi.Text = (calculations.FeedingTimeCalculation((double)connect.FromConnector.CiktiUrettigiGucKapasitesi, Convert.ToDouble(connect.FromConnector.CiktiDuraganGerilimDegeri), Convert.ToDouble(BataryaKapasite.Text))).ToString();
             }
             else
             {
