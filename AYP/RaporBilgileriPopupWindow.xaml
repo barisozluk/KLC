@@ -24,11 +24,11 @@
 
             <Rectangle Style="{DynamicResource StyleRaporBilgileriFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Tarih" Grid.Row="0" Grid.Column="1" Margin="0,65,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Width="50" HorizontalAlignment="Left" Margin="150,65,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
+            <TextBox Name="Gun1" Width="50" HorizontalAlignment="Left" Margin="150,65,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
             <Label FontSize="16" Foreground="#ffffff" Content="/" Grid.Row="0" Grid.Column="1" Margin="205,65,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Width="50" HorizontalAlignment="Left" Margin="225,65,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
+            <TextBox Name="Ay1" Width="50" HorizontalAlignment="Left" Margin="225,65,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
             <Label FontSize="16" Foreground="#ffffff" Content="/" Grid.Row="0" Grid.Column="1" Margin="280,65,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Width="100" HorizontalAlignment="Left" Margin="300,65,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
+            <TextBox Name="Yil1"  Width="100" HorizontalAlignment="Left" Margin="300,65,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Gizlilik Derecesi" Grid.Row="0" Grid.Column="1" Margin="0,110,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <TextBox IsEnabled="False" Text="{Binding GizlilikDerecesi}" HorizontalAlignment="Left" Margin="150,110,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
@@ -58,11 +58,11 @@
             <TextBox Text="{Binding RevizyonKodu}" HorizontalAlignment="Left" Margin="150,470,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Değiştirme Tarihi" Grid.Row="0" Grid.Column="1" Margin="0,515,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <TextBox Width="50" HorizontalAlignment="Left" Margin="150,515,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
+            <TextBox Name="Gun2" Width="50" HorizontalAlignment="Left" Margin="150,515,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
             <Label FontSize="16" Foreground="#ffffff" Content="/" Grid.Row="0" Grid.Column="1" Margin="205,515,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Width="50" HorizontalAlignment="Left" Margin="225,515,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
+            <TextBox Name="Ay2" Width="50" HorizontalAlignment="Left" Margin="225,515,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
             <Label FontSize="16" Foreground="#ffffff" Content="/" Grid.Row="0" Grid.Column="1" Margin="280,515,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Width="100" HorizontalAlignment="Left" Margin="300,515,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
+            <TextBox Name="Yil2" Width="100" HorizontalAlignment="Left" Margin="300,515,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
             
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Doküman Kodu" Grid.Row="0" Grid.Column="1" Margin="0,560,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
             <TextBox Text="{Binding DokumanKodu}" HorizontalAlignment="Left" Margin="150,560,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />

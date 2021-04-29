@@ -1102,7 +1102,7 @@ namespace AYP
                 }
             }
 
-            if (gucUreticiler.Count > 0 && gucTuketiciler.Count > 0)
+            if (gucUreticiler.Count > 0 || gucTuketiciler.Count > 0)
             {
                 RaporBilgileriPopupWindow popup = new RaporBilgileriPopupWindow("Güç Planlama Raporu", CaptureNodesCanvas());
                 popup.Owner = this;

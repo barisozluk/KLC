@@ -55,7 +55,35 @@ namespace AYP
 
         private void UygulaButton_Click(object sender, RoutedEventArgs e)
         {
-            if(raporTipi == "Ağ Planlama Raporu")
+            if(!string.IsNullOrEmpty(Yil1.Text))
+            {
+                Convert.ToInt32(Yil1.Text);
+                if (!string.IsNullOrEmpty(Ay1.Text))
+                {
+                    Convert.ToInt32(Ay1.Text);
+                    if (!string.IsNullOrEmpty(Gun1.Text))
+                    {
+                        Convert.ToInt32(Gun1.Text);
+                        model.Tarih = new DateTime(Convert.ToInt32(Yil1.Text), Convert.ToInt32(Ay1.Text), Convert.ToInt32(Gun1.Text));
+                    }
+                }
+            }
+
+            if (!string.IsNullOrEmpty(Yil2.Text))
+            {
+                Convert.ToInt32(Yil2.Text);
+                if (!string.IsNullOrEmpty(Ay2.Text))
+                {
+                    Convert.ToInt32(Ay2.Text);
+                    if (!string.IsNullOrEmpty(Gun2.Text))
+                    {
+                        Convert.ToInt32(Gun2.Text);
+                        model.DegistirmeTarihi = new DateTime(Convert.ToInt32(Yil2.Text), Convert.ToInt32(Ay2.Text), Convert.ToInt32(Gun2.Text));
+                    }
+                }
+            }
+
+            if (raporTipi == "Ağ Planlama Raporu")
             {
                 AgPlanlamaRaporuOlustur();
             }
@@ -131,6 +159,7 @@ namespace AYP
                     doc.SetFontProvider(new DefaultFontProvider(true, true, true));
 
                     SetRaporHeader(doc);
+                    SetRaporFooter(doc);
 
                     Paragraph header = new Paragraph("SEMA - AYP AĞ PLANLAMA RAPORU");
                     header.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
@@ -145,6 +174,7 @@ namespace AYP
                     {
                         doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                         SetRaporHeader(doc);
+                        SetRaporFooter(doc);
                     }
 
                     SetAgAnahtariTable(doc, agAnahtarlari);
@@ -152,6 +182,7 @@ namespace AYP
                     {
                         doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                         SetRaporHeader(doc);
+                        SetRaporFooter(doc);
                     }
 
                     List<ConnectViewModel> connectList = new List<ConnectViewModel>();
@@ -214,6 +245,7 @@ namespace AYP
                     {
                         doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                         SetRaporHeader(doc);
+                        SetRaporFooter(doc);
                     }
 
                     connectList = new List<ConnectViewModel>();
@@ -276,6 +308,7 @@ namespace AYP
                     {
                         doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                         SetRaporHeader(doc);
+                        SetRaporFooter(doc);
                     }
 
                     connectList = new List<ConnectViewModel>();
@@ -338,6 +371,7 @@ namespace AYP
                     {
                         doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                         SetRaporHeader(doc);
+                        SetRaporFooter(doc);
                     }
 
                     var img = iText.IO.Image.ImageDataFactory.Create(capture);
@@ -369,6 +403,7 @@ namespace AYP
                 doc.Add(noUcBirimParagraph);
                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                 SetRaporHeader(doc);
+                SetRaporFooter(doc);
             }
 
             if (ucBirimler.Count > 0)
@@ -496,6 +531,7 @@ namespace AYP
                                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
                                 SetRaporHeader(doc);
+                                SetRaporFooter(doc);
                             }
                         }
                         else
@@ -509,6 +545,7 @@ namespace AYP
                                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
                                 SetRaporHeader(doc);
+                                SetRaporFooter(doc);
                             }
                         }
 
@@ -560,6 +597,7 @@ namespace AYP
                 doc.Add(noAgAnahtariParagraph);
                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                 SetRaporHeader(doc);
+                SetRaporFooter(doc);
             }
 
             if (agAnahtarlari.Count > 0)
@@ -687,6 +725,7 @@ namespace AYP
                                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
                                 SetRaporHeader(doc);
+                                SetRaporFooter(doc);
                             }
                         }
                         else
@@ -700,6 +739,7 @@ namespace AYP
                                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
                                 SetRaporHeader(doc);
+                                SetRaporFooter(doc);
                             }
                         }
 
@@ -751,6 +791,7 @@ namespace AYP
                 doc.Add(noBaglantiParagraph);
                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                 SetRaporHeader(doc);
+                SetRaporFooter(doc);
             }
 
             if (connectList.Count > 0)
@@ -838,6 +879,7 @@ namespace AYP
                                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
                                 SetRaporHeader(doc);
+                                SetRaporFooter(doc);
                             }
                         }
                         else
@@ -851,6 +893,7 @@ namespace AYP
                                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
                                 SetRaporHeader(doc);
+                                SetRaporFooter(doc);
                             }
                         }
 
@@ -888,6 +931,7 @@ namespace AYP
                 doc.Add(noBaglantiParagraph);
                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                 SetRaporHeader(doc);
+                SetRaporFooter(doc);
             }
 
             if (connectList.Count > 0)
@@ -975,6 +1019,7 @@ namespace AYP
                                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
                                 SetRaporHeader(doc);
+                                SetRaporFooter(doc);
                             }
                         }
                         else
@@ -988,6 +1033,7 @@ namespace AYP
                                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
                                 SetRaporHeader(doc);
+                                SetRaporFooter(doc);
                             }
                         }
 
@@ -1025,6 +1071,7 @@ namespace AYP
                 doc.Add(noBaglantiParagraph);
                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                 SetRaporHeader(doc);
+                SetRaporFooter(doc);
             }
 
             if (connectList.Count > 0)
@@ -1112,6 +1159,7 @@ namespace AYP
                                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
                                 SetRaporHeader(doc);
+                                SetRaporFooter(doc);
                             }
                         }
                         else
@@ -1125,6 +1173,7 @@ namespace AYP
                                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
                                 SetRaporHeader(doc);
+                                SetRaporFooter(doc);
                             }
                         }
 
@@ -1207,6 +1256,7 @@ namespace AYP
                     doc.SetFontProvider(new DefaultFontProvider(true, true, true));
 
                     SetRaporHeader(doc);
+                    SetRaporFooter(doc);
 
                     iText.Layout.Element.Paragraph header = new iText.Layout.Element.Paragraph("SEMA - AYP GÜÇ PLANLAMA RAPORU");
                     header.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
@@ -1221,6 +1271,7 @@ namespace AYP
                     {
                         doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                         SetRaporHeader(doc);
+                        SetRaporFooter(doc);
                     }
 
                     SetGucUreticilerTable(doc, gucUreticiler);
@@ -1228,6 +1279,7 @@ namespace AYP
                     {
                         doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                         SetRaporHeader(doc);
+                        SetRaporFooter(doc);
                     }
 
                     List<ConnectViewModel> connectList = new List<ConnectViewModel>();
@@ -1269,6 +1321,7 @@ namespace AYP
                     {
                         doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                         SetRaporHeader(doc);
+                        SetRaporFooter(doc);
                     }
 
                     var img = iText.IO.Image.ImageDataFactory.Create(capture);
@@ -1300,6 +1353,7 @@ namespace AYP
                 doc.Add(noGucUreticiParagraph);
                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                 SetRaporHeader(doc);
+                SetRaporFooter(doc);
             }
 
             if (gucUreticiler.Count > 0)
@@ -1413,6 +1467,7 @@ namespace AYP
                                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
                                 SetRaporHeader(doc);
+                                SetRaporFooter(doc);
                             }
                         }
                         else
@@ -1426,6 +1481,7 @@ namespace AYP
                                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
                                 SetRaporHeader(doc);
+                                SetRaporFooter(doc);
                             }
                         }
 
@@ -1477,6 +1533,7 @@ namespace AYP
                 doc.Add(noGucTuketiciParagraph);
                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                 SetRaporHeader(doc);
+                SetRaporFooter(doc);
             }
 
             if (gucTuketiciler.Count > 0)
@@ -1604,6 +1661,7 @@ namespace AYP
                                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
                                 SetRaporHeader(doc);
+                                SetRaporFooter(doc);
                             }
                         }
                         else
@@ -1617,6 +1675,7 @@ namespace AYP
                                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
                                 SetRaporHeader(doc);
+                                SetRaporFooter(doc);
                             }
                         }
 
@@ -1669,6 +1728,7 @@ namespace AYP
                 doc.Add(noBaglantiParagraph);
                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                 SetRaporHeader(doc);
+                SetRaporFooter(doc);
             }
 
             if (connectList.Count > 0)
@@ -1740,6 +1800,8 @@ namespace AYP
                                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
                                 SetRaporHeader(doc);
+                                SetRaporFooter(doc);
+
                             }
                         }
                         else
@@ -1753,6 +1815,7 @@ namespace AYP
                                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
                                 SetRaporHeader(doc);
+                                SetRaporFooter(doc);
                             }
                         }
 
@@ -1780,16 +1843,123 @@ namespace AYP
             doc.Add(pdfImg);
         }
 
-        //private void SetRaporFooter(Document doc)
-        //{
-        //    Table table = new Table(new float[] { 150, 493, 150 });
+        private void SetRaporFooter(Document doc)
+        {
+            Table table = new Table(new float[] { 80 });
 
-        //    Cell c = new Cell();
-        //    c.Add(new Paragraph("Onay-Approved By").SetFontSize(8));
-        //    c.Add(new Paragraph(model.Onaylayan).SetFontSize(11));
-        //    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-        //    table.AddCell(c);
+            Cell c = new Cell();
+            c.Add(new Paragraph("Onay-Approved By").SetFontSize(8));
+            c.Add(new Paragraph(model.Onaylayan != null ? model.Onaylayan : "").SetFontSize(8));
+            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            c.SetHeight(30);
+            table.AddCell(c);
 
-        //}
+            c = new Cell();
+            c.Add(new Paragraph("Kontrol-Checked By").SetFontSize(8));
+            c.Add(new Paragraph(model.KontrolEden != null ? model.KontrolEden : "").SetFontSize(8));
+            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            c.SetHeight(30);
+            table.AddCell(c);
+
+            c = new Cell();
+            c.Add(new Paragraph("Hazırlayan-Prepared By").SetFontSize(8));
+            c.Add(new Paragraph(model.Hazirlayan != null ? model.Hazirlayan : "").SetFontSize(8));
+            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            c.SetHeight(30);
+            table.AddCell(c);
+
+            c = new Cell();
+            c.Add(new Paragraph("Bölüm-Department").SetFontSize(8));
+            c.Add(new Paragraph(model.Bolum != null ? model.Bolum : "").SetFontSize(8));
+            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            c.SetHeight(30);
+            table.AddCell(c);
+            table.SetFixedPosition(38, 20, 80);
+            doc.Add(table);
+
+            table = new Table(new float[] { 80, 60, 60, 50, 50 });
+            c = new Cell(1, 5);
+            c.Add(new Paragraph("Tanım-Description").SetFontSize(7));
+            c.Add(new Paragraph(model.DokumanTanimi != null ? model.DokumanTanimi : "").SetFontSize(8));
+            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            c.SetHeight(99);
+            table.AddCell(c);
+
+            c = new Cell();
+            c.Add(new Paragraph("Yazım Ortamı-Editing Env").SetFontSize(7));
+            c.Add(new Paragraph(model.YazimOrtami != null ? model.YazimOrtami : "").SetFontSize(8));
+            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            c.SetHeight(30);
+            table.AddCell(c);
+
+            c = new Cell();
+            c.Add(new Paragraph("Dok Kodu-Doc Code").SetFontSize(7));
+            c.Add(new Paragraph(model.DokumanKodu != null ? model.DokumanKodu : "").SetFontSize(8));
+            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            c.SetHeight(30);
+            table.AddCell(c);
+
+            c = new Cell();
+            c.Add(new Paragraph("Syf/Syflr-Pg/Pgs").SetFontSize(7));
+            c.Add(new Paragraph(model.DokumanTanimi != null ? model.DokumanTanimi : "").SetFontSize(8));
+            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            c.SetHeight(30);
+            table.AddCell(c);
+
+            c = new Cell();
+            c.Add(new Paragraph("Tarih-Date").SetFontSize(7));
+            c.Add(new Paragraph(model.Tarih != default(DateTime) ? model.Tarih.ToString() : "").SetFontSize(8));
+            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            c.SetHeight(30);
+            table.AddCell(c);
+
+            c = new Cell();
+            c.Add(new Paragraph("Dil-Lng").SetFontSize(7));
+            c.Add(new Paragraph(model.DilKodu != null ? model.DilKodu : "").SetFontSize(8));
+            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            c.SetHeight(30);
+            table.AddCell(c);
+            table.SetFixedPosition(118, 20, 300);
+            doc.Add(table);
+
+            table = new Table(new float[] { 70, 70 });
+            c = new Cell(1, 2);
+            c.Add(new Paragraph("Doküman/Parça Numarası-Document/Part Number").SetFontSize(7));
+            c.Add(new Paragraph(model.DokumanParcaNo != null ? model.DokumanParcaNo : "").SetFontSize(8));
+            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            c.SetHeight(65);
+            table.AddCell(c);
+
+            c = new Cell();
+            c.Add(new Paragraph("Rev Kodu-Rev Code").SetFontSize(7));
+            c.Add(new Paragraph(model.RevizyonKodu != null ? model.RevizyonKodu : "").SetFontSize(8));
+            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            c.SetHeight(30);
+            table.AddCell(c);
+
+            c = new Cell();
+            c.Add(new Paragraph("Değişiklik Tarihi-Change Date").SetFontSize(7));
+            c.Add(new Paragraph(model.DegistirmeTarihi != default(DateTime) ? model.DegistirmeTarihi.ToString() : "").SetFontSize(8));
+            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            c.SetHeight(30);
+            table.AddCell(c);
+
+            c = new Cell();
+            c.Add(new Paragraph("Değiştiren-Changed By").SetFontSize(7));
+            c.Add(new Paragraph(model.Degistiren != null ? model.Degistiren : "").SetFontSize(8));
+            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            c.SetHeight(30);
+            table.AddCell(c);
+
+            c = new Cell();
+            c.Add(new Paragraph("Boyut-Size").SetFontSize(7));
+            c.Add(new Paragraph(model.SayfaBoyutu != null ? model.SayfaBoyutu : "").SetFontSize(8));
+            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            c.SetHeight(30);
+            table.AddCell(c);
+            table.SetFixedPosition(418, 20, 140);
+            doc.Add(table);
+
+        }
     }
 }
