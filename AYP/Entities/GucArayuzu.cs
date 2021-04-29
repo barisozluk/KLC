@@ -47,8 +47,8 @@ namespace AYP.Entities
         public decimal? GirdiMaksimumGerilimDegeri { get; set; }
 
         public decimal? GirdiTukettigiGucMiktari { get; set; }
-
-        public string CiktiDuraganGerilimDegeri { get; set; }
+        [Range(-1,double.MaxValue)]
+        public decimal? CiktiDuraganGerilimDegeri { get; set; }
 
         public decimal? CiktiUrettigiGucKapasitesi { get; set; }
 
