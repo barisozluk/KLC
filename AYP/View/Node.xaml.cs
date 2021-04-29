@@ -77,7 +77,7 @@ namespace AYP.View
 
                 this.OneWayBind(this.ViewModel, x => x.TransitionsVisible, x => x.ItemsControlTransitions.Visibility).DisposeWith(disposable);
 
-                this.OneWayBind(this.ViewModel, x => x.RollUpVisible, x => x.NodeHeaderElement.ButtonCollapse.Visibility).DisposeWith(disposable);
+                //this.OneWayBind(this.ViewModel, x => x.RollUpVisible, x => x.NodeHeaderElement.ButtonCollapse.Visibility).DisposeWith(disposable);
 
                 this.WhenAnyValue(v => v.BorderElement.ActualWidth, v => v.BorderElement.ActualHeight, (width, height) => new Size(width, height))
                      .BindTo(this, v => v.ViewModel.Size).DisposeWith(disposable);
@@ -127,7 +127,7 @@ namespace AYP.View
                 this.Events().MouseMove.Subscribe(e => OnMouseMove(e)).DisposeWith(disposable);
                 this.Events().MouseDoubleClick.Subscribe(e => OnMouseDoubleClicked(e)).DisposeWith(disposable);
 
-                this.NodeHeaderElement.ButtonCollapse.Events().Click.Subscribe(_ => ViewModel.IsCollapse = !ViewModel.IsCollapse).DisposeWith(disposable);
+                //this.NodeHeaderElement.ButtonCollapse.Events().Click.Subscribe(_ => ViewModel.IsCollapse = !ViewModel.IsCollapse).DisposeWith(disposable);
                 this.NodeHeaderElement.Events().LostFocus.Subscribe(e => Validate(e)).DisposeWith(disposable);
                 this.ViewModel.WhenAnyValue(x => x.IsCollapse).Subscribe(value => OnEventCollapse(value)).DisposeWith(disposable);
                 this.ViewModel.WhenAnyValue(x => x.IsVisible).Subscribe(value => OnEventVisible(value)).DisposeWith(disposable);
@@ -279,7 +279,7 @@ namespace AYP.View
         }
         private void OnEventCollapse(bool isCollapse)
         {
-            this.NodeHeaderElement.ButtonRotate.Angle = isCollapse ? 180 : 0;
+            //this.NodeHeaderElement.ButtonRotate.Angle = isCollapse ? 180 : 0;
         }
 
         private void OnEventVisible(bool isVisible)
