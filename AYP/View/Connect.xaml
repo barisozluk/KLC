@@ -7,7 +7,7 @@
              mc:Ignorable="d"  Focusable="True"
              HorizontalAlignment="Left" VerticalAlignment="Top" IsHitTestVisible="True">
     <Grid x:Name="GridElement">
-        <Border x:Name="AgYukuBorder" Visibility="Hidden"  Width="70" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <Border x:Name="AgYukuBorder" Visibility="Hidden"  Width="70" Height="20" HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="0">
             <TextBlock x:Name="AgYuku" Foreground="White" FontSize="12" FontWeight="Bold"></TextBlock>
         </Border>
         <Path x:Name="PathElement" StrokeDashCap="Round" StrokeLineJoin="Round" Stroke="{DynamicResource ColorConnect}"  StrokeDashArray="10,3" StrokeEndLineCap="Round" StrokeStartLineCap="Round">
@@ -19,7 +19,7 @@
                 </PathGeometry>
             </Path.Data>
         </Path>
-        <Border x:Name="UzunlukBorder" Width="55" Height="25" >
+        <Border x:Name="UzunlukBorder" Width="55" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"  BorderThickness="0">
             <TextBlock x:Name="Uzunluk" Foreground="White" FontSize="12" FontWeight="Bold"></TextBlock>
         </Border>
     </Grid>

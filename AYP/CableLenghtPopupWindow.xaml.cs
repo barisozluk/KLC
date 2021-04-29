@@ -55,15 +55,23 @@ namespace AYP
 
         private void Save_CableLengthPopup(object sender, RoutedEventArgs e)
         {
-            if (!String.IsNullOrEmpty(Uzunluk.Text) && !String.IsNullOrWhiteSpace(Uzunluk.Text))
+            if(Convert.ToDecimal(Uzunluk.Text)<5000)
             {
-                connect.Uzunluk = Convert.ToDecimal(Uzunluk.Text);
-                ClosePopup();
+                if (!String.IsNullOrEmpty(Uzunluk.Text) && !String.IsNullOrWhiteSpace(Uzunluk.Text))
+                {
+                    connect.Uzunluk = Convert.ToDecimal(Uzunluk.Text);
+                    ClosePopup();
+                }
+                else
+                {
+                    Uzunluk.BorderBrush = new SolidColorBrush(Colors.Red);
+                }
             }
             else
             {
                 Uzunluk.BorderBrush = new SolidColorBrush(Colors.Red);
             }
+
         }
 
         private void Calculate_CableLengthPopup(object sender, RoutedEventArgs e)

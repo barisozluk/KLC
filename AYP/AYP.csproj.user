@@ -7,6 +7,9 @@
     <ActiveDebugProfile>AYP</ActiveDebugProfile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Update="RaporBilgileriPopupWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="UcBirimAgAkisPopupWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -30,7 +33,16 @@
     <Page Update="GroupDetailPopupWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="RaporBilgileriPopupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styles\StyleArayuzCogaltFormPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleDatePicker.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleRaporBilgileriFormPanel.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\StyleListBoxItem.xaml">

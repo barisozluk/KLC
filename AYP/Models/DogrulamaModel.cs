@@ -14,14 +14,14 @@ namespace AYP.Models
 
         public ConnectorViewModel Connector { get; set; }
 
-        public XElement ToXElement()
-        {
-            XElement element = new XElement("Dogrulama");
-            element.Add(new XAttribute("ConnectorUniqueId", Connector.UniqueId));
-            element.Add(new XAttribute("Mesaj", Mesaj));
+        //public XElement ToXElement()
+        //{
+        //    //XElement element = new XElement("Dogrulama");
+        //    //element.Add(new XAttribute("ConnectorUniqueId", Connector.UniqueId));
+        //    //element.Add(new XAttribute("Mesaj", Mesaj));
 
-            return element;
-        }
+        //    //return element;
+        //}
 
         public static DogrulamaModel FromXElement(NodesCanvasViewModel nodesCanvas, XElement node, out string errorMessage, Func<string, bool> actionForCheck)
         {
