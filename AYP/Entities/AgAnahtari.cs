@@ -44,13 +44,13 @@ namespace AYP.Entities
         [ForeignKey("AgAnahtariTurId")]
         public AgAnahtariTur AgAnahtariTur { get; set; }
 
-        [Range(1, int.MaxValue)]
+        [Range(1, 128)]
         public int GirdiAgArayuzuSayisi { get; set; }
 
-        [Range(1, int.MaxValue)]
+        [Range(1, 128)]
         public int CiktiAgArayuzuSayisi { get; set; }
 
-        [Range(1, int.MaxValue)]
+        [Range(1, 5)]
         public int GucArayuzuSayisi { get; set; }
 
         public int TipId { get; set; }

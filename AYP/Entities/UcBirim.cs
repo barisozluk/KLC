@@ -49,7 +49,7 @@ namespace AYP.Entities
         [Range(1,5)]
         public int CiktiAgArayuzuSayisi { get; set; }
 
-        [Range(1, int.MaxValue)]
+        [Range(1, 5)]
         public int GucArayuzuSayisi { get; set; }
 
         public int TipId { get; set; }
