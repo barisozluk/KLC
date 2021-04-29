@@ -242,7 +242,7 @@ namespace AYP.Validations
                 }
                 else if (toConnector.Node.TypeId == (int)TipEnum.GucUretici)
                 {
-                    if (fromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu)
+                    if (fromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
                     {
                         if (toConnector.TypeId == (int)TipEnum.GucUreticiGucArayuzu)
                         {
