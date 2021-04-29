@@ -277,7 +277,7 @@ namespace AYP.View
         {
             double middleX = (value.X + this.ViewModel.EndPoint.X) / 2;
             double middleY = (value.Y + this.ViewModel.EndPoint.Y) / 2;
-            AgYukuBorder.Margin = new Thickness(this.ViewModel.StartPoint.X+10, this.ViewModel.StartPoint.Y, 0, 0);
+            AgYukuBorder.Margin = new Thickness(this.ViewModel.StartPoint.X+10, this.ViewModel.StartPoint.Y, this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y);
             UzunlukBorder.Margin = new Thickness(middleX , middleY, middleX, middleY);
             
         }
@@ -286,7 +286,7 @@ namespace AYP.View
         {
             double middleX = (value.X + this.ViewModel.StartPoint.X) / 2;
             double middleY = (value.Y + this.ViewModel.StartPoint.Y) / 2;
-            AgYukuBorder.Margin = new Thickness(this.ViewModel.StartPoint.X+10, this.ViewModel.StartPoint.Y, 0, value.Y);
+            AgYukuBorder.Margin = new Thickness(this.ViewModel.StartPoint.X+10, this.ViewModel.StartPoint.Y, this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y);
             UzunlukBorder.Margin = new Thickness(middleX, middleY, middleX, middleY);
             
         }

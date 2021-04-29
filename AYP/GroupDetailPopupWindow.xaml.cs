@@ -50,6 +50,7 @@ namespace AYP
             this.group.ExternalConnectList = group.ExternalConnectList;
             this.group.GucArayuzuList = group.GucArayuzuList;
             this.group.AgArayuzuList = group.AgArayuzuList;
+            
 
             InitializeComponent();
             Loaded += Window_Loaded;
@@ -58,6 +59,7 @@ namespace AYP
         #region WindowLoadedEvent
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            this.MainTitle.Content = this.group.Name + " Detayı";
             foreach (var groupedNode in group.NodeList)
             {
                 NodesCanvas.ViewModel.Nodes.Add(groupedNode);

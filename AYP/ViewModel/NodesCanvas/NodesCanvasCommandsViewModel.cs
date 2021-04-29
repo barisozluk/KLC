@@ -2063,7 +2063,7 @@ namespace AYP.ViewModel
             stateMachineXElement.Add(dogrulamalar);
             foreach (var item in this.MainWindow.DogrulamaDataGrid.Items)
             {
-                dogrulamalar.Add((item as DogrulamaModel).ToXElement());
+                //dogrulamalar.Add((item as DogrulamaModel).ToXElement());
             }
 
             XElement groups = new XElement("Groups");
