@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -50,6 +51,12 @@ namespace AYP
                 foreach(var selectedNode in this.selectedNodes)
                 {
                     selectedNode.Name = Ad.Text;
+
+                    if(selectedNode.TypeId == (int)TipEnum.Group)
+                    {
+                        var group = selectedNode.NodesCanvas.GroupList.Where(x => x.UniqueId == selectedNode.UniqueId).FirstOrDefault();
+                        group.Name = selectedNode.Name;
+                    }
                 }
 
                 ClosePopup();

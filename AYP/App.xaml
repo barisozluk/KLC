@@ -58,6 +58,7 @@
                 <ResourceDictionary Source="Styles/StyleClosePopup.xaml" />
                 <ResourceDictionary Source="Styles/StyleUcBirimAgAkisFormPanel.xaml" />
                 <ResourceDictionary Source="Styles/StyleAgAnahtariAgAkisFormPanel.xaml" />
+                <ResourceDictionary Source="Styles/StyleRaporBilgileriFormPanel.xaml" />
                 <!--#endregion      DescriptionPopup-->
 
                 <!--#region         FormControls-->
