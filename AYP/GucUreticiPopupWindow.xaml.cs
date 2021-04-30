@@ -666,146 +666,156 @@ namespace AYP
         #region TableEvents
         private void ButtonAddGucArayuzu_Click(object sender, RoutedEventArgs e)
         {
-            bool validMi = MaxMinGerilimValidation(sender, e);
-            if(validMi)
-            {
-                gucArayuzu.TipId = (int)TipEnum.GucUreticiGucArayuzu;
-
-                var validationContext = new ValidationContext(gucArayuzu, null, null);
-                var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
-
-                if (Validator.TryValidateObject(gucArayuzu, validationContext, results, true))
+            
+                bool validMi = MaxMinGerilimValidation(sender, e);
+                if (validMi)
                 {
-                    gucArayuzu.KL_KullanimAmaci = gucArayuzu.KullanimAmaciList.Where(kal => kal.Id == gucArayuzu.KullanimAmaciId).FirstOrDefault();
-                    gucArayuzu.KL_GerilimTipi = gucArayuzu.GerilimTipiList.Where(fo => fo.Id == gucArayuzu.GerilimTipiId).FirstOrDefault();
+                    gucArayuzu.TipId = (int)TipEnum.GucUreticiGucArayuzu;
 
-                    if (!gucArayuzuList.Any(x => x.Port == gucArayuzu.Port && x.KullanimAmaciId == gucArayuzu.KullanimAmaciId))
+                    var validationContext = new ValidationContext(gucArayuzu, null, null);
+                    var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
+
+                    if (Validator.TryValidateObject(gucArayuzu, validationContext, results, true))
                     {
-                        if (checkedGucArayuzuRow != null)
+                        gucArayuzu.KL_KullanimAmaci = gucArayuzu.KullanimAmaciList.Where(kal => kal.Id == gucArayuzu.KullanimAmaciId).FirstOrDefault();
+                        gucArayuzu.KL_GerilimTipi = gucArayuzu.GerilimTipiList.Where(fo => fo.Id == gucArayuzu.GerilimTipiId).FirstOrDefault();
+
+                        if (!gucArayuzuList.Any(x => x.Port == gucArayuzu.Port && x.KullanimAmaciId == gucArayuzu.KullanimAmaciId))
                         {
-                            var ctx = checkedGucArayuzuRow.DataContext;
-                            var obj = (GucArayuzu)ctx;
-                            gucArayuzuList.Remove(obj);
-                            checkedGucArayuzuRow = null;
+                            if (checkedGucArayuzuRow != null)
+                            {
+                                var ctx = checkedGucArayuzuRow.DataContext;
+                                var obj = (GucArayuzu)ctx;
+                                gucArayuzuList.Remove(obj);
+                                checkedGucArayuzuRow = null;
+                            }
+
+                            GucUreticiGucArayuzDataGrid.ItemsSource = null;
+
+                            gucArayuzuList.Add(gucArayuzu);
+                            GucUreticiGucArayuzDataGrid.ItemsSource = gucArayuzuList;
+                            GucUreticiGucArayuzDataGrid.Visibility = Visibility.Visible;
+                            GucArayuzuNoDataRow.Visibility = Visibility.Hidden;
+
+                            GucArayuzuTab.DataContext = null;
+                            gucArayuzu = new GucArayuzu();
+                            ListGerilimTipi();
+                            ListKullanimAmaciForGucArayuzu();
+                            GucArayuzuTab.DataContext = gucArayuzu;
                         }
-
-                        GucUreticiGucArayuzDataGrid.ItemsSource = null;
-
-                        gucArayuzuList.Add(gucArayuzu);
-                        GucUreticiGucArayuzDataGrid.ItemsSource = gucArayuzuList;
-                        GucUreticiGucArayuzDataGrid.Visibility = Visibility.Visible;
-                        GucArayuzuNoDataRow.Visibility = Visibility.Hidden;
-
-                        GucArayuzuTab.DataContext = null;
-                        gucArayuzu = new GucArayuzu();
-                        ListGerilimTipi();
-                        ListKullanimAmaciForGucArayuzu();
-                        GucArayuzuTab.DataContext = gucArayuzu;
+                        else
+                        {
+                            NotifyInfoPopup nfp = new NotifyInfoPopup();
+                            nfp.msg.Text = gucArayuzu.KL_KullanimAmaci.Ad + " kullanım amacı ile " + gucArayuzu.Port + " için veri girilmiştir"; ;
+                            nfp.Owner = Owner;
+                            nfp.Show();
+                        }
                     }
                     else
                     {
-                        NotifyInfoPopup nfp = new NotifyInfoPopup();
-                        nfp.msg.Text = gucArayuzu.KL_KullanimAmaci.Ad + " kullanım amacı ile " + gucArayuzu.Port + " için veri girilmiştir"; ;
-                        nfp.Owner = Owner;
-                        nfp.Show();
-                    }
-                }
-                else
-                {
-                    foreach (var result in results)
-                    {
-                        foreach (var memberName in result.MemberNames)
+                        foreach (var result in results)
                         {
-                            if (memberName == "Adi")
+                            foreach (var memberName in result.MemberNames)
                             {
-                                GucArayuzuAdi.BorderBrush = new SolidColorBrush(Colors.Red);
-                            }
+                                if (memberName == "Adi")
+                                {
+                                    GucArayuzuAdi.BorderBrush = new SolidColorBrush(Colors.Red);
+                                }
 
-                            if (memberName == "Port")
-                            {
-                                GucArayuzuPortList.BorderBrush = new SolidColorBrush(Colors.Red);
+                                if (memberName == "Port")
+                                {
+                                    GucArayuzuPortList.BorderBrush = new SolidColorBrush(Colors.Red);
+                                }
                             }
                         }
                     }
                 }
-            }
             
         }
 
         private bool MaxMinGerilimValidation(object sender, RoutedEventArgs e)
         {
-            int maxGerilimDegeri;
-            int minGerilimDegeri;
-            ag8.BorderBrush = new SolidColorBrush(Colors.Transparent);
-            ag10.BorderBrush = new SolidColorBrush(Colors.Transparent);
-            ag2.BorderBrush = new SolidColorBrush(Colors.Transparent);
-            GucArayuzuAdi.BorderBrush = new SolidColorBrush(Colors.Transparent);
-
             bool validMi = true;
-            if(!string.IsNullOrEmpty(ag2.Text) && ag2.Text != " ")
+
+            if (gucArayuzu.KullanimAmaciId == (int)KullanimAmaciEnum.Girdi)
             {
-                if(!string.IsNullOrEmpty(ag8.Text) && ag8.Text != " ")
-                {
-                    if (!string.IsNullOrEmpty(ag10.Text) && ag10.Text != " ")
-                    {
-                        maxGerilimDegeri = int.Parse(ag10.Text);
-                        minGerilimDegeri = int.Parse(ag8.Text);
-                        if(minGerilimDegeri > maxGerilimDegeri)
-                        {
-                            NotifyInfoPopup nfp = new NotifyInfoPopup();
-                            nfp.msg.Text = "Minimum gerilim değeri maksimum gerilim değerinden büyük olamaz.";
-                            nfp.Owner = Owner;
-                            nfp.Show();
-                            ag8.BorderBrush = new SolidColorBrush(Colors.Red);
-                            ag10.BorderBrush = new SolidColorBrush(Colors.Red);
-                            return false; 
-                        }
-                    }
-                    else
-                    {
-                        NotifyInfoPopup nfp = new NotifyInfoPopup();
-                        nfp.msg.Text = "Maksimum gerilim değerini tanımlayınız.";
-                        nfp.Owner = Owner;
-                        nfp.Show();
-                        ag10.BorderBrush = new SolidColorBrush(Colors.Red);
-                        return false;
-                    }
-                }
-                if (!string.IsNullOrEmpty(ag10.Text) && ag10.Text != " ")
+                int maxGerilimDegeri;
+                int minGerilimDegeri;
+                ag8.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                ag10.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                ag2.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                GucArayuzuAdi.BorderBrush = new SolidColorBrush(Colors.Transparent);
+
+                if (!string.IsNullOrEmpty(ag2.Text) && ag2.Text != " ")
                 {
                     if (!string.IsNullOrEmpty(ag8.Text) && ag8.Text != " ")
                     {
-                        maxGerilimDegeri = int.Parse(ag10.Text);
-                        minGerilimDegeri = int.Parse(ag8.Text);
-                        if (minGerilimDegeri > maxGerilimDegeri)
+                        if (!string.IsNullOrEmpty(ag10.Text) && ag10.Text != " ")
+                        {
+                            maxGerilimDegeri = int.Parse(ag10.Text);
+                            minGerilimDegeri = int.Parse(ag8.Text);
+                            if (minGerilimDegeri > maxGerilimDegeri)
+                            {
+                                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                                nfp.msg.Text = "Minimum gerilim değeri maksimum gerilim değerinden büyük olamaz.";
+                                nfp.Owner = Owner;
+                                nfp.Show();
+                                ag8.BorderBrush = new SolidColorBrush(Colors.Red);
+                                ag10.BorderBrush = new SolidColorBrush(Colors.Red);
+                                return false;
+                            }
+                        }
+                        else
                         {
                             NotifyInfoPopup nfp = new NotifyInfoPopup();
-                            nfp.msg.Text = "Minimum gerilim değeri maksimum gerilim değerinden büyük olamaz.";
+                            nfp.msg.Text = "Maksimum gerilim değerini tanımlayınız.";
+                            nfp.Owner = Owner;
+                            nfp.Show();
+                            ag10.BorderBrush = new SolidColorBrush(Colors.Red);
+                            return false;
+                        }
+                    }
+                    if (!string.IsNullOrEmpty(ag10.Text) && ag10.Text != " ")
+                    {
+                        if (!string.IsNullOrEmpty(ag8.Text) && ag8.Text != " ")
+                        {
+                            maxGerilimDegeri = int.Parse(ag10.Text);
+                            minGerilimDegeri = int.Parse(ag8.Text);
+                            if (minGerilimDegeri > maxGerilimDegeri)
+                            {
+                                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                                nfp.msg.Text = "Minimum gerilim değeri maksimum gerilim değerinden büyük olamaz.";
+                                nfp.Owner = Owner;
+                                nfp.Show();
+                                ag8.BorderBrush = new SolidColorBrush(Colors.Red);
+                                ag10.BorderBrush = new SolidColorBrush(Colors.Red);
+                                return false;
+
+                            }
+                        }
+                        else
+                        {
+                            NotifyInfoPopup nfp = new NotifyInfoPopup();
+                            nfp.msg.Text = "Minimum gerilim değerini tanımlayınız.";
                             nfp.Owner = Owner;
                             nfp.Show();
                             ag8.BorderBrush = new SolidColorBrush(Colors.Red);
-                            ag10.BorderBrush = new SolidColorBrush(Colors.Red);
                             return false;
+                        }
+                    }
+                }
+                else
+                {
+                    ag2.BorderBrush = new SolidColorBrush(Colors.Red);
 
-                        }    
-                    }
-                    else
-                    {
-                        NotifyInfoPopup nfp = new NotifyInfoPopup();
-                        nfp.msg.Text = "Minimum gerilim değerini tanımlayınız.";
-                        nfp.Owner = Owner;
-                        nfp.Show();
-                        ag8.BorderBrush = new SolidColorBrush(Colors.Red);
-                        return false;
-                    }
+                    validMi = false;
                 }
             }
             else
             {
-                ag2.BorderBrush = new SolidColorBrush(Colors.Red);
-                
-                validMi = false;
+                validMi = true;
             }
+
             return validMi;
         }
         private void GucArayuzuRow_Checked(object sender, RoutedEventArgs e)
