@@ -63,7 +63,7 @@
 
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Güç Arayüzü Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="*" Grid.Row="0" Grid.Column="1" Margin="160,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox Name="GucArayuzuSayisi" ToolTip="1 ile 5 arasında giriniz" PreviewTextInput="NumberValidationTextBox" Text="{Binding GucArayuzuSayisi, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+                    <TextBox Name="GucArayuzuSayisi" ToolTip="1 ile 5 arasında giriniz" PreviewTextInput="NumberValidationTextBox" Text="{Binding GucArayuzuSayisi}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Katalog" Grid.Row="0" Grid.Column="1" Margin="0,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Grid.Row="0" Grid.Column="1" Margin="160,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -267,35 +267,35 @@
                     </ComboBox>
 
                     <Label Name="ag1" FontSize="16" Foreground="#ffffff" Content="Girdi Durağan Gerilim Değeri 1" Grid.Row="0" Grid.Column="1" Margin="10,260,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox Name="ag2" PreviewTextInput="DecimalValidationTextBox" Text="{Binding GirdiDuraganGerilimDegeri1, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="10,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+                    <TextBox Name="ag2" PreviewTextInput="DecimalValidationTextBox" Text="{Binding GirdiDuraganGerilimDegeri1}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="10,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
                     <Image Source="Images/voltSymbol.png" Grid.Row="0" Grid.Column="1" Margin="235,296,0,0" Height="20" Width="25"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
                     <Label Name="ag3" FontSize="16" Foreground="#ffffff" Content="Girdi Durağan Gerilim Değeri 2" Grid.Row="0" Grid.Column="1" Margin="10,325,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox Name="ag4" PreviewTextInput="DecimalValidationTextBox" Text="{Binding GirdiDuraganGerilimDegeri2, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="10,355,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+                    <TextBox Name="ag4" PreviewTextInput="DecimalValidationTextBox" Text="{Binding GirdiDuraganGerilimDegeri2}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="10,355,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
                     <Image Source="Images/voltSymbol.png" Grid.Row="0" Grid.Column="1" Margin="235,361,0,0" Height="20" Width="25"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
                     <Label Name="ag5" FontSize="16" Foreground="#ffffff" Content="Girdi Durağan Gerilim Değeri 3" Grid.Row="0" Grid.Column="1" Margin="10,390,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox Name="ag6" PreviewTextInput="DecimalValidationTextBox" Text="{Binding GirdiDuraganGerilimDegeri3, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="10,420,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+                    <TextBox Name="ag6" PreviewTextInput="DecimalValidationTextBox" Text="{Binding GirdiDuraganGerilimDegeri3}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="10,420,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
                     <Image Source="Images/voltSymbol.png" Grid.Row="0" Grid.Column="1" Margin="235,426,0,0" Height="20" Width="25"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
                     <Label Name="ag7" FontSize="16" Foreground="#ffffff" Content="Girdi Minimum Gerilim Değeri" Grid.Row="0" Grid.Column="1" Margin="10,455,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox Name="ag8" PreviewTextInput="DecimalValidationTextBox" Text="{Binding GirdiMinimumGerilimDegeri, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="10,485,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+                    <TextBox Name="ag8" PreviewTextInput="DecimalValidationTextBox" Text="{Binding GirdiMinimumGerilimDegeri}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="10,485,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
                     <Image Source="Images/voltSymbol.png" Grid.Row="0" Grid.Column="1" Margin="235,491,0,0" Height="20" Width="25"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
                     <Label Name="ag9" FontSize="16" Foreground="#ffffff" Content="Girdi Maksimum Gerilim Değeri" Grid.Row="0" Grid.Column="1" Margin="10,520,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox Name="ag10" PreviewTextInput="DecimalValidationTextBox" Text="{Binding GirdiMaksimumGerilimDegeri, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="10,550,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+                    <TextBox Name="ag10" PreviewTextInput="DecimalValidationTextBox" Text="{Binding GirdiMaksimumGerilimDegeri}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="10,550,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
                     <Image Source="Images/voltSymbol.png" Grid.Row="0" Grid.Column="1" Margin="235,556,0,0" Height="20" Width="25"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
                     <Label Name="ag11" FontSize="16" Foreground="#ffffff" Content="Girdi Tükettiği Güç Miktarı" Grid.Row="0" Grid.Column="1" Margin="10,585,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox Name="ag12" PreviewTextInput="DecimalValidationTextBox" Text="{Binding GirdiTukettigiGucMiktari, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="10,615,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+                    <TextBox Name="ag12" PreviewTextInput="DecimalValidationTextBox" Text="{Binding GirdiTukettigiGucMiktari}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="10,615,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
                     <Image Source="Images/wattSymbol.png" Grid.Row="0" Grid.Column="1" Margin="235,621,0,0" Height="20" Width="25"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
                     <Label Name="ag13" FontSize="16" Foreground="#ffffff" Content="Çıktı Durağan Gerilim Değeri" Grid.Row="0" Grid.Column="1" Margin="10,650,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox Name="ag14" ToolTip="Sonsuz için -1 giriniz" PreviewTextInput="DecimalValidationTextBox" Text="{Binding CiktiDuraganGerilimDegeri, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="10,680,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+                    <TextBox Name="ag14" ToolTip="Sonsuz için -1 giriniz" PreviewTextInput="DecimalValidationTextBox" Text="{Binding CiktiDuraganGerilimDegeri}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="10,680,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
                     <Image Source="Images/voltSymbol.png" Grid.Row="0" Grid.Column="1" Margin="235,686,0,0" Height="20" Width="25"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
                     <Label Name="ag15" FontSize="16" Foreground="#ffffff" Content="Çıktı Ürettiği Güç Kapasitesi" Grid.Row="0" Grid.Column="1" Margin="10,715,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox Name="ag16" PreviewTextInput="DecimalValidationTextBox" Text="{Binding CiktiUrettigiGucKapasitesi, Converter={StaticResource NumberEmptyConverter}}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="10,745,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+                    <TextBox Name="ag16" PreviewTextInput="DecimalValidationTextBox" Text="{Binding CiktiUrettigiGucKapasitesi}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="10,745,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
                     <Image Source="Images/wattSymbol.png" Grid.Row="0" Grid.Column="1" Margin="235,751,0,0" Height="20" Width="25"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
                     <Label FontSize="16" Foreground="#ffffff" Content="Port *" Grid.Row="0" Grid.Column="1" Margin="10,780,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
