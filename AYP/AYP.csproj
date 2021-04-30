@@ -26,6 +26,7 @@
     <None Remove="Images\multipleSelect.png" />
     <None Remove="Images\newProjectW.png" />
     <None Remove="Images\paste.png" />
+    <None Remove="Images\rapor-header.png" />
     <None Remove="Images\rightAlign.png" />
     <None Remove="Images\switch.png" />
     <None Remove="Images\power.png" />
@@ -93,6 +94,7 @@
     <Resource Include="Images\hata.png" />
     <Resource Include="Images\leftAlign.png" />
     <Resource Include="Images\middle.png" />
+    <Resource Include="Images\rapor-header.png" />
     <Resource Include="Images\rightAlign.png" />
     <Resource Include="Images\multipleSelect.png" />
     <Resource Include="Images\newProjectW.png" />

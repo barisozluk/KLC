@@ -623,7 +623,7 @@ namespace AYP
         #region TextChangedEvents
         private void VerimlilikOrani_TextChanged(object sender, TextChangedEventArgs e)
         {
-            int value;
+            decimal value;
 
             if (!fromNode)
             {
@@ -631,7 +631,8 @@ namespace AYP
                 {
                     DahiliGucTuketimDegeri.IsEnabled = false;
                     DahiliGucTuketimDegeri.Opacity = 0.25;
-                    value = int.Parse(VerimlilikOrani.Text);
+                    var verimlilik = VerimlilikOrani.Text.Replace(".", ",");
+                    value = decimal.Parse(verimlilik);
                     if (value > 100)
                     {
                         VerimlilikOrani.Text = "100";

@@ -166,7 +166,7 @@ namespace AYP
                     header.SetFontSize(16);
                     header.SetBold();
                     header.SetMarginLeft(130);
-                    header.SetMarginTop(120);
+                    header.SetMarginTop(10);
                     doc.Add(header);
 
                     SetUcBirimTable(doc, ucBirimler);
@@ -1263,7 +1263,7 @@ namespace AYP
                     header.SetFontSize(16);
                     header.SetBold();
                     header.SetMarginLeft(130);
-                    header.SetMarginTop(120);
+                    header.SetMarginTop(10);
                     doc.Add(header);
 
                     SetGucTuketicilerTable(doc, gucTuketiciler);
@@ -1331,6 +1331,7 @@ namespace AYP
                     doc.Add(pdfImg);
 
                     doc.Close();
+
                 }
             }
         }
@@ -1837,7 +1838,8 @@ namespace AYP
 
         private void SetRaporHeader(Document doc)
         {
-            ImageData imageData = iText.IO.Image.ImageDataFactory.Create("C:\\Users\\KLC\\Downloads\\header.png");
+            string path = Directory.GetCurrentDirectory() + "\\rapor-header.png";
+            ImageData imageData = iText.IO.Image.ImageDataFactory.Create(path);
             Image pdfImg = new Image(imageData);
             pdfImg.SetWidth(532);
             doc.Add(pdfImg);
