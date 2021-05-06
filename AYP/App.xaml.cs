@@ -1,10 +1,15 @@
 ﻿using AYP.DbContext.AYP.DbContexts;
 using AYP.Helpers.Converters;
+using log4net;
+using log4net.Appender;
+using log4net.Config;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using ReactiveUI;
 using Splat;
 using System;
+using System.Configuration;
+using System.IO;
 using System.Reflection;
 using System.Windows;
 using WritableJsonConfiguration;
@@ -16,9 +21,10 @@ namespace AYP
     /// </summary>
     public partial class App : Application
     {
+        private static readonly ILog log = LogManager.GetLogger(typeof(App));
+        
         public App()
-        {            
-
+        {
                 Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetCallingAssembly());
                 Locator.CurrentMutable.RegisterConstant(new ConverterBoolAndVisibility(), typeof(IBindingTypeConverter));
                 
@@ -29,9 +35,12 @@ namespace AYP
 
         public void Application_Startup(object sender, StartupEventArgs e)
         {
+            log4net.GlobalContext.Properties["LogFileName"] = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"AYP");
+            log4net.Config.XmlConfigurator.Configure();
+            log.Info("        =============  AYP Başlatıldı.  =============        ");
+
             try
             {
-                
                 AYPContext context = new AYPContext();
                 context.Database.Migrate();
 
@@ -40,6 +49,7 @@ namespace AYP
             }
             catch (Exception exception)
             {
+                log.Error("Veritabanı bağlantısı kurulamadı. - " + exception.Message);
                 DbConnectionErrorPopupWindow popup = new DbConnectionErrorPopupWindow();
                 popup.Show();
             }

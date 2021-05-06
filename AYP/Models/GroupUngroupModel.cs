@@ -458,6 +458,8 @@ namespace AYP.Models
                     Guid toConnectorNodeUniqueId = new Guid(groupInternalConnect.Attribute("ToConnectorNodeUniqueId")?.Value);
                     decimal kabloUzunlugu = Convert.ToDecimal(groupInternalConnect.Attribute("KabloUzunlugu")?.Value);
                     decimal agYuku = Convert.ToDecimal(groupInternalConnect.Attribute("AgYuku")?.Value);
+                    decimal gucMiktari = Convert.ToDecimal(groupInternalConnect.Attribute("GucMiktari")?.Value);
+
                     Point point1 = new Point();
                     PointExtensition.TryParseFromString(groupInternalConnect.Attribute("Point1")?.Value, out point1);
 
@@ -480,6 +482,7 @@ namespace AYP.Models
                     viewModelConnect.ToConnector = toConnector;
                     viewModelConnect.Uzunluk = kabloUzunlugu;
                     viewModelConnect.AgYuku = agYuku;
+                    viewModelConnect.GucMiktari = gucMiktari;
                     viewModelConnect.StartPoint = startPoint;
                     viewModelConnect.EndPoint = endPoint;
                     viewModelConnect.Point1 = point1;
@@ -549,6 +552,8 @@ namespace AYP.Models
                     Guid toConnectorNodeUniqueId = new Guid(groupExternalConnect.Attribute("ToConnectorNodeUniqueId")?.Value);
                     decimal kabloUzunlugu = Convert.ToDecimal(groupExternalConnect.Attribute("KabloUzunlugu")?.Value);
                     decimal agYuku = Convert.ToDecimal(groupExternalConnect.Attribute("AgYuku")?.Value);
+                    decimal gucMiktari = Convert.ToDecimal(groupExternalConnect.Attribute("GucMiktari")?.Value);
+
                     Point point1 = new Point();
                     PointExtensition.TryParseFromString(groupExternalConnect.Attribute("Point1")?.Value, out point1);
 
@@ -576,6 +581,7 @@ namespace AYP.Models
                         viewModelConnect.ToConnector = toConnector;
                         viewModelConnect.Uzunluk = kabloUzunlugu;
                         viewModelConnect.AgYuku = agYuku;
+                        viewModelConnect.GucMiktari = gucMiktari;
                         viewModelConnect.StartPoint = startPoint;
                         viewModelConnect.EndPoint = endPoint;
                         viewModelConnect.Point1 = point1;
@@ -593,6 +599,7 @@ namespace AYP.Models
                         viewModelConnect.ToConnector = toConnector;
                         viewModelConnect.Uzunluk = kabloUzunlugu;
                         viewModelConnect.AgYuku = agYuku;
+                        viewModelConnect.GucMiktari = gucMiktari;
                         viewModelConnect.StartPoint = startPoint;
                         viewModelConnect.EndPoint = endPoint;
                         viewModelConnect.Point1 = point1;

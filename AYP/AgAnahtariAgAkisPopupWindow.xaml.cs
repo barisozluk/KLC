@@ -370,6 +370,23 @@ namespace AYP
             DataContext = agAkis;
         }
 
+        private void AgAkisDelete_AllRows(object sender, RoutedEventArgs e)
+        {
+            AgAkisDataGrid.ItemsSource = null;
+            this.agAnahtariAgArayuzu.AgAkisList.Clear();
+            toplam = 0;
+            MainTitle.Content = "Ağ Akışı - " + toplam.ToString("0.##") + " Mbps";
+
+            SetToConnectorAgAkis();
+            AgAkisDataGrid.ItemsSource = this.agAnahtariAgArayuzu.AgAkisList;
+
+            if (this.agAnahtariAgArayuzu.AgAkisList.Count == 0)
+            {
+                AgAkisDataGrid.Visibility = Visibility.Hidden;
+                AgAkisNoDataRow.Visibility = Visibility.Visible;
+            }
+        }
+
         private void AgAkisDelete_Row(object sender, RoutedEventArgs e)
         {
             

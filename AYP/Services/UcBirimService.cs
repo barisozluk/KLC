@@ -11,11 +11,14 @@ using System.Linq;
 using System.Drawing;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using log4net;
 
 namespace AYP.Services
 {
     public class UcBirimService: IUcBirimService
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private readonly AYPContext context;
         public UcBirimService(AYPContext context)
         {
@@ -42,6 +45,7 @@ namespace AYP.Services
                 {
                     context.Reset();
                     response.SetError(exception.Message);
+                    log.Error("Uç birim türü veritabanına kaydedilemedi. - " + exception.InnerException.Message);
                     transaction.Rollback();
                 }
             }
@@ -126,6 +130,7 @@ namespace AYP.Services
                 {
                     context.Reset();
                     response.SetError(exception.Message);
+                    log.Error("Uç birim veritabanına kaydedilemedi. - " + exception.InnerException.Message);
                     transaction.Rollback();
                 }
             }
@@ -231,6 +236,7 @@ namespace AYP.Services
                 {
                     context.Reset();
                     response.SetError(exception.Message);
+                    log.Error("Uç birim veritabanında güncellenemedi. - " + exception.InnerException.Message);
                     transaction.Rollback();
                 }
             }
@@ -250,7 +256,7 @@ namespace AYP.Services
                 }
                 catch (Exception exception)
                 {
-                    
+                    log.Error("Uç birim türleri veritabanından getirilemedi. - " + exception.InnerException.Message);
                 }
             }
 
@@ -274,7 +280,7 @@ namespace AYP.Services
                 }
                 catch (Exception exception)
                 {
-
+                    log.Error("Uç birimler veritabanından getirilemedi. - " + exception.InnerException.Message);
                 }
             }
 
@@ -310,7 +316,7 @@ namespace AYP.Services
                 }
                 catch (Exception exception)
                 {
-
+                    log.Error("Uç birim ağ arayüzleri veritabanından getirilemedi. - " + exception.InnerException.Message);
                 }
             }
 
@@ -343,7 +349,7 @@ namespace AYP.Services
                 }
                 catch (Exception exception)
                 {
-
+                    log.Error("Uç birim güç arayüzleri veritabanından getirilemedi. - " + exception.InnerException.Message);
                 }
             }
 
@@ -362,7 +368,7 @@ namespace AYP.Services
                 }
                 catch (Exception exception)
                 {
-
+                    log.Error("Uç birim veritabanından getirilemedi. - " + exception.InnerException.Message);
                 }
             }
 
@@ -381,7 +387,7 @@ namespace AYP.Services
                 }
                 catch (Exception exception)
                 {
-
+                    log.Error("Uç birim türü veritabanından getirilemedi. - " + exception.InnerException.Message);
                 }
             }
 
@@ -421,6 +427,7 @@ namespace AYP.Services
                 {
                     context.Reset();
                     response.SetError(exception.Message);
+                    log.Error("Uç birim toplu güncelleme işlemi gerçekleştirilemedi. - " + exception.InnerException.Message);
                     transaction.Rollback();
                 }
             }
@@ -524,6 +531,7 @@ namespace AYP.Services
                 {
                     context.Reset();
                     transaction.Rollback();
+                    log.Error("Uç birim kütüphanesi veritabanına aktarılamadı. - " + exception.InnerException?.Message);
                 }
             }
         }

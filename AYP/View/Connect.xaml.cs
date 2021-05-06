@@ -87,6 +87,8 @@ namespace AYP.View
                                         x != (int)TipEnum.GucUreticiGucArayuzu)
                                 .Subscribe(_ => AgYukuBorder.Visibility = Visibility.Visible).DisposeWith(disposable);
 
+                this.WhenAnyValue(x => x.ViewModel.FromConnector.TypeId).Where(x => x == (int)TipEnum.GucUreticiGucArayuzu)
+                                .Subscribe(_ => GucMiktariBorder.Visibility = Visibility.Visible).DisposeWith(disposable);
             });
         }
 
@@ -129,6 +131,11 @@ namespace AYP.View
             this.WhenActivated(disposable =>
             {
                 this.ViewModel.WhenAnyValue(x => x.AgYuku).Subscribe(value => OnEventAgYuku(value)).DisposeWith(disposable);
+            });
+
+            this.WhenActivated(disposable =>
+            {
+                this.ViewModel.WhenAnyValue(x => x.GucMiktari).Subscribe(value => OnEventGucMiktari(value)).DisposeWith(disposable);
             });
 
             //this.WhenActivated(disposable =>
@@ -277,6 +284,7 @@ namespace AYP.View
         {
             double middleX = (value.X + this.ViewModel.EndPoint.X) / 2;
             double middleY = (value.Y + this.ViewModel.EndPoint.Y) / 2;
+            GucMiktariBorder.Margin = new Thickness(this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y, this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y);
             AgYukuBorder.Margin = new Thickness(this.ViewModel.StartPoint.X+10, this.ViewModel.StartPoint.Y, this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y);
             UzunlukBorder.Margin = new Thickness(middleX , middleY, middleX, middleY);
             
@@ -286,6 +294,7 @@ namespace AYP.View
         {
             double middleX = (value.X + this.ViewModel.StartPoint.X) / 2;
             double middleY = (value.Y + this.ViewModel.StartPoint.Y) / 2;
+            GucMiktariBorder.Margin = new Thickness(this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y, this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y);
             AgYukuBorder.Margin = new Thickness(this.ViewModel.StartPoint.X+10, this.ViewModel.StartPoint.Y, this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y);
             UzunlukBorder.Margin = new Thickness(middleX, middleY, middleX, middleY);
             
@@ -338,6 +347,10 @@ namespace AYP.View
             AgYuku.Text = value.ToString("0.##") + " mbps";
         }
 
+        private void OnEventGucMiktari(decimal value)
+        {
+            GucMiktari.Text = value.ToString("0.##") + " watt";
+        }
 
         #endregion
     }

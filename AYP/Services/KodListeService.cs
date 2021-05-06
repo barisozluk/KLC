@@ -3,6 +3,7 @@ using AYP.Entities;
 using AYP.Enums;
 using AYP.Interfaces;
 using AYP.Models;
+using log4net;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,8 @@ namespace AYP.Services
 {
     public class KodListeService : IKodListeService
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private readonly AYPContext context;
         public KodListeService(AYPContext context)
         {
@@ -32,7 +35,7 @@ namespace AYP.Services
                 }
                 catch (Exception exception)
                 {
-
+                    log.Error("Fiziksel ortam listesi veritabanından getirilemedi. - " + exception.InnerException?.Message);
                 }
             }
 
@@ -51,7 +54,7 @@ namespace AYP.Services
                 }
                 catch (Exception exception)
                 {
-
+                    log.Error("Gerilim tipi listesi veritabanından getirilemedi. - " + exception.InnerException?.Message);
                 }
             }
 
@@ -70,7 +73,7 @@ namespace AYP.Services
                 }
                 catch (Exception exception)
                 {
-
+                    log.Error("Kapasite listesi veritabanından getirilemedi. - " + exception.InnerException?.Message);
                 }
             }
 
@@ -89,7 +92,7 @@ namespace AYP.Services
                 }
                 catch (Exception exception)
                 {
-
+                    log.Error("Kapasite veritabanından getirilemedi. - " + exception.InnerException?.Message);
                 }
             }
 
@@ -108,7 +111,7 @@ namespace AYP.Services
                 }
                 catch (Exception exception)
                 {
-
+                    log.Error("Kullanım amacı listesi veritabanından getirilemedi. - " + exception.InnerException?.Message);
                 }
             }
 
@@ -135,7 +138,7 @@ namespace AYP.Services
                 }
                 catch (Exception exception)
                 {
-
+                    log.Error("Ağ akış tipi listesi veritabanından getirilemedi. - " + exception.InnerException?.Message);
                 }
             }
 
@@ -161,7 +164,7 @@ namespace AYP.Services
                 }
                 catch (Exception exception)
                 {
-
+                    log.Error("Ağ akış protokolu listesi veritabanından getirilemedi. - " + exception.InnerException?.Message);
                 }
             }
 

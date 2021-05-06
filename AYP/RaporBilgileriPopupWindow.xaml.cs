@@ -8,10 +8,12 @@ using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
 using iText.Layout.Properties;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
@@ -26,6 +28,8 @@ namespace AYP
     /// </summary>
     public partial class RaporBilgileriPopupWindow : Window
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         RaporModel model;
         byte[] capture;
         string raporTipi;
@@ -381,6 +385,13 @@ namespace AYP
                     doc.Add(pdfImg);
 
                     doc.Close();
+
+                    NotifySuccessPopup nfp = new NotifySuccessPopup();
+                    nfp.msg.Text = "Rapor başarı ile oluşturuldu.";
+                    nfp.Owner = this;
+                    nfp.Show();
+
+                    this.ClosePopup();
                 }
             }
         }
@@ -1332,6 +1343,12 @@ namespace AYP
 
                     doc.Close();
 
+                    NotifySuccessPopup nfp = new NotifySuccessPopup();
+                    nfp.msg.Text = "Rapor başarı ile oluşturuldu.";
+                    nfp.Owner = this;
+                    nfp.Show();
+
+                    this.ClosePopup();
                 }
             }
         }
@@ -1782,7 +1799,7 @@ namespace AYP
                     table.AddCell(c);
 
                     c = new Cell();
-                    c.Add(new Paragraph("-"));
+                    c.Add(new Paragraph(connectList[row].GucMiktari.ToString("0.##")));
                     c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
                     c.SetFontSize(11);
                     table.AddCell(c);
@@ -1838,128 +1855,143 @@ namespace AYP
 
         private void SetRaporHeader(Document doc)
         {
-            string path = Directory.GetCurrentDirectory() + "\\rapor-header.png";
-            ImageData imageData = iText.IO.Image.ImageDataFactory.Create(path);
-            Image pdfImg = new Image(imageData);
-            pdfImg.SetWidth(532);
-            doc.Add(pdfImg);
+            try
+            {
+                //string path = Directory.GetCurrentDirectory() + "\\SEMA_Data\\StreamingAssets\\AYP\\rapor-header.png";
+                string path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"Images\rapor-header.png");
+                log.Info(path);
+
+                if (File.Exists(path))
+                {
+                    ImageData imageData = iText.IO.Image.ImageDataFactory.Create(path);
+                    Image pdfImg = new Image(imageData);
+                    pdfImg.SetWidth(532);
+                    doc.Add(pdfImg);
+                }
+            }
+            catch(Exception exception)
+            {
+                log.Error("Rapor başlığı okunamadı. - " + exception.InnerException?.Message);
+            }
         }
 
         private void SetRaporFooter(Document doc)
         {
-            Table table = new Table(new float[] { 80 });
+            Table table = new Table(new float[] { 110, 75, 55, 50, 45, 45, 70, 70 });
 
-            Cell c = new Cell();
-            c.Add(new Paragraph("Onay-Approved By").SetFontSize(8));
-            c.Add(new Paragraph(model.Onaylayan != null ? model.Onaylayan : "").SetFontSize(8));
+            Cell c = new Cell(1,1);
+            c.Add(new Paragraph("Onay-Approved By").SetFontSize(6));
+            c.Add(new Paragraph(model.Onaylayan != null ? model.Onaylayan : "").SetFontSize(9));
             c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            c.SetHeight(30);
+            //c.SetHeight(30);
+            table.AddCell(c);
+
+            //table = new Table(new float[] { 75, 55, 50, 45, 45 });
+            c = new Cell(3, 5);
+            c.Add(new Paragraph("Tanım-Description").SetFontSize(6));
+            c.Add(new Paragraph(model.DokumanTanimi != null ? model.DokumanTanimi : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            //c.SetHeight(99);
+            table.AddCell(c);
+
+            //table = new Table(new float[] { 70, 70 });
+            c = new Cell(2, 2);
+            c.Add(new Paragraph("Doküman/Parça Numarası-Document/Part Number").SetFontSize(6));
+            c.Add(new Paragraph(model.DokumanParcaNo != null ? model.DokumanParcaNo : "").SetFontSize(9).SetBold().SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            //c.SetHeight(65);
             table.AddCell(c);
 
             c = new Cell();
-            c.Add(new Paragraph("Kontrol-Checked By").SetFontSize(8));
-            c.Add(new Paragraph(model.KontrolEden != null ? model.KontrolEden : "").SetFontSize(8));
+            c.Add(new Paragraph("Kontrol-Checked By").SetFontSize(6));
+            c.Add(new Paragraph(model.KontrolEden != null ? model.KontrolEden : "").SetFontSize(9));
             c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            c.SetHeight(30);
+            //c.SetHeight(30);
             table.AddCell(c);
 
             c = new Cell();
-            c.Add(new Paragraph("Hazırlayan-Prepared By").SetFontSize(8));
-            c.Add(new Paragraph(model.Hazirlayan != null ? model.Hazirlayan : "").SetFontSize(8));
+            c.Add(new Paragraph("Hazırlayan-Prepared By").SetFontSize(6));
+            c.Add(new Paragraph(model.Hazirlayan != null ? model.Hazirlayan : "").SetFontSize(9));
             c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            c.SetHeight(30);
+            //c.SetHeight(30);
             table.AddCell(c);
 
             c = new Cell();
-            c.Add(new Paragraph("Bölüm-Department").SetFontSize(8));
-            c.Add(new Paragraph(model.Bolum != null ? model.Bolum : "").SetFontSize(8));
+            c.Add(new Paragraph("Rev Kodu-Rev Code").SetFontSize(6));
+            c.Add(new Paragraph(model.RevizyonKodu != null ? model.RevizyonKodu : "").SetFontSize(9).SetBold().SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            c.SetHeight(30);
-            table.AddCell(c);
-            table.SetFixedPosition(38, 20, 80);
-            doc.Add(table);
-
-            table = new Table(new float[] { 80, 60, 60, 50, 50 });
-            c = new Cell(1, 5);
-            c.Add(new Paragraph("Tanım-Description").SetFontSize(7));
-            c.Add(new Paragraph(model.DokumanTanimi != null ? model.DokumanTanimi : "").SetFontSize(8));
-            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            c.SetHeight(99);
+            //c.SetHeight(30);
             table.AddCell(c);
 
             c = new Cell();
-            c.Add(new Paragraph("Yazım Ortamı-Editing Env").SetFontSize(7));
-            c.Add(new Paragraph(model.YazimOrtami != null ? model.YazimOrtami : "").SetFontSize(8));
+            c.Add(new Paragraph("Değişiklik Tarihi-Change Date").SetFontSize(6));
+            c.Add(new Paragraph(model.DegistirmeTarihi != default(DateTime) ? model.DegistirmeTarihi.ToString("dd/MM/yyyy") : "").SetFontSize(9).SetBold().SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            c.SetHeight(30);
+            //c.SetHeight(30);
             table.AddCell(c);
 
             c = new Cell();
-            c.Add(new Paragraph("Dok Kodu-Doc Code").SetFontSize(7));
-            c.Add(new Paragraph(model.DokumanKodu != null ? model.DokumanKodu : "").SetFontSize(8));
+            c.Add(new Paragraph("Bölüm-Department").SetFontSize(6));
+            c.Add(new Paragraph(model.Bolum != null ? model.Bolum : "").SetFontSize(9));
             c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            c.SetHeight(30);
+            //c.SetHeight(30);
+            table.AddCell(c);
+            //table.SetFixedPosition(38, 20, 110);
+            //doc.Add(table);
+
+            
+
+            c = new Cell();
+            c.Add(new Paragraph("Yazım Ortamı-Editing Env").SetFontSize(6));
+            c.Add(new Paragraph(model.YazimOrtami != null ? model.YazimOrtami : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            //c.SetHeight(30);
             table.AddCell(c);
 
             c = new Cell();
-            c.Add(new Paragraph("Syf/Syflr-Pg/Pgs").SetFontSize(7));
-            c.Add(new Paragraph(model.DokumanTanimi != null ? model.DokumanTanimi : "").SetFontSize(8));
+            c.Add(new Paragraph("Dok Kodu-Doc Code").SetFontSize(6));
+            c.Add(new Paragraph(model.DokumanKodu != null ? model.DokumanKodu : "").SetFontSize(9).SetBold().SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            c.SetHeight(30);
+            //c.SetHeight(30);
             table.AddCell(c);
 
             c = new Cell();
-            c.Add(new Paragraph("Tarih-Date").SetFontSize(7));
-            c.Add(new Paragraph(model.Tarih != default(DateTime) ? model.Tarih.ToString() : "").SetFontSize(8));
+            c.Add(new Paragraph("Syf/Syflr-Pg/Pgs").SetFontSize(6));
+            c.Add(new Paragraph(model.DokumanTanimi != null ? model.DokumanTanimi : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            c.SetHeight(30);
+            //c.SetHeight(30);
             table.AddCell(c);
 
             c = new Cell();
-            c.Add(new Paragraph("Dil-Lng").SetFontSize(7));
-            c.Add(new Paragraph(model.DilKodu != null ? model.DilKodu : "").SetFontSize(8));
+            c.Add(new Paragraph("Tarih-Date").SetFontSize(6));
+            c.Add(new Paragraph(model.Tarih != default(DateTime) ? model.Tarih.ToString("dd/MM/yyyy") : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            c.SetHeight(30);
-            table.AddCell(c);
-            table.SetFixedPosition(118, 20, 300);
-            doc.Add(table);
-
-            table = new Table(new float[] { 70, 70 });
-            c = new Cell(1, 2);
-            c.Add(new Paragraph("Doküman/Parça Numarası-Document/Part Number").SetFontSize(7));
-            c.Add(new Paragraph(model.DokumanParcaNo != null ? model.DokumanParcaNo : "").SetFontSize(8));
-            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            c.SetHeight(65);
+            //c.SetHeight(30);
             table.AddCell(c);
 
             c = new Cell();
-            c.Add(new Paragraph("Rev Kodu-Rev Code").SetFontSize(7));
-            c.Add(new Paragraph(model.RevizyonKodu != null ? model.RevizyonKodu : "").SetFontSize(8));
+            c.Add(new Paragraph("Dil-Lng").SetFontSize(6));
+            c.Add(new Paragraph(model.DilKodu != null ? model.DilKodu : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            c.SetHeight(30);
+            //c.SetHeight(30);
+            table.AddCell(c);
+            //table.SetFixedPosition(148, 20, 270);
+            //doc.Add(table);
+
+            c = new Cell();
+            c.Add(new Paragraph("Değiştiren-Changed By").SetFontSize(6));
+            c.Add(new Paragraph(model.Degistiren != null ? model.Degistiren : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            //c.SetHeight(30);
             table.AddCell(c);
 
             c = new Cell();
-            c.Add(new Paragraph("Değişiklik Tarihi-Change Date").SetFontSize(7));
-            c.Add(new Paragraph(model.DegistirmeTarihi != default(DateTime) ? model.DegistirmeTarihi.ToString() : "").SetFontSize(8));
+            c.Add(new Paragraph("Boyut-Size").SetFontSize(6));
+            c.Add(new Paragraph(model.SayfaBoyutu != null ? model.SayfaBoyutu : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            c.SetHeight(30);
+            //c.SetHeight(30);
             table.AddCell(c);
-
-            c = new Cell();
-            c.Add(new Paragraph("Değiştiren-Changed By").SetFontSize(7));
-            c.Add(new Paragraph(model.Degistiren != null ? model.Degistiren : "").SetFontSize(8));
-            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            c.SetHeight(30);
-            table.AddCell(c);
-
-            c = new Cell();
-            c.Add(new Paragraph("Boyut-Size").SetFontSize(7));
-            c.Add(new Paragraph(model.SayfaBoyutu != null ? model.SayfaBoyutu : "").SetFontSize(8));
-            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            c.SetHeight(30);
-            table.AddCell(c);
-            table.SetFixedPosition(418, 20, 140);
+            table.SetFixedPosition(38, 20, 520);
             doc.Add(table);
 
         }
