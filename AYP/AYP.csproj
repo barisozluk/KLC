@@ -44,6 +44,7 @@
     <None Remove="Images\saveAsW.png" />
     <None Remove="Images\saveW.png" />
     <None Remove="Images\settings.png" />
+    <None Remove="Images\trash.png" />
     <None Remove="Images\ungroup.png" />
     <None Remove="Images\uyari.png" />
     <None Remove="Images\voltSymbol.png" />
@@ -116,6 +117,7 @@
     <Resource Include="Images\saveAsW.png" />
     <Resource Include="Images\saveW.png" />
     <Resource Include="Images\settings.png" />
+    <Resource Include="Images\trash.png" />
     <Resource Include="Images\ungroup.png" />
     <Resource Include="Images\uyari.png" />
     <Resource Include="Images\voltSymbol.png" />
@@ -172,6 +174,10 @@
   </ItemGroup>
 
   <ItemGroup>
+
+    <Page Update="DeleteAppPopupWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
 
     <Page Update="DuplicateArayuzPopupWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
@@ -233,6 +239,9 @@
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Styles\StyleArayuzCogaltFormPanel.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Styles\StyleBilgiKartiPaneliHeader.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
     <Page Update="Styles\StyleRaporBilgileriFormPanel.xaml">

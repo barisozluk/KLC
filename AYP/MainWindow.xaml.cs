@@ -1307,6 +1307,38 @@ namespace AYP
             }
         }
         #endregion
+
+
+        #region Delete Events
+
+
+        private void Delete_Click(object sender, RoutedEventArgs e)
+        {
+            this.IsEnabled = false;
+            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            blur.Radius = 2;
+            this.Effect = blur;
+
+            if (selectedTipId == (int)TipEnum.AgAnahtari)
+            {
+                DeleteAppPopupWindow popupWindow = new DeleteAppPopupWindow((object)selectedAgAnahtari, selectedTipId);
+                popupWindow.Owner = this;
+                popupWindow.ShowDialog();
+            }
+            if (selectedTipId == (int)TipEnum.UcBirim)
+            {
+                DeleteAppPopupWindow popupWindow = new DeleteAppPopupWindow((object)selectedUcBirim, selectedTipId);
+                popupWindow.Owner = this;
+                popupWindow.ShowDialog();
+            }
+            if (selectedTipId == (int)TipEnum.GucUretici)
+            {
+                DeleteAppPopupWindow popupWindow = new DeleteAppPopupWindow((object)selectedGucUretici, selectedTipId);
+                popupWindow.Owner = this;
+                popupWindow.ShowDialog();
+            }
+        }
+        #endregion
     }
 
 }

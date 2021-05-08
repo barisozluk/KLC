@@ -22,6 +22,30 @@ namespace AYP.Services
             this.context = context;
         }
 
+        public ResponseModel DeleteUcBirim(UcBirim ucBirim)
+        {
+            ResponseModel response = new ResponseModel();
+
+            using (var transaction = context.Database.BeginTransaction(IsolationLevel.ReadUncommitted))
+            {
+                try
+                {
+                    UcBirim d = context.UcBirim.Where(x => x.Id == ucBirim.Id).FirstOrDefault();
+                    context.Remove(d);
+                    context.SaveChanges();
+                    response.SetSuccess();
+                    transaction.Commit();
+                }
+                catch (Exception exception)
+                {
+                    context.Reset();
+                    response.SetError(exception.Message);
+                    transaction.Rollback();
+                }
+            }
+
+            return response;
+        }
         public ResponseModel SaveUcBirimTur(UcBirimTur ucBirimTur)
         {
             ResponseModel response = new ResponseModel();

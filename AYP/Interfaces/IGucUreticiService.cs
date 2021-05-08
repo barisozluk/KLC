@@ -11,6 +11,8 @@ namespace AYP.Interfaces
     {
         ResponseModel SaveGucUreticiTur(GucUreticiTur gucUreticiTur);
         ResponseModel SaveGucUretici(GucUretici gucUretici, List<GucArayuzu> gucArayuzuList);
+        ResponseModel DeleteGucUretici(GucUretici gucUretici);
+
         ResponseModel UpdateGucUretici(GucUretici gucUretici, List<GucArayuzu> gucArayuzuList);
         List<GucUreticiTur> ListGucUreticiTur();
         List<GucUretici> ListGucUretici();

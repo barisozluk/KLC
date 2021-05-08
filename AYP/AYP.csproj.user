@@ -15,6 +15,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="DeleteAppPopupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="DuplicateArayuzPopupWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -37,6 +40,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\StyleArayuzCogaltFormPanel.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styles\StyleBilgiKartiPaneliHeader.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\StyleRaporBilgileriFormPanel.xaml">

@@ -11,6 +11,8 @@ namespace AYP.Interfaces
     {
         ResponseModel SaveAgAnahtariTur(AgAnahtariTur agAnahtariTur);
         ResponseModel SaveAgAnahtari(AgAnahtari agAnahtari, List<AgArayuzu> agArayuzuList, List<GucArayuzu> gucArayuzuList);
+        ResponseModel DeleteAgAnahtari(AgAnahtari agAnahtari);
+
         ResponseModel UpdateAgAnahtari(AgAnahtari agAnahtari, List<AgArayuzu> agArayuzuList, List<GucArayuzu> gucArayuzuList);
         List<AgAnahtariTur> ListAgAnahtariTur();
         List<AgAnahtari> ListAgAnahtari();

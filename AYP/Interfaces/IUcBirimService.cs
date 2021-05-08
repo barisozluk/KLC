@@ -11,6 +11,8 @@ namespace AYP.Interfaces
     {
         ResponseModel SaveUcBirimTur(UcBirimTur ucBirimTur);
         ResponseModel SaveUcBirim(UcBirim ucBirim, List<AgArayuzu> agArayuzuList, List<GucArayuzu> gucArayuzuList);
+        ResponseModel DeleteUcBirim(UcBirim ucBirim);
+
         ResponseModel UpdateUcBirim(UcBirim ucBirim, List<AgArayuzu> agArayuzuList, List<GucArayuzu> gucArayuzuList);
         List<UcBirimTur> ListUcBirimTur();
         List<UcBirim> ListUcBirim();
