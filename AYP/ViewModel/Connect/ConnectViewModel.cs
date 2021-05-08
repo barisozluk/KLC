@@ -42,6 +42,7 @@ namespace AYP.ViewModel
         [Reactive] public bool IsVisible { get; set; } = true;
         [Reactive] public decimal Uzunluk { get; set; }
         [Reactive] public decimal AgYuku { get; set; }
+        [Reactive] public decimal GucMiktari { get; set; }
         [Reactive] public int KabloKesitOnerisi { get; set; }
 
 
@@ -163,6 +164,7 @@ namespace AYP.ViewModel
             element.Add(new XAttribute("ToConnectorNodeUniqueId", ToConnector.Node.UniqueId));
             element.Add(new XAttribute("KabloUzunlugu", Uzunluk));
             element.Add(new XAttribute("AgYuku", AgYuku));
+            element.Add(new XAttribute("GucMiktari", GucMiktari));
             element.Add(new XAttribute("Point1", PointExtensition.PointToString(Point1)));
             element.Add(new XAttribute("Point2", PointExtensition.PointToString(Point2)));
             element.Add(new XAttribute("StartPoint", PointExtensition.PointToString(StartPoint)));
@@ -180,6 +182,7 @@ namespace AYP.ViewModel
             element.Add(new XAttribute("ToConnectorNodeUniqueId", ToConnector.Node.UniqueId));
             element.Add(new XAttribute("KabloUzunlugu", Uzunluk));
             element.Add(new XAttribute("AgYuku", AgYuku));
+            element.Add(new XAttribute("GucMiktari", GucMiktari));
             element.Add(new XAttribute("Point1", PointExtensition.PointToString(Point1)));
             element.Add(new XAttribute("Point2", PointExtensition.PointToString(Point2)));
             element.Add(new XAttribute("StartPoint", PointExtensition.PointToString(StartPoint)));
@@ -198,6 +201,7 @@ namespace AYP.ViewModel
             element.Add(new XAttribute("ToConnectorNodeUniqueId", ToConnector.Node.UniqueId));
             element.Add(new XAttribute("KabloUzunlugu", Uzunluk));
             element.Add(new XAttribute("AgYuku", AgYuku));
+            element.Add(new XAttribute("GucMiktari", GucMiktari));
             element.Add(new XAttribute("Point1", PointExtensition.PointToString(Point1)));
             element.Add(new XAttribute("Point2", PointExtensition.PointToString(Point2)));
             element.Add(new XAttribute("StartPoint", PointExtensition.PointToString(StartPoint)));
@@ -218,6 +222,7 @@ namespace AYP.ViewModel
             Guid toConnectorNodeUniqueId = new Guid(node.Attribute("ToConnectorNodeUniqueId")?.Value);
             decimal kabloUzunlugu = Convert.ToDecimal(node.Attribute("KabloUzunlugu")?.Value);
             decimal agYuku = Convert.ToDecimal(node.Attribute("AgYuku")?.Value);
+            decimal gucMiktari = Convert.ToDecimal(node.Attribute("GucMiktari")?.Value);
             Point point1 = new Point();
             PointExtensition.TryParseFromString(node.Attribute("Point1")?.Value, out point1);
 
@@ -240,6 +245,7 @@ namespace AYP.ViewModel
             viewModelConnect.ToConnector = toConnector;
             viewModelConnect.Uzunluk = kabloUzunlugu;
             viewModelConnect.AgYuku = agYuku;
+            viewModelConnect.GucMiktari = gucMiktari;
             viewModelConnect.StartPoint = startPoint;
             viewModelConnect.EndPoint = endPoint;
             viewModelConnect.Point1 = point1;

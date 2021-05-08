@@ -2,6 +2,7 @@
 using AYP.Entities;
 using AYP.Interfaces;
 using AYP.Models;
+using log4net;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,8 @@ namespace AYP.Services
 {
     public class AgAnahtariService : IAgAnahtariService
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private readonly AYPContext context;
         public AgAnahtariService(AYPContext context)
         {
@@ -68,6 +71,7 @@ namespace AYP.Services
                 {
                     context.Reset();
                     response.SetError(exception.Message);
+                    log.Error("Ağ anahtarı türü veritabanına kaydedilemedi. - " + exception.InnerException.Message);
                     transaction.Rollback();
                 }
             }
@@ -152,6 +156,7 @@ namespace AYP.Services
                 {
                     context.Reset();
                     response.SetError(exception.Message);
+                    log.Error("Ağ anahtarı veritabanına kaydedilemedi. - " + exception.InnerException.Message);
                     transaction.Rollback();
                 }
             }
@@ -257,6 +262,7 @@ namespace AYP.Services
                 {
                     context.Reset();
                     response.SetError(exception.Message);
+                    log.Error("Ağ anahtarı veritabanında güncellenemedi. - " + exception.InnerException.Message);
                     transaction.Rollback();
                 }
             }
@@ -276,7 +282,7 @@ namespace AYP.Services
                 }
                 catch (Exception exception)
                 {
-
+                    log.Error("Ağ anahtarı türleri veritabanından getirilemedi. - " + exception.InnerException.Message);
                 }
             }
 
@@ -300,7 +306,7 @@ namespace AYP.Services
                 }
                 catch (Exception exception)
                 {
-
+                    log.Error("Ağ anahtarları veritabanından getirilemedi. - " + exception.InnerException.Message);
                 }
             }
 
@@ -336,7 +342,7 @@ namespace AYP.Services
                 }
                 catch (Exception exception)
                 {
-
+                    log.Error("Ağ anahtarı ağ arayüzleri veritabanından getirilemedi. - " + exception.InnerException.Message);
                 }
             }
 
@@ -369,7 +375,7 @@ namespace AYP.Services
                 }
                 catch (Exception exception)
                 {
-
+                    log.Error("Ağ anahtarı güç arayüzleri veritabanından getirilemedi. - " + exception.InnerException.Message);
                 }
             }
 
@@ -388,7 +394,7 @@ namespace AYP.Services
                 }
                 catch (Exception exception)
                 {
-
+                    log.Error("Ağ anahtarı veritabanından getirilemedi. - " + exception.InnerException.Message);
                 }
             }
 
@@ -407,7 +413,7 @@ namespace AYP.Services
                 }
                 catch (Exception exception)
                 {
-
+                    log.Error("Ağ anahtarı türü veritabanından getirilemedi. - " + exception.InnerException.Message);
                 }
             }
 
@@ -447,6 +453,7 @@ namespace AYP.Services
                 {
                     context.Reset();
                     response.SetError(exception.Message);
+                    log.Error("Ağ anahtarı toplu güncelleme işlemi gerçekleştirilemedi. - " + exception.InnerException.Message);
                     transaction.Rollback();
                 }
             }
@@ -550,6 +557,7 @@ namespace AYP.Services
                 {
                     context.Reset();
                     transaction.Rollback();
+                    log.Error("Ağ anahtarı kütüphanesi veritabanına aktarılamadı. - " + exception.InnerException?.Message);
                 }
             }
         }

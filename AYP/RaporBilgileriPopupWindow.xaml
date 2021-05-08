@@ -46,10 +46,10 @@
             <TextBox Text="{Binding Onaylayan}" HorizontalAlignment="Left" Margin="150,290,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Dil Kodu" Grid.Row="0" Grid.Column="1" Margin="0,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Text="{Binding DilKodu}" HorizontalAlignment="Left" Margin="150,335,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
+            <TextBox IsEnabled="False" Text="{Binding DilKodu}" HorizontalAlignment="Left" Margin="150,335,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Doküman Tanımı" Grid.Row="0" Grid.Column="1" Margin="0,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox IsEnabled="False" Text="{Binding DokumanTanimi}" HorizontalAlignment="Left" Margin="150,380,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
+            <TextBox Text="{Binding DokumanTanimi}" HorizontalAlignment="Left" Margin="150,380,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Bölüm" Grid.Row="0" Grid.Column="1" Margin="0,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
             <TextBox Text="{Binding Bolum}" HorizontalAlignment="Left" Margin="150,425,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />

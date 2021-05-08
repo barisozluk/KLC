@@ -32,6 +32,8 @@ using iText.IO.Image;
 using Image = iText.Layout.Element.Image;
 using iText.Html2pdf.Resolver.Font;
 using iText.Layout.Properties;
+using log4net;
+using System.Reflection;
 
 namespace AYP
 {
@@ -40,8 +42,10 @@ namespace AYP
     /// </summary>
     public partial class MainWindow : Window, IViewFor<MainWindowViewModel>
     {
-        private bool agWorkspaceSeciliMi = true;
-        private bool gucWorkspaceSeciliMi = true;
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
+        public bool agWorkspaceSeciliMi = true;
+        public bool gucWorkspaceSeciliMi = true;
 
         public bool toggleRight = true;
         public bool toggleLeft = true;
@@ -1128,8 +1132,8 @@ namespace AYP
         private void Help_Click(object sender, RoutedEventArgs e)
         {
             var pdfOpenProcess = new System.Diagnostics.Process();
-            string pdfPath = Directory.GetCurrentDirectory() + "\\SEMA-AYP-KK_v2.0_Kullanım Kılavuzu(001).pdf";
-
+            //string pdfPath = Directory.GetCurrentDirectory() + "\\SEMA_Data\\StreamingAssets\\AYP\\SEMA-AYP-KK_v2.0_Kullanım Kılavuzu(001).pdf";
+            string pdfPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"KullanimKilavuzu\SEMA-AYP-KK_v2.0_Kullanım Kılavuzu(001).pdf");
             if (!File.Exists(pdfPath))
             {
                 NotifyInfoPopup nfp = new NotifyInfoPopup();

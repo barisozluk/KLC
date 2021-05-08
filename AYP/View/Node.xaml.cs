@@ -50,8 +50,6 @@ namespace AYP.View
         }
         #endregion ViewModel
 
-        DispatcherTimer _typingTimer;
-
         public Node()
         {
             InitializeComponent();

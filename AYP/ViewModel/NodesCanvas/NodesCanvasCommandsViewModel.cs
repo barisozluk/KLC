@@ -1067,6 +1067,8 @@ namespace AYP.ViewModel
                                             newConnect.ToConnector = input;
                                             output.Connect = newConnect;
                                             newConnect.AgYuku = oldConnect.AgYuku;
+                                            newConnect.GucMiktari = oldConnect.GucMiktari;
+                                            newConnect.FromConnector.KalanKapasite -= oldConnect.GucMiktari;
                                             newConnect.Uzunluk = oldConnect.Uzunluk;
                                             newConnect.KabloKesitOnerisi = oldConnect.KabloKesitOnerisi;
                                             AddConnect(newConnect);
@@ -1150,6 +1152,7 @@ namespace AYP.ViewModel
 
                 connect.FromConnector.Connect = connect;
                 connect.AgYuku = internalConnect.AgYuku;
+                connect.GucMiktari = internalConnect.GucMiktari;
                 connect.KabloKesitOnerisi = internalConnect.KabloKesitOnerisi;
                 connect.Uzunluk = internalConnect.Uzunluk;
 
@@ -1357,6 +1360,7 @@ namespace AYP.ViewModel
                                 connect.FromConnector.AgAkisList = externalConnect.FromConnector.AgAkisList;
                                 connect.ToConnector.AgAkisList = externalConnect.ToConnector.AgAkisList;
                                 connect.AgYuku = externalConnect.AgYuku;
+                                connect.GucMiktari = externalConnect.GucMiktari;
                                 connect.KabloKesitOnerisi = externalConnect.KabloKesitOnerisi;
                                 connect.Uzunluk = externalConnect.Uzunluk;
 
@@ -1377,6 +1381,7 @@ namespace AYP.ViewModel
                                 connect.FromConnector.AgAkisList = externalConnect.FromConnector.AgAkisList;
                                 connect.ToConnector.AgAkisList = externalConnect.ToConnector.AgAkisList;
                                 connect.AgYuku = externalConnect.AgYuku;
+                                connect.GucMiktari = externalConnect.GucMiktari;
                                 connect.KabloKesitOnerisi = externalConnect.KabloKesitOnerisi;
                                 connect.Uzunluk = externalConnect.Uzunluk;
 
@@ -1453,6 +1458,7 @@ namespace AYP.ViewModel
                                         connect.ToConnector = internalConnect.ToConnector;
                                         connect.FromConnector.Connect = connect;
                                         connect.AgYuku = internalConnect.AgYuku;
+                                        connect.GucMiktari = internalConnect.GucMiktari;
                                         connect.KabloKesitOnerisi = internalConnect.KabloKesitOnerisi;
                                         connect.Uzunluk = internalConnect.Uzunluk;
                                         connect.FromConnector.AgAkisList = internalConnect.FromConnector.AgAkisList;
@@ -1475,6 +1481,7 @@ namespace AYP.ViewModel
                                     connect.ToConnector = externalConnect.ToConnector;
                                     connect.FromConnector.Connect = connect;
                                     connect.AgYuku = externalConnect.AgYuku;
+                                    connect.GucMiktari = externalConnect.GucMiktari;
                                     connect.KabloKesitOnerisi = externalConnect.KabloKesitOnerisi;
                                     connect.Uzunluk = externalConnect.Uzunluk;
                                     connect.FromConnector.AgAkisList = externalConnect.FromConnector.AgAkisList;
@@ -1511,6 +1518,7 @@ namespace AYP.ViewModel
                                         connect.ToConnector = input;
                                         connect.FromConnector.Connect = connect;
                                         connect.AgYuku = internalConnect.AgYuku;
+                                        connect.GucMiktari = internalConnect.GucMiktari;
                                         connect.KabloKesitOnerisi = internalConnect.KabloKesitOnerisi;
                                         connect.Uzunluk = internalConnect.Uzunluk;
                                         connect.FromConnector.AgAkisList = internalConnect.FromConnector.AgAkisList;
@@ -1533,6 +1541,7 @@ namespace AYP.ViewModel
                                     connect.ToConnector = externalConnect.ToConnector;
                                     connect.FromConnector.Connect = connect;
                                     connect.AgYuku = externalConnect.AgYuku;
+                                    connect.GucMiktari = externalConnect.GucMiktari;
                                     connect.KabloKesitOnerisi = externalConnect.KabloKesitOnerisi;
                                     connect.Uzunluk = externalConnect.Uzunluk;
                                     connect.FromConnector.AgAkisList = externalConnect.FromConnector.AgAkisList;

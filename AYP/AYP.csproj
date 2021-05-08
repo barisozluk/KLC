@@ -54,11 +54,155 @@
     <None Remove="Images\line.png" />
     <None Remove="Images\ring.png" />
     <None Remove="Images\star.png" />
+    <None Remove="log.config" />
+    <None Remove="SEMA-AYP-KK_v2.0_Kullanım Kılavuzu%28001%29.pdf" />
+    <None Remove="SembolKutuphanesi\Ağ Anahtarı-1.png" />
+    <None Remove="SembolKutuphanesi\Ağ Anahtarı-2.png" />
+    <None Remove="SembolKutuphanesi\Ağ Anahtarı-3.png" />
+    <None Remove="SembolKutuphanesi\Ağ Anahtarı.png" />
+    <None Remove="SembolKutuphanesi\Güç Kaynağı.png" />
+    <None Remove="SembolKutuphanesi\Güç Üreticisi..png" />
+    <None Remove="SembolKutuphanesi\Güç Üreticisi.png" />
+    <None Remove="SembolKutuphanesi\GüçKaynağı-1.png" />
+    <None Remove="SembolKutuphanesi\Kamera-1.png" />
+    <None Remove="SembolKutuphanesi\Kamera-10.png" />
+    <None Remove="SembolKutuphanesi\Kamera-11.png" />
+    <None Remove="SembolKutuphanesi\Kamera-12.png" />
+    <None Remove="SembolKutuphanesi\Kamera-14.png" />
+    <None Remove="SembolKutuphanesi\Kamera-15.png" />
+    <None Remove="SembolKutuphanesi\Kamera-16.png" />
+    <None Remove="SembolKutuphanesi\Kamera-17.png" />
+    <None Remove="SembolKutuphanesi\Kamera-18.png" />
+    <None Remove="SembolKutuphanesi\Kamera-19.png" />
+    <None Remove="SembolKutuphanesi\Kamera-2.png" />
+    <None Remove="SembolKutuphanesi\Kamera-3.png" />
+    <None Remove="SembolKutuphanesi\Kamera-4.png" />
+    <None Remove="SembolKutuphanesi\Kamera-5.png" />
+    <None Remove="SembolKutuphanesi\Kamera-6.png" />
+    <None Remove="SembolKutuphanesi\Kamera-7.png" />
+    <None Remove="SembolKutuphanesi\Kamera-8.png" />
+    <None Remove="SembolKutuphanesi\Kamera-9.png" />
+    <None Remove="SembolKutuphanesi\Kamera.png" />
+    <None Remove="SembolKutuphanesi\Kamra-13.png" />
+    <None Remove="SembolKutuphanesi\Radar-1.png" />
+    <None Remove="SembolKutuphanesi\Radar-2.png" />
+    <None Remove="SembolKutuphanesi\Radar-3.png" />
+    <None Remove="SembolKutuphanesi\Radar-4.png" />
+    <None Remove="SembolKutuphanesi\Radar.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="log.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzu\SEMA-AYP-KK_v2.0_Kullanım Kılavuzu%28001%29.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Ağ Anahtarı-1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Ağ Anahtarı-2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Ağ Anahtarı-3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Ağ Anahtarı.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Güç Kaynağı.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Güç Üreticisi..png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Güç Üreticisi.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\GüçKaynağı-1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Kamera-1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Kamera-10.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Kamera-11.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Kamera-12.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Kamera-14.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Kamera-15.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Kamera-16.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Kamera-17.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Kamera-18.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Kamera-19.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Kamera-2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Kamera-3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Kamera-4.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Kamera-5.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Kamera-6.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Kamera-7.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Kamera-8.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Kamera-9.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Kamera.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Kamra-13.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Radar-1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Radar-2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Radar-3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Radar-4.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SembolKutuphanesi\Radar.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="itext7.pdfhtml" Version="3.0.4" />
     <PackageReference Include="iTextSharp" Version="5.5.13.2" />
+    <PackageReference Include="log4net" Version="2.0.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.4">
@@ -95,7 +239,9 @@
     <Resource Include="Images\hata.png" />
     <Resource Include="Images\leftAlign.png" />
     <Resource Include="Images\middle.png" />
-    <Resource Include="Images\rapor-header.png" />
+    <Content Include="Images\rapor-header.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Images\rightAlign.png" />
     <Resource Include="Images\multipleSelect.png" />
     <Resource Include="Images\newProjectW.png" />
@@ -171,6 +317,12 @@
     <Compile Update="WithoutSavePopupWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="FodyWeavers.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

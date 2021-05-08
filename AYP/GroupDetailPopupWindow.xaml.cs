@@ -74,6 +74,7 @@ namespace AYP
                             connect.ToConnector = internalConnect.ToConnector;
                             connect.FromConnector.Connect = connect;
                             connect.AgYuku = internalConnect.AgYuku;
+                            connect.GucMiktari = internalConnect.GucMiktari;
                             connect.KabloKesitOnerisi = internalConnect.KabloKesitOnerisi;
                             connect.Uzunluk = internalConnect.Uzunluk;
                             connect.FromConnector.AgAkisList = internalConnect.FromConnector.AgAkisList;
@@ -93,6 +94,7 @@ namespace AYP
                             connect.ToConnector = input;
                             connect.FromConnector.Connect = connect;
                             connect.AgYuku = internalConnect.AgYuku;
+                            connect.GucMiktari = internalConnect.GucMiktari;
                             connect.KabloKesitOnerisi = internalConnect.KabloKesitOnerisi;
                             connect.Uzunluk = internalConnect.Uzunluk;
                             connect.FromConnector.AgAkisList = internalConnect.FromConnector.AgAkisList;

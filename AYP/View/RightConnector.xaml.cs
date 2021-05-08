@@ -17,6 +17,7 @@ using AYP.Helpers.Transformations;
 using AYP.Helpers.Enums;
 using AYP.Helpers.Extensions;
 using System.Collections.Generic;
+using AYP.Enums;
 
 namespace AYP.View
 {
@@ -125,16 +126,44 @@ namespace AYP.View
                 }
                 else
                 {
-                    AYP.Validations.Validation validation = new AYP.Validations.Validation();
-                    var valid = validation.ValidateDuringDrawStart(this.ViewModel.NodesCanvas, this.ViewModel);
+                    bool isConnectable = false;
 
-                    if (valid)
+                    if (this.ViewModel.NodesCanvas.MainWindow.gucWorkspaceSeciliMi && this.ViewModel.NodesCanvas.MainWindow.agWorkspaceSeciliMi)
                     {
-                        this.ViewModel.CommandConnectPointDrag.ExecuteWithSubscribe();
-                        DataObject data = new DataObject();
-                        data.SetData("Node", this.ViewModel.Node);
-                        DragDrop.DoDragDrop(this, data, DragDropEffects.Move);
-                        this.ViewModel.CommandCheckConnectPointDrop.ExecuteWithSubscribe();
+                        isConnectable = true;
+                    }
+                    else
+                    {
+                        if (this.ViewModel.NodesCanvas.MainWindow.gucWorkspaceSeciliMi)
+                        {
+                            if (this.ViewModel.TypeId == (int)TipEnum.GucUreticiGucArayuzu)
+                            {
+                                isConnectable = true;
+                            }
+                            else
+                            {
+                                isConnectable = false;
+                            }
+                        }
+                        else if (this.ViewModel.NodesCanvas.MainWindow.agWorkspaceSeciliMi)
+                        {
+                            isConnectable = true;
+                        }   
+                    }
+
+                    if (isConnectable)
+                    {
+                        AYP.Validations.Validation validation = new AYP.Validations.Validation();
+                        var valid = validation.ValidateDuringDrawStart(this.ViewModel.NodesCanvas, this.ViewModel);
+
+                        if (valid)
+                        {
+                            this.ViewModel.CommandConnectPointDrag.ExecuteWithSubscribe();
+                            DataObject data = new DataObject();
+                            data.SetData("Node", this.ViewModel.Node);
+                            DragDrop.DoDragDrop(this, data, DragDropEffects.Move);
+                            this.ViewModel.CommandCheckConnectPointDrop.ExecuteWithSubscribe();
+                        }
                     }
 
                     e.Handled = true;

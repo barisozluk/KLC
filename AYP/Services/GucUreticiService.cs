@@ -2,6 +2,7 @@
 using AYP.Entities;
 using AYP.Interfaces;
 using AYP.Models;
+using log4net;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,8 @@ namespace AYP.Services
 {
     public class GucUreticiService : IGucUreticiService
     {
+        private static readonly ILog log = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         private readonly AYPContext context;
         public GucUreticiService(AYPContext context)
         {
@@ -60,7 +63,7 @@ namespace AYP.Services
                 }
                 catch (Exception exception)
                 {
-
+                    log.Error("Güç üretici veritabanından getirilemedi. - " + exception.InnerException.Message);
                 }
             }
 
@@ -81,7 +84,7 @@ namespace AYP.Services
                 }
                 catch (Exception exception)
                 {
-
+                    log.Error("Güç üretici türü veritabanından getirilemedi. - " + exception.InnerException.Message);
                 }
             }
 
@@ -105,7 +108,7 @@ namespace AYP.Services
                 }
                 catch (Exception exception)
                 {
-
+                    log.Error("Güç üreticiler veritabanından getirilemedi. - " + exception.InnerException.Message);
                 }
             }
 
@@ -124,7 +127,7 @@ namespace AYP.Services
                 }
                 catch (Exception exception)
                 {
-
+                    log.Error("Güç üretici türleri veritabanından getirilemedi. - " + exception.InnerException.Message);
                 }
             }
 
@@ -157,7 +160,7 @@ namespace AYP.Services
                 }
                 catch (Exception exception)
                 {
-
+                    log.Error("Güç üretici güç arayüzleri veritabanından getirilemedi. - " + exception.InnerException.Message);
                 }
             }
 
@@ -224,6 +227,7 @@ namespace AYP.Services
                 {
                     context.Reset();
                     response.SetError(exception.Message);
+                    log.Error("Güç üretici veritabanına kaydedilemedi. - " + exception.InnerException.Message);
                     transaction.Rollback();
                 }
             }
@@ -300,6 +304,7 @@ namespace AYP.Services
                 {
                     context.Reset();
                     response.SetError(exception.Message);
+                    log.Error("Güç üretici veritabanında güncellenemedi. - " + exception.InnerException.Message);
                     transaction.Rollback();
                 }
             }
@@ -327,6 +332,7 @@ namespace AYP.Services
                 {
                     context.Reset();
                     response.SetError(exception.Message);
+                    log.Error("Güç üretici türü veritabanına kaydedilemedi. - " + exception.InnerException.Message);
                     transaction.Rollback();
                 }
             }
@@ -367,6 +373,7 @@ namespace AYP.Services
                 {
                     context.Reset();
                     response.SetError(exception.Message);
+                    log.Error("Güç üretici toplu güncelleme işlemi gerçekleştirilemedi. - " + exception.InnerException.Message);
                     transaction.Rollback();
                 }
             }
@@ -448,6 +455,7 @@ namespace AYP.Services
                 {
                     context.Reset();
                     transaction.Rollback();
+                    log.Error("Güç üretici kütüphanesi veritabanına aktarılamadı. - " + exception.InnerException?.Message);
                 }
             }
         }
