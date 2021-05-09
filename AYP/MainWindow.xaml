@@ -203,10 +203,15 @@
             </ScrollViewer>
         </StackPanel>
 
-        <Label x:Name="bilgiKartiLabel" Style="{DynamicResource StyleDeviceMainTitle}" Content="Bilgi Kartı" Grid.Column="5" Margin="10,826,0,0" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Button Style="{DynamicResource StyleAddDeviceButton}" Grid.Column="5" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,826,10,0" Click="BilgiKartiDetay_Click" >
+        <Label x:Name="bilgiKartiLabel" Style="{DynamicResource StyleBilgiKartiPaneliHeader}" Content="Bilgi Kartı" Grid.Column="5" Margin="10,826,0,0" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Button Style="{DynamicResource StyleAddDeviceButton}" Grid.Column="5" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,826,43,0" Click="BilgiKartiDetay_Click" >
             <Button.Content>
                 <Image Source="Images\edit.png" Height="15" Width="15" Margin="7,0,0,0"></Image>
+            </Button.Content>
+        </Button>
+        <Button Style="{DynamicResource StyleAddDeviceButton}" Grid.Column="5" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,826,5,0" Click="Delete_Click" >
+            <Button.Content>
+                <Image Source="Images\trash.png" Height="15" Width="15" Margin="7,0,0,0"></Image>
             </Button.Content>
         </Button>
         <!--<Rectangle Style="{DynamicResource StyleBilgiKartiPanel}" Grid.Row="1" Grid.Column="5" Margin="10,871,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" />-->
@@ -260,6 +265,7 @@
                     </ScrollViewer>
                 </Grid>
             </Expander>
+
             <Expander x:Name="e2" Header="Ağ Anahtarı" Grid.Row="1" Style="{DynamicResource StyleExpander2}" HorizontalAlignment="Left" Margin="0,0,0,5"  VerticalAlignment="Top" Expanded="e2_Expanded">
                 <Grid>
                     <ScrollViewer x:Name="sw5" Height="305" VerticalAlignment="Top" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,0,-6,0" Background="Transparent">
@@ -277,9 +283,11 @@
                                                 <RowDefinition Height="*" />
                                                 <RowDefinition Height="*" />
                                             </Grid.RowDefinitions>
-                                            <Button Background="Transparent" Style="{DynamicResource StyleCloseDescribingButton}" Width="100" Height="100" Tag="{Binding Id}" PreviewMouseDown="cihaz_MouseLeftButtonDown" Click="AgAnahtari_Click">
+                                            <Button x:Name="Hidden"  Background="Transparent" Style="{DynamicResource StyleCloseDescribingButton}" Width="100" Height="100" Tag="{Binding Id}" PreviewMouseDown="cihaz_MouseLeftButtonDown" Click="AgAnahtari_Click">
                                                 <Image Height="40" Width="40" Margin="25" Source="{Binding SembolSrc}" />
+                                                
                                             </Button>
+                                            
                                             <Label HorizontalAlignment="center"  Grid.Row="1" FontSize="11" Foreground="#ffffff" Content="{Binding Tanim}"/>
                                         </Grid>
                                     </DataTemplate>

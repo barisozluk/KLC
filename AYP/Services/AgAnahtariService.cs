@@ -26,6 +26,31 @@ namespace AYP.Services
             this.context = context;
         }
 
+        public ResponseModel DeleteAgAnahtari(AgAnahtari agAnahtari)
+        {
+            ResponseModel response = new ResponseModel();
+
+            using (var transaction = context.Database.BeginTransaction(IsolationLevel.ReadUncommitted))
+            {
+                try
+                {
+                    AgAnahtari d = context.AgAnahtari.Where(x => x.Id == agAnahtari.Id).FirstOrDefault();
+                    context.Remove(d);
+                    context.SaveChanges();
+                    response.SetSuccess();
+                    transaction.Commit();
+                }
+                catch (Exception exception)
+                {
+                    context.Reset();
+                    response.SetError(exception.Message);
+                    transaction.Rollback();
+                }
+            }
+
+            return response;
+        }
+
         public ResponseModel SaveAgAnahtariTur(AgAnahtariTur agAnahtariTur)
         {
             ResponseModel response = new ResponseModel();
