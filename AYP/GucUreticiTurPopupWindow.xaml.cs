@@ -23,8 +23,6 @@ namespace AYP
     /// </summary>
     public partial class GucUreticiTurPopupWindow : Window
     {
-        private AYPContext context;
-
         private IGucUreticiService service;
 
         GucUreticiTur gucUreticiTur;
@@ -33,8 +31,7 @@ namespace AYP
 
         public GucUreticiTurPopupWindow()
         {
-            this.context = new AYPContext();
-            service = new GucUreticiService(this.context);
+            service = new GucUreticiService();
             gucUreticiTur = new GucUreticiTur();
 
             InitializeComponent();

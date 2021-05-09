@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -25,9 +26,6 @@ namespace AYP
     /// </summary>
     public partial class GucUreticiPopupWindow : Window
     {
-
-        private AYPContext context;
-
         private IGucUreticiService service;
         private IKodListeService kodListeService;
 
@@ -40,11 +38,9 @@ namespace AYP
         public bool isEditMode = false;
         public bool fromNode = false;
 
-        MainWindow window;
-        public GucUreticiPopupWindow(GucUretici _gucUretici, bool fromNode, MainWindow mainWindow)
+        public GucUreticiPopupWindow(GucUretici _gucUretici, bool fromNode)
         {
             this.fromNode = fromNode;
-            this.window = mainWindow;
 
             gucArayuzu = new GucArayuzu();
             if (_gucUretici != null)
@@ -58,9 +54,8 @@ namespace AYP
                 isEditMode = false;
             }
 
-            this.context = new AYPContext();
-            service = new GucUreticiService(this.context);
-            kodListeService = new KodListeService(this.context);
+            service = new GucUreticiService();
+            kodListeService = new KodListeService();
             InitializeComponent();
             SetGucUreticiTurList();
             GucUreticiTab.DataContext = gucUretici;
@@ -475,15 +470,7 @@ namespace AYP
                 }
                 else
                 {
-                    if (fromNode)
-                    {
-                        response = service.UpdateGucUretici(gucUretici, new List<GucArayuzu>());
-                    }
-                    else
-                    {
-                        response = service.UpdateGucUretici(gucUretici, gucArayuzuList);
-
-                    }
+                    response = service.UpdateGucUretici(gucUretici, gucArayuzuList);
                 }
 
                 if (!response.HasError)
@@ -493,7 +480,7 @@ namespace AYP
                     nfp.Owner = Owner;
                     nfp.Show();
 
-                    window.ListGucUretici();
+                    (Owner as MainWindow).ListGucUretici();
                     ClosePopup();
                 }
                 else

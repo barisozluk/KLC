@@ -21,9 +21,7 @@ namespace AYP
     /// Interaction logic for UcBirimTurPopupWindow.xaml
     /// </summary>
     public partial class UcBirimTurPopupWindow : Window
-    {
-        private AYPContext context;
-        
+    {        
         private IUcBirimService service;
 
         UcBirimTur ucBirimTur;
@@ -33,8 +31,7 @@ namespace AYP
 
         public UcBirimTurPopupWindow()
         {
-            context = new AYPContext();
-            service = new UcBirimService(context);
+            service = new UcBirimService();
             ucBirimTur = new UcBirimTur();
 
             InitializeComponent();

@@ -27,8 +27,6 @@ namespace AYP
     /// </summary>
     public partial class UcBirimPopupWindow : Window
     {
-        private AYPContext context;
-
         private IUcBirimService service;
         private IKodListeService kodListeService;
 
@@ -62,9 +60,8 @@ namespace AYP
                 isEditMode = false;
             }
 
-            this.context = new AYPContext();
-            service = new UcBirimService(this.context);
-            kodListeService = new KodListeService(this.context);
+            service = new UcBirimService();
+            kodListeService = new KodListeService();
             InitializeComponent();
             SetUcBirimTurList();
             UcBirimTab.DataContext = ucBirim;
@@ -434,36 +431,28 @@ namespace AYP
                 }
                 else
                 {
-                    if (fromNode)
+                    int totalCount = 0;
+
+                    if (ucBirim.GirdiAgArayuzuSayisi.HasValue)
                     {
-                        response = service.UpdateUcBirim(ucBirim, new List<AgArayuzu>(), new List<GucArayuzu>());
+                        totalCount += ucBirim.GirdiAgArayuzuSayisi.Value;
+                    }
+                    if (ucBirim.CiktiAgArayuzuSayisi.HasValue)
+                    {
+                        totalCount += ucBirim.CiktiAgArayuzuSayisi.Value;
+                    }
+
+                    if (agArayuzuList.Count == totalCount)
+                    {
+                        response = service.UpdateUcBirim(ucBirim, agArayuzuList, gucArayuzuList);
                         OpenResponseModal(response);
                     }
                     else
                     {
-                        int totalCount = 0;
-
-                        if (ucBirim.GirdiAgArayuzuSayisi.HasValue)
-                        {
-                            totalCount += ucBirim.GirdiAgArayuzuSayisi.Value;
-                        }
-                        if (ucBirim.CiktiAgArayuzuSayisi.HasValue)
-                        {
-                            totalCount += ucBirim.CiktiAgArayuzuSayisi.Value;
-                        }
-
-                        if (agArayuzuList.Count == totalCount)
-                        {
-                            response = service.UpdateUcBirim(ucBirim, agArayuzuList, gucArayuzuList);
-                            OpenResponseModal(response);
-                        }
-                        else
-                        {
-                            NotifyInfoPopup nfp = new NotifyInfoPopup();
-                            nfp.msg.Text = "Lütfen, sayısını tanımladığınız bütün ağ arayüzleri için veri girişi yapınız!";
-                            nfp.Owner = Owner;
-                            nfp.Show();
-                        }
+                        NotifyInfoPopup nfp = new NotifyInfoPopup();
+                        nfp.msg.Text = "Lütfen, sayısını tanımladığınız bütün ağ arayüzleri için veri girişi yapınız!";
+                        nfp.Owner = Owner;
+                        nfp.Show();
                     }
                 }
             }
@@ -523,7 +512,7 @@ namespace AYP
                 }
                 else
                 {
-                    if(string.IsNullOrEmpty(GirdiAgArayuzuSayisi.Text) || Convert.ToInt32(GirdiAgArayuzuSayisi.Text) == 0)
+                    if (string.IsNullOrEmpty(GirdiAgArayuzuSayisi.Text) || Convert.ToInt32(GirdiAgArayuzuSayisi.Text) == 0)
                     {
                         GirdiAgArayuzuSayisi.BorderBrush = new SolidColorBrush(Colors.Red);
                     }
@@ -923,68 +912,68 @@ namespace AYP
         #region TableEvents
         private void ButtonAddAgArayuzu_Click(object sender, RoutedEventArgs e)
         {
-            
-                agArayuzu.TipId = (int)TipEnum.UcBirimAgArayuzu;
 
-                var validationContext = new ValidationContext(agArayuzu, null, null);
-                var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
+            agArayuzu.TipId = (int)TipEnum.UcBirimAgArayuzu;
 
-                if (Validator.TryValidateObject(agArayuzu, validationContext, results, true))
+            var validationContext = new ValidationContext(agArayuzu, null, null);
+            var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
+
+            if (Validator.TryValidateObject(agArayuzu, validationContext, results, true))
+            {
+                agArayuzu.KL_KullanimAmaci = agArayuzu.KullanimAmaciList.Where(kal => kal.Id == agArayuzu.KullanimAmaciId).FirstOrDefault();
+                agArayuzu.KL_Kapasite = agArayuzu.KapasiteList.Where(kl => kl.Id == agArayuzu.KapasiteId).FirstOrDefault();
+                agArayuzu.KL_FizikselOrtam = agArayuzu.FizikselOrtamList.Where(fo => fo.Id == agArayuzu.FizikselOrtamId).FirstOrDefault();
+
+                if (checkedAgArayuzuRow != null)
                 {
-                    agArayuzu.KL_KullanimAmaci = agArayuzu.KullanimAmaciList.Where(kal => kal.Id == agArayuzu.KullanimAmaciId).FirstOrDefault();
-                    agArayuzu.KL_Kapasite = agArayuzu.KapasiteList.Where(kl => kl.Id == agArayuzu.KapasiteId).FirstOrDefault();
-                    agArayuzu.KL_FizikselOrtam = agArayuzu.FizikselOrtamList.Where(fo => fo.Id == agArayuzu.FizikselOrtamId).FirstOrDefault();
+                    var ctx = checkedAgArayuzuRow.DataContext;
+                    var obj = (AgArayuzu)ctx;
+                    agArayuzuList.Remove(obj);
+                    checkedAgArayuzuRow = null;
+                }
 
-                    if (checkedAgArayuzuRow != null)
-                    {
-                        var ctx = checkedAgArayuzuRow.DataContext;
-                        var obj = (AgArayuzu)ctx;
-                        agArayuzuList.Remove(obj);
-                        checkedAgArayuzuRow = null;
-                    }
+                if (!agArayuzuList.Any(x => x.Port == agArayuzu.Port && x.KullanimAmaciId == agArayuzu.KullanimAmaciId))
+                {
+                    UcBirimAgArayuzDataGrid.ItemsSource = null;
 
-                    if (!agArayuzuList.Any(x => x.Port == agArayuzu.Port && x.KullanimAmaciId == agArayuzu.KullanimAmaciId))
-                    {
-                        UcBirimAgArayuzDataGrid.ItemsSource = null;
+                    agArayuzuList.Add(agArayuzu);
+                    UcBirimAgArayuzDataGrid.ItemsSource = agArayuzuList;
+                    UcBirimAgArayuzDataGrid.Visibility = Visibility.Visible;
+                    AgArayuzuNoDataRow.Visibility = Visibility.Hidden;
 
-                        agArayuzuList.Add(agArayuzu);
-                        UcBirimAgArayuzDataGrid.ItemsSource = agArayuzuList;
-                        UcBirimAgArayuzDataGrid.Visibility = Visibility.Visible;
-                        AgArayuzuNoDataRow.Visibility = Visibility.Hidden;
-
-                        AgArayuzuTab.DataContext = null;
-                        agArayuzu = new AgArayuzu();
-                        ListKapasite();
-                        ListFizikselOrtam();
-                        ListKullanimAmaciForAgArayuzu();
-                        AgArayuzuTab.DataContext = agArayuzu;
-                    }
-                    else
-                    {
-                        NotifyInfoPopup nfp = new NotifyInfoPopup();
-                        nfp.msg.Text = agArayuzu.KL_KullanimAmaci.Ad + " kullanım amacı ile " + agArayuzu.Port + " için veri girilmiştir"; ;
-                        nfp.Owner = Owner;
-                        nfp.Show();
-                    }
+                    AgArayuzuTab.DataContext = null;
+                    agArayuzu = new AgArayuzu();
+                    ListKapasite();
+                    ListFizikselOrtam();
+                    ListKullanimAmaciForAgArayuzu();
+                    AgArayuzuTab.DataContext = agArayuzu;
                 }
                 else
                 {
-                    foreach (var result in results)
+                    NotifyInfoPopup nfp = new NotifyInfoPopup();
+                    nfp.msg.Text = agArayuzu.KL_KullanimAmaci.Ad + " kullanım amacı ile " + agArayuzu.Port + " için veri girilmiştir"; ;
+                    nfp.Owner = Owner;
+                    nfp.Show();
+                }
+            }
+            else
+            {
+                foreach (var result in results)
+                {
+                    foreach (var memberName in result.MemberNames)
                     {
-                        foreach (var memberName in result.MemberNames)
+                        if (memberName == "Adi")
                         {
-                            if (memberName == "Adi")
-                            {
-                                AgArayuzuAdi.BorderBrush = new SolidColorBrush(Colors.Red);
-                            }
+                            AgArayuzuAdi.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
 
-                            if (memberName == "Port")
-                            {
-                                AgArayuzuPortList.BorderBrush = new SolidColorBrush(Colors.Red);
-                            }
+                        if (memberName == "Port")
+                        {
+                            AgArayuzuPortList.BorderBrush = new SolidColorBrush(Colors.Red);
                         }
                     }
                 }
+            }
         }
 
         private bool GirdiGucArayuzuValidation()

@@ -40,8 +40,7 @@ namespace AYP
             toplam = this.ucBirimAgArayuzu.AgAkisList.Select(s => s.Yuk).Sum();
 
             agAkis = new AgAkis();
-            this.context = new AYPContext();
-            kodListeService = new KodListeService(context);
+            kodListeService = new KodListeService();
             InitializeComponent();
 
             MainTitle.Content = "Ağ Akışı - " + toplam.ToString("0.##") + " Mbps";
@@ -69,7 +68,7 @@ namespace AYP
         #region WindowLoadedEvent
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            RemoveFromDogrulamaPaneli();
+            //RemoveFromDogrulamaPaneli();
         }
         #endregion
 
@@ -78,42 +77,14 @@ namespace AYP
         {
             this.ucBirimAgArayuzu.Connect.AgYuku = toplam;
 
-            if (toplam == 0)
-            {
-                AddToDogrulamaPaneli(ucBirimAgArayuzu.Node.Name + "/" + ucBirimAgArayuzu.Label + " için ağ akışı tanımlayınız!");
-            }
+            //if (toplam == 0)
+            //{
+            //    AddToDogrulamaPaneli(ucBirimAgArayuzu.Node.Name + "/" + ucBirimAgArayuzu.Label + " için ağ akışı tanımlayınız!");
+            //}
 
             Close();
             Owner.IsEnabled = true;
             Owner.Effect = null;
-        }
-
-        private void AddToDogrulamaPaneli(string mesaj)
-        {
-            DogrulamaModel dogrulama = new DogrulamaModel();
-            dogrulama.Mesaj = mesaj;
-            dogrulama.MesajTipi = "AgAkis";
-            dogrulama.Connector = ucBirimAgArayuzu;
-            (Owner as MainWindow).DogrulamaDataGrid.Items.Add(dogrulama);
-        }
-
-        private void RemoveFromDogrulamaPaneli()
-        {
-            if ((Owner as MainWindow).DogrulamaDataGrid.Items.Count > 0)
-            {
-                DogrulamaModel deletedObj = null;
-
-                foreach (var item in (Owner as MainWindow).DogrulamaDataGrid.Items)
-                {
-                    if ((item as DogrulamaModel).Connector == ucBirimAgArayuzu || (item as DogrulamaModel).MesajTipi == "AgAkis")
-                    {
-                        deletedObj = (item as DogrulamaModel);
-                        break;
-                    }
-                }
-
-                (Owner as MainWindow).DogrulamaDataGrid.Items.Remove(deletedObj);
-            }
         }
 
         private void ButtonUcBirimAgAkisPopupClose_Click(object sender, RoutedEventArgs e)

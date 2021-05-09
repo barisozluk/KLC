@@ -3,6 +3,7 @@ using AYP.Entities;
 using AYP.Enums;
 using AYP.Helpers.Notifications;
 using AYP.Interfaces;
+using AYP.Models;
 using AYP.Services;
 using System;
 using System.Collections.Generic;
@@ -36,34 +37,50 @@ namespace AYP
             this.selectedItem = selectedItem;
             this.selectedTipId = selectedTipId;
 
-            context = new AYPContext();
-            agAnahtariService = new AgAnahtariService(context);
-            ucBirimService = new UcBirimService(context);
-            gucUreticiService = new GucUreticiService(context);
+            agAnahtariService = new AgAnahtariService();
+            ucBirimService = new UcBirimService();
+            gucUreticiService = new GucUreticiService();
 
             InitializeComponent();
         }
         
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
+            var response = new ResponseModel();
+
             if (selectedTipId == (int)TipEnum.AgAnahtari)
             {
-                agAnahtariService.DeleteAgAnahtari((AgAnahtari)selectedItem);
+                response = agAnahtariService.DeleteAgAnahtari((AgAnahtari)selectedItem);
                 (Owner as MainWindow).ListAgAnahtari();
             }
             if (selectedTipId == (int)TipEnum.UcBirim)
             {
-                ucBirimService.DeleteUcBirim((UcBirim)selectedItem);
+                response = ucBirimService.DeleteUcBirim((UcBirim)selectedItem);
                 (Owner as MainWindow).ListUcBirim();
 
             }
             if (selectedTipId == (int)TipEnum.GucUretici)
             {
-                gucUreticiService.DeleteGucUretici((GucUretici)selectedItem);
+                response = gucUreticiService.DeleteGucUretici((GucUretici)selectedItem);
                 (Owner as MainWindow).ListGucUretici();
             }
 
-            ClosePopup();
+            if (!response.HasError)
+            {
+                NotifySuccessPopup nfp = new NotifySuccessPopup();
+                nfp.msg.Text = response.Message;
+                nfp.Owner = Owner;
+                nfp.Show();
+
+                ClosePopup();
+            }
+            else
+            {
+                NotifyWarningPopup nfp = new NotifyWarningPopup();
+                nfp.msg.Text = response.Message;
+                nfp.Owner = Owner;
+                nfp.Show();
+            }
         }
 
         private void DenyButton_Click(object sender, RoutedEventArgs e)

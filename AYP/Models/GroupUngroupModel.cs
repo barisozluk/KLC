@@ -322,18 +322,17 @@ namespace AYP.Models
                             int kapasiteId = Convert.ToInt32(agArayuzu.Attribute("KapasiteId")?.Value);
                             int tipId = Convert.ToInt32(agArayuzu.Attribute("TipId")?.Value);
 
-                            using (AYPContext context = new AYPContext())
-                            {
-                                IKodListeService service = new KodListeService(context);
-                                item.Adi = adi;
-                                item.Id = itemId;
-                                item.FizikselOrtamId = fizikselOrtamId;
-                                item.KapasiteId = kapasiteId;
-                                item.KL_Kapasite = service.GetKapasiteById(kapasiteId);
-                                item.KullanimAmaciId = kullanimAmaciId;
-                                item.Port = port;
-                                item.TipId = tipId;
-                            }
+
+                            IKodListeService service = new KodListeService();
+                            item.Adi = adi;
+                            item.Id = itemId;
+                            item.FizikselOrtamId = fizikselOrtamId;
+                            item.KapasiteId = kapasiteId;
+                            item.KL_Kapasite = service.GetKapasiteById(kapasiteId);
+                            item.KullanimAmaciId = kullanimAmaciId;
+                            item.Port = port;
+                            item.TipId = tipId;
+
 
                             agArayuzuList.Add(item);
                         }
@@ -428,18 +427,17 @@ namespace AYP.Models
                     int kapasiteId = Convert.ToInt32(GroupAgArayuzu.Attribute("KapasiteId")?.Value);
                     int tipId = Convert.ToInt32(GroupAgArayuzu.Attribute("TipId")?.Value);
 
-                    using (AYPContext context = new AYPContext())
-                    {
-                        IKodListeService service = new KodListeService(context);
-                        agArayuzu.Adi = adi;
-                        agArayuzu.Id = itemId;
-                        agArayuzu.FizikselOrtamId = fizikselOrtamId;
-                        agArayuzu.KapasiteId = kapasiteId;
-                        agArayuzu.KL_Kapasite = service.GetKapasiteById(kapasiteId);
-                        agArayuzu.KullanimAmaciId = kullanimAmaciId;
-                        agArayuzu.Port = port;
-                        agArayuzu.TipId = tipId;
-                    }
+
+                    IKodListeService service = new KodListeService();
+                    agArayuzu.Adi = adi;
+                    agArayuzu.Id = itemId;
+                    agArayuzu.FizikselOrtamId = fizikselOrtamId;
+                    agArayuzu.KapasiteId = kapasiteId;
+                    agArayuzu.KL_Kapasite = service.GetKapasiteById(kapasiteId);
+                    agArayuzu.KullanimAmaciId = kullanimAmaciId;
+                    agArayuzu.Port = port;
+                    agArayuzu.TipId = tipId;
+
 
                     viewModelGroup.AgArayuzuList.Add(agArayuzu);
                 }
@@ -489,50 +487,49 @@ namespace AYP.Models
                     viewModelConnect.Point2 = point2;
                     fromConnector.Connect = viewModelConnect;
 
-                    using (AYPContext context = new AYPContext())
+
+                    IKodListeService service = new KodListeService();
+
+                    var AgAkislari = stateMachineXElement.Element("GroupNodeAgAkislari")?.Elements()?.ToList() ?? new List<XElement>();
+                    foreach (var agAkis in AgAkislari)
                     {
-                        IKodListeService service = new KodListeService(context);
-
-                        var AgAkislari = stateMachineXElement.Element("GroupNodeAgAkislari")?.Elements()?.ToList() ?? new List<XElement>();
-                        foreach (var agAkis in AgAkislari)
+                        if (new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value) == fromConnector.UniqueId)
                         {
-                            if (new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value) == fromConnector.UniqueId)
+                            var agAkisItem = new AgAkis();
+                            agAkisItem.Id = new Guid(agAkis.Attribute("UniqueId")?.Value);
+                            agAkisItem.AgAkisProtokoluId = Convert.ToInt32(agAkis.Attribute("AgAkisProtokoluId")?.Value);
+                            agAkisItem.AgAkisTipiId = Convert.ToInt32(agAkis.Attribute("AgAkisTipiId")?.Value);
+                            agAkisItem.AgAkisTipiAdi = service.ListAgAkisTipi().Where(x => x.Id == agAkisItem.AgAkisTipiId).Select(s => s.Ad).FirstOrDefault();
+                            agAkisItem.AgAkisProtokoluAdi = service.ListAgAkisProtokolu().Where(x => x.Id == agAkisItem.AgAkisProtokoluId).Select(s => s.Ad).FirstOrDefault();
+                            agAkisItem.AgArayuzuId = new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value);
+                            if (agAkis.Attribute("IliskiliAgArayuzuUniqueId")?.Value == null)
                             {
-                                var agAkisItem = new AgAkis();
-                                agAkisItem.Id = new Guid(agAkis.Attribute("UniqueId")?.Value);
-                                agAkisItem.AgAkisProtokoluId = Convert.ToInt32(agAkis.Attribute("AgAkisProtokoluId")?.Value);
-                                agAkisItem.AgAkisTipiId = Convert.ToInt32(agAkis.Attribute("AgAkisTipiId")?.Value);
-                                agAkisItem.AgAkisTipiAdi = service.ListAgAkisTipi().Where(x => x.Id == agAkisItem.AgAkisTipiId).Select(s => s.Ad).FirstOrDefault();
-                                agAkisItem.AgAkisProtokoluAdi = service.ListAgAkisProtokolu().Where(x => x.Id == agAkisItem.AgAkisProtokoluId).Select(s => s.Ad).FirstOrDefault();
-                                agAkisItem.AgArayuzuId = new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value);
-                                if (agAkis.Attribute("IliskiliAgArayuzuUniqueId")?.Value == null)
-                                {
-                                    agAkisItem.IliskiliAgArayuzuId = null;
-                                }
-                                else
-                                {
-                                    agAkisItem.IliskiliAgArayuzuId = new Guid(agAkis.Attribute("IliskiliAgArayuzuUniqueId")?.Value);
-                                    agAkisItem.IliskiliAgArayuzuAdi = fromConnector.Node.InputList.Where(x => x.UniqueId == agAkisItem.IliskiliAgArayuzuId).Select(s => s.Label).FirstOrDefault();
-                                }
-                                agAkisItem.Yuk = Convert.ToDecimal(agAkis.Attribute("Yuk")?.Value);
-                                fromConnector.AgAkisList.Add(agAkisItem);
-                            }
-                            else if (new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value) == toConnector.UniqueId)
-                            {
-                                var agAkisItem = new AgAkis();
-                                agAkisItem.Id = new Guid(agAkis.Attribute("UniqueId")?.Value);
-                                agAkisItem.AgAkisProtokoluId = Convert.ToInt32(agAkis.Attribute("AgAkisProtokoluId")?.Value);
-                                agAkisItem.AgAkisTipiId = Convert.ToInt32(agAkis.Attribute("AgAkisTipiId")?.Value);
-                                agAkisItem.AgAkisTipiAdi = service.ListAgAkisTipi().Where(x => x.Id == agAkisItem.AgAkisTipiId).Select(s => s.Ad).FirstOrDefault();
-                                agAkisItem.AgAkisProtokoluAdi = service.ListAgAkisProtokolu().Where(x => x.Id == agAkisItem.AgAkisProtokoluId).Select(s => s.Ad).FirstOrDefault();
-                                agAkisItem.AgArayuzuId = new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value);
                                 agAkisItem.IliskiliAgArayuzuId = null;
-
-                                agAkisItem.Yuk = Convert.ToDecimal(agAkis.Attribute("Yuk")?.Value);
-                                toConnector.AgAkisList.Add(agAkisItem);
                             }
+                            else
+                            {
+                                agAkisItem.IliskiliAgArayuzuId = new Guid(agAkis.Attribute("IliskiliAgArayuzuUniqueId")?.Value);
+                                agAkisItem.IliskiliAgArayuzuAdi = fromConnector.Node.InputList.Where(x => x.UniqueId == agAkisItem.IliskiliAgArayuzuId).Select(s => s.Label).FirstOrDefault();
+                            }
+                            agAkisItem.Yuk = Convert.ToDecimal(agAkis.Attribute("Yuk")?.Value);
+                            fromConnector.AgAkisList.Add(agAkisItem);
+                        }
+                        else if (new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value) == toConnector.UniqueId)
+                        {
+                            var agAkisItem = new AgAkis();
+                            agAkisItem.Id = new Guid(agAkis.Attribute("UniqueId")?.Value);
+                            agAkisItem.AgAkisProtokoluId = Convert.ToInt32(agAkis.Attribute("AgAkisProtokoluId")?.Value);
+                            agAkisItem.AgAkisTipiId = Convert.ToInt32(agAkis.Attribute("AgAkisTipiId")?.Value);
+                            agAkisItem.AgAkisTipiAdi = service.ListAgAkisTipi().Where(x => x.Id == agAkisItem.AgAkisTipiId).Select(s => s.Ad).FirstOrDefault();
+                            agAkisItem.AgAkisProtokoluAdi = service.ListAgAkisProtokolu().Where(x => x.Id == agAkisItem.AgAkisProtokoluId).Select(s => s.Ad).FirstOrDefault();
+                            agAkisItem.AgArayuzuId = new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value);
+                            agAkisItem.IliskiliAgArayuzuId = null;
+
+                            agAkisItem.Yuk = Convert.ToDecimal(agAkis.Attribute("Yuk")?.Value);
+                            toConnector.AgAkisList.Add(agAkisItem);
                         }
                     }
+
 
                     viewModelGroup.InternalConnectList.Add(viewModelConnect);
                 }
@@ -606,52 +603,50 @@ namespace AYP.Models
                         viewModelConnect.Point2 = point2;
                         fromConnector.Connect = viewModelConnect;
                     }
-                    
 
-                    using (AYPContext context = new AYPContext())
+
+                    IKodListeService service = new KodListeService();
+
+                    var AgAkislari = stateMachineXElement.Element("GroupNodeAgAkislari")?.Elements()?.ToList() ?? new List<XElement>();
+                    foreach (var agAkis in AgAkislari)
                     {
-                        IKodListeService service = new KodListeService(context);
-
-                        var AgAkislari = stateMachineXElement.Element("GroupNodeAgAkislari")?.Elements()?.ToList() ?? new List<XElement>();
-                        foreach (var agAkis in AgAkislari)
+                        if (new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value) == fromConnector.UniqueId)
                         {
-                            if (new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value) == fromConnector.UniqueId)
+                            var agAkisItem = new AgAkis();
+                            agAkisItem.Id = new Guid(agAkis.Attribute("UniqueId")?.Value);
+                            agAkisItem.AgAkisProtokoluId = Convert.ToInt32(agAkis.Attribute("AgAkisProtokoluId")?.Value);
+                            agAkisItem.AgAkisTipiId = Convert.ToInt32(agAkis.Attribute("AgAkisTipiId")?.Value);
+                            agAkisItem.AgAkisTipiAdi = service.ListAgAkisTipi().Where(x => x.Id == agAkisItem.AgAkisTipiId).Select(s => s.Ad).FirstOrDefault();
+                            agAkisItem.AgAkisProtokoluAdi = service.ListAgAkisProtokolu().Where(x => x.Id == agAkisItem.AgAkisProtokoluId).Select(s => s.Ad).FirstOrDefault();
+                            agAkisItem.AgArayuzuId = new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value);
+                            if (agAkis.Attribute("IliskiliAgArayuzuUniqueId")?.Value == null)
                             {
-                                var agAkisItem = new AgAkis();
-                                agAkisItem.Id = new Guid(agAkis.Attribute("UniqueId")?.Value);
-                                agAkisItem.AgAkisProtokoluId = Convert.ToInt32(agAkis.Attribute("AgAkisProtokoluId")?.Value);
-                                agAkisItem.AgAkisTipiId = Convert.ToInt32(agAkis.Attribute("AgAkisTipiId")?.Value);
-                                agAkisItem.AgAkisTipiAdi = service.ListAgAkisTipi().Where(x => x.Id == agAkisItem.AgAkisTipiId).Select(s => s.Ad).FirstOrDefault();
-                                agAkisItem.AgAkisProtokoluAdi = service.ListAgAkisProtokolu().Where(x => x.Id == agAkisItem.AgAkisProtokoluId).Select(s => s.Ad).FirstOrDefault();
-                                agAkisItem.AgArayuzuId = new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value);
-                                if (agAkis.Attribute("IliskiliAgArayuzuUniqueId")?.Value == null)
-                                {
-                                    agAkisItem.IliskiliAgArayuzuId = null;
-                                }
-                                else
-                                {
-                                    agAkisItem.IliskiliAgArayuzuId = new Guid(agAkis.Attribute("IliskiliAgArayuzuUniqueId")?.Value);
-                                    agAkisItem.IliskiliAgArayuzuAdi = fromConnector.Node.InputList.Where(x => x.UniqueId == agAkisItem.IliskiliAgArayuzuId).Select(s => s.Label).FirstOrDefault();
-                                }
-                                agAkisItem.Yuk = Convert.ToDecimal(agAkis.Attribute("Yuk")?.Value);
-                                fromConnector.AgAkisList.Add(agAkisItem);
-                            }
-                            else if (new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value) == toConnector.UniqueId)
-                            {
-                                var agAkisItem = new AgAkis();
-                                agAkisItem.Id = new Guid(agAkis.Attribute("UniqueId")?.Value);
-                                agAkisItem.AgAkisProtokoluId = Convert.ToInt32(agAkis.Attribute("AgAkisProtokoluId")?.Value);
-                                agAkisItem.AgAkisTipiId = Convert.ToInt32(agAkis.Attribute("AgAkisTipiId")?.Value);
-                                agAkisItem.AgAkisTipiAdi = service.ListAgAkisTipi().Where(x => x.Id == agAkisItem.AgAkisTipiId).Select(s => s.Ad).FirstOrDefault();
-                                agAkisItem.AgAkisProtokoluAdi = service.ListAgAkisProtokolu().Where(x => x.Id == agAkisItem.AgAkisProtokoluId).Select(s => s.Ad).FirstOrDefault();
-                                agAkisItem.AgArayuzuId = new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value);
                                 agAkisItem.IliskiliAgArayuzuId = null;
-
-                                agAkisItem.Yuk = Convert.ToDecimal(agAkis.Attribute("Yuk")?.Value);
-                                toConnector.AgAkisList.Add(agAkisItem);
                             }
+                            else
+                            {
+                                agAkisItem.IliskiliAgArayuzuId = new Guid(agAkis.Attribute("IliskiliAgArayuzuUniqueId")?.Value);
+                                agAkisItem.IliskiliAgArayuzuAdi = fromConnector.Node.InputList.Where(x => x.UniqueId == agAkisItem.IliskiliAgArayuzuId).Select(s => s.Label).FirstOrDefault();
+                            }
+                            agAkisItem.Yuk = Convert.ToDecimal(agAkis.Attribute("Yuk")?.Value);
+                            fromConnector.AgAkisList.Add(agAkisItem);
+                        }
+                        else if (new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value) == toConnector.UniqueId)
+                        {
+                            var agAkisItem = new AgAkis();
+                            agAkisItem.Id = new Guid(agAkis.Attribute("UniqueId")?.Value);
+                            agAkisItem.AgAkisProtokoluId = Convert.ToInt32(agAkis.Attribute("AgAkisProtokoluId")?.Value);
+                            agAkisItem.AgAkisTipiId = Convert.ToInt32(agAkis.Attribute("AgAkisTipiId")?.Value);
+                            agAkisItem.AgAkisTipiAdi = service.ListAgAkisTipi().Where(x => x.Id == agAkisItem.AgAkisTipiId).Select(s => s.Ad).FirstOrDefault();
+                            agAkisItem.AgAkisProtokoluAdi = service.ListAgAkisProtokolu().Where(x => x.Id == agAkisItem.AgAkisProtokoluId).Select(s => s.Ad).FirstOrDefault();
+                            agAkisItem.AgArayuzuId = new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value);
+                            agAkisItem.IliskiliAgArayuzuId = null;
+
+                            agAkisItem.Yuk = Convert.ToDecimal(agAkis.Attribute("Yuk")?.Value);
+                            toConnector.AgAkisList.Add(agAkisItem);
                         }
                     }
+
 
                     viewModelGroup.ExternalConnectList.Add(viewModelConnect);
                 }

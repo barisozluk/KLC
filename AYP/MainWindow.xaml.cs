@@ -73,10 +73,9 @@ namespace AYP
         }
         #endregion ViewModel
 
-        private readonly IUcBirimService ucBirimService;
-        private readonly IAgAnahtariService agAnahtariService;
-        private readonly IGucUreticiService gucUreticiService;
-        private readonly AYPContext context;
+        private IUcBirimService ucBirimService;
+        private IAgAnahtariService agAnahtariService;
+        private IGucUreticiService gucUreticiService;
 
         public MainWindow()
         {
@@ -92,10 +91,9 @@ namespace AYP
             GucPlanlamaCheckBox.IsChecked = gucWorkspaceSeciliMi;
             AgPlanlamaCheckbox.IsChecked = agWorkspaceSeciliMi;
 
-            context = new AYPContext();
-            ucBirimService = new UcBirimService(context);
-            agAnahtariService = new AgAnahtariService(context);
-            gucUreticiService = new GucUreticiService(context);
+            ucBirimService = new UcBirimService();
+            agAnahtariService = new AgAnahtariService();
+            gucUreticiService = new GucUreticiService();
 
             ListUcBirim();
             ListAgAnahtari();
@@ -486,7 +484,7 @@ namespace AYP
             blur.Radius = 2;
             this.Effect = blur;
 
-            GucUreticiPopupWindow popup = new GucUreticiPopupWindow(null, fromNode, this);
+            GucUreticiPopupWindow popup = new GucUreticiPopupWindow(null, fromNode);
             popup.Owner = this;
             popup.ShowDialog();
         }
@@ -623,7 +621,7 @@ namespace AYP
                 blur.Radius = 2;
                 this.Effect = blur;
 
-                GucUreticiPopupWindow popup = new GucUreticiPopupWindow(selectedGucUretici, fromNode, this);
+                GucUreticiPopupWindow popup = new GucUreticiPopupWindow(selectedGucUretici, fromNode);
                 popup.Owner = this;
                 popup.ShowDialog();
             }
@@ -1285,34 +1283,49 @@ namespace AYP
         #endregion
 
         #region DogrulamaPaneliEvents
-        private void OpenAgAkisPanel(object sender, MouseButtonEventArgs e)
+
+        private void OnValidateButtonClick(object sender, RoutedEventArgs e)
         {
-            var context = (sender as Label).DataContext;
-            var obj = (context as DogrulamaModel);
+            DogrulamaDataGrid.Items.Clear();
 
-            this.IsEnabled = false;
-            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
-            blur.Radius = 2;
-            this.Effect = blur;
+            var nodesCanvas = this.ViewModel.NodesCanvas;
 
-            if (obj.MesajTipi == "AgAkis")
+            foreach(var connect in nodesCanvas.Connects)
             {
-                if (obj.Connector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
+                
+                if(connect.Uzunluk == 0)
                 {
-                    AgAnahtariAgAkisPopupWindow popup = new AgAnahtariAgAkisPopupWindow(obj.Connector);
-                    popup.Owner = this;
-                    popup.ShowDialog();
+                    AddToDogrulamaPaneli(connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için kablo boyu tanımlayınız!", (int)DogrulamaMesajTipiEnum.Kablo, connect.FromConnector.UniqueId);
                 }
-                else if (obj.Connector.TypeId == (int)TipEnum.UcBirimAgArayuzu)
+
+                if (connect.AgYuku == 0)
                 {
-                    UcBirimAgAkisPopupWindow popup = new UcBirimAgAkisPopupWindow(obj.Connector);
-                    popup.Owner = this;
-                    popup.ShowDialog();
+                    AddToDogrulamaPaneli(connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için ağ akışı tanımlayınız!", (int)DogrulamaMesajTipiEnum.AgAkis, connect.FromConnector.UniqueId);
+                }
+                else
+                {
+                    if(connect.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu && connect.ToConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
+                    {
+                        if(connect.FromConnector.AgAkisList.Select(s => s.Yuk).Sum() != connect.ToConnector.AgAkisList.Select(s => s.Yuk).Sum())
+                        {
+                            AddToDogrulamaPaneli(connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için giren, çıkan yük eşit değil!", (int)DogrulamaMesajTipiEnum.AgAkis, connect.FromConnector.UniqueId);
+                        }
+                    }
                 }
             }
         }
-        #endregion
 
+        private void AddToDogrulamaPaneli(string mesaj, int mesajTipi, Guid connectorId)
+        {
+            DogrulamaModel model = new DogrulamaModel();
+            model.ConnectorId = connectorId;
+            model.Mesaj = mesaj;
+            model.MesajTipi = mesajTipi;
+
+            DogrulamaDataGrid.Items.Add(model);
+        }
+
+        #endregion
 
         #region Delete Events
 
@@ -1344,6 +1357,6 @@ namespace AYP
             }
         }
         #endregion
-    }
 
+    }
 }

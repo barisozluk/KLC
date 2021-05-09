@@ -25,17 +25,15 @@ namespace AYP
     {
 
         private string fileName;
-        AYPContext context;
         IUcBirimService ucBirimService;
         IAgAnahtariService agAnahtariService;
         IGucUreticiService gucUreticiService;
 
         public ImportLibraryPopupWindow()
         {
-            context = new AYPContext();
-            ucBirimService = new UcBirimService(context);
-            agAnahtariService = new AgAnahtariService(context);
-            gucUreticiService = new GucUreticiService(context);
+            ucBirimService = new UcBirimService();
+            agAnahtariService = new AgAnahtariService();
+            gucUreticiService = new GucUreticiService();
 
             InitializeComponent();
         }

@@ -16,7 +16,6 @@ namespace AYP
     /// </summary>
     public partial class AgAnahtariTurPopupWindow : Window
     {
-        private AYPContext context;
 
         private IAgAnahtariService service;
 
@@ -26,8 +25,7 @@ namespace AYP
 
         public AgAnahtariTurPopupWindow()
         {
-            this.context = new AYPContext();
-            service = new AgAnahtariService(this.context);
+            service = new AgAnahtariService();
             agAnahtariTur = new AgAnahtariTur();
 
             InitializeComponent();

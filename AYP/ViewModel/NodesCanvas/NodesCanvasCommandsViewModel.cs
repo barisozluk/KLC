@@ -278,16 +278,13 @@ namespace AYP.ViewModel
                 }
                 else
                 {
-                    using (AYPContext context = new AYPContext())
-                    {
-                        IAgAnahtariService service = new AgAnahtariService(context);
-                        var agAnahtari = service.GetAgAnahtariById(node.Id);
+                    IAgAnahtariService service = new AgAnahtariService();
+                    var agAnahtari = service.GetAgAnahtariById(node.Id);
 
-                        if (agAnahtari.AgAnahtariTur.Ad == "Omurga" || agAnahtari.AgAnahtariTur.Ad == "Toplama")
-                        {
-                            omurgaVeyaToplamaSayisi++;
-                            omurgaToplamaUniqueId = node.UniqueId;
-                        }
+                    if (agAnahtari.AgAnahtariTur.Ad == "Omurga" || agAnahtari.AgAnahtariTur.Ad == "Toplama")
+                    {
+                        omurgaVeyaToplamaSayisi++;
+                        omurgaToplamaUniqueId = node.UniqueId;
                     }
                 }
             }
@@ -396,8 +393,6 @@ namespace AYP.ViewModel
                                 var connect = connects.Where(k => k.ToConnector.Node == nextNode).FirstOrDefault();
                                 connect.FromConnector.Connect = connect;
                                 CommandAddConnect.ExecuteWithSubscribe(connect);
-
-                                AddToDogrulamaPaneli(connect.FromConnector, connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için ağ akışı tanımlayınız!");
                             }
                             count++;
                         }
@@ -430,16 +425,13 @@ namespace AYP.ViewModel
                 }
                 else
                 {
-                    using (AYPContext context = new AYPContext())
-                    {
-                        IAgAnahtariService service = new AgAnahtariService(context);
-                        var agAnahtari = service.GetAgAnahtariById(node.Id);
+                    IAgAnahtariService service = new AgAnahtariService();
+                    var agAnahtari = service.GetAgAnahtariById(node.Id);
 
-                        if (agAnahtari.AgAnahtariTur.Ad == "Omurga" || agAnahtari.AgAnahtariTur.Ad == "Toplama")
-                        {
-                            omurgaVeyaToplamaSayisi++;
-                            omurgaToplamaUniqueId = node.UniqueId;
-                        }
+                    if (agAnahtari.AgAnahtariTur.Ad == "Omurga" || agAnahtari.AgAnahtariTur.Ad == "Toplama")
+                    {
+                        omurgaVeyaToplamaSayisi++;
+                        omurgaToplamaUniqueId = node.UniqueId;
                     }
                 }
             }
@@ -566,8 +558,6 @@ namespace AYP.ViewModel
                                 var connect = connects.Where(k => k.ToConnector.Node == nextNode).FirstOrDefault();
                                 connect.FromConnector.Connect = connect;
                                 CommandAddConnect.ExecuteWithSubscribe(connect);
-
-                                AddToDogrulamaPaneli(connect.FromConnector, connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için ağ akışı tanımlayınız!");
                             }
                             else
                             {
@@ -577,8 +567,6 @@ namespace AYP.ViewModel
                                 var connect = connects.Where(k => k.ToConnector.Node == nextNode).FirstOrDefault();
                                 connect.FromConnector.Connect = connect;
                                 CommandAddConnect.ExecuteWithSubscribe(connect);
-
-                                AddToDogrulamaPaneli(connect.FromConnector, connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için ağ akışı tanımlayınız!");
                             }
 
                             count++;
@@ -649,16 +637,13 @@ namespace AYP.ViewModel
                 {
                     if (node.TypeId == (int)TipEnum.AgAnahtari)
                     {
-                        using (AYPContext context = new AYPContext())
-                        {
-                            IAgAnahtariService service = new AgAnahtariService(context);
-                            var agAnahtari = service.GetAgAnahtariById(node.Id);
+                        IAgAnahtariService service = new AgAnahtariService();
+                        var agAnahtari = service.GetAgAnahtariById(node.Id);
 
-                            if (agAnahtari.AgAnahtariTur.Ad == "Omurga" || agAnahtari.AgAnahtariTur.Ad == "Toplama")
-                            {
-                                omurgaVeyaToplamaSayisi++;
-                                omurgaToplamaUniqueId = node.UniqueId;
-                            }
+                        if (agAnahtari.AgAnahtariTur.Ad == "Omurga" || agAnahtari.AgAnahtariTur.Ad == "Toplama")
+                        {
+                            omurgaVeyaToplamaSayisi++;
+                            omurgaToplamaUniqueId = node.UniqueId;
                         }
                     }
                     else
@@ -786,10 +771,6 @@ namespace AYP.ViewModel
                                             }
                                         }
                                     }
-                                    //else
-                                    //{
-                                    //    AddToDogrulamaPaneli(connect.FromConnector, connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için ağ akışı tanımlayınız!");
-                                    //}
 
                                     count++;
                                 }
@@ -936,14 +917,6 @@ namespace AYP.ViewModel
                     }
 
                     output.Connect.AgYuku = output.AgAkisList.Select(s => s.Yuk).Sum();
-
-                    if (output.Connect.AgYuku == 0 && output.Node.TypeId != (int)TipEnum.Group)
-                    {
-                        DogrulamaModel dogrulama = new DogrulamaModel();
-                        dogrulama.Mesaj = output.Connect.FromConnector.Node.Name + "/" + output.Connect.FromConnector.Label + " için ağ akışı tanımlayınız!";
-                        dogrulama.Connector = output.Connect.FromConnector;
-                        connect.NodesCanvas.MainWindow.DogrulamaDataGrid.Items.Add(dogrulama);
-                    }
                 }
             }
 
@@ -1207,12 +1180,10 @@ namespace AYP.ViewModel
                         if (nodeList.Contains(connect.FromConnector.Node) && nodeList.Contains(connect.ToConnector.Node))
                         {
                             internalConnectList.Add(connect);
-                            RemoveFromDogrulamaPaneli(connect.FromConnector);
                         }
                         else
                         {
                             externalConnectList.Add(connect);
-                            RemoveFromDogrulamaPaneli(connect.FromConnector);
                         }
                     }
                 }
@@ -1235,8 +1206,7 @@ namespace AYP.ViewModel
                     model.AgArayuzuList = new List<AgArayuzu>();
                     model.GucArayuzuList = new List<GucArayuzu>();
 
-                    AYPContext context = new AYPContext();
-                    IKodListeService service = new KodListeService(context);
+                    IKodListeService service = new KodListeService();
 
                     foreach (var externalConnect in externalConnectList)
                     {
@@ -1465,11 +1435,6 @@ namespace AYP.ViewModel
                                         connect.FromConnector.AgAkisList = internalConnect.FromConnector.AgAkisList;
                                         connect.ToConnector.AgAkisList = internalConnect.ToConnector.AgAkisList;
                                         AddConnect(connect);
-
-                                        if (connect.AgYuku == 0 && (connect.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu || connect.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu))
-                                        {
-                                            AddToDogrulamaPaneli(connect.FromConnector, connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için ağ akışı tanımlayınız!");
-                                        }
                                     }
                                 }
                             }
@@ -1488,11 +1453,6 @@ namespace AYP.ViewModel
                                     connect.FromConnector.AgAkisList = externalConnect.FromConnector.AgAkisList;
                                     connect.ToConnector.AgAkisList = externalConnect.ToConnector.AgAkisList;
                                     AddConnect(connect);
-
-                                    if (connect.AgYuku == 0 && (connect.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu || connect.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu))
-                                    {
-                                        AddToDogrulamaPaneli(connect.FromConnector, connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için ağ akışı tanımlayınız!");
-                                    }
                                 }
                             }
                         }
@@ -1525,11 +1485,6 @@ namespace AYP.ViewModel
                                         connect.FromConnector.AgAkisList = internalConnect.FromConnector.AgAkisList;
                                         connect.ToConnector.AgAkisList = internalConnect.ToConnector.AgAkisList;
                                         AddConnect(connect);
-
-                                        if (connect.AgYuku == 0 && (connect.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu || connect.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu))
-                                        {
-                                            AddToDogrulamaPaneli(connect.FromConnector, connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için ağ akışı tanımlayınız!");
-                                        }
                                     }
                                 }
                             }
@@ -1548,11 +1503,6 @@ namespace AYP.ViewModel
                                     connect.FromConnector.AgAkisList = externalConnect.FromConnector.AgAkisList;
                                     connect.ToConnector.AgAkisList = externalConnect.ToConnector.AgAkisList;
                                     AddConnect(connect);
-
-                                    if (connect.AgYuku == 0 && (connect.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu || connect.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu))
-                                    {
-                                        AddToDogrulamaPaneli(connect.FromConnector, connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için ağ akışı tanımlayınız!");
-                                    }
                                 }
                             }
                         }
@@ -1660,7 +1610,7 @@ namespace AYP.ViewModel
 
         public string GetNameForNewNodeCopy(int typeId, string name)
         {
-            if(name.Contains("#"))
+            if (name.Contains("#"))
             {
                 name = name.Substring(0, name.IndexOf("#") - 1);
             }
@@ -2448,8 +2398,6 @@ namespace AYP.ViewModel
         {
             Connects.Remove(ViewModelConnect);
 
-            RemoveFromDogrulamaPaneli(ViewModelConnect.FromConnector);
-
             if (ViewModelConnect.FromConnector.Node.TypeId == (int)TipEnum.GucUretici)
             {
                 ViewModelConnect.FromConnector.KalanKapasite += ViewModelConnect.ToConnector.GirdiTukettigiGucMiktari.Value;
@@ -2590,7 +2538,7 @@ namespace AYP.ViewModel
                 }
 
                 string newName = "";
-                if(string.IsNullOrEmpty(parameter.Node.Name))
+                if (string.IsNullOrEmpty(parameter.Node.Name))
                 {
                     newName = GetNameForNewNode(parameter.Node.TypeId);
                 }
@@ -2878,33 +2826,6 @@ namespace AYP.ViewModel
         }
 
         #region Dogrulama Paneli
-
-        private void AddToDogrulamaPaneli(ConnectorViewModel fromConnector, string mesaj)
-        {
-            DogrulamaModel dogrulama = new DogrulamaModel();
-            dogrulama.Mesaj = mesaj;
-            dogrulama.Connector = fromConnector;
-            this.MainWindow.DogrulamaDataGrid.Items.Add(dogrulama);
-        }
-
-        private void RemoveFromDogrulamaPaneli(ConnectorViewModel fromConnector)
-        {
-            if (this.MainWindow.DogrulamaDataGrid.Items.Count > 0)
-            {
-                DogrulamaModel deletedObj = null;
-
-                foreach (var item in this.MainWindow.DogrulamaDataGrid.Items)
-                {
-                    if ((item as DogrulamaModel).Connector == fromConnector)
-                    {
-                        deletedObj = (item as DogrulamaModel);
-                        break;
-                    }
-                }
-
-                this.MainWindow.DogrulamaDataGrid.Items.Remove(deletedObj);
-            }
-        }
 
         private void DeleteDogrulamaPaneli()
         {

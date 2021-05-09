@@ -22,9 +22,7 @@ namespace AYP
     /// Interaction logic for UcBirimTurPopupWindow.xaml
     /// </summary>
     public partial class EditSelectedPopupWindow : Window
-    {
-        private AYPContext context;
-        
+    {        
         private IUcBirimService serviceUcBirim;
         private IAgAnahtariService serviceAgAnahtari;
         private IGucUreticiService serviceGucUreticisi;
@@ -37,10 +35,9 @@ namespace AYP
         public EditSelectedPopupWindow(int cihazTur, List<int> selectedIds)
         {
 
-            context = new AYPContext();
-            serviceUcBirim = new UcBirimService(context);
-            serviceAgAnahtari = new AgAnahtariService(context);
-            serviceGucUreticisi = new GucUreticiService(context);
+            serviceUcBirim = new UcBirimService();
+            serviceAgAnahtari = new AgAnahtariService();
+            serviceGucUreticisi = new GucUreticiService();
             
             InitializeComponent();
 

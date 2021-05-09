@@ -181,6 +181,8 @@
         </Button>
         
         <Label x:Name="dogrulamaLabel" Style="{DynamicResource StyleMainTitle}" Content="Doğrulama" Grid.Column="5" Margin="0,505,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Button Style="{DynamicResource StyleLeftPanelUpButton}" Grid.Column="5" Margin="0,510,20,0" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Click="OnValidateButtonClick" Content="Doğrula"></Button>
+
         <StackPanel Grid.Row="1" Grid.Column="5" Margin="0,550,0,10">
             <ScrollViewer MaxHeight="240" ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="10,0,10,0">
                 <Grid>
@@ -194,7 +196,7 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition MinWidth="362" />
                                     </Grid.ColumnDefinitions>
-                                    <Label MouseDoubleClick="OpenAgAkisPanel" Padding="5,3,0,0" Background="#13191e" BorderThickness="1,1,1,1" BorderBrush="#222d35" Height="25" MinWidth="362" FontSize="12" FontWeight="Medium" Foreground="Red" Content="{Binding Mesaj}" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Label Padding="5,3,0,0" Background="#13191e" BorderThickness="1,1,1,1" BorderBrush="#222d35" Height="25" MinWidth="362" FontSize="12" FontWeight="Medium" Foreground="Red" Content="{Binding Mesaj}" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

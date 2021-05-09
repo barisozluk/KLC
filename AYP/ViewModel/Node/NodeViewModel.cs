@@ -414,7 +414,7 @@ namespace AYP.ViewModel
             decimal? dahiliGucTuketimDegeri = 0;
             if (node.Attribute("DahiliGucTuketimDegeri")?.Value == null) { dahiliGucTuketimDegeri = null; }
             else { dahiliGucTuketimDegeri = Convert.ToDecimal(node.Attribute("DahiliGucTuketimDegeri")?.Value); }
-            byte[] sembol = node.Attribute("Sembol")?.Value != null ? Convert.FromBase64String(node.Attribute("Sembol")?.Value) : null;            
+            byte[] sembol = node.Attribute("Sembol")?.Value != null ? Convert.FromBase64String(node.Attribute("Sembol")?.Value) : null;
 
             viewModelNode = new NodeViewModel(nodesCanvas, name, uniqueId, position, id, typeId, null, null, null, null, verimlilikOrani, dahiliGucTuketimDegeri, sembol, stokNo, tanim, ureticiAdi, ureticiParcaNo, turAd);
             var inputList = new List<ConnectorViewModel>();
@@ -602,18 +602,15 @@ namespace AYP.ViewModel
                     int kapasiteId = Convert.ToInt32(agArayuzu.Attribute("KapasiteId")?.Value);
                     int tipId = Convert.ToInt32(agArayuzu.Attribute("TipId")?.Value);
 
-                    using (AYPContext context = new AYPContext())
-                    {
-                        IKodListeService service = new KodListeService(context);
-                        item.Adi = adi;
-                        item.Id = itemId;
-                        item.FizikselOrtamId = fizikselOrtamId;
-                        item.KapasiteId = kapasiteId;
-                        item.KL_Kapasite = service.GetKapasiteById(kapasiteId);
-                        item.KullanimAmaciId = kullanimAmaciId;
-                        item.Port = port;
-                        item.TipId = tipId;
-                    }
+                    IKodListeService service = new KodListeService();
+                    item.Adi = adi;
+                    item.Id = itemId;
+                    item.FizikselOrtamId = fizikselOrtamId;
+                    item.KapasiteId = kapasiteId;
+                    item.KL_Kapasite = service.GetKapasiteById(kapasiteId);
+                    item.KullanimAmaciId = kullanimAmaciId;
+                    item.Port = port;
+                    item.TipId = tipId;
 
                     agArayuzuList.Add(item);
                 }

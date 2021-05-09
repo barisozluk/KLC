@@ -12,15 +12,16 @@ namespace AYP.Models
     {
         public string Mesaj { get; set; }
 
-        public ConnectorViewModel Connector { get; set; }
-
-        public string MesajTipi { get; set; }
+        public Guid ConnectorId { get; set; }
+        public int MesajTipi { get; set; }
 
         public XElement ToXElement()
         {
             XElement element = new XElement("Dogrulama");
-            element.Add(new XAttribute("ConnectorUniqueId", Connector.UniqueId));
             element.Add(new XAttribute("Mesaj", Mesaj));
+            element.Add(new XAttribute("ConnectorId", ConnectorId));
+            element.Add(new XAttribute("MesajTipi", MesajTipi));
+
             return element;
         }
 
@@ -29,16 +30,17 @@ namespace AYP.Models
             errorMessage = null;
             DogrulamaModel viewModelDogrulama = null;
 
-            Guid fromConnectorUniqueId = new Guid(node.Attribute("ConnectorUniqueId")?.Value);
             string mesaj = node.Attribute("Mesaj")?.Value;
+            Guid connectorId = new Guid(node.Attribute("ConnectorId")?.Value);
+            int mesajTipi = Convert.ToInt32(node.Attribute("MesajTipi")?.Value);
 
 
             foreach (var item in nodesCanvas.Nodes.Items)
             {
-                var connector = item.Transitions.Items.Where(x => x.UniqueId == fromConnectorUniqueId).FirstOrDefault();
                 viewModelDogrulama = new DogrulamaModel();
                 viewModelDogrulama.Mesaj = mesaj;
-                viewModelDogrulama.Connector = connector;
+                viewModelDogrulama.ConnectorId = connectorId;
+                viewModelDogrulama.MesajTipi = mesajTipi;
 
                 break;
             }

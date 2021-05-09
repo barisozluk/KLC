@@ -178,43 +178,41 @@ namespace AYP.View
             {
                 this.ViewModel.Selected = true;
 
-                using (AYPContext context = new AYPContext())
+                bool fromNode = true;
+                MainWindow mainWindow = this.ViewModel.NodesCanvas.MainWindow;
+                mainWindow.IsEnabled = false;
+                System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+                blur.Radius = 2;
+                mainWindow.Effect = blur;
+
+                if (this.ViewModel.TypeId == (int)TipEnum.UcBirim)
                 {
-                    bool fromNode = true;
-                    MainWindow mainWindow = this.ViewModel.NodesCanvas.MainWindow;
-                    mainWindow.IsEnabled = false;
-                    System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
-                    blur.Radius = 2;
-                    mainWindow.Effect = blur;
+                    IUcBirimService ucBirimService = new UcBirimService();
+                    var selectedUcBirim = ucBirimService.GetUcBirimById(this.ViewModel.Id);
 
-                    if (this.ViewModel.TypeId == (int)TipEnum.UcBirim)
-                    {
-                        IUcBirimService ucBirimService = new UcBirimService(context);
-                        var selectedUcBirim = ucBirimService.GetUcBirimById(this.ViewModel.Id);
-
-                        UcBirimPopupWindow popup = new UcBirimPopupWindow(selectedUcBirim, fromNode);
-                        popup.Owner = mainWindow;
-                        popup.ShowDialog();
-                    }
-                    else if (this.ViewModel.TypeId == (int)TipEnum.AgAnahtari)
-                    {
-                        IAgAnahtariService agAnahtariService = new AgAnahtariService(context);
-                        var selectedAgAnahtari = agAnahtariService.GetAgAnahtariById(this.ViewModel.Id);
-
-                        AgAnahtariPopupWindow popup = new AgAnahtariPopupWindow(selectedAgAnahtari, fromNode);
-                        popup.Owner = mainWindow;
-                        popup.ShowDialog();
-                    }
-                    else if (this.ViewModel.TypeId == (int)TipEnum.GucUretici)
-                    {
-                        IGucUreticiService gucUreticiService = new GucUreticiService(context);
-                        var selectedGucUretici = gucUreticiService.GetGucUreticiById(this.ViewModel.Id);
-
-                        GucUreticiPopupWindow popup = new GucUreticiPopupWindow(selectedGucUretici, fromNode, this.ViewModel.NodesCanvas.MainWindow);
-                        popup.Owner = mainWindow;
-                        popup.ShowDialog();
-                    }
+                    UcBirimPopupWindow popup = new UcBirimPopupWindow(selectedUcBirim, fromNode);
+                    popup.Owner = mainWindow;
+                    popup.ShowDialog();
                 }
+                else if (this.ViewModel.TypeId == (int)TipEnum.AgAnahtari)
+                {
+                    IAgAnahtariService agAnahtariService = new AgAnahtariService();
+                    var selectedAgAnahtari = agAnahtariService.GetAgAnahtariById(this.ViewModel.Id);
+
+                    AgAnahtariPopupWindow popup = new AgAnahtariPopupWindow(selectedAgAnahtari, fromNode);
+                    popup.Owner = mainWindow;
+                    popup.ShowDialog();
+                }
+                else if (this.ViewModel.TypeId == (int)TipEnum.GucUretici)
+                {
+                    IGucUreticiService gucUreticiService = new GucUreticiService();
+                    var selectedGucUretici = gucUreticiService.GetGucUreticiById(this.ViewModel.Id);
+
+                    GucUreticiPopupWindow popup = new GucUreticiPopupWindow(selectedGucUretici, fromNode);
+                    popup.Owner = mainWindow;
+                    popup.ShowDialog();
+                }
+
             }
             else
             {

@@ -127,10 +127,7 @@ namespace AYP.ViewModel
 
                     if (connect.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu)
                     {
-                        DogrulamaModel dogrulama = new DogrulamaModel();
-                        dogrulama.Mesaj = connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için ağ akışı tanımlayınız!";
-                        dogrulama.Connector = connect.FromConnector;
-                        connect.NodesCanvas.MainWindow.DogrulamaDataGrid.Items.Add(dogrulama);
+                       
                     }
                     else if (connect.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
                     {
@@ -192,14 +189,6 @@ namespace AYP.ViewModel
                                 }
 
                                 output.Connect.AgYuku = output.AgAkisList.Select(s => s.Yuk).Sum();
-
-                                if (output.Connect.AgYuku == 0 && output.Node.TypeId != (int)TipEnum.Group)
-                                {
-                                    DogrulamaModel dogrulama = new DogrulamaModel();
-                                    dogrulama.Mesaj = output.Connect.FromConnector.Node.Name + "/" + output.Connect.FromConnector.Label + " için ağ akışı tanımlayınız!";
-                                    dogrulama.Connector = output.Connect.FromConnector;
-                                    connect.NodesCanvas.MainWindow.DogrulamaDataGrid.Items.Add(dogrulama);
-                                }
                             }
                         }
                     }
