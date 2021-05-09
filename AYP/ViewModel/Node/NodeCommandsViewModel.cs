@@ -115,15 +115,7 @@ namespace AYP.ViewModel
 
                 if (CurrentConnector.TypeId == (int)TipEnum.GucUreticiGucArayuzu && CurrentConnector.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti)
                 {
-                    if (VerimlilikOrani == 0)
-                    {
-                        CurrentConnector.KalanKapasite = (CurrentConnector.CiktiUrettigiGucKapasitesi.Value - DahiliGucTuketimDegeri);
-                    }
-                    else
-                    {
-                        CurrentConnector.KalanKapasite = (VerimlilikOrani * CurrentConnector.CiktiUrettigiGucKapasitesi.Value) / 100;
-                    }
-
+                    CurrentConnector.KalanKapasite = output.KalanKapasite;
                 }
                 else
                 {

@@ -353,7 +353,10 @@ namespace AYP
             DataContext = null;
             checkedAgAkisRow = (CheckBox)sender;
             var ctx = checkedAgAkisRow.DataContext;
-            agAkis = (AgAkis)ctx;
+            agAkis = (AgAkis)((AgAkis)ctx).Clone();
+            agAkis.InputList = agAnahtariAgArayuzu.Node.InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu).ToList();
+            agAkis.AgAkisProtokoluList = kodListeService.ListAgAkisProtokolu();
+            agAkis.AgAkisTipiList = kodListeService.ListAgAkisTipi();
             agAkis.Id = Guid.Empty;
             DataContext = agAkis;
         }

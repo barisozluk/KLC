@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace AYP.Entities
 {
-    public class AgArayuzu
+    public class AgArayuzu: ICloneable
     {
         [Key]
         public int Id { get; set; }
@@ -57,6 +57,9 @@ namespace AYP.Entities
         [NotMapped]
         public List<string> PortList { get; set; }
 
+        [NotMapped]
+        public bool IsEnabled { get; set; } = true;
+
         public XElement ToXElement(Guid NodeUniqueId)
         {
             XElement element = new XElement("AgArayuzu");
@@ -85,6 +88,12 @@ namespace AYP.Entities
             element.Add(new XAttribute("GroupId", GroupId));
 
             return element;
+        }
+
+        public object Clone()
+        {
+            var result = (AgArayuzu)this.MemberwiseClone();
+            return result;
         }
     }
 }

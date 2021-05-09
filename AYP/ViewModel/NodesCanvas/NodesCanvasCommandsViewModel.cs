@@ -1013,7 +1013,7 @@ namespace AYP.ViewModel
                     }
 
                     var newPoint = node.Point1.Addition(50, 50);
-                    var newNode = new NodeViewModel(this, GetNameForNewNode(node.TypeId), Guid.NewGuid(), newPoint, node.Id, node.TypeId,
+                    var newNode = new NodeViewModel(this, GetNameForNewNodeCopy(node.TypeId, node.Name), Guid.NewGuid(), newPoint, node.Id, node.TypeId,
                         node.AgArayuzuList, node.GucArayuzuList, new List<ConnectorViewModel>(), new List<ConnectorViewModel>(), node.VerimlilikOrani,
                         node.DahiliGucTuketimDegeri, node.Sembol, node.StokNo, node.Tanim, node.UreticiAdi, node.UreticiParcaNo, node.TurAd);
 
@@ -1108,7 +1108,7 @@ namespace AYP.ViewModel
                 }
 
                 var newPoint = node.Point1.Addition(50, 50);
-                var newNode = new NodeViewModel(this, GetNameForNewNode(node.TypeId), Guid.NewGuid(), newPoint, node.Id, node.TypeId,
+                var newNode = new NodeViewModel(this, GetNameForNewNodeCopy(node.TypeId, node.Name), Guid.NewGuid(), newPoint, node.Id, node.TypeId,
                     node.AgArayuzuList, node.GucArayuzuList, new List<ConnectorViewModel>(), new List<ConnectorViewModel>(), node.VerimlilikOrani,
                     node.DahiliGucTuketimDegeri, node.Sembol, node.StokNo, node.Tanim, node.UreticiAdi, node.UreticiParcaNo, node.TurAd);
 
@@ -1153,6 +1153,7 @@ namespace AYP.ViewModel
                 connect.FromConnector.Connect = connect;
                 connect.AgYuku = internalConnect.AgYuku;
                 connect.GucMiktari = internalConnect.GucMiktari;
+                connect.FromConnector.KalanKapasite -= internalConnect.GucMiktari;
                 connect.KabloKesitOnerisi = internalConnect.KabloKesitOnerisi;
                 connect.Uzunluk = internalConnect.Uzunluk;
 
@@ -1654,9 +1655,37 @@ namespace AYP.ViewModel
                 name = "Grup #" + GroupCount;
             }
 
+            return name;
+        }
+
+        public string GetNameForNewNodeCopy(int typeId, string name)
+        {
+            if(name.Contains("#"))
+            {
+                name = name.Substring(0, name.IndexOf("#") - 1);
+            }
+
+            if (typeId == (int)TipEnum.UcBirim)
+            {
+                name = name + " #" + UcBirimCount;
+            }
+            else if (typeId == (int)TipEnum.AgAnahtari)
+            {
+                name = name + " #" + AgAnahtariCount;
+            }
+            else if (typeId == (int)TipEnum.GucUretici)
+            {
+                name = name + " #" + GucUreticiCount;
+            }
+            else if (typeId == (int)TipEnum.Group)
+            {
+                name = name + " #" + GroupCount;
+            }
+
 
             return name;
         }
+
         private void SelectConnects()
         {
             //Point cutterStartPoint = Cutter.StartPoint.Division(Scale.Value);
@@ -2018,7 +2047,7 @@ namespace AYP.ViewModel
 
             XElement outputs = new XElement("Outputs");
             stateMachineXElement.Add(outputs);
-            foreach (var output in Nodes.Items.SelectMany(x => x.OutputList))
+            foreach (var output in Nodes.Items.SelectMany(x => x.Transitions.Items))
             {
                 outputs.Add(output.ToOutputXElement());
             }
@@ -2560,7 +2589,17 @@ namespace AYP.ViewModel
                     GroupCount++;
                 }
 
-                newNode = new NodeViewModel(this, GetNameForNewNode(parameter.Node.TypeId), Guid.NewGuid(), parameter.Point, parameter.Node.Id, parameter.Node.TypeId,
+                string newName = "";
+                if(string.IsNullOrEmpty(parameter.Node.Name))
+                {
+                    newName = GetNameForNewNode(parameter.Node.TypeId);
+                }
+                else
+                {
+                    newName = GetNameForNewNodeCopy(parameter.Node.TypeId, parameter.Node.Name);
+                }
+
+                newNode = new NodeViewModel(this, newName, Guid.NewGuid(), parameter.Point, parameter.Node.Id, parameter.Node.TypeId,
                                 parameter.Node.AgArayuzuList, parameter.Node.GucArayuzuList, new List<ConnectorViewModel>(), new List<ConnectorViewModel>(), parameter.Node.VerimlilikOrani,
                                 parameter.Node.DahiliGucTuketimDegeri, parameter.Node.Sembol, parameter.Node.StokNo, parameter.Node.Tanim, parameter.Node.UreticiAdi, parameter.Node.UreticiParcaNo,
                                 parameter.Node.TurAd);

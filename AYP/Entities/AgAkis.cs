@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace AYP.Entities
 {
-    public class AgAkis
+    public class AgAkis: ICloneable
     {
         public Guid Id { get; set; }
         public Guid AgArayuzuId { get; set; }
@@ -36,6 +36,12 @@ namespace AYP.Entities
             //element.Add(!IliskiliAgArayuzuId.HasValue ? null : new XAttribute("IliskiliAgArayuzuAdi", IliskiliAgArayuzuAdi));
 
             return element;
+        }
+
+        public object Clone()
+        {
+            var result = (AgAkis)this.MemberwiseClone();
+            return result;
         }
     }
 }

@@ -486,7 +486,7 @@ namespace AYP
             blur.Radius = 2;
             this.Effect = blur;
 
-            GucUreticiPopupWindow popup = new GucUreticiPopupWindow(null, fromNode);
+            GucUreticiPopupWindow popup = new GucUreticiPopupWindow(null, fromNode, this);
             popup.Owner = this;
             popup.ShowDialog();
         }
@@ -566,6 +566,7 @@ namespace AYP
         #region GucUreticiPanelEvents
         public void ListGucUretici()
         {
+            GucUreticiDataGrid.ItemsSource = null;
             GucUreticiDataGrid.ItemsSource = gucUreticiService.ListGucUretici();
 
             Tanim.Text = null;
@@ -622,7 +623,7 @@ namespace AYP
                 blur.Radius = 2;
                 this.Effect = blur;
 
-                GucUreticiPopupWindow popup = new GucUreticiPopupWindow(selectedGucUretici, fromNode);
+                GucUreticiPopupWindow popup = new GucUreticiPopupWindow(selectedGucUretici, fromNode, this);
                 popup.Owner = this;
                 popup.ShowDialog();
             }

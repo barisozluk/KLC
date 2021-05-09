@@ -12,6 +12,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
@@ -64,6 +65,30 @@ namespace AYP
             else
             {
                 Ad.BorderBrush = new SolidColorBrush(Colors.Red);
+            }
+        }
+
+        private void NameValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            var textBox = (TextBox)sender;
+
+            foreach (char ch in e.Text)
+            {
+                if (!Char.IsDigit(ch))
+                {
+                    if (ch.Equals('#'))
+                    {
+                        e.Handled = true;
+                    }
+                    else
+                    {
+                        e.Handled = false;
+                    }
+                }
+                else
+                {
+                    e.Handled = true;
+                }
             }
         }
     }

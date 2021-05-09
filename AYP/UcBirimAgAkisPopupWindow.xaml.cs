@@ -265,7 +265,7 @@ namespace AYP
             DataContext = null;
             checkedAgAkisRow = (CheckBox)sender;
             var ctx = checkedAgAkisRow.DataContext;
-            agAkis = (AgAkis)ctx;
+            agAkis = (AgAkis)((AgAkis)ctx).Clone();
             agAkis.Id = Guid.Empty;
             DataContext = agAkis;
         }

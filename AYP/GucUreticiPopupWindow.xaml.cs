@@ -40,14 +40,16 @@ namespace AYP
         public bool isEditMode = false;
         public bool fromNode = false;
 
-        public GucUreticiPopupWindow(GucUretici _gucUretici, bool fromNode)
+        MainWindow window;
+        public GucUreticiPopupWindow(GucUretici _gucUretici, bool fromNode, MainWindow mainWindow)
         {
             this.fromNode = fromNode;
+            this.window = mainWindow;
 
             gucArayuzu = new GucArayuzu();
             if (_gucUretici != null)
             {
-                gucUretici = _gucUretici;
+                gucUretici = (GucUretici)_gucUretici.Clone();
                 isEditMode = true;
             }
             else
@@ -103,16 +105,70 @@ namespace AYP
                 if (fromNode)
                 {
                     //GucUreticiTab
+                    GucUreticiTur.IsEnabled = false;
+                    GucUreticiTur.Opacity = 0.25;
+                    StokNo.IsEnabled = false;
+                    StokNo.Opacity = 0.25;
+                    Tanim.IsEnabled = false;
+                    Tanim.Opacity = 0.25;
+                    Uretici.IsEnabled = false;
+                    Uretici.Opacity = 0.25;
+                    UreticiParcaNo.IsEnabled = false;
+                    UreticiParcaNo.Opacity = 0.25;
                     GirdiGucArayuzuSayisi.IsEnabled = false;
                     GirdiGucArayuzuSayisi.Opacity = 0.25;
                     CiktiGucArayuzuSayisi.IsEnabled = false;
                     CiktiGucArayuzuSayisi.Opacity = 0.25;
+                    VerimlilikOrani.IsEnabled = false;
+                    VerimlilikOrani.Opacity = 0.25;
+                    DahiliGucTuketimDegeri.IsEnabled = false;
+                    DahiliGucTuketimDegeri.Opacity = 0.25;
+                    Katalog.IsEnabled = false;
+                    Katalog.Opacity = 0.25;
+                    OpenKatalogBtn.IsEnabled = false;
+                    OpenKatalogBtn.Opacity = 0.25;
                     Sembol.IsEnabled = false;
                     Sembol.Opacity = 0.25;
+                    OpenSembolBtn.IsEnabled = false;
+                    OpenSembolBtn.Opacity = 0.25;
+                    DownloadButton.IsEnabled = false;
+                    DownloadButton.Opacity = 0.25;
 
                     //GucArayuzuTab
+                    GucArayuzuAdi.IsEnabled = false;
+                    GucArayuzuAdi.Opacity = 0.25;
+                    GucArayuzuKullanimAmaciList.IsEnabled = false;
+                    GucArayuzuKullanimAmaciList.Opacity = 0.25;
+                    GucArayuzuGerilimTipiList.IsEnabled = false;
+                    GucArayuzuGerilimTipiList.Opacity = 0.25;
+                    ag2.IsEnabled = false;
+                    ag2.Opacity = 0.25;
+                    ag4.IsEnabled = false;
+                    ag4.Opacity = 0.25;
+                    ag6.IsEnabled = false;
+                    ag6.Opacity = 0.25;
+                    ag8.IsEnabled = false;
+                    ag8.Opacity = 0.25;
+                    ag10.IsEnabled = false;
+                    ag10.Opacity = 0.25;
+                    ag12.IsEnabled = false;
+                    ag12.Opacity = 0.25;
+                    ag14.IsEnabled = false;
+                    ag14.Opacity = 0.25;
+                    ag16.IsEnabled = false;
+                    ag16.Opacity = 0.25;
+                    GucArayuzuPortList.IsEnabled = false;
+                    GucArayuzuPortList.Opacity = 0.25;
                     GucArayuzuEkleBtn.IsEnabled = false;
                     GucArayuzuEkleBtn.Opacity = 0.25;
+
+                    foreach (var gucArayuzu in gucArayuzuList)
+                    {
+                        gucArayuzu.IsEnabled = false;
+                    }
+
+                    SaveBtn.IsEnabled = false;
+                    SaveBtn.Opacity = 0.25;
                 }
                 else
                 {
@@ -123,31 +179,139 @@ namespace AYP
                     {
                         fromNode = false;
                         //GucUreticiTab
+                        GucUreticiTur.IsEnabled = true;
+                        GucUreticiTur.Opacity = 1;
+                        StokNo.IsEnabled = true;
+                        StokNo.Opacity = 1;
+                        Tanim.IsEnabled = true;
+                        Tanim.Opacity = 1;
+                        Uretici.IsEnabled = true;
+                        Uretici.Opacity = 1;
+                        UreticiParcaNo.IsEnabled = true;
+                        UreticiParcaNo.Opacity = 1;
                         GirdiGucArayuzuSayisi.IsEnabled = true;
                         GirdiGucArayuzuSayisi.Opacity = 1;
                         CiktiGucArayuzuSayisi.IsEnabled = true;
                         CiktiGucArayuzuSayisi.Opacity = 1;
+                        VerimlilikOrani.IsEnabled = true;
+                        VerimlilikOrani.Opacity = 1;
+                        DahiliGucTuketimDegeri.IsEnabled = true;
+                        DahiliGucTuketimDegeri.Opacity = 1;
+                        Katalog.IsEnabled = true;
+                        Katalog.Opacity = 1;
+                        OpenKatalogBtn.IsEnabled = true;
+                        OpenKatalogBtn.Opacity = 1;
                         Sembol.IsEnabled = true;
                         Sembol.Opacity = 1;
+                        OpenSembolBtn.IsEnabled = true;
+                        OpenSembolBtn.Opacity = 1;
+                        DownloadButton.IsEnabled = true;
+                        DownloadButton.Opacity = 1;
 
                         //GucArayuzuTab
+                        GucArayuzuAdi.IsEnabled = true;
+                        GucArayuzuAdi.Opacity = 1;
+                        GucArayuzuKullanimAmaciList.IsEnabled = true;
+                        GucArayuzuKullanimAmaciList.Opacity = 1;
+                        GucArayuzuGerilimTipiList.IsEnabled = true;
+                        GucArayuzuGerilimTipiList.Opacity = 1;
+                        ag2.IsEnabled = true;
+                        ag2.Opacity = 1;
+                        ag4.IsEnabled = true;
+                        ag4.Opacity = 1;
+                        ag6.IsEnabled = true;
+                        ag6.Opacity = 1;
+                        ag8.IsEnabled = true;
+                        ag8.Opacity = 1;
+                        ag10.IsEnabled = true;
+                        ag10.Opacity = 1;
+                        ag12.IsEnabled = true;
+                        ag12.Opacity = 1;
+                        ag14.IsEnabled = true;
+                        ag14.Opacity = 1;
+                        ag16.IsEnabled = true;
+                        ag16.Opacity = 1;
+                        GucArayuzuPortList.IsEnabled = true;
+                        GucArayuzuPortList.Opacity = 1;
                         GucArayuzuEkleBtn.IsEnabled = true;
                         GucArayuzuEkleBtn.Opacity = 1;
+
+                        foreach (var gucArayuzu in gucArayuzuList)
+                        {
+                            gucArayuzu.IsEnabled = true;
+                        }
+
+                        SaveBtn.IsEnabled = true;
+                        SaveBtn.Opacity = 1;
                     }
                     else
                     {
                         fromNode = true;
                         //GucUreticiTab
+                        GucUreticiTur.IsEnabled = false;
+                        GucUreticiTur.Opacity = 0.25;
+                        StokNo.IsEnabled = false;
+                        StokNo.Opacity = 0.25;
+                        Tanim.IsEnabled = false;
+                        Tanim.Opacity = 0.25;
+                        Uretici.IsEnabled = false;
+                        Uretici.Opacity = 0.25;
+                        UreticiParcaNo.IsEnabled = false;
+                        UreticiParcaNo.Opacity = 0.25;
                         GirdiGucArayuzuSayisi.IsEnabled = false;
                         GirdiGucArayuzuSayisi.Opacity = 0.25;
                         CiktiGucArayuzuSayisi.IsEnabled = false;
                         CiktiGucArayuzuSayisi.Opacity = 0.25;
+                        VerimlilikOrani.IsEnabled = false;
+                        VerimlilikOrani.Opacity = 0.25;
+                        DahiliGucTuketimDegeri.IsEnabled = false;
+                        DahiliGucTuketimDegeri.Opacity = 0.25;
+                        Katalog.IsEnabled = false;
+                        Katalog.Opacity = 0.25;
+                        OpenKatalogBtn.IsEnabled = false;
+                        OpenKatalogBtn.Opacity = 0.25;
                         Sembol.IsEnabled = false;
                         Sembol.Opacity = 0.25;
+                        OpenSembolBtn.IsEnabled = false;
+                        OpenSembolBtn.Opacity = 0.25;
+                        DownloadButton.IsEnabled = false;
+                        DownloadButton.Opacity = 0.25;
 
                         //GucArayuzuTab
+                        GucArayuzuAdi.IsEnabled = false;
+                        GucArayuzuAdi.Opacity = 0.25;
+                        GucArayuzuKullanimAmaciList.IsEnabled = false;
+                        GucArayuzuKullanimAmaciList.Opacity = 0.25;
+                        GucArayuzuGerilimTipiList.IsEnabled = false;
+                        GucArayuzuGerilimTipiList.Opacity = 0.25;
+                        ag2.IsEnabled = false;
+                        ag2.Opacity = 0.25;
+                        ag4.IsEnabled = false;
+                        ag4.Opacity = 0.25;
+                        ag6.IsEnabled = false;
+                        ag6.Opacity = 0.25;
+                        ag8.IsEnabled = false;
+                        ag8.Opacity = 0.25;
+                        ag10.IsEnabled = false;
+                        ag10.Opacity = 0.25;
+                        ag12.IsEnabled = false;
+                        ag12.Opacity = 0.25;
+                        ag14.IsEnabled = false;
+                        ag14.Opacity = 0.25;
+                        ag16.IsEnabled = false;
+                        ag16.Opacity = 0.25;
+                        GucArayuzuPortList.IsEnabled = false;
+                        GucArayuzuPortList.Opacity = 0.25;
                         GucArayuzuEkleBtn.IsEnabled = false;
                         GucArayuzuEkleBtn.Opacity = 0.25;
+
+                        foreach (var gucArayuzu in gucArayuzuList)
+                        {
+                            gucArayuzu.IsEnabled = false;
+                        }
+
+                        SaveBtn.IsEnabled = false;
+                        SaveBtn.Opacity = 0.25;
                     }
                 }
             }
@@ -188,7 +352,8 @@ namespace AYP
 
             if (Validator.TryValidateObject(gucUretici, validationContext, results, true))
             {
-                if ((gucUretici.VerimlilikDegeri != 0 && gucUretici.VerimlilikDegeri != null) || (gucUretici.DahiliGucTuketimDegeri != 0 && gucUretici.DahiliGucTuketimDegeri != null))
+                if ((!string.IsNullOrEmpty(VerimlilikOrani.Text) && Convert.ToDecimal(VerimlilikOrani.Text) > 0 && Convert.ToDecimal(VerimlilikOrani.Text) <= 100)
+                    || (!string.IsNullOrEmpty(DahiliGucTuketimDegeri.Text) && Convert.ToDecimal(DahiliGucTuketimDegeri.Text) != 0))
                 {
                     GucUreticiTab.IsSelected = false;
                     GucArayuzuTab.IsSelected = true;
@@ -209,12 +374,12 @@ namespace AYP
                 }
                 else
                 {
-                    if (gucUretici.VerimlilikDegeri == 0 || gucUretici.VerimlilikDegeri == null)
+                    if (string.IsNullOrEmpty(VerimlilikOrani.Text) || Convert.ToDecimal(VerimlilikOrani.Text) == 0 && Convert.ToDecimal(VerimlilikOrani.Text) > 100)
                     {
                         VerimlilikOrani.BorderBrush = new SolidColorBrush(Colors.Red);
                     }
-
-                    if (gucUretici.DahiliGucTuketimDegeri == 0 || gucUretici.DahiliGucTuketimDegeri == null)
+                    
+                    if (string.IsNullOrEmpty(DahiliGucTuketimDegeri.Text) || Convert.ToDecimal(DahiliGucTuketimDegeri.Text) == 0)
                     {
                         DahiliGucTuketimDegeri.BorderBrush = new SolidColorBrush(Colors.Red);
                     }
@@ -328,7 +493,7 @@ namespace AYP
                     nfp.Owner = Owner;
                     nfp.Show();
 
-                    (Owner as MainWindow).ListGucUretici();
+                    window.ListGucUretici();
                     ClosePopup();
                 }
                 else
@@ -433,7 +598,7 @@ namespace AYP
 
             GucArayuzuPortList.ItemsSource = gucArayuzu.PortList;
 
-            if (!isEditMode && string.IsNullOrEmpty(gucArayuzu.Port))
+            if (string.IsNullOrEmpty(gucArayuzu.Port))
             {
                 if (gucArayuzu.PortList.Count > 0)
                 {
@@ -461,11 +626,23 @@ namespace AYP
                 if (gucArayuzu.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti)
                 {
                     ag2.IsEnabled = false; ag2.Opacity = 0.25;
+                    gucArayuzu.GirdiDuraganGerilimDegeri1 = null;
+
                     ag4.IsEnabled = false; ag4.Opacity = 0.25;
+                    gucArayuzu.GirdiDuraganGerilimDegeri2 = null;
+
                     ag6.IsEnabled = false; ag6.Opacity = 0.25;
+                    gucArayuzu.GirdiDuraganGerilimDegeri3 = null;
+
                     ag8.IsEnabled = false; ag8.Opacity = 0.25;
+                    gucArayuzu.GirdiMinimumGerilimDegeri = null;
+
                     ag10.IsEnabled = false; ag10.Opacity = 0.25;
+                    gucArayuzu.GirdiMaksimumGerilimDegeri = null;
+
                     ag12.IsEnabled = false; ag12.Opacity = 0.25;
+                    gucArayuzu.GirdiTukettigiGucMiktari = null;
+
                     ag14.IsEnabled = true; ag14.Opacity = 1;
                     ag16.IsEnabled = true; ag16.Opacity = 1;
                 }
@@ -478,7 +655,10 @@ namespace AYP
                     ag10.IsEnabled = true; ag10.Opacity = 1;
                     ag12.IsEnabled = true; ag12.Opacity = 1;
                     ag14.IsEnabled = false; ag14.Opacity = 0.25;
+                    gucArayuzu.CiktiDuraganGerilimDegeri = null;
+
                     ag16.IsEnabled = false; ag16.Opacity = 0.25;
+                    gucArayuzu.CiktiUrettigiGucKapasitesi = null;
                 }
             }
 
@@ -562,7 +742,7 @@ namespace AYP
 
                             if (seperatorCount < 1)
                             {
-                                if (textBox.Text.Length > 0)
+                                if (textBox.Text.Length > 0 && textBox.Text[0] != '-')
                                 {
                                     e.Handled = false;
                                 }
@@ -584,7 +764,28 @@ namespace AYP
                 }
                 else
                 {
-                    e.Handled = false;
+                    if (!string.IsNullOrEmpty(textBox.Text) && textBox.Text[0] == '-')
+                    {
+                        if(textBox.Text.Length == 1)
+                        {
+                            if(e.Text == "1")
+                            {
+                                e.Handled = false;
+                            }
+                            else
+                            {
+                                e.Handled = true;
+                            }
+                        }
+                        else
+                        {
+                            e.Handled = true;
+                        }
+                    }
+                    else
+                    {
+                        e.Handled = false;
+                    }
                 }
             }
         }
@@ -625,20 +826,13 @@ namespace AYP
         #region TextChangedEvents
         private void VerimlilikOrani_TextChanged(object sender, TextChangedEventArgs e)
         {
-            decimal value;
-
             if (!fromNode)
             {
                 if (!string.IsNullOrEmpty(VerimlilikOrani.Text) && VerimlilikOrani.Text != " ")
                 {
                     DahiliGucTuketimDegeri.IsEnabled = false;
                     DahiliGucTuketimDegeri.Opacity = 0.25;
-                    var verimlilik = VerimlilikOrani.Text.Replace(".", ",");
-                    value = decimal.Parse(verimlilik);
-                    if (value > 100)
-                    {
-                        VerimlilikOrani.Text = "100";
-                    }
+                    gucUretici.DahiliGucTuketimDegeri = null;
                 }
                 else
                 {
@@ -656,6 +850,7 @@ namespace AYP
                 {
                     VerimlilikOrani.IsEnabled = false;
                     VerimlilikOrani.Opacity = 0.25;
+                    gucUretici.VerimlilikDegeri = null;
                 }
                 else
                 {
@@ -669,158 +864,138 @@ namespace AYP
         #region TableEvents
         private void ButtonAddGucArayuzu_Click(object sender, RoutedEventArgs e)
         {
-            
-                bool validMi = MaxMinGerilimValidation(sender, e);
-                if (validMi)
+            bool validMi = false;
+
+            if(gucArayuzu.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti)
+            {
+                validMi = CiktiGucArayuzuValidation();
+            }
+            else
+            {
+                validMi = GirdiGucArayuzuValidation();
+            }
+
+            if (validMi)
+            {
+                gucArayuzu.TipId = (int)TipEnum.GucUreticiGucArayuzu;
+
+                var validationContext = new ValidationContext(gucArayuzu, null, null);
+                var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
+
+                if (Validator.TryValidateObject(gucArayuzu, validationContext, results, true))
                 {
-                    gucArayuzu.TipId = (int)TipEnum.GucUreticiGucArayuzu;
+                    gucArayuzu.KL_KullanimAmaci = gucArayuzu.KullanimAmaciList.Where(kal => kal.Id == gucArayuzu.KullanimAmaciId).FirstOrDefault();
+                    gucArayuzu.KL_GerilimTipi = gucArayuzu.GerilimTipiList.Where(fo => fo.Id == gucArayuzu.GerilimTipiId).FirstOrDefault();
 
-                    var validationContext = new ValidationContext(gucArayuzu, null, null);
-                    var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
-
-                    if (Validator.TryValidateObject(gucArayuzu, validationContext, results, true))
+                    if (checkedGucArayuzuRow != null)
                     {
-                        gucArayuzu.KL_KullanimAmaci = gucArayuzu.KullanimAmaciList.Where(kal => kal.Id == gucArayuzu.KullanimAmaciId).FirstOrDefault();
-                        gucArayuzu.KL_GerilimTipi = gucArayuzu.GerilimTipiList.Where(fo => fo.Id == gucArayuzu.GerilimTipiId).FirstOrDefault();
+                        var ctx = checkedGucArayuzuRow.DataContext;
+                        var obj = (GucArayuzu)ctx;
+                        gucArayuzuList.Remove(obj);
+                        checkedGucArayuzuRow = null;
+                    }
 
-                        if (!gucArayuzuList.Any(x => x.Port == gucArayuzu.Port && x.KullanimAmaciId == gucArayuzu.KullanimAmaciId))
-                        {
-                            if (checkedGucArayuzuRow != null)
-                            {
-                                var ctx = checkedGucArayuzuRow.DataContext;
-                                var obj = (GucArayuzu)ctx;
-                                gucArayuzuList.Remove(obj);
-                                checkedGucArayuzuRow = null;
-                            }
+                    if (!gucArayuzuList.Any(x => x.Port == gucArayuzu.Port && x.KullanimAmaciId == gucArayuzu.KullanimAmaciId))
+                    {
+                        GucUreticiGucArayuzDataGrid.ItemsSource = null;
 
-                            GucUreticiGucArayuzDataGrid.ItemsSource = null;
+                        gucArayuzuList.Add(gucArayuzu);
+                        GucUreticiGucArayuzDataGrid.ItemsSource = gucArayuzuList;
+                        GucUreticiGucArayuzDataGrid.Visibility = Visibility.Visible;
+                        GucArayuzuNoDataRow.Visibility = Visibility.Hidden;
 
-                            gucArayuzuList.Add(gucArayuzu);
-                            GucUreticiGucArayuzDataGrid.ItemsSource = gucArayuzuList;
-                            GucUreticiGucArayuzDataGrid.Visibility = Visibility.Visible;
-                            GucArayuzuNoDataRow.Visibility = Visibility.Hidden;
-
-                            GucArayuzuTab.DataContext = null;
-                            gucArayuzu = new GucArayuzu();
-                            ListGerilimTipi();
-                            ListKullanimAmaciForGucArayuzu();
-                            GucArayuzuTab.DataContext = gucArayuzu;
-                        }
-                        else
-                        {
-                            NotifyInfoPopup nfp = new NotifyInfoPopup();
-                            nfp.msg.Text = gucArayuzu.KL_KullanimAmaci.Ad + " kullanım amacı ile " + gucArayuzu.Port + " için veri girilmiştir"; ;
-                            nfp.Owner = Owner;
-                            nfp.Show();
-                        }
+                        GucArayuzuTab.DataContext = null;
+                        gucArayuzu = new GucArayuzu();
+                        ListGerilimTipi();
+                        ListKullanimAmaciForGucArayuzu();
+                        GucArayuzuTab.DataContext = gucArayuzu;
                     }
                     else
                     {
-                        foreach (var result in results)
-                        {
-                            foreach (var memberName in result.MemberNames)
-                            {
-                                if (memberName == "Adi")
-                                {
-                                    GucArayuzuAdi.BorderBrush = new SolidColorBrush(Colors.Red);
-                                }
-
-                                if (memberName == "Port")
-                                {
-                                    GucArayuzuPortList.BorderBrush = new SolidColorBrush(Colors.Red);
-                                }
-                            }
-                        }
-                    }
-                }
-            
-        }
-
-        private bool MaxMinGerilimValidation(object sender, RoutedEventArgs e)
-        {
-            bool validMi = true;
-
-            if (gucArayuzu.KullanimAmaciId == (int)KullanimAmaciEnum.Girdi)
-            {
-                int maxGerilimDegeri;
-                int minGerilimDegeri;
-                ag8.BorderBrush = new SolidColorBrush(Colors.Transparent);
-                ag10.BorderBrush = new SolidColorBrush(Colors.Transparent);
-                ag2.BorderBrush = new SolidColorBrush(Colors.Transparent);
-                GucArayuzuAdi.BorderBrush = new SolidColorBrush(Colors.Transparent);
-
-                if (!string.IsNullOrEmpty(ag2.Text) && ag2.Text != " ")
-                {
-                    if (!string.IsNullOrEmpty(ag8.Text) && ag8.Text != " ")
-                    {
-                        if (!string.IsNullOrEmpty(ag10.Text) && ag10.Text != " ")
-                        {
-                            maxGerilimDegeri = int.Parse(ag10.Text);
-                            minGerilimDegeri = int.Parse(ag8.Text);
-                            if (minGerilimDegeri > maxGerilimDegeri)
-                            {
-                                NotifyInfoPopup nfp = new NotifyInfoPopup();
-                                nfp.msg.Text = "Minimum gerilim değeri maksimum gerilim değerinden büyük olamaz.";
-                                nfp.Owner = Owner;
-                                nfp.Show();
-                                ag8.BorderBrush = new SolidColorBrush(Colors.Red);
-                                ag10.BorderBrush = new SolidColorBrush(Colors.Red);
-                                return false;
-                            }
-                        }
-                        else
-                        {
-                            NotifyInfoPopup nfp = new NotifyInfoPopup();
-                            nfp.msg.Text = "Maksimum gerilim değerini tanımlayınız.";
-                            nfp.Owner = Owner;
-                            nfp.Show();
-                            ag10.BorderBrush = new SolidColorBrush(Colors.Red);
-                            return false;
-                        }
-                    }
-                    if (!string.IsNullOrEmpty(ag10.Text) && ag10.Text != " ")
-                    {
-                        if (!string.IsNullOrEmpty(ag8.Text) && ag8.Text != " ")
-                        {
-                            maxGerilimDegeri = int.Parse(ag10.Text);
-                            minGerilimDegeri = int.Parse(ag8.Text);
-                            if (minGerilimDegeri > maxGerilimDegeri)
-                            {
-                                NotifyInfoPopup nfp = new NotifyInfoPopup();
-                                nfp.msg.Text = "Minimum gerilim değeri maksimum gerilim değerinden büyük olamaz.";
-                                nfp.Owner = Owner;
-                                nfp.Show();
-                                ag8.BorderBrush = new SolidColorBrush(Colors.Red);
-                                ag10.BorderBrush = new SolidColorBrush(Colors.Red);
-                                return false;
-
-                            }
-                        }
-                        else
-                        {
-                            NotifyInfoPopup nfp = new NotifyInfoPopup();
-                            nfp.msg.Text = "Minimum gerilim değerini tanımlayınız.";
-                            nfp.Owner = Owner;
-                            nfp.Show();
-                            ag8.BorderBrush = new SolidColorBrush(Colors.Red);
-                            return false;
-                        }
+                        NotifyInfoPopup nfp = new NotifyInfoPopup();
+                        nfp.msg.Text = gucArayuzu.KL_KullanimAmaci.Ad + " kullanım amacı ile " + gucArayuzu.Port + " için veri girilmiştir"; ;
+                        nfp.Owner = Owner;
+                        nfp.Show();
                     }
                 }
                 else
                 {
-                    ag2.BorderBrush = new SolidColorBrush(Colors.Red);
+                    foreach (var result in results)
+                    {
+                        foreach (var memberName in result.MemberNames)
+                        {
+                            if (memberName == "Adi")
+                            {
+                                GucArayuzuAdi.BorderBrush = new SolidColorBrush(Colors.Red);
+                            }
 
-                    validMi = false;
+                            if (memberName == "Port")
+                            {
+                                GucArayuzuPortList.BorderBrush = new SolidColorBrush(Colors.Red);
+                            }
+                        }
+                    }
                 }
             }
-            else
+
+        }
+
+        private bool GirdiGucArayuzuValidation()
+        {
+            bool validMi = true;
+
+            if (string.IsNullOrEmpty(ag2.Text) || Convert.ToDecimal(ag2.Text) == 0)
             {
-                validMi = true;
+                validMi = false;
+                ag2.BorderBrush = new SolidColorBrush(Colors.Red);
+            }
+
+            if (!string.IsNullOrEmpty(ag10.Text) && Convert.ToDecimal(ag10.Text) > 0)
+            {
+                if (string.IsNullOrEmpty(ag8.Text) || Convert.ToDecimal(ag8.Text) == 0 || Convert.ToDecimal(ag8.Text) >= Convert.ToDecimal(ag10.Text))
+                {
+                    validMi = false;
+                    ag8.BorderBrush = new SolidColorBrush(Colors.Red);
+                }
+            }
+
+            if (!string.IsNullOrEmpty(ag8.Text) && Convert.ToDecimal(ag8.Text) > 0)
+            {
+                if (string.IsNullOrEmpty(ag10.Text) || Convert.ToDecimal(ag10.Text) == 0 || Convert.ToDecimal(ag10.Text) <= Convert.ToDecimal(ag8.Text))
+                {
+                    validMi = false;
+                    ag10.BorderBrush = new SolidColorBrush(Colors.Red);
+                }
+            }
+
+            if (string.IsNullOrEmpty(ag12.Text) || Convert.ToDecimal(ag12.Text) == 0)
+            {
+                validMi = false;
+                ag12.BorderBrush = new SolidColorBrush(Colors.Red);
             }
 
             return validMi;
         }
+
+        private bool CiktiGucArayuzuValidation()
+        {
+            bool validMi = true;
+
+            if(string.IsNullOrEmpty(ag14.Text) || Convert.ToDecimal(ag14.Text) == 0)
+            {
+                validMi = false;
+                ag14.BorderBrush = new SolidColorBrush(Colors.Red);
+            }
+
+            if(string.IsNullOrEmpty(ag16.Text) || Convert.ToDecimal(ag16.Text) == 0)
+            {
+                validMi = false;
+                ag16.BorderBrush = new SolidColorBrush(Colors.Red);
+            }
+
+            return validMi;
+        }
+
         private void GucArayuzuRow_Checked(object sender, RoutedEventArgs e)
         {
             if (checkedGucArayuzuRow != null)
@@ -830,7 +1005,7 @@ namespace AYP
 
             checkedGucArayuzuRow = (CheckBox)sender;
             var ctx = checkedGucArayuzuRow.DataContext;
-            gucArayuzu = (GucArayuzu)ctx;
+            gucArayuzu = (GucArayuzu)((GucArayuzu)ctx).Clone();
 
             GucArayuzuTab.DataContext = gucArayuzu;
         }
@@ -863,6 +1038,14 @@ namespace AYP
                     GucUreticiGucArayuzDataGrid.Visibility = Visibility.Hidden;
                     GucArayuzuNoDataRow.Visibility = Visibility.Visible;
                 }
+
+                checkedGucArayuzuRow = null;
+
+                GucArayuzuTab.DataContext = null;
+                gucArayuzu = new GucArayuzu();
+                ListGerilimTipi();
+                ListKullanimAmaciForGucArayuzu();
+                GucArayuzuTab.DataContext = gucArayuzu;
             }
             else
             {

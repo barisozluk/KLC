@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace AYP.Entities
 {
-    public class UcBirim
+    public class UcBirim: ICloneable
     {
         [Key]
         public int Id { get; set; }
@@ -62,5 +62,11 @@ namespace AYP.Entities
 
         [NotMapped]
         public ImageSource SembolSrc { get; set; }
+
+        public object Clone()
+        {
+            var result = (UcBirim)this.MemberwiseClone();
+            return result;
+        }
     }
 }

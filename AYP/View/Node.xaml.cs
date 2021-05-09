@@ -210,7 +210,7 @@ namespace AYP.View
                         IGucUreticiService gucUreticiService = new GucUreticiService(context);
                         var selectedGucUretici = gucUreticiService.GetGucUreticiById(this.ViewModel.Id);
 
-                        GucUreticiPopupWindow popup = new GucUreticiPopupWindow(selectedGucUretici, fromNode);
+                        GucUreticiPopupWindow popup = new GucUreticiPopupWindow(selectedGucUretici, fromNode, this.ViewModel.NodesCanvas.MainWindow);
                         popup.Owner = mainWindow;
                         popup.ShowDialog();
                     }

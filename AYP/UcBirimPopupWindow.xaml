@@ -68,7 +68,7 @@
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Katalog" Grid.Row="0" Grid.Column="1" Margin="0,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Grid.Row="0" Grid.Column="1" Margin="160,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <TextBox Name="Katalog" Text="{Binding KatalogDosyaAdi}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" IsReadOnly="True"  ></TextBox>
-                    <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#222d35" Margin="340,425,0,10" Height="35" Width="80" Click="BtnOpenKatalogFile_Click">
+                    <Button Name="OpenKatalogBtn" Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#222d35" Margin="340,425,0,10" Height="35" Width="80" Click="BtnOpenKatalogFile_Click">
                         <Grid>
                             <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="17,0,0,0">. . .</TextBlock>
                         </Grid>
@@ -81,7 +81,7 @@
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Sembol" Grid.Row="0" Grid.Column="1" Margin="0,470,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="*" Grid.Row="0" Grid.Column="1" Margin="160,470,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <TextBox Name="Sembol" Text="{Binding SembolDosyaAdi}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="180,470,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" IsReadOnly="True"  ></TextBox>
-                    <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#222d35" Margin="340,470,0,10" Height="35" Width="80" Click="BtnOpenSembolFile_Click">
+                    <Button Name="OpenSembolBtn" Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#222d35" Margin="340,470,0,10" Height="35" Width="80" Click="BtnOpenSembolFile_Click">
                         <Grid>
                             <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="17,0,0,0">. . .</TextBlock>
                         </Grid>
@@ -114,8 +114,8 @@
 
                     <Rectangle Style="{DynamicResource StyleDescribingAgArayuzuFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
 
-                    <Label Name="AgArayuzuAdi" FontSize="16" Foreground="#ffffff" Content="Adı *" Grid.Row="0" Grid.Column="1" Margin="10,65,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox Text="{Binding Adi}" Style="{DynamicResource StyleTextBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,95,0,10" VerticalAlignment="Top" />
+                    <Label FontSize="16" Foreground="#ffffff" Content="Adı *" Grid.Row="0" Grid.Column="1" Margin="10,65,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Name="AgArayuzuAdi" Text="{Binding Adi}" Style="{DynamicResource StyleTextBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,95,0,10" VerticalAlignment="Top" />
 
                     <Label FontSize="16" Foreground="#ffffff" Content="Kullanım Amacı *" Grid.Row="0" Grid.Column="1" Margin="10,140,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <ComboBox Name="AgArayuzuKullanimAmaciList" SelectedValue="{Binding KullanimAmaciId}" ItemsSource="{Binding KullanimAmaciList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,170,0,10" VerticalAlignment="Top" SelectionChanged="AgArayuzuKullanimAmaci_SelectionChanged">
@@ -199,12 +199,12 @@
                                                     <ColumnDefinition Width="100" />
                                                     <ColumnDefinition Width="70" />
                                                 </Grid.ColumnDefinitions>
-                                                <Button ToolTip="Sil" Style="{DynamicResource StyleTableProcessButton}" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Click="AgArayuzuDelete_Row">
+                                                <Button IsEnabled="{Binding IsEnabled}" ToolTip="Sil" Style="{DynamicResource StyleTableProcessButton}" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Click="AgArayuzuDelete_Row">
                                                     <Grid>
                                                         <Image Source="Images/delete.png" Height="15" Width="30" Margin="5,0,0,0" HorizontalAlignment="Left"/>
                                                     </Grid>
                                                 </Button>
-                                                <Button ToolTip="Çoğalt" Style="{DynamicResource StyleTableProcessButton}" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="0" Grid.Column="1" Click="AgArayuzuDuplicate_Row">
+                                                <Button IsEnabled="{Binding IsEnabled}" ToolTip="Çoğalt" Style="{DynamicResource StyleTableProcessButton}" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="0" Grid.Column="1" Click="AgArayuzuDuplicate_Row">
                                                     <Grid>
                                                         <Image Source="Images/multipleSelect.png" Height="15" Width="30" Margin="5,0,0,0" HorizontalAlignment="Left"/>
                                                     </Grid>
@@ -309,7 +309,7 @@
                         </Grid>
                     </Button>
 
-                    <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,915,0,10" Width="150" Click="Save_UcBirim">
+                    <Button Name="SaveBtn" Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,915,0,10" Width="150" Click="Save_UcBirim">
                         <Grid>
                             <Image Source="Images/save.png" Height="20" Width="25" Margin="2,0,0,0" HorizontalAlignment="Left"/>
                             <TextBlock FontSize="16" HorizontalAlignment="Center" Margin="50,8,10,10">Kaydet</TextBlock>
@@ -364,12 +364,12 @@
                                                     <ColumnDefinition Width="130" />
                                                     <ColumnDefinition Width="130" />
                                                 </Grid.ColumnDefinitions>
-                                                <Button ToolTip="Sil" Name="GucArayuzuSilBtn" Style="{DynamicResource StyleTableProcessButton}" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Click="GucArayuzuDelete_Row">
+                                                <Button IsEnabled="{Binding IsEnabled}" ToolTip="Sil" Name="GucArayuzuSilBtn" Style="{DynamicResource StyleTableProcessButton}" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Click="GucArayuzuDelete_Row">
                                                     <Grid>
                                                         <Image Source="Images/delete.png" Height="15" Width="30" Margin="5,0,0,0" HorizontalAlignment="Left"/>
                                                     </Grid>
                                                 </Button>
-                                                <Button ToolTip="Çoğalt" Style="{DynamicResource StyleTableProcessButton}" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="0" Grid.Column="1" Click="GucArayuzuDuplicate_Row">
+                                                <Button IsEnabled="{Binding IsEnabled}" ToolTip="Çoğalt" Style="{DynamicResource StyleTableProcessButton}" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="0" Grid.Column="1" Click="GucArayuzuDuplicate_Row">
                                                     <Grid>
                                                         <Image Source="Images/multipleSelect.png" Height="15" Width="30" Margin="5,0,0,0" HorizontalAlignment="Left"/>
                                                     </Grid>

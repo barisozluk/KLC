@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace AYP.Entities
 {
-    public class GucUretici
+    public class GucUretici: ICloneable
     {
         [Key]
         public int Id { get; set; }
@@ -63,5 +63,11 @@ namespace AYP.Entities
 
         [NotMapped]
         public ImageSource SembolSrc { get; set; }
+
+        public object Clone()
+        {
+            var result = (GucUretici)this.MemberwiseClone();
+            return result;
+        }
     }
 }

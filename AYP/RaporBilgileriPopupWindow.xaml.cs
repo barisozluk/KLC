@@ -705,19 +705,19 @@ namespace AYP
                     table.AddCell(c);
 
                     c = new Cell();
-                    c.Add(new Paragraph(agAnahtarlari[row].InputList.Where(x => x.TypeId == (int)TipEnum.UcBirimAgArayuzu).Count().ToString()));
+                    c.Add(new Paragraph(agAnahtarlari[row].InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu).Count().ToString()));
                     c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
                     c.SetFontSize(11);
                     table.AddCell(c);
 
                     c = new Cell();
-                    c.Add(new Paragraph(agAnahtarlari[row].OutputList.Where(x => x.TypeId == (int)TipEnum.UcBirimAgArayuzu).Count().ToString()));
+                    c.Add(new Paragraph(agAnahtarlari[row].OutputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu).Count().ToString()));
                     c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
                     c.SetFontSize(11);
                     table.AddCell(c);
 
                     c = new Cell();
-                    c.Add(new Paragraph(agAnahtarlari[row].InputList.Where(x => x.TypeId == (int)TipEnum.UcBirimGucArayuzu).Count().ToString()));
+                    c.Add(new Paragraph(agAnahtarlari[row].InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariGucArayuzu).Count().ToString()));
                     c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
                     c.SetFontSize(11);
                     table.AddCell(c);
