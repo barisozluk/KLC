@@ -194,7 +194,6 @@ namespace AYP.Services
                     try
                     {
                         response = context.GucUreticiGucArayuzu
-                                                .Include(x => x.GucUretici).ThenInclude(x => x.GucUreticiTur)
                                                 .Include(x => x.GucArayuzu).ThenInclude(x => x.KL_KullanimAmaci)
                                                 .Include(x => x.GucArayuzu).ThenInclude(x => x.KL_GerilimTipi)
                                                 .Where(ga => ga.GucUreticiId == gucUreticiId)

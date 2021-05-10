@@ -848,11 +848,23 @@ namespace AYP
                 if (gucArayuzu.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti)
                 {
                     ag2.IsEnabled = false; ag2.Opacity = 0.25;
+                    gucArayuzu.GirdiDuraganGerilimDegeri1 = null;
+
                     ag4.IsEnabled = false; ag4.Opacity = 0.25;
+                    gucArayuzu.GirdiDuraganGerilimDegeri2 = null;
+
                     ag6.IsEnabled = false; ag6.Opacity = 0.25;
+                    gucArayuzu.GirdiDuraganGerilimDegeri3 = null;
+
                     ag8.IsEnabled = false; ag8.Opacity = 0.25;
+                    gucArayuzu.GirdiMinimumGerilimDegeri = null;
+
                     ag10.IsEnabled = false; ag10.Opacity = 0.25;
+                    gucArayuzu.GirdiMaksimumGerilimDegeri = null;
+
                     ag12.IsEnabled = false; ag12.Opacity = 0.25;
+                    gucArayuzu.GirdiTukettigiGucMiktari = null;
+
                     ag14.IsEnabled = true; ag14.Opacity = 1;
                     ag16.IsEnabled = true; ag16.Opacity = 1;
                 }
@@ -865,7 +877,10 @@ namespace AYP
                     ag10.IsEnabled = true; ag10.Opacity = 1;
                     ag12.IsEnabled = true; ag12.Opacity = 1;
                     ag14.IsEnabled = false; ag14.Opacity = 0.25;
+                    gucArayuzu.CiktiDuraganGerilimDegeri = null;
+
                     ag16.IsEnabled = false; ag16.Opacity = 0.25;
+                    gucArayuzu.CiktiUrettigiGucKapasitesi = null;
                 }
             }
 
@@ -979,6 +994,7 @@ namespace AYP
         }
         private void AgArayuzuRow_Checked(object sender, RoutedEventArgs e)
         {
+            AgArayuzuTab.DataContext = null;
             if (checkedAgArayuzuRow != null)
             {
                 checkedAgArayuzuRow.IsChecked = false;
@@ -1152,6 +1168,8 @@ namespace AYP
 
         private void GucArayuzuRow_Checked(object sender, RoutedEventArgs e)
         {
+            GucArayuzuTab.DataContext = null;
+
             if (checkedGucArayuzuRow != null)
             {
                 checkedGucArayuzuRow.IsChecked = false;

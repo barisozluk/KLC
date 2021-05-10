@@ -985,6 +985,7 @@ namespace AYP
 
         private void GucArayuzuRow_Checked(object sender, RoutedEventArgs e)
         {
+            GucArayuzuTab.DataContext = null;
             if (checkedGucArayuzuRow != null)
             {
                 checkedGucArayuzuRow.IsChecked = false;
