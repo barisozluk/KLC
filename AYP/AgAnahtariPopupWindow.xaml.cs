@@ -204,7 +204,7 @@ namespace AYP
                     var mainWindow = Owner as MainWindow;
                     var nodes = mainWindow.ViewModel.NodesCanvas.Nodes.Items;
 
-                    if (!nodes.Any(n => n.Id == agAnahtari.Id))
+                    if (!nodes.Any(n => n.Id == agAnahtari.Id && n.TypeId == (int)TipEnum.AgAnahtari))
                     {
                         fromNode = false;
                         //AgAnahtariTab

@@ -170,7 +170,7 @@ namespace AYP
                     var mainWindow = Owner as MainWindow;
                     var nodes = mainWindow.ViewModel.NodesCanvas.Nodes.Items;
 
-                    if (!nodes.Any(n => n.Id == gucUretici.Id))
+                    if (!nodes.Any(n => n.Id == gucUretici.Id && n.TypeId == (int)TipEnum.GucUretici))
                     {
                         fromNode = false;
                         //GucUreticiTab
@@ -986,15 +986,16 @@ namespace AYP
         private void GucArayuzuRow_Checked(object sender, RoutedEventArgs e)
         {
             GucArayuzuTab.DataContext = null;
+
             if (checkedGucArayuzuRow != null)
             {
                 checkedGucArayuzuRow.IsChecked = false;
+                checkedGucArayuzuRow = null;
             }
 
             checkedGucArayuzuRow = (CheckBox)sender;
-            var ctx = checkedGucArayuzuRow.DataContext;
-            gucArayuzu = (GucArayuzu)((GucArayuzu)ctx).Clone();
-
+            GucArayuzu ctx = (GucArayuzu)checkedGucArayuzuRow.DataContext;
+            gucArayuzu = (GucArayuzu)ctx.Clone();
             GucArayuzuTab.DataContext = gucArayuzu;
         }
 

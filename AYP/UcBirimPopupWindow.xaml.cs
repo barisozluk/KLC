@@ -206,7 +206,7 @@ namespace AYP
                     var mainWindow = Owner as MainWindow;
                     var nodes = mainWindow.ViewModel.NodesCanvas.Nodes.Items;
 
-                    if (!nodes.Any(n => n.Id == ucBirim.Id))
+                    if (!nodes.Any(n => n.Id == ucBirim.Id && n.TypeId == (int)TipEnum.UcBirim))
                     {
                         fromNode = false;
                         //UcBirimTab
