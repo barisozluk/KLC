@@ -1292,23 +1292,25 @@ namespace AYP
 
             foreach(var connect in nodesCanvas.Connects)
             {
-                
                 if(connect.Uzunluk == 0)
                 {
                     AddToDogrulamaPaneli(connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için kablo boyu tanımlayınız!", (int)DogrulamaMesajTipiEnum.Kablo, connect.FromConnector.UniqueId);
                 }
 
-                if (connect.AgYuku == 0)
+                if (connect.FromConnector.TypeId != (int)TipEnum.AgAnahtariGucArayuzu && connect.FromConnector.TypeId != (int)TipEnum.UcBirimGucArayuzu && connect.FromConnector.TypeId != (int)TipEnum.GucUreticiGucArayuzu)
                 {
-                    AddToDogrulamaPaneli(connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için ağ akışı tanımlayınız!", (int)DogrulamaMesajTipiEnum.AgAkis, connect.FromConnector.UniqueId);
-                }
-                else
-                {
-                    if(connect.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu && connect.ToConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
+                    if (connect.AgYuku == 0)
                     {
-                        if(connect.FromConnector.AgAkisList.Select(s => s.Yuk).Sum() != connect.ToConnector.AgAkisList.Select(s => s.Yuk).Sum())
+                        AddToDogrulamaPaneli(connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için ağ akışı tanımlayınız!", (int)DogrulamaMesajTipiEnum.AgAkis, connect.FromConnector.UniqueId);
+                    }
+                    else
+                    {
+                        if (connect.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu && connect.ToConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
                         {
-                            AddToDogrulamaPaneli(connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için giren, çıkan yük eşit değil!", (int)DogrulamaMesajTipiEnum.AgAkis, connect.FromConnector.UniqueId);
+                            if (connect.FromConnector.AgAkisList.Select(s => s.Yuk).Sum() != connect.ToConnector.AgAkisList.Select(s => s.Yuk).Sum())
+                            {
+                                AddToDogrulamaPaneli(connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için giren, çıkan yük eşit değil!", (int)DogrulamaMesajTipiEnum.AgAkis, connect.FromConnector.UniqueId);
+                            }
                         }
                     }
                 }

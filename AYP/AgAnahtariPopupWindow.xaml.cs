@@ -994,12 +994,12 @@ namespace AYP
         }
         private void AgArayuzuRow_Checked(object sender, RoutedEventArgs e)
         {
-            AgArayuzuTab.DataContext = null;
             if (checkedAgArayuzuRow != null)
             {
                 checkedAgArayuzuRow.IsChecked = false;
             }
 
+            AgArayuzuTab.DataContext = null;
             checkedAgArayuzuRow = (CheckBox)sender;
             var ctx = checkedAgArayuzuRow.DataContext;
             agArayuzu = (AgArayuzu)((AgArayuzu)ctx).Clone();
@@ -1168,13 +1168,12 @@ namespace AYP
 
         private void GucArayuzuRow_Checked(object sender, RoutedEventArgs e)
         {
-            GucArayuzuTab.DataContext = null;
-
             if (checkedGucArayuzuRow != null)
             {
                 checkedGucArayuzuRow.IsChecked = false;
             }
 
+            GucArayuzuTab.DataContext = null;
             checkedGucArayuzuRow = (CheckBox)sender;
             var ctx = checkedGucArayuzuRow.DataContext;
             gucArayuzu = (GucArayuzu)((GucArayuzu)ctx).Clone();

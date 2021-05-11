@@ -394,12 +394,12 @@ namespace AYP.Validations
             {
                 if (toConnector.GirdiDuraganGerilimDegeri1.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
                 {
-                    if (toConnector.GirdiDuraganGerilimDegeri2.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
+                    if (toConnector.GirdiDuraganGerilimDegeri2.HasValue && toConnector.GirdiDuraganGerilimDegeri2.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
                     {
-                        if (toConnector.GirdiDuraganGerilimDegeri3.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
+                        if (toConnector.GirdiDuraganGerilimDegeri3.HasValue && toConnector.GirdiDuraganGerilimDegeri3.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
                         {
-                            if (!(toConnector.GirdiMinimumGerilimDegeri.Value <= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri) &&
-                                toConnector.GirdiMaksimumGerilimDegeri.Value >= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri)))
+                            if (!(toConnector.GirdiMinimumGerilimDegeri.HasValue && toConnector.GirdiMinimumGerilimDegeri.Value <= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri) &&
+                                toConnector.GirdiMaksimumGerilimDegeri.HasValue && toConnector.GirdiMaksimumGerilimDegeri.Value >= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri)))
                             {
                                 response = false;
                             }

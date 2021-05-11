@@ -267,6 +267,14 @@ namespace AYP
                 AgAkisDataGrid.Visibility = Visibility.Hidden;
                 AgAkisNoDataRow.Visibility = Visibility.Visible;
             }
+
+            checkedAgAkisRow = null;
+            DataContext = null;
+            agAkis = new AgAkis();
+            agAkis.AgArayuzuId = this.ucBirimAgArayuzu.UniqueId;
+            SetAgAkisTipiList();
+            SetAgAkisProtokoluList();
+            DataContext = agAkis;
         }
 
         private void AgAkisDelete_Row(object sender, RoutedEventArgs e)

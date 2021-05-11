@@ -985,17 +985,15 @@ namespace AYP
 
         private void GucArayuzuRow_Checked(object sender, RoutedEventArgs e)
         {
-            GucArayuzuTab.DataContext = null;
-
             if (checkedGucArayuzuRow != null)
             {
                 checkedGucArayuzuRow.IsChecked = false;
-                checkedGucArayuzuRow = null;
             }
 
+            GucArayuzuTab.DataContext = null;
             checkedGucArayuzuRow = (CheckBox)sender;
-            GucArayuzu ctx = (GucArayuzu)checkedGucArayuzuRow.DataContext;
-            gucArayuzu = (GucArayuzu)ctx.Clone();
+            var ctx = checkedGucArayuzuRow.DataContext;
+            gucArayuzu = (GucArayuzu)((GucArayuzu)ctx).Clone();
             GucArayuzuTab.DataContext = gucArayuzu;
         }
 
