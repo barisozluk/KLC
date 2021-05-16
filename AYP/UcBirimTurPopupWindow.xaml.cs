@@ -25,9 +25,6 @@ namespace AYP
         private IUcBirimService service;
 
         UcBirimTur ucBirimTur;
-        public MainWindow MainWindow { get; set; }
-
-
 
         public UcBirimTurPopupWindow()
         {
@@ -47,8 +44,6 @@ namespace AYP
 
         private void Save_UcBirimTur(object sender, RoutedEventArgs e)
         {
-            NotificationManager notificationManager = new NotificationManager();
-
             var validationContext = new ValidationContext(ucBirimTur, null, null);
             var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
 
@@ -60,7 +55,7 @@ namespace AYP
                 {
                     NotifySuccessPopup nfp = new NotifySuccessPopup();
                     nfp.msg.Text = response.Message;
-                    nfp.Owner = this.MainWindow;
+                    nfp.Owner = Owner;
                     nfp.Show();
 
                     Close();
@@ -71,7 +66,7 @@ namespace AYP
                 {
                     NotifyWarningPopup nfp = new NotifyWarningPopup();
                     nfp.msg.Text = response.Message;
-                    nfp.Owner = this.MainWindow;
+                    nfp.Owner = Owner;
                     nfp.Show();
                 }
             }
@@ -87,10 +82,6 @@ namespace AYP
                         }
                     }
                 }
-                NotifyInfoPopup nfp = new NotifyInfoPopup();
-                nfp.msg.Text = "Lütfen, zorunlu alanları doldurunuz.";
-                nfp.Owner = this.MainWindow;
-                nfp.Show();
             }
         }
     }

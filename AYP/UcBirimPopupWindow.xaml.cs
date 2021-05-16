@@ -31,6 +31,7 @@ namespace AYP
         private IKodListeService kodListeService;
 
         UcBirim ucBirim;
+        UcBirim oldUcBirim;
         AgArayuzu agArayuzu;
         GucArayuzu gucArayuzu;
 
@@ -51,6 +52,7 @@ namespace AYP
             gucArayuzu = new GucArayuzu();
             if (_ucBirim != null)
             {
+                oldUcBirim = (UcBirim)_ucBirim.Clone();
                 ucBirim = (UcBirim)_ucBirim.Clone();
                 isEditMode = true;
             }
@@ -492,6 +494,43 @@ namespace AYP
             {
                 if ((!string.IsNullOrEmpty(GirdiAgArayuzuSayisi.Text) && Convert.ToInt32(GirdiAgArayuzuSayisi.Text) > 0) || (!string.IsNullOrEmpty(CiktiAgArayuzuSayisi.Text) && Convert.ToInt32(CiktiAgArayuzuSayisi.Text) > 0))
                 {
+                    if (oldUcBirim != null)
+                    {
+                        if (oldUcBirim.GucArayuzuSayisi != ucBirim.GucArayuzuSayisi)
+                        {
+                            gucArayuzuList.Clear();
+                            UcBirimGucArayuzDataGrid.ItemsSource = null;
+                            UcBirimGucArayuzDataGrid.ItemsSource = gucArayuzuList;
+                            UcBirimGucArayuzDataGrid.Visibility = Visibility.Hidden;
+                            GucArayuzuNoDataRow.Visibility = Visibility.Visible;
+                        }
+
+                        if (ucBirim.GirdiAgArayuzuSayisi != oldUcBirim.GirdiAgArayuzuSayisi)
+                        {
+                            agArayuzuList = agArayuzuList.Where(x => x.KullanimAmaciId != (int)KullanimAmaciEnum.Girdi).ToList();
+
+                        }
+
+                        if (ucBirim.CiktiAgArayuzuSayisi != oldUcBirim.CiktiAgArayuzuSayisi)
+                        {
+                            agArayuzuList = agArayuzuList.Where(x => x.KullanimAmaciId != (int)KullanimAmaciEnum.Cikti).ToList();
+                        }
+
+                        UcBirimAgArayuzDataGrid.ItemsSource = null;
+                        UcBirimAgArayuzDataGrid.ItemsSource = agArayuzuList;
+
+                        if (agArayuzuList != null && agArayuzuList.Count() > 0)
+                        {
+                            UcBirimAgArayuzDataGrid.Visibility = Visibility.Visible;
+                            AgArayuzuNoDataRow.Visibility = Visibility.Hidden;
+                        }
+                        else
+                        {
+                            UcBirimAgArayuzDataGrid.Visibility = Visibility.Hidden;
+                            AgArayuzuNoDataRow.Visibility = Visibility.Visible;
+                        }
+                    }
+
                     UcBirimTab.IsSelected = false;
                     AgArayuzuTab.IsSelected = true;
                     AgArayuzuTab.DataContext = null;
@@ -616,6 +655,7 @@ namespace AYP
             UcBirimTab.Width = 150;
             AgArayuzuTab.Width = 151;
             GucArayuzuTab.Width = 151;
+            oldUcBirim = (UcBirim)ucBirim.Clone();
         }
 
         private void GucArayuzuPreviousButton_Click(object sender, RoutedEventArgs e)
@@ -1001,28 +1041,60 @@ namespace AYP
                 ag2.BorderBrush = new SolidColorBrush(Colors.Red);
             }
 
-            if (!string.IsNullOrEmpty(ag10.Text) && Convert.ToDecimal(ag10.Text) > 0)
-            {
-                if (string.IsNullOrEmpty(ag8.Text) || Convert.ToDecimal(ag8.Text) == 0 || Convert.ToDecimal(ag8.Text) >= Convert.ToDecimal(ag10.Text))
-                {
-                    validMi = false;
-                    ag8.BorderBrush = new SolidColorBrush(Colors.Red);
-                }
-            }
-
-            if (!string.IsNullOrEmpty(ag8.Text) && Convert.ToDecimal(ag8.Text) > 0)
-            {
-                if (string.IsNullOrEmpty(ag10.Text) || Convert.ToDecimal(ag10.Text) == 0 || Convert.ToDecimal(ag10.Text) <= Convert.ToDecimal(ag8.Text))
-                {
-                    validMi = false;
-                    ag10.BorderBrush = new SolidColorBrush(Colors.Red);
-                }
-            }
-
             if (string.IsNullOrEmpty(ag12.Text) || Convert.ToDecimal(ag12.Text) == 0)
             {
                 validMi = false;
                 ag12.BorderBrush = new SolidColorBrush(Colors.Red);
+            }
+
+            if (validMi)
+            {
+                if (!string.IsNullOrEmpty(ag10.Text) && Convert.ToDecimal(ag10.Text) > 0)
+                {
+                    if (!string.IsNullOrEmpty(ag8.Text) && Convert.ToDecimal(ag8.Text) > 0)
+                    {
+                        if (Convert.ToDecimal(ag8.Text) >= Convert.ToDecimal(ag10.Text))
+                        {
+                            NotifyInfoPopup nfp = new NotifyInfoPopup();
+                            nfp.msg.Text = "Minimum gerilim değeri, maksimum gerilim değerine eşit veya büyük olamaz!";
+                            nfp.Owner = Owner;
+                            nfp.Show();
+
+                            validMi = false;
+                            ag8.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
+                    }
+                    else
+                    {
+                        validMi = false;
+                        ag8.BorderBrush = new SolidColorBrush(Colors.Red);
+                    }
+                }
+            }
+
+            if (validMi)
+            {
+                if (!string.IsNullOrEmpty(ag8.Text) && Convert.ToDecimal(ag8.Text) > 0)
+                {
+                    if (!string.IsNullOrEmpty(ag10.Text) && Convert.ToDecimal(ag10.Text) > 0)
+                    {
+                        if (Convert.ToDecimal(ag10.Text) <= Convert.ToDecimal(ag8.Text))
+                        {
+                            NotifyInfoPopup nfp = new NotifyInfoPopup();
+                            nfp.msg.Text = "Maksimum gerilim değeri, minimum gerilim değerine eşit veya küçük olamaz!";
+                            nfp.Owner = Owner;
+                            nfp.Show();
+
+                            validMi = false;
+                            ag10.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
+                    }
+                    else
+                    {
+                        validMi = false;
+                        ag10.BorderBrush = new SolidColorBrush(Colors.Red);
+                    }
+                }
             }
 
             return validMi;

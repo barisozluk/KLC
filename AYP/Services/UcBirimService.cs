@@ -539,7 +539,7 @@ namespace AYP.Services
             return imgSrc;
         }
 
-        public ResponseModel SaveTopluEdit(List<int> selectedIdList, string ureticiAdi)
+        public ResponseModel SaveTopluEdit(List<int> selectedIdList, string ureticiAdi, string ureticiParcaNo, string dosyaAdi, byte[] sembol)
         {
             ResponseModel response = new ResponseModel();
 
@@ -553,6 +553,10 @@ namespace AYP.Services
                         {
                             var ucBirim = context.UcBirim.Where(x => x.Id == selectedId).FirstOrDefault();
                             ucBirim.UreticiAdi = ureticiAdi;
+                            ucBirim.UreticiParcaNo = ureticiParcaNo;
+                            ucBirim.SembolDosyaAdi = dosyaAdi;
+                            ucBirim.Sembol = sembol;
+
                             context.SaveChanges();
                         }
                         response.SetSuccess();

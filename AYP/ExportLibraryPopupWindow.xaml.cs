@@ -24,8 +24,6 @@ namespace AYP
 
         private string fileName;
 
-        public MainWindow MainWindow { get; set; }
-
         public ExportLibraryPopupWindow()
         {
             InitializeComponent();
@@ -94,7 +92,7 @@ namespace AYP
 
                         NotifySuccessPopup nfp = new NotifySuccessPopup();
                         nfp.msg.Text = "Kütüphane başarıyla kaydedildi.";
-                        nfp.Owner = this.MainWindow;
+                        nfp.Owner = Owner;
                         nfp.Show();
 
                         Close();
@@ -107,7 +105,7 @@ namespace AYP
             {
                 NotifyWarningPopup nfp = new NotifyWarningPopup();
                 nfp.msg.Text = "Veritabanı bağlantısı oluşturulamadı. Kütüphane aktarılamadı.";
-                nfp.Owner = this.MainWindow;
+                nfp.Owner = Owner;
                 nfp.Show();
             }
         }

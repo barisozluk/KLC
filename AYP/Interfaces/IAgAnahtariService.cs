@@ -19,7 +19,7 @@ namespace AYP.Interfaces
         List<AgArayuzu> ListAgAnahtariAgArayuzu(int agAnahtariId);
         List<GucArayuzu> ListAgAnahtariGucArayuzu(int agAnahtariId);
         AgAnahtari GetAgAnahtariById(int agAnahtariId);
-        ResponseModel SaveTopluEdit(List<int> selectedIdList, string ureticiAdi);
+        ResponseModel SaveTopluEdit(List<int> selectedIdList, string ureticiAdi, string ureticiParcaNo, string dosyaAdi, byte[] sembol);
         AgAnahtariTur GetAgAnahtariTurById(int agAnahtariTurId);
         void ImportAgAnahtariLibrary(AgAnahtariTur agAnahtariTur, List<AgAnahtari> agAnahtariList, List<AgAnahtariAgArayuzu> aaAgArayuzuList, List<AgArayuzu> agArayuzuList, List<AgAnahtariGucArayuzu> aaGucArayuzuList, List<GucArayuzu> gucArayuzuList);
     }

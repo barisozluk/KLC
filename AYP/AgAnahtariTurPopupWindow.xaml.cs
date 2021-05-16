@@ -21,8 +21,6 @@ namespace AYP
 
         AgAnahtariTur agAnahtariTur;
 
-        public MainWindow MainWindow { get; set; }
-
         public AgAnahtariTurPopupWindow()
         {
             service = new AgAnahtariService();
@@ -47,7 +45,7 @@ namespace AYP
                 {
                     NotifySuccessPopup nfp = new NotifySuccessPopup();
                     nfp.msg.Text = "İşlem başarı ile gerçekleştirildi.";
-                    nfp.Owner = this.MainWindow;
+                    nfp.Owner = Owner;
                     nfp.Show();
 
                     Close();
@@ -58,7 +56,7 @@ namespace AYP
                 {
                     NotifyWarningPopup nfp = new NotifyWarningPopup();
                     nfp.msg.Text = "İşlem başarısız oldu.";
-                    nfp.Owner = this.MainWindow;
+                    nfp.Owner = Owner;
                     nfp.Show();
                 }
             

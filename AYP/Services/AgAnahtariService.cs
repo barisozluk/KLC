@@ -544,7 +544,7 @@ namespace AYP.Services
             return imgSrc;
         }
 
-        public ResponseModel SaveTopluEdit(List<int> selectedIdList, string ureticiAdi)
+        public ResponseModel SaveTopluEdit(List<int> selectedIdList, string ureticiAdi, string ureticiParcaNo, string dosyaAdi, byte[] sembol)
         {
             ResponseModel response = new ResponseModel();
 
@@ -558,6 +558,10 @@ namespace AYP.Services
                         {
                             var agAnahtari = context.AgAnahtari.Include(x => x.AgAnahtariTur).Where(x => x.Id == selectedId).FirstOrDefault();
                             agAnahtari.UreticiAdi = ureticiAdi;
+                            agAnahtari.UreticiParcaNo = ureticiParcaNo;
+                            agAnahtari.SembolDosyaAdi = dosyaAdi;
+                            agAnahtari.Sembol = sembol;
+
                             context.SaveChanges();
                         }
 

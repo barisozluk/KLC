@@ -19,7 +19,7 @@ namespace AYP.Interfaces
         List<AgArayuzu> ListUcBirimAgArayuzu(int ucBirimId);
         List<GucArayuzu> ListUcBirimGucArayuzu(int ucBirimId);
         UcBirim GetUcBirimById(int ucBirimId);
-        ResponseModel SaveTopluEdit(List<int> selectedIdList, string ureticiAdi);
+        ResponseModel SaveTopluEdit(List<int> selectedIdList, string ureticiAdi, string ureticiParcaNo, string dosyaAdi, byte[] sembol);
         UcBirimTur GetUcBirimTurById(int ucBirimTurId);
         void ImportUcBirimLibrary(UcBirimTur ucBirimTur, List<UcBirim> ucBirimList, List<UcBirimAgArayuzu> ubAgArayuzuList, List<AgArayuzu> agArayuzuList, List<UcBirimGucArayuzu> ubGucArayuzuList, List<GucArayuzu> gucArayuzuList);
     }

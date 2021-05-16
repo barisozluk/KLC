@@ -11,6 +11,7 @@ using iText.Layout.Properties;
 using log4net;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -87,13 +88,108 @@ namespace AYP
                 }
             }
 
-            if (raporTipi == "Ağ Planlama Raporu")
+            var validationContext = new ValidationContext(model, null, null);
+            var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
+
+            if (Validator.TryValidateObject(model, validationContext, results, true))
             {
-                AgPlanlamaRaporuOlustur();
+                if (model.Tarih.HasValue)
+                {
+                    if (raporTipi == "Ağ Planlama Raporu")
+                    {
+                        AgPlanlamaRaporuOlustur();
+                    }
+                    else
+                    {
+                        GucPlanlamaRaporuOlustur();
+                    }
+                }
+                else
+                {
+                    Gun1.BorderBrush = new SolidColorBrush(Colors.Red);
+                    Ay1.BorderBrush = new SolidColorBrush(Colors.Red);
+                    Yil1.BorderBrush = new SolidColorBrush(Colors.Red);
+                }
             }
             else
             {
-                GucPlanlamaRaporuOlustur();
+                if (!model.Tarih.HasValue)
+                {
+                    Gun1.BorderBrush = new SolidColorBrush(Colors.Red);
+                    Ay1.BorderBrush = new SolidColorBrush(Colors.Red);
+                    Yil1.BorderBrush = new SolidColorBrush(Colors.Red);
+                }
+                
+                foreach (var result in results)
+                {
+                    foreach (var memberName in result.MemberNames)
+                    {
+                        if (memberName == "GizlilikDerecesi")
+                        {
+                            GizlilikDerecesi.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
+
+                        if (memberName == "YazimOrtami")
+                        {
+                            YazimOrtami.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
+
+                        if (memberName == "Hazirlayan")
+                        {
+                            Hazirlayan.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
+
+                        if (memberName == "KontrolEden")
+                        {
+                            KontrolEden.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
+
+                        if (memberName == "Onaylayan")
+                        {
+                            Onaylayan.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
+
+                        if (memberName == "DilKodu")
+                        {
+                            DilKodu.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
+
+                        if (memberName == "DokumanTanimi")
+                        {
+                            DokumanTanimi.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
+
+                        if (memberName == "Bolum")
+                        {
+                            Bolum.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
+
+                        if (memberName == "RevizyonKodu")
+                        {
+                            RevizyonKodu.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
+
+                        if (memberName == "DokumanKodu")
+                        {
+                            DokumanKodu.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
+
+                        if (memberName == "DokumanParcaNo")
+                        {
+                            DokumanParcaNo.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
+
+                        if (memberName == "Degistiren")
+                        {
+                            Degistiren.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
+
+                        if (memberName == "SayfaBoyutu")
+                        {
+                            SayfaBoyutu.BorderBrush = new SolidColorBrush(Colors.Red);
+                        }
+                    }
+                }
             }
         }
 
@@ -1925,7 +2021,7 @@ namespace AYP
 
             c = new Cell();
             c.Add(new Paragraph("Değişiklik Tarihi-Change Date").SetFontSize(6));
-            c.Add(new Paragraph(model.DegistirmeTarihi != default(DateTime) ? model.DegistirmeTarihi.ToString("dd/MM/yyyy") : "").SetFontSize(9).SetBold().SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+            c.Add(new Paragraph(model.DegistirmeTarihi.HasValue ? model.DegistirmeTarihi.Value.ToString("dd/MM/yyyy") : "").SetFontSize(9).SetBold().SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
             //c.SetHeight(30);
             table.AddCell(c);
@@ -1964,7 +2060,7 @@ namespace AYP
 
             c = new Cell();
             c.Add(new Paragraph("Tarih-Date").SetFontSize(6));
-            c.Add(new Paragraph(model.Tarih != default(DateTime) ? model.Tarih.ToString("dd/MM/yyyy") : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+            c.Add(new Paragraph(model.Tarih.HasValue ? model.Tarih.Value.ToString("dd/MM/yyyy") : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
             //c.SetHeight(30);
             table.AddCell(c);

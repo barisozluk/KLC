@@ -27,8 +27,6 @@ namespace AYP
 
         GucUreticiTur gucUreticiTur;
 
-        public MainWindow MainWindow { get; set; }
-
         public GucUreticiTurPopupWindow()
         {
             service = new GucUreticiService();
@@ -53,7 +51,7 @@ namespace AYP
                 {
                     NotifySuccessPopup nfp = new NotifySuccessPopup();
                     nfp.msg.Text = response.Message;
-                    nfp.Owner = this.MainWindow;
+                    nfp.Owner = Owner;
                     nfp.Show();
 
                     Close();
@@ -64,7 +62,7 @@ namespace AYP
                 {
                     NotifyWarningPopup nfp = new NotifyWarningPopup();
                     nfp.msg.Text = response.Message;
-                    nfp.Owner = this.MainWindow;
+                    nfp.Owner = Owner;
                     nfp.Show();
                 }
             }
@@ -80,10 +78,6 @@ namespace AYP
                         }
                     }
                 }
-                NotifyInfoPopup nfp = new NotifyInfoPopup();
-                nfp.msg.Text = "Lütfen, zorunlu alanları doldurunuz.";
-                nfp.Owner = this.MainWindow;
-                nfp.Show();
             }
         }
 
