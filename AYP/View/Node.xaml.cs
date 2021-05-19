@@ -91,16 +91,33 @@ namespace AYP.View
                     GridElement.Children.Add(left);
                     i += 20;
                 }
+                
+                
+                if (this.ViewModel.TypeId == (int)TipEnum.Group)
+                {
+                    NodeSembol.Visibility = Visibility.Hidden;
+                    NodeText.Visibility = Visibility.Visible;
+                    var g = this.ViewModel.NodesCanvas.GroupList.Where(x => x.UniqueId == this.ViewModel.UniqueId).FirstOrDefault();
+                    var n = g.NodeList.Count();
+                    NodeText.Text =  n.ToString();
+                }
+                else
+                {
+                    NodeSembol.Visibility = Visibility.Visible;
+                    NodeText.Visibility = Visibility.Hidden;
+                    NodeText.Text = "TEST";
+                    var image = LoadImageFromByteArray(this.ViewModel.Sembol);
+                    NodeSembol.Source = image;
+                }
 
-                var image = LoadImageFromByteArray(this.ViewModel.Sembol);
-                NodeSembol.Source = image;
 
-                this.OneWayBind(this.ViewModel, x => x.TransitionsForView, x => x.ItemsControlTransitions.ItemsSource).DisposeWith(disposable);
+                    this.OneWayBind(this.ViewModel, x => x.TransitionsForView, x => x.ItemsControlTransitions.ItemsSource).DisposeWith(disposable);
 
                 this.WhenAnyValue(v => v.NodeHeaderElement.ActualWidth).BindTo(this, v => v.ViewModel.HeaderWidth).DisposeWith(disposable);
 
             });
         }
+        
         #endregion Setup Binding
 
         #region Setup Commands

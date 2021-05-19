@@ -2899,7 +2899,7 @@ namespace AYP.ViewModel
         {
             int n = 0;
             int m = 0;
-
+            
             List<NodeViewModel> groupNodes = this.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.Group).ToList();
             List<NodeViewModel> otherNodes = this.Nodes.Items.Where(x => x.TypeId != (int)TipEnum.Group).ToList();
 
