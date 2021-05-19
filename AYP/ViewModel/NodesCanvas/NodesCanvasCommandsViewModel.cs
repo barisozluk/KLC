@@ -1052,6 +1052,7 @@ namespace AYP.ViewModel
                         }
                     }
                 }
+                NodeCounter();
             }
             else
             {
@@ -1145,7 +1146,7 @@ namespace AYP.ViewModel
             model.GucArayuzuList = willBeCopiedNode.GucArayuzuList;
             GroupList.Add(model);
             AddToProjectHierarchy(willBeCopiedNode);
-
+            NodeCounter();
             foreach (var node in temp)
             {
                 AddChildToProjectHierarchyWithTransitions(willBeCopiedNode.Name, node);
@@ -1312,6 +1313,7 @@ namespace AYP.ViewModel
 
                     Nodes.Add(newNode);
                     AddToProjectHierarchy(newNode);
+                    NodeCounter();
 
                     foreach (var node in nodeList)
                     {
@@ -1360,6 +1362,8 @@ namespace AYP.ViewModel
                             }
                         }
                     }
+                    
+
                 }
             }
             else
@@ -1511,6 +1515,8 @@ namespace AYP.ViewModel
                     GroupList.Remove(group);
                 }
             }
+            NodeCounter();
+
         }
 
         private void EditSelected()
@@ -1690,6 +1696,8 @@ namespace AYP.ViewModel
                 return;
             ClearScheme();
             this.SetupStartState();
+            NodeCounter();
+
         }
         private void ClearScheme()
         {
@@ -2584,8 +2592,9 @@ namespace AYP.ViewModel
             else
             {
                 AddToProjectHierarchy(newNode);
-            }
 
+            }
+            NodeCounter();
             LogDebug("Node with name \"{0}\" was added", newNode.Name);
             return newNode;
         }
@@ -2594,6 +2603,7 @@ namespace AYP.ViewModel
             Nodes.Remove(result);
             DeleteWithRedoFromProjectHierarchy(result);
             LogDebug("Node with name \"{0}\" was removed", result.Name);
+            NodeCounter();
             return result;
         }
 
@@ -2637,6 +2647,7 @@ namespace AYP.ViewModel
                 {
                     result = DeleteMode.DeleteConnects;
                 }
+                
 
             }
 
@@ -2648,7 +2659,7 @@ namespace AYP.ViewModel
             {
                 CommandDeleteSelectedNodes.Execute();
             }
-
+            NodeCounter();
             return result;
         }
         private DeleteMode UnDeleteSelectedElements(DeleteMode parameter, DeleteMode result)
@@ -2668,6 +2679,7 @@ namespace AYP.ViewModel
             {
                 CommandUndo.ExecuteWithSubscribe();
             }
+            NodeCounter();
             return result;
         }
         private List<(int index, ConnectorViewModel connector)> DeleteSelectedConnectors(List<ConnectorViewModel> parameter, List<(int index, ConnectorViewModel connector)> result)
@@ -2764,7 +2776,7 @@ namespace AYP.ViewModel
                 DeleteWithRedoFromProjectHierarchy(node);
                 LogDebug("Node with name \"{0}\" was removed", node.Name);
             }
-
+            NodeCounter();
             return result;
         }
         private ElementsForDelete UnDeleteSelectedNodes(List<NodeViewModel> parameter, ElementsForDelete result)
@@ -2783,7 +2795,7 @@ namespace AYP.ViewModel
                 element.connect.FromConnector.Node.CommandAddConnectorWithConnect.ExecuteWithSubscribe((element.connectorIndex, element.connect.FromConnector));
                 LogDebug("Transition with name \"{0}\" was added", element.connect.FromConnector.Name);
             }
-
+            NodeCounter();
             return result;
         }
         private IEnumerable<ConnectorViewModel> GetAllConnectors()
@@ -2880,6 +2892,27 @@ namespace AYP.ViewModel
                 mc.Owner = this.MainWindow;
                 mc.ShowDialog();
             }
+
+        }
+
+        private void NodeCounter()
+        {
+            int n = 0;
+            int m = 0;
+
+            List<NodeViewModel> groupNodes = this.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.Group).ToList();
+            List<NodeViewModel> otherNodes = this.Nodes.Items.Where(x => x.TypeId != (int)TipEnum.Group).ToList();
+
+            foreach(var i in groupNodes)
+            {
+                var group = GroupList.Where(g => g.UniqueId == i.UniqueId).FirstOrDefault();
+                n = n + group.NodeList.Count();
+            }
+
+            m = otherNodes.Count();
+
+            MainWindow.DeviceCounter(n+m);
+
 
         }
     }

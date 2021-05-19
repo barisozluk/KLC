@@ -984,6 +984,10 @@ namespace AYP
                 }
             }
         }
+        public void DeviceCounter(int n )
+        {
+            deviceCounter.Text = n.ToString();
+        }
 
         public void ProjectHierarchyDelete(List<NodeViewModel> NodesToDelete)
         {
@@ -1042,6 +1046,7 @@ namespace AYP
                     newItem.Header = childNode.Name;
                     searchfordelete2.Items.Add(newItem);
                 }
+
             }
         }
 
