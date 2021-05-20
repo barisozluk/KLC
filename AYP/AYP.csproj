@@ -54,7 +54,25 @@
     <None Remove="Images\line.png" />
     <None Remove="Images\ring.png" />
     <None Remove="Images\star.png" />
-    <None Remove="KullanimKilavuzuVeEgitimVideolari\WhatsApp Video 2021-05-20 at 10.54.15.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\Bağlantı Kes-Kopyala-Yapıştır.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\Cihaz Güncelleme.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\Cihaz Silme.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\Doğrulama Paneli.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\Farklı Kaydet.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\Geri Al-Tekrarla.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\Grupla-Grubu Dağıt.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\Kablo Uzunluğu Tanımlama-Ağ Akışı Tanımlama.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\Kaydet.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\Kütüphane Dışarı Aktar.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\Kütüphane İçeri Aktar.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\Proje Aç.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\Raporlar.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\Sağa Yasla-Sola Yasla-Ortala.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\Topolojiler.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\Yakınlaş-Uzaklaş.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\Yeni Proje .mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\Çoklu Seçim.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\Örnek Cihaz Tanımlama.mp4" />
     <None Remove="log.config" />
     <None Remove="SEMA-AYP-KK_v2.0_Kullanım Kılavuzu%28001%29.pdf" />
     <None Remove="SembolKutuphanesi\Ağ Anahtarı-1.png" />
@@ -93,7 +111,61 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="KullanimKilavuzuVeEgitimVideolari\WhatsApp Video 2021-05-20 at 10.54.15.mp4">
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\Bağlantı Kes-Kopyala-Yapıştır.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\Cihaz Güncelleme.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\Cihaz Silme.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\Doğrulama Paneli.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\Farklı Kaydet.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\Geri Al-Tekrarla.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\Grupla-Grubu Dağıt.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\Kablo Uzunluğu Tanımlama-Ağ Akışı Tanımlama.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\Kaydet.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\Kütüphane Dışarı Aktar.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\Kütüphane İçeri Aktar.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\Proje Aç.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\Raporlar.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\Sağa Yasla-Sola Yasla-Ortala.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\Topolojiler.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\Yakınlaş-Uzaklaş.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\Yeni Proje .mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\Çoklu Seçim.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\Örnek Cihaz Tanımlama.mp4">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="log.config">
