@@ -54,6 +54,7 @@
     <None Remove="Images\line.png" />
     <None Remove="Images\ring.png" />
     <None Remove="Images\star.png" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\WhatsApp Video 2021-05-20 at 10.54.15.mp4" />
     <None Remove="log.config" />
     <None Remove="SEMA-AYP-KK_v2.0_Kullanım Kılavuzu%28001%29.pdf" />
     <None Remove="SembolKutuphanesi\Ağ Anahtarı-1.png" />
@@ -92,10 +93,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\WhatsApp Video 2021-05-20 at 10.54.15.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="log.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="KullanimKilavuzu\SEMA-AYP-KK_v2.0_Kullanım Kılavuzu%28001%29.pdf">
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\SEMA-AYP-KK_v2.0_Kullanım Kılavuzu%28001%29.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="SembolKutuphanesi\Ağ Anahtarı-1.png">

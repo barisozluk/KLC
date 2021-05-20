@@ -275,7 +275,7 @@ namespace AYP.ViewModel
                 if (agAnahtariSayisi == 1)
                 {
                     Guid gateWayUniqueId = selectedNodes.Where(s => s.TypeId == (int)TipEnum.AgAnahtari).Select(s => s.UniqueId).FirstOrDefault();
-                    var gateWayInputs = selectedNodes.Where(x => x.UniqueId == gateWayUniqueId).Select(s => s.InputList).FirstOrDefault();
+                    var gateWayInputs = selectedNodes.Where(x => x.UniqueId == gateWayUniqueId).Select(s => s.InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)).FirstOrDefault();
                     var bosInputSayisi = gateWayInputs.Where(x => x.Connect == null).Count();
 
                     if (bosInputSayisi >= selectedNodes.Where(x => x.UniqueId != gateWayUniqueId).Count())
@@ -397,7 +397,6 @@ namespace AYP.ViewModel
             popup.Owner = this.MainWindow;
             popup.ShowDialog();
         }
-
         public void ZincirTopolojiOlustur(NodeViewModel gateWay)
         {
             List<NodeViewModel> selectedNodes = this.Nodes.Items.Where(x => x.Selected).ToList();
@@ -434,7 +433,7 @@ namespace AYP.ViewModel
                         bool connectOlusturulabilirMi = false;
                         if (selectedNode != selectedNodeInner)
                         {
-                            foreach (var output in selectedNode.Transitions.Items)
+                            foreach (var output in selectedNode.Transitions.Items.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu))
                             {
                                 if (output.Connect == null)
                                 {
@@ -687,7 +686,6 @@ namespace AYP.ViewModel
                 }
             }
         }
-
         private List<NodeViewModel> ZincirOlusturRecursive(NodeViewModel node, List<KeyValuePair<NodeViewModel, List<ConnectViewModel>>> list, List<NodeViewModel> zincir, Guid gateWayUniqueId)
         {
             if (node.UniqueId != gateWayUniqueId)
@@ -773,7 +771,7 @@ namespace AYP.ViewModel
             }
             else
             {
-                var gateWayInputs = selectedNodes.Where(x => x.UniqueId == gateWayUniqueId).Select(s => s.InputList).FirstOrDefault();
+                var gateWayInputs = selectedNodes.Where(x => x.UniqueId == gateWayUniqueId).Select(s => s.InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)).FirstOrDefault();
                 var bosInputSayisi = gateWayInputs.Where(x => x.Connect == null).Count();
 
                 if (bosInputSayisi >= selectedNodes.Where(x => x.UniqueId != gateWayUniqueId).Count())
@@ -787,11 +785,11 @@ namespace AYP.ViewModel
                         var temp = new List<ConnectViewModel>();
                         var temp2 = new List<ConnectorViewModel>();
 
-                        foreach (var output in selectedNode.Transitions.Items)
+                        foreach (var output in selectedNode.Transitions.Items.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu))
                         {
                             if (output.Connect == null)
                             {
-                                foreach (var input in selectedNodes.Where(x => x.UniqueId == gateWayUniqueId).First().InputList)
+                                foreach (var input in selectedNodes.Where(x => x.UniqueId == gateWayUniqueId).First().InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu))
                                 {
                                     if (validation.ToConnectorValidasyonForTopoloji(input))
                                     {
@@ -887,7 +885,6 @@ namespace AYP.ViewModel
                 }
             }
         }
-
         private List<ConnectorViewModel> YildizRecursive(List<KeyValuePair<NodeViewModel, List<ConnectorViewModel>>> list, int index, List<ConnectorViewModel> result)
         {
             int oldIndex = index;

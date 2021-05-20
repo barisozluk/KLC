@@ -1136,23 +1136,21 @@ namespace AYP
         #region HelpEvent
         private void Help_Click(object sender, RoutedEventArgs e)
         {
-            var pdfOpenProcess = new System.Diagnostics.Process();
-            //string pdfPath = Directory.GetCurrentDirectory() + "\\SEMA_Data\\StreamingAssets\\AYP\\SEMA-AYP-KK_v2.0_Kullanım Kılavuzu(001).pdf";
-            string pdfPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"KullanimKilavuzu\SEMA-AYP-KK_v2.0_Kullanım Kılavuzu(001).pdf");
-            if (!File.Exists(pdfPath))
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            //openFileDialog.InitialDirectory = Directory.GetCurrentDirectory() + "\\SEMA_Data\\StreamingAssets\\AYP\\SembolKutuphanesi";
+            openFileDialog.InitialDirectory = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"KullanimKilavuzuVeEgitimVideolari");
+            openFileDialog.Filter = "PDF and  MP4 files (*.pdf;*.mp4;)|*.pdf;*.mp4;";
+
+            if (openFileDialog.ShowDialog() == true)
             {
-                NotifyInfoPopup nfp = new NotifyInfoPopup();
-                nfp.msg.Text = "Kullanım kılavuzu henüz yüklenmemiştir!";
-                nfp.Owner = Owner;
-                nfp.Show();
-            }
-            else
-            {
-                pdfOpenProcess.StartInfo = new System.Diagnostics.ProcessStartInfo(pdfPath)
+                string path = openFileDialog.FileName;
+
+                var process = new System.Diagnostics.Process();
+                process.StartInfo = new System.Diagnostics.ProcessStartInfo(path)
                 {
                     UseShellExecute = true
                 };
-                pdfOpenProcess.Start();
+                process.Start();
             }
         }
         #endregion
