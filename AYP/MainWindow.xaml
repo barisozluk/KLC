@@ -112,7 +112,11 @@
         <Button x:Name="ButtonZincirTopoloji" ToolTip="Zincir Topoloji Oluştur" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="685,0,0,0">
             <Image Source="Images\line.png" Grid.Column="0" Grid.Row="0" Width="25" Height="20" />
         </Button>
-        
+
+        <Button x:Name="ButtonUcBirimOtoConnect" ToolTip="Uç Birim-Ağ Anahtarı Otomatik Bağlantı" Style="{DynamicResource StyleMainPanelUpButton}" Grid.Column="3" HorizontalAlignment="Left" Margin="725,0,0,0">
+            <Image Source="Images\star.png" Grid.Column="0" Grid.Row="0" Margin="2,0,0,0" Width="25" Height="20" />
+        </Button>
+
         <Button x:Name="ButtonBites"  Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,10,10,0" Grid.Row="1" VerticalAlignment="Top">
             <Image Source="Images\btes-nrm.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>

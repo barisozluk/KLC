@@ -484,7 +484,7 @@ namespace AYP
 
                     NotifySuccessPopup nfp = new NotifySuccessPopup();
                     nfp.msg.Text = "Rapor başarı ile oluşturuldu.";
-                    nfp.Owner = this;
+                    nfp.Owner = Owner;
                     nfp.Show();
 
                     this.ClosePopup();
@@ -1441,7 +1441,7 @@ namespace AYP
 
                     NotifySuccessPopup nfp = new NotifySuccessPopup();
                     nfp.msg.Text = "Rapor başarı ile oluşturuldu.";
-                    nfp.Owner = this;
+                    nfp.Owner = Owner;
                     nfp.Show();
 
                     this.ClosePopup();
@@ -1940,11 +1940,41 @@ namespace AYP
                 {
                     table.SetMarginTop(120);
                     doc.Add(table);
+                    Table tableTotal = new Table(new float[] { 600, 193 });
+
+                    Cell c = new Cell();
+                    c.Add(new Paragraph("Toplam Güç Tüketimi"));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    c.SetBold();
+                    tableTotal.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(connectList.Select(s => s.GucMiktari).Sum().ToString("0.##")));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    tableTotal.AddCell(c);
+                    doc.Add(tableTotal);
+
                 }
                 else if (connectList.Count < 10)
                 {
                     table.SetMarginTop(20);
                     doc.Add(table);
+                    Table tableTotal = new Table(new float[] { 600, 193 });
+
+                    Cell c = new Cell();
+                    c.Add(new Paragraph("Toplam Güç Tüketimi"));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    tableTotal.AddCell(c);
+
+                    c = new Cell();
+                    c.Add(new Paragraph(connectList.Select(s => s.GucMiktari).Sum().ToString("0.##")));
+                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontSize(11);
+                    tableTotal.AddCell(c);
+                    doc.Add(tableTotal);
                 }
             }
         }

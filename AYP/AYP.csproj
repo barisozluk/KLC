@@ -279,6 +279,9 @@
     <Compile Update="AgAnahtariGucArayuzuPopupWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="SelectGateWayForTopology.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="DuplicateArayuzPopupWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -329,6 +332,11 @@
 
     <Page Update="DeleteAppPopupWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+
+    <Page Update="SelectGateWayForTopology.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
     </Page>
 
     <Page Update="DuplicateArayuzPopupWindow.xaml">
