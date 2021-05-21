@@ -181,7 +181,7 @@ namespace AYP
                 this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandHalkaTopolojiOlustur, x => x.ButtonHalkaTopoloji).DisposeWith(disposable);
                 this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandYildizTopolojiOlustur, x => x.ButtonYildizTopoloji).DisposeWith(disposable);
                 this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandUcBirimOtoConnect, x => x.ButtonUcBirimOtoConnect).DisposeWith(disposable);
-
+                this.BindCommand(this.ViewModel, x => x.NodesCanvas.CommandGucUreticiOtoConnect, x => x.ButtonGucUreticiOtoConnect).DisposeWith(disposable);
             });
         }
         #endregion Setup Binding
@@ -792,6 +792,16 @@ namespace AYP
                     foreach (var node in nodes)
                     {
                         node.IsVisible = true;
+
+                        foreach(var input in node.InputList)
+                        {
+                            input.Visible = true;
+                        }
+
+                        foreach (var output in node.Transitions.Items)
+                        {
+                            output.Visible = true;
+                        }
                     }
 
                     foreach (var connect in this.ViewModel.NodesCanvas.Connects)
@@ -804,6 +814,30 @@ namespace AYP
                     foreach (var node in nodes)
                     {
                         node.IsVisible = true;
+
+                        foreach (var input in node.InputList)
+                        {
+                            if (input.TypeId == (int)TipEnum.AgAnahtariAgArayuzu || input.TypeId == (int)TipEnum.UcBirimAgArayuzu)
+                            {
+                                input.Visible = false;
+                            }
+                            else
+                            {
+                                input.Visible = true;
+                            }
+                        }
+
+                        foreach (var output in node.Transitions.Items)
+                        {
+                            if (output.TypeId == (int)TipEnum.AgAnahtariAgArayuzu || output.TypeId == (int)TipEnum.UcBirimAgArayuzu)
+                            {
+                                output.Visible = false;
+                            }
+                            else
+                            {
+                                output.Visible = true;
+                            }
+                        }
                     }
 
                     foreach (var connect in this.ViewModel.NodesCanvas.Connects)
@@ -835,6 +869,30 @@ namespace AYP
                         if (node.TypeId != (int)TipEnum.GucUretici)
                         {
                             node.IsVisible = true;
+
+                            foreach (var input in node.InputList)
+                            {
+                                if (input.TypeId == (int)TipEnum.AgAnahtariAgArayuzu || input.TypeId == (int)TipEnum.UcBirimAgArayuzu)
+                                {
+                                    input.Visible = true;
+                                }
+                                else
+                                {
+                                    input.Visible = false;
+                                }
+                            }
+
+                            foreach (var output in node.Transitions.Items)
+                            {
+                                if (output.TypeId == (int)TipEnum.AgAnahtariAgArayuzu || output.TypeId == (int)TipEnum.UcBirimAgArayuzu)
+                                {
+                                    output.Visible = true;
+                                }
+                                else
+                                {
+                                    output.Visible = false;
+                                }
+                            }
                         }
                         else
                         {
@@ -880,6 +938,16 @@ namespace AYP
                     foreach (var node in nodes)
                     {
                         node.IsVisible = true;
+
+                        foreach (var input in node.InputList)
+                        {
+                            input.Visible = true;
+                        }
+
+                        foreach (var output in node.Transitions.Items)
+                        {
+                            output.Visible = true;
+                        }
                     }
 
                     foreach (var connect in this.ViewModel.NodesCanvas.Connects)
@@ -894,6 +962,30 @@ namespace AYP
                         if (node.TypeId != (int)TipEnum.GucUretici)
                         {
                             node.IsVisible = true;
+
+                            foreach (var input in node.InputList)
+                            {
+                                if (input.TypeId == (int)TipEnum.AgAnahtariAgArayuzu || input.TypeId == (int)TipEnum.UcBirimAgArayuzu)
+                                {
+                                    input.Visible = true;
+                                }
+                                else
+                                {
+                                    input.Visible = false;
+                                }
+                            }
+
+                            foreach (var output in node.Transitions.Items)
+                            {
+                                if (output.TypeId == (int)TipEnum.AgAnahtariAgArayuzu || output.TypeId == (int)TipEnum.UcBirimAgArayuzu)
+                                {
+                                    output.Visible = true;
+                                }
+                                else
+                                {
+                                    output.Visible = false;
+                                }
+                            }
                         }
                         else
                         {
@@ -927,6 +1019,30 @@ namespace AYP
                     foreach (var node in nodes)
                     {
                         node.IsVisible = true;
+
+                        foreach (var input in node.InputList)
+                        {
+                            if (input.TypeId == (int)TipEnum.AgAnahtariAgArayuzu || input.TypeId == (int)TipEnum.UcBirimAgArayuzu)
+                            {
+                                input.Visible = false;
+                            }
+                            else
+                            {
+                                input.Visible = true;
+                            }
+                        }
+
+                        foreach (var output in node.Transitions.Items)
+                        {
+                            if (output.TypeId == (int)TipEnum.AgAnahtariAgArayuzu || output.TypeId == (int)TipEnum.UcBirimAgArayuzu)
+                            {
+                                output.Visible = false;
+                            }
+                            else
+                            {
+                                output.Visible = true;
+                            }
+                        }
                     }
 
                     foreach (var connect in this.ViewModel.NodesCanvas.Connects)

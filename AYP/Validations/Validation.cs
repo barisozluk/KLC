@@ -387,7 +387,7 @@ namespace AYP.Validations
             return response;
         }
 
-        private bool GerilimValidasyon(NodesCanvasViewModel NodesCanvas, ConnectorViewModel fromConnector, ConnectorViewModel toConnector)
+        public bool GerilimValidasyon(NodesCanvasViewModel NodesCanvas, ConnectorViewModel fromConnector, ConnectorViewModel toConnector)
         {
             var response = true;
             if (fromConnector.CiktiDuraganGerilimDegeri != -1)
@@ -412,7 +412,7 @@ namespace AYP.Validations
         }
 
 
-        private bool GucValidasyon(NodesCanvasViewModel NodesCanvas, ConnectorViewModel fromConnector, ConnectorViewModel toConnector)
+        public bool GucValidasyon(NodesCanvasViewModel NodesCanvas, ConnectorViewModel fromConnector, ConnectorViewModel toConnector)
         {
             var response = true;
 
@@ -507,6 +507,28 @@ namespace AYP.Validations
                 if (toConnector.GerilimTipiId == (int)GerilimTipiEnum.AC)
                 {
                     OpenModal("DC - AC bağlantısı yapılamaz.", NodesCanvas);
+                    response = false;
+                }
+            }
+
+            return response;
+        }
+
+        public bool GerilimTipiValidasyonForAutoConnect(NodesCanvasViewModel NodesCanvas, ConnectorViewModel fromConnector, ConnectorViewModel toConnector)
+        {
+            var response = true;
+
+            if (fromConnector.GerilimTipiId == (int)GerilimTipiEnum.AC)
+            {
+                if (toConnector.GerilimTipiId == (int)GerilimTipiEnum.DC)
+                {
+                    response = false;
+                }
+            }
+            else if (fromConnector.GerilimTipiId == (int)GerilimTipiEnum.DC)
+            {
+                if (toConnector.GerilimTipiId == (int)GerilimTipiEnum.AC)
+                {
                     response = false;
                 }
             }

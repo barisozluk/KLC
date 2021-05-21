@@ -18,6 +18,9 @@
     <Page Update="DeleteAppPopupWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="SelectGucUreticiForOtoConnect.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="SelectGateWayForTopology.xaml">
       <SubType>Designer</SubType>
     </Page>
