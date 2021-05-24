@@ -7,6 +7,7 @@ namespace AYP.Enums
     public enum DogrulamaMesajTipiEnum
     {
         AgAkis = 1,
-        Kablo = 2
+        Kablo = 2,
+        BosArayuz = 3
     }
 }

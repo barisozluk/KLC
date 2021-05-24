@@ -25,13 +25,13 @@
             </Button>
 
             <Rectangle Style="{DynamicResource StyleDescribingTurFormPanel}" Height="145" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Üretici *" Grid.Row="0" Grid.Column="1" Margin="0,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Üretici" Grid.Row="0" Grid.Column="1" Margin="0,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <TextBox Name="Uretici" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="160,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
-            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Üretici Parça No *" Grid.Row="0" Grid.Column="1" Margin="0,110,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Üretici Parça No" Grid.Row="0" Grid.Column="1" Margin="0,110,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <TextBox Name="UreticiParcaNo" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="160,110,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
-            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Sembol *" Grid.Row="0" Grid.Column="1" Margin="0,155,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Sembol" Grid.Row="0" Grid.Column="1" Margin="0,155,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
             <TextBox Name="Sembol" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="160,155,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" IsReadOnly="True"></TextBox>
             <Button Name="OpenSembolBtn" Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#222d35" Margin="300,155,0,10" Height="35" Width="80" Click="BtnOpenSembolFile_Click">
                 <Grid>

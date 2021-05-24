@@ -74,6 +74,10 @@
                         </Grid>
                     </Button>
 
+                    <Button ToolTip="Sil" Visibility="Hidden" Name="DeleteButton" Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#222d35" Margin="100,425,0,10" Height="35" Width="35" Click="BtnDeleteKatalogFile_Click">
+                        <Image Source="Images/delete.png" Width="20" Height="20" Margin="-6"></Image>
+                    </Button>
+
                     <Button ToolTip="İndir" Visibility="Hidden" Name="DownloadButton" Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#222d35" Margin="135,425,0,10" Height="35" Width="35" Click="BtnDownloadKatalogFile_Click">
                         <Image Source="Images/file.png" Width="20" Height="20" Margin="-6"></Image>
                     </Button>

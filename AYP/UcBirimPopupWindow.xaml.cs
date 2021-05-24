@@ -107,15 +107,15 @@ namespace AYP
                     GucArayuzuNoDataRow.Visibility = Visibility.Visible;
                 }
 
-                DownloadButton.Visibility = Visibility.Visible;
-
                 if (string.IsNullOrEmpty(ucBirim.KatalogDosyaAdi))
                 {
-                    DownloadButton.IsEnabled = false;
+                    DownloadButton.Visibility = Visibility.Hidden;
+                    DeleteButton.Visibility = Visibility.Hidden;
                 }
                 else
                 {
-                    DownloadButton.IsEnabled = true;
+                    DownloadButton.Visibility = Visibility.Visible;
+                    DeleteButton.Visibility = Visibility.Visible;
                 }
 
                 if (fromNode)
@@ -145,8 +145,10 @@ namespace AYP
                     Sembol.Opacity = 0.25;
                     OpenSembolBtn.IsEnabled = false;
                     OpenSembolBtn.Opacity = 0.25;
-                    DownloadButton.IsEnabled = false;
-                    DownloadButton.Opacity = 0.25;
+                    DownloadButton.IsEnabled = true;
+                    DownloadButton.Opacity = 1;
+                    DeleteButton.IsEnabled = false;
+                    DeleteButton.Opacity = 0.25;
 
                     //AgArayuzuTab
                     AgArayuzuAdi.IsEnabled = false;
@@ -238,6 +240,8 @@ namespace AYP
                         OpenSembolBtn.Opacity = 1;
                         DownloadButton.IsEnabled = true;
                         DownloadButton.Opacity = 1;
+                        DeleteButton.IsEnabled = true;
+                        DeleteButton.Opacity = 1;
 
                         //AgArayuzuTab
                         AgArayuzuAdi.IsEnabled = true;
@@ -322,8 +326,10 @@ namespace AYP
                         Sembol.Opacity = 0.25;
                         OpenSembolBtn.IsEnabled = false;
                         OpenSembolBtn.Opacity = 0.25;
-                        DownloadButton.IsEnabled = false;
-                        DownloadButton.Opacity = 0.25;
+                        DownloadButton.IsEnabled = true;
+                        DownloadButton.Opacity = 1;
+                        DeleteButton.IsEnabled = false;
+                        DeleteButton.Opacity = 0.25;
 
                         //AgArayuzuTab
                         AgArayuzuAdi.IsEnabled = false;
@@ -388,6 +394,7 @@ namespace AYP
                 gucArayuzuList = new List<GucArayuzu>();
 
                 DownloadButton.Visibility = Visibility.Hidden;
+                DeleteButton.Visibility = Visibility.Hidden;
 
                 UcBirimAgArayuzDataGrid.Visibility = Visibility.Hidden;
                 AgArayuzuNoDataRow.Visibility = Visibility.Visible;
@@ -496,7 +503,7 @@ namespace AYP
                 {
                     if (oldUcBirim != null)
                     {
-                        if (oldUcBirim.GucArayuzuSayisi != ucBirim.GucArayuzuSayisi)
+                        if (oldUcBirim.GucArayuzuSayisi > ucBirim.GucArayuzuSayisi)
                         {
                             gucArayuzuList.Clear();
                             UcBirimGucArayuzDataGrid.ItemsSource = null;
@@ -505,13 +512,13 @@ namespace AYP
                             GucArayuzuNoDataRow.Visibility = Visibility.Visible;
                         }
 
-                        if (ucBirim.GirdiAgArayuzuSayisi != oldUcBirim.GirdiAgArayuzuSayisi)
+                        if (ucBirim.GirdiAgArayuzuSayisi > oldUcBirim.GirdiAgArayuzuSayisi)
                         {
                             agArayuzuList = agArayuzuList.Where(x => x.KullanimAmaciId != (int)KullanimAmaciEnum.Girdi).ToList();
 
                         }
 
-                        if (ucBirim.CiktiAgArayuzuSayisi != oldUcBirim.CiktiAgArayuzuSayisi)
+                        if (ucBirim.CiktiAgArayuzuSayisi > oldUcBirim.CiktiAgArayuzuSayisi)
                         {
                             agArayuzuList = agArayuzuList.Where(x => x.KullanimAmaciId != (int)KullanimAmaciEnum.Cikti).ToList();
                         }
@@ -681,7 +688,7 @@ namespace AYP
         }
         #endregion
 
-        #region OpenKatalogFileDialogEvent
+        #region KatalogFileEvents
         private void BtnOpenKatalogFile_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -692,7 +699,25 @@ namespace AYP
                 ucBirim.KatalogDosyaAdi = Path.GetFileName(openFileDialog.FileName);
                 Katalog.Text = ucBirim.KatalogDosyaAdi;
                 ucBirim.Katalog = File.ReadAllBytes(openFileDialog.FileName);
+
+                DownloadButton.Visibility = Visibility.Visible;
+                DownloadButton.Opacity = 1;
+                DownloadButton.IsEnabled = true;
+
+                DeleteButton.Visibility = Visibility.Visible;
+                DeleteButton.Opacity = 1;
+                DeleteButton.IsEnabled = true;
             }
+        }
+
+        private void BtnDeleteKatalogFile_Click(object sender, RoutedEventArgs e)
+        {
+            ucBirim.KatalogDosyaAdi = null;
+            Katalog.Text = ucBirim.KatalogDosyaAdi;
+            ucBirim.Katalog = null;
+
+            DownloadButton.Visibility = Visibility.Hidden;
+            DeleteButton.Visibility = Visibility.Hidden;
         }
 
         #endregion
