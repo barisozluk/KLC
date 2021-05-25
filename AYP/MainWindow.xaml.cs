@@ -1410,33 +1410,79 @@ namespace AYP
 
             var nodesCanvas = this.ViewModel.NodesCanvas;
 
-            foreach(var node in nodesCanvas.Nodes.Items)
+            foreach (var node in nodesCanvas.Nodes.Items)
             {
-                bool outputlarBosMu = true;
-                bool inputlarBosMu = true;
-
-                foreach (var output in node.Transitions.Items)
+                if (node.TypeId == (int)TipEnum.GucUretici)
                 {
-                    if(output.Connect != null)
+                    bool outputlarBosMu = true;
+                    foreach (var output in node.Transitions.Items)
                     {
-                        outputlarBosMu = false;
+                        if (output.Connect != null)
+                        {
+                            outputlarBosMu = false;
+                        }
+                    }
+
+                    if (outputlarBosMu)
+                    {
+                        AddToDogrulamaPaneli(node.Name + " için en az bir çıktı bağlantısı yapınız!", (int)DogrulamaMesajTipiEnum.BosArayuz, node.UniqueId);
+                    }
+
+
+                    bool inputlarBosMu = true;
+                    foreach (var input in node.InputList)
+                    {
+                        foreach (var connect in nodesCanvas.Connects)
+                        {
+                            if (connect.ToConnector == input)
+                            {
+                                inputlarBosMu = false;
+                            }
+                        }
+                    }
+
+                    if (inputlarBosMu)
+                    {
+                        AddToDogrulamaPaneli(node.Name + " için en az bir girdi bağlantısı yapınız!", (int)DogrulamaMesajTipiEnum.BosArayuz, node.UniqueId);
                     }
                 }
-
-                foreach (var input in node.InputList)
+                else if (node.TypeId == (int)TipEnum.UcBirim)
                 {
-                    foreach (var connect in nodesCanvas.Connects)
+                    bool inputlarBosMu = true;
+                    foreach (var input in node.InputList.Where(x => x.TypeId == (int)TipEnum.UcBirimGucArayuzu))
                     {
-                        if(connect.ToConnector == input)
+                        foreach (var connect in nodesCanvas.Connects)
                         {
-                            inputlarBosMu = false;
+                            if (connect.ToConnector == input)
+                            {
+                                inputlarBosMu = false;
+                            }
+                        }
+
+                        if (inputlarBosMu)
+                        {
+                            AddToDogrulamaPaneli(node.Name + " için en az bir güç girdi bağlantısı yapınız!", (int)DogrulamaMesajTipiEnum.BosArayuz, node.UniqueId);
                         }
                     }
                 }
-
-                if(inputlarBosMu && outputlarBosMu)
+                else if (node.TypeId == (int)TipEnum.AgAnahtari)
                 {
-                    AddToDogrulamaPaneli(node.Name + " için en az bir bağlantı yapınız!", (int)DogrulamaMesajTipiEnum.BosArayuz, node.UniqueId);
+                    bool inputlarBosMu = true;
+                    foreach (var input in node.InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariGucArayuzu))
+                    {
+                        foreach (var connect in nodesCanvas.Connects)
+                        {
+                            if (connect.ToConnector == input)
+                            {
+                                inputlarBosMu = false;
+                            }
+                        }
+
+                        if (inputlarBosMu)
+                        {
+                            AddToDogrulamaPaneli(node.Name + " için en az bir güç girdi bağlantısı yapınız!", (int)DogrulamaMesajTipiEnum.BosArayuz, node.UniqueId);
+                        }
+                    }
                 }
             }
 

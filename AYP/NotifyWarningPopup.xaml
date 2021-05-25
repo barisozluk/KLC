@@ -4,21 +4,32 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AYP"
-        mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" Topmost="True"
-        Title="NotifyWarningPopup" Height="50" Width="500" Background="Transparent" Left="695" Top="1015">
+        mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" SizeToContent="WidthAndHeight" Topmost="True" Left="695" Top="1015"
+        Title="NotifyWarningPopup" MinWidth="500" Background="Transparent">
 
 
     <Grid RenderTransformOrigin="0,1" Loaded="Grid_Loaded" >
 
         <!-- Notification area -->
         <Border BorderThickness="1" Background="Transparent" BorderBrush="Red" CornerRadius="7" >
-            <StackPanel Margin="2">
-                <TextBlock x:Name="msg" FontSize="14" Foreground="Black" TextWrapping="Wrap" Margin="75,10,0,0" VerticalAlignment="Center" HorizontalAlignment="Center">
+
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="10" />
+                </Grid.ColumnDefinitions>
+
+                <Image Source="Images\hata.png" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Height="40" Margin="0,0,0,0" VerticalAlignment="Center" Width="40"/>
+                <TextBlock x:Name="msg" Grid.Row="0" Grid.Column="2" FontSize="14" Foreground="Black" TextWrapping="Wrap" Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Center">
                     
                 </TextBlock>
-            </StackPanel>
+            </Grid>
         </Border>
-        <Image Source="Images\hata.png" HorizontalAlignment="Left" Height="40" Margin="10,0,0,0" VerticalAlignment="Center" Width="40"/>
         
     </Grid>
 </Window>

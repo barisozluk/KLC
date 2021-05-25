@@ -185,6 +185,9 @@ namespace AYP
                         checkedAgAkisRow = null;
                     }
 
+                    BtnAdd.Text = "Ekle";
+                    BtnAdd.Margin = new Thickness(100, 0, 0, 0);
+
                     AgAkisDataGrid.ItemsSource = null;
                     agAkis.Id = Guid.NewGuid();
                     agAkis.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluList.Where(x => x.Id == agAkis.AgAkisProtokoluId).Select(s => s.Ad).FirstOrDefault();
@@ -228,6 +231,9 @@ namespace AYP
         }
         private void AgAkisRow_Checked(object sender, RoutedEventArgs e)
         {
+            BtnAdd.Text = "Güncelle";
+            BtnAdd.Margin = new Thickness(80, 0, 0, 0);
+
             if (checkedAgAkisRow != null)
             {
                 checkedAgAkisRow.IsChecked = false;
@@ -243,6 +249,9 @@ namespace AYP
 
         private void AgAkisRow_Unchecked(object sender, RoutedEventArgs e)
         {
+            BtnAdd.Text = "Ekle";
+            BtnAdd.Margin = new Thickness(100, 0, 0, 0);
+
             checkedAgAkisRow = null;
             DataContext = null;
             agAkis = new AgAkis();
@@ -254,6 +263,9 @@ namespace AYP
 
         private void AgAkisDelete_AllRows(object sender, RoutedEventArgs e)
         {
+            BtnAdd.Text = "Ekle";
+            BtnAdd.Margin = new Thickness(100, 0, 0, 0);
+
             AgAkisDataGrid.ItemsSource = null;
             this.ucBirimAgArayuzu.AgAkisList.Clear();
             toplam = 0;
@@ -279,6 +291,8 @@ namespace AYP
 
         private void AgAkisDelete_Row(object sender, RoutedEventArgs e)
         {
+            BtnAdd.Text = "Ekle";
+            BtnAdd.Margin = new Thickness(100, 0, 0, 0);
 
             var row = (Button)sender;
             var ctx = row.DataContext;

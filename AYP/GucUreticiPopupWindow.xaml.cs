@@ -359,12 +359,12 @@ namespace AYP
                     || (!string.IsNullOrEmpty(DahiliGucTuketimDegeri.Text) && Convert.ToDecimal(DahiliGucTuketimDegeri.Text) != 0))
                 {
 
-                    if(oldGucUretici != null)
+                    if (oldGucUretici != null)
                     {
-                        if(gucUretici.GirdiGucArayuzuSayisi != oldGucUretici.GirdiGucArayuzuSayisi)
+                        if (gucUretici.GirdiGucArayuzuSayisi != oldGucUretici.GirdiGucArayuzuSayisi)
                         {
                             gucArayuzuList = gucArayuzuList.Where(x => x.KullanimAmaciId != (int)KullanimAmaciEnum.Girdi).ToList();
-                            
+
                         }
 
                         if (gucUretici.CiktiGucArayuzuSayisi != oldGucUretici.CiktiGucArayuzuSayisi)
@@ -391,7 +391,7 @@ namespace AYP
                     GucArayuzuTab.IsSelected = true;
 
                     WindowStartupLocation = WindowStartupLocation.Manual;
-                    Top = 42;
+                    Top = 22;
                     Left = 515;
                     Width = 890;
                     Height = 995;
@@ -410,7 +410,7 @@ namespace AYP
                     {
                         VerimlilikOrani.BorderBrush = new SolidColorBrush(Colors.Red);
                     }
-                    
+
                     if (string.IsNullOrEmpty(DahiliGucTuketimDegeri.Text) || Convert.ToDecimal(DahiliGucTuketimDegeri.Text) == 0)
                     {
                         DahiliGucTuketimDegeri.BorderBrush = new SolidColorBrush(Colors.Red);
@@ -659,6 +659,21 @@ namespace AYP
         #region KullanimAmaciSelectionChangedEvent
         private void GucArayuzKullanimAmaci_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (gucArayuzu.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti)
+            {
+                ag1.Content = "Girdi Durağan Gerilim Değeri 1";
+                ag11.Content = "Girdi Tükettiği Güç Miktarı";
+                ag13.Content = "Çıktı Durağan Gerilim Değeri *";
+                ag15.Content = "Çıktı Ürettiği Güç Kapasitesi *";
+            }
+            else
+            {
+                ag1.Content = "Girdi Durağan Gerilim Değeri 1 *";
+                ag11.Content = "Girdi Tükettiği Güç Miktarı *";
+                ag13.Content = "Çıktı Durağan Gerilim Değeri";
+                ag15.Content = "Çıktı Ürettiği Güç Kapasitesi";
+            }
+
             if (!fromNode)
             {
                 if (gucArayuzu.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti)
@@ -804,9 +819,9 @@ namespace AYP
                 {
                     if (!string.IsNullOrEmpty(textBox.Text) && textBox.Text[0] == '-')
                     {
-                        if(textBox.Text.Length == 1)
+                        if (textBox.Text.Length == 1)
                         {
-                            if(e.Text == "1")
+                            if (e.Text == "1")
                             {
                                 e.Handled = false;
                             }
@@ -904,7 +919,7 @@ namespace AYP
         {
             bool validMi = false;
 
-            if(gucArayuzu.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti)
+            if (gucArayuzu.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti)
             {
                 validMi = CiktiGucArayuzuValidation();
             }
@@ -935,6 +950,9 @@ namespace AYP
 
                     if (!gucArayuzuList.Any(x => x.Port == gucArayuzu.Port && x.KullanimAmaciId == gucArayuzu.KullanimAmaciId))
                     {
+                        BtnGucArayuzEkle.Text = "Ekle";
+                        BtnGucArayuzEkle.Margin = new Thickness(100, 0, 0, 0);
+
                         GucUreticiGucArayuzDataGrid.ItemsSource = null;
 
                         gucArayuzuList.Add(gucArayuzu);
@@ -1051,13 +1069,13 @@ namespace AYP
         {
             bool validMi = true;
 
-            if(string.IsNullOrEmpty(ag14.Text) || Convert.ToDecimal(ag14.Text) == 0)
+            if (string.IsNullOrEmpty(ag14.Text) || Convert.ToDecimal(ag14.Text) == 0)
             {
                 validMi = false;
                 ag14.BorderBrush = new SolidColorBrush(Colors.Red);
             }
 
-            if(string.IsNullOrEmpty(ag16.Text) || Convert.ToDecimal(ag16.Text) == 0)
+            if (string.IsNullOrEmpty(ag16.Text) || Convert.ToDecimal(ag16.Text) == 0)
             {
                 validMi = false;
                 ag16.BorderBrush = new SolidColorBrush(Colors.Red);
@@ -1068,6 +1086,9 @@ namespace AYP
 
         private void GucArayuzuRow_Checked(object sender, RoutedEventArgs e)
         {
+            BtnGucArayuzEkle.Text = "Güncelle";
+            BtnGucArayuzEkle.Margin = new Thickness(80, 0, 0, 0);
+
             if (checkedGucArayuzuRow != null)
             {
                 checkedGucArayuzuRow.IsChecked = false;
@@ -1082,6 +1103,9 @@ namespace AYP
 
         private void GucArayuzuRow_Unchecked(object sender, RoutedEventArgs e)
         {
+            BtnGucArayuzEkle.Text = "Ekle";
+            BtnGucArayuzEkle.Margin = new Thickness(100, 0, 0, 0);
+
             checkedGucArayuzuRow = null;
 
             GucArayuzuTab.DataContext = null;
@@ -1095,6 +1119,9 @@ namespace AYP
         {
             if (!fromNode)
             {
+                BtnGucArayuzEkle.Text = "Ekle";
+                BtnGucArayuzEkle.Margin = new Thickness(100, 0, 0, 0);
+
                 var row = (Button)sender;
                 var ctx = row.DataContext;
                 var obj = (GucArayuzu)ctx;

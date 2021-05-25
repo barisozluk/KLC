@@ -172,7 +172,7 @@ namespace AYP
         }
         private void SetAgArayuzuInputList()
         {
-            agAkis.InputList = agAnahtariAgArayuzu.Node.InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu).ToList(); 
+            agAkis.InputList = agAnahtariAgArayuzu.Node.InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu).ToList();
             agAkis.IliskiliAgArayuzuId = agAkis.InputList[0].UniqueId;
         }
 
@@ -241,6 +241,9 @@ namespace AYP
                                 checkedAgAkisRow = null;
                             }
 
+                            BtnAdd.Text = "Ekle";
+                            BtnAdd.Margin = new Thickness(100, 0, 0, 0);
+
                             AgAkisDataGrid.ItemsSource = null;
                             agAkis.Id = Guid.NewGuid();
                             agAkis.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluList.Where(x => x.Id == agAkis.AgAkisProtokoluId).Select(s => s.Ad).FirstOrDefault();
@@ -307,6 +310,9 @@ namespace AYP
                 checkedAgAkisRow.IsChecked = false;
             }
 
+            BtnAdd.Text = "Güncelle";
+            BtnAdd.Margin = new Thickness(80, 0, 0, 0);
+
             DataContext = null;
             checkedAgAkisRow = (CheckBox)sender;
             var ctx = checkedAgAkisRow.DataContext;
@@ -320,6 +326,9 @@ namespace AYP
 
         private void AgAkisRow_Unchecked(object sender, RoutedEventArgs e)
         {
+            BtnAdd.Text = "Ekle";
+            BtnAdd.Margin = new Thickness(100, 0, 0, 0);
+
             checkedAgAkisRow = null;
             DataContext = null;
             agAkis = new AgAkis();
@@ -332,6 +341,9 @@ namespace AYP
 
         private void AgAkisDelete_AllRows(object sender, RoutedEventArgs e)
         {
+            BtnAdd.Text = "Ekle";
+            BtnAdd.Margin = new Thickness(100, 0, 0, 0);
+
             AgAkisDataGrid.ItemsSource = null;
             this.agAnahtariAgArayuzu.AgAkisList.Clear();
             toplam = 0;
@@ -358,33 +370,35 @@ namespace AYP
 
         private void AgAkisDelete_Row(object sender, RoutedEventArgs e)
         {
-            
-                var row = (Button)sender;
-                var ctx = row.DataContext;
-                var obj = (AgAkis)ctx;
+            BtnAdd.Text = "Ekle";
+            BtnAdd.Margin = new Thickness(100, 0, 0, 0);
 
-                AgAkisDataGrid.ItemsSource = null;
-                this.agAnahtariAgArayuzu.AgAkisList.Remove(obj);
-                toplam = this.agAnahtariAgArayuzu.AgAkisList.Select(s => s.Yuk).Sum();
-                MainTitle.Content = "Ağ Akışı - " + toplam.ToString("0.##") + " Mbps";
+            var row = (Button)sender;
+            var ctx = row.DataContext;
+            var obj = (AgAkis)ctx;
 
-                SetToConnectorAgAkis();
-                AgAkisDataGrid.ItemsSource = this.agAnahtariAgArayuzu.AgAkisList;
+            AgAkisDataGrid.ItemsSource = null;
+            this.agAnahtariAgArayuzu.AgAkisList.Remove(obj);
+            toplam = this.agAnahtariAgArayuzu.AgAkisList.Select(s => s.Yuk).Sum();
+            MainTitle.Content = "Ağ Akışı - " + toplam.ToString("0.##") + " Mbps";
 
-                if (this.agAnahtariAgArayuzu.AgAkisList.Count == 0)
-                {
-                    AgAkisDataGrid.Visibility = Visibility.Hidden;
-                    AgAkisNoDataRow.Visibility = Visibility.Visible;
-                }
+            SetToConnectorAgAkis();
+            AgAkisDataGrid.ItemsSource = this.agAnahtariAgArayuzu.AgAkisList;
 
-                checkedAgAkisRow = null;
-                DataContext = null;
-                agAkis = new AgAkis();
-                agAkis.AgArayuzuId = this.agAnahtariAgArayuzu.UniqueId;
-                SetAgArayuzuInputList();
-                SetAgAkisTipiList();
-                SetAgAkisProtokoluList();
-                DataContext = agAkis;
+            if (this.agAnahtariAgArayuzu.AgAkisList.Count == 0)
+            {
+                AgAkisDataGrid.Visibility = Visibility.Hidden;
+                AgAkisNoDataRow.Visibility = Visibility.Visible;
+            }
+
+            checkedAgAkisRow = null;
+            DataContext = null;
+            agAkis = new AgAkis();
+            agAkis.AgArayuzuId = this.agAnahtariAgArayuzu.UniqueId;
+            SetAgArayuzuInputList();
+            SetAgAkisTipiList();
+            SetAgAkisProtokoluList();
+            DataContext = agAkis;
         }
         #endregion
 

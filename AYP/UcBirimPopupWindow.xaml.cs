@@ -635,7 +635,7 @@ namespace AYP
             GucArayuzuTab.IsSelected = true;
 
             WindowStartupLocation = WindowStartupLocation.Manual;
-            Top = 42;
+            Top = 22;
             Left = 515;
             Width = 890;
             Height = 995;
@@ -992,7 +992,6 @@ namespace AYP
         #region TableEvents
         private void ButtonAddAgArayuzu_Click(object sender, RoutedEventArgs e)
         {
-
             agArayuzu.TipId = (int)TipEnum.UcBirimAgArayuzu;
 
             var validationContext = new ValidationContext(agArayuzu, null, null);
@@ -1014,6 +1013,9 @@ namespace AYP
 
                 if (!agArayuzuList.Any(x => x.Port == agArayuzu.Port && x.KullanimAmaciId == agArayuzu.KullanimAmaciId))
                 {
+                    BtnAgArayuzEkle.Text = "Ekle";
+                    BtnAgArayuzEkle.Margin = new Thickness(100, 0, 0, 0);
+
                     UcBirimAgArayuzDataGrid.ItemsSource = null;
 
                     agArayuzuList.Add(agArayuzu);
@@ -1126,6 +1128,9 @@ namespace AYP
         }
         private void AgArayuzuRow_Checked(object sender, RoutedEventArgs e)
         {
+            BtnAgArayuzEkle.Text = "Güncelle";
+            BtnAgArayuzEkle.Margin = new Thickness(80, 0, 0, 0);
+
             if (checkedAgArayuzuRow != null)
             {
                 checkedAgArayuzuRow.IsChecked = false;
@@ -1141,6 +1146,9 @@ namespace AYP
 
         private void AgArayuzuRow_Unchecked(object sender, RoutedEventArgs e)
         {
+            BtnAgArayuzEkle.Text = "Ekle";
+            BtnAgArayuzEkle.Margin = new Thickness(100, 0, 0, 0);
+
             checkedAgArayuzuRow = null;
 
             AgArayuzuTab.DataContext = null;
@@ -1155,6 +1163,9 @@ namespace AYP
         {
             if (!fromNode)
             {
+                BtnAgArayuzEkle.Text = "Ekle";
+                BtnAgArayuzEkle.Margin = new Thickness(100, 0, 0, 0);
+
                 var row = (Button)sender;
                 var ctx = row.DataContext;
                 var obj = (AgArayuzu)ctx;
@@ -1257,6 +1268,9 @@ namespace AYP
 
                     if (!gucArayuzuList.Any(x => x.Port == gucArayuzu.Port))
                     {
+                        BtnGucArayuzEkle.Text = "Ekle";
+                        BtnGucArayuzEkle.Margin = new Thickness(100, 0, 0, 0);
+
                         UcBirimGucArayuzDataGrid.ItemsSource = null;
 
                         gucArayuzuList.Add(gucArayuzu);
@@ -1301,6 +1315,9 @@ namespace AYP
 
         private void GucArayuzuRow_Checked(object sender, RoutedEventArgs e)
         {
+            BtnGucArayuzEkle.Text = "Güncelle";
+            BtnGucArayuzEkle.Margin = new Thickness(80, 0, 0, 0);
+
             if (checkedGucArayuzuRow != null)
             {
                 checkedGucArayuzuRow.IsChecked = false;
@@ -1316,6 +1333,9 @@ namespace AYP
 
         private void GucArayuzuRow_Unchecked(object sender, RoutedEventArgs e)
         {
+            BtnGucArayuzEkle.Text = "Ekle";
+            BtnGucArayuzEkle.Margin = new Thickness(100, 0, 0, 0);
+
             checkedGucArayuzuRow = null;
 
             GucArayuzuTab.DataContext = null;
@@ -1329,6 +1349,9 @@ namespace AYP
         {
             if (!fromNode)
             {
+                BtnGucArayuzEkle.Text = "Ekle";
+                BtnGucArayuzEkle.Margin = new Thickness(100, 0, 0, 0);
+
                 var row = (Button)sender;
                 var ctx = row.DataContext;
                 var obj = (GucArayuzu)ctx;

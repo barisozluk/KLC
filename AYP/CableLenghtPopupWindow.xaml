@@ -61,7 +61,7 @@
                     <TextBox IsEnabled="False" Name="KabloKesit" Width="230" Style="{DynamicResource StyleTextBox}" PreviewTextInput="DecimalValidationTextBox" Grid.Row="0" Grid.Column="1" Margin="200,80,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
                     <Rectangle Style="{DynamicResource StyleDescribingTurFormPanel}" Height="240" Grid.Row="0" Grid.Column="1" Margin="0,135,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <Label Padding="10,5,0,0" FontSize="14" Foreground="#ffffff" Content="Kablo Tipi " Grid.Row="0" Grid.Column="1" Margin="0,145,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Kablo Tipi " Grid.Row="0" Grid.Column="1" Margin="0,145,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <ComboBox Name="KabloTipiTur"  Width="230" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="200,145,0,10" VerticalAlignment="Top" >
                         <ComboBoxItem Name="cu" IsSelected="True">Bakır</ComboBoxItem>
                         <ComboBoxItem Name="al">Aliminyum</ComboBoxItem>
