@@ -552,10 +552,22 @@ namespace AYP.Services
                         foreach (var selectedId in selectedIdList)
                         {
                             var ucBirim = context.UcBirim.Where(x => x.Id == selectedId).FirstOrDefault();
-                            ucBirim.UreticiAdi = ureticiAdi;
-                            ucBirim.UreticiParcaNo = ureticiParcaNo;
-                            ucBirim.SembolDosyaAdi = dosyaAdi;
-                            ucBirim.Sembol = sembol;
+
+                            if (!string.IsNullOrEmpty(ureticiAdi))
+                            {
+                                ucBirim.UreticiAdi = ureticiAdi;
+                            }
+
+                            if (!string.IsNullOrEmpty(ureticiParcaNo))
+                            {
+                                ucBirim.UreticiParcaNo = ureticiParcaNo;
+                            }
+
+                            if (!string.IsNullOrEmpty(dosyaAdi))
+                            {
+                                ucBirim.SembolDosyaAdi = dosyaAdi;
+                                ucBirim.Sembol = sembol;
+                            }
 
                             context.SaveChanges();
                         }

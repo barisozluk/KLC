@@ -81,7 +81,7 @@ namespace AYP
 
         private void Save_TopluEdit(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(Uretici.Text) && !string.IsNullOrEmpty(UreticiParcaNo.Text) && !string.IsNullOrEmpty(Sembol.Text))
+            if (!string.IsNullOrEmpty(Uretici.Text) || !string.IsNullOrEmpty(UreticiParcaNo.Text) || !string.IsNullOrEmpty(Sembol.Text))
             {
                 if (cihazTur == (int)TipEnum.UcBirim)
                 {
@@ -152,20 +152,10 @@ namespace AYP
             }
             else
             {
-                if (string.IsNullOrEmpty(Uretici.Text))
-                {
-                    Uretici.BorderBrush = new SolidColorBrush(Colors.Red);
-                }
-
-                if (string.IsNullOrEmpty(UreticiParcaNo.Text))
-                {
-                    UreticiParcaNo.BorderBrush = new SolidColorBrush(Colors.Red);
-                }
-
-                if (string.IsNullOrEmpty(Sembol.Text))
-                {
-                    Sembol.BorderBrush = new SolidColorBrush(Colors.Red);
-                }
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                nfp.msg.Text = "Lütfen alanlardan en az biri için değer giriniz.";
+                nfp.Owner = Owner;
+                nfp.Show();
             }
         }
     }

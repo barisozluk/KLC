@@ -105,15 +105,15 @@ namespace AYP
                     GucArayuzuNoDataRow.Visibility = Visibility.Visible;
                 }
 
-                DownloadButton.Visibility = Visibility.Visible;
-
                 if (string.IsNullOrEmpty(agAnahtari.KatalogDosyaAdi))
                 {
-                    DownloadButton.IsEnabled = false;
+                    DownloadButton.Visibility = Visibility.Hidden;
+                    DeleteButton.Visibility = Visibility.Hidden;
                 }
                 else
                 {
-                    DownloadButton.IsEnabled = true;
+                    DownloadButton.Visibility = Visibility.Visible;
+                    DeleteButton.Visibility = Visibility.Visible;
                 }
 
                 if (fromNode)
@@ -143,8 +143,10 @@ namespace AYP
                     Sembol.Opacity = 0.25;
                     OpenSembolBtn.IsEnabled = false;
                     OpenSembolBtn.Opacity = 0.25;
-                    DownloadButton.IsEnabled = false;
-                    DownloadButton.Opacity = 0.25;
+                    DownloadButton.IsEnabled = true;
+                    DownloadButton.Opacity = 1;
+                    DeleteButton.IsEnabled = false;
+                    DeleteButton.Opacity = 0.25;
 
                     //AgArayuzuTab
                     AgArayuzuAdi.IsEnabled = false;
@@ -236,6 +238,8 @@ namespace AYP
                         OpenSembolBtn.Opacity = 1;
                         DownloadButton.IsEnabled = true;
                         DownloadButton.Opacity = 1;
+                        DeleteButton.IsEnabled = true;
+                        DeleteButton.Opacity = 1;
 
                         //AgArayuzuTab
                         AgArayuzuAdi.IsEnabled = true;
@@ -320,8 +324,10 @@ namespace AYP
                         Sembol.Opacity = 0.25;
                         OpenSembolBtn.IsEnabled = false;
                         OpenSembolBtn.Opacity = 0.25;
-                        DownloadButton.IsEnabled = false;
-                        DownloadButton.Opacity = 0.25;
+                        DownloadButton.IsEnabled = true;
+                        DownloadButton.Opacity = 1;
+                        DeleteButton.IsEnabled = false;
+                        DeleteButton.Opacity = 0.25;
 
                         //AgArayuzuTab
                         AgArayuzuAdi.IsEnabled = false;
@@ -386,6 +392,7 @@ namespace AYP
                 gucArayuzuList = new List<GucArayuzu>();
 
                 DownloadButton.Visibility = Visibility.Hidden;
+                DeleteButton.Visibility = Visibility.Hidden;
 
                 AgAnahtariAgArayuzDataGrid.Visibility = Visibility.Hidden;
                 AgArayuzuNoDataRow.Visibility = Visibility.Visible;
@@ -646,7 +653,7 @@ namespace AYP
         }
         #endregion
 
-        #region OpenKatalogFileDialogEvent
+        #region KatalogFileEvents
         private void BtnOpenKatalogFile_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -657,8 +664,27 @@ namespace AYP
                 agAnahtari.KatalogDosyaAdi = Path.GetFileName(openFileDialog.FileName);
                 Katalog.Text = agAnahtari.KatalogDosyaAdi;
                 agAnahtari.Katalog = File.ReadAllBytes(openFileDialog.FileName);
+
+                DownloadButton.Visibility = Visibility.Visible;
+                DownloadButton.Opacity = 1;
+                DownloadButton.IsEnabled = true;
+
+                DeleteButton.Visibility = Visibility.Visible;
+                DeleteButton.Opacity = 1;
+                DeleteButton.IsEnabled = true;
             }
         }
+
+        private void BtnDeleteKatalogFile_Click(object sender, RoutedEventArgs e)
+        {
+            agAnahtari.KatalogDosyaAdi = null;
+            Katalog.Text = agAnahtari.KatalogDosyaAdi;
+            agAnahtari.Katalog = null;
+
+            DownloadButton.Visibility = Visibility.Hidden;
+            DeleteButton.Visibility = Visibility.Hidden;
+        }
+
         #endregion
 
         #region OpenSembolFileDialogEvent

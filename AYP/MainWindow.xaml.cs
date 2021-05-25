@@ -1410,6 +1410,36 @@ namespace AYP
 
             var nodesCanvas = this.ViewModel.NodesCanvas;
 
+            foreach(var node in nodesCanvas.Nodes.Items)
+            {
+                bool outputlarBosMu = true;
+                bool inputlarBosMu = true;
+
+                foreach (var output in node.Transitions.Items)
+                {
+                    if(output.Connect != null)
+                    {
+                        outputlarBosMu = false;
+                    }
+                }
+
+                foreach (var input in node.InputList)
+                {
+                    foreach (var connect in nodesCanvas.Connects)
+                    {
+                        if(connect.ToConnector == input)
+                        {
+                            inputlarBosMu = false;
+                        }
+                    }
+                }
+
+                if(inputlarBosMu && outputlarBosMu)
+                {
+                    AddToDogrulamaPaneli(node.Name + " için en az bir bağlantı yapınız!", (int)DogrulamaMesajTipiEnum.BosArayuz, node.UniqueId);
+                }
+            }
+
             foreach(var connect in nodesCanvas.Connects)
             {
                 if(connect.Uzunluk == 0)
@@ -1450,32 +1480,70 @@ namespace AYP
         #endregion
 
         #region Delete Events
-
-
         private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            this.IsEnabled = false;
-            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
-            blur.Radius = 2;
-            this.Effect = blur;
-
             if (selectedTipId == (int)TipEnum.AgAnahtari)
             {
-                DeleteAppPopupWindow popupWindow = new DeleteAppPopupWindow((object)selectedAgAnahtari, selectedTipId);
-                popupWindow.Owner = this;
-                popupWindow.ShowDialog();
+                if (!this.NodesCanvas.ViewModel.Nodes.Items.Any(n => n.Id == selectedAgAnahtari.Id && n.TypeId == (int)TipEnum.AgAnahtari))
+                {
+                    this.IsEnabled = false;
+                    System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+                    blur.Radius = 2;
+                    this.Effect = blur;
+
+                    DeleteAppPopupWindow popupWindow = new DeleteAppPopupWindow((object)selectedAgAnahtari, selectedTipId);
+                    popupWindow.Owner = this;
+                    popupWindow.ShowDialog();
+                }
+                else
+                {
+                    NotifyInfoPopup nfp = new NotifyInfoPopup();
+                    nfp.msg.Text = "Silmek istediğiniz cihaz projede kullanılmaktadır.";
+                    nfp.Owner = this;
+                    nfp.Show();
+                }
             }
             if (selectedTipId == (int)TipEnum.UcBirim)
             {
-                DeleteAppPopupWindow popupWindow = new DeleteAppPopupWindow((object)selectedUcBirim, selectedTipId);
-                popupWindow.Owner = this;
-                popupWindow.ShowDialog();
+                if (!this.NodesCanvas.ViewModel.Nodes.Items.Any(n => n.Id == selectedUcBirim.Id && n.TypeId == (int)TipEnum.UcBirim))
+                {
+                    this.IsEnabled = false;
+                    System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+                    blur.Radius = 2;
+                    this.Effect = blur;
+
+                    DeleteAppPopupWindow popupWindow = new DeleteAppPopupWindow((object)selectedUcBirim, selectedTipId);
+                    popupWindow.Owner = this;
+                    popupWindow.ShowDialog();
+                }
+                else
+                {
+                    NotifyInfoPopup nfp = new NotifyInfoPopup();
+                    nfp.msg.Text = "Silmek istediğiniz cihaz projede kullanılmaktadır.";
+                    nfp.Owner = this;
+                    nfp.Show();
+                }
             }
             if (selectedTipId == (int)TipEnum.GucUretici)
             {
-                DeleteAppPopupWindow popupWindow = new DeleteAppPopupWindow((object)selectedGucUretici, selectedTipId);
-                popupWindow.Owner = this;
-                popupWindow.ShowDialog();
+                if (!this.NodesCanvas.ViewModel.Nodes.Items.Any(n => n.Id == selectedGucUretici.Id && n.TypeId == (int)TipEnum.GucUretici))
+                {
+                    this.IsEnabled = false;
+                    System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+                    blur.Radius = 2;
+                    this.Effect = blur;
+
+                    DeleteAppPopupWindow popupWindow = new DeleteAppPopupWindow((object)selectedGucUretici, selectedTipId);
+                    popupWindow.Owner = this;
+                    popupWindow.ShowDialog();
+                }
+                else
+                {
+                    NotifyInfoPopup nfp = new NotifyInfoPopup();
+                    nfp.msg.Text = "Silmek istediğiniz cihaz projede kullanılmaktadır.";
+                    nfp.Owner = this;
+                    nfp.Show();
+                }
             }
         }
         #endregion

@@ -557,10 +557,22 @@ namespace AYP.Services
                         foreach (var selectedId in selectedIdList)
                         {
                             var agAnahtari = context.AgAnahtari.Include(x => x.AgAnahtariTur).Where(x => x.Id == selectedId).FirstOrDefault();
-                            agAnahtari.UreticiAdi = ureticiAdi;
-                            agAnahtari.UreticiParcaNo = ureticiParcaNo;
-                            agAnahtari.SembolDosyaAdi = dosyaAdi;
-                            agAnahtari.Sembol = sembol;
+
+                            if (!string.IsNullOrEmpty(ureticiAdi))
+                            {
+                                agAnahtari.UreticiAdi = ureticiAdi;
+                            }
+
+                            if (!string.IsNullOrEmpty(ureticiParcaNo))
+                            {
+                                agAnahtari.UreticiParcaNo = ureticiParcaNo;
+                            }
+
+                            if (!string.IsNullOrEmpty(dosyaAdi))
+                            {
+                                agAnahtari.SembolDosyaAdi = dosyaAdi;
+                                agAnahtari.Sembol = sembol;
+                            }
 
                             context.SaveChanges();
                         }
