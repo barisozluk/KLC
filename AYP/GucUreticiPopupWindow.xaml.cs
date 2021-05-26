@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -346,6 +347,27 @@ namespace AYP
         #endregion
 
         #region TabTransitionEvents
+
+        public void ShowGucUreticiTab()
+        {
+            GucUreticiTab.IsSelected = false;
+            GucArayuzuTab.IsSelected = true;
+
+            WindowStartupLocation = WindowStartupLocation.Manual;
+            Top = 22;
+            Left = 515;
+            Width = 890;
+            Height = 995;
+            GucUreticiTab.Width = 441;
+            GucArayuzuTab.Width = 441;
+            WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+            GucArayuzuTab.DataContext = null;
+            ListGerilimTipi();
+            ListKullanimAmaciForGucArayuzu();
+            GucArayuzuTab.DataContext = gucArayuzu;
+        }
+
         private void GucUreticiNextButton_Click(object sender, RoutedEventArgs e)
         {
             gucUretici.TipId = (int)TipEnum.GucUretici;
@@ -361,48 +383,38 @@ namespace AYP
 
                     if (oldGucUretici != null)
                     {
-                        if (gucUretici.GirdiGucArayuzuSayisi != oldGucUretici.GirdiGucArayuzuSayisi)
+                        if (gucUretici.GirdiGucArayuzuSayisi < oldGucUretici.GirdiGucArayuzuSayisi || gucUretici.CiktiGucArayuzuSayisi < oldGucUretici.CiktiGucArayuzuSayisi)
                         {
-                            gucArayuzuList = gucArayuzuList.Where(x => x.KullanimAmaciId != (int)KullanimAmaciEnum.Girdi).ToList();
+                            bool girdiMi = false;
+                            bool ciktiMi = false;
 
-                        }
+                            if (gucUretici.GirdiGucArayuzuSayisi < oldGucUretici.GirdiGucArayuzuSayisi)
+                            {
+                                girdiMi = true;
+                            }
 
-                        if (gucUretici.CiktiGucArayuzuSayisi != oldGucUretici.CiktiGucArayuzuSayisi)
-                        {
-                            gucArayuzuList = gucArayuzuList.Where(x => x.KullanimAmaciId != (int)KullanimAmaciEnum.Cikti).ToList();
-                        }
+                            if (gucUretici.CiktiGucArayuzuSayisi < oldGucUretici.CiktiGucArayuzuSayisi)
+                            {
+                                ciktiMi = true;
+                            }
 
-                        GucUreticiGucArayuzDataGrid.ItemsSource = null;
-                        GucUreticiGucArayuzDataGrid.ItemsSource = gucArayuzuList;
-
-                        if (gucArayuzuList != null && gucArayuzuList.Count() > 0)
-                        {
-                            GucUreticiGucArayuzDataGrid.Visibility = Visibility.Visible;
-                            GucArayuzuNoDataRow.Visibility = Visibility.Hidden;
+                            this.IsEnabled = false;
+                            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+                            blur.Radius = 2;
+                            this.Effect = blur;
+                            DeleteGucUreticiGucArayuzuPopupWindow popup = new DeleteGucUreticiGucArayuzuPopupWindow(girdiMi, ciktiMi);
+                            popup.Owner = this;
+                            popup.ShowDialog();
                         }
                         else
                         {
-                            GucUreticiGucArayuzDataGrid.Visibility = Visibility.Hidden;
-                            GucArayuzuNoDataRow.Visibility = Visibility.Visible;
+                            ShowGucUreticiTab();
                         }
                     }
-
-                    GucUreticiTab.IsSelected = false;
-                    GucArayuzuTab.IsSelected = true;
-
-                    WindowStartupLocation = WindowStartupLocation.Manual;
-                    Top = 22;
-                    Left = 515;
-                    Width = 890;
-                    Height = 995;
-                    GucUreticiTab.Width = 441;
-                    GucArayuzuTab.Width = 441;
-                    WindowStartupLocation = WindowStartupLocation.CenterOwner;
-
-                    GucArayuzuTab.DataContext = null;
-                    ListGerilimTipi();
-                    ListKullanimAmaciForGucArayuzu();
-                    GucArayuzuTab.DataContext = gucArayuzu;
+                    else
+                    {
+                        ShowGucUreticiTab();
+                    }
                 }
                 else
                 {
@@ -486,7 +498,10 @@ namespace AYP
             GucUreticiTab.Width = 236;
             GucArayuzuTab.Width = 236;
 
-            oldGucUretici = (GucUretici)gucUretici.Clone();
+            if (gucUretici.GirdiGucArayuzuSayisi + gucUretici.CiktiGucArayuzuSayisi == gucArayuzuList.Count)
+            {
+                oldGucUretici = (GucUretici)gucUretici.Clone();
+            }
         }
         #endregion
 
@@ -611,7 +626,7 @@ namespace AYP
             gucArayuzu.KullanimAmaciList = kodListeService.ListKullanimAmaci();
             if (gucArayuzu.KullanimAmaciList.Count() > 0)
             {
-                gucArayuzu.KullanimAmaciId = gucArayuzu.KullanimAmaciList[0].Id;
+                gucArayuzu.KullanimAmaciId = (int)KullanimAmaciEnum.Girdi;
             }
         }
 
@@ -950,21 +965,61 @@ namespace AYP
 
                     if (!gucArayuzuList.Any(x => x.Port == gucArayuzu.Port && x.KullanimAmaciId == gucArayuzu.KullanimAmaciId))
                     {
-                        BtnGucArayuzEkle.Text = "Ekle";
-                        BtnGucArayuzEkle.Margin = new Thickness(100, 0, 0, 0);
+                        if((int)KullanimAmaciEnum.Cikti == gucArayuzu.KullanimAmaciId)
+                        {
+                            decimal? totalGirdiKapasitesi = gucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Girdi).Select(s => s.GirdiTukettigiGucMiktari).Sum();
+                            decimal? totalCiktiKapasitesi = gucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).Select(s => s.CiktiUrettigiGucKapasitesi).Sum();
 
-                        GucUreticiGucArayuzDataGrid.ItemsSource = null;
+                            if (gucUretici.VerimlilikDegeri.HasValue && gucUretici.VerimlilikDegeri != 0)
+                            {
+                                totalGirdiKapasitesi = (gucUretici.VerimlilikDegeri * totalGirdiKapasitesi) / 100;
+                            }
+                            else
+                            {
+                                totalGirdiKapasitesi = totalGirdiKapasitesi - gucUretici.DahiliGucTuketimDegeri;
+                            }
 
-                        gucArayuzuList.Add(gucArayuzu);
-                        GucUreticiGucArayuzDataGrid.ItemsSource = gucArayuzuList;
-                        GucUreticiGucArayuzDataGrid.Visibility = Visibility.Visible;
-                        GucArayuzuNoDataRow.Visibility = Visibility.Hidden;
+                            if (totalGirdiKapasitesi.Value <= 0)
+                            {
+                                validMi = false;
 
-                        GucArayuzuTab.DataContext = null;
-                        gucArayuzu = new GucArayuzu();
-                        ListGerilimTipi();
-                        ListKullanimAmaciForGucArayuzu();
-                        GucArayuzuTab.DataContext = gucArayuzu;
+                                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                                nfp.msg.Text = "Lütfen, çıktı tanımlamak için en az bir girdi arayüzü tanımlayınız!";
+                                nfp.Owner = Owner;
+                                nfp.Show();
+                            }
+                            else
+                            {
+                                if ((gucArayuzu.CiktiUrettigiGucKapasitesi + totalCiktiKapasitesi) > totalGirdiKapasitesi)
+                                {
+                                    validMi = false;
+
+                                    NotifyInfoPopup nfp = new NotifyInfoPopup();
+                                    nfp.msg.Text = "Tanımlanan toplam girdi kapasitesini aştınız!";
+                                    nfp.Owner = Owner;
+                                    nfp.Show();
+                                }
+                            }
+                        }
+
+                        if (validMi)
+                        {
+                            BtnGucArayuzEkle.Text = "Ekle";
+                            BtnGucArayuzEkle.Margin = new Thickness(100, 0, 0, 0);
+
+                            GucUreticiGucArayuzDataGrid.ItemsSource = null;
+
+                            gucArayuzuList.Add(gucArayuzu);
+                            GucUreticiGucArayuzDataGrid.ItemsSource = gucArayuzuList;
+                            GucUreticiGucArayuzDataGrid.Visibility = Visibility.Visible;
+                            GucArayuzuNoDataRow.Visibility = Visibility.Hidden;
+
+                            GucArayuzuTab.DataContext = null;
+                            gucArayuzu = new GucArayuzu();
+                            ListGerilimTipi();
+                            ListKullanimAmaciForGucArayuzu();
+                            GucArayuzuTab.DataContext = gucArayuzu;
+                        }
                     }
                     else
                     {
@@ -1086,13 +1141,13 @@ namespace AYP
 
         private void GucArayuzuRow_Checked(object sender, RoutedEventArgs e)
         {
-            BtnGucArayuzEkle.Text = "Güncelle";
-            BtnGucArayuzEkle.Margin = new Thickness(80, 0, 0, 0);
-
             if (checkedGucArayuzuRow != null)
             {
                 checkedGucArayuzuRow.IsChecked = false;
             }
+
+            BtnGucArayuzEkle.Text = "Güncelle";
+            BtnGucArayuzEkle.Margin = new Thickness(80, 0, 0, 0);
 
             GucArayuzuTab.DataContext = null;
             checkedGucArayuzuRow = (CheckBox)sender;

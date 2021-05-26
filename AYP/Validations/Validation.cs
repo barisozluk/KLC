@@ -280,18 +280,18 @@ namespace AYP.Validations
                                 response = GerilimTipiValidasyon(NodesCanvas, fromConnector, toConnector);
                                 if(response)
                                 {
-                                    response = GucValidasyon(NodesCanvas, fromConnector, toConnector);
+                                    response = GerilimValidasyon(NodesCanvas, fromConnector, toConnector);
                                     if (!response)
                                     {
-                                        OpenModal("Güç hesabı hatası", NodesCanvas);
+                                        OpenModal("Gerilim hesabı hatası", NodesCanvas);
                                         response = false;
                                     }
                                     else
                                     {
-                                        response = GerilimValidasyon(NodesCanvas, fromConnector, toConnector);
+                                        response = GucValidasyon(NodesCanvas, fromConnector, toConnector);
                                         if (!response)
                                         {
-                                            OpenModal("Gerilim hesabı hatası", NodesCanvas);
+                                            OpenModal("Güç hesabı hatası", NodesCanvas);
                                             response = false;
                                         }
                                     }
@@ -326,18 +326,18 @@ namespace AYP.Validations
                                 response = GerilimTipiValidasyon(NodesCanvas, fromConnector, toConnector);
                                 if(response)
                                 {
-                                    response = GucValidasyon(NodesCanvas, fromConnector, toConnector);
+                                    response = GerilimValidasyon(NodesCanvas, fromConnector, toConnector);
                                     if (!response)
                                     {
-                                        OpenModal("Güç hesabı hatası", NodesCanvas);
+                                        OpenModal("Gerilim hesabı hatası", NodesCanvas);
                                         response = false;
                                     }
                                     else
                                     {
-                                        response = GerilimValidasyon(NodesCanvas, fromConnector, toConnector);
+                                        response = GucValidasyon(NodesCanvas, fromConnector, toConnector);
                                         if (!response)
                                         {
-                                            OpenModal("Gerilim hesabı hatası", NodesCanvas);
+                                            OpenModal("Güç hesabı hatası", NodesCanvas);
                                             response = false;
                                         }
                                     }
@@ -364,18 +364,18 @@ namespace AYP.Validations
 
                         if(response)
                         {
-                            response = GucValidasyon(NodesCanvas, fromConnector, toConnector);
-                            if(!response)
+                            response = GerilimValidasyon(NodesCanvas, fromConnector, toConnector);
+                            if (!response)
                             {
-                                OpenModal("Güç hesabı hatası", NodesCanvas);
+                                OpenModal("Gerilim hesabı hatası", NodesCanvas);
                                 response = false;
                             }
                             else
                             {
-                                response = GerilimValidasyon(NodesCanvas, fromConnector, toConnector);
+                                response = GucValidasyon(NodesCanvas, fromConnector, toConnector);
                                 if (!response)
                                 {
-                                    OpenModal("Gerilim hesabı hatası", NodesCanvas);
+                                    OpenModal("Güç hesabı hatası", NodesCanvas);
                                     response = false;
                                 }
                             }
@@ -390,23 +390,23 @@ namespace AYP.Validations
         public bool GerilimValidasyon(NodesCanvasViewModel NodesCanvas, ConnectorViewModel fromConnector, ConnectorViewModel toConnector)
         {
             var response = true;
-            if (fromConnector.CiktiDuraganGerilimDegeri != -1)
-            {
-                if (toConnector.GirdiDuraganGerilimDegeri1.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
-                {
-                    if (toConnector.GirdiDuraganGerilimDegeri2.HasValue && toConnector.GirdiDuraganGerilimDegeri2.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
-                    {
-                        if (toConnector.GirdiDuraganGerilimDegeri3.HasValue && toConnector.GirdiDuraganGerilimDegeri3.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
-                        {
-                            if (!(toConnector.GirdiMinimumGerilimDegeri.HasValue && toConnector.GirdiMinimumGerilimDegeri.Value <= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri) &&
-                                toConnector.GirdiMaksimumGerilimDegeri.HasValue && toConnector.GirdiMaksimumGerilimDegeri.Value >= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri)))
-                            {
-                                response = false;
-                            }
-                        }
-                    }
-                }
-            }
+            //if (fromConnector.CiktiDuraganGerilimDegeri != -1)
+            //{
+            //    if (toConnector.GirdiDuraganGerilimDegeri1.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
+            //    {
+            //        if (toConnector.GirdiDuraganGerilimDegeri2.HasValue && toConnector.GirdiDuraganGerilimDegeri2.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
+            //        {
+            //            if (toConnector.GirdiDuraganGerilimDegeri3.HasValue && toConnector.GirdiDuraganGerilimDegeri3.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
+            //            {
+            //                if (!(toConnector.GirdiMinimumGerilimDegeri.HasValue && toConnector.GirdiMinimumGerilimDegeri.Value <= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri) &&
+            //                    toConnector.GirdiMaksimumGerilimDegeri.HasValue && toConnector.GirdiMaksimumGerilimDegeri.Value >= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri)))
+            //                {
+            //                    response = false;
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
 
             return response;
         }

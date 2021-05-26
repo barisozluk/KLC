@@ -1813,6 +1813,7 @@ namespace AYP.ViewModel
                 connect.FromConnector.Selected = false;
             }
 
+
             foreach (var connect in connects)
             {
                 connect.FromConnector.Selected = MyUtils.CheckIntersectCubicBezierCurveAndLine(connect.StartPoint, connect.Point1, connect.Point2, connect.EndPoint, cutterStartPoint, cutterEndPoint);
@@ -2849,9 +2850,31 @@ namespace AYP.ViewModel
                     result.Add((connector.Node.GetConnectorIndex(connector), connector));
                 }
             }
+
             foreach (var element in result)
             {
-                element.connector.Node.CommandDeleteConnectorWithConnect.ExecuteWithSubscribe(element.connector);
+                var connects = new List<ConnectViewModel>();
+
+                foreach(var connect in Connects)
+                {
+                    if(element.connector == connect.FromConnector)
+                    {
+                        connects.Add(connect);
+                    }
+                }
+
+                if (connects.Count == 1)
+                {
+                    element.connector.Node.CommandDeleteConnectorWithConnect.ExecuteWithSubscribe(element.connector);
+                }
+                else
+                {
+                    foreach(var connect in connects)
+                    {
+                        element.connector.Node.NodesCanvas.CommandDeleteConnect.ExecuteWithSubscribe(connect);
+                    }
+                }
+
                 LogDebug("Transition with name \"{0}\" was removed", element.connector.Name);
             }
             return result;

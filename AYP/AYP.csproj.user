@@ -15,6 +15,18 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="DeleteAgArayuzuPopupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="DeleteAgAnahtariArayuzPopupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="DeleteUcBirimArayuzPopupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="DeleteGucUreticiGucArayuzuPopupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="DeleteAppPopupWindow.xaml">
       <SubType>Designer</SubType>
     </Page>

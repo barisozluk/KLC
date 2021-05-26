@@ -470,6 +470,28 @@ namespace AYP
         #endregion
 
         #region TabTransitionEvents
+
+        public void ShowAgArayuzuTab()
+        {
+            AgAnahtariTab.IsSelected = false;
+            AgArayuzuTab.IsSelected = true;
+
+            WindowStartupLocation = WindowStartupLocation.Manual;
+            Top = 250;
+            Left = 520;
+            Width = 880;
+            Height = 580;
+
+            AgAnahtariTab.Width = 290;
+            AgArayuzuTab.Width = 291;
+            GucArayuzuTab.Width = 291;
+
+            AgArayuzuTab.DataContext = null;
+            ListKapasite();
+            ListFizikselOrtam();
+            ListKullanimAmaciForAgArayuzu();
+            AgArayuzuTab.DataContext = agArayuzu;
+        }
         private void AgAnahtariNextButton_Click(object sender, RoutedEventArgs e)
         {
             agAnahtari.TipId = (int)TipEnum.AgAnahtari;
@@ -481,59 +503,50 @@ namespace AYP
             {
                 if (oldAgAnahtari != null)
                 {
-                    if (oldAgAnahtari.GucArayuzuSayisi != agAnahtari.GucArayuzuSayisi)
+                    if (oldAgAnahtari.GucArayuzuSayisi > agAnahtari.GucArayuzuSayisi || agAnahtari.GirdiAgArayuzuSayisi < oldAgAnahtari.GirdiAgArayuzuSayisi || agAnahtari.CiktiAgArayuzuSayisi < oldAgAnahtari.CiktiAgArayuzuSayisi)
                     {
-                        gucArayuzuList.Clear();
-                        AgAnahtariGucArayuzDataGrid.ItemsSource = null;
-                        AgAnahtariGucArayuzDataGrid.ItemsSource = gucArayuzuList;
-                        AgAnahtariGucArayuzDataGrid.Visibility = Visibility.Hidden;
-                        GucArayuzuNoDataRow.Visibility = Visibility.Visible;
-                    }
+                        bool gucArayuzuMu = false;
+                        bool agArayuzuMu = false;
+                        bool girdiMi = false;
+                        bool ciktiMi = false;
 
-                    if (agAnahtari.GirdiAgArayuzuSayisi != oldAgAnahtari.GirdiAgArayuzuSayisi)
-                    {
-                        agArayuzuList = agArayuzuList.Where(x => x.KullanimAmaciId != (int)KullanimAmaciEnum.Girdi).ToList();
+                        if (oldAgAnahtari.GucArayuzuSayisi > agAnahtari.GucArayuzuSayisi)
+                        {
+                            gucArayuzuMu = true;
+                        }
 
-                    }
+                        if (agAnahtari.GirdiAgArayuzuSayisi < oldAgAnahtari.GirdiAgArayuzuSayisi || agAnahtari.CiktiAgArayuzuSayisi < oldAgAnahtari.CiktiAgArayuzuSayisi)
+                        {
+                            agArayuzuMu = true;
 
-                    if (agAnahtari.CiktiAgArayuzuSayisi != oldAgAnahtari.CiktiAgArayuzuSayisi)
-                    {
-                        agArayuzuList = agArayuzuList.Where(x => x.KullanimAmaciId != (int)KullanimAmaciEnum.Cikti).ToList();
-                    }
+                            if (agAnahtari.GirdiAgArayuzuSayisi < oldAgAnahtari.GirdiAgArayuzuSayisi)
+                            {
+                                girdiMi = true;
+                            }
 
-                    AgAnahtariAgArayuzDataGrid.ItemsSource = null;
-                    AgAnahtariAgArayuzDataGrid.ItemsSource = agArayuzuList;
+                            if (agAnahtari.CiktiAgArayuzuSayisi < oldAgAnahtari.CiktiAgArayuzuSayisi)
+                            {
+                                ciktiMi = true;
+                            }
+                        }
 
-                    if (agArayuzuList != null && agArayuzuList.Count() > 0)
-                    {
-                        AgAnahtariAgArayuzDataGrid.Visibility = Visibility.Visible;
-                        AgArayuzuNoDataRow.Visibility = Visibility.Hidden;
+                        this.IsEnabled = false;
+                        System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+                        blur.Radius = 2;
+                        this.Effect = blur;
+                        DeleteAgAnahtariArayuzPopupWindow popup = new DeleteAgAnahtariArayuzPopupWindow(agArayuzuMu, girdiMi, ciktiMi, gucArayuzuMu);
+                        popup.Owner = this;
+                        popup.ShowDialog();
                     }
                     else
                     {
-                        AgAnahtariAgArayuzDataGrid.Visibility = Visibility.Hidden;
-                        AgArayuzuNoDataRow.Visibility = Visibility.Visible;
+                        ShowAgArayuzuTab();
                     }
                 }
-
-                AgAnahtariTab.IsSelected = false;
-                AgArayuzuTab.IsSelected = true;
-
-                WindowStartupLocation = WindowStartupLocation.Manual;
-                Top = 250;
-                Left = 520;
-                Width = 880;
-                Height = 580;
-
-                AgAnahtariTab.Width = 290;
-                AgArayuzuTab.Width = 291;
-                GucArayuzuTab.Width = 291;
-
-                AgArayuzuTab.DataContext = null;
-                ListKapasite();
-                ListFizikselOrtam();
-                ListKullanimAmaciForAgArayuzu();
-                AgArayuzuTab.DataContext = agArayuzu;
+                else
+                {
+                    ShowAgArayuzuTab();
+                }
             }
             else
             {
@@ -628,7 +641,11 @@ namespace AYP
             AgAnahtariTab.Width = 150;
             AgArayuzuTab.Width = 151;
             GucArayuzuTab.Width = 151;
-            oldAgAnahtari = (AgAnahtari)agAnahtari.Clone();
+
+            if (agAnahtari.GirdiAgArayuzuSayisi + agAnahtari.CiktiAgArayuzuSayisi == agArayuzuList.Count && agAnahtari.GucArayuzuSayisi == gucArayuzuList.Count)
+            {
+                oldAgAnahtari = (AgAnahtari)agAnahtari.Clone();
+            }
         }
 
         private void GucArayuzuPreviousButton_Click(object sender, RoutedEventArgs e)
@@ -1094,13 +1111,13 @@ namespace AYP
         }
         private void AgArayuzuRow_Checked(object sender, RoutedEventArgs e)
         {
-            BtnAgArayuzEkle.Text = "Güncelle";
-            BtnAgArayuzEkle.Margin = new Thickness(80, 0, 0, 0);
-
             if (checkedAgArayuzuRow != null)
             {
                 checkedAgArayuzuRow.IsChecked = false;
             }
+
+            BtnAgArayuzEkle.Text = "Güncelle";
+            BtnAgArayuzEkle.Margin = new Thickness(80, 0, 0, 0);
 
             AgArayuzuTab.DataContext = null;
             checkedAgArayuzuRow = (CheckBox)sender;
@@ -1278,13 +1295,13 @@ namespace AYP
 
         private void GucArayuzuRow_Checked(object sender, RoutedEventArgs e)
         {
-            BtnGucArayuzEkle.Text = "Güncelle";
-            BtnGucArayuzEkle.Margin = new Thickness(80, 0, 0, 0);
-
             if (checkedGucArayuzuRow != null)
             {
                 checkedGucArayuzuRow.IsChecked = false;
             }
+
+            BtnGucArayuzEkle.Text = "Güncelle";
+            BtnGucArayuzEkle.Margin = new Thickness(80, 0, 0, 0);
 
             GucArayuzuTab.DataContext = null;
             checkedGucArayuzuRow = (CheckBox)sender;

@@ -240,23 +240,7 @@ namespace AYP.ViewModel
                             Visible = null
                         };
 
-                        if (output.TypeId == (int)TipEnum.GucUreticiGucArayuzu && output.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti)
-                        {
-                            if (VerimlilikOrani == 0)
-                            {
-                                output.KalanKapasite = (output.CiktiUrettigiGucKapasitesi.Value - DahiliGucTuketimDegeri);
-                            }
-                            else
-                            {
-                                output.KalanKapasite = (VerimlilikOrani * output.CiktiUrettigiGucKapasitesi.Value) / 100;
-                            }
-
-                        }
-                        else
-                        {
-                            output.KalanKapasite = null;
-                        }
-
+                        output.KalanKapasite = null;
                         OutputList.Add(output);
                     }
                 }
@@ -296,16 +280,9 @@ namespace AYP.ViewModel
 
                         if (output.TypeId == (int)TipEnum.GucUreticiGucArayuzu && output.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti)
                         {
-                            if (VerimlilikOrani == 0)
-                            {
-                                output.KalanKapasite = (output.CiktiUrettigiGucKapasitesi.Value - DahiliGucTuketimDegeri);
-                            }
-                            else
-                            {
-                                output.KalanKapasite = (VerimlilikOrani * output.CiktiUrettigiGucKapasitesi.Value) / 100;
-                            }
-
+                            output.KalanKapasite = output.CiktiUrettigiGucKapasitesi.Value;
                         }
+
                         OutputList.Add(output);
                     }
                 }

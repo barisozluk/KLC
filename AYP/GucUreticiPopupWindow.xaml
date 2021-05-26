@@ -10,7 +10,7 @@
     <Window.Resources>
         <converters:NumberEmptyConverter x:Key="NumberEmptyConverter" />
     </Window.Resources>
-    
+
     <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">
         <TabControl Background="Transparent" BorderThickness="0">
             <TabItem Name="GucUreticiTab" Style="{DynamicResource TabStyle}" Header="Güç Üretici" Background="#222d35" Foreground="White" FontSize="16" Height="30" Width="236" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
@@ -65,7 +65,7 @@
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Dahili Güç Tüketim Değeri" Grid.Row="0" Grid.Column="1" Margin="0,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <TextBox Name="DahiliGucTuketimDegeri" PreviewTextInput="DecimalValidationTextBox" TextChanged="DahiliGucTuketimDegeri_TextChanged" Text="{Binding DahiliGucTuketimDegeri}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
                     <Image Source="Images/wattSymbol.png" Grid.Row="0" Grid.Column="1" Margin="415,430,0,0" Height="25" Width="25"  HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    
+
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Katalog" Grid.Row="0" Grid.Column="1" Margin="0,470,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <TextBox Name="Katalog" Text="{Binding KatalogDosyaAdi}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,470,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" Width="160" IsReadOnly="True"  ></TextBox>
                     <Button Name="OpenKatalogBtn" Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#222d35" Margin="360,470,0,10" Height="35" Width="80" Click="BtnOpenKatalogFile_Click">
