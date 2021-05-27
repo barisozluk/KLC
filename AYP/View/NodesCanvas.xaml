@@ -55,9 +55,9 @@
             <MenuItem Header="Yeniden Adlandır" x:Name="ItemRename" InputGestureText="Ctrl+R" ToolTip="Seçili birimleri yeniden adlandır"  Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
             <Separator Margin="-30,0,0,0" Background="#333337"/>
 
-            <MenuItem Header="Daralt" x:Name="ItemCollapsUp" ToolTip="Seçili birimleri daralt" Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
+            <!--<MenuItem Header="Daralt" x:Name="ItemCollapsUp" ToolTip="Seçili birimleri daralt" Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
             <MenuItem Header="Genişlet" x:Name="ItemExpandDown" ToolTip="Seçili birimleri genişlet" Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
-            <Separator Margin="-30,0,0,0" Background="#333337"/>
+            <Separator Margin="-30,0,0,0" Background="#333337"/>-->
 
             <MenuItem Header="Kopyala" InputGestureText="Ctrl+C" x:Name="ItemCopy" ToolTip="Seçili birimleri kopyala" Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
             <MenuItem Header="Yapıştır " InputGestureText="Ctrl+V" x:Name="ItemPaste" ToolTip="Seçili birimleri yapıştır" Style="{DynamicResource StyleContextMenuItem}"></MenuItem>

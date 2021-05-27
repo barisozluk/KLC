@@ -110,14 +110,14 @@ namespace AYP.View
                 this.BindCommand(this.ViewModel, x => x.CommandEditSelected, x => x.BindingEditSelected).DisposeWith(disposable);
                 this.BindCommand(this.ViewModel, x => x.CommandCopyMultiple, x => x.BindingCopyMultiple).DisposeWith(disposable);
 
-                this.BindCommand(this.ViewModel, x => x.CommandUndo,                x => x.ItemCollapsUp).DisposeWith(disposable);
-                this.BindCommand(this.ViewModel, x => x.CommandSelectAll,           x => x.ItemExpandDown).DisposeWith(disposable);
+                //this.BindCommand(this.ViewModel, x => x.CommandUndo,                x => x.ItemCollapsUp).DisposeWith(disposable);
+                //this.BindCommand(this.ViewModel, x => x.CommandSelectAll,           x => x.ItemExpandDown).DisposeWith(disposable);
 
                 this.BindCommand(this.ViewModel, x => x.CommandDeleteSelectedElements, x => x.BindingDeleteSelectedElements).DisposeWith(disposable);
                 this.BindCommand(this.ViewModel, x => x.CommandDeleteSelectedElements, x => x.ItemDelete).DisposeWith(disposable);
 
-                this.BindCommand(this.ViewModel, x => x.CommandCollapseUpSelected,  x => x.ItemCollapsUp).DisposeWith(disposable);
-                this.BindCommand(this.ViewModel, x => x.CommandExpandDownSelected,  x => x.ItemExpandDown).DisposeWith(disposable);
+                //this.BindCommand(this.ViewModel, x => x.CommandCollapseUpSelected,  x => x.ItemCollapsUp).DisposeWith(disposable);
+                //this.BindCommand(this.ViewModel, x => x.CommandExpandDownSelected,  x => x.ItemExpandDown).DisposeWith(disposable);
 
                 this.BindCommand(this.ViewModel, x => x.CommandCopy, x => x.ItemCopy).DisposeWith(disposable);
                 this.BindCommand(this.ViewModel, x => x.CommandPaste, x => x.ItemPaste).DisposeWith(disposable);
@@ -287,11 +287,11 @@ namespace AYP.View
 
             if(selectedNodeCount > 0)
             {
-                ItemCollapsUp.IsEnabled = true;
-                ItemCollapsUp.Opacity = 1;
+                //ItemCollapsUp.IsEnabled = true;
+                //ItemCollapsUp.Opacity = 1;
 
-                ItemExpandDown.IsEnabled = true;
-                ItemExpandDown.Opacity = 1;
+                //ItemExpandDown.IsEnabled = true;
+                //ItemExpandDown.Opacity = 1;
 
                 ItemDelete.IsEnabled = true;
                 ItemDelete.Opacity = 1;
@@ -326,11 +326,11 @@ namespace AYP.View
             }
             else
             {
-                ItemCollapsUp.IsEnabled = false;
-                ItemCollapsUp.Opacity = 0.25;
+                //ItemCollapsUp.IsEnabled = false;
+                //ItemCollapsUp.Opacity = 0.25;
 
-                ItemExpandDown.IsEnabled = false;
-                ItemExpandDown.Opacity = 0.25;
+                //ItemExpandDown.IsEnabled = false;
+                //ItemExpandDown.Opacity = 0.25;
 
                 ItemDelete.IsEnabled = false;
                 ItemDelete.Opacity = 0.25;
