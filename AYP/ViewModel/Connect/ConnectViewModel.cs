@@ -40,6 +40,7 @@ namespace AYP.ViewModel
 
         [Reactive] public double StrokeThickness { get; set; } = 1;
         [Reactive] public bool IsVisible { get; set; } = true;
+        [Reactive] public bool Selected { get; set; } = false;
         [Reactive] public decimal Uzunluk { get; set; }
         [Reactive] public decimal AgYuku { get; set; }
         [Reactive] public decimal GucMiktari { get; set; }

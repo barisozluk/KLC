@@ -203,7 +203,7 @@ namespace AYP.View
             else if (this.ViewModel.NodesCanvas.ClickMode == NodeCanvasClickMode.Cut)
             {
                 if (this.ViewModel != this.ViewModel.Node.CurrentConnector)
-                    this.ViewModel.NodesCanvas.CommandDeleteSelectedConnectors.Execute(new List<ConnectorViewModel>() {this.ViewModel });
+                    this.ViewModel.NodesCanvas.CommandDeleteSelectedConnects.Execute(new List<ConnectorViewModel>() {this.ViewModel });
             }
             else if (this.ViewModel.NodesCanvas.ClickMode == NodeCanvasClickMode.Select)
             {

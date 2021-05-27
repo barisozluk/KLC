@@ -105,6 +105,8 @@ namespace AYP.ViewModel
         public Command<ExternalNode, NodeViewModel> CommandAddNodeWithUndoRedo { get; set; }
         public Command<List<NodeViewModel>, ElementsForDelete> CommandDeleteSelectedNodes { get; set; }
         public Command<List<ConnectorViewModel>, List<(int index, ConnectorViewModel element)>> CommandDeleteSelectedConnectors { get; set; }
+        public Command<List<ConnectViewModel>, List<(int index, ConnectViewModel element)>> CommandDeleteSelectedConnects { get; set; }
+
         public Command<DeleteMode, DeleteMode> CommandDeleteSelectedElements { get; set; }
 
         public Command<(NodeViewModel node, string newName), (NodeViewModel node, string oldName)> CommandChangeNodeName { get; set; }
@@ -169,6 +171,7 @@ namespace AYP.ViewModel
             CommandAddNodeWithUndoRedo = new Command<ExternalNode, NodeViewModel>(AddNodeWithUndoRedo, DeleteNodetWithUndoRedo, NotSaved);
             CommandDeleteSelectedNodes = new Command<List<NodeViewModel>, ElementsForDelete>(DeleteSelectedNodes, UnDeleteSelectedNodes, NotSaved);
             CommandDeleteSelectedConnectors = new Command<List<ConnectorViewModel>, List<(int index, ConnectorViewModel connector)>>(DeleteSelectedConnectors, UnDeleteSelectedConnectors, NotSaved);
+            CommandDeleteSelectedConnects = new Command<List<ConnectViewModel>, List<(int index, ConnectViewModel connect)>>(DeleteSelectedConnects, UnDeleteSelectedConnects, NotSaved);
             CommandDeleteSelectedElements = new Command<DeleteMode, DeleteMode>(DeleteSelectedElements, UnDeleteSelectedElements);
             CommandChangeNodeName = new Command<(NodeViewModel node, string newName), (NodeViewModel node, string oldName)>(ChangeNodeName, UnChangeNodeName);
             CommandChangeConnectName = new Command<(ConnectorViewModel connector, string newName), (ConnectorViewModel connector, string oldName)>(ChangeConnectName, UnChangeConnectName);
@@ -475,34 +478,44 @@ namespace AYP.ViewModel
 
         private void OpenZincirTopolojiGateWayPanel()
         {
-            bool hepsiAgAnahtariMi = true;
-
-            foreach (var node in this.Nodes.Items.Where(x => x.Selected))
+            if (this.Nodes.Items.Where(x => x.Selected).Count() > 1)
             {
-                if (node.TypeId != (int)TipEnum.AgAnahtari)
+                bool hepsiAgAnahtariMi = true;
+
+                foreach (var node in this.Nodes.Items.Where(x => x.Selected))
                 {
-                    hepsiAgAnahtariMi = false;
-                    break;
+                    if (node.TypeId != (int)TipEnum.AgAnahtari)
+                    {
+                        hepsiAgAnahtariMi = false;
+                        break;
+                    }
                 }
-            }
 
-            if (!hepsiAgAnahtariMi)
-            {
-                NotifyInfoPopup nfp = new NotifyInfoPopup();
-                nfp.msg.Text = "Zincir topoloji sadece ağ anahtarları arasında oluşturulabilir.";
-                nfp.Owner = this.MainWindow;
-                nfp.Show();
+                if (!hepsiAgAnahtariMi)
+                {
+                    NotifyInfoPopup nfp = new NotifyInfoPopup();
+                    nfp.msg.Text = "Zincir topoloji sadece ağ anahtarları arasında oluşturulabilir.";
+                    nfp.Owner = this.MainWindow;
+                    nfp.Show();
+                }
+                else
+                {
+                    List<NodeViewModel> selectedNodes = this.Nodes.Items.Where(x => x.Selected).ToList();
+                    this.MainWindow.IsEnabled = false;
+                    System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+                    blur.Radius = 2;
+                    this.MainWindow.Effect = blur;
+                    SelectGateWayForTopology popup = new SelectGateWayForTopology(selectedNodes, (int)TopolojiEnum.Zincir);
+                    popup.Owner = this.MainWindow;
+                    popup.ShowDialog();
+                }
             }
             else
             {
-                List<NodeViewModel> selectedNodes = this.Nodes.Items.Where(x => x.Selected).ToList();
-                this.MainWindow.IsEnabled = false;
-                System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
-                blur.Radius = 2;
-                this.MainWindow.Effect = blur;
-                SelectGateWayForTopology popup = new SelectGateWayForTopology(selectedNodes, (int)TopolojiEnum.Zincir);
-                popup.Owner = this.MainWindow;
-                popup.ShowDialog();
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                nfp.msg.Text = "En az iki ağ anahtarı seçiniz!";
+                nfp.Owner = this.MainWindow;
+                nfp.Show();
             }
         }
         public void ZincirTopolojiOlustur(NodeViewModel gateWay)
@@ -611,34 +624,44 @@ namespace AYP.ViewModel
 
         private void OpenHalkaTopolojiGateWayPanel()
         {
-            bool hepsiAgAnahtariMi = true;
-
-            foreach (var node in this.Nodes.Items.Where(x => x.Selected))
+            if (this.Nodes.Items.Where(x => x.Selected).Count() > 1)
             {
-                if (node.TypeId != (int)TipEnum.AgAnahtari)
+                bool hepsiAgAnahtariMi = true;
+
+                foreach (var node in this.Nodes.Items.Where(x => x.Selected))
                 {
-                    hepsiAgAnahtariMi = false;
-                    break;
+                    if (node.TypeId != (int)TipEnum.AgAnahtari)
+                    {
+                        hepsiAgAnahtariMi = false;
+                        break;
+                    }
                 }
-            }
 
-            if (!hepsiAgAnahtariMi)
-            {
-                NotifyInfoPopup nfp = new NotifyInfoPopup();
-                nfp.msg.Text = "Zincir topoloji sadece ağ anahtarları arasında oluşturulabilir.";
-                nfp.Owner = this.MainWindow;
-                nfp.Show();
+                if (!hepsiAgAnahtariMi)
+                {
+                    NotifyInfoPopup nfp = new NotifyInfoPopup();
+                    nfp.msg.Text = "Zincir topoloji sadece ağ anahtarları arasında oluşturulabilir.";
+                    nfp.Owner = this.MainWindow;
+                    nfp.Show();
+                }
+                else
+                {
+                    List<NodeViewModel> selectedNodes = this.Nodes.Items.Where(x => x.Selected).ToList();
+                    this.MainWindow.IsEnabled = false;
+                    System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+                    blur.Radius = 2;
+                    this.MainWindow.Effect = blur;
+                    SelectGateWayForTopology popup = new SelectGateWayForTopology(selectedNodes, (int)TopolojiEnum.Halka);
+                    popup.Owner = this.MainWindow;
+                    popup.ShowDialog();
+                }
             }
             else
             {
-                List<NodeViewModel> selectedNodes = this.Nodes.Items.Where(x => x.Selected).ToList();
-                this.MainWindow.IsEnabled = false;
-                System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
-                blur.Radius = 2;
-                this.MainWindow.Effect = blur;
-                SelectGateWayForTopology popup = new SelectGateWayForTopology(selectedNodes, (int)TopolojiEnum.Halka);
-                popup.Owner = this.MainWindow;
-                popup.ShowDialog();
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                nfp.msg.Text = "En az iki ağ anahtarı seçiniz!";
+                nfp.Owner = this.MainWindow;
+                nfp.Show();
             }
         }
         public void HalkaTopolojiOlustur(NodeViewModel gateWay)
@@ -808,49 +831,59 @@ namespace AYP.ViewModel
 
         private void OpenYildizTopolojiGateWayPanel()
         {
-            bool hepsiAgAnahtariMi = true;
-
-            foreach (var node in this.Nodes.Items.Where(x => x.Selected))
+            if (this.Nodes.Items.Where(x => x.Selected).Count() > 1)
             {
-                if (node.TypeId != (int)TipEnum.AgAnahtari && node.TypeId != (int)TipEnum.Group)
+                bool hepsiAgAnahtariMi = true;
+
+                foreach (var node in this.Nodes.Items.Where(x => x.Selected))
                 {
-                    hepsiAgAnahtariMi = false;
-                    break;
+                    if (node.TypeId != (int)TipEnum.AgAnahtari && node.TypeId != (int)TipEnum.Group)
+                    {
+                        hepsiAgAnahtariMi = false;
+                        break;
+                    }
+                    else
+                    {
+                        if (node.TypeId == (int)TipEnum.Group)
+                        {
+                            if (node.Transitions.Items != null && node.Transitions.Items.Count() > 0)
+                            {
+                                hepsiAgAnahtariMi = node.Transitions.Items.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu).Any();
+                            }
+                            else
+                            {
+                                hepsiAgAnahtariMi = false;
+                            }
+                        }
+                    }
+
+                }
+
+                if (!hepsiAgAnahtariMi)
+                {
+                    NotifyInfoPopup nfp = new NotifyInfoPopup();
+                    nfp.msg.Text = "Yıldız topoloji sadece ağ anahtarları arasında oluşturulabilir.";
+                    nfp.Owner = this.MainWindow;
+                    nfp.Show();
                 }
                 else
                 {
-                    if (node.TypeId == (int)TipEnum.Group)
-                    {
-                        if (node.Transitions.Items != null && node.Transitions.Items.Count() > 0)
-                        {
-                            hepsiAgAnahtariMi = node.Transitions.Items.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu).Any();
-                        }
-                        else
-                        {
-                            hepsiAgAnahtariMi = false;
-                        }
-                    }
+                    List<NodeViewModel> selectedNodes = this.Nodes.Items.Where(x => x.Selected).ToList();
+                    this.MainWindow.IsEnabled = false;
+                    System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+                    blur.Radius = 2;
+                    this.MainWindow.Effect = blur;
+                    SelectGateWayForTopology popup = new SelectGateWayForTopology(selectedNodes, (int)TopolojiEnum.Yildiz);
+                    popup.Owner = this.MainWindow;
+                    popup.ShowDialog();
                 }
-
-            }
-
-            if (!hepsiAgAnahtariMi)
-            {
-                NotifyInfoPopup nfp = new NotifyInfoPopup();
-                nfp.msg.Text = "Yıldız topoloji sadece ağ anahtarları arasında oluşturulabilir.";
-                nfp.Owner = this.MainWindow;
-                nfp.Show();
             }
             else
             {
-                List<NodeViewModel> selectedNodes = this.Nodes.Items.Where(x => x.Selected).ToList();
-                this.MainWindow.IsEnabled = false;
-                System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
-                blur.Radius = 2;
-                this.MainWindow.Effect = blur;
-                SelectGateWayForTopology popup = new SelectGateWayForTopology(selectedNodes, (int)TopolojiEnum.Yildiz);
-                popup.Owner = this.MainWindow;
-                popup.ShowDialog();
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                nfp.msg.Text = "En az iki ağ anahtarı seçiniz!";
+                nfp.Owner = this.MainWindow;
+                nfp.Show();
             }
         }
         public void YildizTopolojiOlustur(NodeViewModel gateWay)
@@ -1806,17 +1839,15 @@ namespace AYP.ViewModel
             Point cutterStartPoint = Cutter.StartPoint;
             Point cutterEndPoint = Cutter.EndPoint;
 
-            var connects = Connects.Where(x => MyUtils.CheckIntersectTwoRectangles(MyUtils.GetStartPointDiagonal(x.StartPoint, x.EndPoint), MyUtils.GetEndPointDiagonal(x.StartPoint, x.EndPoint),
-                                               MyUtils.GetStartPointDiagonal(cutterStartPoint, cutterEndPoint), MyUtils.GetEndPointDiagonal(cutterStartPoint, cutterEndPoint)));
+            var connects = Connects.Where(x => MyUtils.CheckIntersectCubicBezierCurveAndLine(x.StartPoint, x.Point1, x.Point2, x.EndPoint, cutterStartPoint, cutterEndPoint));
             foreach (var connect in Connects)
             {
-                connect.FromConnector.Selected = false;
+                connect.Selected = false;
             }
-
 
             foreach (var connect in connects)
             {
-                connect.FromConnector.Selected = MyUtils.CheckIntersectCubicBezierCurveAndLine(connect.StartPoint, connect.Point1, connect.Point2, connect.EndPoint, cutterStartPoint, cutterEndPoint);
+                connect.Selected = true;
             }
 
         }
@@ -2808,9 +2839,13 @@ namespace AYP.ViewModel
 
             }
 
-            if ((result == DeleteMode.DeleteConnects) || (result == DeleteMode.DeleteAllSelected))
+            if ((result == DeleteMode.DeleteAllSelected))
             {
                 CommandDeleteSelectedConnectors.Execute();
+            }
+            if (result == DeleteMode.DeleteConnects)
+            {
+                CommandDeleteSelectedConnects.Execute();
             }
             if ((result == DeleteMode.DeleteNodes) || (result == DeleteMode.DeleteAllSelected))
             {
@@ -2890,6 +2925,36 @@ namespace AYP.ViewModel
 
             return result;
         }
+
+        private List<(int index, ConnectViewModel connect)> DeleteSelectedConnects(List<ConnectViewModel> parameter, List<(int index, ConnectViewModel connect)> result)
+        {
+            if (result == null)
+            {
+
+                result = new List<(int index, ConnectViewModel element)>();
+                foreach (var connect in parameter ?? Connects.Where(x => x.Selected))
+                {
+                    result.Add((Connects.IndexOf(connect), connect));
+                }
+            }
+
+            foreach (var element in result)
+            {
+                element.connect.FromConnector.Node.NodesCanvas.CommandDeleteConnect.ExecuteWithSubscribe(element.connect);
+            }
+
+            return result;
+        }
+        private List<(int index, ConnectViewModel connector)> UnDeleteSelectedConnects(List<ConnectViewModel> parameter, List<(int index, ConnectViewModel connect)> result)
+        {
+            foreach (var element in result)
+            {
+                element.connect.FromConnector.NodesCanvas.CommandAddConnect.ExecuteWithSubscribe((element.connect));
+            }
+
+            return result;
+        }
+
         private (ConnectorViewModel connector, string oldName) ChangeConnectName((ConnectorViewModel connector, string newName) parameter, (ConnectorViewModel connector, string oldName) result)
         {
             string oldName = parameter.connector.Name;

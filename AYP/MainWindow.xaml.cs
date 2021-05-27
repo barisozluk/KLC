@@ -793,7 +793,7 @@ namespace AYP
                     {
                         node.IsVisible = true;
 
-                        foreach(var input in node.InputList)
+                        foreach (var input in node.InputList)
                         {
                             input.Visible = true;
                         }
@@ -1101,7 +1101,7 @@ namespace AYP
                 }
             }
         }
-        public void DeviceCounter(int n )
+        public void DeviceCounter(int n)
         {
             deviceCounter.Text = n.ToString();
         }
@@ -1458,11 +1458,11 @@ namespace AYP
                                 inputlarBosMu = false;
                             }
                         }
+                    }
 
-                        if (inputlarBosMu)
-                        {
-                            AddToDogrulamaPaneli(node.Name + " için en az bir güç girdi bağlantısı yapınız!", (int)DogrulamaMesajTipiEnum.BosArayuz, node.UniqueId);
-                        }
+                    if (inputlarBosMu)
+                    {
+                        AddToDogrulamaPaneli(node.Name + " için en az bir güç girdi bağlantısı yapınız!", (int)DogrulamaMesajTipiEnum.BosArayuz, node.UniqueId);
                     }
                 }
                 else if (node.TypeId == (int)TipEnum.AgAnahtari)
@@ -1477,18 +1477,49 @@ namespace AYP
                                 inputlarBosMu = false;
                             }
                         }
+                    }
 
-                        if (inputlarBosMu)
+                    if (inputlarBosMu)
+                    {
+                        AddToDogrulamaPaneli(node.Name + " için en az bir güç girdi bağlantısı yapınız!", (int)DogrulamaMesajTipiEnum.BosArayuz, node.UniqueId);
+                    }
+
+                    inputlarBosMu = true;
+                    foreach (var input in node.InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu))
+                    {
+                        foreach (var connect in nodesCanvas.Connects)
                         {
-                            AddToDogrulamaPaneli(node.Name + " için en az bir güç girdi bağlantısı yapınız!", (int)DogrulamaMesajTipiEnum.BosArayuz, node.UniqueId);
+                            if (connect.ToConnector == input)
+                            {
+                                inputlarBosMu = false;
+                            }
                         }
+                    }
+
+                    if (inputlarBosMu)
+                    {
+                        AddToDogrulamaPaneli(node.Name + " için en az bir ağ girdi bağlantısı yapınız!", (int)DogrulamaMesajTipiEnum.BosArayuz, node.UniqueId);
+                    }
+
+                    bool outputlarBosMu = true;
+                    foreach (var output in node.Transitions.Items.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu))
+                    {
+                        if (output.Connect == null)
+                        {
+                            outputlarBosMu = false;
+                        }
+                    }
+
+                    if (outputlarBosMu)
+                    {
+                        AddToDogrulamaPaneli(node.Name + " için en az bir ağ çıktı bağlantısı yapınız!", (int)DogrulamaMesajTipiEnum.BosArayuz, node.UniqueId);
                     }
                 }
             }
 
-            foreach(var connect in nodesCanvas.Connects)
+            foreach (var connect in nodesCanvas.Connects)
             {
-                if(connect.Uzunluk == 0)
+                if (connect.Uzunluk == 0)
                 {
                     AddToDogrulamaPaneli(connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için kablo boyu tanımlayınız!", (int)DogrulamaMesajTipiEnum.Kablo, connect.FromConnector.UniqueId);
                 }
