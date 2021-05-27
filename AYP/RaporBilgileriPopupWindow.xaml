@@ -23,58 +23,58 @@
             </Button>
 
             <Rectangle Style="{DynamicResource StyleRaporBilgileriFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Tarih *" Grid.Row="0" Grid.Column="1" Margin="0,65,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="Gun1" Width="50" HorizontalAlignment="Left" Margin="150,65,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
-            <Label FontSize="16" Foreground="#ffffff" Content="/" Grid.Row="0" Grid.Column="1" Margin="205,65,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="Ay1" Width="50" HorizontalAlignment="Left" Margin="225,65,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
-            <Label FontSize="16" Foreground="#ffffff" Content="/" Grid.Row="0" Grid.Column="1" Margin="280,65,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="Yil1"  Width="100" HorizontalAlignment="Left" Margin="300,65,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
+            <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Tarih *" Grid.Row="0" Grid.Column="1" Margin="5,65,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <TextBox Name="Gun1" Width="50" HorizontalAlignment="Left" Margin="160,65,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
+            <Label FontSize="16" Foreground="#ffffff" Content="/" Grid.Row="0" Grid.Column="1" Margin="215,65,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <TextBox Name="Ay1" Width="50" HorizontalAlignment="Left" Margin="235,65,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
+            <Label FontSize="16" Foreground="#ffffff" Content="/" Grid.Row="0" Grid.Column="1" Margin="290,65,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <TextBox Name="Yil1"  Width="100" HorizontalAlignment="Left" Margin="310,65,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Gizlilik Derecesi *" Grid.Row="0" Grid.Column="1" Margin="0,110,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="GizlilikDerecesi" IsEnabled="False" Text="{Binding GizlilikDerecesi}" HorizontalAlignment="Left" Margin="150,110,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
+            <TextBox Name="GizlilikDerecesi" IsEnabled="False" Text="{Binding GizlilikDerecesi}" HorizontalAlignment="Left" Margin="160,110,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Yazım Ortamı *" Grid.Row="0" Grid.Column="1" Margin="0,155,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="YazimOrtami" Text="{Binding YazimOrtami}" HorizontalAlignment="Left" Margin="150,155,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
+            <TextBox Name="YazimOrtami" Text="{Binding YazimOrtami}" HorizontalAlignment="Left" Margin="160,155,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Hazırlayan *" Grid.Row="0" Grid.Column="1" Margin="0,200,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="Hazirlayan" Text="{Binding Hazirlayan}" HorizontalAlignment="Left" Margin="150,200,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
+            <TextBox Name="Hazirlayan" Text="{Binding Hazirlayan}" HorizontalAlignment="Left" Margin="160,200,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Kontrol Eden *" Grid.Row="0" Grid.Column="1" Margin="0,245,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="KontrolEden" Text="{Binding KontrolEden}" HorizontalAlignment="Left" Margin="150,245,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
+            <TextBox Name="KontrolEden" Text="{Binding KontrolEden}" HorizontalAlignment="Left" Margin="160,245,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Onaylayan *" Grid.Row="0" Grid.Column="1" Margin="0,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="Onaylayan" Text="{Binding Onaylayan}" HorizontalAlignment="Left" Margin="150,290,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
+            <TextBox Name="Onaylayan" Text="{Binding Onaylayan}" HorizontalAlignment="Left" Margin="160,290,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Dil Kodu *" Grid.Row="0" Grid.Column="1" Margin="0,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="DilKodu" IsEnabled="False" Text="{Binding DilKodu}" HorizontalAlignment="Left" Margin="150,335,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
+            <TextBox Name="DilKodu" IsEnabled="False" Text="{Binding DilKodu}" HorizontalAlignment="Left" Margin="160,335,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Doküman Tanımı *" Grid.Row="0" Grid.Column="1" Margin="0,380,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="DokumanTanimi" Text="{Binding DokumanTanimi}" HorizontalAlignment="Left" Margin="150,380,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
+            <TextBox Name="DokumanTanimi" Text="{Binding DokumanTanimi}" HorizontalAlignment="Left" Margin="160,380,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Bölüm *" Grid.Row="0" Grid.Column="1" Margin="0,425,0,10" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <TextBox Name="Bolum" Text="{Binding Bolum}" HorizontalAlignment="Left" Margin="150,425,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
+            <TextBox Name="Bolum" Text="{Binding Bolum}" HorizontalAlignment="Left" Margin="160,425,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Revizyon Kodu *" Grid.Row="0" Grid.Column="1" Margin="0,470,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <TextBox Name="RevizyonKodu" Text="{Binding RevizyonKodu}" HorizontalAlignment="Left" Margin="150,470,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
+            <TextBox Name="RevizyonKodu" Text="{Binding RevizyonKodu}" HorizontalAlignment="Left" Margin="160,470,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Değiştirme Tarihi" Grid.Row="0" Grid.Column="1" Margin="0,515,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <TextBox Name="Gun2" Width="50" HorizontalAlignment="Left" Margin="150,515,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
-            <Label FontSize="16" Foreground="#ffffff" Content="/" Grid.Row="0" Grid.Column="1" Margin="205,515,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="Ay2" Width="50" HorizontalAlignment="Left" Margin="225,515,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
-            <Label FontSize="16" Foreground="#ffffff" Content="/" Grid.Row="0" Grid.Column="1" Margin="280,515,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="Yil2" Width="100" HorizontalAlignment="Left" Margin="300,515,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
+            <TextBox Name="Gun2" Width="50" HorizontalAlignment="Left" Margin="160,515,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
+            <Label FontSize="16" Foreground="#ffffff" Content="/" Grid.Row="0" Grid.Column="1" Margin="215,515,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <TextBox Name="Ay2" Width="50" HorizontalAlignment="Left" Margin="235,515,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
+            <Label FontSize="16" Foreground="#ffffff" Content="/" Grid.Row="0" Grid.Column="1" Margin="290,515,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <TextBox Name="Yil2" Width="100" HorizontalAlignment="Left" Margin="310,515,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
             
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Doküman Kodu *" Grid.Row="0" Grid.Column="1" Margin="0,560,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <TextBox Name="DokumanKodu" Text="{Binding DokumanKodu}" HorizontalAlignment="Left" Margin="150,560,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
+            <TextBox Name="DokumanKodu" Text="{Binding DokumanKodu}" HorizontalAlignment="Left" Margin="160,560,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Doküman Parça No *" Grid.Row="0" Grid.Column="1" Margin="0,605,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <TextBox Name="DokumanParcaNo" Text="{Binding DokumanParcaNo}" HorizontalAlignment="Left" Margin="150,605,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
+            <TextBox Name="DokumanParcaNo" Text="{Binding DokumanParcaNo}" HorizontalAlignment="Left" Margin="160,605,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Değiştiren *" Grid.Row="0" Grid.Column="1" Margin="0,650,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <TextBox Name="Degistiren" Text="{Binding Degistiren}" HorizontalAlignment="Left" Margin="150,650,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
+            <TextBox Name="Degistiren" Text="{Binding Degistiren}" HorizontalAlignment="Left" Margin="160,650,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
 
             <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Sayfa Boyutu *" Grid.Row="0" Grid.Column="1" Margin="0,695,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <TextBox Name="SayfaBoyutu" IsEnabled="False" Text="{Binding SayfaBoyutu}" HorizontalAlignment="Left" Margin="150,695,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
+            <TextBox Name="SayfaBoyutu" IsEnabled="False" Text="{Binding SayfaBoyutu}" HorizontalAlignment="Left" Margin="160,695,0,0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Top" Style="{DynamicResource StyleTextBox}" />
 
             <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,750,0,10" Click="UygulaButton_Click" Width="100">
                 <Grid>
