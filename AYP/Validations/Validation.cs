@@ -390,23 +390,23 @@ namespace AYP.Validations
         public bool GerilimValidasyon(NodesCanvasViewModel NodesCanvas, ConnectorViewModel fromConnector, ConnectorViewModel toConnector)
         {
             var response = true;
-            //if (fromConnector.CiktiDuraganGerilimDegeri != -1)
-            //{
-            //    if (toConnector.GirdiDuraganGerilimDegeri1.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
-            //    {
-            //        if (toConnector.GirdiDuraganGerilimDegeri2.HasValue && toConnector.GirdiDuraganGerilimDegeri2.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
-            //        {
-            //            if (toConnector.GirdiDuraganGerilimDegeri3.HasValue && toConnector.GirdiDuraganGerilimDegeri3.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
-            //            {
-            //                if (!(toConnector.GirdiMinimumGerilimDegeri.HasValue && toConnector.GirdiMinimumGerilimDegeri.Value <= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri) &&
-            //                    toConnector.GirdiMaksimumGerilimDegeri.HasValue && toConnector.GirdiMaksimumGerilimDegeri.Value >= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri)))
-            //                {
-            //                    response = false;
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
+            if (fromConnector.CiktiDuraganGerilimDegeri != -1)
+            {
+                if (toConnector.GirdiDuraganGerilimDegeri1.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
+                {
+                    if (toConnector.GirdiDuraganGerilimDegeri2.HasValue && toConnector.GirdiDuraganGerilimDegeri2.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
+                    {
+                        if (toConnector.GirdiDuraganGerilimDegeri3.HasValue && toConnector.GirdiDuraganGerilimDegeri3.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
+                        {
+                            if (!(toConnector.GirdiMinimumGerilimDegeri.HasValue && toConnector.GirdiMinimumGerilimDegeri.Value <= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri) &&
+                                toConnector.GirdiMaksimumGerilimDegeri.HasValue && toConnector.GirdiMaksimumGerilimDegeri.Value >= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri)))
+                            {
+                                response = false;
+                            }
+                        }
+                    }
+                }
+            }
 
             return response;
         }
