@@ -330,16 +330,16 @@ namespace AYP
                 GucArayuzuNoDataRow.Visibility = Visibility.Visible;
             }
 
-            if (!fromNode)
+            if (isEditMode && !fromNode)
             {
                 if (!string.IsNullOrEmpty(VerimlilikOrani.Text) && VerimlilikOrani.Text != " ")
                 {
-                    VerimlilikOrani.IsEnabled = true;
-                    VerimlilikOrani.Opacity = 1;
-
                     DahiliGucTuketimDegeri.IsEnabled = false;
                     DahiliGucTuketimDegeri.Opacity = 0.25;
                     gucUretici.DahiliGucTuketimDegeri = null;
+
+                    VerimlilikOrani.IsEnabled = true;
+                    VerimlilikOrani.Opacity = 1;
                 }
                 else
                 {
@@ -936,23 +936,16 @@ namespace AYP
         {
             if (!fromNode)
             {
-                if (!string.IsNullOrEmpty(VerimlilikOrani.Text) && VerimlilikOrani.Text != " ")
+                if (!string.IsNullOrEmpty(DahiliGucTuketimDegeri.Text) && DahiliGucTuketimDegeri.Text != " ")
                 {
-                    VerimlilikOrani.IsEnabled = true;
-                    VerimlilikOrani.Opacity = 1;
-
-                    DahiliGucTuketimDegeri.IsEnabled = false;
-                    DahiliGucTuketimDegeri.Opacity = 0.25;
-                    gucUretici.DahiliGucTuketimDegeri = null;
-                }
-                else
-                {
-                    DahiliGucTuketimDegeri.IsEnabled = true;
-                    DahiliGucTuketimDegeri.Opacity = 1;
-
                     VerimlilikOrani.IsEnabled = false;
                     VerimlilikOrani.Opacity = 0.25;
                     gucUretici.VerimlilikDegeri = null;
+                }
+                else
+                {
+                    VerimlilikOrani.IsEnabled = true;
+                    VerimlilikOrani.Opacity = 1;
                 }
             }
         }
