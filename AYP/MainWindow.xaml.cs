@@ -521,6 +521,7 @@ namespace AYP
             StokNo.Text = null;
             Uretici.Text = null;
             TurAd.Text = null;
+            selectedTipId = 0;
         }
 
         private void UcBirim_Click(object sender, RoutedEventArgs e)
@@ -546,6 +547,7 @@ namespace AYP
             StokNo.Text = null;
             Uretici.Text = null;
             TurAd.Text = null;
+            selectedTipId = 0;
         }
 
         private void AgAnahtari_Click(object sender, RoutedEventArgs e)
@@ -572,6 +574,7 @@ namespace AYP
             StokNo.Text = null;
             Uretici.Text = null;
             TurAd.Text = null;
+            selectedTipId = 0;
         }
 
         private void GucUretici_Click(object sender, RoutedEventArgs e)
