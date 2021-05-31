@@ -672,7 +672,7 @@ namespace AYP
 
                 Table tableTotal = new Table(new float[] { 400, 393 });
                 Cell c1 = new Cell();
-                c1.Add(new Paragraph("Toplam"));
+                c1.Add(new Paragraph("Toplam Uç Birim Sayısı"));
                 c1.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
                 c1.SetFontSize(11);
                 c1.SetBold();
@@ -866,7 +866,7 @@ namespace AYP
 
                 Table tableTotal = new Table(new float[] { 400, 393 });
                 Cell c1 = new Cell();
-                c1.Add(new Paragraph("Toplam"));
+                c1.Add(new Paragraph("Toplam Ağ Anahtarı Sayısı"));
                 c1.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
                 c1.SetFontSize(11);
                 c1.SetBold();
@@ -1615,7 +1615,7 @@ namespace AYP
 
                 Table tableTotal = new Table(new float[] { 400, 393 });
                 Cell c1 = new Cell();
-                c1.Add(new Paragraph("Toplam"));
+                c1.Add(new Paragraph("Toplam Güç Üretici Sayısı"));
                 c1.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
                 c1.SetFontSize(11);
                 c1.SetBold();
@@ -1809,7 +1809,7 @@ namespace AYP
 
                 Table tableTotal = new Table(new float[] { 400, 393 });
                 Cell c1 = new Cell();
-                c1.Add(new Paragraph("Toplam"));
+                c1.Add(new Paragraph("Toplam Güç Tüketici Sayısı"));
                 c1.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
                 c1.SetFontSize(11);
                 c1.SetBold();
