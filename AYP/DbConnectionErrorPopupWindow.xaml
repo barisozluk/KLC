@@ -18,7 +18,7 @@
                 <ColumnDefinition Width="10" />
             </Grid.ColumnDefinitions>
 
-            <Label FontSize="16" Foreground="White" Content="Veritabanına Bağlanılamadı, Bağlantı Ayarlarınızı Kontrol Ediniz!" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Label FontSize="16" Foreground="White" Content="Veri tabanına bağlanılamadı, bağlantı ayarlarınızı kontrol ediniz." Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,55,0,10" Click="DbConnectionPopupClose_Click" >
                 <Grid>
                     <Image Source="Images/check.png" Height="20" Width="20" Margin="7,0,0,0" HorizontalAlignment="Left"/>

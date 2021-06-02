@@ -17,6 +17,7 @@ namespace AYP.Models
     public class GroupUngroupModel : ReactiveObject
     {
         public string Name { get; set; }
+        public int TypeId { get; set; }
         public Guid UniqueId { get; set; }
         public List<NodeViewModel> NodeList { get; set; }
         public List<ConnectViewModel> InternalConnectList { get; set; }
