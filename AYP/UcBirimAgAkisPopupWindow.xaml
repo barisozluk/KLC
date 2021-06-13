@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AYP"
         mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterOwner"
-        Title="UcBirimAgAkisPopupWindow" Height="350" Width="810" Background="Transparent">
+        Title="UcBirimAgAkisPopupWindow" Height="655" Width="810" Background="Transparent">
 
     <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">
 
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid.RowDefinitions>
-                <RowDefinition Height="350"/>
+                <RowDefinition Height="655"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10" />
@@ -30,26 +30,22 @@
             <TextBox Name="Yuk" PreviewTextInput="DecimalValidationTextBox" Text="{Binding Yuk}" Style="{DynamicResource StyleTextBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,95,0,10" VerticalAlignment="Top" />
 
             <Label FontSize="16" Foreground="#ffffff" Content="Ağ Akış Tipi *" Grid.Row="0" Grid.Column="1" Margin="10,140,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <ComboBox SelectedValue="{Binding AgAkisTipiId}" ItemsSource="{Binding AgAkisTipiList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,170,0,10" VerticalAlignment="Top">
+            <ComboBox SelectedValue="{Binding AgAkisTipiId}" ItemsSource="{Binding AgAkisTipiList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,170,0,10" VerticalAlignment="Top"  SelectionChanged="AgAkisTipi_SelectionChanged">
             </ComboBox>
 
             <Label FontSize="16" Foreground="#ffffff" Content="Ağ Akış Protokolü *" Grid.Row="0" Grid.Column="1" Margin="10,215,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <ComboBox SelectedValue="{Binding AgAkisProtokoluId}" ItemsSource="{Binding AgAkisProtokoluList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,245,0,10" VerticalAlignment="Top" >
             </ComboBox>
 
-            <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,290,0,10" Background="#222d35" Width="250" Click="ButtonAddAgAkis_Click">
+            <Label FontSize="16" Foreground="#ffffff" Content="Varış Noktası *" Grid.Row="0" Grid.Column="1" Margin="10,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <ListBox x:Name="UcBirimListBox" DisplayMemberPath="Name" SelectedValuePath="UniqueId" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,335,0,10" VerticalAlignment="Top" ItemContainerStyle="{DynamicResource StyleListBoxItem}" Style="{DynamicResource StyleListBox}" >
+            </ListBox>
+
+            <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,595,0,10" Background="#222d35" Width="250" Click="ButtonAddAgAkis_Click">
                 <Grid>
-                    <!--<Image Source="Images/save.png" Height="20" Width="25" Margin="2,0,0,0" HorizontalAlignment="Left"/>-->
                     <TextBlock x:Name="BtnAdd" FontSize="16" HorizontalAlignment="Left" Margin="100,0,0,0">Ekle</TextBlock>
                 </Grid>
             </Button>
-
-            <!--<Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,350,0,10" Click="ButtonUcBirimAgAkisPopupClose_Click" >
-                <Grid>
-                    --><!--<Image Source="Images/save.png" Height="20" Width="25" Margin="2,0,0,0" HorizontalAlignment="Left"/>--><!--
-                    <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="65,7,10,10">Tamam</TextBlock>
-                </Grid>
-            </Button>-->
 
             <StackPanel Grid.Row="0" Grid.Column="1" Margin="270,65,10,10">
                 <ScrollViewer MaxHeight="245" VerticalScrollBarVisibility="Auto">

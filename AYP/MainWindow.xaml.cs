@@ -1537,10 +1537,10 @@ namespace AYP
                     {
                         if (connect.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu && connect.ToConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
                         {
-                            if (connect.FromConnector.AgAkisList.Select(s => s.Yuk).Sum() != connect.ToConnector.AgAkisList.Select(s => s.Yuk).Sum())
-                            {
-                                AddToDogrulamaPaneli(connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için giren, çıkan yük eşit değil!", (int)DogrulamaMesajTipiEnum.AgAkis, connect.FromConnector.UniqueId);
-                            }
+                            //if (connect.FromConnector.AgAkisList.Select(s => s.Yuk).Sum() != connect.ToConnector.AgAkisList.Select(s => s.Yuk).Sum())
+                            //{
+                            //    AddToDogrulamaPaneli(connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için giren, çıkan yük eşit değil!", (int)DogrulamaMesajTipiEnum.AgAkis, connect.FromConnector.UniqueId);
+                            //}
                         }
                     }
                 }

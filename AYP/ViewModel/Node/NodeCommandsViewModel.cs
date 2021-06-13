@@ -121,6 +121,7 @@ namespace AYP.ViewModel
                 {
                     CurrentConnector.KalanKapasite = null;
                 }
+                CurrentConnector.AgAkisList = output.AgAkisList;
 
                 Transitions.Add(CurrentConnector);
             }

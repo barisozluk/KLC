@@ -1394,14 +1394,14 @@ namespace AYP.ViewModel
                                 temp.Id = externalConnect.FromConnector.Id;
                                 temp.TipId = externalConnect.FromConnector.TypeId;
                                 temp.CiktiDuraganGerilimDegeri = externalConnect.FromConnector.CiktiDuraganGerilimDegeri;
-                                temp.CiktiUrettigiGucKapasitesi = externalConnect.FromConnector.CiktiUrettigiGucKapasitesi.Value;
+                                temp.CiktiUrettigiGucKapasitesi = externalConnect.FromConnector.CiktiUrettigiGucKapasitesi;
                                 temp.GerilimTipiId = externalConnect.FromConnector.GerilimTipiId.Value;
-                                temp.GirdiDuraganGerilimDegeri1 = externalConnect.FromConnector.GirdiDuraganGerilimDegeri1.Value;
-                                temp.GirdiDuraganGerilimDegeri2 = externalConnect.FromConnector.GirdiDuraganGerilimDegeri2.Value;
-                                temp.GirdiDuraganGerilimDegeri3 = externalConnect.FromConnector.GirdiDuraganGerilimDegeri3.Value;
-                                temp.GirdiMaksimumGerilimDegeri = externalConnect.FromConnector.GirdiMaksimumGerilimDegeri.Value;
-                                temp.GirdiMinimumGerilimDegeri = externalConnect.FromConnector.GirdiMinimumGerilimDegeri.Value;
-                                temp.GirdiTukettigiGucMiktari = externalConnect.FromConnector.GirdiTukettigiGucMiktari.Value;
+                                temp.GirdiDuraganGerilimDegeri1 = externalConnect.FromConnector.GirdiDuraganGerilimDegeri1;
+                                temp.GirdiDuraganGerilimDegeri2 = externalConnect.FromConnector.GirdiDuraganGerilimDegeri2;
+                                temp.GirdiDuraganGerilimDegeri3 = externalConnect.FromConnector.GirdiDuraganGerilimDegeri3;
+                                temp.GirdiMaksimumGerilimDegeri = externalConnect.FromConnector.GirdiMaksimumGerilimDegeri;
+                                temp.GirdiMinimumGerilimDegeri = externalConnect.FromConnector.GirdiMinimumGerilimDegeri;
+                                temp.GirdiTukettigiGucMiktari = externalConnect.FromConnector.GirdiTukettigiGucMiktari;
                                 model.GucArayuzuList.Add(temp);
                             }
                         }
@@ -1429,14 +1429,14 @@ namespace AYP.ViewModel
                                 temp.Id = externalConnect.ToConnector.Id;
                                 temp.TipId = externalConnect.ToConnector.TypeId;
                                 temp.CiktiDuraganGerilimDegeri = externalConnect.ToConnector.CiktiDuraganGerilimDegeri;
-                                temp.CiktiUrettigiGucKapasitesi = externalConnect.ToConnector.CiktiUrettigiGucKapasitesi.Value;
+                                temp.CiktiUrettigiGucKapasitesi = externalConnect.ToConnector.CiktiUrettigiGucKapasitesi;
                                 temp.GerilimTipiId = externalConnect.ToConnector.GerilimTipiId.Value;
-                                temp.GirdiDuraganGerilimDegeri1 = externalConnect.ToConnector.GirdiDuraganGerilimDegeri1.Value;
-                                temp.GirdiDuraganGerilimDegeri2 = externalConnect.ToConnector.GirdiDuraganGerilimDegeri2.Value;
-                                temp.GirdiDuraganGerilimDegeri3 = externalConnect.ToConnector.GirdiDuraganGerilimDegeri3.Value;
-                                temp.GirdiMaksimumGerilimDegeri = externalConnect.ToConnector.GirdiMaksimumGerilimDegeri.Value;
-                                temp.GirdiMinimumGerilimDegeri = externalConnect.ToConnector.GirdiMinimumGerilimDegeri.Value;
-                                temp.GirdiTukettigiGucMiktari = externalConnect.ToConnector.GirdiTukettigiGucMiktari.Value;
+                                temp.GirdiDuraganGerilimDegeri1 = externalConnect.ToConnector.GirdiDuraganGerilimDegeri1;
+                                temp.GirdiDuraganGerilimDegeri2 = externalConnect.ToConnector.GirdiDuraganGerilimDegeri2;
+                                temp.GirdiDuraganGerilimDegeri3 = externalConnect.ToConnector.GirdiDuraganGerilimDegeri3;
+                                temp.GirdiMaksimumGerilimDegeri = externalConnect.ToConnector.GirdiMaksimumGerilimDegeri;
+                                temp.GirdiMinimumGerilimDegeri = externalConnect.ToConnector.GirdiMinimumGerilimDegeri;
+                                temp.GirdiTukettigiGucMiktari = externalConnect.ToConnector.GirdiTukettigiGucMiktari;
                                 model.GucArayuzuList.Add(temp);
                             }
                         }
@@ -2164,6 +2164,38 @@ namespace AYP.ViewModel
                 }
             }
 
+            XElement agAkisVarisNoktalari = new XElement("AgAkisVarisNoktalari");
+            stateMachineXElement.Add(agAkisVarisNoktalari);
+            foreach (var input in Nodes.Items.SelectMany(x => x.InputList))
+            {
+                foreach (var agAkis in input.AgAkisList)
+                {
+                    foreach(var varisNoktalari in agAkis.VarisNoktasiIdNameList)
+                    {
+                        XElement element = new XElement("VarisNoktasi");
+                        element.Add(new XAttribute("AgAkisId", agAkis.Id));
+                        element.Add(new XAttribute("Id", varisNoktalari.Key));
+                        element.Add(new XAttribute("Name", varisNoktalari.Value));
+                        agAkisVarisNoktalari.Add(element);
+                    }
+                }
+            }
+
+            foreach (var output in Nodes.Items.SelectMany(x => x.Transitions.Items))
+            {
+                foreach (var agAkis in output.AgAkisList)
+                {
+                    foreach (var varisNoktalari in agAkis.VarisNoktasiIdNameList)
+                    {
+                        XElement element = new XElement("VarisNoktasi");
+                        element.Add(new XAttribute("AgAkisId", agAkis.Id));
+                        element.Add(new XAttribute("Id", varisNoktalari.Key));
+                        element.Add(new XAttribute("Name", varisNoktalari.Value));
+                        agAkisVarisNoktalari.Add(element);
+                    }
+                }
+            }
+
             XElement dogrulamalar = new XElement("Dogrulamalar");
             stateMachineXElement.Add(dogrulamalar);
             foreach (var item in this.MainWindow.DogrulamaDataGrid.Items)
@@ -2257,6 +2289,7 @@ namespace AYP.ViewModel
                     }
                 }
             }
+
 
             XElement internalConnects = new XElement("GroupInternalConnects");
             stateMachineXElement.Add(internalConnects);
@@ -2546,9 +2579,10 @@ namespace AYP.ViewModel
                         }
                     }
                 }
-
-                ViewModelConnect.FromConnector.AgAkisList = new List<AgAkis>();
-                ViewModelConnect.ToConnector.AgAkisList = new List<AgAkis>();
+                else if (ViewModelConnect.ToConnector.Node.TypeId == (int)TipEnum.UcBirim)
+                {
+                    ViewModelConnect.ToConnector.AgAkisList = new List<AgAkis>();
+                }
             }
 
             ViewModelConnect.FromConnector.Connect = null;
