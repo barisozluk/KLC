@@ -20,19 +20,15 @@
 
             <Label Name="Versiyon" Style="{DynamicResource StyleDescribingMainTitle}" Grid.Row="0" Grid.Column="1" Margin="0,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="530"/>
             <Label Name="Latest" Content="Bu versiyon ile gelen yenilikler " Style="{DynamicResource StyleDescribingMainTitle}" Grid.Row="0" Grid.Column="1" Margin="0,50,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="530"/>
-            <Label Name="Latestt" Style="{DynamicResource StyleDescribingMainTitle}" Grid.Row="0" Grid.Column="1" Margin="0,100,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14" Height="130" Width="530">
+            <Label Name="Latestt" Style="{DynamicResource StyleDescribingMainTitle}" Grid.Row="0" Grid.Column="1" Margin="0,100,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="14" Height="90" Width="530">
                 <TextBlock FontSize="14">
-                    • Topoloji Oluşturma işlemleri eklendi.
+                    • Ağ akış tanımlamaları üzerinde iyileştirme yapıldı.
                     <LineBreak></LineBreak>
-                    • Ağ Akışları ve doğrulamaları eklendi.
+                    • Ağ akış takip tablosu eklendi.
                     <LineBreak></LineBreak>
-                    • Hesaplamalar eklendi. 
+                    • v1.0.12 de ortaya çıkan arayüz çoklama ve grup bugları çözümlendi.
                     <LineBreak></LineBreak>
-                   	• Grupla/dağıt ve kopyala/yapıştır işlemleri güncellendi.
-                     <LineBreak></LineBreak>
-                    • Proje kaydet/aç ve kütüphane içeri/dışarı aktar işlemleri eklendi.
-                    <LineBreak></LineBreak>
-                    • Sembol kütüphanesi eklendi.
+                   	• Cihazların çizim alanında isimlendirilmesi iyileştirildi.                    
                 </TextBlock>
             </Label>
 
