@@ -54,9 +54,11 @@
     <None Remove="Images\line.png" />
     <None Remove="Images\ring.png" />
     <None Remove="Images\star.png" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\1-Yeni Proje ve Proje Aç Butonları.wmv" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\1-Yeni Proje.mp4" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\10-Bağlantı Kes-Cihaz Kopyala-Yapıştır.mp4" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\10-Grupla ve Grubu Dağıt.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\10-Kablo boyu tanımlama.wmv" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\11-Yakınlaş-Uzaklaş-Orjinal Görünüme Dön.mp4" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\11-Çoklu Seçim.mp4" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\12-Geri Al-Tekrarla.mp4" />
@@ -65,25 +67,36 @@
     <None Remove="KullanimKilavuzuVeEgitimVideolari\13-Yeni Cihaz Tanımlama.mp4" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\14-Cihaz Güncelleme.mp4" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\14-Yakınlaş-Uzaklaş-Orjinal Görünüme Dön.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\15-Ağ akışı tanımlama.wmv" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\15-Kablo Uzunluğu Tanımlama-Ağ Akışı Tanımlama.mp4" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\15-Kablo Uzunluğu ve Ağ Akışı Tanımlama.mp4" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\15-Kayıtlı Cihazı Silme.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\16-Doğrulama Paneli İşlevi.wmv" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\16-Doğrulama Paneli.mp4" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\17-Doğrulama Paneli.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\17-Güç üretici ve güç tüketici otomatik bağlantı.wmv" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\17-Raporlar.mp4" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\18-Raporlar.mp4" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\18-Topolojiler.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\19-Kopyala-Yapıştır ve Çoklu Kopyala Butonu.wmv" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\2-Ayarlar ve yardım.wmv" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\2-Proje Aç.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\20-Uç Birim ve Ağ Anahtarı Otomatik Bağlantı.wmv" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\3-Kaydet.mp4" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\4-Farklı Kaydet.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\5-Bağlantı kes butonu.wmv" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\5-Kütüpane İçeri Aktar.mp4" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\5-İçeri Aktarma.mp4" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\6-Dışarı Aktarma.mp4" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\6-Kütüphane Dışarı Aktar.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\6-Örnek Cihaz Tanımlama.wmv" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\7-Bağlantıyı Kes-Cihaz Kopyala-Cihaz Yapıştır.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\7-Cihaz güncelleme.wmv" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\7-Yeni Cihaz Tanımlama.mp4" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\8-Cihaz Güncelleme.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\8-Cihaz silme.wmv" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\8-Çoklu Seçim.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\9-Dışarı Aktar ve İçeri Aktar Butonları.wmv" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\9-Geri Al ve Tekrarla.mp4" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\9-Kayıtlı Cihazı Silme.mp4" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\Bağlantı Kes-Kopyala-Yapıştır.mp4" />
@@ -100,6 +113,13 @@
     <None Remove="KullanimKilavuzuVeEgitimVideolari\Proje Aç.mp4" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\Raporlar.mp4" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\Sağa Yasla-Sola Yasla-Ortala.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\SEMA-AYP-YKK_V2.0_Kullanım Kılavuzu.pdf" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\senaryo1.wmv" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\senaryo2.wmv" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\senaryo3.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\senaryo4.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\senaryo5.mp4" />
+    <None Remove="KullanimKilavuzuVeEgitimVideolari\senaryo6.mp4" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\Topolojiler.mp4" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\Yakınlaş-Uzaklaş.mp4" />
     <None Remove="KullanimKilavuzuVeEgitimVideolari\Yeni Proje .mp4" />
@@ -143,10 +163,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="KullanimKilavuzuVeEgitimVideolari\1-Yeni Proje.mp4">
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\1-Yeni Proje ve Proje Aç Butonları.wmv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="KullanimKilavuzuVeEgitimVideolari\10-Bağlantı Kes-Cihaz Kopyala-Yapıştır.mp4">
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\10-Kablo Boyu Tanımlama.wmv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="KullanimKilavuzuVeEgitimVideolari\11-Çoklu Seçim.mp4">
@@ -161,19 +181,25 @@
     <Content Include="KullanimKilavuzuVeEgitimVideolari\14-Yakınlaş-Uzaklaş-Orjinal Görünüme Dön.mp4">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="KullanimKilavuzuVeEgitimVideolari\15-Kablo Uzunluğu Tanımlama-Ağ Akışı Tanımlama.mp4">
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\15-Ağ Akışı Tanımlama.wmv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="KullanimKilavuzuVeEgitimVideolari\16-Doğrulama Paneli.mp4">
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\16-Doğrulama Paneli İşlevi.wmv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="KullanimKilavuzuVeEgitimVideolari\17-Raporlar.mp4">
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\17-Güç Üretici ve Güç Tüketici Otomatik Bağlantı.wmv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="KullanimKilavuzuVeEgitimVideolari\18-Topolojiler.mp4">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="KullanimKilavuzuVeEgitimVideolari\2-Proje Aç.mp4">
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\19-Kopyala-Yapıştır ve Çoklu Kopyala Butonu.wmv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\2-Ayarlar ve Yardım.wmv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\20-Uç Birim ve Ağ Anahtarı Otomatik Bağlantı.wmv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="KullanimKilavuzuVeEgitimVideolari\3-Kaydet.mp4">
@@ -182,25 +208,43 @@
     <Content Include="KullanimKilavuzuVeEgitimVideolari\4-Farklı Kaydet.mp4">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="KullanimKilavuzuVeEgitimVideolari\5-İçeri Aktarma.mp4">
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\5-Bağlantı Kes Butonu.wmv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="KullanimKilavuzuVeEgitimVideolari\6-Dışarı Aktarma.mp4">
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\6-Örnek Cihaz Tanımlama.wmv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="KullanimKilavuzuVeEgitimVideolari\7-Yeni Cihaz Tanımlama.mp4">
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\7-Cihaz Güncelleme.wmv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="KullanimKilavuzuVeEgitimVideolari\8-Cihaz Güncelleme.mp4">
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\8-Cihaz Silme.wmv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="KullanimKilavuzuVeEgitimVideolari\9-Kayıtlı Cihazı Silme.mp4">
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\9-Dışarı Aktar ve İçeri Aktar Butonları.wmv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\SEMA-AYP-YKK_V2.0_Kullanım Kılavuzu.pdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\Senaryo1.wmv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\Senaryo2.wmv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\Senaryo3.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\Senaryo4.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\Senaryo5.mp4">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="KullanimKilavuzuVeEgitimVideolari\Senaryo6.mp4">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="log.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="KullanimKilavuzuVeEgitimVideolari\SEMA-AYP-KK_v2.0_Kullanım Kılavuzu%28001%29.pdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="SembolKutuphanesi\Ağ Anahtarı-1.png">

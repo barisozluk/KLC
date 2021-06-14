@@ -1258,7 +1258,7 @@ namespace AYP
             OpenFileDialog openFileDialog = new OpenFileDialog();
             //openFileDialog.InitialDirectory = Directory.GetCurrentDirectory() + "\\SEMA_Data\\StreamingAssets\\AYP\\SembolKutuphanesi";
             openFileDialog.InitialDirectory = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"KullanimKilavuzuVeEgitimVideolari");
-            openFileDialog.Filter = "PDF and  MP4 files (*.pdf;*.mp4;)|*.pdf;*.mp4;";
+            openFileDialog.Filter = "PDF, WMV and  MP4 files (*.pdf;*.mp4;*.wmv;)|*.pdf;*.mp4;*.wmv;";
 
             if (openFileDialog.ShowDialog() == true)
             {

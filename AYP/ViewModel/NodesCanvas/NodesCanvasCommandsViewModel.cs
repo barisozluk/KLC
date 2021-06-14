@@ -1453,22 +1453,25 @@ namespace AYP.ViewModel
                             }
                             else
                             {
-                                GucArayuzu temp = new GucArayuzu();
-                                temp.Adi = externalConnect.ToConnector.Label;
-                                temp.KullanimAmaciId = externalConnect.ToConnector.KullanimAmaciId;
-                                temp.Port = externalConnect.ToConnector.Port;
-                                temp.Id = externalConnect.ToConnector.Id;
-                                temp.TipId = externalConnect.ToConnector.TypeId;
-                                temp.CiktiDuraganGerilimDegeri = externalConnect.ToConnector.CiktiDuraganGerilimDegeri;
-                                temp.CiktiUrettigiGucKapasitesi = externalConnect.ToConnector.CiktiUrettigiGucKapasitesi.Value;
-                                temp.GerilimTipiId = externalConnect.ToConnector.GerilimTipiId.Value;
-                                temp.GirdiDuraganGerilimDegeri1 = externalConnect.ToConnector.GirdiDuraganGerilimDegeri1.Value;
-                                temp.GirdiDuraganGerilimDegeri2 = externalConnect.ToConnector.GirdiDuraganGerilimDegeri2.Value;
-                                temp.GirdiDuraganGerilimDegeri3 = externalConnect.ToConnector.GirdiDuraganGerilimDegeri3.Value;
-                                temp.GirdiMaksimumGerilimDegeri = externalConnect.ToConnector.GirdiMaksimumGerilimDegeri.Value;
-                                temp.GirdiMinimumGerilimDegeri = externalConnect.ToConnector.GirdiMinimumGerilimDegeri.Value;
-                                temp.GirdiTukettigiGucMiktari = externalConnect.ToConnector.GirdiTukettigiGucMiktari.Value;
-                                model.GucArayuzuList.Add(temp);
+                               
+                                    GucArayuzu temp = new GucArayuzu();
+                                    temp.Adi = externalConnect.ToConnector.Label;
+                                    temp.KullanimAmaciId = externalConnect.ToConnector.KullanimAmaciId;
+                                    temp.Port = externalConnect.ToConnector.Port;
+                                    temp.Id = externalConnect.ToConnector.Id;
+                                    temp.TipId = externalConnect.ToConnector.TypeId;
+                                    temp.CiktiDuraganGerilimDegeri = externalConnect.ToConnector.CiktiDuraganGerilimDegeri;
+                                    temp.CiktiUrettigiGucKapasitesi = externalConnect.ToConnector.CiktiUrettigiGucKapasitesi.Value;
+                                    temp.GerilimTipiId = externalConnect.ToConnector.GerilimTipiId.Value;
+                                    temp.GirdiDuraganGerilimDegeri1 = externalConnect.ToConnector.GirdiDuraganGerilimDegeri1.Value;
+                                    temp.GirdiDuraganGerilimDegeri2 = externalConnect.ToConnector.GirdiDuraganGerilimDegeri2.Value;
+                                    temp.GirdiDuraganGerilimDegeri3 = externalConnect.ToConnector.GirdiDuraganGerilimDegeri3.Value;
+                                    temp.GirdiMaksimumGerilimDegeri = externalConnect.ToConnector.GirdiMaksimumGerilimDegeri.Value;
+                                    temp.GirdiMinimumGerilimDegeri = externalConnect.ToConnector.GirdiMinimumGerilimDegeri.Value;
+                                    temp.GirdiTukettigiGucMiktari = externalConnect.ToConnector.GirdiTukettigiGucMiktari.Value;
+                                    model.GucArayuzuList.Add(temp);
+                                
+                                
                             }
                         }
                     }
