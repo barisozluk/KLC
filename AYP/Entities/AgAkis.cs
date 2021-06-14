@@ -20,6 +20,7 @@ namespace AYP.Entities
         public Guid? IliskiliAgArayuzuId { get; set; }
         public string IliskiliAgArayuzuAdi { get; set; }
         public Guid? IliskiliAgArayuzuAgAkisId { get; set; }
+        public Guid? FromNodeUniqueId { get; set; }
         public List<KodListModel> AgAkisProtokoluList { get; set; }
         public List<KodListModel> AgAkisTipiList { get; set; }
         public List<NodeViewModel> VarisNoktasiList { get; set; }
@@ -38,6 +39,7 @@ namespace AYP.Entities
             //element.Add(new XAttribute("AgAkisProtokoluAdi", AgAkisProtokoluAdi));
             element.Add(!IliskiliAgArayuzuId.HasValue ? null : new XAttribute("IliskiliAgArayuzuUniqueId", IliskiliAgArayuzuId));
             //element.Add(!IliskiliAgArayuzuId.HasValue ? null : new XAttribute("IliskiliAgArayuzuAdi", IliskiliAgArayuzuAdi));
+            element.Add(!FromNodeUniqueId.HasValue ? null : new XAttribute("FromNodeUniqueId", FromNodeUniqueId));
 
             return element;
         }

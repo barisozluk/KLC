@@ -483,6 +483,8 @@ namespace AYP
 
                 if (agAkisList != null)
                 {
+                    agAkis.FromNodeUniqueId = agAkisList.First().FromNodeUniqueId;
+
                     foreach (var agAkisItem in agAkisList)
                     {
                         girdiList.Add(new GuidKodListModel
@@ -491,6 +493,10 @@ namespace AYP
                             Id = agAkisItem.Id
                         });
                     }
+                }
+                else
+                {
+                    agAkis.FromNodeUniqueId = null;
                 }
 
                 GelenAgAkisComboBox.ItemsSource = girdiList;
@@ -577,25 +583,5 @@ namespace AYP
         }
         #endregion
 
-        //private void SetToConnectorAgAkis()
-        //{
-        //    this.agAnahtariAgArayuzu.Connect.ToConnector.AgAkisList = new List<AgAkis>();
-        //    this.agAnahtariAgArayuzu.Connect.ToConnector.AgAkisList.Clear();
-        //    foreach (var agAkis in this.agAnahtariAgArayuzu.AgAkisList)
-        //    {
-        //        var temp = new AgAkis();
-        //        temp.Id = Guid.NewGuid();
-        //        temp.AgArayuzuId = this.agAnahtariAgArayuzu.Connect.ToConnector.UniqueId;
-        //        temp.Yuk = agAkis.Yuk;
-        //        temp.AgAkisProtokoluId = agAkis.AgAkisProtokoluId;
-        //        temp.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluAdi;
-        //        temp.AgAkisTipiId = agAkis.AgAkisTipiId;
-        //        temp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
-        //        temp.IliskiliAgArayuzuId = agAkis.IliskiliAgArayuzuId;
-        //        temp.IliskiliAgArayuzuAdi = agAkis.IliskiliAgArayuzuAdi;
-
-        //        this.agAnahtariAgArayuzu.Connect.ToConnector.AgAkisList.Add(temp);
-        //    }
-        //}
     }
 }

@@ -139,7 +139,7 @@ namespace AYP.View
                 this.BindCommand(this.ViewModel, x => x.CommandRename, x => x.BindingRename).DisposeWith(disposable);
                 this.BindCommand(this.ViewModel, x => x.CommandRename, x => x.ItemRename).DisposeWith(disposable);
 
-
+                this.BindCommand(this.ViewModel, x => x.CommandShowAgAkis, x => x.ItemShowAgAkis).DisposeWith(disposable);
             });
         }
         #endregion Setup Commands
@@ -293,6 +293,9 @@ namespace AYP.View
                 //ItemExpandDown.IsEnabled = true;
                 //ItemExpandDown.Opacity = 1;
 
+                ItemShowAgAkis.IsEnabled = true;
+                ItemShowAgAkis.Opacity = 1;
+
                 ItemDelete.IsEnabled = true;
                 ItemDelete.Opacity = 1;
 
@@ -331,6 +334,9 @@ namespace AYP.View
 
                 //ItemExpandDown.IsEnabled = false;
                 //ItemExpandDown.Opacity = 0.25;
+
+                ItemShowAgAkis.IsEnabled = false;
+                ItemShowAgAkis.Opacity = 0.25;
 
                 ItemDelete.IsEnabled = false;
                 ItemDelete.Opacity = 0.25;

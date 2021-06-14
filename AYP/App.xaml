@@ -59,6 +59,7 @@
                 <ResourceDictionary Source="Styles/StyleUcBirimAgAkisFormPanel.xaml" />
                 <ResourceDictionary Source="Styles/StyleAgAnahtariAgAkisFormPanel.xaml" />
                 <ResourceDictionary Source="Styles/StyleRaporBilgileriFormPanel.xaml" />
+                <ResourceDictionary Source="Styles/StyleAgAkisGosterFormPanel.xaml" />
                 <!--#endregion      DescriptionPopup-->
 
                 <!--#region         FormControls-->

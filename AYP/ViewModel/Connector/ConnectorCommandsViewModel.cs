@@ -144,6 +144,7 @@ namespace AYP.ViewModel
                                     agAkisTemp.AgAkisTipiId = agAkis.AgAkisTipiId;
                                     agAkisTemp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
                                     agAkisTemp.VarisNoktasiIdNameList = agAkis.VarisNoktasiIdNameList;
+                                    agAkisTemp.FromNodeUniqueId = temp.Node.UniqueId;
 
                                     connect.ToConnector.AgAkisList.Add(agAkisTemp);
                                     connect.AgYuku = temp.AgAkisList.Select(x => x.Yuk).Sum();
@@ -193,9 +194,10 @@ namespace AYP.ViewModel
                                             agAkisTemp.AgAkisTipiId = agAkis.AgAkisTipiId;
                                             agAkisTemp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
                                             agAkisTemp.VarisNoktasiIdNameList = agAkis.VarisNoktasiIdNameList;
+                                            agAkisTemp.FromNodeUniqueId = agAkis.FromNodeUniqueId;
 
                                             connect.ToConnector.AgAkisList.Add(agAkisTemp);
-                                            connect.AgYuku = temp.AgAkisList.Select(x => x.Yuk).Sum();
+                                            connect.AgYuku = connect.ToConnector.AgAkisList.Select(x => x.Yuk).Sum();
                                         }
                                     }
                                 }
@@ -220,9 +222,10 @@ namespace AYP.ViewModel
                                     agAkisTemp.IliskiliAgArayuzuId = agAkis.IliskiliAgArayuzuId;
                                     agAkisTemp.IliskiliAgArayuzuAdi = agAkis.IliskiliAgArayuzuAdi;
                                     agAkisTemp.VarisNoktasiIdNameList = agAkis.VarisNoktasiIdNameList;
+                                    agAkisTemp.FromNodeUniqueId = agAkis.FromNodeUniqueId;
 
                                     connect.ToConnector.AgAkisList.Add(agAkisTemp);
-                                    connect.AgYuku = temp.AgAkisList.Select(x => x.Yuk).Sum();
+                                    connect.AgYuku = connect.ToConnector.AgAkisList.Select(x => x.Yuk).Sum();
                                 }
                             }
                         }

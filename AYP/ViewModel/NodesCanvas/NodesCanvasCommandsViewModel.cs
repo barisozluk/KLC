@@ -70,7 +70,7 @@ namespace AYP.ViewModel
         public ReactiveCommand<Unit, Unit> CommandRename { get; set; }
         public ReactiveCommand<Unit, Unit> CommandUcBirimOtoConnect { get; set; }
         public ReactiveCommand<Unit, Unit> CommandGucUreticiOtoConnect { get; set; }
-
+        public ReactiveCommand<Unit, Unit> CommandShowAgAkis { get; set; }
 
         #endregion commands without parameter
 
@@ -192,6 +192,7 @@ namespace AYP.ViewModel
             CommandRename = ReactiveCommand.Create(RenameSelectedNodes);
             CommandUcBirimOtoConnect = ReactiveCommand.Create(UcBirimOtoConnectOlustur);
             CommandGucUreticiOtoConnect = ReactiveCommand.Create(OpenGucUreticiSelectPanel);
+            CommandShowAgAkis = ReactiveCommand.Create(ShowAgAkis);
 
             NotSavedSubscrube();
         }
@@ -256,6 +257,76 @@ namespace AYP.ViewModel
         //    Theme = theme;
         //}
 
+        private void ShowAgAkis()
+        {
+            var selectedNodes = this.Nodes.Items.Where(x => x.Selected).ToList();
+            
+            if(selectedNodes.Count == 1 && selectedNodes.First().TypeId == (int)TipEnum.UcBirim)
+            {
+                bool baslangicNoktasiMi = true;
+                foreach(var input in selectedNodes.First().InputList)
+                {
+                    foreach(var connect in Connects)
+                    {
+                        if(connect.ToConnector == input)
+                        {
+                            baslangicNoktasiMi = false;
+                            break;
+                        }
+                    }
+
+                    if(!baslangicNoktasiMi)
+                    {
+                        break;
+                    }
+                }
+
+                if (baslangicNoktasiMi)
+                {
+                    baslangicNoktasiMi = false;
+                    foreach (var output in selectedNodes.First().Transitions.Items)
+                    {
+                        if(output.Connect != null)
+                        {
+                            baslangicNoktasiMi = true;
+                            break;
+                        }
+                    }
+
+                    if(baslangicNoktasiMi)
+                    {
+                        this.MainWindow.IsEnabled = false;
+                        System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+                        blur.Radius = 2;
+                        this.MainWindow.Effect = blur;
+                        AgAkisGosterPopupWindow popup = new AgAkisGosterPopupWindow(selectedNodes.First());
+                        popup.Owner = this.MainWindow;
+                        popup.ShowDialog();
+                    }
+                    else
+                    {
+                        NotifyInfoPopup nfp = new NotifyInfoPopup();
+                        nfp.msg.Text = "Lütfen, akış başlangıç noktası olan bir uç birim seçiniz.";
+                        nfp.Owner = this.MainWindow;
+                        nfp.Show();
+                    }
+                }
+                else
+                {
+                    NotifyInfoPopup nfp = new NotifyInfoPopup();
+                    nfp.msg.Text = "Lütfen, akış başlangıç noktası olan bir uç birim seçiniz.";
+                    nfp.Owner = this.MainWindow;
+                    nfp.Show();
+                }
+            }
+            else
+            {
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                nfp.msg.Text = "Lütfen, sadece bir uç birim seçiniz.";
+                nfp.Owner = this.MainWindow;
+                nfp.Show();
+            }
+        }
         private void RenameSelectedNodes()
         {
             var selectedNodes = this.Nodes.Items.Where(x => x.Selected).ToList();
