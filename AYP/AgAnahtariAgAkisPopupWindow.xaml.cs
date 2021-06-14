@@ -580,6 +580,23 @@ namespace AYP
                     AgAkisProtokolu.Opacity = 0.25;
                 }
             }
+            else
+            {
+                //agAkis.AgAkisTipiId = agAkis.AgAkisTipiList[0].Id;
+                //AgAkisTipi.SelectedItem = agAkis.AgAkisTipiList[0];
+                //agAkis.AgAkisProtokoluId = agAkis.AgAkisProtokoluList[0].Id;
+                //AgAkisProtokolu.SelectedItem = agAkis.AgAkisProtokoluList[0];
+                agAkis.Yuk = 0;
+                Yuk.Text = "0";
+                agAkis.VarisNoktasiIdNameList.Clear();
+
+                Yuk.IsEnabled = false;
+                Yuk.Opacity = 0.25;
+                AgAkisTipi.IsEnabled = false;
+                AgAkisTipi.Opacity = 0.25;
+                AgAkisProtokolu.IsEnabled = false;
+                AgAkisProtokolu.Opacity = 0.25;
+            }
         }
         #endregion
 

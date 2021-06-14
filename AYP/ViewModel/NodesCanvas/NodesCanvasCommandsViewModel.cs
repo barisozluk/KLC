@@ -2649,6 +2649,8 @@ namespace AYP.ViewModel
                             }
                         }
                     }
+
+                    ViewModelConnect.ToConnector.AgAkisList = new List<AgAkis>();
                 }
                 else if (ViewModelConnect.ToConnector.Node.TypeId == (int)TipEnum.UcBirim)
                 {
