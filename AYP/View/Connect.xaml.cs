@@ -81,9 +81,9 @@ namespace AYP.View
                     this.OneWayBind(this.ViewModel, x => x.StrokeDashArrayGuc, x => x.PathElement.StrokeDashArray).DisposeWith(disposable);
                 }
 
-                this.WhenAnyValue(x => x.ViewModel.ToConnector).Where(x=>x!=null).Subscribe(_ => UpdateZindex()).DisposeWith(disposable);
+                this.WhenAnyValue(x => x.ViewModel.ToConnector).Where(x => x != null).Subscribe(_ => UpdateZindex()).DisposeWith(disposable);
                 this.WhenAnyValue(x => x.ViewModel.FromConnector.TypeId).Where(x => x != (int)TipEnum.AgAnahtariGucArayuzu &&
-                                        x != (int)TipEnum.UcBirimGucArayuzu && 
+                                        x != (int)TipEnum.UcBirimGucArayuzu &&
                                         x != (int)TipEnum.GucUreticiGucArayuzu)
                                 .Subscribe(_ => AgYukuBorder.Visibility = Visibility.Visible).DisposeWith(disposable);
 
@@ -96,7 +96,7 @@ namespace AYP.View
         {
             int toIndex = this.ViewModel.ToConnector.Node.Zindex;
             int fromIndex = this.ViewModel.FromConnector.Node.Zindex;
-           
+
             Canvas.SetZIndex((UIElement)this.VisualParent, Math.Min(toIndex, fromIndex));
         }
         #endregion SetupBinding
@@ -151,7 +151,7 @@ namespace AYP.View
 
         //private void OnEventMouseOver(bool value)
         //{
-           
+
         //        if (this.ViewModel.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu || this.ViewModel.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
         //        {
         //            if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum.Ethernet)
@@ -190,79 +190,16 @@ namespace AYP.View
 
         private void OnEventMouseClick(MouseButtonEventArgs e)
         {
-            if (this.ViewModel.NodesCanvas.ClickMode == NodeCanvasClickMode.Default)
+            if (this.ViewModel.FromConnector.Node.TypeId != (int)TipEnum.Group && this.ViewModel.ToConnector.Node.TypeId != (int)TipEnum.Group)
             {
-                if (Keyboard.IsKeyDown(Key.LeftCtrl))
-                {
-                    if (this.ViewModel.FromConnector.Node.TypeId != (int)TipEnum.Group && this.ViewModel.ToConnector.Node.TypeId != (int)TipEnum.Group)
-                    {
-                        this.ViewModel.NodesCanvas.MainWindow.IsEnabled = false;
-                        System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
-                        blur.Radius = 2;
-                        this.ViewModel.NodesCanvas.MainWindow.Effect = blur;
+                this.ViewModel.NodesCanvas.MainWindow.IsEnabled = false;
+                System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+                blur.Radius = 2;
+                this.ViewModel.NodesCanvas.MainWindow.Effect = blur;
 
-                        CableLengthPopupWindow cl = new CableLengthPopupWindow(this.ViewModel);
-                        cl.Owner = this.ViewModel.NodesCanvas.MainWindow;
-                        cl.ShowDialog();
-                    }
-                }
-                else
-                {
-                    if (this.ViewModel.FromConnector.Node.TypeId != (int)TipEnum.Group && this.ViewModel.ToConnector.Node.TypeId != (int)TipEnum.Group)
-                    {
-                        if (this.ViewModel.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu)
-                        {
-                            this.ViewModel.NodesCanvas.MainWindow.IsEnabled = false;
-                            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
-                            blur.Radius = 2;
-                            this.ViewModel.NodesCanvas.MainWindow.Effect = blur;
-
-                            UcBirimAgAkisPopupWindow agAkisiPopup = new UcBirimAgAkisPopupWindow(this.ViewModel.FromConnector);
-                            agAkisiPopup.Owner = this.ViewModel.NodesCanvas.MainWindow;
-                            agAkisiPopup.ShowDialog();
-                        }
-                        else if (this.ViewModel.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
-                        {
-                            bool isConnectExist = false;
-                            foreach (var input in this.ViewModel.FromConnector.Node.InputList)
-                            {
-                                foreach (var connect in this.ViewModel.NodesCanvas.Connects)
-                                {
-                                    if (connect.ToConnector == input)
-                                    {
-                                        if (connect.ToConnector.AgAkisList.Count > 0)
-                                        {
-                                            isConnectExist = true;
-                                            break;
-                                        }
-                                    }
-                                }
-
-                                if (isConnectExist)
-                                    break;
-                            }
-
-                            if (isConnectExist)
-                            {
-                                this.ViewModel.NodesCanvas.MainWindow.IsEnabled = false;
-                                System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
-                                blur.Radius = 2;
-                                this.ViewModel.NodesCanvas.MainWindow.Effect = blur;
-
-                                AgAnahtariAgAkisPopupWindow agAkisiPopup = new AgAnahtariAgAkisPopupWindow(this.ViewModel.FromConnector);
-                                agAkisiPopup.Owner = this.ViewModel.NodesCanvas.MainWindow;
-                                agAkisiPopup.ShowDialog();
-                            }
-                            else
-                            {
-                                NotifyInfoPopup nfp = new NotifyInfoPopup();
-                                nfp.msg.Text = "Ağ anahtarı için tanımlanmış bir ağ akışı olmadığıdan bu bağlantı için ağ akışı oluşturulamaz.";
-                                nfp.Owner = this.ViewModel.NodesCanvas.MainWindow;
-                                nfp.Show();
-                            }
-                        }
-                    }
-                }
+                CableLengthPopupWindow cl = new CableLengthPopupWindow(this.ViewModel);
+                cl.Owner = this.ViewModel.NodesCanvas.MainWindow;
+                cl.ShowDialog();
             }
 
             e.Handled = true;
@@ -285,9 +222,9 @@ namespace AYP.View
             double middleX = (value.X + this.ViewModel.EndPoint.X) / 2;
             double middleY = (value.Y + this.ViewModel.EndPoint.Y) / 2;
             GucMiktariBorder.Margin = new Thickness(this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y, this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y);
-            AgYukuBorder.Margin = new Thickness(this.ViewModel.StartPoint.X+10, this.ViewModel.StartPoint.Y, this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y);
-            UzunlukBorder.Margin = new Thickness(middleX , middleY, middleX, middleY);
-            
+            AgYukuBorder.Margin = new Thickness(this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y, this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y);
+            UzunlukBorder.Margin = new Thickness(middleX, middleY, middleX, middleY);
+
         }
 
         private void OnEventEndPoint(Point value)
@@ -295,9 +232,9 @@ namespace AYP.View
             double middleX = (value.X + this.ViewModel.StartPoint.X) / 2;
             double middleY = (value.Y + this.ViewModel.StartPoint.Y) / 2;
             GucMiktariBorder.Margin = new Thickness(this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y, this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y);
-            AgYukuBorder.Margin = new Thickness(this.ViewModel.StartPoint.X+10, this.ViewModel.StartPoint.Y, this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y);
+            AgYukuBorder.Margin = new Thickness(this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y, this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y);
             UzunlukBorder.Margin = new Thickness(middleX, middleY, middleX, middleY);
-            
+
         }
 
         private void OnEventUzunluk(decimal value)

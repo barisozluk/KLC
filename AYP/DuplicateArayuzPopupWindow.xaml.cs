@@ -56,7 +56,6 @@ namespace AYP
 
         private void Save_DuplicateArayuzPopup(object sender, RoutedEventArgs e)
         {
-            System.Collections.IList items = (System.Collections.IList)PortListBox.SelectedItems;
             var selectedItems = PortListBox.SelectedItems.Cast<string>();
 
             if (selectedAgArayuzu != null)
@@ -73,6 +72,10 @@ namespace AYP
                     arayuz.KL_KullanimAmaci = selectedAgArayuzu.KullanimAmaciList.Where(kal => kal.Id == selectedAgArayuzu.KullanimAmaciId).FirstOrDefault();
                     arayuz.KL_Kapasite = selectedAgArayuzu.KapasiteList.Where(kl => kl.Id == selectedAgArayuzu.KapasiteId).FirstOrDefault();
                     arayuz.KL_FizikselOrtam = selectedAgArayuzu.FizikselOrtamList.Where(fo => fo.Id == selectedAgArayuzu.FizikselOrtamId).FirstOrDefault();
+                    arayuz.KullanimAmaciList = selectedAgArayuzu.KullanimAmaciList;
+                    arayuz.FizikselOrtamList = selectedAgArayuzu.FizikselOrtamList;
+                    arayuz.KapasiteList = selectedAgArayuzu.KapasiteList;
+
                     if (this.cihazTipId == (int)TipEnum.UcBirim)
                     {
                         UcBirimPopupWindow popup = Owner as UcBirimPopupWindow;
@@ -111,6 +114,8 @@ namespace AYP
                     arayuz.KullanimAmaciId = selectedGucArayuzu.KullanimAmaciId;
                     arayuz.KL_KullanimAmaci = selectedGucArayuzu.KullanimAmaciList.Where(kal => kal.Id == selectedGucArayuzu.KullanimAmaciId).FirstOrDefault();
                     arayuz.KL_GerilimTipi = selectedGucArayuzu.GerilimTipiList.Where(gt => gt.Id == selectedGucArayuzu.GerilimTipiId).FirstOrDefault();
+                    arayuz.KullanimAmaciList = selectedGucArayuzu.KullanimAmaciList;
+                    arayuz.GerilimTipiList = selectedGucArayuzu.GerilimTipiList;
 
                     if (this.cihazTipId == (int)TipEnum.UcBirim)
                     {

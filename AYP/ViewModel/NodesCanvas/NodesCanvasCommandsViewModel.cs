@@ -1158,25 +1158,8 @@ namespace AYP.ViewModel
 
                 foreach (var node in NodeClipboard)
                 {
-                    if (node.TypeId == (int)TipEnum.UcBirim)
-                    {
-                        UcBirimCount++;
-                    }
-                    else if (node.TypeId == (int)TipEnum.AgAnahtari)
-                    {
-                        AgAnahtariCount++;
-                    }
-                    else if (node.TypeId == (int)TipEnum.GucUretici)
-                    {
-                        GucUreticiCount++;
-                    }
-                    else if (node.TypeId == (int)TipEnum.Group)
-                    {
-                        GroupCount++;
-                    }
-
                     var newPoint = node.Point1.Addition(50, 50);
-                    var newNode = new NodeViewModel(this, GetNameForNewNodeCopy(node.TypeId, node.Name), Guid.NewGuid(), newPoint, node.Id, node.TypeId,
+                    var newNode = new NodeViewModel(this, GetNameForNewNode(node.TypeId, node.Name), Guid.NewGuid(), newPoint, node.Id, node.TypeId,
                         node.AgArayuzuList, node.GucArayuzuList, new List<ConnectorViewModel>(), new List<ConnectorViewModel>(), node.VerimlilikOrani,
                         node.DahiliGucTuketimDegeri, node.Sembol, node.StokNo, node.Tanim, node.UreticiAdi, node.UreticiParcaNo, node.TurAd);
 
@@ -1203,7 +1186,7 @@ namespace AYP.ViewModel
                     }
 
                     Nodes.Add(newNode);
-                    LogDebug("Node with name \"{0}\" was copied", GetNameForNewNode(node.TypeId));
+                    LogDebug("Node with name \"{0}\" was copied", newNode.Name);
                     temp.Add(newNode);
                 }
 
@@ -1258,21 +1241,8 @@ namespace AYP.ViewModel
             var temp = new List<NodeViewModel>();
             foreach (var node in willBeCopiedGroup.NodeList)
             {
-                if (node.TypeId == (int)TipEnum.UcBirim)
-                {
-                    UcBirimCount++;
-                }
-                else if (node.TypeId == (int)TipEnum.AgAnahtari)
-                {
-                    AgAnahtariCount++;
-                }
-                else if (node.TypeId == (int)TipEnum.GucUretici)
-                {
-                    GucUreticiCount++;
-                }
-
                 var newPoint = node.Point1.Addition(50, 50);
-                var newNode = new NodeViewModel(this, GetNameForNewNodeCopy(node.TypeId, node.Name), Guid.NewGuid(), newPoint, node.Id, node.TypeId,
+                var newNode = new NodeViewModel(this, GetNameForNewNode(node.TypeId, node.Name), Guid.NewGuid(), newPoint, node.Id, node.TypeId,
                     node.AgArayuzuList, node.GucArayuzuList, new List<ConnectorViewModel>(), new List<ConnectorViewModel>(), node.VerimlilikOrani,
                     node.DahiliGucTuketimDegeri, node.Sembol, node.StokNo, node.Tanim, node.UreticiAdi, node.UreticiParcaNo, node.TurAd);
 
@@ -1360,7 +1330,6 @@ namespace AYP.ViewModel
 
             if (!grubunGrubuMu)
             {
-                GroupCount++;
                 var internalConnectList = new List<ConnectViewModel>();
                 var externalConnectList = new List<ConnectViewModel>();
 
@@ -1389,7 +1358,7 @@ namespace AYP.ViewModel
                 if (nodeList.Count() > 1)
                 {
                     GroupUngroupModel model = new GroupUngroupModel();
-                    model.Name = GetNameForNewNode((int)TipEnum.Group);
+                    model.Name = GetNameForNewNode((int)TipEnum.Group, "Grup");
                     model.UniqueId = Guid.NewGuid();
                     model.NodeList = nodeList;
                     model.InternalConnectList = internalConnectList;
@@ -1425,14 +1394,14 @@ namespace AYP.ViewModel
                                 temp.Id = externalConnect.FromConnector.Id;
                                 temp.TipId = externalConnect.FromConnector.TypeId;
                                 temp.CiktiDuraganGerilimDegeri = externalConnect.FromConnector.CiktiDuraganGerilimDegeri;
-                                temp.CiktiUrettigiGucKapasitesi = externalConnect.FromConnector.CiktiUrettigiGucKapasitesi.Value;
+                                temp.CiktiUrettigiGucKapasitesi = externalConnect.FromConnector.CiktiUrettigiGucKapasitesi;
                                 temp.GerilimTipiId = externalConnect.FromConnector.GerilimTipiId.Value;
-                                temp.GirdiDuraganGerilimDegeri1 = externalConnect.FromConnector.GirdiDuraganGerilimDegeri1.Value;
-                                temp.GirdiDuraganGerilimDegeri2 = externalConnect.FromConnector.GirdiDuraganGerilimDegeri2.Value;
-                                temp.GirdiDuraganGerilimDegeri3 = externalConnect.FromConnector.GirdiDuraganGerilimDegeri3.Value;
-                                temp.GirdiMaksimumGerilimDegeri = externalConnect.FromConnector.GirdiMaksimumGerilimDegeri.Value;
-                                temp.GirdiMinimumGerilimDegeri = externalConnect.FromConnector.GirdiMinimumGerilimDegeri.Value;
-                                temp.GirdiTukettigiGucMiktari = externalConnect.FromConnector.GirdiTukettigiGucMiktari.Value;
+                                temp.GirdiDuraganGerilimDegeri1 = externalConnect.FromConnector.GirdiDuraganGerilimDegeri1;
+                                temp.GirdiDuraganGerilimDegeri2 = externalConnect.FromConnector.GirdiDuraganGerilimDegeri2;
+                                temp.GirdiDuraganGerilimDegeri3 = externalConnect.FromConnector.GirdiDuraganGerilimDegeri3;
+                                temp.GirdiMaksimumGerilimDegeri = externalConnect.FromConnector.GirdiMaksimumGerilimDegeri;
+                                temp.GirdiMinimumGerilimDegeri = externalConnect.FromConnector.GirdiMinimumGerilimDegeri;
+                                temp.GirdiTukettigiGucMiktari = externalConnect.FromConnector.GirdiTukettigiGucMiktari;
                                 model.GucArayuzuList.Add(temp);
                             }
                         }
@@ -1453,25 +1422,22 @@ namespace AYP.ViewModel
                             }
                             else
                             {
-                               
-                                    GucArayuzu temp = new GucArayuzu();
-                                    temp.Adi = externalConnect.ToConnector.Label;
-                                    temp.KullanimAmaciId = externalConnect.ToConnector.KullanimAmaciId;
-                                    temp.Port = externalConnect.ToConnector.Port;
-                                    temp.Id = externalConnect.ToConnector.Id;
-                                    temp.TipId = externalConnect.ToConnector.TypeId;
-                                    temp.CiktiDuraganGerilimDegeri = externalConnect.ToConnector.CiktiDuraganGerilimDegeri;
-                                    temp.CiktiUrettigiGucKapasitesi = externalConnect.ToConnector.CiktiUrettigiGucKapasitesi.Value;
-                                    temp.GerilimTipiId = externalConnect.ToConnector.GerilimTipiId.Value;
-                                    temp.GirdiDuraganGerilimDegeri1 = externalConnect.ToConnector.GirdiDuraganGerilimDegeri1.Value;
-                                    temp.GirdiDuraganGerilimDegeri2 = externalConnect.ToConnector.GirdiDuraganGerilimDegeri2.Value;
-                                    temp.GirdiDuraganGerilimDegeri3 = externalConnect.ToConnector.GirdiDuraganGerilimDegeri3.Value;
-                                    temp.GirdiMaksimumGerilimDegeri = externalConnect.ToConnector.GirdiMaksimumGerilimDegeri.Value;
-                                    temp.GirdiMinimumGerilimDegeri = externalConnect.ToConnector.GirdiMinimumGerilimDegeri.Value;
-                                    temp.GirdiTukettigiGucMiktari = externalConnect.ToConnector.GirdiTukettigiGucMiktari.Value;
-                                    model.GucArayuzuList.Add(temp);
-                                
-                                
+                                GucArayuzu temp = new GucArayuzu();
+                                temp.Adi = externalConnect.ToConnector.Label;
+                                temp.KullanimAmaciId = externalConnect.ToConnector.KullanimAmaciId;
+                                temp.Port = externalConnect.ToConnector.Port;
+                                temp.Id = externalConnect.ToConnector.Id;
+                                temp.TipId = externalConnect.ToConnector.TypeId;
+                                temp.CiktiDuraganGerilimDegeri = externalConnect.ToConnector.CiktiDuraganGerilimDegeri;
+                                temp.CiktiUrettigiGucKapasitesi = externalConnect.ToConnector.CiktiUrettigiGucKapasitesi;
+                                temp.GerilimTipiId = externalConnect.ToConnector.GerilimTipiId.Value;
+                                temp.GirdiDuraganGerilimDegeri1 = externalConnect.ToConnector.GirdiDuraganGerilimDegeri1;
+                                temp.GirdiDuraganGerilimDegeri2 = externalConnect.ToConnector.GirdiDuraganGerilimDegeri2;
+                                temp.GirdiDuraganGerilimDegeri3 = externalConnect.ToConnector.GirdiDuraganGerilimDegeri3;
+                                temp.GirdiMaksimumGerilimDegeri = externalConnect.ToConnector.GirdiMaksimumGerilimDegeri;
+                                temp.GirdiMinimumGerilimDegeri = externalConnect.ToConnector.GirdiMinimumGerilimDegeri;
+                                temp.GirdiTukettigiGucMiktari = externalConnect.ToConnector.GirdiTukettigiGucMiktari;
+                                model.GucArayuzuList.Add(temp);
                             }
                         }
                     }
@@ -1783,53 +1749,23 @@ namespace AYP.ViewModel
                 node.CommandUnSelectedAllConnectors.ExecuteWithSubscribe();
             }
         }
-        public string GetNameForNewNode(int typeId)
+        public string GetNameForNewNode(int typeId, string oldName)
         {
-            string name = "";
-            if (typeId == (int)TipEnum.UcBirim)
+            if (oldName.Contains("#"))
             {
-                name = "Uç Birim #" + UcBirimCount;
-            }
-            else if (typeId == (int)TipEnum.AgAnahtari)
-            {
-                name = "Ağ Anahtarı #" + AgAnahtariCount;
-            }
-            else if (typeId == (int)TipEnum.GucUretici)
-            {
-                name = "Güç Üretici #" + GucUreticiCount;
-            }
-            else if (typeId == (int)TipEnum.Group)
-            {
-                name = "Grup #" + GroupCount;
+                oldName = oldName.Substring(0, oldName.IndexOf("#") - 1);
             }
 
-            return name;
-        }
+            int count = Nodes.Items.Where(x => (x.Name.Contains("#") ? x.Name.Substring(0, x.Name.IndexOf("#") - 1).ToLower() == oldName.ToLower() 
+                                                                    : x.Name.ToLower() == oldName.ToLower()) && x.TypeId == typeId).Count() + 1;
 
-        public string GetNameForNewNodeCopy(int typeId, string name)
-        {
-            if (name.Contains("#"))
+            foreach(var group in GroupList)
             {
-                name = name.Substring(0, name.IndexOf("#") - 1);
-            }
-
-            if (typeId == (int)TipEnum.UcBirim)
-            {
-                name = name + " #" + UcBirimCount;
-            }
-            else if (typeId == (int)TipEnum.AgAnahtari)
-            {
-                name = name + " #" + AgAnahtariCount;
-            }
-            else if (typeId == (int)TipEnum.GucUretici)
-            {
-                name = name + " #" + GucUreticiCount;
-            }
-            else if (typeId == (int)TipEnum.Group)
-            {
-                name = name + " #" + GroupCount;
+                count += group.NodeList.Where(x => (x.Name.Contains("#") ? x.Name.Substring(0, x.Name.IndexOf("#") - 1).ToLower() == oldName.ToLower()
+                                                                    : x.Name.ToLower() == oldName.ToLower()) && x.TypeId == typeId).Count();
             }
 
+            string name = oldName + " #" + count;
 
             return name;
         }
@@ -1902,10 +1838,6 @@ namespace AYP.ViewModel
             WithoutMessages = false;
             this.Messages.Clear();
             ItSaved = true;
-            UcBirimCount = 0;
-            AgAnahtariCount = 0;
-            GucUreticiCount = 0;
-            GroupCount = 0;
             StartState = null;
             DeleteProjectHierarchy();
             DeleteDogrulamaPaneli();
@@ -1934,11 +1866,6 @@ namespace AYP.ViewModel
                 Error("not contanins StateMachine");
                 return;
             }
-
-            UcBirimCount = Convert.ToInt32(stateMachineXElement.Element("UcBirimCount")?.Value);
-            AgAnahtariCount = Convert.ToInt32(stateMachineXElement.Element("AgAnahtariCount")?.Value);
-            GucUreticiCount = Convert.ToInt32(stateMachineXElement.Element("GucUreticiCount")?.Value);
-            GroupCount = Convert.ToInt32(stateMachineXElement.Element("GroupCount")?.Value);
 
             #region setup states/nodes/connectors
 
@@ -2171,15 +2098,6 @@ namespace AYP.ViewModel
             XElement stateMachineXElement = new XElement("StateMachine");
             xDocument.Add(stateMachineXElement);
 
-            XElement ubCount = new XElement("UcBirimCount", UcBirimCount);
-            stateMachineXElement.Add(ubCount);
-            XElement aaCount = new XElement("AgAnahtariCount", AgAnahtariCount);
-            stateMachineXElement.Add(aaCount);
-            XElement guCount = new XElement("GucUreticiCount", GucUreticiCount);
-            stateMachineXElement.Add(guCount);
-            XElement gCount = new XElement("GroupCount", GroupCount);
-            stateMachineXElement.Add(gCount);
-
             XElement states = new XElement("States");
             stateMachineXElement.Add(states);
             foreach (var state in Nodes.Items)
@@ -2243,6 +2161,38 @@ namespace AYP.ViewModel
                 foreach (var agAkis in output.AgAkisList)
                 {
                     agAkislari.Add(agAkis.ToXElement());
+                }
+            }
+
+            XElement agAkisVarisNoktalari = new XElement("AgAkisVarisNoktalari");
+            stateMachineXElement.Add(agAkisVarisNoktalari);
+            foreach (var input in Nodes.Items.SelectMany(x => x.InputList))
+            {
+                foreach (var agAkis in input.AgAkisList)
+                {
+                    foreach(var varisNoktalari in agAkis.VarisNoktasiIdNameList)
+                    {
+                        XElement element = new XElement("VarisNoktasi");
+                        element.Add(new XAttribute("AgAkisId", agAkis.Id));
+                        element.Add(new XAttribute("Id", varisNoktalari.Key));
+                        element.Add(new XAttribute("Name", varisNoktalari.Value));
+                        agAkisVarisNoktalari.Add(element);
+                    }
+                }
+            }
+
+            foreach (var output in Nodes.Items.SelectMany(x => x.Transitions.Items))
+            {
+                foreach (var agAkis in output.AgAkisList)
+                {
+                    foreach (var varisNoktalari in agAkis.VarisNoktasiIdNameList)
+                    {
+                        XElement element = new XElement("VarisNoktasi");
+                        element.Add(new XAttribute("AgAkisId", agAkis.Id));
+                        element.Add(new XAttribute("Id", varisNoktalari.Key));
+                        element.Add(new XAttribute("Name", varisNoktalari.Value));
+                        agAkisVarisNoktalari.Add(element);
+                    }
                 }
             }
 
@@ -2339,6 +2289,7 @@ namespace AYP.ViewModel
                     }
                 }
             }
+
 
             XElement internalConnects = new XElement("GroupInternalConnects");
             stateMachineXElement.Add(internalConnects);
@@ -2628,9 +2579,10 @@ namespace AYP.ViewModel
                         }
                     }
                 }
-
-                ViewModelConnect.FromConnector.AgAkisList = new List<AgAkis>();
-                ViewModelConnect.ToConnector.AgAkisList = new List<AgAkis>();
+                else if (ViewModelConnect.ToConnector.Node.TypeId == (int)TipEnum.UcBirim)
+                {
+                    ViewModelConnect.ToConnector.AgAkisList = new List<AgAkis>();
+                }
             }
 
             ViewModelConnect.FromConnector.Connect = null;
@@ -2719,31 +2671,14 @@ namespace AYP.ViewModel
             NodeViewModel newNode = result;
             if (result == null)
             {
-                if (parameter.Node.TypeId == (int)TipEnum.UcBirim)
-                {
-                    UcBirimCount++;
-                }
-                else if (parameter.Node.TypeId == (int)TipEnum.AgAnahtari)
-                {
-                    AgAnahtariCount++;
-                }
-                else if (parameter.Node.TypeId == (int)TipEnum.GucUretici)
-                {
-                    GucUreticiCount++;
-                }
-                else if (parameter.Node.TypeId == (int)TipEnum.Group)
-                {
-                    GroupCount++;
-                }
-
                 string newName = "";
                 if (string.IsNullOrEmpty(parameter.Node.Name))
                 {
-                    newName = GetNameForNewNode(parameter.Node.TypeId);
+                    newName = GetNameForNewNode(parameter.Node.TypeId, parameter.Node.Tanim);
                 }
                 else
                 {
-                    newName = GetNameForNewNodeCopy(parameter.Node.TypeId, parameter.Node.Name);
+                    newName = GetNameForNewNode(parameter.Node.TypeId, parameter.Node.Name);
                 }
 
                 newNode = new NodeViewModel(this, newName, Guid.NewGuid(), parameter.Point, parameter.Node.Id, parameter.Node.TypeId,

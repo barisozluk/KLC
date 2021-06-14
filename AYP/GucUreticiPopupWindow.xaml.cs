@@ -399,7 +399,7 @@ namespace AYP
 
             if (Validator.TryValidateObject(gucUretici, validationContext, results, true))
             {
-                if ((!string.IsNullOrEmpty(VerimlilikOrani.Text) && Convert.ToDecimal(VerimlilikOrani.Text) > 0 && Convert.ToDecimal(VerimlilikOrani.Text) < 101)
+                if ((!string.IsNullOrEmpty(VerimlilikOrani.Text) && Convert.ToDecimal(VerimlilikOrani.Text) > 0 && Convert.ToDecimal(VerimlilikOrani.Text) <= 100)
                     || (!string.IsNullOrEmpty(DahiliGucTuketimDegeri.Text) && Convert.ToDecimal(DahiliGucTuketimDegeri.Text) != 0))
                 {
 

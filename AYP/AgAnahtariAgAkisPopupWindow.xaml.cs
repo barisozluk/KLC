@@ -32,7 +32,7 @@ namespace AYP
         AgAkis agAkis;
         private CheckBox checkedAgAkisRow = null;
         private decimal toplam = 0;
-
+        private List<GuidKodListModel> girdiList = new List<GuidKodListModel>();
         public AgAnahtariAgAkisPopupWindow(ConnectorViewModel agAnahtariAgArayuzu)
         {
             this.agAnahtariAgArayuzu = agAnahtariAgArayuzu;
@@ -43,6 +43,12 @@ namespace AYP
             InitializeComponent();
             MainTitle.Content = "Ağ Akışı - " + toplam.ToString("0.##") + " Mbps";
 
+            Loaded += Window_Loaded;
+        }
+
+        #region WindowLoadedEvent
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
             if (this.agAnahtariAgArayuzu.AgAkisList.Count > 0)
             {
                 AgAkisDataGrid.ItemsSource = this.agAnahtariAgArayuzu.AgAkisList;
@@ -55,54 +61,42 @@ namespace AYP
                 AgAkisNoDataRow.Visibility = Visibility.Visible;
             }
 
+            foreach (var item in agAnahtariAgArayuzu.AgAkisList)
+            {
+                if (item.AgAkisProtokoluList == null)
+                {
+                    item.AgAkisProtokoluList = kodListeService.ListAgAkisProtokolu();
+                }
+
+                if (item.AgAkisTipiList == null)
+                {
+                    item.AgAkisTipiList = kodListeService.ListAgAkisTipi();
+                }
+
+                if(item.IliskiliAgArayuzuId != null)
+                {
+                    if(item.IliskiliAgArayuzuAdi == null)
+                    {
+                        item.IliskiliAgArayuzuAdi = agAnahtariAgArayuzu.Node.InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu && x.UniqueId == item.IliskiliAgArayuzuId.Value).Select(s => s.Label).FirstOrDefault();
+                    }
+                }
+            }
+
+
             agAkis.AgArayuzuId = this.agAnahtariAgArayuzu.UniqueId;
-            SetAgArayuzuInputList();
             SetAgAkisTipiList();
             SetAgAkisProtokoluList();
-            DataContext = agAkis;
-
-            Loaded += Window_Loaded;
-        }
-
-        #region WindowLoadedEvent
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            //RemoveFromDogrulamaPaneli();
+            SetAgArayuzuInputList();
         }
         #endregion
 
         #region PopupCloseEvents
         private void ClosePopup()
         {
-            this.agAnahtariAgArayuzu.Connect.AgYuku = toplam;
-
-            //if (toplam == 0)
-            //{
-            //    AddToDogrulamaPaneli(agAnahtariAgArayuzu.Node.Name + "/" + agAnahtariAgArayuzu.Label + " için ağ akışı tanımlayınız!");
-            //}
-            //else
-            //{
-            //    decimal toplamGiren = 0;
-            //    foreach (var input in agAnahtariAgArayuzu.Node.InputList)
-            //    {
-            //        toplamGiren += input.AgAkisList.Select(s => s.Yuk).Sum();
-            //    }
-
-            //    decimal toplamCikan = 0;
-            //    foreach (var output in agAnahtariAgArayuzu.Node.Transitions.Items)
-            //    {
-            //        toplamCikan += output.AgAkisList.Select(s => s.Yuk).Sum();
-            //    }
-
-            //    if (toplamGiren != toplamCikan)
-            //    {
-            //        AddToDogrulamaPaneli(agAnahtariAgArayuzu.Node.Name + "/" + agAnahtariAgArayuzu.Connect.ToConnector.Node.Name + " için giren, çıkan yük eşit değil!");
-            //    }
-            //    else
-            //    {
-            //        RemoveFromDogrulamaPaneli();
-            //    }
-            //}
+            if (this.agAnahtariAgArayuzu.Connect != null)
+            {
+                this.agAnahtariAgArayuzu.Connect.AgYuku = toplam;
+            }
 
             Close();
             Owner.IsEnabled = true;
@@ -162,18 +156,24 @@ namespace AYP
         private void SetAgAkisTipiList()
         {
             agAkis.AgAkisTipiList = kodListeService.ListAgAkisTipi();
+            AgAkisTipi.ItemsSource = agAkis.AgAkisTipiList;
             agAkis.AgAkisTipiId = agAkis.AgAkisTipiList[0].Id;
+            AgAkisTipi.SelectedItem = agAkis.AgAkisTipiList[0];
         }
 
         private void SetAgAkisProtokoluList()
         {
             agAkis.AgAkisProtokoluList = kodListeService.ListAgAkisProtokolu();
+            AgAkisProtokolu.ItemsSource = agAkis.AgAkisProtokoluList;
             agAkis.AgAkisProtokoluId = agAkis.AgAkisProtokoluList[0].Id;
+            AgAkisProtokolu.SelectedItem = agAkis.AgAkisProtokoluList[0];
         }
         private void SetAgArayuzuInputList()
         {
             agAkis.InputList = agAnahtariAgArayuzu.Node.InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu).ToList();
+            GirdiComboBox.ItemsSource = agAkis.InputList;
             agAkis.IliskiliAgArayuzuId = agAkis.InputList[0].UniqueId;
+            GirdiComboBox.SelectedItem = agAkis.InputList[0];
         }
 
         #endregion
@@ -189,31 +189,57 @@ namespace AYP
                 var inputToplamAgYuku = this.agAnahtariAgArayuzu.Node.InputList.Where(x => x.UniqueId == agAkis.IliskiliAgArayuzuId).Select(s => s.AgAkisList.Select(k => k.Yuk).Sum()).FirstOrDefault();
                 if (inputToplamAgYuku != 0)
                 {
-                    decimal temp = 0;
-                    foreach (var output in this.agAnahtariAgArayuzu.Node.Transitions.Items)
-                    {
-                        if (output != agAnahtariAgArayuzu)
-                        {
-                            temp += output.AgAkisList.Where(x => x.IliskiliAgArayuzuId == agAkis.IliskiliAgArayuzuId).Select(s => s.Yuk).Sum();
-                        }
-                    }
+                    bool broadcastValid = true;
+                    bool unicastValid = true;
 
-                    decimal inputToplamAgAkisi = 0;
-                    if (checkedAgAkisRow != null)
+                    if ((agAkis.AgAkisTipiId == (int)AgAkisTipEnum.Broadcast || agAkis.AgAkisTipiId == (int)AgAkisTipEnum.Multicast) && agAnahtariAgArayuzu.AgAkisList.Where(x => x.IliskiliAgArayuzuAgAkisId == agAkis.IliskiliAgArayuzuAgAkisId).Any())
                     {
-                        var ctx = checkedAgAkisRow.DataContext;
-                        var obj = (AgAkis)ctx;
-
-                        inputToplamAgAkisi = (this.agAnahtariAgArayuzu.AgAkisList.Where(x => x.IliskiliAgArayuzuId == agAkis.IliskiliAgArayuzuId).Select(s => s.Yuk).Sum() + agAkis.Yuk) - obj.Yuk;
+                        broadcastValid = false;
                     }
                     else
                     {
-                        inputToplamAgAkisi = this.agAnahtariAgArayuzu.AgAkisList.Where(x => x.IliskiliAgArayuzuId == agAkis.IliskiliAgArayuzuId).Select(s => s.Yuk).Sum() + agAkis.Yuk;
-                    }
+                        decimal unicastTotal = 0;
+                        if (agAkis.AgAkisTipiId == (int)AgAkisTipEnum.Unicast)
+                        {
+                            agAkis.Yuk = Convert.ToDecimal(Yuk.Text);
+                            var definedUnicastTotal = this.agAnahtariAgArayuzu.Node.InputList.Where(x => x.UniqueId == agAkis.IliskiliAgArayuzuId).Select(s => s.AgAkisList.Where(a => a.Id == agAkis.IliskiliAgArayuzuAgAkisId).Select(k => k.Yuk).Sum()).FirstOrDefault();
 
-                    inputToplamAgAkisi = temp + inputToplamAgAkisi;
-                    if (inputToplamAgYuku - inputToplamAgAkisi >= 0)
+                            unicastTotal = agAnahtariAgArayuzu.AgAkisList.Where(x => x.IliskiliAgArayuzuAgAkisId == agAkis.IliskiliAgArayuzuAgAkisId).Select(s => s.Yuk).FirstOrDefault();
+                            unicastTotal += agAkis.Yuk;
+
+                            if(unicastTotal > definedUnicastTotal)
+                            {
+                                unicastValid = false;
+                            }
+                        }
+                    }
+                    if(unicastValid && broadcastValid)
                     {
+                        //decimal temp = 0;
+                        //foreach (var output in this.agAnahtariAgArayuzu.Node.Transitions.Items)
+                        //{
+                        //    if (output != agAnahtariAgArayuzu)
+                        //    {
+                        //        temp += output.AgAkisList.Where(x => x.IliskiliAgArayuzuId == agAkis.IliskiliAgArayuzuId).Select(s => s.Yuk).Sum();
+                        //    }
+                        //}
+
+                        //decimal inputToplamAgAkisi = 0;
+                        //if (checkedAgAkisRow != null)
+                        //{
+                        //    var ctx = checkedAgAkisRow.DataContext;
+                        //    var obj = (AgAkis)ctx;
+
+                        //    inputToplamAgAkisi = (this.agAnahtariAgArayuzu.AgAkisList.Where(x => x.IliskiliAgArayuzuId == agAkis.IliskiliAgArayuzuId).Select(s => s.Yuk).Sum() + agAkis.Yuk) - obj.Yuk;
+                        //}
+                        //else
+                        //{
+                        //    inputToplamAgAkisi = this.agAnahtariAgArayuzu.AgAkisList.Where(x => x.IliskiliAgArayuzuId == agAkis.IliskiliAgArayuzuId).Select(s => s.Yuk).Sum() + agAkis.Yuk;
+                        //}
+
+                        //inputToplamAgAkisi = temp + inputToplamAgAkisi;
+                        //if (inputToplamAgYuku - inputToplamAgAkisi >= 0)
+                        //{
                         decimal total = 0;
                         if (checkedAgAkisRow != null)
                         {
@@ -251,19 +277,21 @@ namespace AYP
                             agAkis.IliskiliAgArayuzuAdi = agAkis.InputList.Where(x => x.UniqueId == agAkis.IliskiliAgArayuzuId).Select(s => s.Label).FirstOrDefault();
 
                             this.agAnahtariAgArayuzu.AgAkisList.Add(agAkis);
-                            SetToConnectorAgAkis();
 
                             AgAkisDataGrid.ItemsSource = this.agAnahtariAgArayuzu.AgAkisList;
                             AgAkisDataGrid.Visibility = Visibility.Visible;
                             AgAkisNoDataRow.Visibility = Visibility.Hidden;
 
-                            DataContext = null;
                             agAkis = new AgAkis();
+                            agAkis.VarisNoktasiIdNameList.Clear();
                             agAkis.AgArayuzuId = this.agAnahtariAgArayuzu.UniqueId;
-                            SetAgArayuzuInputList();
+                            GirdiComboBox.ItemsSource = null;
+                            GelenAgAkisComboBox.ItemsSource = null;
+                            AgAkisProtokolu.ItemsSource = null;
+                            AgAkisTipi.ItemsSource = null;
                             SetAgAkisProtokoluList();
                             SetAgAkisTipiList();
-                            DataContext = agAkis;
+                            SetAgArayuzuInputList();
                         }
                         else
                         {
@@ -275,11 +303,30 @@ namespace AYP
                     }
                     else
                     {
-                        NotifyInfoPopup nfp = new NotifyInfoPopup();
-                        nfp.msg.Text = "Seçtiğiniz girdinin toplam ağ yükünü aştınız.";
-                        nfp.Owner = Owner;
-                        nfp.Show();
+                        if (!broadcastValid)
+                        {
+                            NotifyInfoPopup nfp = new NotifyInfoPopup();
+                            nfp.msg.Text = "Seçtiğiniz ağ akışı için daha önce kayıt yapılmıştır!";
+                            nfp.Owner = Owner;
+                            nfp.Show();
+                        }
+                        
+                        if(!unicastValid)
+                        {
+                            NotifyInfoPopup nfp = new NotifyInfoPopup();
+                            nfp.msg.Text = "Unicast ağ akışının toplam kapasitesini aştınız!";
+                            nfp.Owner = Owner;
+                            nfp.Show();
+                        }
                     }
+                    //}
+                    //else
+                    //{
+                    //    NotifyInfoPopup nfp = new NotifyInfoPopup();
+                    //    nfp.msg.Text = "Seçtiğiniz girdinin toplam ağ yükünü aştınız.";
+                    //    nfp.Owner = Owner;
+                    //    nfp.Show();
+                    //}
                 }
                 else
                 {
@@ -313,15 +360,28 @@ namespace AYP
             BtnAdd.Text = "Güncelle";
             BtnAdd.Margin = new Thickness(80, 0, 0, 0);
 
-            DataContext = null;
             checkedAgAkisRow = (CheckBox)sender;
             var ctx = checkedAgAkisRow.DataContext;
+            agAkis = new AgAkis();
             agAkis = (AgAkis)((AgAkis)ctx).Clone();
+
             agAkis.InputList = agAnahtariAgArayuzu.Node.InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu).ToList();
+            GirdiComboBox.ItemsSource = agAkis.InputList;
+            GirdiComboBox.SelectedItem = agAkis.InputList.Where(x => x.UniqueId == agAkis.IliskiliAgArayuzuId).FirstOrDefault();
+
+            GelenAgAkisComboBox.SelectedItem = girdiList.Where(o => o.Id == agAnahtariAgArayuzu.AgAkisList.Where(x => x.Id == agAkis.Id).Select(s => s.IliskiliAgArayuzuAgAkisId).FirstOrDefault()).FirstOrDefault();
+
             agAkis.AgAkisProtokoluList = kodListeService.ListAgAkisProtokolu();
+            AgAkisProtokolu.ItemsSource = agAkis.AgAkisProtokoluList;
+            AgAkisProtokolu.SelectedItem = agAkis.AgAkisProtokoluList.Where(x => x.Id == agAkis.AgAkisProtokoluId).FirstOrDefault();
+
             agAkis.AgAkisTipiList = kodListeService.ListAgAkisTipi();
+            AgAkisTipi.ItemsSource = agAkis.AgAkisTipiList;
+            AgAkisTipi.SelectedItem = agAkis.AgAkisTipiList.Where(x => x.Id == agAkis.AgAkisTipiId).FirstOrDefault();
+
+            Yuk.Text = agAkis.Yuk.ToString();
+            agAkis.VarisNoktasiIdNameList = agAnahtariAgArayuzu.AgAkisList.Where(x => x.Id == agAkis.Id).Select(s => s.VarisNoktasiIdNameList).FirstOrDefault();
             agAkis.Id = Guid.Empty;
-            DataContext = agAkis;
         }
 
         private void AgAkisRow_Unchecked(object sender, RoutedEventArgs e)
@@ -330,13 +390,17 @@ namespace AYP
             BtnAdd.Margin = new Thickness(100, 0, 0, 0);
 
             checkedAgAkisRow = null;
-            DataContext = null;
             agAkis = new AgAkis();
+            agAkis.VarisNoktasiIdNameList.Clear();
             agAkis.AgArayuzuId = this.agAnahtariAgArayuzu.UniqueId;
-            SetAgArayuzuInputList();
-            SetAgAkisTipiList();
+
+            GirdiComboBox.ItemsSource = null;
+            GelenAgAkisComboBox.ItemsSource = null;
+            AgAkisProtokolu.ItemsSource = null;
+            AgAkisTipi.ItemsSource = null;
             SetAgAkisProtokoluList();
-            DataContext = agAkis;
+            SetAgAkisTipiList();
+            SetAgArayuzuInputList();
         }
 
         private void AgAkisDelete_AllRows(object sender, RoutedEventArgs e)
@@ -349,7 +413,6 @@ namespace AYP
             toplam = 0;
             MainTitle.Content = "Ağ Akışı - " + toplam.ToString("0.##") + " Mbps";
 
-            SetToConnectorAgAkis();
             AgAkisDataGrid.ItemsSource = this.agAnahtariAgArayuzu.AgAkisList;
 
             if (this.agAnahtariAgArayuzu.AgAkisList.Count == 0)
@@ -359,13 +422,17 @@ namespace AYP
             }
 
             checkedAgAkisRow = null;
-            DataContext = null;
             agAkis = new AgAkis();
+            agAkis.VarisNoktasiIdNameList.Clear();
             agAkis.AgArayuzuId = this.agAnahtariAgArayuzu.UniqueId;
-            SetAgArayuzuInputList();
-            SetAgAkisTipiList();
+            GirdiComboBox.ItemsSource = null;
+            GelenAgAkisComboBox.ItemsSource = null;
+            AgAkisProtokolu.ItemsSource = null;
+            AgAkisTipi.ItemsSource = null;
+
             SetAgAkisProtokoluList();
-            DataContext = agAkis;
+            SetAgAkisTipiList();
+            SetAgArayuzuInputList();
         }
 
         private void AgAkisDelete_Row(object sender, RoutedEventArgs e)
@@ -382,7 +449,6 @@ namespace AYP
             toplam = this.agAnahtariAgArayuzu.AgAkisList.Select(s => s.Yuk).Sum();
             MainTitle.Content = "Ağ Akışı - " + toplam.ToString("0.##") + " Mbps";
 
-            SetToConnectorAgAkis();
             AgAkisDataGrid.ItemsSource = this.agAnahtariAgArayuzu.AgAkisList;
 
             if (this.agAnahtariAgArayuzu.AgAkisList.Count == 0)
@@ -392,35 +458,144 @@ namespace AYP
             }
 
             checkedAgAkisRow = null;
-            DataContext = null;
             agAkis = new AgAkis();
+            agAkis.VarisNoktasiIdNameList.Clear();
             agAkis.AgArayuzuId = this.agAnahtariAgArayuzu.UniqueId;
-            SetAgArayuzuInputList();
-            SetAgAkisTipiList();
+            GirdiComboBox.ItemsSource = null;
+            GelenAgAkisComboBox.ItemsSource = null;
+            AgAkisProtokolu.ItemsSource = null;
+            AgAkisTipi.ItemsSource = null;
             SetAgAkisProtokoluList();
-            DataContext = agAkis;
+            SetAgAkisTipiList();
+            SetAgArayuzuInputList();
         }
         #endregion
 
-        private void SetToConnectorAgAkis()
+        #region SelectionChangedEvents
+        private void IliskiliGirdi_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            this.agAnahtariAgArayuzu.Connect.ToConnector.AgAkisList = new List<AgAkis>();
-            this.agAnahtariAgArayuzu.Connect.ToConnector.AgAkisList.Clear();
-            foreach (var agAkis in this.agAnahtariAgArayuzu.AgAkisList)
+            if (GirdiComboBox.ItemsSource != null)
             {
-                var temp = new AgAkis();
-                temp.Id = Guid.NewGuid();
-                temp.AgArayuzuId = this.agAnahtariAgArayuzu.Connect.ToConnector.UniqueId;
-                temp.Yuk = agAkis.Yuk;
-                temp.AgAkisProtokoluId = agAkis.AgAkisProtokoluId;
-                temp.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluAdi;
-                temp.AgAkisTipiId = agAkis.AgAkisTipiId;
-                temp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
-                temp.IliskiliAgArayuzuId = agAkis.IliskiliAgArayuzuId;
-                temp.IliskiliAgArayuzuAdi = agAkis.IliskiliAgArayuzuAdi;
+                agAkis.IliskiliAgArayuzuId = ((ConnectorViewModel)GirdiComboBox.SelectedItem).UniqueId;
+                GelenAgAkisComboBox.ItemsSource = null;
+                girdiList.Clear();
+                var agAkisList = this.agAnahtariAgArayuzu.Node.InputList.Where(x => x.UniqueId == agAkis.IliskiliAgArayuzuId).Select(s => s.AgAkisList).FirstOrDefault();
 
-                this.agAnahtariAgArayuzu.Connect.ToConnector.AgAkisList.Add(temp);
+                if (agAkisList != null)
+                {
+                    foreach (var agAkisItem in agAkisList)
+                    {
+                        girdiList.Add(new GuidKodListModel
+                        {
+                            Ad = agAkisItem.AgAkisProtokoluAdi + " " + agAkisItem.AgAkisTipiAdi + " " + agAkisItem.Yuk + " mbps",
+                            Id = agAkisItem.Id
+                        });
+                    }
+                }
+
+                GelenAgAkisComboBox.ItemsSource = girdiList;
+
+                if (girdiList.Count > 0)
+                {
+                    GelenAgAkisComboBox.SelectedItem = girdiList.First();
+                    agAkis.IliskiliAgArayuzuAgAkisId = girdiList.First().Id;
+                }
+                else
+                {
+
+                    NotifyInfoPopup nfp = new NotifyInfoPopup();
+                    nfp.msg.Text = "Seçtiğiniz ağ arayüzü girdisine ait tanımlanmış bir ağ akışı bulunmamaktadır!";
+                    nfp.Owner = Owner;
+                    nfp.Show();
+
+                    GelenAgAkisComboBox.SelectedItem = null;
+                }
             }
         }
+
+        private void GelenAgAkisi_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (GelenAgAkisComboBox.ItemsSource != null)
+            {
+                if (GelenAgAkisComboBox.SelectedItem != null)
+                {
+                    var selection = ((GuidKodListModel)GelenAgAkisComboBox.SelectedItem).Id;
+
+                    var agAkisList = this.agAnahtariAgArayuzu.Node.InputList.Where(x => x.UniqueId == agAkis.IliskiliAgArayuzuId).Select(s => s.AgAkisList).FirstOrDefault();
+                    var selectedAgAkis = agAkisList.Where(x => x.Id == selection).FirstOrDefault();
+
+                    agAkis.AgAkisProtokoluId = selectedAgAkis.AgAkisProtokoluId;
+                    AgAkisProtokolu.ItemsSource = agAkis.AgAkisProtokoluList;
+                    AgAkisProtokolu.SelectedItem = agAkis.AgAkisProtokoluList.Where(x => x.Id == selectedAgAkis.AgAkisProtokoluId).FirstOrDefault();
+
+                    AgAkisTipi.ItemsSource = agAkis.AgAkisTipiList;
+                    agAkis.AgAkisTipiId = selectedAgAkis.AgAkisTipiId;
+                    AgAkisTipi.SelectedItem = agAkis.AgAkisTipiList.Where(x => x.Id == selectedAgAkis.AgAkisTipiId).FirstOrDefault();
+
+                    agAkis.Yuk = selectedAgAkis.Yuk;
+                    Yuk.Text = selectedAgAkis.Yuk.ToString();
+                    agAkis.VarisNoktasiIdNameList = selectedAgAkis.VarisNoktasiIdNameList;
+                    agAkis.IliskiliAgArayuzuAgAkisId = selectedAgAkis.Id;
+
+                    if (selectedAgAkis.AgAkisTipiId == (int)AgAkisTipEnum.Unicast)
+                    {
+                        Yuk.IsEnabled = true;
+                        Yuk.Opacity = 1;
+                        AgAkisTipi.IsEnabled = false;
+                        AgAkisTipi.Opacity = 0.25;
+                        AgAkisProtokolu.IsEnabled = false;
+                        AgAkisProtokolu.Opacity = 0.25;
+                    }
+                    else
+                    {
+                        Yuk.IsEnabled = false;
+                        Yuk.Opacity = 0.25;
+                        AgAkisTipi.IsEnabled = false;
+                        AgAkisTipi.Opacity = 0.25;
+                        AgAkisProtokolu.IsEnabled = false;
+                        AgAkisProtokolu.Opacity = 0.25;
+                    }
+                }
+                else
+                {
+                    agAkis.AgAkisTipiId = agAkis.AgAkisTipiList[0].Id;
+                    AgAkisTipi.SelectedItem = agAkis.AgAkisTipiList[0];
+                    agAkis.AgAkisProtokoluId = agAkis.AgAkisProtokoluList[0].Id;
+                    AgAkisProtokolu.SelectedItem = agAkis.AgAkisProtokoluList[0];
+                    agAkis.Yuk = 0;
+                    Yuk.Text = "0";
+                    agAkis.VarisNoktasiIdNameList.Clear();
+
+                    Yuk.IsEnabled = false;
+                    Yuk.Opacity = 0.25;
+                    AgAkisTipi.IsEnabled = false;
+                    AgAkisTipi.Opacity = 0.25;
+                    AgAkisProtokolu.IsEnabled = false;
+                    AgAkisProtokolu.Opacity = 0.25;
+                }
+            }
+        }
+        #endregion
+
+        //private void SetToConnectorAgAkis()
+        //{
+        //    this.agAnahtariAgArayuzu.Connect.ToConnector.AgAkisList = new List<AgAkis>();
+        //    this.agAnahtariAgArayuzu.Connect.ToConnector.AgAkisList.Clear();
+        //    foreach (var agAkis in this.agAnahtariAgArayuzu.AgAkisList)
+        //    {
+        //        var temp = new AgAkis();
+        //        temp.Id = Guid.NewGuid();
+        //        temp.AgArayuzuId = this.agAnahtariAgArayuzu.Connect.ToConnector.UniqueId;
+        //        temp.Yuk = agAkis.Yuk;
+        //        temp.AgAkisProtokoluId = agAkis.AgAkisProtokoluId;
+        //        temp.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluAdi;
+        //        temp.AgAkisTipiId = agAkis.AgAkisTipiId;
+        //        temp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
+        //        temp.IliskiliAgArayuzuId = agAkis.IliskiliAgArayuzuId;
+        //        temp.IliskiliAgArayuzuAdi = agAkis.IliskiliAgArayuzuAdi;
+
+        //        this.agAnahtariAgArayuzu.Connect.ToConnector.AgAkisList.Add(temp);
+        //    }
+        //}
     }
 }

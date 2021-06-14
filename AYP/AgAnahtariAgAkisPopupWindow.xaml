@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AYP"
         mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterOwner"
-        Title="AgAnahtariAgAkisPopupWindow" Height="425" Width="810" Background="Transparent">
+        Title="AgAnahtariAgAkisPopupWindow" Height="500" Width="810" Background="Transparent">
 
     <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">
 
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid.RowDefinitions>
-                <RowDefinition Height="425"/>
+                <RowDefinition Height="500"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="10" />
@@ -26,22 +26,28 @@
 
             <Rectangle Style="{DynamicResource StyleAgAnahtariAgAkisFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
 
-            <Label FontSize="16" Foreground="#ffffff" Content="Yük *" Grid.Row="0" Grid.Column="1" Margin="10,65,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <TextBox Name="Yuk" PreviewTextInput="DecimalValidationTextBox" Text="{Binding Yuk}" Style="{DynamicResource StyleTextBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,95,0,10" VerticalAlignment="Top" />
-
-            <Label FontSize="16" Foreground="#ffffff" Content="Ağ Akış Tipi *" Grid.Row="0" Grid.Column="1" Margin="10,140,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <ComboBox SelectedValue="{Binding AgAkisTipiId}" ItemsSource="{Binding AgAkisTipiList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,170,0,10" VerticalAlignment="Top">
+            <Label FontSize="16" Foreground="#ffffff" Content="İlişkili Olduğu Girdi *" Grid.Row="0" Grid.Column="1" Margin="10,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <ComboBox x:Name="GirdiComboBox" DisplayMemberPath="Label" SelectedValuePath="UniqueId" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,95,0,10" VerticalAlignment="Top" SelectionChanged="IliskiliGirdi_SelectionChanged">
             </ComboBox>
 
-            <Label FontSize="16" Foreground="#ffffff" Content="Ağ Akış Protokolü *" Grid.Row="0" Grid.Column="1" Margin="10,215,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <ComboBox SelectedValue="{Binding AgAkisProtokoluId}" ItemsSource="{Binding AgAkisProtokoluList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,245,0,10" VerticalAlignment="Top" >
+            <Label FontSize="16" Foreground="#ffffff" Content="Gelen Ağ Akışları *" Grid.Row="0" Grid.Column="1" Margin="10,140,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <ComboBox  x:Name="GelenAgAkisComboBox" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,170,0,10" VerticalAlignment="Top" SelectionChanged="GelenAgAkisi_SelectionChanged">
+            </ComboBox>
+            
+            <Label FontSize="16" Foreground="#ffffff" Content="Yük *" Grid.Row="0" Grid.Column="1" Margin="10,215,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <TextBox Name="Yuk" PreviewTextInput="DecimalValidationTextBox" Style="{DynamicResource StyleTextBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,245,0,10" VerticalAlignment="Top" />
+
+            <Label FontSize="16" Foreground="#ffffff" Content="Ağ Akış Tipi *" Grid.Row="0" Grid.Column="1" Margin="10,290,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <ComboBox Name="AgAkisTipi" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,320,0,10" VerticalAlignment="Top">
             </ComboBox>
 
-            <Label FontSize="16" Foreground="#ffffff" Content="İlişkili Olduğu Girdi *" Grid.Row="0" Grid.Column="1" Margin="10,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <ComboBox SelectedValue="{Binding IliskiliAgArayuzuId}" ItemsSource="{Binding InputList}" DisplayMemberPath="Label" SelectedValuePath="UniqueId" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,320,0,10" VerticalAlignment="Top" >
+            <Label FontSize="16" Foreground="#ffffff" Content="Ağ Akış Protokolü *" Grid.Row="0" Grid.Column="1" Margin="10,365,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <ComboBox Name="AgAkisProtokolu" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,395,0,10" VerticalAlignment="Top" >
             </ComboBox>
 
-            <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,365,0,10" Background="#222d35" Width="250" Click="ButtonAddAgAkis_Click">
+            
+
+            <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,440,0,10" Background="#222d35" Width="250" Click="ButtonAddAgAkis_Click">
                 <Grid>
                     <TextBlock Name="BtnAdd" FontSize="16" HorizontalAlignment="Left" Margin="100,0,0,0">Ekle</TextBlock>
                 </Grid>
