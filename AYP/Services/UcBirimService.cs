@@ -71,13 +71,22 @@ namespace AYP.Services
                 {
                     try
                     {
-                        UcBirimTur dbItem = new UcBirimTur();
-                        context.UcBirimTur.Add(dbItem);
-                        dbItem.Ad = ucBirimTur.Ad;
+                        bool varMi = context.UcBirimTur.Where(x => x.Ad.ToLower() == ucBirimTur.Ad.ToLower()).Any();
 
-                        context.SaveChanges();
-                        response.SetSuccess();
-                        transaction.Commit();
+                        if (!varMi)
+                        {
+                            UcBirimTur dbItem = new UcBirimTur();
+                            context.UcBirimTur.Add(dbItem);
+                            dbItem.Ad = ucBirimTur.Ad;
+
+                            context.SaveChanges();
+                            response.SetSuccess();
+                            transaction.Commit();
+                        }
+                        else
+                        {
+                            response.SetWarning("Aynı isimde tanımlanmış uç birim türü bulunmaktadır!");
+                        }
                     }
                     catch (Exception exception)
                     {

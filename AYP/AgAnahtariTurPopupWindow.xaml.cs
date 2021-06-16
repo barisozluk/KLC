@@ -44,7 +44,7 @@ namespace AYP
                 if (!response.HasError)
                 {
                     NotifySuccessPopup nfp = new NotifySuccessPopup();
-                    nfp.msg.Text = "İşlem başarı ile gerçekleştirildi.";
+                    nfp.msg.Text = response.Message;
                     nfp.Owner = Owner;
                     nfp.Show();
 
@@ -54,12 +54,21 @@ namespace AYP
                 }
                 else
                 {
-                    NotifyWarningPopup nfp = new NotifyWarningPopup();
-                    nfp.msg.Text = "İşlem başarısız oldu.";
-                    nfp.Owner = Owner;
-                    nfp.Show();
+                    if (response.HasWarning)
+                    {
+                        NotifyInfoPopup nfp = new NotifyInfoPopup();
+                        nfp.msg.Text = response.Message;
+                        nfp.Owner = Owner;
+                        nfp.Show();
+                    }
+                    else
+                    {
+                        NotifyWarningPopup nfp = new NotifyWarningPopup();
+                        nfp.msg.Text = "İşlem başarısız oldu.";
+                        nfp.Owner = Owner;
+                        nfp.Show();
+                    }
                 }
-            
             }
             else
             {

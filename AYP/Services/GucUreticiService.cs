@@ -405,13 +405,22 @@ namespace AYP.Services
                 {
                     try
                     {
-                        GucUreticiTur dbItem = new GucUreticiTur();
-                        context.GucUreticiTur.Add(dbItem);
-                        dbItem.Ad = gucUreticiTur.Ad;
+                        bool varMi = context.GucUreticiTur.Where(x => x.Ad.ToLower() == gucUreticiTur.Ad.ToLower()).Any();
 
-                        context.SaveChanges();
-                        response.SetSuccess();
-                        transaction.Commit();
+                        if (!varMi)
+                        {
+                            GucUreticiTur dbItem = new GucUreticiTur();
+                            context.GucUreticiTur.Add(dbItem);
+                            dbItem.Ad = gucUreticiTur.Ad;
+
+                            context.SaveChanges();
+                            response.SetSuccess();
+                            transaction.Commit();
+                        }
+                        else
+                        {
+                            response.SetWarning("Aynı isimde tanımlanmış güç üretici türü bulunmaktadır!");
+                        }
                     }
                     catch (Exception exception)
                     {

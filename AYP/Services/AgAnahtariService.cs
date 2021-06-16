@@ -71,13 +71,22 @@ namespace AYP.Services
                 {
                     try
                     {
-                        AgAnahtariTur dbItem = new AgAnahtariTur();
-                        context.AgAnahtariTur.Add(dbItem);
-                        dbItem.Ad = agAnahtariTur.Ad;
+                        bool varMi = context.AgAnahtariTur.Where(x => x.Ad.ToLower() == agAnahtariTur.Ad.ToLower()).Any();
 
-                        context.SaveChanges();
-                        response.SetSuccess();
-                        transaction.Commit();
+                        if (!varMi)
+                        {
+                            AgAnahtariTur dbItem = new AgAnahtariTur();
+                            context.AgAnahtariTur.Add(dbItem);
+                            dbItem.Ad = agAnahtariTur.Ad;
+
+                            context.SaveChanges();
+                            response.SetSuccess();
+                            transaction.Commit();
+                        }
+                        else
+                        {
+                            response.SetWarning("Aynı isimde tanımlanmış ağ anahtarı türü bulunmaktadır!");
+                        }
                     }
                     catch (Exception exception)
                     {
