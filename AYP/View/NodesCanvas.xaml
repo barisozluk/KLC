@@ -52,7 +52,7 @@
     <UserControl.ContextMenu >
         <ContextMenu Template="{DynamicResource TemplateContextMenu}" Background="{DynamicResource ColorMenuBackground}"  Foreground="{DynamicResource ColorMenuForeground}" BorderBrush="{DynamicResource ColorMenuBorder}" OpacityMask="{DynamicResource ColorMenuBackgroundMouseOver}"  BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Center" >
             <MenuItem Header="Sil" x:Name="ItemDelete" InputGestureText="Delete" ToolTip="Seçili birimleri sil"  Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
-            <MenuItem Header="Yeniden Adlandır" x:Name="ItemRename" InputGestureText="Ctrl+R" ToolTip="Seçili birimleri yeniden adlandır"  Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
+            <MenuItem Header="Yeniden Adlandır" x:Name="ItemRename" InputGestureText="F2" ToolTip="Seçili birimleri yeniden adlandır"  Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
             <Separator Margin="-30,0,0,0" Background="#333337"/>
 
             <!--<MenuItem Header="Daralt" x:Name="ItemCollapsUp" ToolTip="Seçili birimleri daralt" Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
@@ -108,7 +108,7 @@
 
         <KeyBinding x:Name="BindingEditSelected"   Key="E" Modifiers="Ctrl"/>
         <KeyBinding x:Name="BindingCopyMultiple"   Key="P" Modifiers="Ctrl"/>
-        <KeyBinding x:Name="BindingRename"   Key="R" Modifiers="Control"/>
+        <KeyBinding x:Name="BindingRename"   Key="F2"/>
 
         <MouseBinding x:Name="BindingSelect"    Gesture="Ctrl+LeftClick"/>
     </UserControl.InputBindings>

@@ -89,7 +89,7 @@ namespace AYP.Services
                 {
                     try
                     {
-                        response = context.KL_Kapasite.OrderBy(o => o.Ad).ToList();
+                        response = context.KL_Kapasite.OrderBy(o => o.Id).ToList();
                     }
                     catch (Exception exception)
                     {
