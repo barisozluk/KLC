@@ -213,14 +213,14 @@
         </StackPanel>
 
         <Label x:Name="bilgiKartiLabel" Style="{DynamicResource StyleBilgiKartiPaneliHeader}" Content="Bilgi Kartı" Grid.Column="5" Margin="10,826,0,0" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <Button Style="{DynamicResource StyleAddDeviceButton}" Grid.Column="5" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,826,43,0" Click="BilgiKartiDetay_Click" >
+        <Button Style="{DynamicResource StyleAddDeviceButton}" ToolTip="Güncelle" Grid.Column="5" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,826,43,0" Click="BilgiKartiDetay_Click" >
             <Button.Content>
-                <Image Source="Images\edit.png" Height="15" Width="15" Margin="7,0,0,0"></Image>
+                <Image Source="Images\edit.png"  Height="15" Width="15" Margin="7,0,0,0"></Image>
             </Button.Content>
         </Button>
-        <Button x:Name="DeleteButton" Style="{DynamicResource StyleAddDeviceButton}" Grid.Column="5" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,826,5,0" Click="Delete_Click" >
+        <Button x:Name="DeleteButton" ToolTip="Sil" Style="{DynamicResource StyleAddDeviceButton}" Grid.Column="5" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,826,5,0" Click="Delete_Click" >
             <Button.Content>
-                <Image Source="Images\trash.png" Height="15" Width="15" Margin="7,0,0,0"></Image>
+                <Image Source="Images\trash.png"  Height="15" Width="15" Margin="7,0,0,0"></Image>
             </Button.Content>
         </Button>
         <!--<Rectangle Style="{DynamicResource StyleBilgiKartiPanel}" Grid.Row="1" Grid.Column="5" Margin="10,871,10,10" HorizontalAlignment="Left" VerticalAlignment="Top" />-->
@@ -376,10 +376,10 @@
             <TextBlock Text="Toplam Cihaz:" Foreground="White" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,235,10,10"></TextBlock>
 
             <Rectangle VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,10,10" Width="15" Height="15" Fill="{DynamicResource ColorConnectorEthernet}" ></Rectangle>
-            <TextBlock Text="Ethernet (0-10)" Foreground="White" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40,9,10,10"></TextBlock>
+            <TextBlock Text="10-Megabit Ethernet" Foreground="White" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40,9,10,10"></TextBlock>
 
             <Rectangle VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,35,10,10" Width="15" Height="15" Fill="{DynamicResource ColorConnectorFastEthernet}" ></Rectangle>
-            <TextBlock Text="Fast Ethernet (10-100)" Foreground="White" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40,34,10,10"></TextBlock>
+            <TextBlock Text="100-Megabit Ethernet" Foreground="White" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40,34,10,10"></TextBlock>
 
             <Rectangle VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,60,10,10" Width="15" Height="15" Fill="{DynamicResource ColorConnectorGigabitEthernet}" ></Rectangle>
             <TextBlock Text="Gigabit Ethernet" Foreground="White" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="40,59,10,10"></TextBlock>
