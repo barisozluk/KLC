@@ -47,20 +47,49 @@ namespace AYP
 
         private void Rename(object sender, RoutedEventArgs e)
         {
-            if(!string.IsNullOrEmpty(Ad.Text))
+            if (!string.IsNullOrEmpty(Ad.Text))
             {
-                foreach(var selectedNode in this.selectedNodes)
+                bool flag = true;
+                foreach (var node in selectedNodes.First().NodesCanvas.Nodes.Items)
                 {
-                    selectedNode.Name = Ad.Text;
+                    string temp = "";
 
-                    if(selectedNode.TypeId == (int)TipEnum.Group)
+                    if (node.Name.Contains("#"))
                     {
-                        var group = selectedNode.NodesCanvas.GroupList.Where(x => x.UniqueId == selectedNode.UniqueId).FirstOrDefault();
-                        group.Name = selectedNode.Name;
+                        temp = node.Name.Substring(0, node.Name.IndexOf("#") - 1);
+                    }
+                    else
+                    {
+                        temp = node.Name;
+                    }
+
+                    if (temp.ToLower() == Ad.Text.ToLower())
+                    {
+                        flag = false;
+                        break;
                     }
                 }
 
-                ClosePopup();
+                if (flag)
+                {
+                    selectedNodes.First().Name = Ad.Text + " #1";
+
+                    if (selectedNodes.First().TypeId == (int)TipEnum.Group)
+                    {
+                        var group = selectedNodes.First().NodesCanvas.GroupList.Where(x => x.UniqueId == selectedNodes.First().UniqueId).FirstOrDefault();
+                        group.Name = selectedNodes.First().Name;
+                    }
+
+
+                    ClosePopup();
+                }
+                else
+                {
+                    NotifyInfoPopup nfp = new NotifyInfoPopup();
+                    nfp.msg.Text = "Aynı isimle tanımlı bir cihaz bulunmaktadır.";
+                    nfp.Owner = this;
+                    nfp.Show();
+                }
             }
             else
             {
@@ -87,7 +116,7 @@ namespace AYP
                 }
                 else
                 {
-                    e.Handled = true;
+                    e.Handled = false;
                 }
             }
         }

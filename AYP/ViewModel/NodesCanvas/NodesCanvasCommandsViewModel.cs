@@ -330,13 +330,24 @@ namespace AYP.ViewModel
         private void RenameSelectedNodes()
         {
             var selectedNodes = this.Nodes.Items.Where(x => x.Selected).ToList();
-            this.MainWindow.IsEnabled = false;
-            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
-            blur.Radius = 2;
-            this.MainWindow.Effect = blur;
-            EditSelectedNodeNamePopupWindow popup = new EditSelectedNodeNamePopupWindow(selectedNodes);
-            popup.Owner = this.MainWindow;
-            popup.ShowDialog();
+
+            if (selectedNodes.Count == 1)
+            {
+                this.MainWindow.IsEnabled = false;
+                System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+                blur.Radius = 2;
+                this.MainWindow.Effect = blur;
+                EditSelectedNodeNamePopupWindow popup = new EditSelectedNodeNamePopupWindow(selectedNodes);
+                popup.Owner = this.MainWindow;
+                popup.ShowDialog();
+            }
+            else
+            {
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                nfp.msg.Text = "Lütfen, sadece bir cihaz seçiniz.";
+                nfp.Owner = this.MainWindow;
+                nfp.Show();
+            }
         }
 
         private void OpenGucUreticiSelectPanel()
@@ -366,7 +377,7 @@ namespace AYP.ViewModel
                 else
                 {
                     NotifyInfoPopup nfp = new NotifyInfoPopup();
-                    nfp.msg.Text = "Lütfen en az bir güç tüketici seçiniz.";
+                    nfp.msg.Text = "Lütfen, en az bir güç tüketici seçiniz.";
                     nfp.Owner = this.MainWindow;
                     nfp.Show();
                 }
@@ -374,7 +385,7 @@ namespace AYP.ViewModel
             else
             {
                 NotifyInfoPopup nfp = new NotifyInfoPopup();
-                nfp.msg.Text = "Lütfen en az bir güç üretici seçiniz.";
+                nfp.msg.Text = "Lütfen, en az bir güç üretici seçiniz.";
                 nfp.Owner = this.MainWindow;
                 nfp.Show();
             }
@@ -1827,13 +1838,30 @@ namespace AYP.ViewModel
                 oldName = oldName.Substring(0, oldName.IndexOf("#") - 1);
             }
 
-            int count = Nodes.Items.Where(x => (x.Name.Contains("#") ? x.Name.Substring(0, x.Name.IndexOf("#") - 1).ToLower() == oldName.ToLower() 
-                                                                    : x.Name.ToLower() == oldName.ToLower()) && x.TypeId == typeId).Count() + 1;
+            var sameNodes = Nodes.Items.Where(x => (x.Name.Contains("#") ? x.Name.Substring(0, x.Name.IndexOf("#") - 1).ToLower() == oldName.ToLower() 
+                                                                    : x.Name.ToLower() == oldName.ToLower()) && x.TypeId == typeId).ToList();
 
-            foreach(var group in GroupList)
+            foreach (var group in GroupList)
             {
-                count += group.NodeList.Where(x => (x.Name.Contains("#") ? x.Name.Substring(0, x.Name.IndexOf("#") - 1).ToLower() == oldName.ToLower()
-                                                                    : x.Name.ToLower() == oldName.ToLower()) && x.TypeId == typeId).Count();
+                sameNodes.AddRange(group.NodeList.Where(x => (x.Name.Contains("#") ? x.Name.Substring(0, x.Name.IndexOf("#") - 1).ToLower() == oldName.ToLower()
+                                                                    : x.Name.ToLower() == oldName.ToLower()) && x.TypeId == typeId).ToList());
+            }
+
+            int count = 1;
+            if(sameNodes != null && sameNodes.Count != 0)
+            {
+                string nodeName = sameNodes.First().Name;
+                count = Convert.ToInt32(nodeName.Substring(nodeName.IndexOf("#") + 1));
+                foreach (var sameNode in sameNodes)
+                {
+                    int count2 = Convert.ToInt32(sameNode.Name.Substring(sameNode.Name.IndexOf("#") + 1));
+                    if (count2 > count)
+                    {
+                        count = count2;
+                    }
+                }
+
+                count = count + 1;
             }
 
             string name = oldName + " #" + count;

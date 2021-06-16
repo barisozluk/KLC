@@ -524,9 +524,8 @@ namespace AYP
             selectedTipId = 0;
         }
 
-        private void UcBirim_Click(object sender, RoutedEventArgs e)
+        private void UcBirim_Click(int ucBirimId)
         {
-            var ucBirimId = Convert.ToInt32(((Button)sender).Tag);
             selectedUcBirim = ucBirimService.GetUcBirimById(ucBirimId);
             selectedTipId = selectedUcBirim.TipId;
 
@@ -550,9 +549,8 @@ namespace AYP
             selectedTipId = 0;
         }
 
-        private void AgAnahtari_Click(object sender, RoutedEventArgs e)
+        private void AgAnahtari_Click(int agAnahtariId)
         {
-            var agAnahtariId = Convert.ToInt32(((Button)sender).Tag);
             selectedAgAnahtari = agAnahtariService.GetAgAnahtariById(agAnahtariId);
             selectedTipId = selectedAgAnahtari.TipId;
 
@@ -577,9 +575,8 @@ namespace AYP
             selectedTipId = 0;
         }
 
-        private void GucUretici_Click(object sender, RoutedEventArgs e)
+        private void GucUretici_Click(int gucUreticiId)
         {
-            var gucUreticiId = Convert.ToInt32(((Button)sender).Tag);
             selectedGucUretici = gucUreticiService.GetGucUreticiById(gucUreticiId);
             selectedTipId = selectedGucUretici.TipId;
 
@@ -651,14 +648,29 @@ namespace AYP
         bool IsDragDropEvent = false;
         private void cihaz_MouseLeftButtonDown(object sender, MouseEventArgs e)
         {
-            if (!e.Source.Equals(sender))
+            var type = ((Button)sender).DataContext.GetType();
+            
+            if (type.Name == "UcBirim")
             {
-                IsDragDropEvent = true;
+                UcBirim_Click(Convert.ToInt32(((Button)sender).Tag));
+            }
+            else if (type.Name == "AgAnahtari")
+            {
+                AgAnahtari_Click(Convert.ToInt32(((Button)sender).Tag));
+            }
+            else if (type.Name == "GucUretici")
+            {
+                GucUretici_Click(Convert.ToInt32(((Button)sender).Tag));
+            }
+
+            //if (!e.Source.Equals(sender))
+            //{
+            IsDragDropEvent = true;
                 ClickedElement = (Button)sender;
                 DragDrop.DoDragDrop(sender as DependencyObject, ClickedElement, DragDropEffects.Move);
 
                 e.Handled = true;
-            }
+            //}
         }
 
         private void target_Drop(object sender, DragEventArgs e)
