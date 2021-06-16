@@ -33,12 +33,9 @@
             <ComboBox SelectedValue="{Binding AgAkisTipiId}" ItemsSource="{Binding AgAkisTipiList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,170,0,10" VerticalAlignment="Top"  SelectionChanged="AgAkisTipi_SelectionChanged">
             </ComboBox>
 
-            <Label FontSize="16" Foreground="#ffffff" Content="Ağ Akış Protokolü *" Grid.Row="0" Grid.Column="1" Margin="10,215,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <ComboBox SelectedValue="{Binding AgAkisProtokoluId}" ItemsSource="{Binding AgAkisProtokoluList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,245,0,10" VerticalAlignment="Top" >
-            </ComboBox>
 
-            <Label FontSize="16" Foreground="#ffffff" Content="Varış Noktası *" Grid.Row="0" Grid.Column="1" Margin="10,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <ListBox x:Name="UcBirimListBox" DisplayMemberPath="Name" SelectedValuePath="UniqueId" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,335,0,10" VerticalAlignment="Top" ItemContainerStyle="{DynamicResource StyleListBoxItem}" Style="{DynamicResource StyleListBox}" >
+            <Label FontSize="16" Foreground="#ffffff" Content="Varış Noktası *" Grid.Row="0" Grid.Column="1" Margin="10,225,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <ListBox x:Name="UcBirimListBox" DisplayMemberPath="Name" SelectedValuePath="UniqueId" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,260,0,10" VerticalAlignment="Top" ItemContainerStyle="{DynamicResource StyleListBoxItem}" Height="325" Style="{DynamicResource StyleListBox}" >
             </ListBox>
 
             <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,595,0,10" Background="#222d35" Width="250" Click="ButtonAddAgAkis_Click">
@@ -57,9 +54,8 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="30" />
                                 <ColumnDefinition Width="30" />
-                                <ColumnDefinition Width="150" />
-                                <ColumnDefinition Width="180" />
-                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition Width="250" />
                             </Grid.ColumnDefinitions>
                             <Button ToolTip="Tümünü Sil" Background="#222d35" BorderThickness="1,1,1,1" BorderBrush="#13191e" Height="35" Width="30" Style="{DynamicResource StyleTableProcessButton}" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Click="AgAkisDelete_AllRows">
                                 <Grid>
@@ -68,9 +64,8 @@
                             </Button>
                             <!--<Label Background="#222d35" BorderThickness="1,1,1,1" BorderBrush="#13191e" Height="35" Width="30" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
                             <Label Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="30" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <Label Padding="40,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="150" FontSize="12" Foreground="#ffffff" Content="Yük (Mbps)" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <Label Padding="60,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="180" FontSize="12" Foreground="#ffffff" Content="Ağ Akış Tipi" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <Label Padding="10,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="120" FontSize="12" Foreground="#ffffff" Content="Ağ Akış Protokolü" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Padding="40,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="200" FontSize="12" Foreground="#ffffff" Content="Yük (Mbps)" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Padding="60,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="250" FontSize="12" Foreground="#ffffff" Content="Ağ Akış Tipi" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
 
                         <ItemsControl Visibility="Hidden" Name="AgAkisDataGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,35,0,0">
@@ -83,9 +78,8 @@
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="30" />
                                             <ColumnDefinition Width="30" />
-                                            <ColumnDefinition Width="150" />
-                                            <ColumnDefinition Width="180" />
-                                            <ColumnDefinition Width="120" />
+                                            <ColumnDefinition Width="200" />
+                                            <ColumnDefinition Width="250" />
                                         </Grid.ColumnDefinitions>
                                         <Button Style="{DynamicResource StyleTableProcessButton}" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Click="AgAkisDelete_Row">
                                             <Grid>
@@ -95,9 +89,8 @@
                                         <Label Background="#222d35" BorderThickness="1,1,1,1" BorderBrush="#13191e" Height="30" Width="30" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <CheckBox IsChecked="False" Checked="AgAkisRow_Checked" Unchecked="AgAkisRow_Unchecked" BorderBrush="#13191e"/>
                                         </Label>
-                                        <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="150" FontSize="12" Foreground="#ffffff" Content="{Binding Yuk}" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="180" FontSize="12" Foreground="#ffffff" Content="{Binding AgAkisTipiAdi}" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="120" FontSize="12" Foreground="#ffffff" Content="{Binding AgAkisProtokoluAdi}" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="200" FontSize="12" Foreground="#ffffff" Content="{Binding Yuk}" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="250" FontSize="12" Foreground="#ffffff" Content="{Binding AgAkisTipiAdi}" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Grid>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

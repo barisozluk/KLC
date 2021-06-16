@@ -63,10 +63,10 @@ namespace AYP
 
             foreach (var item in agAnahtariAgArayuzu.AgAkisList)
             {
-                if (item.AgAkisProtokoluList == null)
-                {
-                    item.AgAkisProtokoluList = kodListeService.ListAgAkisProtokolu();
-                }
+                //if (item.AgAkisProtokoluList == null)
+                //{
+                //    item.AgAkisProtokoluList = kodListeService.ListAgAkisProtokolu();
+                //}
 
                 if (item.AgAkisTipiList == null)
                 {
@@ -85,7 +85,7 @@ namespace AYP
 
             agAkis.AgArayuzuId = this.agAnahtariAgArayuzu.UniqueId;
             SetAgAkisTipiList();
-            SetAgAkisProtokoluList();
+            //SetAgAkisProtokoluList();
             SetAgArayuzuInputList();
         }
         #endregion
@@ -161,13 +161,13 @@ namespace AYP
             AgAkisTipi.SelectedItem = agAkis.AgAkisTipiList[0];
         }
 
-        private void SetAgAkisProtokoluList()
-        {
-            agAkis.AgAkisProtokoluList = kodListeService.ListAgAkisProtokolu();
-            AgAkisProtokolu.ItemsSource = agAkis.AgAkisProtokoluList;
-            agAkis.AgAkisProtokoluId = agAkis.AgAkisProtokoluList[0].Id;
-            AgAkisProtokolu.SelectedItem = agAkis.AgAkisProtokoluList[0];
-        }
+        //private void SetAgAkisProtokoluList()
+        //{
+        //    agAkis.AgAkisProtokoluList = kodListeService.ListAgAkisProtokolu();
+        //    AgAkisProtokolu.ItemsSource = agAkis.AgAkisProtokoluList;
+        //    agAkis.AgAkisProtokoluId = agAkis.AgAkisProtokoluList[0].Id;
+        //    AgAkisProtokolu.SelectedItem = agAkis.AgAkisProtokoluList[0];
+        //}
         private void SetAgArayuzuInputList()
         {
             agAkis.InputList = agAnahtariAgArayuzu.Node.InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu).ToList();
@@ -272,7 +272,7 @@ namespace AYP
 
                             AgAkisDataGrid.ItemsSource = null;
                             agAkis.Id = Guid.NewGuid();
-                            agAkis.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluList.Where(x => x.Id == agAkis.AgAkisProtokoluId).Select(s => s.Ad).FirstOrDefault();
+                            //agAkis.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluList.Where(x => x.Id == agAkis.AgAkisProtokoluId).Select(s => s.Ad).FirstOrDefault();
                             agAkis.AgAkisTipiAdi = agAkis.AgAkisTipiList.Where(x => x.Id == agAkis.AgAkisTipiId).Select(s => s.Ad).FirstOrDefault();
                             agAkis.IliskiliAgArayuzuAdi = agAkis.InputList.Where(x => x.UniqueId == agAkis.IliskiliAgArayuzuId).Select(s => s.Label).FirstOrDefault();
 
@@ -287,9 +287,9 @@ namespace AYP
                             agAkis.AgArayuzuId = this.agAnahtariAgArayuzu.UniqueId;
                             GirdiComboBox.ItemsSource = null;
                             GelenAgAkisComboBox.ItemsSource = null;
-                            AgAkisProtokolu.ItemsSource = null;
+                            //AgAkisProtokolu.ItemsSource = null;
                             AgAkisTipi.ItemsSource = null;
-                            SetAgAkisProtokoluList();
+                            //SetAgAkisProtokoluList();
                             SetAgAkisTipiList();
                             SetAgArayuzuInputList();
                         }
@@ -371,9 +371,9 @@ namespace AYP
 
             GelenAgAkisComboBox.SelectedItem = girdiList.Where(o => o.Id == agAnahtariAgArayuzu.AgAkisList.Where(x => x.Id == agAkis.Id).Select(s => s.IliskiliAgArayuzuAgAkisId).FirstOrDefault()).FirstOrDefault();
 
-            agAkis.AgAkisProtokoluList = kodListeService.ListAgAkisProtokolu();
-            AgAkisProtokolu.ItemsSource = agAkis.AgAkisProtokoluList;
-            AgAkisProtokolu.SelectedItem = agAkis.AgAkisProtokoluList.Where(x => x.Id == agAkis.AgAkisProtokoluId).FirstOrDefault();
+            //agAkis.AgAkisProtokoluList = kodListeService.ListAgAkisProtokolu();
+            //AgAkisProtokolu.ItemsSource = agAkis.AgAkisProtokoluList;
+            //AgAkisProtokolu.SelectedItem = agAkis.AgAkisProtokoluList.Where(x => x.Id == agAkis.AgAkisProtokoluId).FirstOrDefault();
 
             agAkis.AgAkisTipiList = kodListeService.ListAgAkisTipi();
             AgAkisTipi.ItemsSource = agAkis.AgAkisTipiList;
@@ -396,9 +396,9 @@ namespace AYP
 
             GirdiComboBox.ItemsSource = null;
             GelenAgAkisComboBox.ItemsSource = null;
-            AgAkisProtokolu.ItemsSource = null;
+            //AgAkisProtokolu.ItemsSource = null;
             AgAkisTipi.ItemsSource = null;
-            SetAgAkisProtokoluList();
+            //SetAgAkisProtokoluList();
             SetAgAkisTipiList();
             SetAgArayuzuInputList();
         }
@@ -427,10 +427,10 @@ namespace AYP
             agAkis.AgArayuzuId = this.agAnahtariAgArayuzu.UniqueId;
             GirdiComboBox.ItemsSource = null;
             GelenAgAkisComboBox.ItemsSource = null;
-            AgAkisProtokolu.ItemsSource = null;
+            //AgAkisProtokolu.ItemsSource = null;
             AgAkisTipi.ItemsSource = null;
 
-            SetAgAkisProtokoluList();
+            //SetAgAkisProtokoluList();
             SetAgAkisTipiList();
             SetAgArayuzuInputList();
         }
@@ -463,9 +463,9 @@ namespace AYP
             agAkis.AgArayuzuId = this.agAnahtariAgArayuzu.UniqueId;
             GirdiComboBox.ItemsSource = null;
             GelenAgAkisComboBox.ItemsSource = null;
-            AgAkisProtokolu.ItemsSource = null;
+            //AgAkisProtokolu.ItemsSource = null;
             AgAkisTipi.ItemsSource = null;
-            SetAgAkisProtokoluList();
+            //SetAgAkisProtokoluList();
             SetAgAkisTipiList();
             SetAgArayuzuInputList();
         }
@@ -481,7 +481,7 @@ namespace AYP
                 girdiList.Clear();
                 var agAkisList = this.agAnahtariAgArayuzu.Node.InputList.Where(x => x.UniqueId == agAkis.IliskiliAgArayuzuId).Select(s => s.AgAkisList).FirstOrDefault();
 
-                if (agAkisList != null)
+                if (agAkisList != null && agAkisList.Count()>0)
                 {
                     agAkis.FromNodeUniqueId = agAkisList.First().FromNodeUniqueId;
 
@@ -489,7 +489,7 @@ namespace AYP
                     {
                         girdiList.Add(new GuidKodListModel
                         {
-                            Ad = agAkisItem.AgAkisProtokoluAdi + " " + agAkisItem.AgAkisTipiAdi + " " + agAkisItem.Yuk + " mbps",
+                            Ad =  agAkisItem.AgAkisTipiAdi + " " + agAkisItem.Yuk + " mbps",
                             Id = agAkisItem.Id
                         });
                     }
@@ -530,9 +530,9 @@ namespace AYP
                     var agAkisList = this.agAnahtariAgArayuzu.Node.InputList.Where(x => x.UniqueId == agAkis.IliskiliAgArayuzuId).Select(s => s.AgAkisList).FirstOrDefault();
                     var selectedAgAkis = agAkisList.Where(x => x.Id == selection).FirstOrDefault();
 
-                    agAkis.AgAkisProtokoluId = selectedAgAkis.AgAkisProtokoluId;
-                    AgAkisProtokolu.ItemsSource = agAkis.AgAkisProtokoluList;
-                    AgAkisProtokolu.SelectedItem = agAkis.AgAkisProtokoluList.Where(x => x.Id == selectedAgAkis.AgAkisProtokoluId).FirstOrDefault();
+                    //agAkis.AgAkisProtokoluId = selectedAgAkis.AgAkisProtokoluId;
+                    //AgAkisProtokolu.ItemsSource = agAkis.AgAkisProtokoluList;
+                    //AgAkisProtokolu.SelectedItem = agAkis.AgAkisProtokoluList.Where(x => x.Id == selectedAgAkis.AgAkisProtokoluId).FirstOrDefault();
 
                     AgAkisTipi.ItemsSource = agAkis.AgAkisTipiList;
                     agAkis.AgAkisTipiId = selectedAgAkis.AgAkisTipiId;
@@ -549,8 +549,8 @@ namespace AYP
                         Yuk.Opacity = 1;
                         AgAkisTipi.IsEnabled = false;
                         AgAkisTipi.Opacity = 0.25;
-                        AgAkisProtokolu.IsEnabled = false;
-                        AgAkisProtokolu.Opacity = 0.25;
+                        //AgAkisProtokolu.IsEnabled = false;
+                        //AgAkisProtokolu.Opacity = 0.25;
                     }
                     else
                     {
@@ -558,16 +558,16 @@ namespace AYP
                         Yuk.Opacity = 0.25;
                         AgAkisTipi.IsEnabled = false;
                         AgAkisTipi.Opacity = 0.25;
-                        AgAkisProtokolu.IsEnabled = false;
-                        AgAkisProtokolu.Opacity = 0.25;
+                        //AgAkisProtokolu.IsEnabled = false;
+                        //AgAkisProtokolu.Opacity = 0.25;
                     }
                 }
                 else
                 {
                     agAkis.AgAkisTipiId = agAkis.AgAkisTipiList[0].Id;
                     AgAkisTipi.SelectedItem = agAkis.AgAkisTipiList[0];
-                    agAkis.AgAkisProtokoluId = agAkis.AgAkisProtokoluList[0].Id;
-                    AgAkisProtokolu.SelectedItem = agAkis.AgAkisProtokoluList[0];
+                    //agAkis.AgAkisProtokoluId = agAkis.AgAkisProtokoluList[0].Id;
+                    //AgAkisProtokolu.SelectedItem = agAkis.AgAkisProtokoluList[0];
                     agAkis.Yuk = 0;
                     Yuk.Text = "0";
                     agAkis.VarisNoktasiIdNameList.Clear();
@@ -576,8 +576,8 @@ namespace AYP
                     Yuk.Opacity = 0.25;
                     AgAkisTipi.IsEnabled = false;
                     AgAkisTipi.Opacity = 0.25;
-                    AgAkisProtokolu.IsEnabled = false;
-                    AgAkisProtokolu.Opacity = 0.25;
+                    //AgAkisProtokolu.IsEnabled = false;
+                    //AgAkisProtokolu.Opacity = 0.25;
                 }
             }
             else
@@ -594,8 +594,8 @@ namespace AYP
                 Yuk.Opacity = 0.25;
                 AgAkisTipi.IsEnabled = false;
                 AgAkisTipi.Opacity = 0.25;
-                AgAkisProtokolu.IsEnabled = false;
-                AgAkisProtokolu.Opacity = 0.25;
+                //AgAkisProtokolu.IsEnabled = false;
+                //AgAkisProtokolu.Opacity = 0.25;
             }
         }
         #endregion
