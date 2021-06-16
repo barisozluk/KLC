@@ -235,20 +235,20 @@ namespace AYP.ViewModel
                         connect.GucMiktari = connect.ToConnector.GirdiTukettigiGucMiktari.HasValue ? connect.ToConnector.GirdiTukettigiGucMiktari.Value : 0;
                     }
 
-                    if (temp.TypeId != (int)TipEnum.Group)
-                    {
-                        if (NodesCanvas.DraggedConnect.ToConnector != null)
-                        {
-                            this.NodesCanvas.MainWindow.IsEnabled = false;
-                            System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
-                            blur.Radius = 2;
-                            this.NodesCanvas.MainWindow.Effect = blur;
+                    //if (temp.TypeId != (int)TipEnum.Group)
+                    //{
+                    //    if (NodesCanvas.DraggedConnect.ToConnector != null)
+                    //    {
+                    //        this.NodesCanvas.MainWindow.IsEnabled = false;
+                    //        System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+                    //        blur.Radius = 2;
+                    //        this.NodesCanvas.MainWindow.Effect = blur;
 
-                            CableLengthPopupWindow cl = new CableLengthPopupWindow(connect);
-                            cl.Owner = this.NodesCanvas.MainWindow;
-                            cl.ShowDialog();
-                        }
-                    }
+                    //        CableLengthPopupWindow cl = new CableLengthPopupWindow(connect);
+                    //        cl.Owner = this.NodesCanvas.MainWindow;
+                    //        cl.ShowDialog();
+                    //    }
+                    //}
                 }
                 else
                 {

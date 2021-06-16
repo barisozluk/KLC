@@ -51,7 +51,7 @@ namespace AYP
         private void ButtonDuplicateArayuzPopupClose_Click(object sender, RoutedEventArgs e)
         {
             ClosePopup();
-            
+
         }
 
         private void Save_DuplicateArayuzPopup(object sender, RoutedEventArgs e)
@@ -61,7 +61,7 @@ namespace AYP
             if (selectedAgArayuzu != null)
             {
                 int count = 1;
-                foreach(var selectedItem in selectedItems)
+                foreach (var selectedItem in selectedItems)
                 {
                     AgArayuzu arayuz = new AgArayuzu();
                     arayuz.Adi = selectedAgArayuzu.Adi + " " + count;
@@ -83,7 +83,7 @@ namespace AYP
                         popup.agArayuzuList.Add(arayuz);
                         popup.UpdateAgArayuzuTable();
                     }
-                    else if(this.cihazTipId == (int)TipEnum.AgAnahtari)
+                    else if (this.cihazTipId == (int)TipEnum.AgAnahtari)
                     {
                         AgAnahtariPopupWindow popup = Owner as AgAnahtariPopupWindow;
                         arayuz.TipId = (int)TipEnum.AgAnahtariAgArayuzu;
@@ -96,6 +96,7 @@ namespace AYP
             }
             else
             {
+                bool eklenemeyenVarMi = false;
                 int count = 1;
                 foreach (var selectedItem in selectedItems)
                 {
@@ -131,16 +132,45 @@ namespace AYP
                         arayuz.TipId = (int)TipEnum.AgAnahtariGucArayuzu;
                         popup.gucArayuzuList.Add(arayuz);
                         popup.UpdateGucArayuzuTable();
+
                     }
                     else if (this.cihazTipId == (int)TipEnum.GucUretici)
                     {
+                        bool flag = false;
                         GucUreticiPopupWindow popup = Owner as GucUreticiPopupWindow;
-                        arayuz.TipId = (int)TipEnum.GucUreticiGucArayuzu;
-                        popup.gucArayuzuList.Add(arayuz);
-                        popup.UpdateGucArayuzuTable();
+
+                        if (arayuz.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti)
+                        {
+                            var totalGirdiKpasitesi = popup.gucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Girdi).Select(s => s.GirdiTukettigiGucMiktari).Sum();
+                            var totalCiktiKpasitesi = popup.gucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).Select(s => s.CiktiUrettigiGucKapasitesi).Sum() + arayuz.CiktiUrettigiGucKapasitesi;
+
+                            if (totalCiktiKpasitesi <= totalGirdiKpasitesi)
+                            {
+                                flag = true;
+                            }
+                        }
+
+                        if (flag)
+                        {
+                            arayuz.TipId = (int)TipEnum.GucUreticiGucArayuzu;
+                            popup.gucArayuzuList.Add(arayuz);
+                            popup.UpdateGucArayuzuTable();
+                        }
+                        else
+                        {
+                            eklenemeyenVarMi = true;
+                        }
                     }
 
                     count++;
+                }
+
+                if(eklenemeyenVarMi)
+                {
+                    NotifyInfoPopup nfp = new NotifyInfoPopup();
+                    nfp.msg.Text = "Toplam girdi güç kapasitesi aşıldığı için çoğaltılamayan güç arayüzleri vardır!";
+                    nfp.Owner = Owner;
+                    nfp.Show();
                 }
             }
 

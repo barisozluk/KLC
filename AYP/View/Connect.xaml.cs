@@ -119,14 +119,14 @@ namespace AYP.View
                 this.ViewModel.WhenAnyValue(x => x.EndPoint).Subscribe(value => OnEventEndPoint(value)).DisposeWith(disposable);
             });
 
-            this.WhenActivated(disposable =>
-            {
-                this.ViewModel.WhenAnyValue(x => x.Uzunluk).Subscribe(value => OnEventUzunluk(value)).DisposeWith(disposable);
-            });
-            this.WhenActivated(disposable =>
-            {
-                this.Uzunluk.WhenAnyValue(x => x.IsMouseOver).Subscribe(value => OnEventUzunlukMouseOver(value)).DisposeWith(disposable);
-            });
+            //this.WhenActivated(disposable =>
+            //{
+            //    this.ViewModel.WhenAnyValue(x => x.Uzunluk).Subscribe(value => OnEventUzunluk(value)).DisposeWith(disposable);
+            //});
+            //this.WhenActivated(disposable =>
+            //{
+            //    this.Uzunluk.WhenAnyValue(x => x.IsMouseOver).Subscribe(value => OnEventUzunlukMouseOver(value)).DisposeWith(disposable);
+            //});
 
             this.WhenActivated(disposable =>
             {
@@ -138,10 +138,10 @@ namespace AYP.View
                 this.ViewModel.WhenAnyValue(x => x.GucMiktari).Subscribe(value => OnEventGucMiktari(value)).DisposeWith(disposable);
             });
 
-            //this.WhenActivated(disposable =>
-            //{
-            //    this.WhenAnyValue(x => x.IsMouseOver).Subscribe(value => OnEventMouseOver(value)).DisposeWith(disposable);
-            //});
+            this.WhenActivated(disposable =>
+            {
+                this.WhenAnyValue(x => x.IsMouseOver).Subscribe(value => OnEventMouseOver(value)).DisposeWith(disposable);
+            });
 
             this.WhenActivated(disposable =>
             {
@@ -149,101 +149,9 @@ namespace AYP.View
             });
         }
 
-        //private void OnEventMouseOver(bool value)
-        //{
-
-        //        if (this.ViewModel.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu || this.ViewModel.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
-        //        {
-        //            if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum.Ethernet)
-        //            {
-        //                this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorEthernet"] as SolidColorBrush;
-        //            }
-        //            else if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum.FastEthernet)
-        //            {
-        //                this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorFastEthernet"] as SolidColorBrush;
-        //            }
-        //            else if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum.GigabitEthernet)
-        //            {
-        //                this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorGigabitEthernet"] as SolidColorBrush;
-        //            }
-        //            else if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum._10GigabitEthernet)
-        //            {
-        //                this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnector10GigabitEthernet"] as SolidColorBrush;
-        //            }
-        //            else if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum._40GigabitEthernet)
-        //            {
-        //                this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnector40GigabitEthernet"] as SolidColorBrush;
-        //            }
-        //        }
-        //        else
-        //        {
-        //            if (this.ViewModel.FromConnector.GerilimTipiId == (int)GerilimTipiEnum.AC)
-        //            {
-        //                this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorAC"] as SolidColorBrush;
-        //            }
-        //            else if (this.ViewModel.FromConnector.GerilimTipiId == (int)GerilimTipiEnum.DC)
-        //            {
-        //                this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorDC"] as SolidColorBrush;
-        //            }
-        //        }
-        //}
-
-        private void OnEventMouseClick(MouseButtonEventArgs e)
+        private void OnEventMouseOver(bool value)
         {
-            if (this.ViewModel.FromConnector.Node.TypeId != (int)TipEnum.Group && this.ViewModel.ToConnector.Node.TypeId != (int)TipEnum.Group)
-            {
-                this.ViewModel.NodesCanvas.MainWindow.IsEnabled = false;
-                System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
-                blur.Radius = 2;
-                this.ViewModel.NodesCanvas.MainWindow.Effect = blur;
 
-                CableLengthPopupWindow cl = new CableLengthPopupWindow(this.ViewModel);
-                cl.Owner = this.ViewModel.NodesCanvas.MainWindow;
-                cl.ShowDialog();
-            }
-
-            e.Handled = true;
-        }
-
-        private void OnEventVisible(bool isVisible)
-        {
-            if (!isVisible)
-            {
-                this.Visibility = Visibility.Hidden;
-            }
-            else
-            {
-                this.Visibility = Visibility.Visible;
-            }
-        }
-
-        private void OnEventStartPoint(Point value)
-        {
-            double middleX = (value.X + this.ViewModel.EndPoint.X) / 2;
-            double middleY = (value.Y + this.ViewModel.EndPoint.Y) / 2;
-            GucMiktariBorder.Margin = new Thickness(this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y, this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y);
-            AgYukuBorder.Margin = new Thickness(this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y, this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y);
-            UzunlukBorder.Margin = new Thickness(middleX, middleY, middleX, middleY);
-
-        }
-
-        private void OnEventEndPoint(Point value)
-        {
-            double middleX = (value.X + this.ViewModel.StartPoint.X) / 2;
-            double middleY = (value.Y + this.ViewModel.StartPoint.Y) / 2;
-            GucMiktariBorder.Margin = new Thickness(this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y, this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y);
-            AgYukuBorder.Margin = new Thickness(this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y, this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y);
-            UzunlukBorder.Margin = new Thickness(middleX, middleY, middleX, middleY);
-
-        }
-
-        private void OnEventUzunluk(decimal value)
-        {
-            Uzunluk.Text = value.ToString() + " m";
-        }
-
-        private void OnEventUzunlukMouseOver(bool value)
-        {
             if (this.ViewModel.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu || this.ViewModel.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
             {
                 if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum.Ethernet)
@@ -279,6 +187,98 @@ namespace AYP.View
                 }
             }
         }
+
+        private void OnEventMouseClick(MouseButtonEventArgs e)
+        {
+            if (this.ViewModel.FromConnector.Node.TypeId == (int)TipEnum.GucUretici)
+            {
+                this.ViewModel.NodesCanvas.MainWindow.IsEnabled = false;
+                System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+                blur.Radius = 2;
+                this.ViewModel.NodesCanvas.MainWindow.Effect = blur;
+
+                CableLengthPopupWindow cl = new CableLengthPopupWindow(this.ViewModel);
+                cl.Owner = this.ViewModel.NodesCanvas.MainWindow;
+                cl.ShowDialog();
+            }
+
+            e.Handled = true;
+        }
+
+        private void OnEventVisible(bool isVisible)
+        {
+            if (!isVisible)
+            {
+                this.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                this.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void OnEventStartPoint(Point value)
+        {
+            double middleX = (value.X + this.ViewModel.EndPoint.X) / 2;
+            double middleY = (value.Y + this.ViewModel.EndPoint.Y) / 2;
+            GucMiktariBorder.Margin = new Thickness(this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y, this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y);
+            AgYukuBorder.Margin = new Thickness(this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y, this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y);
+            //UzunlukBorder.Margin = new Thickness(middleX, middleY, middleX, middleY);
+
+        }
+
+        private void OnEventEndPoint(Point value)
+        {
+            double middleX = (value.X + this.ViewModel.StartPoint.X) / 2;
+            double middleY = (value.Y + this.ViewModel.StartPoint.Y) / 2;
+            GucMiktariBorder.Margin = new Thickness(this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y, this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y);
+            AgYukuBorder.Margin = new Thickness(this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y, this.ViewModel.StartPoint.X + 10, this.ViewModel.StartPoint.Y);
+            //UzunlukBorder.Margin = new Thickness(middleX, middleY, middleX, middleY);
+
+        }
+
+        //private void OnEventUzunluk(decimal value)
+        //{
+        //    Uzunluk.Text = value.ToString() + " m";
+        //}
+
+        //private void OnEventUzunlukMouseOver(bool value)
+        //{
+        //    if (this.ViewModel.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu || this.ViewModel.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
+        //    {
+        //        if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum.Ethernet)
+        //        {
+        //            this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorEthernet"] as SolidColorBrush;
+        //        }
+        //        else if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum.FastEthernet)
+        //        {
+        //            this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorFastEthernet"] as SolidColorBrush;
+        //        }
+        //        else if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum.GigabitEthernet)
+        //        {
+        //            this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorGigabitEthernet"] as SolidColorBrush;
+        //        }
+        //        else if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum._10GigabitEthernet)
+        //        {
+        //            this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnector10GigabitEthernet"] as SolidColorBrush;
+        //        }
+        //        else if (this.ViewModel.FromConnector.KapasiteId == (int)KapasiteEnum._40GigabitEthernet)
+        //        {
+        //            this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnector40GigabitEthernet"] as SolidColorBrush;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (this.ViewModel.FromConnector.GerilimTipiId == (int)GerilimTipiEnum.AC)
+        //        {
+        //            this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorAC"] as SolidColorBrush;
+        //        }
+        //        else if (this.ViewModel.FromConnector.GerilimTipiId == (int)GerilimTipiEnum.DC)
+        //        {
+        //            this.ViewModel.Stroke = Application.Current.Resources[value ? "ColorSelectedElement" : "ColorConnectorDC"] as SolidColorBrush;
+        //        }
+        //    }
+        //}
         private void OnEventAgYuku(decimal value)
         {
             AgYuku.Text = value.ToString("0.##") + " mbps";

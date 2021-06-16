@@ -1540,10 +1540,10 @@ namespace AYP
 
             foreach (var connect in nodesCanvas.Connects)
             {
-                if (connect.Uzunluk == 0)
-                {
-                    AddToDogrulamaPaneli(connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için kablo boyu tanımlayınız!", (int)DogrulamaMesajTipiEnum.Kablo, connect.FromConnector.UniqueId);
-                }
+                //if (connect.Uzunluk == 0)
+                //{
+                //    AddToDogrulamaPaneli(connect.FromConnector.Node.Name + "/" + connect.FromConnector.Label + " için kablo boyu tanımlayınız!", (int)DogrulamaMesajTipiEnum.Kablo, connect.FromConnector.UniqueId);
+                //}
 
                 if (connect.FromConnector.TypeId != (int)TipEnum.AgAnahtariGucArayuzu && connect.FromConnector.TypeId != (int)TipEnum.UcBirimGucArayuzu && connect.FromConnector.TypeId != (int)TipEnum.GucUreticiGucArayuzu)
                 {

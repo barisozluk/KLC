@@ -22,8 +22,8 @@
                 </PathGeometry>
             </Path.Data>
         </Path>
-        <Border x:Name="UzunlukBorder" Width="55" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"  BorderThickness="0">
+        <!--<Border x:Name="UzunlukBorder" Width="55" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top"  BorderThickness="0">
             <TextBlock x:Name="Uzunluk" Foreground="White" FontSize="12" FontWeight="Bold"></TextBlock>
-        </Border>
+        </Border>-->
     </Grid>
 </UserControl>
