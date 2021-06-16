@@ -535,6 +535,12 @@ namespace AYP
             TurAd.Text = selectedUcBirim.UcBirimTur.Ad;
         }
 
+        private void ImageButton_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+
         #endregion
 
         #region AgAnahtariPanelEvents

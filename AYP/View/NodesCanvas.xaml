@@ -78,7 +78,7 @@
             <Separator Margin="-30,0,0,0" Background="#333337"/>
 
             <MenuItem Header="Toplu düzenle" InputGestureText="Ctrl+E" x:Name="ItemEditSelected" ToolTip="Toplu düzenle" Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
-            <MenuItem Header="Çoklu kopyala" InputGestureText="Ctrl+P" x:Name="ItemCopyMultiple" ToolTip="Toplu kopyala" Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
+            <MenuItem Header="Toplu kopyala" InputGestureText="Ctrl+P" x:Name="ItemCopyMultiple" ToolTip="Toplu kopyala" Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
             <MenuItem Header="Ağ akış görüntüle" x:Name="ItemShowAgAkis" ToolTip="Ağ akış görüntüle" Style="{DynamicResource StyleContextMenuItem}"></MenuItem>
 
         </ContextMenu>

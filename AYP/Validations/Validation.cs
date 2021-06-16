@@ -283,7 +283,7 @@ namespace AYP.Validations
                                     response = GerilimValidasyon(NodesCanvas, fromConnector, toConnector);
                                     if (!response)
                                     {
-                                        OpenModal("Gerilim hesabı hatası", NodesCanvas);
+                                        OpenModal("Güç üretici ve güç tüketici arasında gerilim uyumsuzluğu vardır.", NodesCanvas);
                                         response = false;
                                     }
                                     else
@@ -291,7 +291,7 @@ namespace AYP.Validations
                                         response = GucValidasyon(NodesCanvas, fromConnector, toConnector);
                                         if (!response)
                                         {
-                                            OpenModal("Güç hesabı hatası", NodesCanvas);
+                                            OpenModal("Yetersiz Güç", NodesCanvas);
                                             response = false;
                                         }
                                     }
@@ -329,7 +329,7 @@ namespace AYP.Validations
                                     response = GerilimValidasyon(NodesCanvas, fromConnector, toConnector);
                                     if (!response)
                                     {
-                                        OpenModal("Gerilim hesabı hatası", NodesCanvas);
+                                        OpenModal("Güç üretici ve güç tüketici arasında gerilim uyumsuzluğu vardır.", NodesCanvas);
                                         response = false;
                                     }
                                     else
@@ -337,7 +337,7 @@ namespace AYP.Validations
                                         response = GucValidasyon(NodesCanvas, fromConnector, toConnector);
                                         if (!response)
                                         {
-                                            OpenModal("Güç hesabı hatası", NodesCanvas);
+                                            OpenModal("Yetersiz Güç", NodesCanvas);
                                             response = false;
                                         }
                                     }
@@ -367,7 +367,7 @@ namespace AYP.Validations
                             response = GerilimValidasyon(NodesCanvas, fromConnector, toConnector);
                             if (!response)
                             {
-                                OpenModal("Gerilim hesabı hatası", NodesCanvas);
+                                OpenModal("Güç üretici ve güç tüketici arasında gerilim uyumsuzluğu vardır.", NodesCanvas);
                                 response = false;
                             }
                             else
@@ -375,7 +375,7 @@ namespace AYP.Validations
                                 response = GucValidasyon(NodesCanvas, fromConnector, toConnector);
                                 if (!response)
                                 {
-                                    OpenModal("Güç hesabı hatası", NodesCanvas);
+                                    OpenModal("Yetersiz Güç", NodesCanvas);
                                     response = false;
                                 }
                             }

@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\AgAnahtariUcOto.png" />
     <None Remove="Images\backward.png" />
     <None Remove="Images\basari.png" />
     <None Remove="Images\btes-clck.png" />
@@ -19,6 +20,7 @@
     <None Remove="Images\edit.png" />
     <None Remove="Images\file.png" />
     <None Remove="Images\group.png" />
+    <None Remove="Images\GucUreticiTuketiciOto.png" />
     <None Remove="Images\hata.png" />
     <None Remove="Images\leftAlign.png" />
     <None Remove="Images\middle.png" />
@@ -374,6 +376,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\AgAnahtariUcOto.png" />
     <Resource Include="Images\backward.png" />
     <Resource Include="Images\basari.png" />
     <Resource Include="Images\btes-clck.png" />
@@ -385,6 +388,7 @@
     <Resource Include="Images\edit.png" />
     <Resource Include="Images\file.png" />
     <Resource Include="Images\group.png" />
+    <Resource Include="Images\GucUreticiTuketiciOto.png" />
     <Resource Include="Images\hata.png" />
     <Resource Include="Images\leftAlign.png" />
     <Resource Include="Images\middle.png" />
