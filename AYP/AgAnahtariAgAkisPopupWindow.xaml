@@ -41,9 +41,7 @@
             <ComboBox Name="AgAkisTipi" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,320,0,10" VerticalAlignment="Top">
             </ComboBox>
 
-            <Label FontSize="16" Foreground="#ffffff" Content="Ağ Akış Protokolü *" Grid.Row="0" Grid.Column="1" Margin="10,365,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-            <ComboBox Name="AgAkisProtokolu" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="10,395,0,10" VerticalAlignment="Top" >
-            </ComboBox>
+            
 
             
 
@@ -63,10 +61,10 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="30" />
                                 <ColumnDefinition Width="30" />
-                                <ColumnDefinition Width="110" />
-                                <ColumnDefinition Width="110" />
-                                <ColumnDefinition Width="110" />
-                                <ColumnDefinition Width="120" />
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="150" />
+                                <ColumnDefinition Width="150" />
+                                
                             </Grid.ColumnDefinitions>
                             <Button ToolTip="Tümünü Sil" Background="#222d35" BorderThickness="1,1,1,1" BorderBrush="#13191e" Height="35" Width="30" Style="{DynamicResource StyleTableProcessButton}" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Click="AgAkisDelete_AllRows">
                                 <Grid>
@@ -75,10 +73,9 @@
                             </Button>
                             <!--<Label Background="#222d35" BorderThickness="1,1,1,1" BorderBrush="#13191e" Height="35" Width="30" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
                             <Label Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="30" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <Label Padding="20,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="110" FontSize="12" Foreground="#ffffff" Content="Yük (Mbps)" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <Label Padding="20,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="110" FontSize="12" Foreground="#ffffff" Content="Ağ Akış Tipi" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <Label Padding="5,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="110" FontSize="12" Foreground="#ffffff" Content="Ağ Akış Protokolü" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                            <Label Padding="10,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="120" FontSize="12" Foreground="#ffffff" Content="İlişkili Olduğu Girdi" Grid.Row="0" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Padding="20,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="150" FontSize="12" Foreground="#ffffff" Content="Yük (Mbps)" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Padding="20,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="150" FontSize="12" Foreground="#ffffff" Content="Ağ Akış Tipi" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <Label Padding="10,8,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="35" Width="150" FontSize="12" Foreground="#ffffff" Content="İlişkili Olduğu Girdi" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
 
                         <ItemsControl Visibility="Hidden" Name="AgAkisDataGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,35,0,0">
@@ -91,10 +88,10 @@
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="30" />
                                             <ColumnDefinition Width="30" />
-                                            <ColumnDefinition Width="110" />
-                                            <ColumnDefinition Width="110" />
-                                            <ColumnDefinition Width="110" />
-                                            <ColumnDefinition Width="120" />
+                                            <ColumnDefinition Width="150" />
+                                            <ColumnDefinition Width="150" />
+                                            <ColumnDefinition Width="150" />
+                                            
                                         </Grid.ColumnDefinitions>
                                         <Button Style="{DynamicResource StyleTableProcessButton}" HorizontalAlignment="Left"  VerticalAlignment="Top" Grid.Row="0" Grid.Column="0" Click="AgAkisDelete_Row">
                                             <Grid>
@@ -104,10 +101,9 @@
                                         <Label Background="#222d35" BorderThickness="1,1,1,1" BorderBrush="#13191e" Height="30" Width="30" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
                                             <CheckBox IsChecked="False" Checked="AgAkisRow_Checked" Unchecked="AgAkisRow_Unchecked" BorderBrush="#13191e"/>
                                         </Label>
-                                        <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="110" FontSize="12" Foreground="#ffffff" Content="{Binding Yuk}" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="110" FontSize="12" Foreground="#ffffff" Content="{Binding AgAkisTipiAdi}" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="110" FontSize="12" Foreground="#ffffff" Content="{Binding AgAkisProtokoluAdi}" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="120" FontSize="12" Foreground="#ffffff" Content="{Binding IliskiliAgArayuzuAdi}" Grid.Row="0" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="150" FontSize="12" Foreground="#ffffff" Content="{Binding Yuk}" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="150" FontSize="12" Foreground="#ffffff" Content="{Binding AgAkisTipiAdi}" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        <Label Padding="5,5,0,0" Background="#222d35" BorderThickness="0,1,1,1" BorderBrush="#13191e" Height="30" Width="150" FontSize="12" Foreground="#ffffff" Content="{Binding IliskiliAgArayuzuAdi}" Grid.Row="0" Grid.Column="5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Grid>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

@@ -1161,8 +1161,8 @@ namespace AYP.ViewModel
                                 temp.Yuk = agAkis.Yuk / connectSayisi;
                                 temp.AgAkisTipiId = agAkis.AgAkisTipiId;
                                 temp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
-                                temp.AgAkisProtokoluId = agAkis.AgAkisProtokoluId;
-                                temp.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluAdi;
+                                //temp.AgAkisProtokoluId = agAkis.AgAkisProtokoluId;
+                                //temp.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluAdi;
                                 temp.IliskiliAgArayuzuId = input.UniqueId;
                                 temp.IliskiliAgArayuzuAdi = input.Label;
 
@@ -1178,8 +1178,8 @@ namespace AYP.ViewModel
                         temp.Id = Guid.NewGuid();
                         temp.AgArayuzuId = output.Connect.ToConnector.UniqueId;
                         temp.Yuk = agAkis.Yuk;
-                        temp.AgAkisProtokoluId = agAkis.AgAkisProtokoluId;
-                        temp.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluAdi;
+                        //temp.AgAkisProtokoluId = agAkis.AgAkisProtokoluId;
+                        //temp.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluAdi;
                         temp.AgAkisTipiId = agAkis.AgAkisTipiId;
                         temp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
                         temp.IliskiliAgArayuzuId = agAkis.IliskiliAgArayuzuId;

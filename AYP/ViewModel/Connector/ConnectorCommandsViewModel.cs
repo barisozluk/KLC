@@ -139,8 +139,8 @@ namespace AYP.ViewModel
                                     agAkisTemp.Id = Guid.NewGuid();
                                     agAkisTemp.AgArayuzuId = connect.ToConnector.UniqueId;
                                     agAkisTemp.Yuk = agAkis.Yuk;
-                                    agAkisTemp.AgAkisProtokoluId = agAkis.AgAkisProtokoluId;
-                                    agAkisTemp.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluAdi;
+                                    //agAkisTemp.AgAkisProtokoluId = agAkis.AgAkisProtokoluId;
+                                    //agAkisTemp.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluAdi;
                                     agAkisTemp.AgAkisTipiId = agAkis.AgAkisTipiId;
                                     agAkisTemp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
                                     agAkisTemp.VarisNoktasiIdNameList = agAkis.VarisNoktasiIdNameList;
@@ -189,8 +189,8 @@ namespace AYP.ViewModel
                                             agAkisTemp.Id = Guid.NewGuid();
                                             agAkisTemp.AgArayuzuId = connect.ToConnector.UniqueId;
                                             agAkisTemp.Yuk = agAkis.Yuk;
-                                            agAkisTemp.AgAkisProtokoluId = agAkis.AgAkisProtokoluId;
-                                            agAkisTemp.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluAdi;
+                                            //agAkisTemp.AgAkisProtokoluId = agAkis.AgAkisProtokoluId;
+                                            //agAkisTemp.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluAdi;
                                             agAkisTemp.AgAkisTipiId = agAkis.AgAkisTipiId;
                                             agAkisTemp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
                                             agAkisTemp.VarisNoktasiIdNameList = agAkis.VarisNoktasiIdNameList;
@@ -215,8 +215,8 @@ namespace AYP.ViewModel
                                     agAkisTemp.Id = Guid.NewGuid();
                                     agAkisTemp.AgArayuzuId = connect.ToConnector.UniqueId;
                                     agAkisTemp.Yuk = agAkis.Yuk;
-                                    agAkisTemp.AgAkisProtokoluId = agAkis.AgAkisProtokoluId;
-                                    agAkisTemp.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluAdi;
+                                    //agAkisTemp.AgAkisProtokoluId = agAkis.AgAkisProtokoluId;
+                                    //agAkisTemp.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluAdi;
                                     agAkisTemp.AgAkisTipiId = agAkis.AgAkisTipiId;
                                     agAkisTemp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
                                     agAkisTemp.IliskiliAgArayuzuId = agAkis.IliskiliAgArayuzuId;

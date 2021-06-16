@@ -484,10 +484,10 @@ namespace AYP.ViewModel
                         if (new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value) == uniqueIdInput)
                         {
                             agAkisItem.Id = new Guid(agAkis.Attribute("UniqueId")?.Value);
-                            agAkisItem.AgAkisProtokoluId = Convert.ToInt32(agAkis.Attribute("AgAkisProtokoluId")?.Value);
+                            //agAkisItem.AgAkisProtokoluId = Convert.ToInt32(agAkis.Attribute("AgAkisProtokoluId")?.Value);
                             agAkisItem.AgAkisTipiId = Convert.ToInt32(agAkis.Attribute("AgAkisTipiId")?.Value);
                             agAkisItem.AgAkisTipiAdi = service.ListAgAkisTipi().Where(x => x.Id == agAkisItem.AgAkisTipiId).Select(s => s.Ad).FirstOrDefault();
-                            agAkisItem.AgAkisProtokoluAdi = service.ListAgAkisProtokolu().Where(x => x.Id == agAkisItem.AgAkisProtokoluId).Select(s => s.Ad).FirstOrDefault();
+                            //agAkisItem.AgAkisProtokoluAdi = service.ListAgAkisProtokolu().Where(x => x.Id == agAkisItem.AgAkisProtokoluId).Select(s => s.Ad).FirstOrDefault();
                             agAkisItem.AgArayuzuId = new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value);
                             if (agAkis.Attribute("IliskiliAgArayuzuUniqueId")?.Value == null)
                             {
@@ -625,10 +625,10 @@ namespace AYP.ViewModel
                         if (new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value) == uniqueIdOutput)
                         {
                             agAkisItem.Id = new Guid(agAkis.Attribute("UniqueId")?.Value);
-                            agAkisItem.AgAkisProtokoluId = Convert.ToInt32(agAkis.Attribute("AgAkisProtokoluId")?.Value);
+                            //agAkisItem.AgAkisProtokoluId = Convert.ToInt32(agAkis.Attribute("AgAkisProtokoluId")?.Value);
                             agAkisItem.AgAkisTipiId = Convert.ToInt32(agAkis.Attribute("AgAkisTipiId")?.Value);
                             agAkisItem.AgAkisTipiAdi = service.ListAgAkisTipi().Where(x => x.Id == agAkisItem.AgAkisTipiId).Select(s => s.Ad).FirstOrDefault();
-                            agAkisItem.AgAkisProtokoluAdi = service.ListAgAkisProtokolu().Where(x => x.Id == agAkisItem.AgAkisProtokoluId).Select(s => s.Ad).FirstOrDefault();
+                            //agAkisItem.AgAkisProtokoluAdi = service.ListAgAkisProtokolu().Where(x => x.Id == agAkisItem.AgAkisProtokoluId).Select(s => s.Ad).FirstOrDefault();
                             agAkisItem.AgArayuzuId = new Guid(agAkis.Attribute("AgArayuzuUniqueId")?.Value);
                             if (agAkis.Attribute("IliskiliAgArayuzuUniqueId")?.Value == null)
                             {
