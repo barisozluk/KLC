@@ -183,7 +183,11 @@ namespace AYP
             }
             else if (UcBirimListBox.SelectionMode == SelectionMode.Single)
             {
-                selectedItems.Add((NodeViewModel)UcBirimListBox.SelectedItem);
+                if(UcBirimListBox.SelectedItem != null)
+                {
+                    selectedItems.Add((NodeViewModel)UcBirimListBox.SelectedItem);
+                }
+                
             }
 
             var validationContext = new ValidationContext(agAkis, null, null);
@@ -230,6 +234,7 @@ namespace AYP
 
                         foreach (var selectedItem in selectedItems)
                         {
+                            
                             var keyValue = new KeyValuePair<Guid, string>(selectedItem.UniqueId, agAkis.VarisNoktasiList.Where(x => x.UniqueId == selectedItem.UniqueId).Select(s => s.Name).FirstOrDefault());
                             agAkis.VarisNoktasiIdNameList.Add(keyValue);
                         }

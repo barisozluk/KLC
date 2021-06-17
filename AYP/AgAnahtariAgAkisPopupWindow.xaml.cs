@@ -201,16 +201,24 @@ namespace AYP
                         decimal unicastTotal = 0;
                         if (agAkis.AgAkisTipiId == (int)AgAkisTipEnum.Unicast)
                         {
-                            agAkis.Yuk = Convert.ToDecimal(Yuk.Text);
-                            var definedUnicastTotal = this.agAnahtariAgArayuzu.Node.InputList.Where(x => x.UniqueId == agAkis.IliskiliAgArayuzuId).Select(s => s.AgAkisList.Where(a => a.Id == agAkis.IliskiliAgArayuzuAgAkisId).Select(k => k.Yuk).Sum()).FirstOrDefault();
-
-                            unicastTotal = agAnahtariAgArayuzu.AgAkisList.Where(x => x.IliskiliAgArayuzuAgAkisId == agAkis.IliskiliAgArayuzuAgAkisId).Select(s => s.Yuk).FirstOrDefault();
-                            unicastTotal += agAkis.Yuk;
-
-                            if(unicastTotal > definedUnicastTotal)
+                            if(!string.IsNullOrEmpty(Yuk.Text))
                             {
-                                unicastValid = false;
+                                agAkis.Yuk = Convert.ToDecimal(Yuk.Text);
+                                var definedUnicastTotal = this.agAnahtariAgArayuzu.Node.InputList.Where(x => x.UniqueId == agAkis.IliskiliAgArayuzuId).Select(s => s.AgAkisList.Where(a => a.Id == agAkis.IliskiliAgArayuzuAgAkisId).Select(k => k.Yuk).Sum()).FirstOrDefault();
+
+                                unicastTotal = agAnahtariAgArayuzu.AgAkisList.Where(x => x.IliskiliAgArayuzuAgAkisId == agAkis.IliskiliAgArayuzuAgAkisId).Select(s => s.Yuk).FirstOrDefault();
+                                unicastTotal += agAkis.Yuk;
+
+                                if (unicastTotal > definedUnicastTotal)
+                                {
+                                    unicastValid = false;
+                                }
                             }
+                            else
+                            {
+                                agAkis.Yuk = 0;
+                            }
+                            
                         }
                     }
                     if(unicastValid && broadcastValid)
