@@ -141,10 +141,17 @@ namespace AYP
 
                         if (arayuz.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti)
                         {
-                            var totalGirdiKpasitesi = popup.gucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Girdi).Select(s => s.GirdiTukettigiGucMiktari).Sum();
-                            var totalCiktiKpasitesi = popup.gucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).Select(s => s.CiktiUrettigiGucKapasitesi).Sum() + arayuz.CiktiUrettigiGucKapasitesi;
+                            if (popup.gucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Girdi).Any())
+                            {
+                                var totalGirdiKpasitesi = popup.gucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Girdi).Select(s => s.GirdiTukettigiGucMiktari).Sum();
+                                var totalCiktiKpasitesi = popup.gucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).Select(s => s.CiktiUrettigiGucKapasitesi).Sum() + arayuz.CiktiUrettigiGucKapasitesi;
 
-                            if (totalCiktiKpasitesi <= totalGirdiKpasitesi)
+                                if (totalCiktiKpasitesi <= totalGirdiKpasitesi)
+                                {
+                                    flag = true;
+                                }
+                            }
+                            else
                             {
                                 flag = true;
                             }
@@ -168,7 +175,7 @@ namespace AYP
                 if(eklenemeyenVarMi)
                 {
                     NotifyInfoPopup nfp = new NotifyInfoPopup();
-                    nfp.msg.Text = "Toplam girdi güç kapasitesi aşıldığı için çoğaltılamayan güç arayüzleri vardır!";
+                    nfp.msg.Text = "Toplam girdi güç kapasitesi aşıldığı için bazı güç arayüzleri eklenemedi!";
                     nfp.Owner = Owner;
                     nfp.Show();
                 }

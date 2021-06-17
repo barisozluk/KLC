@@ -54,6 +54,7 @@ namespace AYP
             else
             {
                 gucUretici = new GucUretici();
+                gucUretici.GirdiGucArayuzuSayisi = 0;
                 isEditMode = false;
             }
 
@@ -350,6 +351,27 @@ namespace AYP
                     VerimlilikOrani.Opacity = 0.25;
                     gucUretici.VerimlilikDegeri = null;
                 }
+
+                if (gucUretici.GucUreticiTurId == 1)
+                {
+                    VerimlilikOrani.IsEnabled = false;
+                    VerimlilikOrani.Opacity = 0.25;
+                    DahiliGucTuketimDegeri.IsEnabled = false;
+                    DahiliGucTuketimDegeri.Opacity = 0.25;
+                    GirdiGucArayuzuSayisiRequiredLabel.Content = "";
+                    GirdiGucArayuzuSayisi.IsEnabled = false;
+                    GirdiGucArayuzuSayisi.Opacity = 0.25;
+                }
+                else
+                {
+                    VerimlilikOrani.IsEnabled = true;
+                    VerimlilikOrani.Opacity = 1;
+                    DahiliGucTuketimDegeri.IsEnabled = true;
+                    DahiliGucTuketimDegeri.Opacity = 1;
+                    GirdiGucArayuzuSayisiRequiredLabel.Content = "*";
+                    GirdiGucArayuzuSayisi.IsEnabled = true;
+                    GirdiGucArayuzuSayisi.Opacity = 1;
+                }
             }
         }
         #endregion
@@ -388,11 +410,13 @@ namespace AYP
             ListGerilimTipi();
             ListKullanimAmaciForGucArayuzu();
             GucArayuzuTab.DataContext = gucArayuzu;
+
+
         }
 
         private void GucUreticiNextButton_Click(object sender, RoutedEventArgs e)
         {
-            gucUretici.TipId = (int)TipEnum.GucUretici;
+            gucUretici.TipId = (int)TipEnum.GucUretici;         
 
             var validationContext = new ValidationContext(gucUretici, null, null);
             var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
@@ -520,7 +544,7 @@ namespace AYP
             GucUreticiTab.Width = 236;
             GucArayuzuTab.Width = 236;
 
-            if (gucUretici.GirdiGucArayuzuSayisi + gucUretici.CiktiGucArayuzuSayisi == gucArayuzuList.Count)
+            if ((gucUretici.GirdiGucArayuzuSayisi.HasValue ? gucUretici.GirdiGucArayuzuSayisi : 0) + gucUretici.CiktiGucArayuzuSayisi == gucArayuzuList.Count)
             {
                 oldGucUretici = (GucUretici)gucUretici.Clone();
             }
@@ -530,7 +554,7 @@ namespace AYP
         #region Save/UpdateEvent
         private void Save_GucUretici(object sender, RoutedEventArgs e)
         {
-            if (gucArayuzuList.Count == gucUretici.CiktiGucArayuzuSayisi + gucUretici.GirdiGucArayuzuSayisi)
+            if (gucArayuzuList.Count == gucUretici.CiktiGucArayuzuSayisi + (gucUretici.GirdiGucArayuzuSayisi.HasValue ? gucUretici.GirdiGucArayuzuSayisi : 0))
             {
                 var response = new ResponseModel();
 
@@ -645,10 +669,26 @@ namespace AYP
 
         private void ListKullanimAmaciForGucArayuzu()
         {
-            gucArayuzu.KullanimAmaciList = kodListeService.ListKullanimAmaci();
+            if (gucUretici.GirdiGucArayuzuSayisi == null)
+            {
+                gucArayuzu.KullanimAmaciList = kodListeService.ListKullanimAmaci();
+                gucArayuzu.KullanimAmaciList = gucArayuzu.KullanimAmaciList.Where(x => x.Id != (int)KullanimAmaciEnum.Girdi).ToList();
+            }
+            else
+            {
+                gucArayuzu.KullanimAmaciList = kodListeService.ListKullanimAmaci();
+            }
+
             if (gucArayuzu.KullanimAmaciList.Count() > 0)
             {
-                gucArayuzu.KullanimAmaciId = (int)KullanimAmaciEnum.Girdi;
+                if(gucUretici.GirdiGucArayuzuSayisi == null)
+                {
+                    gucArayuzu.KullanimAmaciId = (int)KullanimAmaciEnum.Cikti;
+                }
+                else
+                {
+                    gucArayuzu.KullanimAmaciId = (int)KullanimAmaciEnum.Girdi;
+                }
             }
         }
 
@@ -987,40 +1027,47 @@ namespace AYP
 
                     if (!gucArayuzuList.Any(x => x.Port == gucArayuzu.Port && x.KullanimAmaciId == gucArayuzu.KullanimAmaciId))
                     {
-                        if((int)KullanimAmaciEnum.Cikti == gucArayuzu.KullanimAmaciId)
+                        if ((int)KullanimAmaciEnum.Cikti == gucArayuzu.KullanimAmaciId)
                         {
-                            decimal? totalGirdiKapasitesi = gucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Girdi).Select(s => s.GirdiTukettigiGucMiktari).Sum();
-                            decimal? totalCiktiKapasitesi = gucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).Select(s => s.CiktiUrettigiGucKapasitesi).Sum();
+                            if (gucUretici.GirdiGucArayuzuSayisi > 0)
+                            {
+                                decimal? totalGirdiKapasitesi = gucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Girdi).Select(s => s.GirdiTukettigiGucMiktari).Sum();
+                                decimal? totalCiktiKapasitesi = gucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).Select(s => s.CiktiUrettigiGucKapasitesi).Sum();
 
-                            if (gucUretici.VerimlilikDegeri.HasValue && gucUretici.VerimlilikDegeri != 0)
-                            {
-                                totalGirdiKapasitesi = (gucUretici.VerimlilikDegeri * totalGirdiKapasitesi) / 100;
-                            }
-                            else
-                            {
-                                totalGirdiKapasitesi = totalGirdiKapasitesi - gucUretici.DahiliGucTuketimDegeri;
-                            }
+                                if (gucUretici.VerimlilikDegeri.HasValue && gucUretici.VerimlilikDegeri != 0)
+                                {
+                                    totalGirdiKapasitesi = (gucUretici.VerimlilikDegeri * totalGirdiKapasitesi) / 100;
+                                }
+                                else
+                                {
+                                    totalGirdiKapasitesi = totalGirdiKapasitesi - gucUretici.DahiliGucTuketimDegeri;
+                                }
 
-                            if (totalGirdiKapasitesi.Value <= 0)
-                            {
-                                validMi = false;
-
-                                NotifyInfoPopup nfp = new NotifyInfoPopup();
-                                nfp.msg.Text = "Lütfen, çıktı tanımlamak için en az bir girdi arayüzü tanımlayınız!";
-                                nfp.Owner = Owner;
-                                nfp.Show();
-                            }
-                            else
-                            {
-                                if ((gucArayuzu.CiktiUrettigiGucKapasitesi + totalCiktiKapasitesi) > totalGirdiKapasitesi)
+                                if (totalGirdiKapasitesi.Value <= 0)
                                 {
                                     validMi = false;
 
                                     NotifyInfoPopup nfp = new NotifyInfoPopup();
-                                    nfp.msg.Text = "Tanımlanan toplam girdi kapasitesini aştınız!";
+                                    nfp.msg.Text = "Lütfen, çıktı tanımlamak için en az bir girdi arayüzü tanımlayınız!";
                                     nfp.Owner = Owner;
                                     nfp.Show();
                                 }
+                                else
+                                {
+                                    if ((gucArayuzu.CiktiUrettigiGucKapasitesi + totalCiktiKapasitesi) > totalGirdiKapasitesi)
+                                    {
+                                        validMi = false;
+
+                                        NotifyInfoPopup nfp = new NotifyInfoPopup();
+                                        nfp.msg.Text = "Tanımlanan toplam girdi kapasitesini aştınız!";
+                                        nfp.Owner = Owner;
+                                        nfp.Show();
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                validMi = true;
                             }
                         }
 
@@ -1274,6 +1321,51 @@ namespace AYP
         {
             GucUreticiGucArayuzDataGrid.ItemsSource = null;
             GucUreticiGucArayuzDataGrid.ItemsSource = gucArayuzuList;
+        }
+        #endregion
+
+        #region GucUreticiTurSelectionChanged
+        private void GucUreticiTur_SelectionChanged(object sender, EventArgs e)
+        {
+            if (GucUreticiTab.DataContext != null)
+            {
+                if (gucUretici.GucUreticiTurId == 1)
+                {
+                    GucUreticiTab.DataContext = null;
+                    gucUretici.VerimlilikDegeri = 100;
+                    gucUretici.DahiliGucTuketimDegeri = null;
+                    gucUretici.GirdiGucArayuzuSayisi = null;
+                    GucUreticiTab.DataContext = gucUretici;
+
+                    VerimlilikOrani.IsEnabled = false;
+                    VerimlilikOrani.Opacity = 0.25;
+                    DahiliGucTuketimDegeri.IsEnabled = false;
+                    DahiliGucTuketimDegeri.Opacity = 0.25;
+                    GirdiGucArayuzuSayisiRequiredLabel.Content = "";
+                    GirdiGucArayuzuSayisi.IsEnabled = false;
+                    GirdiGucArayuzuSayisi.Opacity = 0.25;
+
+                    gucArayuzuList = gucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).ToList();
+                }
+                else
+                {
+                    GucUreticiTab.DataContext = null;
+                    gucUretici.VerimlilikDegeri = null;
+                    gucUretici.DahiliGucTuketimDegeri = null;
+                    gucUretici.GirdiGucArayuzuSayisi = 0;
+                    GucUreticiTab.DataContext = gucUretici;
+
+                    VerimlilikOrani.IsEnabled = true;
+                    VerimlilikOrani.Opacity = 1;
+                    DahiliGucTuketimDegeri.IsEnabled = true;
+                    DahiliGucTuketimDegeri.Opacity = 1;
+                    GirdiGucArayuzuSayisiRequiredLabel.Content = "*";
+                    GirdiGucArayuzuSayisi.IsEnabled = true;
+                    GirdiGucArayuzuSayisi.Opacity = 1;
+
+                    gucArayuzuList = gucArayuzuList.Where(x => x.KullanimAmaciId != (int)KullanimAmaciEnum.Cikti).ToList();
+                }
+            }
         }
         #endregion
     }

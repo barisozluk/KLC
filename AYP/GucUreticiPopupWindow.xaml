@@ -32,7 +32,7 @@
                     <Rectangle Style="{DynamicResource StyleDescribingGucUreticiFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,55,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Güç Üretici Tür" Grid.Row="0" Grid.Column="1" Margin="0,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="*" Grid.Row="0" Grid.Column="1" Margin="180,65,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <ComboBox Name="GucUreticiTur" SelectedValue="{Binding GucUreticiTurId}" ItemsSource="{Binding GucUreticiTurList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="200,65,0,10" VerticalAlignment="Top" >
+                    <ComboBox Name="GucUreticiTur" SelectedValue="{Binding GucUreticiTurId}" ItemsSource="{Binding GucUreticiTurList}" DisplayMemberPath="Ad" SelectedValuePath="Id" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="200,65,0,10" VerticalAlignment="Top" DropDownClosed="GucUreticiTur_SelectionChanged">
                     </ComboBox>
 
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Stok No" Grid.Row="0" Grid.Column="1" Margin="0,110,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -52,7 +52,7 @@
                     <TextBox Name="UreticiParcaNo" Text="{Binding UreticiParcaNo}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,245,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Girdi Güç Arayüz Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="*" Grid.Row="0" Grid.Column="1" Margin="180,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <Label Name="GirdiGucArayuzuSayisiRequiredLabel" Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="*" Grid.Row="0" Grid.Column="1" Margin="180,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     <TextBox Name="GirdiGucArayuzuSayisi" PreviewTextInput="NumberValidationTextBox" ToolTip="1 ile 10 arasında giriniz" Text="{Binding GirdiGucArayuzuSayisi}" Style="{DynamicResource StyleTextBox}" Grid.Row="0" Grid.Column="1" Margin="200,290,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Çıktı Güç Arayüz Sayısı" Grid.Row="0" Grid.Column="1" Margin="0,335,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>

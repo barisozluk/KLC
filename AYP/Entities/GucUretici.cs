@@ -44,7 +44,7 @@ namespace AYP.Entities
         public GucUreticiTur GucUreticiTur { get; set; }
 
         [Range(1, 10)]
-        public int GirdiGucArayuzuSayisi { get; set; }
+        public int? GirdiGucArayuzuSayisi { get; set; }
 
         [Range(1, 10)]
         public int CiktiGucArayuzuSayisi { get; set; }
