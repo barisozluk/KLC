@@ -499,7 +499,7 @@ namespace AYP
             var validationContext = new ValidationContext(agAnahtari, null, null);
             var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
 
-            if (Validator.TryValidateObject(agAnahtari, validationContext, results, true))
+             if (Validator.TryValidateObject(agAnahtari, validationContext, results, true))
             {
                 if (oldAgAnahtari != null)
                 {
@@ -1418,5 +1418,12 @@ namespace AYP
             }
         }
         #endregion
+
+        private void txt_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Back)
+            {
+            }
+        }
     }
 }
