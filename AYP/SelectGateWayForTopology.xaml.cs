@@ -6,6 +6,7 @@ using AYP.Interfaces;
 using AYP.Services;
 using AYP.ViewModel;
 using AYP.ViewModel.Node;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -58,15 +59,15 @@ namespace AYP
         {
             if (topolojiId == (int)TopolojiEnum.Yildiz)
             {
-                (Owner as MainWindow).NodesCanvas.ViewModel.YildizTopolojiOlustur(this.gateWay);
+                (Owner as MainWindow).NodesCanvas.ViewModel.CommandYildizTopolojiOlusturLogic.Execute(this.gateWay);
             }
             else if (topolojiId == (int)TopolojiEnum.Halka)
             {
-                (Owner as MainWindow).NodesCanvas.ViewModel.HalkaTopolojiOlustur(this.gateWay);
+                (Owner as MainWindow).NodesCanvas.ViewModel.CommandHalkaTopolojiOlusturLogic.Execute(this.gateWay);
             }
             else
             {
-                (Owner as MainWindow).NodesCanvas.ViewModel.ZincirTopolojiOlustur(this.gateWay);
+                (Owner as MainWindow).NodesCanvas.ViewModel.CommandZincirTopolojiOlusturLogic.Execute(this.gateWay);
             }
 
             ClosePopup();

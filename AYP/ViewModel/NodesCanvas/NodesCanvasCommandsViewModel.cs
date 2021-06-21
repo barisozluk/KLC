@@ -60,13 +60,12 @@ namespace AYP.ViewModel
         public ReactiveCommand<Unit, Unit> CommandChangeTheme { get; set; }
         public ReactiveCommand<Unit, Unit> CommandEditSelected { get; set; }
         public ReactiveCommand<Unit, Unit> CommandCopyMultiple { get; set; }
+        public ReactiveCommand<Unit, Unit> CommandShowAgAkis { get; set; }
+        public ReactiveCommand<Unit, Unit> CommandRename { get; set; }
         public ReactiveCommand<Unit, Unit> CommandZincirTopolojiOlustur { get; set; }
         public ReactiveCommand<Unit, Unit> CommandHalkaTopolojiOlustur { get; set; }
         public ReactiveCommand<Unit, Unit> CommandYildizTopolojiOlustur { get; set; }
-        public ReactiveCommand<Unit, Unit> CommandUcBirimOtoConnect { get; set; }
         public ReactiveCommand<Unit, Unit> CommandGucUreticiOtoConnect { get; set; }
-        public ReactiveCommand<Unit, Unit> CommandShowAgAkis { get; set; }
-        public ReactiveCommand<Unit, Unit> CommandRename { get; set; }
 
         #endregion commands without parameter
 
@@ -112,6 +111,11 @@ namespace AYP.ViewModel
         public Command<Unit, KeyValuePair<List<NodeViewModel>, List<ConnectViewModel>>> CommandCopy { get; set; }
         public Command<Unit, KeyValuePair<NodeViewModel, GroupUngroupModel>> CommandGroup { get; set; }
         public Command<Unit, List<KeyValuePair<NodeViewModel, GroupUngroupModel>>> CommandUngroup { get; set; }
+        public Command<NodeViewModel, List<ConnectViewModel>> CommandYildizTopolojiOlusturLogic { get; set; }
+        public Command<NodeViewModel, List<ConnectViewModel>> CommandHalkaTopolojiOlusturLogic { get; set; }
+        public Command<NodeViewModel, List<ConnectViewModel>> CommandZincirTopolojiOlusturLogic { get; set; }
+        public Command<Unit, List<ConnectViewModel>> CommandUcBirimOtoConnect { get; set; }
+        public Command<NodeViewModel, List<ConnectViewModel>> CommandGucUreticiOtoConnectLogic{ get; set; }
 
         #endregion commands with undo-redo
 
@@ -185,17 +189,20 @@ namespace AYP.ViewModel
             CommandPaste = new Command<Unit, List<NodeViewModel>>(Paste, UnPaste, NotSaved);
             CommandGroup = new Command<Unit, KeyValuePair<NodeViewModel, GroupUngroupModel>>(Group, RedoGroup, NotSaved);
             CommandUngroup = new Command<Unit, List<KeyValuePair<NodeViewModel, GroupUngroupModel>>>(Ungroup, RedoUngroup, NotSaved);
+            CommandZincirTopolojiOlusturLogic = new Command<NodeViewModel, List<ConnectViewModel>>(ZincirTopolojiOlustur, RedoZincirTopolojiOlustur, NotSaved);
+            CommandHalkaTopolojiOlusturLogic = new Command<NodeViewModel, List<ConnectViewModel>>(HalkaTopolojiOlustur, RedoHalkaTopolojiOlustur, NotSaved);
+            CommandYildizTopolojiOlusturLogic = new Command<NodeViewModel, List<ConnectViewModel>>(YildizTopolojiOlustur, RedoYildizTopolojiOlustur, NotSaved);
+            CommandUcBirimOtoConnect = new Command<Unit, List<ConnectViewModel>>(UcBirimOtoConnectOlustur, RedoUcBirimOtoConnectOlustur, NotSaved);
+            CommandGucUreticiOtoConnectLogic = new Command<NodeViewModel, List<ConnectViewModel>>(GucUreticiOtoConnectOlustur, RedoGucUreticiOtoConnectOlustur, NotSaved);
 
+            CommandRename = ReactiveCommand.Create(RenameSelectedNodes);
             CommandEditSelected = ReactiveCommand.Create(EditSelected);
             CommandCopyMultiple = ReactiveCommand.Create(CopyMultiple);
+            CommandShowAgAkis = ReactiveCommand.Create(ShowAgAkis);
             CommandZincirTopolojiOlustur = ReactiveCommand.Create(OpenZincirTopolojiGateWayPanel);
             CommandHalkaTopolojiOlustur = ReactiveCommand.Create(OpenHalkaTopolojiGateWayPanel);
             CommandYildizTopolojiOlustur = ReactiveCommand.Create(OpenYildizTopolojiGateWayPanel);
-            CommandRename = ReactiveCommand.Create(RenameSelectedNodes);
-            CommandUcBirimOtoConnect = ReactiveCommand.Create(UcBirimOtoConnectOlustur);
             CommandGucUreticiOtoConnect = ReactiveCommand.Create(OpenGucUreticiSelectPanel);
-            CommandShowAgAkis = ReactiveCommand.Create(ShowAgAkis);
-
             NotSavedSubscrube();
         }
 
@@ -373,7 +380,7 @@ namespace AYP.ViewModel
                     }
                     else
                     {
-                        GucUreticiOtoConnectOlustur(selectedNodes.Where(s => s.TypeId == (int)TipEnum.GucUretici).FirstOrDefault());
+                        CommandGucUreticiOtoConnectLogic.Execute(selectedNodes.Where(s => s.TypeId == (int)TipEnum.GucUretici).FirstOrDefault());
                     }
                 }
                 else
@@ -393,152 +400,197 @@ namespace AYP.ViewModel
             }
         }
 
-        public void GucUreticiOtoConnectOlustur(NodeViewModel gucUretici)
+        private List<ConnectViewModel> RedoGucUreticiOtoConnectOlustur(NodeViewModel x, List<ConnectViewModel> res)
         {
-            List<NodeViewModel> selectedNodes = this.Nodes.Items.Where(x => x.Selected).ToList();
-
-            AYP.Validations.Validation validation = new AYP.Validations.Validation();
-            List<ConnectViewModel> connects = new List<ConnectViewModel>();
-
-            foreach (var output in gucUretici.Transitions.Items)
+            foreach (var item in res)
             {
-                foreach (var selectedNode in selectedNodes.Where(x => x.UniqueId != gucUretici.UniqueId))
+                Connects.Remove(item);
+            }
+
+            return res;
+        }
+        public List<ConnectViewModel> GucUreticiOtoConnectOlustur(NodeViewModel gucUretici, List<ConnectViewModel> res)
+        {
+            if (res == null)
+            {
+                res = new List<ConnectViewModel>();
+                List<NodeViewModel> selectedNodes = this.Nodes.Items.Where(x => x.Selected).ToList();
+
+                AYP.Validations.Validation validation = new AYP.Validations.Validation();
+                List<ConnectViewModel> connects = new List<ConnectViewModel>();
+
+                foreach (var output in gucUretici.Transitions.Items)
                 {
-                    foreach (var input in selectedNode.InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariGucArayuzu ||
-                          x.TypeId == (int)TipEnum.UcBirimGucArayuzu || x.TypeId == (int)TipEnum.GucUreticiGucArayuzu))
+                    foreach (var selectedNode in selectedNodes.Where(x => x.UniqueId != gucUretici.UniqueId))
                     {
-                        if (validation.ToConnectorValidasyonForTopoloji(input))
+                        foreach (var input in selectedNode.InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariGucArayuzu ||
+                              x.TypeId == (int)TipEnum.UcBirimGucArayuzu || x.TypeId == (int)TipEnum.GucUreticiGucArayuzu))
                         {
-                            if (validation.GerilimTipiValidasyonForAutoConnect(this, output, input))
+                            if (validation.ToConnectorValidasyonForTopoloji(input))
                             {
-                                if (validation.GerilimValidasyon(this, output, input))
+                                if (validation.GerilimTipiValidasyonForAutoConnect(this, output, input))
                                 {
-                                    if (validation.GucValidasyon(this, output, input))
+                                    if (validation.GerilimValidasyon(this, output, input))
                                     {
-                                        ConnectViewModel connect = new ConnectViewModel(this, output);
-                                        connect.ToConnector = input;
-                                        connect.GucMiktari = input.GirdiTukettigiGucMiktari.Value;
-                                        AddConnect(connect);
-                                        connects.Add(connect);
+                                        if (validation.GucValidasyon(this, output, input))
+                                        {
+                                            ConnectViewModel connect = new ConnectViewModel(this, output);
+                                            connect.ToConnector = input;
+                                            connect.GucMiktari = input.GirdiTukettigiGucMiktari.Value;
+                                            AddConnect(connect);
+                                            connects.Add(connect);
+                                            res.Add(connect);
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
+
+                if (connects.Count() == 0)
+                {
+                    NotifyInfoPopup nfp = new NotifyInfoPopup();
+                    nfp.msg.Text = "Seçtiğiniz çihazlar için uygun hiçbir güç arayüz bağlantısı yapılamamıştır.";
+                    nfp.Owner = this.MainWindow;
+                    nfp.Show();
+                }
+            }
+            else
+            {
+                foreach (var item in res)
+                {
+                    CommandAddConnect.ExecuteWithSubscribe(item);
+                }
             }
 
-            if (connects.Count() == 0)
-            {
-                NotifyInfoPopup nfp = new NotifyInfoPopup();
-                nfp.msg.Text = "Seçtiğiniz çihazlar için uygun hiçbir güç arayüz bağlantısı yapılamamıştır.";
-                nfp.Owner = this.MainWindow;
-                nfp.Show();
-            }
+            return res;
         }
 
-        private void UcBirimOtoConnectOlustur()
+        private List<ConnectViewModel> RedoUcBirimOtoConnectOlustur(Unit x, List<ConnectViewModel> res)
         {
-            List<NodeViewModel> selectedNodes = this.Nodes.Items.Where(x => x.Selected).ToList();
-
-            int agAnahtariSayisi = selectedNodes.Where(s => s.TypeId == (int)TipEnum.AgAnahtari).Count();
-            int ucBirimSayisi = selectedNodes.Where(s => s.TypeId == (int)TipEnum.UcBirim).Count();
-
-            if (ucBirimSayisi + agAnahtariSayisi == selectedNodes.Count)
+            foreach(var item in res)
             {
-                if (agAnahtariSayisi == 1)
+                Connects.Remove(item);
+            }
+
+            return res;
+        }
+        private List<ConnectViewModel> UcBirimOtoConnectOlustur(Unit x, List<ConnectViewModel> res)
+        {
+            if (res == null)
+            {
+                res = new List<ConnectViewModel>();
+
+                List<NodeViewModel> selectedNodes = this.Nodes.Items.Where(x => x.Selected).ToList();
+
+                int agAnahtariSayisi = selectedNodes.Where(s => s.TypeId == (int)TipEnum.AgAnahtari).Count();
+                int ucBirimSayisi = selectedNodes.Where(s => s.TypeId == (int)TipEnum.UcBirim).Count();
+
+                if (ucBirimSayisi + agAnahtariSayisi == selectedNodes.Count)
                 {
-                    Guid gateWayUniqueId = selectedNodes.Where(s => s.TypeId == (int)TipEnum.AgAnahtari).Select(s => s.UniqueId).FirstOrDefault();
-                    var gateWayInputs = selectedNodes.Where(x => x.UniqueId == gateWayUniqueId).Select(s => s.InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)).FirstOrDefault();
-                    var bosInputSayisi = gateWayInputs.Where(x => x.Connect == null).Count();
-
-                    if (bosInputSayisi >= selectedNodes.Where(x => x.UniqueId != gateWayUniqueId).Count())
+                    if (agAnahtariSayisi == 1)
                     {
-                        AYP.Validations.Validation validation = new AYP.Validations.Validation();
-                        var list = new List<KeyValuePair<NodeViewModel, List<ConnectViewModel>>>();
-                        var list2 = new List<KeyValuePair<NodeViewModel, List<ConnectorViewModel>>>();
+                        Guid gateWayUniqueId = selectedNodes.Where(s => s.TypeId == (int)TipEnum.AgAnahtari).Select(s => s.UniqueId).FirstOrDefault();
+                        var gateWayInputs = selectedNodes.Where(x => x.UniqueId == gateWayUniqueId).Select(s => s.InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)).FirstOrDefault();
+                        var bosInputSayisi = gateWayInputs.Where(x => x.Connect == null).Count();
 
-                        foreach (var selectedNode in selectedNodes.Where(x => x.UniqueId != gateWayUniqueId))
+                        if (bosInputSayisi >= selectedNodes.Where(x => x.UniqueId != gateWayUniqueId).Count())
                         {
-                            var temp = new List<ConnectViewModel>();
-                            var temp2 = new List<ConnectorViewModel>();
+                            AYP.Validations.Validation validation = new AYP.Validations.Validation();
+                            var list = new List<KeyValuePair<NodeViewModel, List<ConnectViewModel>>>();
+                            var list2 = new List<KeyValuePair<NodeViewModel, List<ConnectorViewModel>>>();
 
-                            foreach (var output in selectedNode.Transitions.Items.Where(x => x.TypeId == (int)TipEnum.UcBirimAgArayuzu))
+                            foreach (var selectedNode in selectedNodes.Where(x => x.UniqueId != gateWayUniqueId))
                             {
-                                if (output.Connect == null)
-                                {
-                                    foreach (var input in selectedNodes.Where(x => x.UniqueId == gateWayUniqueId).First().InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu))
-                                    {
-                                        if (validation.ToConnectorValidasyonForTopoloji(input))
-                                        {
-                                            bool isValid = validation.FizikselOrtamValidasyonForTopoloji(this, output, input);
+                                var temp = new List<ConnectViewModel>();
+                                var temp2 = new List<ConnectorViewModel>();
 
-                                            if (isValid)
+                                foreach (var output in selectedNode.Transitions.Items.Where(x => x.TypeId == (int)TipEnum.UcBirimAgArayuzu))
+                                {
+                                    if (output.Connect == null)
+                                    {
+                                        foreach (var input in selectedNodes.Where(x => x.UniqueId == gateWayUniqueId).First().InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu))
+                                        {
+                                            if (validation.ToConnectorValidasyonForTopoloji(input))
                                             {
-                                                isValid = validation.KapasiteValidasyonForTopoloji(this, output, input);
+                                                bool isValid = validation.FizikselOrtamValidasyonForTopoloji(this, output, input);
+
                                                 if (isValid)
                                                 {
-                                                    ConnectViewModel connect = new ConnectViewModel(this, output);
-                                                    connect.ToConnector = input;
-                                                    temp.Add(connect);
-                                                    temp2.Add(connect.ToConnector);
-                                                    output.Connect = null;
-                                                    input.Connect = null;
+                                                    isValid = validation.KapasiteValidasyonForTopoloji(this, output, input);
+                                                    if (isValid)
+                                                    {
+                                                        ConnectViewModel connect = new ConnectViewModel(this, output);
+                                                        connect.ToConnector = input;
+                                                        temp.Add(connect);
+                                                        temp2.Add(connect.ToConnector);
+                                                        output.Connect = null;
+                                                        input.Connect = null;
+                                                    }
                                                 }
                                             }
                                         }
                                     }
                                 }
-                            }
 
-                            if (temp != null && temp.Count() > 0)
-                            {
-                                var a = temp2.Distinct().ToList();
-                                list.Add(new KeyValuePair<NodeViewModel, List<ConnectViewModel>>(selectedNode, temp));
-                                list2.Add(new KeyValuePair<NodeViewModel, List<ConnectorViewModel>>(selectedNode, a));
-                            }
-                            else
-                            {
-                                NotifyInfoPopup nfp = new NotifyInfoPopup();
-                                nfp.msg.Text = "Seçtiğiniz cihazlar için ağ arayüzü uyumsuzluğundan dolayı otomatik bağlantı oluşturulamamıştır.";
-                                nfp.Owner = this.MainWindow;
-                                nfp.Show();
-
-                                list.Clear();
-                                list2.Clear();
-                                break;
-                            }
-                        }
-
-                        if (list.Count() > 0)
-                        {
-                            List<ConnectorViewModel> result = new List<ConnectorViewModel>();
-                            result = YildizRecursive(list2, 0, result);
-
-                            if (result.Count > 0)
-                            {
-                                int count = 0;
-                                foreach (var item in list)
+                                if (temp != null && temp.Count() > 0)
                                 {
-                                    var connect = item.Value.Where(x => x.ToConnector == result[count]).FirstOrDefault();
-                                    connect.FromConnector.Connect = connect;
-                                    CommandAddConnect.ExecuteWithSubscribe(connect);
-                                    count++;
+                                    var a = temp2.Distinct().ToList();
+                                    list.Add(new KeyValuePair<NodeViewModel, List<ConnectViewModel>>(selectedNode, temp));
+                                    list2.Add(new KeyValuePair<NodeViewModel, List<ConnectorViewModel>>(selectedNode, a));
+                                }
+                                else
+                                {
+                                    NotifyInfoPopup nfp = new NotifyInfoPopup();
+                                    nfp.msg.Text = "Seçtiğiniz cihazlar için ağ arayüzü uyumsuzluğundan dolayı otomatik bağlantı oluşturulamamıştır.";
+                                    nfp.Owner = this.MainWindow;
+                                    nfp.Show();
+
+                                    list.Clear();
+                                    list2.Clear();
+                                    break;
                                 }
                             }
-                            else
+
+                            if (list.Count() > 0)
                             {
-                                NotifyInfoPopup nfp = new NotifyInfoPopup();
-                                nfp.msg.Text = "Seçtiğiniz cihazlar için ağ arayüzü uyumsuzluğundan dolayı otomatik bağlantı oluşturulamamıştır.";
-                                nfp.Owner = this.MainWindow;
-                                nfp.Show();
+                                List<ConnectorViewModel> result = new List<ConnectorViewModel>();
+                                result = YildizRecursive(list2, 0, result);
+
+                                if (result.Count > 0)
+                                {
+                                    int count = 0;
+                                    foreach (var item in list)
+                                    {
+                                        var connect = item.Value.Where(x => x.ToConnector == result[count]).FirstOrDefault();
+                                        connect.FromConnector.Connect = connect;
+                                        CommandAddConnect.ExecuteWithSubscribe(connect);
+                                        res.Add(connect);
+                                        count++;
+                                    }
+                                }
+                                else
+                                {
+                                    NotifyInfoPopup nfp = new NotifyInfoPopup();
+                                    nfp.msg.Text = "Seçtiğiniz cihazlar için ağ arayüzü uyumsuzluğundan dolayı otomatik bağlantı oluşturulamamıştır.";
+                                    nfp.Owner = this.MainWindow;
+                                    nfp.Show();
+                                }
                             }
+                        }
+                        else
+                        {
+                            NotifyInfoPopup nfp = new NotifyInfoPopup();
+                            nfp.msg.Text = "Seçtiğiniz cihazlar için ağ arayüzü uyumsuzluğundan dolayı otomatik bağlantı oluşturulamamıştır.";
+                            nfp.Owner = this.MainWindow;
+                            nfp.Show();
                         }
                     }
                     else
                     {
                         NotifyInfoPopup nfp = new NotifyInfoPopup();
-                        nfp.msg.Text = "Seçtiğiniz cihazlar için ağ arayüzü uyumsuzluğundan dolayı otomatik bağlantı oluşturulamamıştır.";
+                        nfp.msg.Text = "Lütfen sadece bir ağ anahtarı seçiniz.";
                         nfp.Owner = this.MainWindow;
                         nfp.Show();
                     }
@@ -546,20 +598,22 @@ namespace AYP.ViewModel
                 else
                 {
                     NotifyInfoPopup nfp = new NotifyInfoPopup();
-                    nfp.msg.Text = "Lütfen sadece bir ağ anahtarı seçiniz.";
+                    nfp.msg.Text = "Lütfen sadece bir ağ anahtarı ve bağlantı oluşturacağınız uç birimleri seçiniz.";
                     nfp.Owner = this.MainWindow;
                     nfp.Show();
                 }
             }
             else
             {
-                NotifyInfoPopup nfp = new NotifyInfoPopup();
-                nfp.msg.Text = "Lütfen sadece bir ağ anahtarı ve bağlantı oluşturacağınız uç birimleri seçiniz.";
-                nfp.Owner = this.MainWindow;
-                nfp.Show();
+                foreach(var item in res)
+                {
+                    CommandAddConnect.ExecuteWithSubscribe(item);
+                }
             }
-        }
 
+            return res;
+        }
+        
         private void OpenZincirTopolojiGateWayPanel()
         {
             if (this.Nodes.Items.Where(x => x.Selected).Count() > 1)
@@ -602,108 +656,132 @@ namespace AYP.ViewModel
                 nfp.Show();
             }
         }
-        public void ZincirTopolojiOlustur(NodeViewModel gateWay)
+        private List<ConnectViewModel> RedoZincirTopolojiOlustur(NodeViewModel gateWay, List<ConnectViewModel> res)
         {
-            List<NodeViewModel> selectedNodes = this.Nodes.Items.Where(x => x.Selected).ToList();
-            Guid gateWayUniqueId = gateWay.UniqueId;
-
-            AYP.Validations.Validation validation = new AYP.Validations.Validation();
-            var list = new List<KeyValuePair<NodeViewModel, List<ConnectViewModel>>>();
-
-            foreach (var selectedNode in selectedNodes.Where(x => x.UniqueId != gateWayUniqueId))
+            foreach (var item in res)
             {
-                var temp = new List<ConnectViewModel>();
-                foreach (var selectedNodeInner in selectedNodes)
-                {
-                    bool connectOlusturulabilirMi = false;
-                    if (selectedNode != selectedNodeInner)
-                    {
-                        foreach (var output in selectedNode.Transitions.Items.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu))
-                        {
-                            if (output.Connect == null)
-                            {
-                                foreach (var input in selectedNodeInner.InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu))
-                                {
-                                    if (validation.ToConnectorValidasyonForTopoloji(input))
-                                    {
-                                        bool isValid = validation.FizikselOrtamValidasyonForTopoloji(this, output, input);
+                Connects.Remove(item);
+            }
 
-                                        if (isValid)
+            return res;
+        }
+        private List<ConnectViewModel> ZincirTopolojiOlustur(NodeViewModel gateWay, List<ConnectViewModel> res)
+        {
+            if (res == null)
+            {
+                res = new List<ConnectViewModel>();
+
+                List<NodeViewModel> selectedNodes = this.Nodes.Items.Where(x => x.Selected).ToList();
+                Guid gateWayUniqueId = gateWay.UniqueId;
+
+                AYP.Validations.Validation validation = new AYP.Validations.Validation();
+                var list = new List<KeyValuePair<NodeViewModel, List<ConnectViewModel>>>();
+
+                foreach (var selectedNode in selectedNodes.Where(x => x.UniqueId != gateWayUniqueId))
+                {
+                    var temp = new List<ConnectViewModel>();
+                    foreach (var selectedNodeInner in selectedNodes)
+                    {
+                        bool connectOlusturulabilirMi = false;
+                        if (selectedNode != selectedNodeInner)
+                        {
+                            foreach (var output in selectedNode.Transitions.Items.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu))
+                            {
+                                if (output.Connect == null)
+                                {
+                                    foreach (var input in selectedNodeInner.InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu))
+                                    {
+                                        if (validation.ToConnectorValidasyonForTopoloji(input))
                                         {
-                                            isValid = validation.KapasiteValidasyonForTopoloji(this, output, input);
+                                            bool isValid = validation.FizikselOrtamValidasyonForTopoloji(this, output, input);
+
                                             if (isValid)
                                             {
-                                                ConnectViewModel connect = new ConnectViewModel(this, output);
-                                                connect.ToConnector = input;
-                                                temp.Add(connect);
-                                                output.Connect = null;
-                                                input.Connect = null;
+                                                isValid = validation.KapasiteValidasyonForTopoloji(this, output, input);
+                                                if (isValid)
+                                                {
+                                                    ConnectViewModel connect = new ConnectViewModel(this, output);
+                                                    connect.ToConnector = input;
+                                                    temp.Add(connect);
+                                                    output.Connect = null;
+                                                    input.Connect = null;
 
-                                                connectOlusturulabilirMi = true;
-                                                break;
+                                                    connectOlusturulabilirMi = true;
+                                                    break;
+                                                }
                                             }
                                         }
                                     }
-                                }
 
-                                if (connectOlusturulabilirMi)
-                                {
-                                    break;
+                                    if (connectOlusturulabilirMi)
+                                    {
+                                        break;
+                                    }
                                 }
                             }
                         }
                     }
+
+                    list.Add(new KeyValuePair<NodeViewModel, List<ConnectViewModel>>(selectedNode, temp));
                 }
 
-                list.Add(new KeyValuePair<NodeViewModel, List<ConnectViewModel>>(selectedNode, temp));
-            }
-
-            var zincir = new List<NodeViewModel>();
-            foreach (var selectedNode in selectedNodes)
-            {
-                zincir = ZincirOlusturRecursive(selectedNode, list, zincir, gateWayUniqueId);
-
-                if (zincir.Count() == selectedNodes.Count() && zincir.Last().UniqueId == gateWayUniqueId)
+                var zincir = new List<NodeViewModel>();
+                foreach (var selectedNode in selectedNodes)
                 {
-                    break;
+                    zincir = ZincirOlusturRecursive(selectedNode, list, zincir, gateWayUniqueId);
+
+                    if (zincir.Count() == selectedNodes.Count() && zincir.Last().UniqueId == gateWayUniqueId)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        zincir.Clear();
+                    }
+                }
+
+                if (zincir.Count > 0)
+                {
+                    int count = 1;
+                    Point position;
+                    foreach (var item in zincir)
+                    {
+                        if (count > 1)
+                        {
+                            item.Point1 = position.Addition(250, 0);
+                        }
+                        position = item.Point1;
+
+                        if (count != zincir.Count)
+                        {
+                            var nextNode = zincir[count];
+
+                            var connects = list.Where(x => x.Key == item).Select(s => s.Value).FirstOrDefault();
+                            var connect = connects.Where(k => k.ToConnector.Node == nextNode).FirstOrDefault();
+                            connect.FromConnector.Connect = connect;
+                            res.Add(connect);
+                            CommandAddConnect.ExecuteWithSubscribe(connect);
+                        }
+                        count++;
+                    }
                 }
                 else
                 {
-                    zincir.Clear();
-                }
-            }
-
-            if (zincir.Count > 0)
-            {
-                int count = 1;
-                Point position;
-                foreach (var item in zincir)
-                {
-                    if (count > 1)
-                    {
-                        item.Point1 = position.Addition(250, 0);
-                    }
-                    position = item.Point1;
-
-                    if (count != zincir.Count)
-                    {
-                        var nextNode = zincir[count];
-
-                        var connects = list.Where(x => x.Key == item).Select(s => s.Value).FirstOrDefault();
-                        var connect = connects.Where(k => k.ToConnector.Node == nextNode).FirstOrDefault();
-                        connect.FromConnector.Connect = connect;
-                        CommandAddConnect.ExecuteWithSubscribe(connect);
-                    }
-                    count++;
+                    NotifyInfoPopup nfp = new NotifyInfoPopup();
+                    nfp.msg.Text = "Seçtiğiniz ağ anahtarları için ağ arayüzü uyumsuzluğundan dolayı topoloji oluşturulamamıştır.";
+                    nfp.Owner = this.MainWindow;
+                    nfp.Show();
                 }
             }
             else
             {
-                NotifyInfoPopup nfp = new NotifyInfoPopup();
-                nfp.msg.Text = "Seçtiğiniz ağ anahtarları için ağ arayüzü uyumsuzluğundan dolayı topoloji oluşturulamamıştır.";
-                nfp.Owner = this.MainWindow;
-                nfp.Show();
+                foreach (var item in res)
+                {
+                    CommandAddConnect.ExecuteWithSubscribe(item);
+                }
             }
+
+            return res;
         }
 
         private void OpenHalkaTopolojiGateWayPanel()
@@ -748,78 +826,96 @@ namespace AYP.ViewModel
                 nfp.Show();
             }
         }
-        public void HalkaTopolojiOlustur(NodeViewModel gateWay)
+        private List<ConnectViewModel> RedoHalkaTopolojiOlustur(NodeViewModel gateWay, List<ConnectViewModel> res)
         {
-            List<NodeViewModel> selectedNodes = this.Nodes.Items.Where(x => x.Selected).ToList();
-            Guid gateWayUniqueId = gateWay.UniqueId;
-
-            AYP.Validations.Validation validation = new AYP.Validations.Validation();
-            var list = new List<KeyValuePair<NodeViewModel, List<ConnectViewModel>>>();
-
-            foreach (var selectedNode in selectedNodes)
+            foreach (var item in res)
             {
-                var temp = new List<ConnectViewModel>();
-                foreach (var selectedNodeInner in selectedNodes)
-                {
-                    bool connectOlusturulabilirMi = false;
-                    if (selectedNode != selectedNodeInner)
-                    {
-                        foreach (var output in selectedNode.Transitions.Items.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu))
-                        {
-                            if (output.Connect == null)
-                            {
-                                foreach (var input in selectedNodeInner.InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu))
-                                {
-                                    if (validation.ToConnectorValidasyonForTopoloji(input))
-                                    {
-                                        bool isValid = validation.FizikselOrtamValidasyonForTopoloji(this, output, input);
+                Connects.Remove(item);
+            }
 
-                                        if (isValid)
+            return res;
+        }
+        public List<ConnectViewModel> HalkaTopolojiOlustur(NodeViewModel gateWay, List<ConnectViewModel> res)
+        {
+            if (res == null)
+            {
+                res = new List<ConnectViewModel>();
+
+                List<NodeViewModel> selectedNodes = this.Nodes.Items.Where(x => x.Selected).ToList();
+                Guid gateWayUniqueId = gateWay.UniqueId;
+
+                AYP.Validations.Validation validation = new AYP.Validations.Validation();
+                var list = new List<KeyValuePair<NodeViewModel, List<ConnectViewModel>>>();
+
+                foreach (var selectedNode in selectedNodes)
+                {
+                    var temp = new List<ConnectViewModel>();
+                    foreach (var selectedNodeInner in selectedNodes)
+                    {
+                        bool connectOlusturulabilirMi = false;
+                        if (selectedNode != selectedNodeInner)
+                        {
+                            foreach (var output in selectedNode.Transitions.Items.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu))
+                            {
+                                if (output.Connect == null)
+                                {
+                                    foreach (var input in selectedNodeInner.InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu))
+                                    {
+                                        if (validation.ToConnectorValidasyonForTopoloji(input))
                                         {
-                                            isValid = validation.KapasiteValidasyonForTopoloji(this, output, input);
+                                            bool isValid = validation.FizikselOrtamValidasyonForTopoloji(this, output, input);
+
                                             if (isValid)
                                             {
-                                                ConnectViewModel connect = new ConnectViewModel(this, output);
-                                                connect.ToConnector = input;
-                                                temp.Add(connect);
-                                                output.Connect = null;
-                                                input.Connect = null;
+                                                isValid = validation.KapasiteValidasyonForTopoloji(this, output, input);
+                                                if (isValid)
+                                                {
+                                                    ConnectViewModel connect = new ConnectViewModel(this, output);
+                                                    connect.ToConnector = input;
+                                                    temp.Add(connect);
+                                                    output.Connect = null;
+                                                    input.Connect = null;
 
-                                                connectOlusturulabilirMi = true;
-                                                break;
+                                                    connectOlusturulabilirMi = true;
+                                                    break;
+                                                }
                                             }
                                         }
                                     }
-                                }
 
-                                if (connectOlusturulabilirMi)
-                                {
-                                    break;
+                                    if (connectOlusturulabilirMi)
+                                    {
+                                        break;
+                                    }
                                 }
                             }
                         }
                     }
+
+                    list.Add(new KeyValuePair<NodeViewModel, List<ConnectViewModel>>(selectedNode, temp));
                 }
 
-                list.Add(new KeyValuePair<NodeViewModel, List<ConnectViewModel>>(selectedNode, temp));
-            }
-
-            var zincir = new List<NodeViewModel>();
-            foreach (var selectedNode in selectedNodes)
-            {
-                zincir = ZincirOlusturRecursive(selectedNode, list, zincir, gateWayUniqueId);
-
-                if (zincir.Count() == selectedNodes.Count() && zincir.Last().UniqueId == gateWayUniqueId)
+                var zincir = new List<NodeViewModel>();
+                foreach (var selectedNode in selectedNodes)
                 {
-                    var sonElemaninBaglanabildikleri = list.Where(x => x.Key == zincir.Last()).Select(s => s.Value).FirstOrDefault();
+                    zincir = ZincirOlusturRecursive(selectedNode, list, zincir, gateWayUniqueId);
 
-                    if (sonElemaninBaglanabildikleri != null && sonElemaninBaglanabildikleri.Count() > 0)
+                    if (zincir.Count() == selectedNodes.Count() && zincir.Last().UniqueId == gateWayUniqueId)
                     {
-                        var sonElemanIlkElemanaBaglanabilirMi = sonElemaninBaglanabildikleri.Where(x => x.ToConnector.Node == zincir.First()).Any();
+                        var sonElemaninBaglanabildikleri = list.Where(x => x.Key == zincir.Last()).Select(s => s.Value).FirstOrDefault();
 
-                        if (sonElemanIlkElemanaBaglanabilirMi)
+                        if (sonElemaninBaglanabildikleri != null && sonElemaninBaglanabildikleri.Count() > 0)
                         {
-                            break;
+                            var sonElemanIlkElemanaBaglanabilirMi = sonElemaninBaglanabildikleri.Where(x => x.ToConnector.Node == zincir.First()).Any();
+
+                            if (sonElemanIlkElemanaBaglanabilirMi)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                zincir.Clear();
+                            }
                         }
                         else
                         {
@@ -831,54 +927,62 @@ namespace AYP.ViewModel
                         zincir.Clear();
                     }
                 }
+
+                if (zincir.Count > 0)
+                {
+                    int count = 1;
+                    Point position;
+                    foreach (var item in zincir)
+                    {
+                        if (count > 1)
+                        {
+                            item.Point1 = position.Addition(250, 0);
+                        }
+                        position = item.Point1;
+
+                        if (count != zincir.Count)
+                        {
+                            var nextNode = zincir[count];
+
+                            var connects = list.Where(x => x.Key == item).Select(s => s.Value).FirstOrDefault();
+                            var connect = connects.Where(k => k.ToConnector.Node == nextNode).FirstOrDefault();
+                            connect.FromConnector.Connect = connect;
+                            CommandAddConnect.ExecuteWithSubscribe(connect);
+                            res.Add(connect);
+                        }
+                        else
+                        {
+                            var nextNode = zincir[0];
+
+                            var connects = list.Where(x => x.Key == item).Select(s => s.Value).FirstOrDefault();
+                            var connect = connects.Where(k => k.ToConnector.Node == nextNode).FirstOrDefault();
+                            connect.FromConnector.Connect = connect;
+                            CommandAddConnect.ExecuteWithSubscribe(connect);
+                            res.Add(connect);
+                        }
+
+                        count++;
+                    }
+                }
                 else
                 {
-                    zincir.Clear();
-                }
-            }
-
-            if (zincir.Count > 0)
-            {
-                int count = 1;
-                Point position;
-                foreach (var item in zincir)
-                {
-                    if (count > 1)
-                    {
-                        item.Point1 = position.Addition(250, 0);
-                    }
-                    position = item.Point1;
-
-                    if (count != zincir.Count)
-                    {
-                        var nextNode = zincir[count];
-
-                        var connects = list.Where(x => x.Key == item).Select(s => s.Value).FirstOrDefault();
-                        var connect = connects.Where(k => k.ToConnector.Node == nextNode).FirstOrDefault();
-                        connect.FromConnector.Connect = connect;
-                        CommandAddConnect.ExecuteWithSubscribe(connect);
-                    }
-                    else
-                    {
-                        var nextNode = zincir[0];
-
-                        var connects = list.Where(x => x.Key == item).Select(s => s.Value).FirstOrDefault();
-                        var connect = connects.Where(k => k.ToConnector.Node == nextNode).FirstOrDefault();
-                        connect.FromConnector.Connect = connect;
-                        CommandAddConnect.ExecuteWithSubscribe(connect);
-                    }
-
-                    count++;
+                    NotifyInfoPopup nfp = new NotifyInfoPopup();
+                    nfp.msg.Text = "Seçtiğiniz ağ anahtarları için ağ arayüzü uyumsuzluğundan dolayı topoloji oluşturulamamıştır.";
+                    nfp.Owner = this.MainWindow;
+                    nfp.Show();
                 }
             }
             else
             {
-                NotifyInfoPopup nfp = new NotifyInfoPopup();
-                nfp.msg.Text = "Seçtiğiniz ağ anahtarları için ağ arayüzü uyumsuzluğundan dolayı topoloji oluşturulamamıştır.";
-                nfp.Owner = this.MainWindow;
-                nfp.Show();
+                foreach (var item in res)
+                {
+                    CommandAddConnect.ExecuteWithSubscribe(item);
+                }
             }
+
+            return res;
         }
+        
         private List<NodeViewModel> ZincirOlusturRecursive(NodeViewModel node, List<KeyValuePair<NodeViewModel, List<ConnectViewModel>>> list, List<NodeViewModel> zincir, Guid gateWayUniqueId)
         {
             if (node.UniqueId != gateWayUniqueId)
@@ -970,123 +1074,147 @@ namespace AYP.ViewModel
                 nfp.Show();
             }
         }
-        public void YildizTopolojiOlustur(NodeViewModel gateWay)
+        private List<ConnectViewModel> RedoYildizTopolojiOlustur(NodeViewModel gateWay, List<ConnectViewModel> res)
         {
-            List<NodeViewModel> selectedNodes = this.Nodes.Items.Where(x => x.Selected).ToList();
-            Guid gateWayUniqueId = gateWay.UniqueId;
-
-            var gateWayInputs = selectedNodes.Where(x => x.UniqueId == gateWayUniqueId).Select(s => s.InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)).FirstOrDefault();
-            var bosInputSayisi = gateWayInputs.Where(x => x.Connect == null).Count();
-
-            if (bosInputSayisi >= selectedNodes.Where(x => x.UniqueId != gateWayUniqueId).Count())
+            foreach (var item in res)
             {
-                AYP.Validations.Validation validation = new AYP.Validations.Validation();
-                var list = new List<KeyValuePair<NodeViewModel, List<ConnectViewModel>>>();
-                var list2 = new List<KeyValuePair<NodeViewModel, List<ConnectorViewModel>>>();
+                Connects.Remove(item);
+            }
 
-                foreach (var selectedNode in selectedNodes.Where(x => x.UniqueId != gateWayUniqueId))
+            return res;
+        }
+        public List<ConnectViewModel> YildizTopolojiOlustur(NodeViewModel gateWay, List<ConnectViewModel> res)
+        {
+            if (res == null)
+            {
+                res = new List<ConnectViewModel>();
+
+                List<NodeViewModel> selectedNodes = this.Nodes.Items.Where(x => x.Selected).ToList();
+                Guid gateWayUniqueId = gateWay.UniqueId;
+
+                var gateWayInputs = selectedNodes.Where(x => x.UniqueId == gateWayUniqueId).Select(s => s.InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)).FirstOrDefault();
+                var bosInputSayisi = gateWayInputs.Where(x => x.Connect == null).Count();
+
+                if (bosInputSayisi >= selectedNodes.Where(x => x.UniqueId != gateWayUniqueId).Count())
                 {
-                    var temp = new List<ConnectViewModel>();
-                    var temp2 = new List<ConnectorViewModel>();
+                    AYP.Validations.Validation validation = new AYP.Validations.Validation();
+                    var list = new List<KeyValuePair<NodeViewModel, List<ConnectViewModel>>>();
+                    var list2 = new List<KeyValuePair<NodeViewModel, List<ConnectorViewModel>>>();
 
-                    foreach (var output in selectedNode.Transitions.Items.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu))
+                    foreach (var selectedNode in selectedNodes.Where(x => x.UniqueId != gateWayUniqueId))
                     {
-                        if (output.Connect == null)
-                        {
-                            foreach (var input in selectedNodes.Where(x => x.UniqueId == gateWayUniqueId).First().InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu))
-                            {
-                                if (validation.ToConnectorValidasyonForTopoloji(input))
-                                {
-                                    bool isValid = validation.FizikselOrtamValidasyonForTopoloji(this, output, input);
+                        var temp = new List<ConnectViewModel>();
+                        var temp2 = new List<ConnectorViewModel>();
 
-                                    if (isValid)
+                        foreach (var output in selectedNode.Transitions.Items.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu))
+                        {
+                            if (output.Connect == null)
+                            {
+                                foreach (var input in selectedNodes.Where(x => x.UniqueId == gateWayUniqueId).First().InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu))
+                                {
+                                    if (validation.ToConnectorValidasyonForTopoloji(input))
                                     {
-                                        isValid = validation.KapasiteValidasyonForTopoloji(this, output, input);
+                                        bool isValid = validation.FizikselOrtamValidasyonForTopoloji(this, output, input);
+
                                         if (isValid)
                                         {
-                                            ConnectViewModel connect = new ConnectViewModel(this, output);
-                                            connect.ToConnector = input;
-                                            temp.Add(connect);
-                                            temp2.Add(connect.ToConnector);
-                                            output.Connect = null;
-                                            input.Connect = null;
+                                            isValid = validation.KapasiteValidasyonForTopoloji(this, output, input);
+                                            if (isValid)
+                                            {
+                                                ConnectViewModel connect = new ConnectViewModel(this, output);
+                                                connect.ToConnector = input;
+                                                temp.Add(connect);
+                                                temp2.Add(connect.ToConnector);
+                                                output.Connect = null;
+                                                input.Connect = null;
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
-                    }
 
-                    if (temp != null && temp.Count() > 0)
-                    {
-                        var a = temp2.Distinct().ToList();
-                        list.Add(new KeyValuePair<NodeViewModel, List<ConnectViewModel>>(selectedNode, temp));
-                        list2.Add(new KeyValuePair<NodeViewModel, List<ConnectorViewModel>>(selectedNode, a));
-                    }
-                    else
-                    {
-                        NotifyInfoPopup nfp = new NotifyInfoPopup();
-                        nfp.msg.Text = "Seçtiğiniz ağ anahtarları için ağ arayüzü uyumsuzluğundan dolayı topoloji oluşturulamamıştır.";
-                        nfp.Owner = this.MainWindow;
-                        nfp.Show();
-
-                        list.Clear();
-                        list2.Clear();
-                        break;
-                    }
-                }
-
-                if (list.Count() > 0)
-                {
-                    List<ConnectorViewModel> result = new List<ConnectorViewModel>();
-                    result = YildizRecursive(list2, 0, result);
-
-                    if (result.Count > 0)
-                    {
-                        int count = 0;
-                        foreach (var item in list)
+                        if (temp != null && temp.Count() > 0)
                         {
-                            var connect = item.Value.Where(x => x.ToConnector == result[count]).FirstOrDefault();
-                            connect.FromConnector.Connect = connect;
-                            connect = OtoAgAkisiEkle(connect);
-                            CommandAddConnect.ExecuteWithSubscribe(connect);
+                            var a = temp2.Distinct().ToList();
+                            list.Add(new KeyValuePair<NodeViewModel, List<ConnectViewModel>>(selectedNode, temp));
+                            list2.Add(new KeyValuePair<NodeViewModel, List<ConnectorViewModel>>(selectedNode, a));
+                        }
+                        else
+                        {
+                            NotifyInfoPopup nfp = new NotifyInfoPopup();
+                            nfp.msg.Text = "Seçtiğiniz ağ anahtarları için ağ arayüzü uyumsuzluğundan dolayı topoloji oluşturulamamıştır.";
+                            nfp.Owner = this.MainWindow;
+                            nfp.Show();
 
-                            if (connect.FromConnector.Node.TypeId == (int)TipEnum.Group)
-                            {
-                                var groupNode = GroupList.Where(x => x.UniqueId == connect.FromConnector.Node.UniqueId).FirstOrDefault();
-
-                                foreach (var node in groupNode.NodeList)
-                                {
-                                    var output = node.Transitions.Items.Where(x => x.Label == connect.FromConnector.Label).FirstOrDefault();
-                                    if (output != null)
-                                    {
-                                        ConnectViewModel c = new ConnectViewModel(this, output);
-                                        c.ToConnector = connect.ToConnector;
-                                        groupNode.ExternalConnectList.Add(c);
-                                        break;
-                                    }
-                                }
-                            }
-
-                            count++;
+                            list.Clear();
+                            list2.Clear();
+                            break;
                         }
                     }
-                    else
+
+                    if (list.Count() > 0)
                     {
-                        NotifyInfoPopup nfp = new NotifyInfoPopup();
-                        nfp.msg.Text = "Seçtiğiniz ağ anahtarları için ağ arayüzü uyumsuzluğundan dolayı topoloji oluşturulamamıştır.";
-                        nfp.Owner = this.MainWindow;
-                        nfp.Show();
+                        List<ConnectorViewModel> result = new List<ConnectorViewModel>();
+                        result = YildizRecursive(list2, 0, result);
+
+                        if (result.Count > 0)
+                        {
+                            int count = 0;
+                            foreach (var item in list)
+                            {
+                                var connect = item.Value.Where(x => x.ToConnector == result[count]).FirstOrDefault();
+                                connect.FromConnector.Connect = connect;
+                                connect = OtoAgAkisiEkle(connect);
+                                CommandAddConnect.ExecuteWithSubscribe(connect);
+                                res.Add(connect);
+
+                                if (connect.FromConnector.Node.TypeId == (int)TipEnum.Group)
+                                {
+                                    var groupNode = GroupList.Where(x => x.UniqueId == connect.FromConnector.Node.UniqueId).FirstOrDefault();
+
+                                    foreach (var node in groupNode.NodeList)
+                                    {
+                                        var output = node.Transitions.Items.Where(x => x.Label == connect.FromConnector.Label).FirstOrDefault();
+                                        if (output != null)
+                                        {
+                                            ConnectViewModel c = new ConnectViewModel(this, output);
+                                            c.ToConnector = connect.ToConnector;
+                                            groupNode.ExternalConnectList.Add(c);
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                count++;
+                            }
+                        }
+                        else
+                        {
+                            NotifyInfoPopup nfp = new NotifyInfoPopup();
+                            nfp.msg.Text = "Seçtiğiniz ağ anahtarları için ağ arayüzü uyumsuzluğundan dolayı topoloji oluşturulamamıştır.";
+                            nfp.Owner = this.MainWindow;
+                            nfp.Show();
+                        }
                     }
+                }
+                else
+                {
+                    NotifyInfoPopup nfp = new NotifyInfoPopup();
+                    nfp.msg.Text = "Seçtiğiniz ağ anahtarları için ağ arayüzü uyumsuzluğundan dolayı topoloji oluşturulamamıştır.";
+                    nfp.Owner = this.MainWindow;
+                    nfp.Show();
                 }
             }
             else
             {
-                NotifyInfoPopup nfp = new NotifyInfoPopup();
-                nfp.msg.Text = "Seçtiğiniz ağ anahtarları için ağ arayüzü uyumsuzluğundan dolayı topoloji oluşturulamamıştır.";
-                nfp.Owner = this.MainWindow;
-                nfp.Show();
+                foreach (var item in res)
+                {
+                    CommandAddConnect.ExecuteWithSubscribe(item);
+                }
             }
+
+            return res;
         }
         private List<ConnectorViewModel> YildizRecursive(List<KeyValuePair<NodeViewModel, List<ConnectorViewModel>>> list, int index, List<ConnectorViewModel> result)
         {

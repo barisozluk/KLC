@@ -54,7 +54,7 @@ namespace AYP
 
         private void Save_GucUretici(object sender, RoutedEventArgs e)
         {
-            (Owner as MainWindow).NodesCanvas.ViewModel.GucUreticiOtoConnectOlustur(this.gucUretici);
+            (Owner as MainWindow).NodesCanvas.ViewModel.CommandGucUreticiOtoConnectLogic.Execute(this.gucUretici);
             ClosePopup();
         }
 
