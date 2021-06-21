@@ -10,48 +10,19 @@ namespace AYP.Helpers.Converters
     {
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-            string response = "";
-
-            if (value is int)
-            {
-                int number = (int)value;
-
-                if (number == 0)
-                {
-                    response = number.ToString(" ");
-                }
-                else
-                {
-                    response = number.ToString();
-                }
-            }
-            else if(value is decimal)
-            {
-                decimal number = (decimal)value;
-
-                if (number == 0)
-                {
-                    response = number.ToString(" ");
-                }
-                else
-                {
-                    response = number.ToString();
-                }
-            }
-
-            return response;
+            return value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            int response = 0;
-
-            if (!string.IsNullOrEmpty(value.ToString()) && value.ToString() != " ")
+            if (string.IsNullOrWhiteSpace(value.ToString()) || string.IsNullOrEmpty(value.ToString()))
             {
-                response = System.Convert.ToInt32(value.ToString());
+                return 0;
             }
-
-            return response;
+            else
+            {
+                return value;
+            }
         }
     }
 }
