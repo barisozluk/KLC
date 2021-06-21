@@ -581,6 +581,10 @@ namespace AYP
                     {
                         CiktiAgArayuzuSayisi.BorderBrush = new SolidColorBrush(Colors.Red);
                     }
+                    if (string.IsNullOrEmpty(GucArayuzuSayisi.Text) || Convert.ToInt32(GucArayuzuSayisi.Text) == 0)
+                    {
+                        GucArayuzuSayisi.BorderBrush = new SolidColorBrush(Colors.Red);
+                    }
                 }
             }
             else
@@ -1456,5 +1460,14 @@ namespace AYP
             }
         }
         #endregion
+        private void txtConteudo_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.Back))
+            {
+                GucArayuzuSayisi.Text = "";
+            }
+        }
+
     }
+    
 }
