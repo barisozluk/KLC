@@ -7,7 +7,7 @@ namespace AYP.Calculations
 {
     public class Calculation
     {
-        public int slice;
+        public double slice;
 
         /// <summary>
         /// Gerilim Düşümü Hesabı
@@ -30,10 +30,69 @@ namespace AYP.Calculations
             else
                 K = 35;
             
-            VoltageDrop = (1.05 * length * InputPower) / (K * slice * Math.Pow(gerilim, 2));
+            VoltageDrop = (100 * length * InputPower) / (K * slice * Math.Pow(gerilim, 2));
+            //VoltageDropYuzde = (VoltageDrop * 100) / gerilim;
 
-            return VoltageDrop;
+            return Math.Round(VoltageDrop, 3);
+
         }
+
+        public double VoltageDropCalculationMaxCheck(double length, double InputPower, int kablotipi, double gerilim, double maksVoltageDrop)// double KabloKesit, int gerilim)
+        {
+            //double Slice = 0;
+            //double slice = CableSuggestionCalculation(InputPower, Voltage);
+            int K = 0;
+            if (kablotipi == 0)
+                K = 56;
+            else
+                K = 35;
+
+            slice = (100 * length * InputPower) / (K * maksVoltageDrop * Math.Pow(gerilim, 2));
+
+            if (slice > 0 && slice < 0.35)
+                slice = 0.35;
+            else if (slice > 0.35 && slice < 0.5)
+                slice = 0.5;
+            else if (slice > 0.5 && slice < 0.75)
+                slice = 0.75;
+            else if (slice > 0.75 && slice < 1)
+                slice = 1;
+            else if (slice > 1 && slice < 1.5)
+                slice = 1.5;
+            else if (slice > 1.5 && slice < 2.5)
+                slice = 2.5;
+            else if (slice > 2.5 && slice < 4)
+                slice = 4;
+            else if (slice > 4 && slice < 6)
+                slice = 6;
+            else if (slice > 6 && slice < 10)
+                slice = 10;
+            else if (slice > 10 && slice < 16)
+                slice = 16;
+            else if (slice > 16 && slice < 25)
+                slice = 25;
+            else if (slice > 25 && slice < 35)
+                slice = 35;
+            else if (slice > 35 && slice < 50)
+                slice = 50;
+            else if (slice > 50 && slice < 70)
+                slice = 70;
+            else if (slice > 70 && slice < 95)
+                slice = 95;
+            else if (slice > 95 && slice < 120)
+                slice = 120;
+            else if (slice > 120 && slice < 150)
+                slice = 150;
+            else if (slice > 150 && slice < 185)
+                slice = 185;
+            else if (slice > 185 && slice < 240)
+                slice = 240;
+            else if (slice > 240 && slice < 300)
+                slice = 300;
+
+            return Math.Round(slice, 3);
+        }
+
 
         /// <summary>
         /// Isı Kaybı hesabı
@@ -45,10 +104,22 @@ namespace AYP.Calculations
         {
             double Current = CurrentCalculation(InputPower, Voltage);
             double r = 0;
-            double slice = CableSuggestionCalculation(InputPower, Voltage);
+            slice = CableSuggestionCalculation(InputPower, Voltage);
             double HeatLoss = 0;
-            if (slice == 4)
-                r = 5.57;
+            if (slice == 0.35)
+                r = 50.3;
+            else if (slice == 0.5)
+                r = 37.6;
+            else if (slice == 0.75)
+                r = 24.8;
+            else if (slice == 1)
+                r = 18.2;
+            else if (slice == 1.5)
+                r = 11.9;
+            else if (slice == 2.5)
+                r = 7.14;
+            else if (slice == 4)
+                r = 4.5;
             else if (slice == 6)
                 r = 3.71;
             else if (slice == 10)
@@ -106,7 +177,19 @@ namespace AYP.Calculations
             slice = 0;
             double Current = CurrentCalculation(InputPower, Voltage);
                    
-            if (Current > 0 && Current < 45)
+            if (Current > 0 && Current < 6)
+                slice = 0.35;
+            else if (Current > 6 && Current < 10)
+                slice = 0.5;
+            else if (Current > 10 && Current < 15)
+                slice = 0.75;
+            else if (Current > 15 && Current < 20)
+                slice = 1;
+            else if (Current > 20 && Current < 25)
+                slice = 1.5;
+            else if (Current > 25 && Current < 35)
+                slice = 2.5;
+            else if (Current > 35 && Current < 45)
                 slice = 4;
             else if (Current > 45 && Current < 60)
                 slice = 6;
@@ -155,7 +238,7 @@ namespace AYP.Calculations
             //}
             current = (powers / Voltage);
 
-            return (batterycapacity / current) * 0.707;
+            return (batterycapacity / current * 0.707);
         }
     }
 }

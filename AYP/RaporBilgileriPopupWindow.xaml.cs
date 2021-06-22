@@ -19,6 +19,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -63,8 +64,10 @@ namespace AYP
 
         private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
+           
+                Regex regex = new Regex("[^0-9]+");
+                e.Handled = regex.IsMatch(e.Text);
+            
         }
 
         private void UygulaButton_Click(object sender, RoutedEventArgs e)
@@ -76,15 +79,16 @@ namespace AYP
             int val3;
             bool parsed3 = Int32.TryParse(Gun1.Text, out val3);
             bool validmi = true;
+            bool validmi2 = true;
             if (parsed && parsed2 && parsed3)
             {
-                if (!string.IsNullOrEmpty(Yil1.Text) && Convert.ToInt32(Yil1.Text) <= DateTime.Now.Year + 20 && Convert.ToInt32(Yil1.Text) >= 2020)
+                if (!string.IsNullOrEmpty(Yil1.Text) && !string.IsNullOrWhiteSpace(Yil1.Text) && Convert.ToInt32(Yil1.Text) <= DateTime.Now.Year + 20 && Convert.ToInt32(Yil1.Text) >= 2020 && !string.IsNullOrWhiteSpace(Yil1.Text))
                 {
                     Gun1.BorderBrush = new SolidColorBrush(Colors.Transparent);
                     Ay1.BorderBrush = new SolidColorBrush(Colors.Transparent);
                     Yil1.BorderBrush = new SolidColorBrush(Colors.Transparent);
                     Convert.ToInt32(Yil1.Text);
-                    if (!string.IsNullOrEmpty(Ay1.Text) && Convert.ToInt32(Ay1.Text) <= 12 && Convert.ToInt32(Ay1.Text) > 0)
+                    if (!string.IsNullOrEmpty(Ay1.Text) && !string.IsNullOrWhiteSpace(Ay1.Text) && Convert.ToInt32(Ay1.Text) <= 12 && Convert.ToInt32(Ay1.Text) > 0)
                     {
                         Gun1.BorderBrush = new SolidColorBrush(Colors.Transparent);
                         Ay1.BorderBrush = new SolidColorBrush(Colors.Transparent);
@@ -92,7 +96,7 @@ namespace AYP
                         Convert.ToInt32(Ay1.Text);
                         if (Convert.ToInt32(Ay1.Text) == 1 || Convert.ToInt32(Ay1.Text) == 3 || Convert.ToInt32(Ay1.Text) == 5 || Convert.ToInt32(Ay1.Text) == 7 || Convert.ToInt32(Ay1.Text) == 8 || Convert.ToInt32(Ay1.Text) == 10 || Convert.ToInt32(Ay1.Text) == 12)
                         {
-                            if (!string.IsNullOrEmpty(Gun1.Text) && Convert.ToInt32(Gun1.Text) <= 31 && Convert.ToInt32(Gun1.Text) > 0)
+                            if (!string.IsNullOrEmpty(Gun1.Text) && !string.IsNullOrWhiteSpace(Gun1.Text) && Convert.ToInt32(Gun1.Text) <= 31 && Convert.ToInt32(Gun1.Text) > 0)
                             {
                                 Convert.ToInt32(Gun1.Text);
                                 model.Tarih = new DateTime(Convert.ToInt32(Yil1.Text), Convert.ToInt32(Ay1.Text), Convert.ToInt32(Gun1.Text));
@@ -107,7 +111,7 @@ namespace AYP
                         }
                         else if (Convert.ToInt32(Ay1.Text) == 2)
                         {
-                            if (!string.IsNullOrEmpty(Gun1.Text) && Convert.ToInt32(Gun1.Text) <= 29 && Convert.ToInt32(Gun1.Text) > 0)
+                            if (!string.IsNullOrEmpty(Gun1.Text) && !string.IsNullOrWhiteSpace(Gun1.Text) && Convert.ToInt32(Gun1.Text) <= 29 && Convert.ToInt32(Gun1.Text) > 0)
                             {
                                 Convert.ToInt32(Gun1.Text);
                                 model.Tarih = new DateTime(Convert.ToInt32(Yil1.Text), Convert.ToInt32(Ay1.Text), Convert.ToInt32(Gun1.Text));
@@ -122,7 +126,7 @@ namespace AYP
                         }
                         else
                         {
-                            if (!string.IsNullOrEmpty(Gun1.Text) && Convert.ToInt32(Gun1.Text) <= 30 && Convert.ToInt32(Gun1.Text) > 0)
+                            if (!string.IsNullOrEmpty(Gun1.Text) && !string.IsNullOrWhiteSpace(Gun1.Text) && Convert.ToInt32(Gun1.Text) <= 30 && Convert.ToInt32(Gun1.Text) > 0)
                             {
                                 Convert.ToInt32(Gun1.Text);
                                 model.Tarih = new DateTime(Convert.ToInt32(Yil1.Text), Convert.ToInt32(Ay1.Text), Convert.ToInt32(Gun1.Text));
@@ -161,44 +165,95 @@ namespace AYP
                 validmi = false;
             }
 
-
-
-            if (!string.IsNullOrEmpty(Yil2.Text) && Convert.ToInt32(Yil2.Text) <= DateTime.Now.Year + 20 && Convert.ToInt32(Yil2.Text) >= 2020)
+            if(string.IsNullOrEmpty(Yil2.Text) && string.IsNullOrWhiteSpace(Yil2.Text) && string.IsNullOrEmpty(Ay2.Text) && string.IsNullOrWhiteSpace(Ay2.Text) && string.IsNullOrEmpty(Gun2.Text) && string.IsNullOrWhiteSpace(Gun2.Text))
             {
-                Convert.ToInt32(Yil2.Text);
-                if (!string.IsNullOrEmpty(Ay2.Text) && Convert.ToInt32(Ay2.Text) <= 12 && Convert.ToInt32(Ay2.Text) > 0)
+                validmi2 = true;
+                Gun2.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                Ay2.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                Yil2.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(Yil2.Text) && !string.IsNullOrWhiteSpace(Yil2.Text) && Convert.ToInt32(Yil2.Text) <= DateTime.Now.Year + 20 && Convert.ToInt32(Yil2.Text) >= 2020)
                 {
-                    Convert.ToInt32(Ay2.Text);
-
-                    if (Convert.ToInt32(Ay2.Text) == 1 || Convert.ToInt32(Ay2.Text) == 3 || Convert.ToInt32(Ay2.Text) == 5 || Convert.ToInt32(Ay2.Text) == 7 || Convert.ToInt32(Ay2.Text) == 8 || Convert.ToInt32(Ay2.Text) == 10 || Convert.ToInt32(Ay2.Text) == 12)
+                    validmi2 = false;
+                    Convert.ToInt32(Yil2.Text);
+                    Gun2.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                    Ay2.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                    Yil2.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                    if (!string.IsNullOrEmpty(Ay2.Text) && !string.IsNullOrWhiteSpace(Ay2.Text) && Convert.ToInt32(Ay2.Text) <= 12 && Convert.ToInt32(Ay2.Text) > 0)
                     {
-                        if (!string.IsNullOrEmpty(Gun2.Text) && Convert.ToInt32(Gun2.Text) <= 31 && Convert.ToInt32(Gun2.Text) > 0)
+                        Convert.ToInt32(Ay2.Text);
+                        Gun2.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                        Ay2.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                        Yil2.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                        if (Convert.ToInt32(Ay2.Text) == 1 || Convert.ToInt32(Ay2.Text) == 3 || Convert.ToInt32(Ay2.Text) == 5 || Convert.ToInt32(Ay2.Text) == 7 || Convert.ToInt32(Ay2.Text) == 8 || Convert.ToInt32(Ay2.Text) == 10 || Convert.ToInt32(Ay2.Text) == 12)
                         {
-                            Convert.ToInt32(Gun2.Text);
-                            model.DegistirmeTarihi = new DateTime(Convert.ToInt32(Yil2.Text), Convert.ToInt32(Ay2.Text), Convert.ToInt32(Gun2.Text));
-                        }
+                            if (!string.IsNullOrEmpty(Gun2.Text) && !string.IsNullOrWhiteSpace(Gun2.Text) && Convert.ToInt32(Gun2.Text) <= 31 && Convert.ToInt32(Gun2.Text) > 0)
+                            {
+                                Convert.ToInt32(Gun2.Text);
+                                model.DegistirmeTarihi = new DateTime(Convert.ToInt32(Yil2.Text), Convert.ToInt32(Ay2.Text), Convert.ToInt32(Gun2.Text));
+                                validmi2 = true;
+                            }
+                            else
+                            {
+                                Gun2.BorderBrush = new SolidColorBrush(Colors.Red);
+                                Ay2.BorderBrush = new SolidColorBrush(Colors.Red);
+                                Yil2.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                            }
 
-                    }
-                    else if (Convert.ToInt32(Ay2.Text) == 2)
-                    {
-                        if (!string.IsNullOrEmpty(Gun2.Text) && Convert.ToInt32(Gun2.Text) <= 29 && Convert.ToInt32(Gun2.Text) > 0)
+                        }
+                        else if (Convert.ToInt32(Ay2.Text) == 2)
                         {
-                            Convert.ToInt32(Gun2.Text);
-                            model.DegistirmeTarihi = new DateTime(Convert.ToInt32(Yil2.Text), Convert.ToInt32(Ay2.Text), Convert.ToInt32(Gun2.Text));
-                        }
+                            if (!string.IsNullOrEmpty(Gun2.Text) && !string.IsNullOrWhiteSpace(Gun2.Text) && Convert.ToInt32(Gun2.Text) <= 29 && Convert.ToInt32(Gun2.Text) > 0)
+                            {
+                                Convert.ToInt32(Gun2.Text);
+                                model.DegistirmeTarihi = new DateTime(Convert.ToInt32(Yil2.Text), Convert.ToInt32(Ay2.Text), Convert.ToInt32(Gun2.Text));
+                                validmi2 = true;
+                            }
+                            else
+                            {
+                                Gun2.BorderBrush = new SolidColorBrush(Colors.Red);
+                                Ay2.BorderBrush = new SolidColorBrush(Colors.Red);
+                                Yil2.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                            }
 
+                        }
+                        else
+                        {
+                            if (!string.IsNullOrEmpty(Gun2.Text) && !string.IsNullOrWhiteSpace(Gun2.Text) && Convert.ToInt32(Gun2.Text) <= 30 && Convert.ToInt32(Gun2.Text) > 0)
+                            {
+                                Convert.ToInt32(Gun2.Text);
+                                model.DegistirmeTarihi = new DateTime(Convert.ToInt32(Yil2.Text), Convert.ToInt32(Ay2.Text), Convert.ToInt32(Gun2.Text));
+                                validmi2 = true;
+                            }
+                            else
+                            {
+                                Gun2.BorderBrush = new SolidColorBrush(Colors.Red);
+                                Ay2.BorderBrush = new SolidColorBrush(Colors.Red);
+                                Yil2.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                            }
+                        }
                     }
                     else
                     {
-                        if (!string.IsNullOrEmpty(Gun2.Text) && Convert.ToInt32(Gun2.Text) <= 30 && Convert.ToInt32(Gun2.Text) > 0)
-                        {
-                            Convert.ToInt32(Gun2.Text);
-                            model.DegistirmeTarihi = new DateTime(Convert.ToInt32(Yil2.Text), Convert.ToInt32(Ay2.Text), Convert.ToInt32(Gun2.Text));
-                        }
+                        Gun2.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                        Ay2.BorderBrush = new SolidColorBrush(Colors.Red);
+                        Yil2.BorderBrush = new SolidColorBrush(Colors.Transparent);
                     }
                 }
+                else
+                {
+                    Gun2.BorderBrush = new SolidColorBrush(Colors.Red);
+                    Ay2.BorderBrush = new SolidColorBrush(Colors.Red);
+                    Yil2.BorderBrush = new SolidColorBrush(Colors.Red);
+                    validmi2 = false;
+                }
             }
-            if (validmi)
+
+            
+            if (validmi && validmi2)
             {
                 var validationContext = new ValidationContext(model, null, null);
                 var results = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
@@ -2466,6 +2521,11 @@ namespace AYP
             var tableHeight = test.GetOccupiedArea().GetBBox().GetHeight();
 
             return tableHeight;
+        }
+
+        private void Yil2_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+
         }
     }
 }
