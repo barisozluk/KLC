@@ -7,6 +7,7 @@ using iText.Kernel.Geom;
 using iText.Kernel.Pdf;
 using iText.Layout;
 using iText.Layout.Element;
+using iText.Layout.Layout;
 using iText.Layout.Properties;
 using log4net;
 using System;
@@ -367,39 +368,48 @@ namespace AYP
                     var toplamaAgAnahtarlari = agAnahtarlari.Where(x => x.TurAd == "Toplama").ToList();
                     var omurgaAgAnahtarlari = agAnahtarlari.Where(x => x.TurAd == "Omurga").ToList();
 
+                    int pageNumber = 1;
                     var outputStream = new FileStream(path + "\\Ağ Planlama Raporu.pdf", FileMode.Create);
                     PdfDocument pdf = new PdfDocument(new PdfWriter(outputStream));
                     Document doc = new Document(pdf, PageSize.A4);
                     doc.SetFontProvider(new DefaultFontProvider(true, true, true));
 
-                    SetRaporHeader(doc);
-                    SetRaporFooter(doc);
+                    float totalHeight = doc.GetPdfDocument().GetDefaultPageSize().GetHeight();
+                    float headerHeight = SetRaporHeader(doc);
+                    float footerHeight = SetRaporFooter(doc, pageNumber);
 
                     Paragraph header = new Paragraph("SEMA - AYP AĞ PLANLAMA RAPORU");
-                    header.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    header.SetFontFamily(new string[] { "Arial", "serif" });
                     header.SetFontSize(16);
                     header.SetBold();
-                    header.SetMarginLeft(130);
-                    header.SetMarginTop(250);
+                    header.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
+                    header.SetMarginTop(275);
                     doc.Add(header);
                     doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-                    SetRaporHeader(doc);
-                    SetRaporFooter(doc);
+                    pageNumber += 1;
 
-                    SetUcBirimTable(doc, ucBirimler);
+                    SetRaporHeader(doc);
+                    SetRaporFooter(doc, pageNumber);
+                    float emptyHeight = totalHeight - (footerHeight + headerHeight);
+
+                    pageNumber = SetUcBirimTable(doc, ucBirimler, pageNumber, emptyHeight);
                     if (ucBirimler.Count > 0)
                     {
                         doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        pageNumber += 1;
+
                         SetRaporHeader(doc);
-                        SetRaporFooter(doc);
+                        SetRaporFooter(doc, pageNumber);
                     }
 
-                    SetAgAnahtariTable(doc, agAnahtarlari);
+                    pageNumber = SetAgAnahtariTable(doc, agAnahtarlari, pageNumber, emptyHeight);
                     if (agAnahtarlari.Count > 0)
                     {
                         doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        pageNumber += 1;
+
                         SetRaporHeader(doc);
-                        SetRaporFooter(doc);
+                        SetRaporFooter(doc, pageNumber);
                     }
 
                     List<ConnectViewModel> connectList = new List<ConnectViewModel>();
@@ -457,12 +467,14 @@ namespace AYP
                         }
                     }
 
-                    SetKenarToUcBirimTable(doc, connectList);
+                    pageNumber = SetKenarToUcBirimTable(doc, connectList, pageNumber, emptyHeight);
                     if (connectList.Count > 0)
                     {
                         doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        pageNumber += 1;
+
                         SetRaporHeader(doc);
-                        SetRaporFooter(doc);
+                        SetRaporFooter(doc, pageNumber);
                     }
 
                     connectList = new List<ConnectViewModel>();
@@ -520,12 +532,14 @@ namespace AYP
                         }
                     }
 
-                    SetToplamaToKenarTable(doc, connectList);
+                    pageNumber = SetToplamaToKenarTable(doc, connectList, pageNumber, emptyHeight);
                     if (connectList.Count > 0)
                     {
                         doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        pageNumber += 1;
+
                         SetRaporHeader(doc);
-                        SetRaporFooter(doc);
+                        SetRaporFooter(doc, pageNumber);
                     }
 
                     connectList = new List<ConnectViewModel>();
@@ -583,20 +597,27 @@ namespace AYP
                         }
                     }
 
-                    SetOmurgaToKenarTable(doc, connectList);
+                    pageNumber = SetOmurgaToKenarTable(doc, connectList, pageNumber, emptyHeight);
                     if (connectList.Count > 0)
                     {
                         doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        pageNumber += 1;
+
                         SetRaporHeader(doc);
-                        SetRaporFooter(doc);
+                        SetRaporFooter(doc, pageNumber);
                     }
 
                     var img = iText.IO.Image.ImageDataFactory.Create(capture);
                     Image pdfImg = new Image(img);
                     pdfImg.SetWidth(532);
-                    pdfImg.SetMarginTop(120);
+                    pdfImg.SetMarginTop(50);
                     doc.Add(pdfImg);
-
+                    Paragraph captureDef = new Paragraph("Şekil 1 - Ağ Planlama Çalışma Alanı Ekran Görüntüsü");
+                    captureDef.SetFontFamily(new string[] { "Arial", "serif" });
+                    captureDef.SetFontSize(11);
+                    captureDef.SetBold();
+                    captureDef.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
+                    doc.Add(captureDef);
                     doc.Close();
 
                     NotifySuccessPopup nfp = new NotifySuccessPopup();
@@ -609,30 +630,37 @@ namespace AYP
             }
         }
 
-        private void SetUcBirimTable(Document doc, List<NodeViewModel> ucBirimler)
+        private int SetUcBirimTable(Document doc, List<NodeViewModel> ucBirimler, int pageNumber, float emptyHeight)
         {
+            var tempHeight = emptyHeight;
+
             Paragraph ucBirimHeader = new Paragraph("1. Uç Birimler");
-            ucBirimHeader.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            ucBirimHeader.SetFontFamily(new string[] { "Arial", "serif" });
             ucBirimHeader.SetFontSize(11);
             ucBirimHeader.SetBold();
             ucBirimHeader.SetMarginTop(50);
             doc.Add(ucBirimHeader);
+            tempHeight = tempHeight - 50;
 
             if (ucBirimler.Count == 0)
             {
                 Paragraph noUcBirimParagraph = new Paragraph("Uç Birim Bulunmamaktadır.");
-                noUcBirimParagraph.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                noUcBirimParagraph.SetFontFamily(new string[] { "Arial", "serif" });
                 noUcBirimParagraph.SetFontSize(11);
-                noUcBirimParagraph.SetMarginTop(20);
+                noUcBirimParagraph.SetMarginTop(25);
                 doc.Add(noUcBirimParagraph);
                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                pageNumber += 1;
                 SetRaporHeader(doc);
-                SetRaporFooter(doc);
+                SetRaporFooter(doc, pageNumber);
             }
 
             if (ucBirimler.Count > 0)
             {
-                Table table = new Table(new float[] { 100, 143, 100, 100, 100, 100, 100 });
+                Table table = new Table(new float[7]);
+                table.SetMarginTop(25);
+                tempHeight = tempHeight - 25;
+
                 for (int j = 0; j < table.GetNumberOfColumns(); j++)
                 {
                     Cell c = new Cell();
@@ -640,7 +668,7 @@ namespace AYP
                     if (j == 0)
                     {
                         c.Add(new Paragraph("Birim Adı"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -649,7 +677,7 @@ namespace AYP
                     if (j == 1)
                     {
                         c.Add(new Paragraph("Tanım"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -658,7 +686,7 @@ namespace AYP
                     if (j == 2)
                     {
                         c.Add(new Paragraph("Stok No"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -667,7 +695,7 @@ namespace AYP
                     if (j == 3)
                     {
                         c.Add(new Paragraph("Üretici"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -676,7 +704,7 @@ namespace AYP
                     if (j == 4)
                     {
                         c.Add(new Paragraph("Girdi Ağ Arayüzü Sayısı"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -685,7 +713,7 @@ namespace AYP
                     if (j == 5)
                     {
                         c.Add(new Paragraph("Çıktı Ağ Arayüzü Sayısı"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -694,7 +722,7 @@ namespace AYP
                     if (j == 6)
                     {
                         c.Add(new Paragraph("Güç Arayüzü Sayısı"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -704,145 +732,170 @@ namespace AYP
                 }
 
                 int row = 0;
+                float previousTableHeight = 0;
+                float currentTableHeight = CalculateTableHeight(doc, table);
+
                 for (int j = 0; j < ucBirimler.Count; j++)
                 {
+                    tempHeight = tempHeight - (currentTableHeight - previousTableHeight);
+                    previousTableHeight = currentTableHeight;
+
+                    if (tempHeight < 25)
+                    {
+                        doc.Add(table);
+                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        pageNumber += 1;
+
+                        tempHeight = emptyHeight;
+                        table = new Table(new float[7]);
+                        table.SetMarginTop(25);
+                        tempHeight = tempHeight - 25;
+                        previousTableHeight = 0;
+                        currentTableHeight = CalculateTableHeight(doc, table);
+
+                        SetRaporHeader(doc);
+                        SetRaporFooter(doc, pageNumber);
+                    }
+
                     Cell c = new Cell();
+                    c.SetMinWidth(120);
                     c.Add(new Paragraph(ucBirimler[row].Name));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     c = new Cell();
+                    c.SetMinWidth(180);
                     c.Add(new Paragraph(ucBirimler[row].Tanim));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     c = new Cell();
                     c.Add(new Paragraph(ucBirimler[row].StokNo));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     c = new Cell();
                     c.Add(new Paragraph(ucBirimler[row].UreticiAdi));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     c = new Cell();
+                    c.SetWidth(35);
                     c.Add(new Paragraph(ucBirimler[row].InputList.Where(x => x.TypeId == (int)TipEnum.UcBirimAgArayuzu).Count().ToString()));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     c = new Cell();
+                    c.SetWidth(35);
                     c.Add(new Paragraph(ucBirimler[row].OutputList.Where(x => x.TypeId == (int)TipEnum.UcBirimAgArayuzu).Count().ToString()));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     c = new Cell();
+                    c.SetWidth(35);
                     c.Add(new Paragraph(ucBirimler[row].InputList.Where(x => x.TypeId == (int)TipEnum.UcBirimGucArayuzu).Count().ToString()));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     row++;
-                    if (row >= 10 && row % 10 == 0)
-                    {
-                        if (row == 10)
-                        {
-                            table.SetMarginTop(20);
-                            doc.Add(table);
-
-                            if (ucBirimler.Count > row)
-                            {
-                                table = new Table(new float[] { 100, 143, 100, 100, 100, 100, 100 });
-                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-
-                                SetRaporHeader(doc);
-                                SetRaporFooter(doc);
-                            }
-                        }
-                        else
-                        {
-                            table.SetMarginTop(120);
-                            doc.Add(table);
-
-                            if (ucBirimler.Count > row)
-                            {
-                                table = new Table(new float[] { 100, 143, 100, 100, 100, 100, 100 });
-                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-
-                                SetRaporHeader(doc);
-                                SetRaporFooter(doc);
-                            }
-                        }
-
-                    }
+                    currentTableHeight = CalculateTableHeight(doc, table);
                 }
 
-                if (ucBirimler.Count > 10 && ucBirimler.Count % 10 != 0)
+                if (tempHeight < 25)
                 {
-                    table.SetMarginTop(120);
-                    doc.Add(table);
-                }
-                else if (ucBirimler.Count < 10)
-                {
-                    table.SetMarginTop(20);
-                    doc.Add(table);
-                }
+                    doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                    pageNumber += 1;
 
-                Table tableTotal = new Table(new float[] { 400, 393 });
-                Cell c1 = new Cell();
-                c1.Add(new Paragraph("Toplam Uç Birim Sayısı"));
-                c1.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-                c1.SetFontSize(11);
-                c1.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
-                c1.SetBold();
-                tableTotal.AddCell(c1);
-                c1 = new Cell();
-                c1.Add(new Paragraph(ucBirimler.Count.ToString()));
-                c1.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-                c1.SetFontSize(11);
-                c1.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
-                tableTotal.AddCell(c1);
-                doc.Add(tableTotal);
+                    Table tableTotal = new Table(new float[] { 400, 393 });
+                    tableTotal.SetMarginTop(25);
+                    Cell c1 = new Cell();
+                    c1.Add(new Paragraph("Toplam Uç Birim Sayısı"));
+                    c1.SetFontFamily(new string[] { "Arial", "serif" });
+                    c1.SetFontSize(11);
+                    c1.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
+                    c1.SetBold();
+                    tableTotal.AddCell(c1);
+                    c1 = new Cell();
+                    c1.Add(new Paragraph(ucBirimler.Count.ToString()));
+                    c1.SetFontFamily(new string[] { "Arial", "serif" });
+                    c1.SetFontSize(11);
+                    c1.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
+                    tableTotal.AddCell(c1);
+                    doc.Add(tableTotal);
+
+                    SetRaporHeader(doc);
+                    SetRaporFooter(doc, pageNumber);
+                }
+                else
+                {
+                    doc.Add(table);
+
+                    Table tableTotal = new Table(new float[] { 400, 393 });
+                    Cell c1 = new Cell();
+                    c1.Add(new Paragraph("Toplam Uç Birim Sayısı"));
+                    c1.SetFontFamily(new string[] { "Arial", "serif" });
+                    c1.SetFontSize(11);
+                    c1.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
+                    c1.SetBold();
+                    tableTotal.AddCell(c1);
+                    c1 = new Cell();
+                    c1.Add(new Paragraph(ucBirimler.Count.ToString()));
+                    c1.SetFontFamily(new string[] { "Arial", "serif" });
+                    c1.SetFontSize(11);
+                    c1.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
+                    tableTotal.AddCell(c1);
+                    doc.Add(tableTotal);
+                }
             }
+
+            return pageNumber;
         }
 
-        private void SetAgAnahtariTable(Document doc, List<NodeViewModel> agAnahtarlari)
+        private int SetAgAnahtariTable(Document doc, List<NodeViewModel> agAnahtarlari, int pageNumber, float emptyHeight)
         {
+            var tempHeight = emptyHeight;
+
             Paragraph agAnahtariHeader = new Paragraph("2. Ağ Anahtarları");
-            agAnahtariHeader.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            agAnahtariHeader.SetFontFamily(new string[] { "Arial", "serif" });
             agAnahtariHeader.SetFontSize(11);
             agAnahtariHeader.SetBold();
-            agAnahtariHeader.SetMarginTop(120);
+            agAnahtariHeader.SetMarginTop(50);
+            tempHeight = tempHeight - 50;
             doc.Add(agAnahtariHeader);
 
             if (agAnahtarlari.Count == 0)
             {
                 Paragraph noAgAnahtariParagraph = new Paragraph("Ağ Anahtarı Bulunmamaktadır.");
-                noAgAnahtariParagraph.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                noAgAnahtariParagraph.SetFontFamily(new string[] { "Arial", "serif" });
                 noAgAnahtariParagraph.SetFontSize(11);
-                noAgAnahtariParagraph.SetMarginTop(20);
+                noAgAnahtariParagraph.SetMarginTop(25);
                 doc.Add(noAgAnahtariParagraph);
                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                pageNumber += 1;
                 SetRaporHeader(doc);
-                SetRaporFooter(doc);
+                SetRaporFooter(doc, pageNumber);
             }
 
             if (agAnahtarlari.Count > 0)
             {
-                Table table = new Table(new float[] { 100, 143, 100, 100, 100, 100, 100 });
+                Table table = new Table(new float[7]);
+                table.SetMarginTop(25);
+                tempHeight = tempHeight - 25;
+
                 for (int j = 0; j < table.GetNumberOfColumns(); j++)
                 {
                     Cell c = new Cell();
@@ -850,7 +903,7 @@ namespace AYP
                     if (j == 0)
                     {
                         c.Add(new Paragraph("Birim Adı"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -859,7 +912,7 @@ namespace AYP
                     if (j == 1)
                     {
                         c.Add(new Paragraph("Tanım"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -868,7 +921,7 @@ namespace AYP
                     if (j == 2)
                     {
                         c.Add(new Paragraph("Stok No"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -877,7 +930,7 @@ namespace AYP
                     if (j == 3)
                     {
                         c.Add(new Paragraph("Üretici"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -886,7 +939,7 @@ namespace AYP
                     if (j == 4)
                     {
                         c.Add(new Paragraph("Girdi Ağ Arayüzü Sayısı"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -895,7 +948,7 @@ namespace AYP
                     if (j == 5)
                     {
                         c.Add(new Paragraph("Çıktı Ağ Arayüzü Sayısı"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetBold();
                     }
@@ -903,7 +956,7 @@ namespace AYP
                     if (j == 6)
                     {
                         c.Add(new Paragraph("Güç Arayüzü Sayısı"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -913,145 +966,168 @@ namespace AYP
                 }
 
                 int row = 0;
+                float previousTableHeight = 0;
+                float currentTableHeight = CalculateTableHeight(doc, table);
+
                 for (int j = 0; j < agAnahtarlari.Count; j++)
                 {
+                    tempHeight = tempHeight - (currentTableHeight - previousTableHeight);
+                    previousTableHeight = currentTableHeight;
+
+                    if (tempHeight < 25)
+                    {
+                        doc.Add(table);
+                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        pageNumber += 1;
+
+                        tempHeight = emptyHeight;
+                        table = new Table(new float[7]);
+                        table.SetMarginTop(25);
+                        tempHeight = tempHeight - 25;
+                        previousTableHeight = 0;
+                        currentTableHeight = CalculateTableHeight(doc, table);
+
+                        SetRaporHeader(doc);
+                        SetRaporFooter(doc, pageNumber);
+                    }
+
                     Cell c = new Cell();
+                    c.SetMinWidth(120);
                     c.Add(new Paragraph(agAnahtarlari[row].Name));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     c = new Cell();
+                    c.SetMinWidth(180);
                     c.Add(new Paragraph(agAnahtarlari[row].Tanim));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     c = new Cell();
                     c.Add(new Paragraph(agAnahtarlari[row].StokNo));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     c = new Cell();
                     c.Add(new Paragraph(agAnahtarlari[row].UreticiAdi));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     c = new Cell();
+                    c.SetWidth(35);
                     c.Add(new Paragraph(agAnahtarlari[row].InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu).Count().ToString()));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     c = new Cell();
+                    c.SetWidth(35);
                     c.Add(new Paragraph(agAnahtarlari[row].OutputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu).Count().ToString()));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     c = new Cell();
+                    c.SetWidth(35);
                     c.Add(new Paragraph(agAnahtarlari[row].InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariGucArayuzu).Count().ToString()));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     row++;
-                    if (row >= 10 && row % 10 == 0)
-                    {
-                        if (row == 10)
-                        {
-                            table.SetMarginTop(20);
-                            doc.Add(table);
-
-                            if (agAnahtarlari.Count > row)
-                            {
-                                table = new Table(new float[] { 100, 143, 100, 100, 100, 100, 100 });
-                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-
-                                SetRaporHeader(doc);
-                                SetRaporFooter(doc);
-                            }
-                        }
-                        else
-                        {
-                            table.SetMarginTop(120);
-                            doc.Add(table);
-
-                            if (agAnahtarlari.Count > row)
-                            {
-                                table = new Table(new float[] { 100, 143, 100, 100, 100, 100, 100 });
-                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-
-                                SetRaporHeader(doc);
-                                SetRaporFooter(doc);
-                            }
-                        }
-
-                    }
+                    currentTableHeight = CalculateTableHeight(doc, table);
                 }
 
-                if (agAnahtarlari.Count > 10 && agAnahtarlari.Count % 10 != 0)
+                if (tempHeight < 25)
                 {
-                    table.SetMarginTop(120);
-                    doc.Add(table);
-                }
-                else if (agAnahtarlari.Count < 10)
-                {
-                    table.SetMarginTop(20);
-                    doc.Add(table);
-                }
+                    doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                    pageNumber += 1;
 
-                Table tableTotal = new Table(new float[] { 400, 393 });
-                Cell c1 = new Cell();
-                c1.Add(new Paragraph("Toplam Ağ Anahtarı Sayısı"));
-                c1.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-                c1.SetFontSize(11);
-                c1.SetBold();
-                c1.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
-                tableTotal.AddCell(c1);
-                c1 = new Cell();
-                c1.Add(new Paragraph(agAnahtarlari.Count.ToString()));
-                c1.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-                c1.SetFontSize(11);
-                c1.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
-                tableTotal.AddCell(c1);
-                doc.Add(tableTotal);
+                    Table tableTotal = new Table(new float[] { 400, 393 });
+                    tableTotal.SetMarginTop(25);
+                    Cell c1 = new Cell();
+                    c1.Add(new Paragraph("Toplam Ağ Anahtarı Sayısı"));
+                    c1.SetFontFamily(new string[] { "Arial", "serif" });
+                    c1.SetFontSize(11);
+                    c1.SetBold();
+                    c1.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
+                    tableTotal.AddCell(c1);
+                    c1 = new Cell();
+                    c1.Add(new Paragraph(agAnahtarlari.Count.ToString()));
+                    c1.SetFontFamily(new string[] { "Arial", "serif" });
+                    c1.SetFontSize(11);
+                    c1.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
+                    tableTotal.AddCell(c1);
+                    doc.Add(tableTotal);
+                }
+                else
+                {
+                    doc.Add(table);
+
+                    Table tableTotal = new Table(new float[] { 400, 393 });
+                    Cell c1 = new Cell();
+                    c1.Add(new Paragraph("Toplam Ağ Anahtarı Sayısı"));
+                    c1.SetFontFamily(new string[] { "Arial", "serif" });
+                    c1.SetFontSize(11);
+                    c1.SetBold();
+                    c1.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
+                    tableTotal.AddCell(c1);
+                    c1 = new Cell();
+                    c1.Add(new Paragraph(agAnahtarlari.Count.ToString()));
+                    c1.SetFontFamily(new string[] { "Arial", "serif" });
+                    c1.SetFontSize(11);
+                    c1.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
+                    tableTotal.AddCell(c1);
+                    doc.Add(tableTotal);
+                }
             }
+
+            return pageNumber;
         }
 
-        private void SetKenarToUcBirimTable(Document doc, List<ConnectViewModel> connectList)
+        private int SetKenarToUcBirimTable(Document doc, List<ConnectViewModel> connectList, int pageNumber, float emptyHeight)
         {
+            var tempHeight = emptyHeight;
+
             Paragraph kenarUcBirimHeader = new Paragraph("3. Kenar Ağ Anahtarları ve Bağlı Olduğu Uç Birimler");
-            kenarUcBirimHeader.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            kenarUcBirimHeader.SetFontFamily(new string[] { "Arial", "serif" });
             kenarUcBirimHeader.SetFontSize(11);
             kenarUcBirimHeader.SetBold();
-            kenarUcBirimHeader.SetMarginTop(120);
+            kenarUcBirimHeader.SetMarginTop(50);
+            tempHeight = tempHeight - 50;
             doc.Add(kenarUcBirimHeader);
 
             if (connectList.Count == 0)
             {
                 Paragraph noBaglantiParagraph = new Paragraph("Uygun bağlantı bulunmamaktadır.");
-                noBaglantiParagraph.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                noBaglantiParagraph.SetFontFamily(new string[] { "Arial", "serif" });
                 noBaglantiParagraph.SetFontSize(11);
-                noBaglantiParagraph.SetMarginTop(20);
+                noBaglantiParagraph.SetMarginTop(25);
                 doc.Add(noBaglantiParagraph);
                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                pageNumber += 1;
+
                 SetRaporHeader(doc);
-                SetRaporFooter(doc);
+                SetRaporFooter(doc, pageNumber);
             }
 
             if (connectList.Count > 0)
             {
                 Table table = new Table(new float[] { 300, 300, 193 });
+                table.SetMarginTop(25);
+                tempHeight = tempHeight - 25;
+
                 for (int j = 0; j < table.GetNumberOfColumns(); j++)
                 {
                     Cell c = new Cell();
@@ -1059,7 +1135,7 @@ namespace AYP
                     if (j == 0)
                     {
                         c.Add(new Paragraph("Uç Birim Adı"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -1068,7 +1144,7 @@ namespace AYP
                     if (j == 1)
                     {
                         c.Add(new Paragraph("Ağ Anahtarı Adı"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -1077,7 +1153,7 @@ namespace AYP
                     if (j == 2)
                     {
                         c.Add(new Paragraph("Ağ Yükü (mbps)"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -1087,8 +1163,31 @@ namespace AYP
                 }
 
                 int row = 0;
+                float previousTableHeight = 0;
+                float currentTableHeight = CalculateTableHeight(doc, table);
+
                 for (int j = 0; j < connectList.Count; j++)
                 {
+                    tempHeight = tempHeight - (currentTableHeight - previousTableHeight);
+                    previousTableHeight = currentTableHeight;
+
+                    if (tempHeight < 25)
+                    {
+                        doc.Add(table);
+                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        pageNumber += 1;
+
+                        tempHeight = emptyHeight;
+                        table = new Table(new float[] { 300, 300, 193 });
+                        table.SetMarginTop(25);
+                        tempHeight = tempHeight - 25;
+                        previousTableHeight = 0;
+                        currentTableHeight = CalculateTableHeight(doc, table);
+
+                        SetRaporHeader(doc);
+                        SetRaporFooter(doc, pageNumber);
+                    }
+
                     Cell c = new Cell();
                     if (connectList[row].FromConnector.Node.TypeId == (int)TipEnum.UcBirim)
                     {
@@ -1099,7 +1198,7 @@ namespace AYP
                         c.Add(new Paragraph(connectList[row].ToConnector.Node.Name));
                     }
 
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
@@ -1114,90 +1213,63 @@ namespace AYP
                         c.Add(new Paragraph(connectList[row].ToConnector.Node.Name));
                     }
 
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     c = new Cell();
                     c.Add(new Paragraph(connectList[row].AgYuku.ToString("0.##")));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     row++;
-                    if (row >= 10 && row % 10 == 0)
-                    {
-                        if (row == 10)
-                        {
-                            table.SetMarginTop(20);
-                            doc.Add(table);
-
-                            if (connectList.Count > row)
-                            {
-                                table = new Table(new float[] { 300, 300, 193 });
-                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-
-                                SetRaporHeader(doc);
-                                SetRaporFooter(doc);
-                            }
-                        }
-                        else
-                        {
-                            table.SetMarginTop(120);
-                            doc.Add(table);
-
-                            if (connectList.Count > row)
-                            {
-                                table = new Table(new float[] { 300, 300, 193 });
-                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-
-                                SetRaporHeader(doc);
-                                SetRaporFooter(doc);
-                            }
-                        }
-
-                    }
+                    currentTableHeight = CalculateTableHeight(doc, table);
                 }
 
-                if (connectList.Count > 10 && connectList.Count % 10 != 0)
+                if (tempHeight >= 25)
                 {
-                    table.SetMarginTop(120);
-                    doc.Add(table);
-                }
-                else if (connectList.Count < 10)
-                {
-                    table.SetMarginTop(20);
                     doc.Add(table);
                 }
             }
+
+            return pageNumber;
         }
 
-        private void SetToplamaToKenarTable(Document doc, List<ConnectViewModel> connectList)
+        private int SetToplamaToKenarTable(Document doc, List<ConnectViewModel> connectList, int pageNumber, float emptyHeight)
         {
+            var tempHeight = emptyHeight;
+
             Paragraph toplamaKenarHeader = new Paragraph("4. Toplama Ağ Anahtarları ve Bağlı Olduğu Kenar Ağ Anahtarları");
-            toplamaKenarHeader.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            toplamaKenarHeader.SetFontFamily(new string[] { "Arial", "serif" });
             toplamaKenarHeader.SetFontSize(11);
             toplamaKenarHeader.SetBold();
-            toplamaKenarHeader.SetMarginTop(120);
+            toplamaKenarHeader.SetMarginTop(50);
+            tempHeight = tempHeight - 50;
             doc.Add(toplamaKenarHeader);
 
             if (connectList.Count == 0)
             {
                 Paragraph noBaglantiParagraph = new Paragraph("Uygun bağlantı bulunmamaktadır.");
-                noBaglantiParagraph.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                noBaglantiParagraph.SetFontFamily(new string[] { "Arial", "serif" });
                 noBaglantiParagraph.SetFontSize(11);
-                noBaglantiParagraph.SetMarginTop(20);
+                noBaglantiParagraph.SetMarginTop(25);
                 doc.Add(noBaglantiParagraph);
                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                pageNumber += 1;
+
                 SetRaporHeader(doc);
-                SetRaporFooter(doc);
+                SetRaporFooter(doc, pageNumber);
             }
 
             if (connectList.Count > 0)
             {
                 Table table = new Table(new float[] { 300, 300, 193 });
+                table.SetMarginTop(25);
+                tempHeight = tempHeight - 25;
+
                 for (int j = 0; j < table.GetNumberOfColumns(); j++)
                 {
                     Cell c = new Cell();
@@ -1205,7 +1277,7 @@ namespace AYP
                     if (j == 0)
                     {
                         c.Add(new Paragraph("Toplama Ağ Anahtarı Adı"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -1214,7 +1286,7 @@ namespace AYP
                     if (j == 1)
                     {
                         c.Add(new Paragraph("Kenar Ağ Anahtarı Adı"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -1223,7 +1295,7 @@ namespace AYP
                     if (j == 2)
                     {
                         c.Add(new Paragraph("Ağ Yükü (mbps)"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -1233,8 +1305,31 @@ namespace AYP
                 }
 
                 int row = 0;
+                float previousTableHeight = 0;
+                float currentTableHeight = CalculateTableHeight(doc, table);
+
                 for (int j = 0; j < connectList.Count; j++)
                 {
+                    tempHeight = tempHeight - (currentTableHeight - previousTableHeight);
+                    previousTableHeight = currentTableHeight;
+
+                    if (tempHeight < 25)
+                    {
+                        doc.Add(table);
+                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        pageNumber += 1;
+
+                        tempHeight = emptyHeight;
+                        table = new Table(new float[] { 300, 300, 193 });
+                        table.SetMarginTop(25);
+                        tempHeight = tempHeight - 25;
+                        previousTableHeight = 0;
+                        currentTableHeight = CalculateTableHeight(doc, table);
+
+                        SetRaporHeader(doc);
+                        SetRaporFooter(doc, pageNumber);
+                    }
+
                     Cell c = new Cell();
                     if (connectList[row].FromConnector.Node.TurAd == "Toplama")
                     {
@@ -1245,7 +1340,7 @@ namespace AYP
                         c.Add(new Paragraph(connectList[row].ToConnector.Node.Name));
                     }
 
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
@@ -1260,90 +1355,63 @@ namespace AYP
                         c.Add(new Paragraph(connectList[row].ToConnector.Node.Name));
                     }
 
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     c = new Cell();
                     c.Add(new Paragraph(connectList[row].AgYuku.ToString("0.##")));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     row++;
-                    if (row >= 10 && row % 10 == 0)
-                    {
-                        if (row == 10)
-                        {
-                            table.SetMarginTop(20);
-                            doc.Add(table);
-
-                            if (connectList.Count > row)
-                            {
-                                table = new Table(new float[] { 300, 300, 193 });
-                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-
-                                SetRaporHeader(doc);
-                                SetRaporFooter(doc);
-                            }
-                        }
-                        else
-                        {
-                            table.SetMarginTop(120);
-                            doc.Add(table);
-
-                            if (connectList.Count > row)
-                            {
-                                table = new Table(new float[] { 300, 300, 193 });
-                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-
-                                SetRaporHeader(doc);
-                                SetRaporFooter(doc);
-                            }
-                        }
-
-                    }
+                    currentTableHeight = CalculateTableHeight(doc, table);
                 }
 
-                if (connectList.Count > 10 && connectList.Count % 10 != 0)
+                if (tempHeight >= 25)
                 {
-                    table.SetMarginTop(120);
-                    doc.Add(table);
-                }
-                else if (connectList.Count < 10)
-                {
-                    table.SetMarginTop(20);
                     doc.Add(table);
                 }
             }
+
+            return pageNumber;
         }
 
-        private void SetOmurgaToKenarTable(Document doc, List<ConnectViewModel> connectList)
+        private int SetOmurgaToKenarTable(Document doc, List<ConnectViewModel> connectList, int pageNumber, float emptyHeight)
         {
+            float tempHeight = emptyHeight;
+
             Paragraph omurgaKenarHeader = new Paragraph("5. Omurga Ağ Anahtarları ve Bağlı Olduğu Kenar Ağ Anahtarları");
-            omurgaKenarHeader.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            omurgaKenarHeader.SetFontFamily(new string[] { "Arial", "serif" });
             omurgaKenarHeader.SetFontSize(11);
             omurgaKenarHeader.SetBold();
-            omurgaKenarHeader.SetMarginTop(120);
+            omurgaKenarHeader.SetMarginTop(50);
+            tempHeight = tempHeight - 50;
             doc.Add(omurgaKenarHeader);
 
             if (connectList.Count == 0)
             {
                 Paragraph noBaglantiParagraph = new Paragraph("Uygun bağlantı bulunmamaktadır.");
-                noBaglantiParagraph.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                noBaglantiParagraph.SetFontFamily(new string[] { "Arial", "serif" });
                 noBaglantiParagraph.SetFontSize(11);
-                noBaglantiParagraph.SetMarginTop(20);
+                noBaglantiParagraph.SetMarginTop(25);
                 doc.Add(noBaglantiParagraph);
                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                pageNumber += 1;
+
                 SetRaporHeader(doc);
-                SetRaporFooter(doc);
+                SetRaporFooter(doc, pageNumber);
             }
 
             if (connectList.Count > 0)
             {
                 Table table = new Table(new float[] { 300, 300, 193 });
+                table.SetMarginTop(25);
+                tempHeight = tempHeight - 25;
+
                 for (int j = 0; j < table.GetNumberOfColumns(); j++)
                 {
                     Cell c = new Cell();
@@ -1351,7 +1419,7 @@ namespace AYP
                     if (j == 0)
                     {
                         c.Add(new Paragraph("Omurga Ağ Anahtarı Adı"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -1360,7 +1428,7 @@ namespace AYP
                     if (j == 1)
                     {
                         c.Add(new Paragraph("Kenar Ağ Anahtarı Adı"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -1369,7 +1437,7 @@ namespace AYP
                     if (j == 2)
                     {
                         c.Add(new Paragraph("Ağ Yükü (mbps)"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -1379,8 +1447,31 @@ namespace AYP
                 }
 
                 int row = 0;
+                float previousTableHeight = 0;
+                float currentTableHeight = CalculateTableHeight(doc, table);
+
                 for (int j = 0; j < connectList.Count; j++)
                 {
+                    tempHeight = tempHeight - (currentTableHeight - previousTableHeight);
+                    previousTableHeight = currentTableHeight;
+
+                    if (tempHeight < 25)
+                    {
+                        doc.Add(table);
+                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        pageNumber += 1;
+
+                        tempHeight = emptyHeight;
+                        table = new Table(new float[] { 300, 300, 193 });
+                        table.SetMarginTop(25);
+                        tempHeight = tempHeight - 25;
+                        previousTableHeight = 0;
+                        currentTableHeight = CalculateTableHeight(doc, table);
+
+                        SetRaporHeader(doc);
+                        SetRaporFooter(doc, pageNumber);
+                    }
+
                     Cell c = new Cell();
                     if (connectList[row].FromConnector.Node.TurAd == "Omurga")
                     {
@@ -1391,7 +1482,7 @@ namespace AYP
                         c.Add(new Paragraph(connectList[row].ToConnector.Node.Name));
                     }
 
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
@@ -1406,63 +1497,28 @@ namespace AYP
                         c.Add(new Paragraph(connectList[row].ToConnector.Node.Name));
                     }
 
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     table.AddCell(c);
 
                     c = new Cell();
                     c.Add(new Paragraph(connectList[row].AgYuku.ToString("0.##")));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     row++;
-                    if (row >= 10 && row % 10 == 0)
-                    {
-                        if (row == 10)
-                        {
-                            table.SetMarginTop(20);
-                            doc.Add(table);
-
-                            if (connectList.Count > row)
-                            {
-                                table = new Table(new float[] { 300, 300, 193 });
-                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-
-                                SetRaporHeader(doc);
-                                SetRaporFooter(doc);
-                            }
-                        }
-                        else
-                        {
-                            table.SetMarginTop(120);
-                            doc.Add(table);
-
-                            if (connectList.Count > row)
-                            {
-                                table = new Table(new float[] { 300, 300, 193 });
-                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-
-                                SetRaporHeader(doc);
-                                SetRaporFooter(doc);
-                            }
-                        }
-
-                    }
+                    currentTableHeight = CalculateTableHeight(doc, table);
                 }
 
-                if (connectList.Count > 10 && connectList.Count % 10 != 0)
+                if (tempHeight >= 25)
                 {
-                    table.SetMarginTop(120);
-                    doc.Add(table);
-                }
-                else if (connectList.Count < 10)
-                {
-                    table.SetMarginTop(20);
                     doc.Add(table);
                 }
             }
+
+            return pageNumber;
         }
 
         private void GucPlanlamaRaporuOlustur()
@@ -1522,36 +1578,48 @@ namespace AYP
                 {
                     string path = fbd.SelectedPath;
 
+                    int pageNumber = 1;
                     var outputStream = new FileStream(path + "\\Güç Planlama Raporu.pdf", FileMode.Create);
                     PdfDocument pdf = new PdfDocument(new PdfWriter(outputStream));
                     Document doc = new Document(pdf, PageSize.A4);
                     doc.SetFontProvider(new DefaultFontProvider(true, true, true));
 
-                    SetRaporHeader(doc);
-                    SetRaporFooter(doc);
+                    float totalHeight = doc.GetPdfDocument().GetDefaultPageSize().GetHeight();
+                    float headerHeight = SetRaporHeader(doc);
+                    float footerHeight = SetRaporFooter(doc, pageNumber);
 
-                    iText.Layout.Element.Paragraph header = new iText.Layout.Element.Paragraph("SEMA - AYP GÜÇ PLANLAMA RAPORU");
-                    header.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    Paragraph header = new Paragraph("SEMA - AYP GÜÇ PLANLAMA RAPORU");
+                    header.SetFontFamily(new string[] { "Arial", "serif" });
                     header.SetFontSize(16);
                     header.SetBold();
-                    header.SetMarginLeft(130);
-                    header.SetMarginTop(10);
+                    header.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
+                    header.SetMarginTop(275);
                     doc.Add(header);
+                    doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                    pageNumber += 1;
 
-                    SetGucTuketicilerTable(doc, gucTuketiciler);
+                    SetRaporHeader(doc);
+                    SetRaporFooter(doc, pageNumber);
+                    float emptyHeight = totalHeight - (footerHeight + headerHeight);
+
+                    pageNumber = SetGucTuketicilerTable(doc, gucTuketiciler, pageNumber, emptyHeight);
                     if (gucTuketiciler.Count > 0)
                     {
                         doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        pageNumber += 1;
+
                         SetRaporHeader(doc);
-                        SetRaporFooter(doc);
+                        SetRaporFooter(doc, pageNumber);
                     }
 
-                    SetGucUreticilerTable(doc, gucUreticiler);
+                    pageNumber = SetGucUreticilerTable(doc, gucUreticiler, pageNumber, emptyHeight);
                     if (gucUreticiler.Count > 0)
                     {
                         doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        pageNumber += 1;
+
                         SetRaporHeader(doc);
-                        SetRaporFooter(doc);
+                        SetRaporFooter(doc, pageNumber);
                     }
 
                     List<ConnectViewModel> connectList = new List<ConnectViewModel>();
@@ -1588,12 +1656,14 @@ namespace AYP
                         }
                     }
 
-                    SetGucUreticiToGucTuketici(doc, connectList);
+                    pageNumber = SetGucUreticiToGucTuketici(doc, connectList, pageNumber, emptyHeight);
                     if (connectList.Count > 0)
                     {
                         doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        pageNumber += 1;
+
                         SetRaporHeader(doc);
-                        SetRaporFooter(doc);
+                        SetRaporFooter(doc, pageNumber);
                     }
 
                     var img = iText.IO.Image.ImageDataFactory.Create(capture);
@@ -1601,6 +1671,13 @@ namespace AYP
                     pdfImg.SetWidth(532);
                     pdfImg.SetMarginTop(120);
                     doc.Add(pdfImg);
+
+                    Paragraph captureDef = new Paragraph("Şekil 1 - Güç Planlama Çalışma Alanı Ekran Görüntüsü");
+                    captureDef.SetFontFamily(new string[] { "Arial", "serif" });
+                    captureDef.SetFontSize(11);
+                    captureDef.SetBold();
+                    captureDef.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
+                    doc.Add(captureDef);
 
                     doc.Close();
 
@@ -1614,30 +1691,38 @@ namespace AYP
             }
         }
 
-        private void SetGucUreticilerTable(Document doc, List<NodeViewModel> gucUreticiler)
+        private int SetGucUreticilerTable(Document doc, List<NodeViewModel> gucUreticiler, int pageNumber, float emptyHeight)
         {
+            var tempHeight = emptyHeight;
+
             Paragraph gucUreticiHeader = new Paragraph("2. Güç Üreticiler");
-            gucUreticiHeader.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            gucUreticiHeader.SetFontFamily(new string[] { "Arial", "serif" });
             gucUreticiHeader.SetFontSize(11);
             gucUreticiHeader.SetBold();
             gucUreticiHeader.SetMarginTop(50);
+            tempHeight = tempHeight - 50;
             doc.Add(gucUreticiHeader);
 
             if (gucUreticiler.Count == 0)
             {
                 Paragraph noGucUreticiParagraph = new Paragraph("Güç Üretici Bulunmamaktadır.");
-                noGucUreticiParagraph.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                noGucUreticiParagraph.SetFontFamily(new string[] { "Arial", "serif" });
                 noGucUreticiParagraph.SetFontSize(11);
-                noGucUreticiParagraph.SetMarginTop(20);
+                noGucUreticiParagraph.SetMarginTop(25);
                 doc.Add(noGucUreticiParagraph);
                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                pageNumber += 1;
+
                 SetRaporHeader(doc);
-                SetRaporFooter(doc);
+                SetRaporFooter(doc, pageNumber);
             }
 
             if (gucUreticiler.Count > 0)
             {
-                Table table = new Table(new float[] { 125, 168, 125, 125, 125, 125 });
+                Table table = new Table(new float[6]);
+                table.SetMarginTop(25);
+                tempHeight = tempHeight - 25;
+
                 for (int j = 0; j < table.GetNumberOfColumns(); j++)
                 {
                     Cell c = new Cell();
@@ -1645,7 +1730,7 @@ namespace AYP
                     if (j == 0)
                     {
                         c.Add(new Paragraph("Birim Adı"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -1654,7 +1739,7 @@ namespace AYP
                     if (j == 1)
                     {
                         c.Add(new Paragraph("Tanım"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -1663,7 +1748,7 @@ namespace AYP
                     if (j == 2)
                     {
                         c.Add(new Paragraph("Stok No"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -1672,7 +1757,7 @@ namespace AYP
                     if (j == 3)
                     {
                         c.Add(new Paragraph("Üretici"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -1681,7 +1766,7 @@ namespace AYP
                     if (j == 4)
                     {
                         c.Add(new Paragraph("Girdi Güç Arayüzü Sayısı"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -1690,7 +1775,7 @@ namespace AYP
                     if (j == 5)
                     {
                         c.Add(new Paragraph("Çıktı Güç Arayüzü Sayısı"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -1700,145 +1785,171 @@ namespace AYP
                 }
 
                 int row = 0;
+                float previousTableHeight = 0;
+                float currentTableHeight = CalculateTableHeight(doc, table);
+
                 for (int j = 0; j < gucUreticiler.Count; j++)
                 {
+                    tempHeight = tempHeight - (currentTableHeight - previousTableHeight);
+                    previousTableHeight = currentTableHeight;
+
+                    if (tempHeight < 25)
+                    {
+                        doc.Add(table);
+                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        pageNumber += 1;
+
+                        tempHeight = emptyHeight;
+                        table = new Table(new float[6]);
+                        table.SetMarginTop(25);
+                        tempHeight = tempHeight - 25;
+                        previousTableHeight = 0;
+                        currentTableHeight = CalculateTableHeight(doc, table);
+
+                        SetRaporHeader(doc);
+                        SetRaporFooter(doc, pageNumber);
+                    }
+
                     Cell c = new Cell();
+                    c.SetMinWidth(120);
                     c.Add(new Paragraph(gucUreticiler[row].Name));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     c = new Cell();
+                    c.SetMinWidth(180);
                     c.Add(new Paragraph(gucUreticiler[row].Tanim));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     c = new Cell();
                     c.Add(new Paragraph(gucUreticiler[row].StokNo));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     c = new Cell();
                     c.Add(new Paragraph(gucUreticiler[row].UreticiAdi));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     c = new Cell();
+                    c.SetWidth(35);
                     c.Add(new Paragraph(gucUreticiler[row].InputList.Where(x => x.TypeId == (int)TipEnum.GucUreticiGucArayuzu).Count().ToString()));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     c = new Cell();
+                    c.SetWidth(35);
                     c.Add(new Paragraph(gucUreticiler[row].OutputList.Where(x => x.TypeId == (int)TipEnum.GucUreticiGucArayuzu).Count().ToString()));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     table.AddCell(c);
 
                     row++;
-                    if (row >= 10 && row % 10 == 0)
-                    {
-                        if (row == 10)
-                        {
-                            table.SetMarginTop(20);
-                            doc.Add(table);
-
-                            if (gucUreticiler.Count > row)
-                            {
-                                table = new Table(new float[] { 125, 168, 125, 125, 125, 125 });
-                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-
-                                SetRaporHeader(doc);
-                                SetRaporFooter(doc);
-                            }
-                        }
-                        else
-                        {
-                            table.SetMarginTop(120);
-                            doc.Add(table);
-
-                            if (gucUreticiler.Count > row)
-                            {
-                                table = new Table(new float[] { 125, 168, 125, 125, 125, 125 });
-                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-
-                                SetRaporHeader(doc);
-                                SetRaporFooter(doc);
-                            }
-                        }
-
-                    }
+                    currentTableHeight = CalculateTableHeight(doc, table);
                 }
 
-                if (gucUreticiler.Count > 10 && gucUreticiler.Count % 10 != 0)
+                if (tempHeight < 25)
                 {
-                    table.SetMarginTop(120);
-                    doc.Add(table);
-                }
-                else if (gucUreticiler.Count < 10)
-                {
-                    table.SetMarginTop(20);
-                    doc.Add(table);
-                }
+                    doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                    pageNumber += 1;
 
-                Table tableTotal = new Table(new float[] { 400, 393 });
-                Cell c1 = new Cell();
-                c1.Add(new Paragraph("Toplam Güç Üretici Sayısı"));
-                c1.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-                c1.SetFontSize(11);
-                c1.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
-                c1.SetBold();
-                tableTotal.AddCell(c1);
-                c1 = new Cell();
-                c1.Add(new Paragraph(gucUreticiler.Count.ToString()));
-                c1.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-                c1.SetFontSize(11);
-                c1.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
-                tableTotal.AddCell(c1);
-                doc.Add(tableTotal);
+                    Table tableTotal = new Table(new float[] { 400, 393 });
+                    tableTotal.SetMarginTop(25);
+                    Cell c1 = new Cell();
+                    c1.Add(new Paragraph("Toplam Güç Üretici Sayısı"));
+                    c1.SetFontFamily(new string[] { "Arial", "serif" });
+                    c1.SetFontSize(11);
+                    c1.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
+                    c1.SetBold();
+                    tableTotal.AddCell(c1);
+                    c1 = new Cell();
+                    c1.Add(new Paragraph(gucUreticiler.Count.ToString()));
+                    c1.SetFontFamily(new string[] { "Arial", "serif" });
+                    c1.SetFontSize(11);
+                    c1.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
+                    tableTotal.AddCell(c1);
+                    doc.Add(tableTotal);
+
+                    SetRaporHeader(doc);
+                    SetRaporFooter(doc, pageNumber);
+                }
+                else
+                {
+                    doc.Add(table);
+
+                    Table tableTotal = new Table(new float[] { 400, 393 });
+                    Cell c1 = new Cell();
+                    c1.Add(new Paragraph("Toplam Güç Üretici Sayısı"));
+                    c1.SetFontFamily(new string[] { "Arial", "serif" });
+                    c1.SetFontSize(11);
+                    c1.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
+                    c1.SetBold();
+                    tableTotal.AddCell(c1);
+                    c1 = new Cell();
+                    c1.Add(new Paragraph(gucUreticiler.Count.ToString()));
+                    c1.SetFontFamily(new string[] { "Arial", "serif" });
+                    c1.SetFontSize(11);
+                    c1.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
+                    tableTotal.AddCell(c1);
+                    doc.Add(tableTotal);
+                }
             }
+
+            return pageNumber;
         }
 
-        private void SetGucTuketicilerTable(Document doc, List<NodeViewModel> gucTuketiciler)
+        private int SetGucTuketicilerTable(Document doc, List<NodeViewModel> gucTuketiciler, int pageNumber, float emptyHeight)
         {
+            var tempHeight = emptyHeight;
+
             Paragraph gucTuketiciHeader = new Paragraph("1. Güç Tüketiciler");
-            gucTuketiciHeader.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            gucTuketiciHeader.SetFontFamily(new string[] { "Arial", "serif" });
             gucTuketiciHeader.SetFontSize(11);
             gucTuketiciHeader.SetBold();
             gucTuketiciHeader.SetMarginTop(50);
+            tempHeight = tempHeight - 50;
             doc.Add(gucTuketiciHeader);
 
             if (gucTuketiciler.Count == 0)
             {
                 Paragraph noGucTuketiciParagraph = new Paragraph("Güç Tüketici Bulunmamaktadır.");
-                noGucTuketiciParagraph.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                noGucTuketiciParagraph.SetFontFamily(new string[] { "Arial", "serif" });
                 noGucTuketiciParagraph.SetFontSize(11);
-                noGucTuketiciParagraph.SetMarginTop(20);
+                noGucTuketiciParagraph.SetMarginTop(25);
                 doc.Add(noGucTuketiciParagraph);
                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                pageNumber += 1;
+
                 SetRaporHeader(doc);
-                SetRaporFooter(doc);
+                SetRaporFooter(doc, pageNumber);
             }
 
             if (gucTuketiciler.Count > 0)
             {
-                Table table = new Table(new float[] { 100, 143, 100, 100, 100, 100, 100 });
+                Table table = new Table(new float[7]);
+                table.SetMarginTop(25);
+                tempHeight = tempHeight - 25;
+
                 for (int j = 0; j < table.GetNumberOfColumns(); j++)
                 {
                     Cell c = new Cell();
 
                     if (j == 0)
                     {
+                        c.SetMinWidth(120);
                         c.Add(new Paragraph("Birim Adı"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -1846,8 +1957,9 @@ namespace AYP
 
                     if (j == 1)
                     {
+                        c.SetMinWidth(180);
                         c.Add(new Paragraph("Tanım"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -1856,7 +1968,7 @@ namespace AYP
                     if (j == 2)
                     {
                         c.Add(new Paragraph("Stok No"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -1865,7 +1977,7 @@ namespace AYP
                     if (j == 3)
                     {
                         c.Add(new Paragraph("Üretici"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -1873,8 +1985,9 @@ namespace AYP
 
                     if (j == 4)
                     {
+                        c.SetWidth(35);
                         c.Add(new Paragraph("Girdi Ağ Arayüzü Sayısı"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -1882,8 +1995,9 @@ namespace AYP
 
                     if (j == 5)
                     {
+                        c.SetWidth(35);
                         c.Add(new Paragraph("Çıktı Ağ Arayüzü Sayısı"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -1891,8 +2005,9 @@ namespace AYP
 
                     if (j == 6)
                     {
+                        c.SetWidth(35);
                         c.Add(new Paragraph("Güç Arayüzü Sayısı"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -1902,146 +2017,171 @@ namespace AYP
                 }
 
                 int row = 0;
+                float previousTableHeight = 0;
+                float currentTableHeight = CalculateTableHeight(doc, table);
+
                 for (int j = 0; j < gucTuketiciler.Count; j++)
                 {
+                    tempHeight = tempHeight - (currentTableHeight - previousTableHeight);
+                    previousTableHeight = currentTableHeight;
+
+                    if (tempHeight < 25)
+                    {
+                        doc.Add(table);
+                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        pageNumber += 1;
+
+                        tempHeight = emptyHeight;
+                        table = new Table(new float[7]);
+                        table.SetMarginTop(25);
+                        tempHeight = tempHeight - 25;
+                        previousTableHeight = 0;
+                        currentTableHeight = CalculateTableHeight(doc, table);
+
+                        SetRaporHeader(doc);
+                        SetRaporFooter(doc, pageNumber);
+                    }
+
                     Cell c = new Cell();
+                    c.SetMinWidth(120);
                     c.Add(new Paragraph(gucTuketiciler[row].Name));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     c = new Cell();
+                    c.SetMinWidth(180);
                     c.Add(new Paragraph(gucTuketiciler[row].Tanim));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     c = new Cell();
                     c.Add(new Paragraph(gucTuketiciler[row].StokNo));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     c = new Cell();
                     c.Add(new Paragraph(gucTuketiciler[row].UreticiAdi));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     c = new Cell();
-                    c.Add(new Paragraph(gucTuketiciler[row].InputList.Where(x => x.TypeId == (int)TipEnum.UcBirimAgArayuzu).Count().ToString()));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetMinWidth(35);
+                    c.Add(new Paragraph(gucTuketiciler[row].InputList.Where(x => x.TypeId == (int)TipEnum.UcBirimAgArayuzu || x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu).Count().ToString()));
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     c = new Cell();
-                    c.Add(new Paragraph(gucTuketiciler[row].OutputList.Where(x => x.TypeId == (int)TipEnum.UcBirimAgArayuzu).Count().ToString()));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetMinWidth(35);
+                    c.Add(new Paragraph(gucTuketiciler[row].OutputList.Where(x => x.TypeId == (int)TipEnum.UcBirimAgArayuzu || x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu).Count().ToString()));
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     c = new Cell();
-                    c.Add(new Paragraph(gucTuketiciler[row].InputList.Where(x => x.TypeId == (int)TipEnum.UcBirimGucArayuzu).Count().ToString()));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetMinWidth(35);
+                    c.Add(new Paragraph(gucTuketiciler[row].InputList.Where(x => x.TypeId == (int)TipEnum.UcBirimGucArayuzu || x.TypeId == (int)TipEnum.AgAnahtariGucArayuzu || x.TypeId == (int)TipEnum.GucUreticiGucArayuzu).Count().ToString()));
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     row++;
-                    if (row >= 10 && row % 10 == 0)
-                    {
-                        if (row == 10)
-                        {
-                            table.SetMarginTop(20);
-                            doc.Add(table);
-
-                            if (gucTuketiciler.Count > row)
-                            {
-                                table = new Table(new float[] { 100, 143, 100, 100, 100, 100, 100 });
-                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-
-                                SetRaporHeader(doc);
-                                SetRaporFooter(doc);
-                            }
-                        }
-                        else
-                        {
-                            table.SetMarginTop(120);
-                            doc.Add(table);
-
-                            if (gucTuketiciler.Count > row)
-                            {
-                                table = new Table(new float[] { 100, 143, 100, 100, 100, 100, 100 });
-                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-
-                                SetRaporHeader(doc);
-                                SetRaporFooter(doc);
-                            }
-                        }
-
-                    }
+                    currentTableHeight = CalculateTableHeight(doc, table);
                 }
 
-                if (gucTuketiciler.Count > 10 && gucTuketiciler.Count % 10 != 0)
+                if (tempHeight < 25)
                 {
-                    table.SetMarginTop(120);
-                    doc.Add(table);
-                }
-                else if (gucTuketiciler.Count < 10)
-                {
-                    table.SetMarginTop(20);
-                    doc.Add(table);
-                }
+                    doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                    pageNumber += 1;
 
-                Table tableTotal = new Table(new float[] { 400, 393 });
-                Cell c1 = new Cell();
-                c1.Add(new Paragraph("Toplam Güç Tüketici Sayısı"));
-                c1.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-                c1.SetFontSize(11);
-                c1.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
-                c1.SetBold();
-                tableTotal.AddCell(c1);
-                c1 = new Cell();
-                c1.Add(new Paragraph(gucTuketiciler.Count.ToString()));
-                c1.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-                c1.SetFontSize(11);
-                c1.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
-                tableTotal.AddCell(c1);
-                doc.Add(tableTotal);
+                    Table tableTotal = new Table(new float[] { 400, 393 });
+                    tableTotal.SetMarginTop(25);
+                    Cell c1 = new Cell();
+                    c1.Add(new Paragraph("Toplam Güç Tüketici Sayısı"));
+                    c1.SetFontFamily(new string[] { "Arial", "serif" });
+                    c1.SetFontSize(11);
+                    c1.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
+                    c1.SetBold();
+                    tableTotal.AddCell(c1);
+                    c1 = new Cell();
+                    c1.Add(new Paragraph(gucTuketiciler.Count.ToString()));
+                    c1.SetFontFamily(new string[] { "Arial", "serif" });
+                    c1.SetFontSize(11);
+                    c1.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
+                    tableTotal.AddCell(c1);
+                    doc.Add(tableTotal);
+
+                    SetRaporHeader(doc);
+                    SetRaporFooter(doc, pageNumber);
+                }
+                else
+                {
+                    doc.Add(table);
+
+                    Table tableTotal = new Table(new float[] { 400, 393 });
+                    Cell c1 = new Cell();
+                    c1.Add(new Paragraph("Toplam Güç Tüketici Sayısı"));
+                    c1.SetFontFamily(new string[] { "Arial", "serif" });
+                    c1.SetFontSize(11);
+                    c1.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
+                    c1.SetBold();
+                    tableTotal.AddCell(c1);
+                    c1 = new Cell();
+                    c1.Add(new Paragraph(gucTuketiciler.Count.ToString()));
+                    c1.SetFontFamily(new string[] { "Arial", "serif" });
+                    c1.SetFontSize(11);
+                    c1.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
+                    tableTotal.AddCell(c1);
+                    doc.Add(tableTotal);
+                }
             }
+
+            return pageNumber;
         }
 
-        private void SetGucUreticiToGucTuketici(Document doc, List<ConnectViewModel> connectList)
+        private int SetGucUreticiToGucTuketici(Document doc, List<ConnectViewModel> connectList, int pageNumber, float emptyHeight)
         {
+            var tempHeight = emptyHeight;
 
             Paragraph gucUreticiTuketiciHeader = new Paragraph("3. Güç Üreticiler ve Bağlı Olduğu Güç Tüketiciler");
-            gucUreticiTuketiciHeader.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+            gucUreticiTuketiciHeader.SetFontFamily(new string[] { "Arial", "serif" });
             gucUreticiTuketiciHeader.SetFontSize(11);
             gucUreticiTuketiciHeader.SetBold();
-            gucUreticiTuketiciHeader.SetMarginTop(120);
+            gucUreticiTuketiciHeader.SetMarginTop(50);
+            tempHeight = tempHeight - 50;
             doc.Add(gucUreticiTuketiciHeader);
 
             if (connectList.Count == 0)
             {
                 Paragraph noBaglantiParagraph = new Paragraph("Uygun bağlantı bulunmamaktadır.");
-                noBaglantiParagraph.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                noBaglantiParagraph.SetFontFamily(new string[] { "Arial", "serif" });
                 noBaglantiParagraph.SetFontSize(11);
-                noBaglantiParagraph.SetMarginTop(20);
+                noBaglantiParagraph.SetMarginTop(25);
                 doc.Add(noBaglantiParagraph);
                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                pageNumber += 1;
+
                 SetRaporHeader(doc);
-                SetRaporFooter(doc);
+                SetRaporFooter(doc, pageNumber);
             }
 
             if (connectList.Count > 0)
             {
                 Table table = new Table(new float[] { 300, 300, 193 });
+                table.SetMarginTop(25);
+                tempHeight = tempHeight - 25;
+
                 for (int j = 0; j < table.GetNumberOfColumns(); j++)
                 {
                     Cell c = new Cell();
@@ -2049,7 +2189,7 @@ namespace AYP
                     if (j == 0)
                     {
                         c.Add(new Paragraph("Güç Üretici Adı"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -2058,7 +2198,7 @@ namespace AYP
                     if (j == 1)
                     {
                         c.Add(new Paragraph("Güç Tüketici Adı"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -2067,7 +2207,7 @@ namespace AYP
                     if (j == 2)
                     {
                         c.Add(new Paragraph("Güç Miktarı (watt)"));
-                        c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                        c.SetFontFamily(new string[] { "Arial", "serif" });
                         c.SetFontSize(11);
                         c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                         c.SetBold();
@@ -2077,74 +2217,66 @@ namespace AYP
                 }
 
                 int row = 0;
+                float previousTableHeight = 0;
+                float currentTableHeight = CalculateTableHeight(doc, table);
+
                 for (int j = 0; j < connectList.Count; j++)
                 {
+                    tempHeight = tempHeight - (currentTableHeight - previousTableHeight);
+                    previousTableHeight = currentTableHeight;
+
+                    if (tempHeight < 25)
+                    {
+                        doc.Add(table);
+                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        pageNumber += 1;
+
+                        tempHeight = emptyHeight;
+                        table = new Table(new float[] { 300, 300, 193 });
+                        table.SetMarginTop(25);
+                        tempHeight = tempHeight - 25;
+                        previousTableHeight = 0;
+                        currentTableHeight = CalculateTableHeight(doc, table);
+
+                        SetRaporHeader(doc);
+                        SetRaporFooter(doc, pageNumber);
+                    }
+
                     Cell c = new Cell();
                     c.Add(new Paragraph(connectList[row].FromConnector.Node.Name));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     c = new Cell();
                     c.Add(new Paragraph(connectList[row].ToConnector.Node.Name));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     c = new Cell();
                     c.Add(new Paragraph(connectList[row].GucMiktari.ToString("0.##")));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
                     row++;
-                    if (row >= 10 && row % 10 == 0)
-                    {
-                        if (row == 10)
-                        {
-                            table.SetMarginTop(20);
-                            doc.Add(table);
-
-                            if (connectList.Count > row)
-                            {
-                                table = new Table(new float[] { 300, 300, 193 });
-                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-
-                                SetRaporHeader(doc);
-                                SetRaporFooter(doc);
-
-                            }
-                        }
-                        else
-                        {
-                            table.SetMarginTop(120);
-                            doc.Add(table);
-
-                            if (connectList.Count > row)
-                            {
-                                table = new Table(new float[] { 300, 300, 193 });
-                                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-
-                                SetRaporHeader(doc);
-                                SetRaporFooter(doc);
-                            }
-                        }
-
-                    }
+                    currentTableHeight = CalculateTableHeight(doc, table);
                 }
 
-                if (connectList.Count > 10 && connectList.Count % 10 != 0)
+                if (tempHeight < 25)
                 {
-                    table.SetMarginTop(120);
-                    doc.Add(table);
-                    Table tableTotal = new Table(new float[] { 600, 193 });
+                    doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                    pageNumber += 1;
 
+                    Table tableTotal = new Table(new float[] { 600, 193 });
+                    tableTotal.SetMarginTop(25);
                     Cell c = new Cell();
                     c.Add(new Paragraph("Toplam Güç Tüketimi"));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     c.SetBold();
@@ -2152,39 +2284,43 @@ namespace AYP
 
                     c = new Cell();
                     c.Add(new Paragraph(connectList.Select(s => s.GucMiktari).Sum().ToString("0.##")));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     tableTotal.AddCell(c);
                     doc.Add(tableTotal);
 
+                    SetRaporHeader(doc);
+                    SetRaporFooter(doc, pageNumber);
                 }
-                else if (connectList.Count < 10)
+                else
                 {
-                    table.SetMarginTop(20);
                     doc.Add(table);
-                    Table tableTotal = new Table(new float[] { 600, 193 });
 
+                    Table tableTotal = new Table(new float[] { 600, 193 });
                     Cell c = new Cell();
                     c.Add(new Paragraph("Toplam Güç Tüketimi"));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     tableTotal.AddCell(c);
 
                     c = new Cell();
                     c.Add(new Paragraph(connectList.Select(s => s.GucMiktari).Sum().ToString("0.##")));
-                    c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
+                    c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     tableTotal.AddCell(c);
                     doc.Add(tableTotal);
                 }
             }
+
+            return pageNumber;
         }
 
-        private void SetRaporHeader(Document doc)
+        private float SetRaporHeader(Document doc)
         {
+            float headerHeight = 0;
             try
             {
                 //string path = Directory.GetCurrentDirectory() + "\\SEMA_Data\\StreamingAssets\\AYP\\rapor-header.png";
@@ -2196,6 +2332,7 @@ namespace AYP
                     ImageData imageData = iText.IO.Image.ImageDataFactory.Create(path);
                     Image pdfImg = new Image(imageData);
                     pdfImg.SetWidth(532);
+                    headerHeight = pdfImg.GetImageHeight();
                     doc.Add(pdfImg);
                 }
             }
@@ -2203,127 +2340,132 @@ namespace AYP
             {
                 log.Error("Rapor başlığı okunamadı. - " + exception.InnerException?.Message);
             }
+
+            return headerHeight;
         }
 
-        private void SetRaporFooter(Document doc)
+        private float SetRaporFooter(Document doc, int pageNumber)
         {
             Table table = new Table(new float[] { 110, 75, 55, 50, 45, 45, 70, 70 });
 
             Cell c = new Cell(1, 1);
             c.Add(new Paragraph("Onay-Approved By").SetFontSize(6));
             c.Add(new Paragraph(model.Onaylayan != null ? model.Onaylayan : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
-            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            //c.SetHeight(30);
+            c.SetFontFamily(new string[] { "Arial", "serif" });
+            c.SetWidth(110);
             table.AddCell(c);
 
-            //table = new Table(new float[] { 75, 55, 50, 45, 45 });
             c = new Cell(3, 5);
             c.Add(new Paragraph("Tanım-Description").SetFontSize(6));
             c.Add(new Paragraph(model.DokumanTanimi != null ? model.DokumanTanimi : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
-            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            //c.SetHeight(99);
+            c.SetFontFamily(new string[] { "Arial", "serif" });
+            c.SetWidth(270);
             table.AddCell(c);
 
-            //table = new Table(new float[] { 70, 70 });
             c = new Cell(2, 2);
             c.Add(new Paragraph("Doküman/Parça Numarası-Document/Part Number").SetFontSize(6));
             c.Add(new Paragraph(model.DokumanParcaNo != null ? model.DokumanParcaNo : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
-            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            //c.SetHeight(65);
+            c.SetFontFamily(new string[] { "Arial", "serif" });
+            c.SetWidth(140);
             table.AddCell(c);
 
             c = new Cell();
             c.Add(new Paragraph("Kontrol-Checked By").SetFontSize(6));
             c.Add(new Paragraph(model.KontrolEden != null ? model.KontrolEden : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
-            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            //c.SetHeight(30);
+            c.SetFontFamily(new string[] { "Arial", "serif" });
+            c.SetWidth(110);
             table.AddCell(c);
 
             c = new Cell();
             c.Add(new Paragraph("Hazırlayan-Prepared By").SetFontSize(6));
             c.Add(new Paragraph(model.Hazirlayan != null ? model.Hazirlayan : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
-            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            //c.SetHeight(30);
+            c.SetFontFamily(new string[] { "Arial", "serif" });
+            c.SetWidth(110);
             table.AddCell(c);
 
             c = new Cell();
             c.Add(new Paragraph("Rev Kodu-Rev Code").SetFontSize(6));
             c.Add(new Paragraph(model.RevizyonKodu != null ? model.RevizyonKodu : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
-            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            //c.SetHeight(30);
+            c.SetFontFamily(new string[] { "Arial", "serif" });
+            c.SetWidth(70);
             table.AddCell(c);
 
             c = new Cell();
             c.Add(new Paragraph("Değişiklik Tarihi-Change Date").SetFontSize(6));
             c.Add(new Paragraph(model.DegistirmeTarihi.HasValue ? model.DegistirmeTarihi.Value.ToString("dd/MM/yyyy") : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
-            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            //c.SetHeight(30);
+            c.SetFontFamily(new string[] { "Arial", "serif" });
+            c.SetWidth(70);
             table.AddCell(c);
 
             c = new Cell();
             c.Add(new Paragraph("Bölüm-Department").SetFontSize(6));
             c.Add(new Paragraph(model.Bolum != null ? model.Bolum : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
-            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            //c.SetHeight(30);
+            c.SetFontFamily(new string[] { "Arial", "serif" });
+            c.SetWidth(110);
             table.AddCell(c);
-            //table.SetFixedPosition(38, 20, 110);
-            //doc.Add(table);
-
 
 
             c = new Cell();
             c.Add(new Paragraph("Yazım Ortamı-Editing Env").SetFontSize(6));
             c.Add(new Paragraph(model.YazimOrtami != null ? model.YazimOrtami : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
-            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            //c.SetHeight(30);
+            c.SetFontFamily(new string[] { "Arial", "serif" });
+            c.SetWidth(75);
             table.AddCell(c);
 
             c = new Cell();
             c.Add(new Paragraph("Dok Kodu-Doc Code").SetFontSize(6));
             c.Add(new Paragraph(model.DokumanKodu != null ? model.DokumanKodu : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
-            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            //c.SetHeight(30);
+            c.SetFontFamily(new string[] { "Arial", "serif" });
+            c.SetWidth(55);
             table.AddCell(c);
 
             c = new Cell();
-            c.Add(new Paragraph("Syf/Syflr-Pg/Pgs").SetFontSize(6));
-            c.Add(new Paragraph(model.DokumanTanimi != null ? model.DokumanTanimi : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
-            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            //c.SetHeight(30);
+            c.Add(new Paragraph("Syf-Pg").SetFontSize(6));
+            c.Add(new Paragraph(pageNumber.ToString()).SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
+            c.SetFontFamily(new string[] { "Arial", "serif" });
+            c.SetWidth(50);
             table.AddCell(c);
 
             c = new Cell();
             c.Add(new Paragraph("Tarih-Date").SetFontSize(6));
             c.Add(new Paragraph(model.Tarih.HasValue ? model.Tarih.Value.ToString("dd/MM/yyyy") : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
-            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            //c.SetHeight(30);
+            c.SetFontFamily(new string[] { "Arial", "serif" });
+            c.SetWidth(45);
             table.AddCell(c);
 
             c = new Cell();
             c.Add(new Paragraph("Dil-Lng").SetFontSize(6));
             c.Add(new Paragraph(model.DilKodu != null ? model.DilKodu : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
-            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            //c.SetHeight(30);
+            c.SetFontFamily(new string[] { "Arial", "serif" });
+            c.SetWidth(45);
             table.AddCell(c);
-            //table.SetFixedPosition(148, 20, 270);
-            //doc.Add(table);
 
             c = new Cell();
             c.Add(new Paragraph("Değiştiren-Changed By").SetFontSize(6));
             c.Add(new Paragraph(model.Degistiren != null ? model.Degistiren : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
-            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            //c.SetHeight(30);
+            c.SetFontFamily(new string[] { "Arial", "serif" });
+            c.SetWidth(70);
             table.AddCell(c);
 
             c = new Cell();
             c.Add(new Paragraph("Boyut-Size").SetFontSize(6));
             c.Add(new Paragraph(model.SayfaBoyutu != null ? model.SayfaBoyutu : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
-            c.SetFontFamily(new string[] { "Times New Roman", "Times", "serif" });
-            //c.SetHeight(30);
+            c.SetFontFamily(new string[] { "Arial", "serif" });
+            c.SetWidth(70);
             table.AddCell(c);
             table.SetFixedPosition(38, 20, 520);
             doc.Add(table);
 
+            float footerHeight = CalculateTableHeight(doc, table) + 20;
+            return footerHeight;
+        }
+
+        private float CalculateTableHeight(Document doc, Table table)
+        {
+            var test = table.CreateRendererSubTree().SetParent(doc.GetRenderer()).Layout(new LayoutContext(new LayoutArea(1, new Rectangle(0, 0, 400, 10000.0F))));
+            var tableHeight = test.GetOccupiedArea().GetBBox().GetHeight();
+
+            return tableHeight;
         }
     }
 }
