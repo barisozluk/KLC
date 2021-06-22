@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AYP"
         mc:Ignorable="d" AllowsTransparency="True" WindowStyle="None" WindowStartupLocation="CenterOwner"
-        Title="CableLengthPopupWindow" Height="450" Width="460" Background="Transparent">
+        Title="CableLengthPopupWindow" Height="500" Width="460" Background="Transparent">
 
 
     <Border Background="#222d35" BorderBrush="#367bf5" BorderThickness="2" CornerRadius="7">
@@ -14,7 +14,7 @@
             <TabItem Name="KabloBoyu" IsEnabled="True" Style="{DynamicResource TabStyle}" Header="Kablo Boyu" Background="#222d35" Foreground="White" FontSize="16" Height="30" Width="150" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="450"/>
+                        <RowDefinition Height="500"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="10" />
@@ -43,7 +43,7 @@
             <TabItem Name="Hesaplamalar" IsEnabled="True" Style="{DynamicResource TabStyle}" Header="Hesaplamalar" Background="#222d35" Foreground="White" FontSize="16" Height="30" Width="150" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
                 <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="450"/>
+                        <RowDefinition Height="500"/>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="10" />
@@ -58,28 +58,32 @@
 
                     <Rectangle Style="{DynamicResource StyleDescribingTurFormPanel}" Grid.Row="0" Grid.Column="1" Margin="0,70,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Kablo Kesit Önerisi (mm&#x00B2;) " Grid.Row="0" Grid.Column="1" Margin="0,80,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox IsEnabled="False" Name="KabloKesit" Width="230" Style="{DynamicResource StyleTextBox}" PreviewTextInput="DecimalValidationTextBox" Grid.Row="0" Grid.Column="1" Margin="200,80,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+                    <TextBox IsEnabled="False" Name="KabloKesit" Width="220" Style="{DynamicResource StyleTextBox}" PreviewTextInput="DecimalValidationTextBox" Grid.Row="0" Grid.Column="1" Margin="210,80,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
-                    <Rectangle Style="{DynamicResource StyleDescribingTurFormPanel}" Height="240" Grid.Row="0" Grid.Column="1" Margin="0,135,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Kablo Tipi " Grid.Row="0" Grid.Column="1" Margin="0,145,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <ComboBox Name="KabloTipiTur"  Width="230" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="200,145,0,10" VerticalAlignment="Top" >
+                    <Rectangle Style="{DynamicResource StyleDescribingTurFormPanel}" Height="290" Grid.Row="0" Grid.Column="1" Margin="0,135,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Label Padding="10,7,0,0" FontSize="14" Foreground="#ffffff" Content="Kablo Tipi " Grid.Row="0" Grid.Column="1" Margin="0,145,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <ComboBox Name="KabloTipiTur"  Width="220" Style="{DynamicResource StyleComboBox}" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="210,145,0,10" VerticalAlignment="Top" >
                         <ComboBoxItem Name="cu" IsSelected="True">Bakır</ComboBoxItem>
                         <ComboBoxItem Name="al">Aliminyum</ComboBoxItem>
                     </ComboBox>
-                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Isı Kaybı (W) " Grid.Row="0" Grid.Column="1" Margin="0,190,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox  Width="230" IsEnabled="False"  Name="isiKaybi" Style="{DynamicResource StyleTextBox}" PreviewTextInput="DecimalValidationTextBox" Grid.Row="0" Grid.Column="1" Margin="200,190,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+                    <Label Padding="10,7,0,0" FontSize="14" Foreground="#ffffff" Content="Isı Kaybı (W) " Grid.Row="0" Grid.Column="1" Margin="0,190,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox  Width="220" IsEnabled="False"  Name="isiKaybi" Style="{DynamicResource StyleTextBox}" PreviewTextInput="DecimalValidationTextBox" Grid.Row="0" Grid.Column="1" Margin="210,190,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
-                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Gerilim Düşümü (V) " Grid.Row="0" Grid.Column="1" Margin="0,235,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox IsEnabled="False" Name="GerilimDusumu"  Width="230" Style="{DynamicResource StyleTextBox}" PreviewTextInput="DecimalValidationTextBox" Grid.Row="0" Grid.Column="1" Margin="200,235,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+                    <Label Padding="10,7,0,0" FontSize="14" Foreground="#ffffff" Content="Gerilim Düşümü (%) " Grid.Row="0" Grid.Column="1" Margin="0,235,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <!--<TextBox IsEnabled="False" Name="GerilimDusumu"  Width="110" Style="{DynamicResource StyleTextBox}" PreviewTextInput="DecimalValidationTextBox" Grid.Row="0" Grid.Column="1" Margin="210,235,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>-->
+                    <TextBox IsEnabled="False" Name="GerilimDusumuYuzde"  Width="220" Style="{DynamicResource StyleTextBox}" PreviewTextInput="DecimalValidationTextBox" Grid.Row="0" Grid.Column="1" Margin="210,235,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
-                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Batarya Kapasitesi (AH) " Grid.Row="0" Grid.Column="1" Margin="0,280,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox Name="BataryaKapasite"  Width="230" Style="{DynamicResource StyleTextBox}" PreviewTextInput="DecimalValidationTextBox" Grid.Row="0" Grid.Column="1" Margin="200,280,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+                    <Label Padding="10,7,0,0" FontSize="14" Foreground="#ffffff" Content="Maksimum Gerilim Düşümü (%) " Grid.Row="0" Grid.Column="1" Margin="0,285,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Name="GerilimDusumuIstenen"  Width="220" Style="{DynamicResource StyleTextBox}" PreviewTextInput="DecimalValidationTextBox" Grid.Row="0" Grid.Column="1" Margin="210,285,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+
+                    <Label Padding="10,7,0,0" FontSize="14" Foreground="#ffffff" Content="Batarya Kapasitesi (AH) " Grid.Row="0" Grid.Column="1" Margin="0,330,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox Name="BataryaKapasite"  Width="220" Style="{DynamicResource StyleTextBox}" PreviewTextInput="DecimalValidationTextBox" Grid.Row="0" Grid.Column="1" Margin="210,330,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
                     
-                    <Label Padding="10,5,0,0" FontSize="16" Foreground="#ffffff" Content="Besleme Süresi (H)" Grid.Row="0" Grid.Column="1" Margin="0,325,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                    <TextBox IsEnabled="False"  Width="230" Name="BeslemeSuresi" Style="{DynamicResource StyleTextBox}" PreviewTextInput="DecimalValidationTextBox" Grid.Row="0" Grid.Column="1" Margin="200,325,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
+                    <Label Padding="10,7,0,0" FontSize="14" Foreground="#ffffff" Content="Besleme Süresi (H)" Grid.Row="0" Grid.Column="1" Margin="0,375,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                    <TextBox IsEnabled="False"  Width="220" Name="BeslemeSuresi" Style="{DynamicResource StyleTextBox}" PreviewTextInput="DecimalValidationTextBox" Grid.Row="0" Grid.Column="1" Margin="210,375,0,10" HorizontalAlignment="Left" VerticalAlignment="Top"></TextBox>
 
 
-                    <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,385,0,10" Click="Calculate_CableLengthPopup">
+                    <Button Style="{DynamicResource StyleDescribingProcessButton}" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,435,0,10" Click="Calculate_CableLengthPopup">
                         <Grid>
                             <Image Source="Images/save.png" Height="20" Width="25" Margin="2,0,0,0" HorizontalAlignment="Left"/>
                             <TextBlock FontSize="16" HorizontalAlignment="Left" Margin="70,0,0,0">Hesapla</TextBlock>
