@@ -3226,7 +3226,7 @@ namespace AYP.ViewModel
             }
         }
 
-        private void Zoom((Point point, double delta) element)
+        public void Zoom((Point point, double delta) element)
         {
             ScaleCenter = element.point;
             double scaleValue = RenderTransformMatrix.M11;

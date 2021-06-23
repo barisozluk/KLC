@@ -1377,6 +1377,8 @@ namespace AYP
 
         private byte[] CaptureNodesCanvas()
         {
+            //this.ViewModel.NodesCanvas.Zoom((new System.Windows.Point(0, 0), 1));
+
             Rect bounds = VisualTreeHelper.GetDescendantBounds(NodesCanvas);
             RenderTargetBitmap rtb = new RenderTargetBitmap((Int32)bounds.Width, (Int32)bounds.Height, 96, 96, PixelFormats.Pbgra32);
             DrawingVisual dv = new DrawingVisual();

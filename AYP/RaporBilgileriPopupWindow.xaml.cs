@@ -375,6 +375,9 @@ namespace AYP
                 {
                     string path = fbd.SelectedPath;
 
+                    var img = iText.IO.Image.ImageDataFactory.Create(capture);
+                    Image pdfImg = new Image(img);
+
                     var ucBirimler = NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.UcBirim).ToList();
                     var agAnahtarlari = NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.AgAnahtari).ToList();
                     var grouplar = NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.Group).ToList();
@@ -652,20 +655,18 @@ namespace AYP
                         }
                     }
 
-                    pageNumber = SetOmurgaToKenarTable(doc, connectList, pageNumber, emptyHeight);
+                    pageNumber = SetOmurgaToKenarTable(doc, connectList, pageNumber, emptyHeight, pdfImg);
                     if (connectList.Count > 0)
                     {
+                        doc.GetPdfDocument().SetDefaultPageSize(new PageSize(pdfImg.GetImageWidth() + 25, pdfImg.GetImageHeight() + 50));
                         doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                         pageNumber += 1;
 
-                        SetRaporHeader(doc);
-                        SetRaporFooter(doc, pageNumber);
+                        //SetRaporHeader(doc);
+                        //SetRaporFooter(doc, pageNumber);
                     }
 
-                    var img = iText.IO.Image.ImageDataFactory.Create(capture);
-                    Image pdfImg = new Image(img);
-                    pdfImg.SetWidth(532);
-                    pdfImg.SetMarginTop(50);
+                    pdfImg.SetMargins(25,25,10,25);
                     doc.Add(pdfImg);
                     Paragraph captureDef = new Paragraph("Şekil 1 - Ağ Planlama Çalışma Alanı Ekran Görüntüsü");
                     captureDef.SetFontFamily(new string[] { "Arial", "serif" });
@@ -787,31 +788,12 @@ namespace AYP
                 }
 
                 int row = 0;
+                int tableRow = 1;
                 float previousTableHeight = 0;
                 float currentTableHeight = CalculateTableHeight(doc, table);
 
                 for (int j = 0; j < ucBirimler.Count; j++)
                 {
-                    tempHeight = tempHeight - (currentTableHeight - previousTableHeight);
-                    previousTableHeight = currentTableHeight;
-
-                    if (tempHeight < 25)
-                    {
-                        doc.Add(table);
-                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-                        pageNumber += 1;
-
-                        tempHeight = emptyHeight;
-                        table = new Table(new float[7]);
-                        table.SetMarginTop(25);
-                        tempHeight = tempHeight - 25;
-                        previousTableHeight = 0;
-                        currentTableHeight = CalculateTableHeight(doc, table);
-
-                        SetRaporHeader(doc);
-                        SetRaporFooter(doc, pageNumber);
-                    }
-
                     Cell c = new Cell();
                     c.SetMinWidth(120);
                     c.Add(new Paragraph(ucBirimler[row].Name));
@@ -867,10 +849,43 @@ namespace AYP
                     table.AddCell(c);
 
                     row++;
+                    tableRow++;
                     currentTableHeight = CalculateTableHeight(doc, table);
+
+                    if (tempHeight < (currentTableHeight - previousTableHeight))
+                    {
+                        int columnNumbers = table.GetNumberOfColumns();
+                        for (int k = (tableRow * columnNumbers) - 1; k > ((tableRow * columnNumbers) - 1) - columnNumbers; k--)
+                        {
+                            table.GetChildren().RemoveAt(k);
+                        }
+
+                        tableRow = 0;
+                        row--;
+                        j--;
+
+                        doc.Add(table);
+                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        pageNumber += 1;
+
+                        tempHeight = emptyHeight;
+                        table = new Table(new float[7]);
+                        table.SetMarginTop(25);
+                        tempHeight = tempHeight - 25;
+                        previousTableHeight = 0;
+                        currentTableHeight = CalculateTableHeight(doc, table);
+
+                        SetRaporHeader(doc);
+                        SetRaporFooter(doc, pageNumber);
+                    }
+                    else
+                    {
+                        tempHeight = tempHeight - (currentTableHeight - previousTableHeight);
+                        previousTableHeight = currentTableHeight;
+                    }
                 }
 
-                if (tempHeight < 25)
+                if (tempHeight < (currentTableHeight - previousTableHeight))
                 {
                     doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                     pageNumber += 1;
@@ -1021,31 +1036,12 @@ namespace AYP
                 }
 
                 int row = 0;
+                int tableRow = 1;
                 float previousTableHeight = 0;
                 float currentTableHeight = CalculateTableHeight(doc, table);
 
                 for (int j = 0; j < agAnahtarlari.Count; j++)
                 {
-                    tempHeight = tempHeight - (currentTableHeight - previousTableHeight);
-                    previousTableHeight = currentTableHeight;
-
-                    if (tempHeight < 25)
-                    {
-                        doc.Add(table);
-                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-                        pageNumber += 1;
-
-                        tempHeight = emptyHeight;
-                        table = new Table(new float[7]);
-                        table.SetMarginTop(25);
-                        tempHeight = tempHeight - 25;
-                        previousTableHeight = 0;
-                        currentTableHeight = CalculateTableHeight(doc, table);
-
-                        SetRaporHeader(doc);
-                        SetRaporFooter(doc, pageNumber);
-                    }
-
                     Cell c = new Cell();
                     c.SetMinWidth(120);
                     c.Add(new Paragraph(agAnahtarlari[row].Name));
@@ -1101,10 +1097,43 @@ namespace AYP
                     table.AddCell(c);
 
                     row++;
+                    tableRow++;
                     currentTableHeight = CalculateTableHeight(doc, table);
+
+                    if (tempHeight < (currentTableHeight - previousTableHeight))
+                    {
+                        int columnNumbers = table.GetNumberOfColumns();
+                        for (int k = (tableRow * columnNumbers) - 1; k > ((tableRow * columnNumbers) - 1) - columnNumbers; k--)
+                        {
+                            table.GetChildren().RemoveAt(k);
+                        }
+
+                        tableRow = 0;
+                        row--;
+                        j--;
+
+                        doc.Add(table);
+                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        pageNumber += 1;
+
+                        tempHeight = emptyHeight;
+                        table = new Table(new float[7]);
+                        table.SetMarginTop(25);
+                        tempHeight = tempHeight - 25;
+                        previousTableHeight = 0;
+                        currentTableHeight = CalculateTableHeight(doc, table);
+
+                        SetRaporHeader(doc);
+                        SetRaporFooter(doc, pageNumber);
+                    }
+                    else
+                    {
+                        tempHeight = tempHeight - (currentTableHeight - previousTableHeight);
+                        previousTableHeight = currentTableHeight;
+                    }
                 }
 
-                if (tempHeight < 25)
+                if (tempHeight < (currentTableHeight - previousTableHeight))
                 {
                     doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                     pageNumber += 1;
@@ -1218,31 +1247,12 @@ namespace AYP
                 }
 
                 int row = 0;
+                int tableRow = 1;
                 float previousTableHeight = 0;
                 float currentTableHeight = CalculateTableHeight(doc, table);
 
                 for (int j = 0; j < connectList.Count; j++)
                 {
-                    tempHeight = tempHeight - (currentTableHeight - previousTableHeight);
-                    previousTableHeight = currentTableHeight;
-
-                    if (tempHeight < 25)
-                    {
-                        doc.Add(table);
-                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-                        pageNumber += 1;
-
-                        tempHeight = emptyHeight;
-                        table = new Table(new float[] { 300, 300, 193 });
-                        table.SetMarginTop(25);
-                        tempHeight = tempHeight - 25;
-                        previousTableHeight = 0;
-                        currentTableHeight = CalculateTableHeight(doc, table);
-
-                        SetRaporHeader(doc);
-                        SetRaporFooter(doc, pageNumber);
-                    }
-
                     Cell c = new Cell();
                     if (connectList[row].FromConnector.Node.TypeId == (int)TipEnum.UcBirim)
                     {
@@ -1280,11 +1290,44 @@ namespace AYP
                     c.SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER);
                     table.AddCell(c);
 
+                    tableRow++;
                     row++;
                     currentTableHeight = CalculateTableHeight(doc, table);
+
+                    if (tempHeight < (currentTableHeight - previousTableHeight))
+                    {
+                        int columnNumbers = table.GetNumberOfColumns();
+                        for (int k = (tableRow * columnNumbers) - 1; k > ((tableRow * columnNumbers) - 1) - columnNumbers; k--)
+                        {
+                            table.GetChildren().RemoveAt(k);
+                        }
+
+                        tableRow = 0;
+                        row--;
+                        j--;
+
+                        doc.Add(table);
+                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        pageNumber += 1;
+
+                        tempHeight = emptyHeight;
+                        table = new Table(new float[] { 300, 300, 193 });
+                        table.SetMarginTop(25);
+                        tempHeight = tempHeight - 25;
+                        previousTableHeight = 0;
+                        currentTableHeight = CalculateTableHeight(doc, table);
+
+                        SetRaporHeader(doc);
+                        SetRaporFooter(doc, pageNumber);
+                    }
+                    else
+                    {
+                        tempHeight = tempHeight - (currentTableHeight - previousTableHeight);
+                        previousTableHeight = currentTableHeight;
+                    }
                 }
 
-                if (tempHeight >= 25)
+                if (tempHeight >= (currentTableHeight - previousTableHeight))
                 {
                     doc.Add(table);
                 }
@@ -1360,31 +1403,12 @@ namespace AYP
                 }
 
                 int row = 0;
+                int tableRow = 1;
                 float previousTableHeight = 0;
                 float currentTableHeight = CalculateTableHeight(doc, table);
 
                 for (int j = 0; j < connectList.Count; j++)
                 {
-                    tempHeight = tempHeight - (currentTableHeight - previousTableHeight);
-                    previousTableHeight = currentTableHeight;
-
-                    if (tempHeight < 25)
-                    {
-                        doc.Add(table);
-                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-                        pageNumber += 1;
-
-                        tempHeight = emptyHeight;
-                        table = new Table(new float[] { 300, 300, 193 });
-                        table.SetMarginTop(25);
-                        tempHeight = tempHeight - 25;
-                        previousTableHeight = 0;
-                        currentTableHeight = CalculateTableHeight(doc, table);
-
-                        SetRaporHeader(doc);
-                        SetRaporFooter(doc, pageNumber);
-                    }
-
                     Cell c = new Cell();
                     if (connectList[row].FromConnector.Node.TurAd == "Toplama")
                     {
@@ -1423,10 +1447,43 @@ namespace AYP
                     table.AddCell(c);
 
                     row++;
+                    tableRow++;
                     currentTableHeight = CalculateTableHeight(doc, table);
+
+                    if (tempHeight < (currentTableHeight - previousTableHeight))
+                    {
+                        int columnNumbers = table.GetNumberOfColumns();
+                        for (int k = (tableRow * columnNumbers) - 1; k > ((tableRow * columnNumbers) - 1) - columnNumbers; k--)
+                        {
+                            table.GetChildren().RemoveAt(k);
+                        }
+
+                        tableRow = 0;
+                        row--;
+                        j--;
+
+                        doc.Add(table);
+                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        pageNumber += 1;
+
+                        tempHeight = emptyHeight;
+                        table = new Table(new float[] { 300, 300, 193 });
+                        table.SetMarginTop(25);
+                        tempHeight = tempHeight - 25;
+                        previousTableHeight = 0;
+                        currentTableHeight = CalculateTableHeight(doc, table);
+
+                        SetRaporHeader(doc);
+                        SetRaporFooter(doc, pageNumber);
+                    }
+                    else
+                    {
+                        tempHeight = tempHeight - (currentTableHeight - previousTableHeight);
+                        previousTableHeight = currentTableHeight;
+                    }
                 }
 
-                if (tempHeight >= 25)
+                if (tempHeight >= (currentTableHeight - previousTableHeight))
                 {
                     doc.Add(table);
                 }
@@ -1435,7 +1492,7 @@ namespace AYP
             return pageNumber;
         }
 
-        private int SetOmurgaToKenarTable(Document doc, List<ConnectViewModel> connectList, int pageNumber, float emptyHeight)
+        private int SetOmurgaToKenarTable(Document doc, List<ConnectViewModel> connectList, int pageNumber, float emptyHeight, Image pdfImg)
         {
             float tempHeight = emptyHeight;
 
@@ -1454,11 +1511,13 @@ namespace AYP
                 noBaglantiParagraph.SetFontSize(11);
                 noBaglantiParagraph.SetMarginTop(25);
                 doc.Add(noBaglantiParagraph);
+
+                doc.GetPdfDocument().SetDefaultPageSize(new PageSize(pdfImg.GetImageWidth() + 25, pdfImg.GetImageHeight() + 50));
                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                 pageNumber += 1;
 
-                SetRaporHeader(doc);
-                SetRaporFooter(doc, pageNumber);
+                //SetRaporHeader(doc);
+                //SetRaporFooter(doc, pageNumber);
             }
 
             if (connectList.Count > 0)
@@ -1502,31 +1561,12 @@ namespace AYP
                 }
 
                 int row = 0;
+                int tableRow = 1;
                 float previousTableHeight = 0;
                 float currentTableHeight = CalculateTableHeight(doc, table);
 
                 for (int j = 0; j < connectList.Count; j++)
                 {
-                    tempHeight = tempHeight - (currentTableHeight - previousTableHeight);
-                    previousTableHeight = currentTableHeight;
-
-                    if (tempHeight < 25)
-                    {
-                        doc.Add(table);
-                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-                        pageNumber += 1;
-
-                        tempHeight = emptyHeight;
-                        table = new Table(new float[] { 300, 300, 193 });
-                        table.SetMarginTop(25);
-                        tempHeight = tempHeight - 25;
-                        previousTableHeight = 0;
-                        currentTableHeight = CalculateTableHeight(doc, table);
-
-                        SetRaporHeader(doc);
-                        SetRaporFooter(doc, pageNumber);
-                    }
-
                     Cell c = new Cell();
                     if (connectList[row].FromConnector.Node.TurAd == "Omurga")
                     {
@@ -1564,10 +1604,43 @@ namespace AYP
                     table.AddCell(c);
 
                     row++;
+                    tableRow++;
                     currentTableHeight = CalculateTableHeight(doc, table);
+
+                    if (tempHeight < (currentTableHeight - previousTableHeight))
+                    {
+                        int columnNumbers = table.GetNumberOfColumns();
+                        for (int k = (tableRow * columnNumbers) - 1; k > ((tableRow * columnNumbers) - 1) - columnNumbers; k--)
+                        {
+                            table.GetChildren().RemoveAt(k);
+                        }
+
+                        tableRow = 0;
+                        row--;
+                        j--;
+
+                        doc.Add(table);
+                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        pageNumber += 1;
+
+                        tempHeight = emptyHeight;
+                        table = new Table(new float[] { 300, 300, 193 });
+                        table.SetMarginTop(25);
+                        tempHeight = tempHeight - 25;
+                        previousTableHeight = 0;
+                        currentTableHeight = CalculateTableHeight(doc, table);
+
+                        SetRaporHeader(doc);
+                        SetRaporFooter(doc, pageNumber);
+                    }
+                    else
+                    {
+                        tempHeight = tempHeight - (currentTableHeight - previousTableHeight);
+                        previousTableHeight = currentTableHeight;
+                    }
                 }
 
-                if (tempHeight >= 25)
+                if (tempHeight >= (currentTableHeight - previousTableHeight))
                 {
                     doc.Add(table);
                 }
@@ -1632,6 +1705,9 @@ namespace AYP
                 if (result == System.Windows.Forms.DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
                     string path = fbd.SelectedPath;
+
+                    var img = iText.IO.Image.ImageDataFactory.Create(capture);
+                    Image pdfImg = new Image(img);
 
                     int pageNumber = 1;
                     var outputStream = new FileStream(path + "\\Güç Planlama Raporu.pdf", FileMode.Create);
@@ -1711,20 +1787,18 @@ namespace AYP
                         }
                     }
 
-                    pageNumber = SetGucUreticiToGucTuketici(doc, connectList, pageNumber, emptyHeight);
+                    pageNumber = SetGucUreticiToGucTuketici(doc, connectList, pageNumber, emptyHeight, pdfImg);
                     if (connectList.Count > 0)
                     {
+                        doc.GetPdfDocument().SetDefaultPageSize(new PageSize(pdfImg.GetImageWidth() + 25, pdfImg.GetImageHeight() + 50));
                         doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                         pageNumber += 1;
 
-                        SetRaporHeader(doc);
-                        SetRaporFooter(doc, pageNumber);
+                        //SetRaporHeader(doc);
+                        //SetRaporFooter(doc, pageNumber);
                     }
 
-                    var img = iText.IO.Image.ImageDataFactory.Create(capture);
-                    Image pdfImg = new Image(img);
-                    pdfImg.SetWidth(532);
-                    pdfImg.SetMarginTop(120);
+                    pdfImg.SetMargins(25, 25, 10, 25);
                     doc.Add(pdfImg);
 
                     Paragraph captureDef = new Paragraph("Şekil 1 - Güç Planlama Çalışma Alanı Ekran Görüntüsü");
@@ -1840,31 +1914,12 @@ namespace AYP
                 }
 
                 int row = 0;
+                int tableRow = 1;
                 float previousTableHeight = 0;
                 float currentTableHeight = CalculateTableHeight(doc, table);
 
                 for (int j = 0; j < gucUreticiler.Count; j++)
                 {
-                    tempHeight = tempHeight - (currentTableHeight - previousTableHeight);
-                    previousTableHeight = currentTableHeight;
-
-                    if (tempHeight < 25)
-                    {
-                        doc.Add(table);
-                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-                        pageNumber += 1;
-
-                        tempHeight = emptyHeight;
-                        table = new Table(new float[6]);
-                        table.SetMarginTop(25);
-                        tempHeight = tempHeight - 25;
-                        previousTableHeight = 0;
-                        currentTableHeight = CalculateTableHeight(doc, table);
-
-                        SetRaporHeader(doc);
-                        SetRaporFooter(doc, pageNumber);
-                    }
-
                     Cell c = new Cell();
                     c.SetMinWidth(120);
                     c.Add(new Paragraph(gucUreticiler[row].Name));
@@ -1911,10 +1966,43 @@ namespace AYP
                     table.AddCell(c);
 
                     row++;
+                    tableRow++;
                     currentTableHeight = CalculateTableHeight(doc, table);
+
+                    if (tempHeight < (currentTableHeight - previousTableHeight))
+                    {
+                        int columnNumbers = table.GetNumberOfColumns();
+                        for (int k = (tableRow * columnNumbers) - 1; k > ((tableRow * columnNumbers) - 1) - columnNumbers; k--)
+                        {
+                            table.GetChildren().RemoveAt(k);
+                        }
+
+                        tableRow = 0;
+                        row--;
+                        j--;
+
+                        doc.Add(table);
+                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        pageNumber += 1;
+
+                        tempHeight = emptyHeight;
+                        table = new Table(new float[6]);
+                        table.SetMarginTop(25);
+                        tempHeight = tempHeight - 25;
+                        previousTableHeight = 0;
+                        currentTableHeight = CalculateTableHeight(doc, table);
+
+                        SetRaporHeader(doc);
+                        SetRaporFooter(doc, pageNumber);
+                    }
+                    else
+                    {
+                        tempHeight = tempHeight - (currentTableHeight - previousTableHeight);
+                        previousTableHeight = currentTableHeight;
+                    }
                 }
 
-                if (tempHeight < 25)
+                if (tempHeight < (currentTableHeight - previousTableHeight))
                 {
                     doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                     pageNumber += 1;
@@ -2072,31 +2160,12 @@ namespace AYP
                 }
 
                 int row = 0;
+                int tableRow = 1;
                 float previousTableHeight = 0;
                 float currentTableHeight = CalculateTableHeight(doc, table);
 
                 for (int j = 0; j < gucTuketiciler.Count; j++)
                 {
-                    tempHeight = tempHeight - (currentTableHeight - previousTableHeight);
-                    previousTableHeight = currentTableHeight;
-
-                    if (tempHeight < 25)
-                    {
-                        doc.Add(table);
-                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-                        pageNumber += 1;
-
-                        tempHeight = emptyHeight;
-                        table = new Table(new float[7]);
-                        table.SetMarginTop(25);
-                        tempHeight = tempHeight - 25;
-                        previousTableHeight = 0;
-                        currentTableHeight = CalculateTableHeight(doc, table);
-
-                        SetRaporHeader(doc);
-                        SetRaporFooter(doc, pageNumber);
-                    }
-
                     Cell c = new Cell();
                     c.SetMinWidth(120);
                     c.Add(new Paragraph(gucTuketiciler[row].Name));
@@ -2128,7 +2197,7 @@ namespace AYP
                     table.AddCell(c);
 
                     c = new Cell();
-                    c.SetMinWidth(35);
+                    c.SetWidth(35);
                     c.Add(new Paragraph(gucTuketiciler[row].InputList.Where(x => x.TypeId == (int)TipEnum.UcBirimAgArayuzu || x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu).Count().ToString()));
                     c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
@@ -2136,7 +2205,7 @@ namespace AYP
                     table.AddCell(c);
 
                     c = new Cell();
-                    c.SetMinWidth(35);
+                    c.SetWidth(35);
                     c.Add(new Paragraph(gucTuketiciler[row].OutputList.Where(x => x.TypeId == (int)TipEnum.UcBirimAgArayuzu || x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu).Count().ToString()));
                     c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
@@ -2144,7 +2213,7 @@ namespace AYP
                     table.AddCell(c);
 
                     c = new Cell();
-                    c.SetMinWidth(35);
+                    c.SetWidth(35);
                     c.Add(new Paragraph(gucTuketiciler[row].InputList.Where(x => x.TypeId == (int)TipEnum.UcBirimGucArayuzu || x.TypeId == (int)TipEnum.AgAnahtariGucArayuzu || x.TypeId == (int)TipEnum.GucUreticiGucArayuzu).Count().ToString()));
                     c.SetFontFamily(new string[] { "Arial", "serif" });
                     c.SetFontSize(11);
@@ -2152,10 +2221,43 @@ namespace AYP
                     table.AddCell(c);
 
                     row++;
+                    tableRow++;
                     currentTableHeight = CalculateTableHeight(doc, table);
+
+                    if (tempHeight < (currentTableHeight - previousTableHeight))
+                    {
+                        int columnNumbers = table.GetNumberOfColumns();
+                        for (int k = (tableRow * columnNumbers) - 1; k > ((tableRow * columnNumbers) - 1) - columnNumbers; k--)
+                        {
+                            table.GetChildren().RemoveAt(k);
+                        }
+
+                        tableRow = 0;
+                        row--;
+                        j--;
+
+                        doc.Add(table);
+                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        pageNumber += 1;
+
+                        tempHeight = emptyHeight;
+                        table = new Table(new float[7]);
+                        table.SetMarginTop(25);
+                        tempHeight = tempHeight - 25;
+                        previousTableHeight = 0;
+                        currentTableHeight = CalculateTableHeight(doc, table);
+
+                        SetRaporHeader(doc);
+                        SetRaporFooter(doc, pageNumber);
+                    }
+                    else
+                    {
+                        tempHeight = tempHeight - (currentTableHeight - previousTableHeight);
+                        previousTableHeight = currentTableHeight;
+                    }
                 }
 
-                if (tempHeight < 25)
+                if (tempHeight < (currentTableHeight - previousTableHeight))
                 {
                     doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                     pageNumber += 1;
@@ -2205,7 +2307,7 @@ namespace AYP
             return pageNumber;
         }
 
-        private int SetGucUreticiToGucTuketici(Document doc, List<ConnectViewModel> connectList, int pageNumber, float emptyHeight)
+        private int SetGucUreticiToGucTuketici(Document doc, List<ConnectViewModel> connectList, int pageNumber, float emptyHeight, Image pdfImg)
         {
             var tempHeight = emptyHeight;
 
@@ -2224,11 +2326,13 @@ namespace AYP
                 noBaglantiParagraph.SetFontSize(11);
                 noBaglantiParagraph.SetMarginTop(25);
                 doc.Add(noBaglantiParagraph);
+
+                doc.GetPdfDocument().SetDefaultPageSize(new PageSize(pdfImg.GetImageWidth() + 25, pdfImg.GetImageHeight() + 50));
                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                 pageNumber += 1;
 
-                SetRaporHeader(doc);
-                SetRaporFooter(doc, pageNumber);
+                //SetRaporHeader(doc);
+                //SetRaporFooter(doc, pageNumber);
             }
 
             if (connectList.Count > 0)
@@ -2272,31 +2376,12 @@ namespace AYP
                 }
 
                 int row = 0;
+                int tableRow = 1;
                 float previousTableHeight = 0;
                 float currentTableHeight = CalculateTableHeight(doc, table);
 
                 for (int j = 0; j < connectList.Count; j++)
                 {
-                    tempHeight = tempHeight - (currentTableHeight - previousTableHeight);
-                    previousTableHeight = currentTableHeight;
-
-                    if (tempHeight < 25)
-                    {
-                        doc.Add(table);
-                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-                        pageNumber += 1;
-
-                        tempHeight = emptyHeight;
-                        table = new Table(new float[] { 300, 300, 193 });
-                        table.SetMarginTop(25);
-                        tempHeight = tempHeight - 25;
-                        previousTableHeight = 0;
-                        currentTableHeight = CalculateTableHeight(doc, table);
-
-                        SetRaporHeader(doc);
-                        SetRaporFooter(doc, pageNumber);
-                    }
-
                     Cell c = new Cell();
                     c.Add(new Paragraph(connectList[row].FromConnector.Node.Name));
                     c.SetFontFamily(new string[] { "Arial", "serif" });
@@ -2319,10 +2404,43 @@ namespace AYP
                     table.AddCell(c);
 
                     row++;
+                    tableRow++;
                     currentTableHeight = CalculateTableHeight(doc, table);
+
+                    if (tempHeight < (currentTableHeight - previousTableHeight))
+                    {
+                        int columnNumbers = table.GetNumberOfColumns();
+                        for (int k = (tableRow * columnNumbers) - 1; k > ((tableRow * columnNumbers) - 1) - columnNumbers; k--)
+                        {
+                            table.GetChildren().RemoveAt(k);
+                        }
+
+                        tableRow = 0;
+                        row--;
+                        j--;
+
+                        doc.Add(table);
+                        doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+                        pageNumber += 1;
+
+                        tempHeight = emptyHeight;
+                        table = new Table(new float[] { 300, 300, 193 });
+                        table.SetMarginTop(25);
+                        tempHeight = tempHeight - 25;
+                        previousTableHeight = 0;
+                        currentTableHeight = CalculateTableHeight(doc, table);
+
+                        SetRaporHeader(doc);
+                        SetRaporFooter(doc, pageNumber);
+                    }
+                    else
+                    {
+                        tempHeight = tempHeight - (currentTableHeight - previousTableHeight);
+                        previousTableHeight = currentTableHeight;
+                    }
                 }
 
-                if (tempHeight < 25)
+                if (tempHeight < (currentTableHeight - previousTableHeight))
                 {
                     doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                     pageNumber += 1;
@@ -2404,109 +2522,109 @@ namespace AYP
             Table table = new Table(new float[] { 110, 75, 55, 50, 45, 45, 70, 70 });
 
             Cell c = new Cell(1, 1);
+            c.SetMaxWidth(110);
             c.Add(new Paragraph("Onay-Approved By").SetFontSize(6));
             c.Add(new Paragraph(model.Onaylayan != null ? model.Onaylayan : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             c.SetFontFamily(new string[] { "Arial", "serif" });
-            c.SetWidth(110);
             table.AddCell(c);
 
             c = new Cell(3, 5);
+            c.SetMaxWidth(270);
             c.Add(new Paragraph("Tanım-Description").SetFontSize(6));
             c.Add(new Paragraph(model.DokumanTanimi != null ? model.DokumanTanimi : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             c.SetFontFamily(new string[] { "Arial", "serif" });
-            c.SetWidth(270);
             table.AddCell(c);
 
             c = new Cell(2, 2);
+            c.SetMaxWidth(140);
             c.Add(new Paragraph("Doküman/Parça Numarası-Document/Part Number").SetFontSize(6));
             c.Add(new Paragraph(model.DokumanParcaNo != null ? model.DokumanParcaNo : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             c.SetFontFamily(new string[] { "Arial", "serif" });
-            c.SetWidth(140);
             table.AddCell(c);
 
             c = new Cell();
+            c.SetMaxWidth(110);
             c.Add(new Paragraph("Kontrol-Checked By").SetFontSize(6));
             c.Add(new Paragraph(model.KontrolEden != null ? model.KontrolEden : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             c.SetFontFamily(new string[] { "Arial", "serif" });
-            c.SetWidth(110);
             table.AddCell(c);
 
             c = new Cell();
+            c.SetMaxWidth(110);
             c.Add(new Paragraph("Hazırlayan-Prepared By").SetFontSize(6));
             c.Add(new Paragraph(model.Hazirlayan != null ? model.Hazirlayan : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             c.SetFontFamily(new string[] { "Arial", "serif" });
-            c.SetWidth(110);
             table.AddCell(c);
 
             c = new Cell();
+            c.SetMaxWidth(70);
             c.Add(new Paragraph("Rev Kodu-Rev Code").SetFontSize(6));
             c.Add(new Paragraph(model.RevizyonKodu != null ? model.RevizyonKodu : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             c.SetFontFamily(new string[] { "Arial", "serif" });
-            c.SetWidth(70);
             table.AddCell(c);
 
             c = new Cell();
+            c.SetMaxWidth(70);
             c.Add(new Paragraph("Değişiklik Tarihi-Change Date").SetFontSize(6));
             c.Add(new Paragraph(model.DegistirmeTarihi.HasValue ? model.DegistirmeTarihi.Value.ToString("dd/MM/yyyy") : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             c.SetFontFamily(new string[] { "Arial", "serif" });
-            c.SetWidth(70);
             table.AddCell(c);
 
             c = new Cell();
+            c.SetMaxWidth(110);
             c.Add(new Paragraph("Bölüm-Department").SetFontSize(6));
             c.Add(new Paragraph(model.Bolum != null ? model.Bolum : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             c.SetFontFamily(new string[] { "Arial", "serif" });
-            c.SetWidth(110);
             table.AddCell(c);
 
 
             c = new Cell();
+            c.SetMaxWidth(75);
             c.Add(new Paragraph("Yazım Ortamı-Editing Env").SetFontSize(6));
             c.Add(new Paragraph(model.YazimOrtami != null ? model.YazimOrtami : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             c.SetFontFamily(new string[] { "Arial", "serif" });
-            c.SetWidth(75);
             table.AddCell(c);
 
             c = new Cell();
+            c.SetMaxWidth(55);
             c.Add(new Paragraph("Dok Kodu-Doc Code").SetFontSize(6));
             c.Add(new Paragraph(model.DokumanKodu != null ? model.DokumanKodu : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             c.SetFontFamily(new string[] { "Arial", "serif" });
-            c.SetWidth(55);
             table.AddCell(c);
 
             c = new Cell();
+            c.SetMaxWidth(50);
             c.Add(new Paragraph("Syf-Pg").SetFontSize(6));
             c.Add(new Paragraph(pageNumber.ToString()).SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             c.SetFontFamily(new string[] { "Arial", "serif" });
-            c.SetWidth(50);
             table.AddCell(c);
 
             c = new Cell();
+            c.SetMaxWidth(45);
             c.Add(new Paragraph("Tarih-Date").SetFontSize(6));
             c.Add(new Paragraph(model.Tarih.HasValue ? model.Tarih.Value.ToString("dd/MM/yyyy") : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             c.SetFontFamily(new string[] { "Arial", "serif" });
-            c.SetWidth(45);
             table.AddCell(c);
 
             c = new Cell();
+            c.SetMaxWidth(45);
             c.Add(new Paragraph("Dil-Lng").SetFontSize(6));
             c.Add(new Paragraph(model.DilKodu != null ? model.DilKodu : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             c.SetFontFamily(new string[] { "Arial", "serif" });
-            c.SetWidth(45);
             table.AddCell(c);
 
             c = new Cell();
+            c.SetMaxWidth(70);
             c.Add(new Paragraph("Değiştiren-Changed By").SetFontSize(6));
             c.Add(new Paragraph(model.Degistiren != null ? model.Degistiren : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             c.SetFontFamily(new string[] { "Arial", "serif" });
-            c.SetWidth(70);
             table.AddCell(c);
 
             c = new Cell();
+            c.SetMaxWidth(70);
             c.Add(new Paragraph("Boyut-Size").SetFontSize(6));
             c.Add(new Paragraph(model.SayfaBoyutu != null ? model.SayfaBoyutu : "").SetFontSize(9).SetTextAlignment(iText.Layout.Properties.TextAlignment.CENTER));
             c.SetFontFamily(new string[] { "Arial", "serif" });
-            c.SetWidth(70);
             table.AddCell(c);
             table.SetFixedPosition(38, 20, 520);
             doc.Add(table);
@@ -2521,11 +2639,6 @@ namespace AYP
             var tableHeight = test.GetOccupiedArea().GetBBox().GetHeight();
 
             return tableHeight;
-        }
-
-        private void Yil2_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-
         }
     }
 }
