@@ -167,9 +167,10 @@ namespace AYP
 
         private void SetVarisNoktasiList()
         {
-            agAkis.VarisNoktasiList = this.ucBirimAgArayuzu.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.UcBirim && x.UniqueId != this.ucBirimAgArayuzu.Node.UniqueId).ToList();
-            UcBirimListBox.ItemsSource = agAkis.VarisNoktasiList;
+            var ucBirimList = this.ucBirimAgArayuzu.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.UcBirim && x.UniqueId != this.ucBirimAgArayuzu.Node.UniqueId).ToList();
+            agAkis.VarisNoktasiList = ucBirimList.Where(y => y.InputList.Where(x => x.TypeId == (int)TipEnum.UcBirimAgArayuzu).Count() > 0).ToList();
 
+            UcBirimListBox.ItemsSource = agAkis.VarisNoktasiList;
         }
         #endregion
 

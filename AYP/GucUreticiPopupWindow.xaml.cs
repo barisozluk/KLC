@@ -718,6 +718,7 @@ namespace AYP
                 if (gucArayuzu.PortList.Count > 0)
                 {
                     gucArayuzu.Port = gucArayuzu.PortList[0];
+                    GucArayuzuPortList.SelectedItem = gucArayuzu.Port;
                 }
             }
         }

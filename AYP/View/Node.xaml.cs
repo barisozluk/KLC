@@ -307,22 +307,26 @@ namespace AYP.View
             }
         }
 
-        private static BitmapImage LoadImageFromByteArray(byte[] imageData)
+        private static ImageSource LoadImageFromByteArray(byte[] imageData)
         {
             if (imageData == null || imageData.Length == 0) return null;
-            var image = new BitmapImage();
-            using (var mem = new MemoryStream(imageData))
+            ImageSource imgSrc;
+            try
             {
-                mem.Position = 0;
-                image.BeginInit();
-                image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
-                image.CacheOption = BitmapCacheOption.OnLoad;
-                image.UriSource = null;
-                image.StreamSource = mem;
-                image.EndInit();
+                var biImg = new BitmapImage();
+                MemoryStream ms = new MemoryStream(imageData);
+                biImg.BeginInit();
+                biImg.StreamSource = ms;
+                biImg.EndInit();
+
+                imgSrc = biImg as ImageSource;
             }
-            image.Freeze();
-            return image;
+            catch(Exception e)
+            {
+                return null;
+            }
+
+            return imgSrc;
         }
 
         #endregion Setup Events

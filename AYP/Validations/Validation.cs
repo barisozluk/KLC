@@ -37,7 +37,22 @@ namespace AYP.Validations
                     }
                 }
             }
-
+            else if (fromConnector.Node.TypeId == (int)TipEnum.Group)
+            {
+                if(fromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu || fromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu)
+                {
+                    foreach (var connect in fromConnector.NodesCanvas.Connects)
+                    {
+                        if (connect.FromConnector == fromConnector)
+                        {
+                            OpenModal("Bir grup çıktı ağ arayüzünden sadece bir bağlantı olmalıdır.", NodesCanvas);
+                            response = false;
+                            break;
+                        }
+                    }
+                }
+            }
+            
             return response;
         }
         public bool ValidateDuringDrawEnd(NodesCanvasViewModel NodesCanvas, ConnectorViewModel toConnector)
@@ -278,7 +293,7 @@ namespace AYP.Validations
                             else if (toConnector.TypeId == (int)TipEnum.UcBirimGucArayuzu)
                             {
                                 response = GerilimTipiValidasyon(NodesCanvas, fromConnector, toConnector);
-                                if(response)
+                                if (response)
                                 {
                                     response = GerilimValidasyon(NodesCanvas, fromConnector, toConnector);
                                     if (!response)
@@ -324,7 +339,7 @@ namespace AYP.Validations
                             else if (toConnector.TypeId == (int)TipEnum.AgAnahtariGucArayuzu)
                             {
                                 response = GerilimTipiValidasyon(NodesCanvas, fromConnector, toConnector);
-                                if(response)
+                                if (response)
                                 {
                                     response = GerilimValidasyon(NodesCanvas, fromConnector, toConnector);
                                     if (!response)
@@ -362,7 +377,7 @@ namespace AYP.Validations
                     {
                         response = GerilimTipiValidasyon(NodesCanvas, fromConnector, toConnector);
 
-                        if(response)
+                        if (response)
                         {
                             response = GerilimValidasyon(NodesCanvas, fromConnector, toConnector);
                             if (!response)
@@ -377,6 +392,245 @@ namespace AYP.Validations
                                 {
                                     OpenModal("Yetersiz Güç", NodesCanvas);
                                     response = false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else if (fromConnector.Node.TypeId == (int)TipEnum.Group)
+            {
+                if (fromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu)
+                {
+                    if (toConnector.Node.TypeId == (int)TipEnum.GucUretici)
+                    {
+                        OpenModal("Ağ arayüzü ile güç arayüzü birbirine bağlanamaz.", NodesCanvas);
+                        response = false;
+                    }
+                    else if (toConnector.Node.TypeId == (int)TipEnum.UcBirim)
+                    {
+                        OpenModal("Uç Birim ile Uç Birim birbirine bağlanamaz.", NodesCanvas);
+                        response = false;
+                    }
+                    else if (toConnector.Node.TypeId == (int)TipEnum.AgAnahtari)
+                    {
+                        foreach (var connect in toConnector.NodesCanvas.Connects)
+                        {
+                            if (connect.ToConnector == toConnector)
+                            {
+                                OpenModal("Bağlantı birebir olmalıdır.", NodesCanvas);
+                                response = false;
+                                break;
+                            }
+                        }
+
+                        if (response)
+                        {
+                            if (toConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
+                            {
+                                response = FizikselOrtamValidasyon(NodesCanvas, fromConnector, toConnector);
+
+                                if (response)
+                                {
+                                    response = KapasiteValidasyon(NodesCanvas, fromConnector, toConnector);
+                                }
+                            }
+                            else if (toConnector.TypeId == (int)TipEnum.AgAnahtariGucArayuzu)
+                            {
+                                OpenModal("Ağ arayüzü ile güç arayüzü birbirine bağlanamaz.", NodesCanvas);
+                                response = false;
+                            }
+                        }
+                    }
+                }
+                else if (fromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
+                {
+                    if (toConnector.Node.TypeId == (int)TipEnum.UcBirim)
+                    {
+                        foreach (var connect in toConnector.NodesCanvas.Connects)
+                        {
+                            if (connect.ToConnector == toConnector)
+                            {
+                                OpenModal("Bağlantı birebir olmalıdır.", NodesCanvas);
+                                response = false;
+                                break;
+                            }
+                        }
+
+                        if (response)
+                        {
+                            if (toConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu)
+                            {
+                                response = FizikselOrtamValidasyon(NodesCanvas, fromConnector, toConnector);
+
+                                if (response)
+                                {
+                                    response = KapasiteValidasyon(NodesCanvas, fromConnector, toConnector);
+                                }
+                            }
+                            else if (toConnector.TypeId == (int)TipEnum.UcBirimGucArayuzu)
+                            {
+                                OpenModal("Ağ arayüzü ile güç arayüzü birbirine bağlanamaz.", NodesCanvas);
+                                response = false;
+                            }
+                        }
+                    }
+                    else if (toConnector.Node.TypeId == (int)TipEnum.AgAnahtari)
+                    {
+                        foreach (var connect in toConnector.NodesCanvas.Connects)
+                        {
+                            if (connect.ToConnector == toConnector)
+                            {
+                                OpenModal("Bağlantı birebir olmalıdır.", NodesCanvas);
+                                response = false;
+                                break;
+                            }
+                        }
+
+                        if (response)
+                        {
+                            if (toConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
+                            {
+                                response = FizikselOrtamValidasyon(NodesCanvas, fromConnector, toConnector);
+
+                                if (response)
+                                {
+                                    response = KapasiteValidasyon(NodesCanvas, fromConnector, toConnector);
+                                }
+                            }
+                            else if (toConnector.TypeId == (int)TipEnum.AgAnahtariGucArayuzu)
+                            {
+                                OpenModal("Ağ arayüzü ile güç arayüzü birbirine bağlanamaz.", NodesCanvas);
+                                response = false;
+                            }
+                        }
+                    }
+                    else if (toConnector.Node.TypeId == (int)TipEnum.GucUretici)
+                    {
+                        OpenModal("Ağ arayüzü ile güç arayüzü birbirine bağlanamaz.", NodesCanvas);
+                        response = false;
+                    }
+                }
+                else if (fromConnector.TypeId == (int)TipEnum.GucUreticiGucArayuzu)
+                {
+                    if (toConnector.Node.TypeId == (int)TipEnum.UcBirim)
+                    {
+                        foreach (var connect in toConnector.NodesCanvas.Connects)
+                        {
+                            if (connect.ToConnector == toConnector)
+                            {
+                                OpenModal("Bir güç arayüzü girdisi için bir bağlantı olmalıdır.", NodesCanvas);
+                                response = false;
+                                break;
+                            }
+                        }
+
+                        if (response)
+                        {
+                            if (toConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu)
+                            {
+                                OpenModal("Güç Üretici güç arayüzü ile Uç Birim ağ arayüzü birbirine bağlanamaz.", NodesCanvas);
+                                response = false;
+                            }
+                            else if (toConnector.TypeId == (int)TipEnum.UcBirimGucArayuzu)
+                            {
+                                response = GerilimTipiValidasyon(NodesCanvas, fromConnector, toConnector);
+                                if (response)
+                                {
+                                    response = GerilimValidasyon(NodesCanvas, fromConnector, toConnector);
+                                    if (!response)
+                                    {
+                                        OpenModal("Güç üretici ve güç tüketici arasında gerilim uyumsuzluğu vardır.", NodesCanvas);
+                                        response = false;
+                                    }
+                                    else
+                                    {
+                                        response = GucValidasyon(NodesCanvas, fromConnector, toConnector);
+                                        if (!response)
+                                        {
+                                            OpenModal("Yetersiz Güç", NodesCanvas);
+                                            response = false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if (toConnector.Node.TypeId == (int)TipEnum.AgAnahtari)
+                    {
+                        foreach (var connect in toConnector.NodesCanvas.Connects)
+                        {
+                            if (connect.ToConnector == toConnector)
+                            {
+                                OpenModal("Bir güç arayüzü girdisi için bir bağlantı olmalıdır.", NodesCanvas);
+                                response = false;
+                                break;
+                            }
+                        }
+
+                        if (response)
+                        {
+                            if (toConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
+                            {
+                                OpenModal("Güç Üretici güç arayüzü ile Ağ Anahtarı ağ arayüzü birbirine bağlanamaz.", NodesCanvas);
+                                response = false;
+                            }
+                            else if (toConnector.TypeId == (int)TipEnum.AgAnahtariGucArayuzu)
+                            {
+                                response = GerilimTipiValidasyon(NodesCanvas, fromConnector, toConnector);
+                                if (response)
+                                {
+                                    response = GerilimValidasyon(NodesCanvas, fromConnector, toConnector);
+                                    if (!response)
+                                    {
+                                        OpenModal("Güç üretici ve güç tüketici arasında gerilim uyumsuzluğu vardır.", NodesCanvas);
+                                        response = false;
+                                    }
+                                    else
+                                    {
+                                        response = GucValidasyon(NodesCanvas, fromConnector, toConnector);
+                                        if (!response)
+                                        {
+                                            OpenModal("Yetersiz Güç", NodesCanvas);
+                                            response = false;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if (toConnector.Node.TypeId == (int)TipEnum.GucUretici)
+                    {
+                        foreach (var connect in toConnector.NodesCanvas.Connects)
+                        {
+                            if (connect.ToConnector == toConnector)
+                            {
+                                OpenModal("Bir güç arayüzü girdisi için bir bağlantı olmalıdır.", NodesCanvas);
+                                response = false;
+                                break;
+                            }
+                        }
+
+                        if (response)
+                        {
+                            response = GerilimTipiValidasyon(NodesCanvas, fromConnector, toConnector);
+
+                            if (response)
+                            {
+                                response = GerilimValidasyon(NodesCanvas, fromConnector, toConnector);
+                                if (!response)
+                                {
+                                    OpenModal("Güç üretici ve güç tüketici arasında gerilim uyumsuzluğu vardır.", NodesCanvas);
+                                    response = false;
+                                }
+                                else
+                                {
+                                    response = GucValidasyon(NodesCanvas, fromConnector, toConnector);
+                                    if (!response)
+                                    {
+                                        OpenModal("Yetersiz Güç", NodesCanvas);
+                                        response = false;
+                                    }
                                 }
                             }
                         }

@@ -804,6 +804,7 @@ namespace AYP
                 if (agArayuzu.PortList.Count > 0)
                 {
                     agArayuzu.Port = agArayuzu.PortList[0];
+                    AgArayuzuPortList.SelectedItem = agArayuzu.Port;
                 }
             }
         }
@@ -824,6 +825,7 @@ namespace AYP
                 if (gucArayuzu.PortList.Count > 0)
                 {
                     gucArayuzu.Port = gucArayuzu.PortList[0];
+                    GucArayuzuPortList.SelectedItem = gucArayuzu.Port;
                 }
             }
         }
@@ -1418,12 +1420,5 @@ namespace AYP
             }
         }
         #endregion
-
-        private void txt_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Back)
-            {
-            }
-        }
     }
 }

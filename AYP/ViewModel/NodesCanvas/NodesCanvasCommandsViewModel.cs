@@ -2822,6 +2822,7 @@ namespace AYP.ViewModel
             }
             else
             {
+                //System.IO.File.WriteAllText(SchemePath, string.Empty);
                 Save(SchemePath);
             }
         }
