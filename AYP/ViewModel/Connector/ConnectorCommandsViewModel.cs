@@ -98,7 +98,7 @@ namespace AYP.ViewModel
 
                         foreach (var node in groupNode.NodeList)
                         {
-                            var output = node.Transitions.Items.Where(x => x.Label == temp.Label).FirstOrDefault();
+                            var output = node.Transitions.Items.Where(x => x.UniqueId == temp.UniqueId).FirstOrDefault();
                             if (output != null)
                             {
                                 ConnectViewModel c = new ConnectViewModel(this.NodesCanvas, output);
@@ -114,7 +114,7 @@ namespace AYP.ViewModel
                         var groupNode = this.NodesCanvas.GroupList.Where(x => x.UniqueId == connect.ToConnector.Node.UniqueId).FirstOrDefault();
                         foreach (var node in groupNode.NodeList)
                         {
-                            var input = node.InputList.Where(x => x.Label == connect.ToConnector.Label).FirstOrDefault();
+                            var input = node.InputList.Where(x => x.UniqueId == connect.ToConnector.UniqueId).FirstOrDefault();
                             if (input != null)
                             {
                                 ConnectViewModel c = new ConnectViewModel(this.NodesCanvas, connect.FromConnector);

@@ -48,8 +48,8 @@ namespace AYP
 
             this.group.InternalConnectList = group.InternalConnectList;
             this.group.ExternalConnectList = group.ExternalConnectList;
-            this.group.GucArayuzuList = group.GucArayuzuList;
-            this.group.AgArayuzuList = group.AgArayuzuList;
+            this.group.InputList = group.InputList;
+            this.group.OutputList = group.OutputList;
             
 
             InitializeComponent();
@@ -77,8 +77,8 @@ namespace AYP
                             connect.GucMiktari = internalConnect.GucMiktari;
                             connect.KabloKesitOnerisi = internalConnect.KabloKesitOnerisi;
                             connect.Uzunluk = internalConnect.Uzunluk;
-                            //connect.FromConnector.AgAkisList = internalConnect.FromConnector.AgAkisList;
-                            //connect.ToConnector.AgAkisList = internalConnect.ToConnector.AgAkisList;
+                            connect.FromConnector.AgAkisList = internalConnect.FromConnector.AgAkisList;
+                            connect.ToConnector.AgAkisList = internalConnect.ToConnector.AgAkisList;
                             NodesCanvas.ViewModel.Connects.Add(connect);
                         }
                     }
@@ -97,8 +97,8 @@ namespace AYP
                             connect.GucMiktari = internalConnect.GucMiktari;
                             connect.KabloKesitOnerisi = internalConnect.KabloKesitOnerisi;
                             connect.Uzunluk = internalConnect.Uzunluk;
-                            //connect.FromConnector.AgAkisList = internalConnect.FromConnector.AgAkisList;
-                            //connect.ToConnector.AgAkisList = internalConnect.ToConnector.AgAkisList;
+                            connect.FromConnector.AgAkisList = internalConnect.FromConnector.AgAkisList;
+                            connect.ToConnector.AgAkisList = internalConnect.ToConnector.AgAkisList;
                             NodesCanvas.ViewModel.Connects.Add(connect);
                         }
 

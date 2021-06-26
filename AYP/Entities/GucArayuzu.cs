@@ -48,9 +48,9 @@ namespace AYP.Entities
 
         public decimal? GirdiTukettigiGucMiktari { get; set; }
 
-        [Range(-1, double.MaxValue)]
         public decimal? CiktiDuraganGerilimDegeri { get; set; }
 
+        [Range(-1, double.MaxValue)]
         public decimal? CiktiUrettigiGucKapasitesi { get; set; }
 
         [NotMapped]
@@ -83,28 +83,6 @@ namespace AYP.Entities
             element.Add(CiktiDuraganGerilimDegeri == null ? null : new XAttribute("CiktiDuraganGerilimDegeri", CiktiDuraganGerilimDegeri));
             element.Add(!CiktiUrettigiGucKapasitesi.HasValue ? null : new XAttribute("CiktiUrettigiGucKapasitesi", CiktiUrettigiGucKapasitesi));
             element.Add(new XAttribute("NodeUniqueId", NodeUniqueId));
-
-            return element;
-        }
-
-        public XElement ToGroupXElement(Guid GroupId)
-        {
-            XElement element = new XElement("GroupGucArayuzu");
-            element.Add(new XAttribute("Id", Id));
-            element.Add(new XAttribute("Adi", Adi));
-            element.Add(new XAttribute("Port", Port));
-            element.Add(new XAttribute("KullanimAmaciId", KullanimAmaciId));
-            element.Add(new XAttribute("GerilimTipiId", GerilimTipiId));
-            element.Add(new XAttribute("TipId", TipId));
-            element.Add(!GirdiDuraganGerilimDegeri1.HasValue ? null : new XAttribute("GirdiDuraganGerilimDegeri1", GirdiDuraganGerilimDegeri1));
-            element.Add(!GirdiDuraganGerilimDegeri2.HasValue ? null : new XAttribute("GirdiDuraganGerilimDegeri2", GirdiDuraganGerilimDegeri2));
-            element.Add(!GirdiDuraganGerilimDegeri3.HasValue ? null : new XAttribute("GirdiDuraganGerilimDegeri3", GirdiDuraganGerilimDegeri3));
-            element.Add(!GirdiMinimumGerilimDegeri.HasValue ? null : new XAttribute("GirdiMinimumGerilimDegeri", GirdiMinimumGerilimDegeri));
-            element.Add(!GirdiMaksimumGerilimDegeri.HasValue ? null : new XAttribute("GirdiMaksimumGerilimDegeri", GirdiMaksimumGerilimDegeri));
-            element.Add(!GirdiTukettigiGucMiktari.HasValue ? null : new XAttribute("GirdiTukettigiGucMiktari", GirdiTukettigiGucMiktari));
-            element.Add(CiktiDuraganGerilimDegeri == null ? null : new XAttribute("CiktiDuraganGerilimDegeri", CiktiDuraganGerilimDegeri));
-            element.Add(!CiktiUrettigiGucKapasitesi.HasValue ? null : new XAttribute("CiktiUrettigiGucKapasitesi", CiktiUrettigiGucKapasitesi));
-            element.Add(new XAttribute("GroupId", GroupId));
 
             return element;
         }

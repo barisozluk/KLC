@@ -107,7 +107,7 @@ namespace AYP.ViewModel
         public Command<(NodeViewModel node, string newName), (NodeViewModel node, string oldName)> CommandChangeNodeName { get; set; }
         public Command<(ConnectorViewModel connector, string newName), (ConnectorViewModel connector, string oldName)> CommandChangeConnectName { get; set; }
 
-        public Command<Unit, List<NodeViewModel>> CommandPaste { get; set; }
+        public Command<Unit, List<KeyValuePair<KeyValuePair<NodeViewModel, GroupUngroupModel>, List<ConnectViewModel>>>> CommandPaste { get; set; }
         public Command<Unit, KeyValuePair<List<NodeViewModel>, List<ConnectViewModel>>> CommandCopy { get; set; }
         public Command<Unit, KeyValuePair<NodeViewModel, GroupUngroupModel>> CommandGroup { get; set; }
         public Command<Unit, List<KeyValuePair<NodeViewModel, GroupUngroupModel>>> CommandUngroup { get; set; }
@@ -115,7 +115,7 @@ namespace AYP.ViewModel
         public Command<NodeViewModel, List<ConnectViewModel>> CommandHalkaTopolojiOlusturLogic { get; set; }
         public Command<NodeViewModel, List<ConnectViewModel>> CommandZincirTopolojiOlusturLogic { get; set; }
         public Command<Unit, List<ConnectViewModel>> CommandUcBirimOtoConnect { get; set; }
-        public Command<NodeViewModel, List<ConnectViewModel>> CommandGucUreticiOtoConnectLogic{ get; set; }
+        public Command<NodeViewModel, List<ConnectViewModel>> CommandGucUreticiOtoConnectLogic { get; set; }
 
         #endregion commands with undo-redo
 
@@ -186,7 +186,7 @@ namespace AYP.ViewModel
             GroupList = new List<GroupUngroupModel>();
 
             CommandCopy = new Command<Unit, KeyValuePair<List<NodeViewModel>, List<ConnectViewModel>>>(CopyToClipboard, UnCopyToClipboard, NotSaved);
-            CommandPaste = new Command<Unit, List<NodeViewModel>>(Paste, UnPaste, NotSaved);
+            CommandPaste = new Command<Unit, List<KeyValuePair<KeyValuePair<NodeViewModel, GroupUngroupModel>, List<ConnectViewModel>>>>(Paste, UnPaste, NotSaved);
             CommandGroup = new Command<Unit, KeyValuePair<NodeViewModel, GroupUngroupModel>>(Group, RedoGroup, NotSaved);
             CommandUngroup = new Command<Unit, List<KeyValuePair<NodeViewModel, GroupUngroupModel>>>(Ungroup, RedoUngroup, NotSaved);
             CommandZincirTopolojiOlusturLogic = new Command<NodeViewModel, List<ConnectViewModel>>(ZincirTopolojiOlustur, RedoZincirTopolojiOlustur, NotSaved);
@@ -469,7 +469,7 @@ namespace AYP.ViewModel
 
         private List<ConnectViewModel> RedoUcBirimOtoConnectOlustur(Unit x, List<ConnectViewModel> res)
         {
-            foreach(var item in res)
+            foreach (var item in res)
             {
                 Connects.Remove(item);
             }
@@ -605,7 +605,7 @@ namespace AYP.ViewModel
             }
             else
             {
-                foreach(var item in res)
+                foreach (var item in res)
                 {
                     CommandAddConnect.ExecuteWithSubscribe(item);
                 }
@@ -613,7 +613,7 @@ namespace AYP.ViewModel
 
             return res;
         }
-        
+
         private void OpenZincirTopolojiGateWayPanel()
         {
             if (this.Nodes.Items.Where(x => x.Selected).Count() > 1)
@@ -982,7 +982,7 @@ namespace AYP.ViewModel
 
             return res;
         }
-        
+
         private List<NodeViewModel> ZincirOlusturRecursive(NodeViewModel node, List<KeyValuePair<NodeViewModel, List<ConnectViewModel>>> list, List<NodeViewModel> zincir, Guid gateWayUniqueId)
         {
             if (node.UniqueId != gateWayUniqueId)
@@ -1332,7 +1332,6 @@ namespace AYP.ViewModel
 
             return result;
         }
-
         private KeyValuePair<List<NodeViewModel>, List<ConnectViewModel>> CopyToClipboard(Unit x, KeyValuePair<List<NodeViewModel>, List<ConnectViewModel>> result)
         {
             NodeClipboard.Clear();
@@ -1372,127 +1371,174 @@ namespace AYP.ViewModel
             return result;
         }
 
-        private List<NodeViewModel> UnPaste(Unit x, List<NodeViewModel> result)
+        private List<KeyValuePair<KeyValuePair<NodeViewModel, GroupUngroupModel>, List<ConnectViewModel>>> UnPaste(Unit x, List<KeyValuePair<KeyValuePair<NodeViewModel, GroupUngroupModel>, List<ConnectViewModel>>> result)
         {
-            foreach (var item in result)
+            var nodes = result.Select(s => s.Key).ToList().Select(s => s.Key).Where(x => x != null);
+
+            foreach (var item in result.Select(s => s.Key))
             {
-                Nodes.Remove(item);
-                DeleteWithRedoFromProjectHierarchy(item);
-                LogDebug("Node with name \"{0}\" was removed", item.Name);
-                NodeCounter();
-
-                var connectsToDelete = new List<ConnectViewModel>();
-                foreach (var connect in Connects)
+                Nodes.Remove(item.Key);
+                if (item.Key.TypeId == (int)TipEnum.Group)
                 {
-                    if (result.Contains(connect.FromConnector.Node))
-                    {
-                        connectsToDelete.Add(connect);
-                    }
-                    else if (result.Contains(connect.ToConnector.Node))
-                    {
-                        connectsToDelete.Add(connect);
-                    }
+                    DeleteGroupFromNode(item.Key);
                 }
+                DeleteWithRedoFromProjectHierarchy(item.Key);
+                LogDebug("Node with name \"{0}\" was removed", item.Key.Name);
+                NodeCounter();
+            }
 
-                Connects.Remove(Connects.Where(c => connectsToDelete.Contains(c)).ToList());
+            foreach (var item in result.Select(s => s.Value))
+            {
+                Connects.Remove(Connects.Where(c => item.Contains(c)).ToList());
             }
 
             return result;
         }
-
-        private List<NodeViewModel> Paste(Unit x, List<NodeViewModel> result)
+        private List<KeyValuePair<KeyValuePair<NodeViewModel, GroupUngroupModel>, List<ConnectViewModel>>> Paste(Unit x, List<KeyValuePair<KeyValuePair<NodeViewModel, GroupUngroupModel>, List<ConnectViewModel>>> result)
         {
-            bool isExecutable = true;
-            if (NodeClipboard.Where(x => x.TypeId == (int)TipEnum.Group).Count() != NodeClipboard.Count())
+            if (result == null)
             {
-                if (NodeClipboard.Where(x => x.TypeId != (int)TipEnum.Group).Count() != NodeClipboard.Count())
+                bool isExecutable = true;
+                if (NodeClipboard.Where(x => x.TypeId == (int)TipEnum.Group).Count() != NodeClipboard.Count())
                 {
-                    isExecutable = false;
-                }
-            }
-
-            if (isExecutable)
-            {
-                result = new List<NodeViewModel>();
-
-                foreach (var node in NodeClipboard)
-                {
-                    var newPoint = node.Point1.Addition(50, 50);
-                    var newNode = new NodeViewModel(this, GetNameForNewNode(node.TypeId, node.Name), Guid.NewGuid(), newPoint, node.Id, node.TypeId,
-                        node.AgArayuzuList, node.GucArayuzuList, new List<ConnectorViewModel>(), new List<ConnectorViewModel>(), node.VerimlilikOrani,
-                        node.DahiliGucTuketimDegeri, node.Sembol, node.StokNo, node.Tanim, node.UreticiAdi, node.UreticiParcaNo, node.TurAd);
-
-                    if (node.TypeId == (int)TipEnum.Group)
+                    if (NodeClipboard.Where(x => x.TypeId != (int)TipEnum.Group).Count() != NodeClipboard.Count())
                     {
-                        foreach (var output in newNode.Transitions.Items)
-                        {
-                            var oldOutput = node.Transitions.Items.Where(x => x.Label == output.Label).FirstOrDefault();
-                            output.AgAkisList = oldOutput.AgAkisList;
-                        }
-
-                        foreach (var input in newNode.InputList)
-                        {
-                            var oldInput = node.InputList.Where(x => x.Label == input.Label).FirstOrDefault();
-                            input.AgAkisList = oldInput.AgAkisList;
-                        }
-
-                        var willBeCopiedGroup = GroupList.Where(x => x.UniqueId == node.UniqueId).FirstOrDefault();
-                        CopyPasteGroup(willBeCopiedGroup, newNode);
+                        isExecutable = false;
                     }
-                    else
-                    {
-                        AddToProjectHierarchy(newNode);
-                    }
-
-                    Nodes.Add(newNode);
-                    LogDebug("Node with name \"{0}\" was copied", newNode.Name);
-                    result.Add(newNode);
-                    NodeCounter();
                 }
 
-                foreach (var node in result)
+                if (isExecutable)
                 {
-                    foreach (var output in node.Transitions.Items)
-                    {
-                        var oldConnect = ConnectClipboard
-                                              .Where(x => x.FromConnector.Label == output.Label &&
-                                               x.FromConnector.PositionConnectPoint.Addition((x.FromConnector.Artik * -1) + 50, 50) == output.PositionConnectPoint)
-                                              .FirstOrDefault();
+                    result = new List<KeyValuePair<KeyValuePair<NodeViewModel, GroupUngroupModel>, List<ConnectViewModel>>>();
+                    var temp = new List<KeyValuePair<NodeViewModel, GroupUngroupModel>>();
 
-                        if (oldConnect != null)
+                    foreach (var node in NodeClipboard)
+                    {
+                        var newPoint = node.Point1.Addition(50, 50);
+                        var newNode = new NodeViewModel(this, GetNameForNewNode(node.TypeId, node.Name), Guid.NewGuid(), newPoint, node.Id, node.TypeId,
+                            node.AgArayuzuList, node.GucArayuzuList, new List<ConnectorViewModel>(), new List<ConnectorViewModel>(), node.VerimlilikOrani,
+                            node.DahiliGucTuketimDegeri, node.Sembol, node.StokNo, node.Tanim, node.UreticiAdi, node.UreticiParcaNo, node.TurAd);
+
+                        if (node.TypeId == (int)TipEnum.Group)
                         {
-                            foreach (var node2 in result)
+                            foreach (var output in newNode.Transitions.Items)
                             {
-                                if (node != node2)
+                                var oldOutput = node.Transitions.Items.Where(x => x.Label == output.Label).FirstOrDefault();
+                                output.AgAkisList = oldOutput.AgAkisList;
+                            }
+
+                            foreach (var input in newNode.InputList)
+                            {
+                                var oldInput = node.InputList.Where(x => x.Label == input.Label).FirstOrDefault();
+                                input.AgAkisList = oldInput.AgAkisList;
+                            }
+
+                            var willBeCopiedGroup = GroupList.Where(x => x.UniqueId == node.UniqueId).FirstOrDefault();
+                            CopyPasteGroup(willBeCopiedGroup, newNode);
+                        }
+                        else
+                        {
+                            AddToProjectHierarchy(newNode);
+                        }
+
+                        Nodes.Add(newNode);
+                        LogDebug("Node with name \"{0}\" was copied", newNode.Name);
+
+                        if (newNode.TypeId == (int)TipEnum.Group)
+                        {
+                            var group = GroupList.Where(x => x.UniqueId == newNode.UniqueId).FirstOrDefault();
+                            temp.Add(new KeyValuePair<NodeViewModel, GroupUngroupModel>(newNode, group));
+                        }
+                        else
+                        {
+                            temp.Add(new KeyValuePair<NodeViewModel, GroupUngroupModel>(newNode, null));
+                        }
+
+                    }
+
+                    foreach (var item in temp)
+                    {
+                        var connects = new List<ConnectViewModel>();
+                        var node = item.Key;
+                        foreach (var output in node.Transitions.Items)
+                        {
+                            var oldConnect = ConnectClipboard
+                                                  .Where(x => x.FromConnector.Label == output.Label &&
+                                                   x.FromConnector.PositionConnectPoint.Addition((x.FromConnector.Artik * -1) + 50, 50) == output.PositionConnectPoint)
+                                                  .FirstOrDefault();
+
+                            if (oldConnect != null)
+                            {
+                                foreach (var item2 in temp)
                                 {
-                                    foreach (var input in node2.InputList)
+                                    var node2 = item2.Key;
+                                    if (node != node2)
                                     {
-                                        if (input.Label == oldConnect.ToConnector.Label && input.PositionConnectPoint == oldConnect.ToConnector.PositionConnectPoint.Addition(50, 50))
+                                        foreach (var input in node2.InputList)
                                         {
-                                            var newConnect = new ConnectViewModel(this, output);
-                                            newConnect.ToConnector = input;
-                                            output.Connect = newConnect;
-                                            newConnect.AgYuku = oldConnect.AgYuku;
-                                            newConnect.GucMiktari = oldConnect.GucMiktari;
-                                            newConnect.FromConnector.KalanKapasite -= oldConnect.GucMiktari;
-                                            newConnect.Uzunluk = oldConnect.Uzunluk;
-                                            newConnect.KabloKesitOnerisi = oldConnect.KabloKesitOnerisi;
-                                            AddConnect(newConnect);
+                                            if (input.Label == oldConnect.ToConnector.Label && input.PositionConnectPoint == oldConnect.ToConnector.PositionConnectPoint.Addition(50, 50))
+                                            {
+                                                var newConnect = new ConnectViewModel(this, output);
+                                                newConnect.ToConnector = input;
+                                                output.Connect = newConnect;
+                                                newConnect.AgYuku = oldConnect.AgYuku;
+                                                newConnect.GucMiktari = oldConnect.GucMiktari;
+                                                newConnect.FromConnector.KalanKapasite -= oldConnect.GucMiktari;
+                                                newConnect.Uzunluk = oldConnect.Uzunluk;
+                                                newConnect.KabloKesitOnerisi = oldConnect.KabloKesitOnerisi;
+                                                AddConnect(newConnect);
+                                                connects.Add(newConnect);
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
+
+                        result.Add(new KeyValuePair<KeyValuePair<NodeViewModel, GroupUngroupModel>, List<ConnectViewModel>>(item, connects));
                     }
+
+                    NodeCounter();
                 }
-                NodeCounter();
+                else
+                {
+                    NotifyInfoPopup nfp = new NotifyInfoPopup();
+                    nfp.msg.Text = "Seçimlerin tamamı grup veya cihaz olmalıdır!";
+                    nfp.Owner = this.MainWindow;
+                    nfp.Show();
+                }
             }
             else
             {
-                NotifyInfoPopup nfp = new NotifyInfoPopup();
-                nfp.msg.Text = "Seçimlerin tamamı grup veya cihaz olmalıdır!";
-                nfp.Owner = this.MainWindow;
-                nfp.Show();
+                foreach (var item in result.Select(s => s.Key))
+                {
+                    if (item.Key.TypeId == (int)TipEnum.Group)
+                    {
+                        GroupList.Add(item.Value);
+                        AddToProjectHierarchy(item.Key);
+                        foreach (var node in item.Value.NodeList)
+                        {
+                            AddChildToProjectHierarchyWithTransitions(item.Key.Name, node);
+                        }
+                    }
+                    else
+                    {
+                        AddToProjectHierarchy(item.Key);
+                    }
+
+                    Nodes.Add(item.Key);
+                    LogDebug("Node with name \"{0}\" was copied", item.Key.Name);
+                }
+
+                foreach (var item in result.Select(s => s.Value))
+                {
+                    foreach (var connect in item)
+                    {
+                        AddConnect(connect);
+                    }
+                }
+
+                NodeCounter();
             }
 
             return result;
@@ -1564,8 +1610,8 @@ namespace AYP.ViewModel
             model.NodeList = temp;
             model.InternalConnectList = tempInternalConnectList;
             model.ExternalConnectList = tempExternalConnectList;
-            model.AgArayuzuList = willBeCopiedNode.AgArayuzuList;
-            model.GucArayuzuList = willBeCopiedNode.GucArayuzuList;
+            model.InputList = willBeCopiedNode.InputList;
+            model.OutputList = willBeCopiedNode.OutputList;
             GroupList.Add(model);
             AddToProjectHierarchy(willBeCopiedNode);
             NodeCounter();
@@ -1574,6 +1620,7 @@ namespace AYP.ViewModel
                 AddChildToProjectHierarchyWithTransitions(willBeCopiedNode.Name, node);
             }
         }
+
         private KeyValuePair<NodeViewModel, GroupUngroupModel> RedoGroup(Unit x, KeyValuePair<NodeViewModel, GroupUngroupModel> result)
         {
             var nodeList = new List<NodeViewModel>();
@@ -1600,6 +1647,10 @@ namespace AYP.ViewModel
                     }
 
                     Nodes.Remove(node);
+                    if (node.TypeId == (int)TipEnum.Group)
+                    {
+                        DeleteGroupFromNode(node);
+                    }
                     DeleteWithRedoFromProjectHierarchy(node);
 
                     foreach (var groupedNode in group.NodeList)
@@ -1716,7 +1767,6 @@ namespace AYP.ViewModel
 
             return result;
         }
-
         private KeyValuePair<NodeViewModel, GroupUngroupModel> Group(Unit x, KeyValuePair<NodeViewModel, GroupUngroupModel> result)
         {
             if (result.Key == null && result.Value == null)
@@ -1763,175 +1813,109 @@ namespace AYP.ViewModel
                         }
                         CommandDeleteSelectedNodes.Execute();
 
-                        if (nodeList.Count() > 1)
+                        GroupUngroupModel model = new GroupUngroupModel();
+                        model.Name = GetNameForNewNode((int)TipEnum.Group, "Grup");
+                        model.UniqueId = Guid.NewGuid();
+                        model.NodeList = nodeList;
+                        model.InternalConnectList = internalConnectList;
+                        model.ExternalConnectList = externalConnectList;
+
+                        var tempInputList = new List<ConnectorViewModel>();
+                        var tempOutputList = new List<ConnectorViewModel>();
+
+                        foreach (var externalConnect in externalConnectList)
                         {
-                            GroupUngroupModel model = new GroupUngroupModel();
-                            model.Name = GetNameForNewNode((int)TipEnum.Group, "Grup");
-                            model.UniqueId = Guid.NewGuid();
-                            model.NodeList = nodeList;
-                            model.InternalConnectList = internalConnectList;
-                            model.ExternalConnectList = externalConnectList;
-                            model.AgArayuzuList = new List<AgArayuzu>();
-                            model.GucArayuzuList = new List<GucArayuzu>();
+                            if (nodeList.Contains(externalConnect.FromConnector.Node))
+                            {
+                                tempOutputList.Add(externalConnect.FromConnector);
+                            }
+                            else
+                            {
+                                tempInputList.Add(externalConnect.ToConnector);
+                            }
+                        }
 
-                            IKodListeService service = new KodListeService();
+                        NodeViewModel newNode = new NodeViewModel(this, model.Name, model.UniqueId, new Point(), 0, 9);
+                        newNode = CreateGroupNodeInOutList(newNode, tempInputList, tempOutputList);
+                        model.InputList = newNode.InputList;
+                        model.OutputList = newNode.OutputList;
+                        GroupList.Add(model);
 
+                        foreach (var output in newNode.Transitions.Items)
+                        {
+                            foreach (var node in model.NodeList)
+                            {
+                                var oldOutput = node.Transitions.Items.Where(x => x.UniqueId == output.UniqueId).FirstOrDefault();
+
+                                if (oldOutput != null)
+                                {
+                                    output.AgAkisList = oldOutput.AgAkisList;
+                                }
+                            }
+                        }
+
+                        foreach (var input in newNode.InputList)
+                        {
+                            foreach (var node in model.NodeList)
+                            {
+                                var oldInput = node.InputList.Where(x => x.UniqueId == input.UniqueId).FirstOrDefault();
+                                if (oldInput != null)
+                                {
+                                    oldInput.AgAkisList = oldInput.AgAkisList;
+                                }
+                            }
+                        }
+
+                        Nodes.Add(newNode);
+                        AddToProjectHierarchy(newNode);
+                        result = new KeyValuePair<NodeViewModel, GroupUngroupModel>(newNode, model);
+
+                        foreach (var node in nodeList)
+                        {
+                            AddChildToProjectHierarchyWithTransitions(newNode.Name, node);
+                        }
+
+
+                        foreach (var output in newNode.Transitions.Items)
+                        {
                             foreach (var externalConnect in externalConnectList)
                             {
-                                if (nodeList.Contains(externalConnect.FromConnector.Node))
+                                if (externalConnect.FromConnector.UniqueId == output.UniqueId)
                                 {
-                                    if (externalConnect.FromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu || externalConnect.FromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu)
-                                    {
-                                        AgArayuzu temp = new AgArayuzu();
-                                        temp.Adi = externalConnect.FromConnector.Label;
-                                        temp.KullanimAmaciId = externalConnect.FromConnector.KullanimAmaciId;
-                                        temp.FizikselOrtamId = externalConnect.FromConnector.FizikselOrtamId.Value;
-                                        temp.KapasiteId = externalConnect.FromConnector.KapasiteId.Value;
-                                        temp.KL_Kapasite = service.GetKapasiteById(temp.KapasiteId);
-                                        temp.Port = externalConnect.FromConnector.Port;
-                                        temp.Id = externalConnect.FromConnector.Id;
-                                        temp.TipId = externalConnect.FromConnector.TypeId;
-                                        model.AgArayuzuList.Add(temp);
-                                    }
-                                    else
-                                    {
-                                        GucArayuzu temp = new GucArayuzu();
-                                        temp.Adi = externalConnect.FromConnector.Label;
-                                        temp.KullanimAmaciId = externalConnect.FromConnector.KullanimAmaciId;
-                                        temp.Port = externalConnect.FromConnector.Port;
-                                        temp.Id = externalConnect.FromConnector.Id;
-                                        temp.TipId = externalConnect.FromConnector.TypeId;
-                                        temp.CiktiDuraganGerilimDegeri = externalConnect.FromConnector.CiktiDuraganGerilimDegeri;
-                                        temp.CiktiUrettigiGucKapasitesi = externalConnect.FromConnector.CiktiUrettigiGucKapasitesi;
-                                        temp.GerilimTipiId = externalConnect.FromConnector.GerilimTipiId.Value;
-                                        temp.GirdiDuraganGerilimDegeri1 = externalConnect.FromConnector.GirdiDuraganGerilimDegeri1;
-                                        temp.GirdiDuraganGerilimDegeri2 = externalConnect.FromConnector.GirdiDuraganGerilimDegeri2;
-                                        temp.GirdiDuraganGerilimDegeri3 = externalConnect.FromConnector.GirdiDuraganGerilimDegeri3;
-                                        temp.GirdiMaksimumGerilimDegeri = externalConnect.FromConnector.GirdiMaksimumGerilimDegeri;
-                                        temp.GirdiMinimumGerilimDegeri = externalConnect.FromConnector.GirdiMinimumGerilimDegeri;
-                                        temp.GirdiTukettigiGucMiktari = externalConnect.FromConnector.GirdiTukettigiGucMiktari;
-                                        model.GucArayuzuList.Add(temp);
-                                    }
-                                }
-                                else
-                                {
-                                    if (externalConnect.ToConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu || externalConnect.ToConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu)
-                                    {
-                                        AgArayuzu temp = new AgArayuzu();
-                                        temp.Adi = externalConnect.ToConnector.Label;
-                                        temp.KullanimAmaciId = externalConnect.ToConnector.KullanimAmaciId;
-                                        temp.FizikselOrtamId = externalConnect.ToConnector.FizikselOrtamId.Value;
-                                        temp.KapasiteId = externalConnect.ToConnector.KapasiteId.Value;
-                                        temp.KL_Kapasite = service.GetKapasiteById(temp.KapasiteId);
-                                        temp.Port = externalConnect.ToConnector.Port;
-                                        temp.Id = externalConnect.ToConnector.Id;
-                                        temp.TipId = externalConnect.ToConnector.TypeId;
-                                        model.AgArayuzuList.Add(temp);
-                                    }
-                                    else
-                                    {
-                                        GucArayuzu temp = new GucArayuzu();
-                                        temp.Adi = externalConnect.ToConnector.Label;
-                                        temp.KullanimAmaciId = externalConnect.ToConnector.KullanimAmaciId;
-                                        temp.Port = externalConnect.ToConnector.Port;
-                                        temp.Id = externalConnect.ToConnector.Id;
-                                        temp.TipId = externalConnect.ToConnector.TypeId;
-                                        temp.CiktiDuraganGerilimDegeri = externalConnect.ToConnector.CiktiDuraganGerilimDegeri;
-                                        temp.CiktiUrettigiGucKapasitesi = externalConnect.ToConnector.CiktiUrettigiGucKapasitesi;
-                                        temp.GerilimTipiId = externalConnect.ToConnector.GerilimTipiId.Value;
-                                        temp.GirdiDuraganGerilimDegeri1 = externalConnect.ToConnector.GirdiDuraganGerilimDegeri1;
-                                        temp.GirdiDuraganGerilimDegeri2 = externalConnect.ToConnector.GirdiDuraganGerilimDegeri2;
-                                        temp.GirdiDuraganGerilimDegeri3 = externalConnect.ToConnector.GirdiDuraganGerilimDegeri3;
-                                        temp.GirdiMaksimumGerilimDegeri = externalConnect.ToConnector.GirdiMaksimumGerilimDegeri;
-                                        temp.GirdiMinimumGerilimDegeri = externalConnect.ToConnector.GirdiMinimumGerilimDegeri;
-                                        temp.GirdiTukettigiGucMiktari = externalConnect.ToConnector.GirdiTukettigiGucMiktari;
-                                        model.GucArayuzuList.Add(temp);
-                                    }
+                                    ConnectViewModel connect = new ConnectViewModel(this, output);
+                                    connect.ToConnector = externalConnect.ToConnector;
+                                    connect.FromConnector.Connect = connect;
+                                    connect.FromConnector.AgAkisList = externalConnect.FromConnector.AgAkisList;
+                                    connect.ToConnector.AgAkisList = externalConnect.ToConnector.AgAkisList;
+                                    connect.AgYuku = externalConnect.AgYuku;
+                                    connect.GucMiktari = externalConnect.GucMiktari;
+                                    connect.KabloKesitOnerisi = externalConnect.KabloKesitOnerisi;
+                                    connect.Uzunluk = externalConnect.Uzunluk;
+
+                                    AddConnect(connect);
                                 }
                             }
+                        }
 
-                            GroupList.Add(model);
-                            NodeViewModel newNode = new NodeViewModel(this, model.Name, model.UniqueId, new Point(), 0, 9, model.AgArayuzuList, model.GucArayuzuList);
-
-                            foreach (var output in newNode.Transitions.Items)
+                        foreach (var input in newNode.InputList)
+                        {
+                            foreach (var externalConnect in externalConnectList)
                             {
-                                foreach (var node in model.NodeList)
+                                if (externalConnect.ToConnector.UniqueId == input.UniqueId)
                                 {
-                                    var oldOutput = node.Transitions.Items.Where(x => x.Label == output.Label).FirstOrDefault();
+                                    ConnectViewModel connect = new ConnectViewModel(this, externalConnect.FromConnector);
+                                    connect.ToConnector = input;
+                                    connect.FromConnector.Connect = connect;
+                                    connect.FromConnector.AgAkisList = externalConnect.FromConnector.AgAkisList;
+                                    connect.ToConnector.AgAkisList = externalConnect.ToConnector.AgAkisList;
+                                    connect.AgYuku = externalConnect.AgYuku;
+                                    connect.GucMiktari = externalConnect.GucMiktari;
+                                    connect.KabloKesitOnerisi = externalConnect.KabloKesitOnerisi;
+                                    connect.Uzunluk = externalConnect.Uzunluk;
 
-                                    if (oldOutput != null)
-                                    {
-                                        output.AgAkisList = oldOutput.AgAkisList;
-                                    }
+                                    AddConnect(connect);
                                 }
                             }
-
-                            foreach (var input in newNode.InputList)
-                            {
-                                foreach (var node in model.NodeList)
-                                {
-                                    var oldInput = node.InputList.Where(x => x.Label == input.Label).FirstOrDefault();
-                                    if (oldInput != null)
-                                    {
-                                        oldInput.AgAkisList = oldInput.AgAkisList;
-                                    }
-                                }
-                            }
-
-                            Nodes.Add(newNode);
-                            AddToProjectHierarchy(newNode);
-                            NodeCounter();
-                            result = new KeyValuePair<NodeViewModel, GroupUngroupModel>(newNode, model);
-
-                            foreach (var node in nodeList)
-                            {
-                                AddChildToProjectHierarchyWithTransitions(newNode.Name, node);
-                            }
-
-
-                            foreach (var output in newNode.Transitions.Items)
-                            {
-                                foreach (var externalConnect in externalConnectList)
-                                {
-                                    if (externalConnect.FromConnector.Label == output.Label)
-                                    {
-                                        ConnectViewModel connect = new ConnectViewModel(this, output);
-                                        connect.ToConnector = externalConnect.ToConnector;
-                                        connect.FromConnector.Connect = connect;
-                                        connect.FromConnector.AgAkisList = externalConnect.FromConnector.AgAkisList;
-                                        connect.ToConnector.AgAkisList = externalConnect.ToConnector.AgAkisList;
-                                        connect.AgYuku = externalConnect.AgYuku;
-                                        connect.GucMiktari = externalConnect.GucMiktari;
-                                        connect.KabloKesitOnerisi = externalConnect.KabloKesitOnerisi;
-                                        connect.Uzunluk = externalConnect.Uzunluk;
-
-                                        AddConnect(connect);
-                                    }
-                                }
-                            }
-
-                            foreach (var input in newNode.InputList)
-                            {
-                                foreach (var externalConnect in externalConnectList)
-                                {
-                                    if (externalConnect.ToConnector.Label == input.Label)
-                                    {
-                                        ConnectViewModel connect = new ConnectViewModel(this, externalConnect.FromConnector);
-                                        connect.ToConnector = input;
-                                        connect.FromConnector.Connect = connect;
-                                        connect.FromConnector.AgAkisList = externalConnect.FromConnector.AgAkisList;
-                                        connect.ToConnector.AgAkisList = externalConnect.ToConnector.AgAkisList;
-                                        connect.AgYuku = externalConnect.AgYuku;
-                                        connect.GucMiktari = externalConnect.GucMiktari;
-                                        connect.KabloKesitOnerisi = externalConnect.KabloKesitOnerisi;
-                                        connect.Uzunluk = externalConnect.Uzunluk;
-
-                                        AddConnect(connect);
-                                    }
-                                }
-                            }
-
-
                         }
                     }
                     else
@@ -1968,10 +1952,14 @@ namespace AYP.ViewModel
                 {
                     Connects.Remove(item);
                 }
-                
-                foreach(var item in result.Value.NodeList)
+
+                foreach (var item in result.Value.NodeList)
                 {
                     Nodes.Remove(item);
+                    if (item.TypeId == (int)TipEnum.Group)
+                    {
+                        DeleteGroupFromNode(item);
+                    }
                     DeleteWithRedoFromProjectHierarchy(item);
                 }
 
@@ -1981,7 +1969,6 @@ namespace AYP.ViewModel
                 GroupList.Add(result.Value);
                 Nodes.Add(result.Key);
                 AddToProjectHierarchy(result.Key);
-                NodeCounter();
 
                 foreach (var node in result.Value.NodeList)
                 {
@@ -1992,7 +1979,7 @@ namespace AYP.ViewModel
                 {
                     foreach (var externalConnect in externalConnectList)
                     {
-                        if (externalConnect.FromConnector.Label == output.Label)
+                        if (externalConnect.FromConnector.UniqueId == output.UniqueId)
                         {
                             ConnectViewModel connect = new ConnectViewModel(this, output);
                             connect.ToConnector = externalConnect.ToConnector;
@@ -2013,7 +2000,7 @@ namespace AYP.ViewModel
                 {
                     foreach (var externalConnect in externalConnectList)
                     {
-                        if (externalConnect.ToConnector.Label == input.Label)
+                        if (externalConnect.ToConnector.UniqueId == input.UniqueId)
                         {
                             ConnectViewModel connect = new ConnectViewModel(this, externalConnect.FromConnector);
                             connect.ToConnector = input;
@@ -2031,9 +2018,73 @@ namespace AYP.ViewModel
                 }
             }
 
+            NodeCounter();
+
             return result;
         }
-        
+        private NodeViewModel CreateGroupNodeInOutList(NodeViewModel newNode, List<ConnectorViewModel> tempInputList, List<ConnectorViewModel> tempOutputList)
+        {
+            List<ConnectorViewModel> inputList = new List<ConnectorViewModel>();
+            List<ConnectorViewModel> outputList = new List<ConnectorViewModel>();
+
+            int i = 0;
+            foreach (var input in tempInputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu || x.TypeId == (int)TipEnum.UcBirimAgArayuzu))
+            {
+                inputList.Add(new ConnectorViewModel(input.NodesCanvas, newNode, input.Name, newNode.Point1.Addition(0, 30 + (i * 20)), input.UniqueId, input.KapasiteId, input.MinKapasite, input.MaxKapasite, input.FizikselOrtamId, null, input.KullanimAmaciId, null, null, null, null, null, null, null, null, input.Label, input.TypeId, input.Id, input.Port, null));
+                i++;
+            }
+
+            int count = i;
+            i = 0;
+            foreach (var input in tempInputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariGucArayuzu || x.TypeId == (int)TipEnum.UcBirimGucArayuzu || x.TypeId == (int)TipEnum.GucUreticiGucArayuzu))
+            {
+                inputList.Add(new ConnectorViewModel(input.NodesCanvas, newNode, input.Name, newNode.Point1.Addition(0, 30 + ((i + count) * 20)), input.UniqueId, null, null, null, null, input.GerilimTipiId, input.KullanimAmaciId,
+                                input.GirdiDuraganGerilimDegeri1, input.GirdiDuraganGerilimDegeri2, input.GirdiDuraganGerilimDegeri3, input.GirdiMinimumGerilimDegeri, input.GirdiMaksimumGerilimDegeri, input.GirdiTukettigiGucMiktari,
+                                input.CiktiDuraganGerilimDegeri, input.CiktiUrettigiGucKapasitesi, input.Label, input.TypeId, input.Id, input.Port, null));
+
+                i++;
+            }
+
+            i = 0;
+            foreach (var output in tempOutputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu || x.TypeId == (int)TipEnum.UcBirimAgArayuzu))
+            {
+                var outputMain = new ConnectorViewModel(output.NodesCanvas, newNode, output.Name, newNode.Point1.Addition(80, 54 + (i * 20)), output.UniqueId, output.KapasiteId, output.MinKapasite, output.MaxKapasite, output.FizikselOrtamId, null, output.KullanimAmaciId, null, null, null, null, null, null, null, null, output.Label, output.TypeId, output.Id, output.Port)
+                {
+                    Visible = null
+                };
+
+                outputMain.KalanKapasite = output.KalanKapasite;
+                i++;
+                outputList.Add(outputMain);
+            }
+
+            count = i;
+            i = 0;
+            foreach (var output in tempOutputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariGucArayuzu || x.TypeId == (int)TipEnum.UcBirimGucArayuzu || x.TypeId == (int)TipEnum.GucUreticiGucArayuzu))
+            {
+                var outputMain = new ConnectorViewModel(output.NodesCanvas, newNode, output.Name, newNode.Point1.Addition(80, 54 + ((i + count) * 20)), output.UniqueId, null, null, null, null, output.GerilimTipiId, output.KullanimAmaciId,
+                                    output.GirdiDuraganGerilimDegeri1, output.GirdiDuraganGerilimDegeri2, output.GirdiDuraganGerilimDegeri3, output.GirdiMinimumGerilimDegeri, output.GirdiMaksimumGerilimDegeri, output.GirdiTukettigiGucMiktari,
+                                    output.CiktiDuraganGerilimDegeri, output.CiktiUrettigiGucKapasitesi, output.Label, output.TypeId, output.Id, output.Port)
+                {
+                    Visible = null
+                };
+
+                if (output.TypeId == (int)TipEnum.GucUreticiGucArayuzu && output.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti)
+                {
+                    outputMain.KalanKapasite = output.KalanKapasite;
+                }
+
+                i++;
+                outputList.Add(outputMain);
+            }
+
+            newNode.InputList = inputList;
+            newNode.OutputList = outputList;
+            newNode.AddEmptyConnector();
+
+            return newNode;
+        }
+
         private List<KeyValuePair<NodeViewModel, GroupUngroupModel>> RedoUngroup(Unit x, List<KeyValuePair<NodeViewModel, GroupUngroupModel>> result)
         {
             foreach (var res in result)
@@ -2065,6 +2116,10 @@ namespace AYP.ViewModel
                 foreach (var item in res.Value.NodeList)
                 {
                     Nodes.Remove(item);
+                    if (item.TypeId == (int)TipEnum.Group)
+                    {
+                        DeleteGroupFromNode(item);
+                    }
                     DeleteWithRedoFromProjectHierarchy(item);
                 }
 
@@ -2074,7 +2129,6 @@ namespace AYP.ViewModel
                 GroupList.Add(res.Value);
                 Nodes.Add(res.Key);
                 AddToProjectHierarchy(res.Key);
-                NodeCounter();
 
                 foreach (var node in res.Value.NodeList)
                 {
@@ -2085,7 +2139,7 @@ namespace AYP.ViewModel
                 {
                     foreach (var externalConnect in externalConnectList)
                     {
-                        if (externalConnect.FromConnector.Label == output.Label)
+                        if (externalConnect.FromConnector.UniqueId == output.UniqueId)
                         {
                             ConnectViewModel connect = new ConnectViewModel(this, output);
                             connect.ToConnector = externalConnect.ToConnector;
@@ -2106,7 +2160,7 @@ namespace AYP.ViewModel
                 {
                     foreach (var externalConnect in externalConnectList)
                     {
-                        if (externalConnect.ToConnector.Label == input.Label)
+                        if (externalConnect.ToConnector.UniqueId == input.UniqueId)
                         {
                             ConnectViewModel connect = new ConnectViewModel(this, externalConnect.FromConnector);
                             connect.ToConnector = input;
@@ -2123,10 +2177,10 @@ namespace AYP.ViewModel
                     }
                 }
             }
+            NodeCounter();
 
             return result;
         }
-
         private List<KeyValuePair<NodeViewModel, GroupUngroupModel>> Ungroup(Unit x, List<KeyValuePair<NodeViewModel, GroupUngroupModel>> result)
         {
             if (result == null)
@@ -2160,6 +2214,10 @@ namespace AYP.ViewModel
                         }
 
                         Nodes.Remove(node);
+                        if (node.TypeId == (int)TipEnum.Group)
+                        {
+                            DeleteGroupFromNode(node);
+                        }
                         DeleteWithRedoFromProjectHierarchy(node);
 
                         foreach (var groupedNode in group.NodeList)
@@ -2272,11 +2330,10 @@ namespace AYP.ViewModel
                         result.Add(new KeyValuePair<NodeViewModel, GroupUngroupModel>(node, group));
                     }
                 }
-                NodeCounter();
             }
             else
             {
-                foreach(var res in result)
+                foreach (var res in result)
                 {
                     var willBeDeletedList = new List<ConnectViewModel>();
                     foreach (var connect in Connects)
@@ -2293,6 +2350,10 @@ namespace AYP.ViewModel
                     }
 
                     Nodes.Remove(res.Key);
+                    if (res.Key.TypeId == (int)TipEnum.Group)
+                    {
+                        DeleteGroupFromNode(res.Key);
+                    }
                     DeleteWithRedoFromProjectHierarchy(res.Key);
 
                     foreach (var groupedNode in res.Value.NodeList)
@@ -2403,9 +2464,9 @@ namespace AYP.ViewModel
 
                     GroupList.Remove(res.Value);
                 }
-
-                NodeCounter();
             }
+
+            NodeCounter();
 
             return result;
         }
@@ -2450,15 +2511,8 @@ namespace AYP.ViewModel
                     nfp.Show();
                 }
             }
-        }
+        } 
 
-        private void LoadIcons()
-        {
-            string path = @"Icons\Icons.xaml";
-            var uri = new Uri(path, UriKind.RelativeOrAbsolute);
-            ResourceDictionary resourceDict = Application.LoadComponent(uri) as ResourceDictionary;
-            Application.Current.Resources.MergedDictionaries.Add(resourceDict);
-        }
         private void CollapseUpSelected()
         {
             foreach (var node in Nodes.Items.Where(x => x.Selected))
@@ -2473,6 +2527,7 @@ namespace AYP.ViewModel
                 node.IsCollapse = false;
             }
         }
+
         private void UnSelectedAll()
         {
             foreach (var node in Nodes.Items)
@@ -2481,6 +2536,7 @@ namespace AYP.ViewModel
                 node.CommandUnSelectedAllConnectors.ExecuteWithSubscribe();
             }
         }
+
         public string GetNameForNewNode(int typeId, string oldName)
         {
             if (oldName.Contains("#"))
@@ -2593,7 +2649,7 @@ namespace AYP.ViewModel
             ConnectClipboard.Clear();
             NodeClipboard.Clear();
             GroupList.Clear();
-            
+
         }
         private void Open()
         {
@@ -2874,9 +2930,12 @@ namespace AYP.ViewModel
             stateMachineXElement.Add(gucArayuzus);
             foreach (var node in Nodes.Items)
             {
-                foreach (var gucArayuzu in node.GucArayuzuList)
+                if (node.GucArayuzuList != null)
                 {
-                    gucArayuzus.Add(gucArayuzu.ToXElement(node.UniqueId));
+                    foreach (var gucArayuzu in node.GucArayuzuList)
+                    {
+                        gucArayuzus.Add(gucArayuzu.ToXElement(node.UniqueId));
+                    }
                 }
             }
 
@@ -2884,9 +2943,13 @@ namespace AYP.ViewModel
             stateMachineXElement.Add(agArayuzus);
             foreach (var node in Nodes.Items)
             {
-                foreach (var agArayuzu in node.AgArayuzuList)
+                if (node.AgArayuzuList != null)
                 {
-                    agArayuzus.Add(agArayuzu.ToXElement(node.UniqueId));
+
+                    foreach (var agArayuzu in node.AgArayuzuList)
+                    {
+                        agArayuzus.Add(agArayuzu.ToXElement(node.UniqueId));
+                    }
                 }
             }
 
@@ -3062,23 +3125,23 @@ namespace AYP.ViewModel
                 }
             }
 
-            XElement groupGucArayuzus = new XElement("GroupGucArayuzus");
-            stateMachineXElement.Add(groupGucArayuzus);
+            XElement groupInputs = new XElement("GroupInputs");
+            stateMachineXElement.Add(groupInputs);
             foreach (var group in GroupList)
             {
-                foreach (var gucArayuzu in group.GucArayuzuList)
+                foreach (var input in group.InputList)
                 {
-                    groupGucArayuzus.Add(gucArayuzu.ToGroupXElement(group.UniqueId));
+                    groupInputs.Add(input.ToGroupXInputXEelement());
                 }
             }
 
-            XElement groupAgArayuzus = new XElement("GroupAgArayuzus");
-            stateMachineXElement.Add(groupAgArayuzus);
+            XElement groupOutputs = new XElement("GroupOutputs");
+            stateMachineXElement.Add(groupOutputs);
             foreach (var group in GroupList)
             {
-                foreach (var agArayuzu in group.AgArayuzuList)
+                foreach (var output in group.OutputList)
                 {
-                    groupAgArayuzus.Add(agArayuzu.ToGroupXElement(group.UniqueId));
+                    groupOutputs.Add(output.ToGroupXOutputXEelement());
                 }
             }
 
@@ -3450,7 +3513,6 @@ namespace AYP.ViewModel
                 NodesCount--;
             }
 
-            Nodes.Add(newNode);
             if (newNode.TypeId == (int)TipEnum.Group)
             {
                 foreach (var output in newNode.Transitions.Items)
@@ -3471,8 +3533,9 @@ namespace AYP.ViewModel
             else
             {
                 AddToProjectHierarchy(newNode);
-
+                Nodes.Add(newNode);
             }
+
             NodeCounter();
             LogDebug("Node with name \"{0}\" was added", newNode.Name);
             return newNode;
@@ -3480,6 +3543,10 @@ namespace AYP.ViewModel
         private NodeViewModel DeleteNodetWithUndoRedo(ExternalNode parameter, NodeViewModel result)
         {
             Nodes.Remove(result);
+            if (result.TypeId == (int)TipEnum.Group)
+            {
+                DeleteGroupFromNode(result);
+            }
             DeleteWithRedoFromProjectHierarchy(result);
             LogDebug("Node with name \"{0}\" was removed", result.Name);
             NodeCounter();
@@ -3700,7 +3767,13 @@ namespace AYP.ViewModel
 
             Connects.RemoveMany(result.ConnectsToDelete);
             Nodes.RemoveMany(result.NodesToDelete);
-
+            foreach (var item in result.NodesToDelete)
+            {
+                if (item.TypeId == (int)TipEnum.Group)
+                {
+                    DeleteGroupFromNode(item);
+                }
+            }
             foreach (var connectToDelete in result.ConnectsToDelete)
             {
                 //RemoveFromDogrulamaPaneli(connectToDelete.FromConnector);
@@ -3832,8 +3905,7 @@ namespace AYP.ViewModel
 
         private void NodeCounter()
         {
-            int n = 0;
-            int m = 0;
+            int totalNodesCount = 0;
 
             List<NodeViewModel> groupNodes = this.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.Group).ToList();
             List<NodeViewModel> otherNodes = this.Nodes.Items.Where(x => x.TypeId != (int)TipEnum.Group).ToList();
@@ -3841,14 +3913,19 @@ namespace AYP.ViewModel
             foreach (var i in groupNodes)
             {
                 var group = GroupList.Where(g => g.UniqueId == i.UniqueId).FirstOrDefault();
-                n = n + group.NodeList.Count();
+                if (group != null)
+                {
+                    totalNodesCount += group.NodeList.Count();
+                }
             }
 
-            m = otherNodes.Count();
+            totalNodesCount += otherNodes.Count();
+            MainWindow.DeviceCounter(totalNodesCount);
+        }
 
-            MainWindow.DeviceCounter(n + m);
-
-
+        private void DeleteGroupFromNode(NodeViewModel node)
+        {
+            GroupList.Remove(GroupList.Where(x => x.UniqueId == node.UniqueId).FirstOrDefault());
         }
     }
 }

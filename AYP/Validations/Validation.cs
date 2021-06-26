@@ -39,7 +39,7 @@ namespace AYP.Validations
             }
             else if (fromConnector.Node.TypeId == (int)TipEnum.Group)
             {
-                if(fromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu || fromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu)
+                if (fromConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu || fromConnector.TypeId == (int)TipEnum.UcBirimAgArayuzu)
                 {
                     foreach (var connect in fromConnector.NodesCanvas.Connects)
                     {
@@ -52,7 +52,7 @@ namespace AYP.Validations
                     }
                 }
             }
-            
+
             return response;
         }
         public bool ValidateDuringDrawEnd(NodesCanvasViewModel NodesCanvas, ConnectorViewModel toConnector)
@@ -644,19 +644,81 @@ namespace AYP.Validations
         public bool GerilimValidasyon(NodesCanvasViewModel NodesCanvas, ConnectorViewModel fromConnector, ConnectorViewModel toConnector)
         {
             var response = true;
-            if (fromConnector.CiktiDuraganGerilimDegeri != -1)
+
+            if (toConnector.GirdiDuraganGerilimDegeri1.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
             {
-                if (toConnector.GirdiDuraganGerilimDegeri1.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
+                if (toConnector.GirdiDuraganGerilimDegeri2.HasValue)
                 {
-                    if (toConnector.GirdiDuraganGerilimDegeri2.HasValue && toConnector.GirdiDuraganGerilimDegeri2.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
+                    if (toConnector.GirdiDuraganGerilimDegeri2.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
                     {
-                        if (toConnector.GirdiDuraganGerilimDegeri3.HasValue && toConnector.GirdiDuraganGerilimDegeri3.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
+                        if (toConnector.GirdiDuraganGerilimDegeri3.HasValue)
                         {
-                            if (!(toConnector.GirdiMinimumGerilimDegeri.HasValue && toConnector.GirdiMinimumGerilimDegeri.Value <= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri) &&
-                                toConnector.GirdiMaksimumGerilimDegeri.HasValue && toConnector.GirdiMaksimumGerilimDegeri.Value >= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri)))
+                            if (toConnector.GirdiDuraganGerilimDegeri3.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
+                            {
+                                if (toConnector.GirdiMinimumGerilimDegeri.HasValue && toConnector.GirdiMaksimumGerilimDegeri.HasValue)
+                                {
+                                    if (!(toConnector.GirdiMinimumGerilimDegeri.Value <= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri) &&
+                                          toConnector.GirdiMaksimumGerilimDegeri.Value >= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri)))
+                                    {
+                                        response = false;
+                                    }
+                                }
+                                else
+                                {
+                                    response = false;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (toConnector.GirdiMinimumGerilimDegeri.HasValue && toConnector.GirdiMaksimumGerilimDegeri.HasValue)
+                            {
+                                if (!(toConnector.GirdiMinimumGerilimDegeri.Value <= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri) &&
+                                      toConnector.GirdiMaksimumGerilimDegeri.Value >= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri)))
+                                {
+                                    response = false;
+                                }
+                            }
+                            else
                             {
                                 response = false;
                             }
+                        }
+                    }
+                }
+                else
+                {
+                    if (toConnector.GirdiDuraganGerilimDegeri3.HasValue)
+                    {
+                        if (toConnector.GirdiDuraganGerilimDegeri3.Value != Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri))
+                        {
+                            if (toConnector.GirdiMinimumGerilimDegeri.HasValue && toConnector.GirdiMaksimumGerilimDegeri.HasValue)
+                            {
+                                if (!(toConnector.GirdiMinimumGerilimDegeri.Value <= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri) &&
+                                      toConnector.GirdiMaksimumGerilimDegeri.Value >= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri)))
+                                {
+                                    response = false;
+                                }
+                            }
+                            else
+                            {
+                                response = false;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (toConnector.GirdiMinimumGerilimDegeri.HasValue && toConnector.GirdiMaksimumGerilimDegeri.HasValue)
+                        {
+                            if (!(toConnector.GirdiMinimumGerilimDegeri.Value <= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri) &&
+                                  toConnector.GirdiMaksimumGerilimDegeri.Value >= Convert.ToDecimal(fromConnector.CiktiDuraganGerilimDegeri)))
+                            {
+                                response = false;
+                            }
+                        }
+                        else
+                        {
+                            response = false;
                         }
                     }
                 }
@@ -670,13 +732,16 @@ namespace AYP.Validations
         {
             var response = true;
 
-            if (fromConnector.KalanKapasite - toConnector.GirdiTukettigiGucMiktari.Value < 0)
+            if (fromConnector.GirdiTukettigiGucMiktari != -1)
             {
-                response = false;
-            }
-            else
-            {
-                fromConnector.KalanKapasite = fromConnector.KalanKapasite - toConnector.GirdiTukettigiGucMiktari.Value;
+                if (fromConnector.KalanKapasite - toConnector.GirdiTukettigiGucMiktari.Value < 0)
+                {
+                    response = false;
+                }
+                else
+                {
+                    fromConnector.KalanKapasite = fromConnector.KalanKapasite - toConnector.GirdiTukettigiGucMiktari.Value;
+                }
             }
 
             return response;
