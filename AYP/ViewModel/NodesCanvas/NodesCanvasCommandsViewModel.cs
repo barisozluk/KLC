@@ -404,6 +404,38 @@ namespace AYP.ViewModel
         {
             foreach (var item in res)
             {
+                if(item.FromConnector.Node.TypeId == (int)TipEnum.Group)
+                {
+                    var group = GroupList.Where(x => x.UniqueId == item.FromConnector.Node.UniqueId).FirstOrDefault();
+
+                    foreach (var node in group.NodeList)
+                    {
+                        var output = node.Transitions.Items.Where(x => x.UniqueId == item.FromConnector.UniqueId).FirstOrDefault();
+
+                        if (output != null)
+                        {
+                            var connectToDelete = group.ExternalConnectList.Where(x => x.FromConnector == output && x.ToConnector == item.ToConnector).FirstOrDefault();
+                            group.ExternalConnectList.Remove(connectToDelete);
+                        }
+                    }
+                }
+
+                if (item.ToConnector.Node.TypeId == (int)TipEnum.Group)
+                {
+                    var group = GroupList.Where(x => x.UniqueId == item.ToConnector.Node.UniqueId).FirstOrDefault();
+
+                    foreach (var node in group.NodeList)
+                    {
+                        var input = node.InputList.Where(x => x.UniqueId == item.ToConnector.UniqueId).FirstOrDefault();
+
+                        if (input != null)
+                        {
+                            var connectToDelete = group.ExternalConnectList.Where(x => x.ToConnector == input && x.FromConnector == item.FromConnector).FirstOrDefault();
+                            group.ExternalConnectList.Remove(connectToDelete);
+                        }
+                    }
+                }
+
                 Connects.Remove(item);
             }
 
@@ -440,6 +472,40 @@ namespace AYP.ViewModel
                                             AddConnect(connect);
                                             connects.Add(connect);
                                             res.Add(connect);
+
+                                            if (connect.FromConnector.Node.TypeId == (int)TipEnum.Group)
+                                            {
+                                                var groupNode = GroupList.Where(x => x.UniqueId == connect.FromConnector.Node.UniqueId).FirstOrDefault();
+
+                                                foreach (var node in groupNode.NodeList)
+                                                {
+                                                    var outp = node.Transitions.Items.Where(x => x.UniqueId == connect.FromConnector.UniqueId).FirstOrDefault();
+                                                    if (outp != null)
+                                                    {
+                                                        ConnectViewModel c = new ConnectViewModel(this, outp);
+                                                        c.ToConnector = connect.ToConnector;
+                                                        groupNode.ExternalConnectList.Add(c);
+                                                        break;
+                                                    }
+                                                }
+                                            }
+
+                                            if (connect.ToConnector.Node.TypeId == (int)TipEnum.Group)
+                                            {
+                                                var groupNode = GroupList.Where(x => x.UniqueId == connect.ToConnector.Node.UniqueId).FirstOrDefault();
+
+                                                foreach (var node in groupNode.NodeList)
+                                                {
+                                                    var inp = node.InputList.Where(x => x.UniqueId == connect.ToConnector.UniqueId).FirstOrDefault();
+                                                    if (inp != null)
+                                                    {
+                                                        ConnectViewModel c = new ConnectViewModel(this, connect.FromConnector);
+                                                        c.ToConnector = inp;
+                                                        groupNode.ExternalConnectList.Add(c);
+                                                        break;
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -460,6 +526,42 @@ namespace AYP.ViewModel
             {
                 foreach (var item in res)
                 {
+                    if (item.FromConnector.Node.TypeId == (int)TipEnum.Group)
+                    {
+                        var group = GroupList.Where(x => x.UniqueId == item.FromConnector.Node.UniqueId).FirstOrDefault();
+
+                        foreach (var node in group.NodeList)
+                        {
+                            var output = node.Transitions.Items.Where(x => x.UniqueId == item.FromConnector.UniqueId).FirstOrDefault();
+
+                            if (output != null)
+                            {
+                                ConnectViewModel c = new ConnectViewModel(this, output);
+                                c.ToConnector = item.ToConnector;
+                                group.ExternalConnectList.Add(c);
+                                break;
+                            }
+                        }
+                    }
+
+                    if (item.ToConnector.Node.TypeId == (int)TipEnum.Group)
+                    {
+                        var group = GroupList.Where(x => x.UniqueId == item.ToConnector.Node.UniqueId).FirstOrDefault();
+
+                        foreach (var node in group.NodeList)
+                        {
+                            var input = node.InputList.Where(x => x.UniqueId == item.ToConnector.UniqueId).FirstOrDefault();
+
+                            if (input != null)
+                            {
+                                ConnectViewModel c = new ConnectViewModel(this, item.FromConnector);
+                                c.ToConnector = input;
+                                group.ExternalConnectList.Add(c);
+                                break;
+                            }
+                        }
+                    }
+
                     CommandAddConnect.ExecuteWithSubscribe(item);
                 }
             }
@@ -471,6 +573,38 @@ namespace AYP.ViewModel
         {
             foreach (var item in res)
             {
+                if (item.FromConnector.Node.TypeId == (int)TipEnum.Group)
+                {
+                    var group = GroupList.Where(x => x.UniqueId == item.FromConnector.Node.UniqueId).FirstOrDefault();
+
+                    foreach (var node in group.NodeList)
+                    {
+                        var output = node.Transitions.Items.Where(x => x.UniqueId == item.FromConnector.UniqueId).FirstOrDefault();
+
+                        if (output != null)
+                        {
+                            var connectToDelete = group.ExternalConnectList.Where(x => x.FromConnector == output && x.ToConnector == item.ToConnector).FirstOrDefault();
+                            group.ExternalConnectList.Remove(connectToDelete);
+                        }
+                    }
+                }
+
+                if (item.ToConnector.Node.TypeId == (int)TipEnum.Group)
+                {
+                    var group = GroupList.Where(x => x.UniqueId == item.ToConnector.Node.UniqueId).FirstOrDefault();
+
+                    foreach (var node in group.NodeList)
+                    {
+                        var input = node.InputList.Where(x => x.UniqueId == item.ToConnector.UniqueId).FirstOrDefault();
+
+                        if (input != null)
+                        {
+                            var connectToDelete = group.ExternalConnectList.Where(x => x.ToConnector == input && x.FromConnector == item.FromConnector).FirstOrDefault();
+                            group.ExternalConnectList.Remove(connectToDelete);
+                        }
+                    }
+                }
+
                 Connects.Remove(item);
             }
 
@@ -568,6 +702,40 @@ namespace AYP.ViewModel
                                         CommandAddConnect.ExecuteWithSubscribe(connect);
                                         res.Add(connect);
                                         count++;
+
+                                        if (connect.FromConnector.Node.TypeId == (int)TipEnum.Group)
+                                        {
+                                            var groupNode = GroupList.Where(x => x.UniqueId == connect.FromConnector.Node.UniqueId).FirstOrDefault();
+
+                                            foreach (var node in groupNode.NodeList)
+                                            {
+                                                var output = node.Transitions.Items.Where(x => x.UniqueId == connect.FromConnector.UniqueId).FirstOrDefault();
+                                                if (output != null)
+                                                {
+                                                    ConnectViewModel c = new ConnectViewModel(this, output);
+                                                    c.ToConnector = connect.ToConnector;
+                                                    groupNode.ExternalConnectList.Add(c);
+                                                    break;
+                                                }
+                                            }
+                                        }
+
+                                        if (connect.ToConnector.Node.TypeId == (int)TipEnum.Group)
+                                        {
+                                            var groupNode = GroupList.Where(x => x.UniqueId == connect.ToConnector.Node.UniqueId).FirstOrDefault();
+
+                                            foreach (var node in groupNode.NodeList)
+                                            {
+                                                var input = node.InputList.Where(x => x.UniqueId == connect.ToConnector.UniqueId).FirstOrDefault();
+                                                if (input != null)
+                                                {
+                                                    ConnectViewModel c = new ConnectViewModel(this, connect.FromConnector);
+                                                    c.ToConnector = input;
+                                                    groupNode.ExternalConnectList.Add(c);
+                                                    break;
+                                                }
+                                            }
+                                        }
                                     }
                                 }
                                 else
@@ -607,6 +775,42 @@ namespace AYP.ViewModel
             {
                 foreach (var item in res)
                 {
+                    if (item.FromConnector.Node.TypeId == (int)TipEnum.Group)
+                    {
+                        var group = GroupList.Where(x => x.UniqueId == item.FromConnector.Node.UniqueId).FirstOrDefault();
+
+                        foreach (var node in group.NodeList)
+                        {
+                            var output = node.Transitions.Items.Where(x => x.UniqueId == item.FromConnector.UniqueId).FirstOrDefault();
+
+                            if (output != null)
+                            {
+                                ConnectViewModel c = new ConnectViewModel(this, output);
+                                c.ToConnector = item.ToConnector;
+                                group.ExternalConnectList.Add(c);
+                                break;
+                            }
+                        }
+                    }
+
+                    if (item.ToConnector.Node.TypeId == (int)TipEnum.Group)
+                    {
+                        var group = GroupList.Where(x => x.UniqueId == item.ToConnector.Node.UniqueId).FirstOrDefault();
+
+                        foreach (var node in group.NodeList)
+                        {
+                            var input = node.InputList.Where(x => x.UniqueId == item.ToConnector.UniqueId).FirstOrDefault();
+
+                            if (input != null)
+                            {
+                                ConnectViewModel c = new ConnectViewModel(this, item.FromConnector);
+                                c.ToConnector = input;
+                                group.ExternalConnectList.Add(c);
+                                break;
+                            }
+                        }
+                    }
+
                     CommandAddConnect.ExecuteWithSubscribe(item);
                 }
             }
@@ -1078,6 +1282,38 @@ namespace AYP.ViewModel
         {
             foreach (var item in res)
             {
+                if (item.FromConnector.Node.TypeId == (int)TipEnum.Group)
+                {
+                    var group = GroupList.Where(x => x.UniqueId == item.FromConnector.Node.UniqueId).FirstOrDefault();
+
+                    foreach (var node in group.NodeList)
+                    {
+                        var output = node.Transitions.Items.Where(x => x.UniqueId == item.FromConnector.UniqueId).FirstOrDefault();
+
+                        if (output != null)
+                        {
+                            var connectToDelete = group.ExternalConnectList.Where(x => x.FromConnector == output && x.ToConnector == item.ToConnector).FirstOrDefault();
+                            group.ExternalConnectList.Remove(connectToDelete);
+                        }
+                    }
+                }
+
+                if (item.ToConnector.Node.TypeId == (int)TipEnum.Group)
+                {
+                    var group = GroupList.Where(x => x.UniqueId == item.ToConnector.Node.UniqueId).FirstOrDefault();
+
+                    foreach (var node in group.NodeList)
+                    {
+                        var input = node.InputList.Where(x => x.UniqueId == item.ToConnector.UniqueId).FirstOrDefault();
+
+                        if (input != null)
+                        {
+                            var connectToDelete = group.ExternalConnectList.Where(x => x.ToConnector == input && x.FromConnector == item.FromConnector).FirstOrDefault();
+                            group.ExternalConnectList.Remove(connectToDelete);
+                        }
+                    }
+                }
+
                 Connects.Remove(item);
             }
 
@@ -1175,11 +1411,28 @@ namespace AYP.ViewModel
 
                                     foreach (var node in groupNode.NodeList)
                                     {
-                                        var output = node.Transitions.Items.Where(x => x.Label == connect.FromConnector.Label).FirstOrDefault();
+                                        var output = node.Transitions.Items.Where(x => x.UniqueId == connect.FromConnector.UniqueId).FirstOrDefault();
                                         if (output != null)
                                         {
                                             ConnectViewModel c = new ConnectViewModel(this, output);
                                             c.ToConnector = connect.ToConnector;
+                                            groupNode.ExternalConnectList.Add(c);
+                                            break;
+                                        }
+                                    }
+                                }
+
+                                if (connect.ToConnector.Node.TypeId == (int)TipEnum.Group)
+                                {
+                                    var groupNode = GroupList.Where(x => x.UniqueId == connect.ToConnector.Node.UniqueId).FirstOrDefault();
+
+                                    foreach (var node in groupNode.NodeList)
+                                    {
+                                        var input = node.InputList.Where(x => x.UniqueId == connect.ToConnector.UniqueId).FirstOrDefault();
+                                        if (input != null)
+                                        {
+                                            ConnectViewModel c = new ConnectViewModel(this, connect.FromConnector);
+                                            c.ToConnector = input;
                                             groupNode.ExternalConnectList.Add(c);
                                             break;
                                         }
@@ -1210,6 +1463,42 @@ namespace AYP.ViewModel
             {
                 foreach (var item in res)
                 {
+                    if (item.FromConnector.Node.TypeId == (int)TipEnum.Group)
+                    {
+                        var group = GroupList.Where(x => x.UniqueId == item.FromConnector.Node.UniqueId).FirstOrDefault();
+
+                        foreach (var node in group.NodeList)
+                        {
+                            var output = node.Transitions.Items.Where(x => x.UniqueId == item.FromConnector.UniqueId).FirstOrDefault();
+
+                            if (output != null)
+                            {
+                                ConnectViewModel c = new ConnectViewModel(this, output);
+                                c.ToConnector = item.ToConnector;
+                                group.ExternalConnectList.Add(c);
+                                break;
+                            }
+                        }
+                    }
+
+                    if (item.ToConnector.Node.TypeId == (int)TipEnum.Group)
+                    {
+                        var group = GroupList.Where(x => x.UniqueId == item.ToConnector.Node.UniqueId).FirstOrDefault();
+
+                        foreach (var node in group.NodeList)
+                        {
+                            var input = node.InputList.Where(x => x.UniqueId == item.ToConnector.UniqueId).FirstOrDefault();
+
+                            if (input != null)
+                            {
+                                ConnectViewModel c = new ConnectViewModel(this, item.FromConnector);
+                                c.ToConnector = input;
+                                group.ExternalConnectList.Add(c);
+                                break;
+                            }
+                        }
+                    }
+
                     CommandAddConnect.ExecuteWithSubscribe(item);
                 }
             }
@@ -1434,7 +1723,7 @@ namespace AYP.ViewModel
                             }
 
                             var willBeCopiedGroup = GroupList.Where(x => x.UniqueId == node.UniqueId).FirstOrDefault();
-                            CopyPasteGroup(willBeCopiedGroup, newNode);
+                            newNode = CopyPasteGroup(willBeCopiedGroup, newNode);
                         }
                         else
                         {
@@ -1544,18 +1833,71 @@ namespace AYP.ViewModel
             return result;
         }
 
-        private void CopyPasteGroup(GroupUngroupModel willBeCopiedGroup, NodeViewModel willBeCopiedNode)
+        private NodeViewModel CopyPasteGroup(GroupUngroupModel willBeCopiedGroup, NodeViewModel willBeCopiedNode)
         {
             var temp = new List<NodeViewModel>();
+            var newGroupInputs = new List<ConnectorViewModel>();
+            var newGroupOutputs = new List<ConnectorViewModel>();
+
             foreach (var node in willBeCopiedGroup.NodeList)
             {
+                var oldNodeInputs = new List<ConnectorViewModel>();
+                foreach(var oldNodeInput in node.InputList)
+                {
+                    foreach(var oldGroupInput in willBeCopiedGroup.InputList)
+                    {
+                        if(oldNodeInput.UniqueId == oldGroupInput.UniqueId)
+                        {
+                            oldNodeInputs.Add(oldNodeInput);
+                            break;
+                        }
+                    }
+                }
+
+                var oldNodeOutputs = new List<ConnectorViewModel>();
+                foreach (var oldNodeOutput in node.Transitions.Items)
+                {
+                    foreach (var oldGroupOutput in willBeCopiedGroup.OutputList)
+                    {
+                        if (oldNodeOutput.UniqueId == oldGroupOutput.UniqueId)
+                        {
+                            oldNodeOutputs.Add(oldNodeOutput);
+                            break;
+                        }
+                    }
+                }
+
                 var newPoint = node.Point1.Addition(50, 50);
                 var newNode = new NodeViewModel(this, GetNameForNewNode(node.TypeId, node.Name), Guid.NewGuid(), newPoint, node.Id, node.TypeId,
                     node.AgArayuzuList, node.GucArayuzuList, new List<ConnectorViewModel>(), new List<ConnectorViewModel>(), node.VerimlilikOrani,
                     node.DahiliGucTuketimDegeri, node.Sembol, node.StokNo, node.Tanim, node.UreticiAdi, node.UreticiParcaNo, node.TurAd);
 
+                foreach(var newNodeInput in newNode.InputList)
+                {
+                    foreach(var oldNodeInput in oldNodeInputs)
+                    {
+                        if(oldNodeInput.Port == newNodeInput.Port && oldNodeInput.Label == newNodeInput.Label)
+                        {
+                            newGroupInputs.Add(newNodeInput);
+                        }
+                    }
+                }
+
+                foreach (var newNodeOutput in newNode.Transitions.Items)
+                {
+                    foreach (var oldNodeOutput in oldNodeOutputs)
+                    {
+                        if (oldNodeOutput.Port == newNodeOutput.Port && oldNodeOutput.Label == newNodeOutput.Label)
+                        {
+                            newGroupOutputs.Add(newNodeOutput);
+                        }
+                    }
+                }
+
                 temp.Add(newNode);
             }
+
+            willBeCopiedNode = CreateGroupNodeInOutList(willBeCopiedNode, newGroupInputs, newGroupOutputs);
 
             var tempInternalConnectList = new List<ConnectViewModel>();
             foreach (var internalConnect in willBeCopiedGroup.InternalConnectList)
@@ -1619,6 +1961,8 @@ namespace AYP.ViewModel
             {
                 AddChildToProjectHierarchyWithTransitions(willBeCopiedNode.Name, node);
             }
+
+            return willBeCopiedNode;
         }
 
         private KeyValuePair<NodeViewModel, GroupUngroupModel> RedoGroup(Unit x, KeyValuePair<NodeViewModel, GroupUngroupModel> result)
@@ -2691,46 +3035,6 @@ namespace AYP.ViewModel
                 }
             }
 
-            //#region setup start state
-
-            //var startStateElement = stateMachineXElement.Element("StartState");
-            //if (startStateElement == null)
-            //{
-            //    this.SetupStartState();
-            //}
-            //else
-            //{
-            //    var startStateAttribute = startStateElement.Attribute("Name");
-            //    if (startStateAttribute == null)
-            //    {
-            //        Error("Start state element don't has name attribute");
-            //        return;
-            //    }
-            //    else
-            //    {
-            //        string startStateName = startStateAttribute.Value;
-            //        if (string.IsNullOrEmpty(startStateName))
-            //        {
-            //            Error(string.Format("Name attribute of start state is empty.", startStateName));
-            //            return;
-            //        }
-
-            //        var startNode = this.Nodes.Items.SingleOrDefault(x => x.Name == startStateName);
-            //        if (startNode == null)
-            //        {
-            //            Error(string.Format("Unable to set start state. Node with name \"{0}\" don't exists", startStateName));
-            //            return;
-            //        }
-            //        else
-            //        {
-            //            this.SetAsStart(startNode);
-            //        }
-            //    }
-
-            //}
-
-            //#endregion  setup start state
-
             #endregion  setup states/nodes/connectors
 
             #region setup connects
@@ -3368,6 +3672,38 @@ namespace AYP.ViewModel
             }
             else
             {
+                if(ViewModelConnect.FromConnector.Node.TypeId == (int)TipEnum.Group)
+                {
+                    var group = GroupList.Where(x => x.UniqueId == ViewModelConnect.FromConnector.Node.UniqueId).FirstOrDefault();
+
+                    foreach (var node in group.NodeList)
+                    {
+                        var output = node.Transitions.Items.Where(x => x.UniqueId == ViewModelConnect.FromConnector.UniqueId).FirstOrDefault();
+
+                        if (output != null)
+                        {
+                            var connectToDelete = group.ExternalConnectList.Where(x => x.FromConnector == output && x.ToConnector == ViewModelConnect.ToConnector).FirstOrDefault();
+                            group.ExternalConnectList.Remove(connectToDelete);
+                        }
+                    }
+                }
+
+                if (ViewModelConnect.ToConnector.Node.TypeId == (int)TipEnum.Group)
+                {
+                    var group = GroupList.Where(x => x.UniqueId == ViewModelConnect.ToConnector.Node.UniqueId).FirstOrDefault();
+
+                    foreach (var node in group.NodeList)
+                    {
+                        var input = node.InputList.Where(x => x.UniqueId == ViewModelConnect.ToConnector.UniqueId).FirstOrDefault();
+
+                        if (input != null)
+                        {
+                            var connectToDelete = group.ExternalConnectList.Where(x => x.ToConnector == input && x.FromConnector == ViewModelConnect.FromConnector).FirstOrDefault();
+                            group.ExternalConnectList.Remove(connectToDelete);
+                        }
+                    }
+                }
+
                 if (ViewModelConnect.ToConnector.Node.TypeId == (int)TipEnum.AgAnahtari)
                 {
                     foreach (var output in ViewModelConnect.ToConnector.Node.Transitions.Items)
@@ -3399,6 +3735,7 @@ namespace AYP.ViewModel
                 {
                     ViewModelConnect.ToConnector.AgAkisList = new List<AgAkis>();
                 }
+                
             }
 
             ViewModelConnect.FromConnector.Connect = null;
@@ -3528,7 +3865,7 @@ namespace AYP.ViewModel
                 }
 
                 var willBeCopiedGroup = GroupList.Where(x => x.UniqueId == parameter.Node.UniqueId).FirstOrDefault();
-                CopyPasteGroup(willBeCopiedGroup, newNode);
+                newNode = CopyPasteGroup(willBeCopiedGroup, newNode);
             }
             else
             {
