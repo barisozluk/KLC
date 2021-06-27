@@ -63,11 +63,6 @@ namespace AYP
                     item.VarisNoktasiList = this.ucBirimAgArayuzu.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.UcBirim && x.UniqueId != this.ucBirimAgArayuzu.Node.UniqueId).ToList();
                 }
 
-                //if(item.AgAkisProtokoluList == null)
-                //{
-                //    item.AgAkisProtokoluList = kodListeService.ListAgAkisProtokolu();
-                //}
-
                 if (item.AgAkisTipiList == null)
                 {
                     item.AgAkisTipiList = kodListeService.ListAgAkisTipi();
@@ -75,8 +70,8 @@ namespace AYP
             }
 
             agAkis.AgArayuzuId = this.ucBirimAgArayuzu.UniqueId;
+            agAkis.VarisNoktasiIdNameList = new List<KeyValuePair<Guid, string>>();
             SetAgAkisTipiList();
-            //SetAgAkisProtokoluList();
             SetVarisNoktasiList();
             DataContext = agAkis;
 
@@ -159,12 +154,6 @@ namespace AYP
             agAkis.AgAkisTipiId = agAkis.AgAkisTipiList[0].Id;
         }
 
-        //private void SetAgAkisProtokoluList()
-        //{
-        //    agAkis.AgAkisProtokoluList = kodListeService.ListAgAkisProtokolu();
-        //    agAkis.AgAkisProtokoluId = agAkis.AgAkisProtokoluList[0].Id;
-        //}
-
         private void SetVarisNoktasiList()
         {
             var ucBirimList = this.ucBirimAgArayuzu.NodesCanvas.Nodes.Items.Where(x => x.TypeId == (int)TipEnum.UcBirim && x.UniqueId != this.ucBirimAgArayuzu.Node.UniqueId).ToList();
@@ -230,12 +219,10 @@ namespace AYP
 
                         AgAkisDataGrid.ItemsSource = null;
                         agAkis.Id = Guid.NewGuid();
-                        //agAkis.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluList.Where(x => x.Id == agAkis.AgAkisProtokoluId).Select(s => s.Ad).FirstOrDefault();
                         agAkis.AgAkisTipiAdi = agAkis.AgAkisTipiList.Where(x => x.Id == agAkis.AgAkisTipiId).Select(s => s.Ad).FirstOrDefault();
 
                         foreach (var selectedItem in selectedItems)
                         {
-                            
                             var keyValue = new KeyValuePair<Guid, string>(selectedItem.UniqueId, agAkis.VarisNoktasiList.Where(x => x.UniqueId == selectedItem.UniqueId).Select(s => s.Name).FirstOrDefault());
                             agAkis.VarisNoktasiIdNameList.Add(keyValue);
                         }
@@ -250,7 +237,7 @@ namespace AYP
                         DataContext = null;
                         agAkis = new AgAkis();
                         agAkis.AgArayuzuId = this.ucBirimAgArayuzu.UniqueId;
-                        //SetAgAkisProtokoluList();
+                        agAkis.VarisNoktasiIdNameList = new List<KeyValuePair<Guid, string>>();
                         SetAgAkisTipiList();
                         SetVarisNoktasiList();
                         DataContext = agAkis;
@@ -326,8 +313,8 @@ namespace AYP
             DataContext = null;
             agAkis = new AgAkis();
             agAkis.AgArayuzuId = this.ucBirimAgArayuzu.UniqueId;
+            agAkis.VarisNoktasiIdNameList = new List<KeyValuePair<Guid, string>>();
             SetAgAkisTipiList();
-            //SetAgAkisProtokoluList();
             SetVarisNoktasiList();
             ClearSelections();
             DataContext = agAkis;
@@ -355,8 +342,8 @@ namespace AYP
             DataContext = null;
             agAkis = new AgAkis();
             agAkis.AgArayuzuId = this.ucBirimAgArayuzu.UniqueId;
+            agAkis.VarisNoktasiIdNameList = new List<KeyValuePair<Guid, string>>();
             SetAgAkisTipiList();
-            //SetAgAkisProtokoluList();
             SetVarisNoktasiList();
             ClearSelections();
             DataContext = agAkis;
@@ -388,8 +375,8 @@ namespace AYP
             DataContext = null;
             agAkis = new AgAkis();
             agAkis.AgArayuzuId = this.ucBirimAgArayuzu.UniqueId;
+            agAkis.VarisNoktasiIdNameList = new List<KeyValuePair<Guid, string>>();
             SetAgAkisTipiList();
-            //SetAgAkisProtokoluList();
             SetVarisNoktasiList();
             ClearSelections();
             DataContext = agAkis;

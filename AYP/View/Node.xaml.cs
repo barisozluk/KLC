@@ -98,8 +98,12 @@ namespace AYP.View
                     NodeSembol.Visibility = Visibility.Hidden;
                     NodeText.Visibility = Visibility.Visible;
                     var g = this.ViewModel.NodesCanvas.GroupList.Where(x => x.UniqueId == this.ViewModel.UniqueId).FirstOrDefault();
-                    var n = g.NodeList.Count();
-                    NodeText.Text = n.ToString();
+
+                    if (g != null)
+                    {
+                        var n = g.NodeList.Count();
+                        NodeText.Text = n.ToString();
+                    }
                 }
                 else
                 {

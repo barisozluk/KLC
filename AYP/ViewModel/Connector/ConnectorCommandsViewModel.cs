@@ -92,39 +92,7 @@ namespace AYP.ViewModel
                 {
                     connect.ToConnector = this;
                     var temp = connect.FromConnector;
-                    if (temp.Node.TypeId == (int)TipEnum.Group)
-                    {
-                        var groupNode = this.NodesCanvas.GroupList.Where(x => x.UniqueId == temp.Node.UniqueId).FirstOrDefault();
-
-                        foreach (var node in groupNode.NodeList)
-                        {
-                            var output = node.Transitions.Items.Where(x => x.UniqueId == temp.UniqueId).FirstOrDefault();
-                            if (output != null)
-                            {
-                                ConnectViewModel c = new ConnectViewModel(this.NodesCanvas, output);
-                                c.ToConnector = connect.ToConnector;
-                                groupNode.ExternalConnectList.Add(c);
-                                break;
-                            }
-                        }
-                    }
-
-                    if (connect.ToConnector.Node.TypeId == (int)TipEnum.Group)
-                    {
-                        var groupNode = this.NodesCanvas.GroupList.Where(x => x.UniqueId == connect.ToConnector.Node.UniqueId).FirstOrDefault();
-                        foreach (var node in groupNode.NodeList)
-                        {
-                            var input = node.InputList.Where(x => x.UniqueId == connect.ToConnector.UniqueId).FirstOrDefault();
-                            if (input != null)
-                            {
-                                ConnectViewModel c = new ConnectViewModel(this.NodesCanvas, connect.FromConnector);
-                                c.ToConnector = input;
-                                groupNode.ExternalConnectList.Add(c);
-                                break;
-                            }
-                        }
-                    }
-
+                   
                     if (temp.TypeId == (int)TipEnum.UcBirimAgArayuzu)
                     {
                         if(connect.ToConnector.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
@@ -139,8 +107,6 @@ namespace AYP.ViewModel
                                     agAkisTemp.Id = Guid.NewGuid();
                                     agAkisTemp.AgArayuzuId = connect.ToConnector.UniqueId;
                                     agAkisTemp.Yuk = agAkis.Yuk;
-                                    //agAkisTemp.AgAkisProtokoluId = agAkis.AgAkisProtokoluId;
-                                    //agAkisTemp.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluAdi;
                                     agAkisTemp.AgAkisTipiId = agAkis.AgAkisTipiId;
                                     agAkisTemp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
                                     agAkisTemp.VarisNoktasiIdNameList = agAkis.VarisNoktasiIdNameList;
@@ -189,8 +155,6 @@ namespace AYP.ViewModel
                                             agAkisTemp.Id = Guid.NewGuid();
                                             agAkisTemp.AgArayuzuId = connect.ToConnector.UniqueId;
                                             agAkisTemp.Yuk = agAkis.Yuk;
-                                            //agAkisTemp.AgAkisProtokoluId = agAkis.AgAkisProtokoluId;
-                                            //agAkisTemp.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluAdi;
                                             agAkisTemp.AgAkisTipiId = agAkis.AgAkisTipiId;
                                             agAkisTemp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
                                             agAkisTemp.VarisNoktasiIdNameList = agAkis.VarisNoktasiIdNameList;
@@ -215,8 +179,6 @@ namespace AYP.ViewModel
                                     agAkisTemp.Id = Guid.NewGuid();
                                     agAkisTemp.AgArayuzuId = connect.ToConnector.UniqueId;
                                     agAkisTemp.Yuk = agAkis.Yuk;
-                                    //agAkisTemp.AgAkisProtokoluId = agAkis.AgAkisProtokoluId;
-                                    //agAkisTemp.AgAkisProtokoluAdi = agAkis.AgAkisProtokoluAdi;
                                     agAkisTemp.AgAkisTipiId = agAkis.AgAkisTipiId;
                                     agAkisTemp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
                                     agAkisTemp.IliskiliAgArayuzuId = agAkis.IliskiliAgArayuzuId;
@@ -235,20 +197,40 @@ namespace AYP.ViewModel
                         connect.GucMiktari = connect.ToConnector.GirdiTukettigiGucMiktari.HasValue ? connect.ToConnector.GirdiTukettigiGucMiktari.Value : 0;
                     }
 
-                    //if (temp.TypeId != (int)TipEnum.Group)
-                    //{
-                    //    if (NodesCanvas.DraggedConnect.ToConnector != null)
-                    //    {
-                    //        this.NodesCanvas.MainWindow.IsEnabled = false;
-                    //        System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
-                    //        blur.Radius = 2;
-                    //        this.NodesCanvas.MainWindow.Effect = blur;
+                    if (temp.Node.TypeId == (int)TipEnum.Group)
+                    {
+                        var groupNode = this.NodesCanvas.GroupList.Where(x => x.UniqueId == temp.Node.UniqueId).FirstOrDefault();
 
-                    //        CableLengthPopupWindow cl = new CableLengthPopupWindow(connect);
-                    //        cl.Owner = this.NodesCanvas.MainWindow;
-                    //        cl.ShowDialog();
-                    //    }
-                    //}
+                        foreach (var node in groupNode.NodeList)
+                        {
+                            var output = node.Transitions.Items.Where(x => x.UniqueId == temp.UniqueId).FirstOrDefault();
+                            if (output != null)
+                            {
+                                ConnectViewModel c = new ConnectViewModel(this.NodesCanvas, output);
+                                c.ToConnector = connect.ToConnector;
+                                c.AgYuku = connect.AgYuku;
+                                groupNode.ExternalConnectList.Add(c);
+                                break;
+                            }
+                        }
+                    }
+
+                    if (connect.ToConnector.Node.TypeId == (int)TipEnum.Group)
+                    {
+                        var groupNode = this.NodesCanvas.GroupList.Where(x => x.UniqueId == connect.ToConnector.Node.UniqueId).FirstOrDefault();
+                        foreach (var node in groupNode.NodeList)
+                        {
+                            var input = node.InputList.Where(x => x.UniqueId == connect.ToConnector.UniqueId).FirstOrDefault();
+                            if (input != null)
+                            {
+                                ConnectViewModel c = new ConnectViewModel(this.NodesCanvas, connect.FromConnector);
+                                c.ToConnector = input;
+                                c.AgYuku = connect.AgYuku;
+                                groupNode.ExternalConnectList.Add(c);
+                                break;
+                            }
+                        }
+                    }
                 }
                 else
                 {
