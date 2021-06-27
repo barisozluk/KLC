@@ -435,6 +435,9 @@
     <Compile Update="AgAkisGosterPopupWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="GrupArayuzOlusturPopupWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="SelectGucUreticiForOtoConnect.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -514,6 +517,11 @@
     </Page>
 
     <Page Update="AgAkisGosterPopupWindow.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+
+    <Page Update="GrupArayuzOlusturPopupWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

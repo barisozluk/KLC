@@ -61,6 +61,7 @@ namespace AYP.ViewModel
         public ReactiveCommand<Unit, Unit> CommandEditSelected { get; set; }
         public ReactiveCommand<Unit, Unit> CommandCopyMultiple { get; set; }
         public ReactiveCommand<Unit, Unit> CommandShowAgAkis { get; set; }
+        public ReactiveCommand<Unit, Unit> CommandArayuzEkle { get; set; }
         public ReactiveCommand<Unit, Unit> CommandRename { get; set; }
         public ReactiveCommand<Unit, Unit> CommandZincirTopolojiOlustur { get; set; }
         public ReactiveCommand<Unit, Unit> CommandHalkaTopolojiOlustur { get; set; }
@@ -203,6 +204,8 @@ namespace AYP.ViewModel
             CommandHalkaTopolojiOlustur = ReactiveCommand.Create(OpenHalkaTopolojiGateWayPanel);
             CommandYildizTopolojiOlustur = ReactiveCommand.Create(OpenYildizTopolojiGateWayPanel);
             CommandGucUreticiOtoConnect = ReactiveCommand.Create(OpenGucUreticiSelectPanel);
+            CommandArayuzEkle = ReactiveCommand.Create(ArayuzEkle);
+
             NotSavedSubscrube();
         }
 
@@ -265,6 +268,29 @@ namespace AYP.ViewModel
         //    LoadIcons();
         //    Theme = theme;
         //}
+
+        private void ArayuzEkle()
+        {
+            var selectedNodes = this.Nodes.Items.Where(x => x.Selected).ToList();
+
+            if (selectedNodes.Count == 1 && selectedNodes.First().TypeId == (int)TipEnum.Group)
+            {
+                this.MainWindow.IsEnabled = false;
+                System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+                blur.Radius = 2;
+                this.MainWindow.Effect = blur;
+                GrupArayuzOlusturPopupWindow popup = new GrupArayuzOlusturPopupWindow(selectedNodes.First());
+                popup.Owner = this.MainWindow;
+                popup.ShowDialog();
+            }
+            else
+            {
+                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                nfp.msg.Text = "Lütfen, sadece bir grup seçiniz.";
+                nfp.Owner = this.MainWindow;
+                nfp.Show();
+            }
+        }
 
         private void ShowAgAkis()
         {
