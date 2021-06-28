@@ -19,6 +19,7 @@ namespace AYP.Entities
         public string IliskiliAgArayuzuAdi { get; set; }
         public Guid? IliskiliAgArayuzuAgAkisId { get; set; }
         public Guid? FromNodeUniqueId { get; set; }
+        public string FromNodeName { get; set; }
         public List<KodListModel> AgAkisTipiList { get; set; }
         public List<NodeViewModel> VarisNoktasiList { get; set; }
         public List<ConnectorViewModel> InputList { get; set; }

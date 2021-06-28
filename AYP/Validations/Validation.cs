@@ -1188,7 +1188,7 @@ namespace AYP.Validations
         {
             var response = true;
 
-            if (fromConnector.GirdiTukettigiGucMiktari != -1)
+            if (fromConnector.CiktiUrettigiGucKapasitesi.Value != -1)
             {
                 if (fromConnector.KalanKapasite - toConnector.GirdiTukettigiGucMiktari.Value < 0)
                 {

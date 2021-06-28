@@ -134,6 +134,11 @@ namespace AYP.Services
 
                         foreach (var item in response)
                         {
+                            //if (item.VerimlilikDegeri.HasValue)
+                            //{
+                            //    item.VerimlilikDegeri = GlobalizeDecimal(item.VerimlilikDegeri.Value);
+                            //}
+
                             item.SembolSrc = ByteToImage(item.Sembol);
                         }
                     }
@@ -549,6 +554,9 @@ namespace AYP.Services
                                 gucUreticiItem.GucUreticiTurId = gucUreticiTurItem.Id;
                                 gucUreticiItem.UreticiAdi = gucUretici.UreticiAdi;
                                 gucUreticiItem.UreticiParcaNo = gucUretici.UreticiParcaNo;
+                                gucUreticiItem.VerimlilikDegeri = gucUretici.VerimlilikDegeri;
+                                gucUreticiItem.DahiliGucTuketimDegeri = gucUretici.DahiliGucTuketimDegeri;
+
                                 context.SaveChanges();
 
                                 var gaIdList = guGucArayuzuList.Where(guga => guga.GucUreticiId == gucUretici.Id).Select(s => s.GucArayuzuId).ToList();
@@ -599,5 +607,13 @@ namespace AYP.Services
                 }
             }
         }
+
+        //private decimal GlobalizeDecimal(decimal value)
+        //{
+        //    string txt = value.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        //    decimal value2 = decimal.Parse(txt, System.Globalization.CultureInfo.InvariantCulture);
+
+        //    return value2;
+        //}
     }
 }

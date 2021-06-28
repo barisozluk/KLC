@@ -50,6 +50,24 @@ namespace AYP
         #region WindowLoadedEvent
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            foreach (var item in agAnahtariAgArayuzu.AgAkisList)
+            {
+                item.FromNodeName = this.agAnahtariAgArayuzu.NodesCanvas.Nodes.Items.Where(x => x.UniqueId == item.FromNodeUniqueId).Select(s => s.Name).FirstOrDefault();
+
+                if (item.AgAkisTipiList == null)
+                {
+                    item.AgAkisTipiList = kodListeService.ListAgAkisTipi();
+                }
+
+                if (item.IliskiliAgArayuzuId != null)
+                {
+                    if (item.IliskiliAgArayuzuAdi == null)
+                    {
+                        item.IliskiliAgArayuzuAdi = agAnahtariAgArayuzu.Node.InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu && x.UniqueId == item.IliskiliAgArayuzuId.Value).Select(s => s.Label).FirstOrDefault();
+                    }
+                }
+            }
+
             if (this.agAnahtariAgArayuzu.AgAkisList.Count > 0)
             {
                 AgAkisDataGrid.ItemsSource = this.agAnahtariAgArayuzu.AgAkisList;
@@ -61,23 +79,6 @@ namespace AYP
                 AgAkisDataGrid.Visibility = Visibility.Hidden;
                 AgAkisNoDataRow.Visibility = Visibility.Visible;
             }
-
-            foreach (var item in agAnahtariAgArayuzu.AgAkisList)
-            {
-                if (item.AgAkisTipiList == null)
-                {
-                    item.AgAkisTipiList = kodListeService.ListAgAkisTipi();
-                }
-
-                if(item.IliskiliAgArayuzuId != null)
-                {
-                    if(item.IliskiliAgArayuzuAdi == null)
-                    {
-                        item.IliskiliAgArayuzuAdi = agAnahtariAgArayuzu.Node.InputList.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu && x.UniqueId == item.IliskiliAgArayuzuId.Value).Select(s => s.Label).FirstOrDefault();
-                    }
-                }
-            }
-
 
             agAkis.AgArayuzuId = this.agAnahtariAgArayuzu.UniqueId;
             SetAgAkisTipiList();
@@ -246,6 +247,7 @@ namespace AYP
                             agAkis.Id = Guid.NewGuid();
                             agAkis.AgAkisTipiAdi = agAkis.AgAkisTipiList.Where(x => x.Id == agAkis.AgAkisTipiId).Select(s => s.Ad).FirstOrDefault();
                             agAkis.IliskiliAgArayuzuAdi = agAkis.InputList.Where(x => x.UniqueId == agAkis.IliskiliAgArayuzuId).Select(s => s.Label).FirstOrDefault();
+                            agAkis.FromNodeName = this.agAnahtariAgArayuzu.NodesCanvas.Nodes.Items.Where(x => x.UniqueId == agAkis.FromNodeUniqueId).Select(s => s.Name).FirstOrDefault();
 
                             this.agAnahtariAgArayuzu.AgAkisList.Add(agAkis);
 
@@ -438,11 +440,15 @@ namespace AYP
 
                     foreach (var agAkisItem in agAkisList)
                     {
-                        girdiList.Add(new GuidKodListModel
+
+                        if (!((agAkisItem.AgAkisTipiId == (int)AgAkisTipEnum.Broadcast || agAkisItem.AgAkisTipiId == (int)AgAkisTipEnum.Multicast) && agAnahtariAgArayuzu.AgAkisList.Where(x => x.IliskiliAgArayuzuAgAkisId == agAkisItem.Id).Any()))
                         {
-                            Ad =  agAkisItem.AgAkisTipiAdi + " " + agAkisItem.Yuk + " mbps",
-                            Id = agAkisItem.Id
-                        });
+                            girdiList.Add(new GuidKodListModel
+                            {
+                                Ad = this.agAnahtariAgArayuzu.NodesCanvas.Nodes.Items.Where(x => x.UniqueId == agAkis.FromNodeUniqueId).Select(s => s.Name).FirstOrDefault() + " " + agAkisItem.AgAkisTipiAdi + " " + agAkisItem.Yuk + " mbps",
+                                Id = agAkisItem.Id
+                            });
+                        }
                     }
                 }
                 else

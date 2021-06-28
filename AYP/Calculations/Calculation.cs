@@ -23,7 +23,7 @@ namespace AYP.Calculations
         public double VoltageDropCalculation(double length, double InputPower, int kablotipi, double gerilim)// double KabloKesit, int gerilim)
         {
             double VoltageDrop = 0;
-            //double slice = CableSuggestionCalculation(InputPower, Voltage);
+            slice = CableSuggestionCalculation(InputPower, gerilim);
             int K = 0;
             if (kablotipi == 0)
                 K = 56;
@@ -104,7 +104,7 @@ namespace AYP.Calculations
         {
             double Current = CurrentCalculation(InputPower, Voltage);
             double r = 0;
-            slice = CableSuggestionCalculation(InputPower, Voltage);
+            //slice = CableSuggestionCalculation(InputPower, Voltage);
             double HeatLoss = 0;
             if (slice == 0.35)
                 r = 50.3;

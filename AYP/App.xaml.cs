@@ -9,9 +9,12 @@ using ReactiveUI;
 using Splat;
 using System;
 using System.Configuration;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
+using System.Threading;
 using System.Windows;
+using System.Windows.Markup;
 using WritableJsonConfiguration;
 
 namespace AYP
@@ -25,7 +28,12 @@ namespace AYP
         
         public App()
         {
-                Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetCallingAssembly());
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
+            FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(
+                        XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
+
+            Locator.CurrentMutable.RegisterViewsForViewModels(Assembly.GetCallingAssembly());
                 Locator.CurrentMutable.RegisterConstant(new ConverterBoolAndVisibility(), typeof(IBindingTypeConverter));
                 
                 IConfigurationRoot configuration;

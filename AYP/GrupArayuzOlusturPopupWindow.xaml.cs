@@ -238,7 +238,10 @@ namespace AYP
                 {
                     if (!this.group.InternalConnectList.Where(x => x.FromConnector == input || x.ToConnector == input).Any())
                     {
-                        agInputs.Add(input);
+                        if (!this.node.InputList.Where(x => x.UniqueId == input.UniqueId).Any())
+                        {
+                            agInputs.Add(input);
+                        }
                     }
                 }
             }
@@ -252,7 +255,10 @@ namespace AYP
                 {
                     if (!this.group.InternalConnectList.Where(x => x.FromConnector == input || x.ToConnector == input).Any())
                     {
-                        gucInputs.Add(input);
+                        if (!this.node.InputList.Where(x => x.UniqueId == input.UniqueId).Any())
+                        {
+                            gucInputs.Add(input);
+                        }
                     }
                 }
             }
@@ -265,7 +271,10 @@ namespace AYP
                 {
                     if (!this.group.InternalConnectList.Where(x => x.FromConnector == output || x.ToConnector == output).Any())
                     {
-                        agOutputs.Add(output);
+                        if (!this.node.Transitions.Items.Where(x => x.UniqueId == output.UniqueId).Any())
+                        {
+                            agOutputs.Add(output);
+                        }
                     }
                 }
             }
@@ -278,7 +287,10 @@ namespace AYP
                 {
                     if (!this.group.InternalConnectList.Where(x => x.FromConnector == output || x.ToConnector == output).Any())
                     {
-                        gucOutputs.Add(output);
+                        if (!this.node.Transitions.Items.Where(x => x.UniqueId == output.UniqueId).Any())
+                        {
+                            gucOutputs.Add(output);
+                        }
                     }
                 }
             }

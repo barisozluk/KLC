@@ -1186,17 +1186,24 @@ namespace AYP.ViewModel
                 {
                     zincir = ZincirOlusturRecursive(selectedNode, list, zincir, gateWayUniqueId);
 
-                    if (zincir.Count() == selectedNodes.Count() && zincir.Last().UniqueId == gateWayUniqueId)
+                    if (zincir.Count() > 0 && zincir.First().Transitions.Items.Where(x => x.Connect == null).Count() > 1)
                     {
-                        var sonElemaninBaglanabildikleri = list.Where(x => x.Key == zincir.Last()).Select(s => s.Value).FirstOrDefault();
-
-                        if (sonElemaninBaglanabildikleri != null && sonElemaninBaglanabildikleri.Count() > 0)
+                        if (zincir.Count() == selectedNodes.Count() && zincir.Last().UniqueId == gateWayUniqueId)
                         {
-                            var sonElemanIlkElemanaBaglanabilirMi = sonElemaninBaglanabildikleri.Where(x => x.ToConnector.Node == zincir.First()).Any();
+                            var ilkElemaninBaglanabildikleri = list.Where(x => x.Key == zincir.First()).Select(s => s.Value).FirstOrDefault();
 
-                            if (sonElemanIlkElemanaBaglanabilirMi)
+                            if (ilkElemaninBaglanabildikleri != null && ilkElemaninBaglanabildikleri.Count() > 0)
                             {
-                                break;
+                                var ilkElemanSonElemanaBaglanabilirMi = ilkElemaninBaglanabildikleri.Where(x => x.ToConnector.Node == zincir.Last()).Any();
+
+                                if (ilkElemanSonElemanaBaglanabilirMi)
+                                {
+                                    break;
+                                }
+                                else
+                                {
+                                    zincir.Clear();
+                                }
                             }
                             else
                             {
@@ -1263,8 +1270,8 @@ namespace AYP.ViewModel
                         {
                             var nextNode = zincir[0];
 
-                            var connects = list.Where(x => x.Key == item).Select(s => s.Value).FirstOrDefault();
-                            var connect = connects.Where(k => k.ToConnector.Node == nextNode).FirstOrDefault();
+                            var connects = list.Where(x => x.Key == nextNode).Select(s => s.Value).FirstOrDefault();
+                            var connect = connects.Where(k => k.ToConnector.Node == item).FirstOrDefault();
                             connect.FromConnector.Connect = connect;
                             CommandAddConnect.ExecuteWithSubscribe(connect);
                             res.Add(connect);

@@ -78,22 +78,19 @@ namespace AYP
         {
             Calculation calculations = new Calculation();
             
-            //double GerilimDusumuCalcMaxCheck = 
             if (connect.FromConnector.TypeId == 3 || connect.FromConnector.TypeId == 8)
             {
-                double GerilimDusumuCalc = calculations.VoltageDropCalculation((double)connect.Uzunluk, (double)connect.ToConnector.GirdiTukettigiGucMiktari, KabloTipiTur.SelectedIndex, Convert.ToDouble(connect.FromConnector.CiktiDuraganGerilimDegeri));
-                isiKaybi.Text = (calculations.HeatLossCalculation((double)connect.ToConnector.GirdiTukettigiGucMiktari, (double)connect.ToConnector.GirdiDuraganGerilimDegeri1, KabloTipiTur.SelectedIndex, (double)connect.Uzunluk)).ToString();
-                GerilimDusumuYuzde.Text = (calculations.VoltageDropCalculation((double)connect.Uzunluk, (double)connect.ToConnector.GirdiTukettigiGucMiktari, KabloTipiTur.SelectedIndex, Convert.ToDouble(connect.FromConnector.CiktiDuraganGerilimDegeri))).ToString();
-                //GerilimDusumuYuzde.Text = Math.Round(((calculations.VoltageDropCalculation((double)connect.Uzunluk, (double)connect.ToConnector.GirdiTukettigiGucMiktari, KabloTipiTur.SelectedIndex, Convert.ToDouble(connect.FromConnector.CiktiDuraganGerilimDegeri)))*100)/ Convert.ToDouble(connect.FromConnector.CiktiDuraganGerilimDegeri), 3).ToString();
-                if (BataryaKapasite.Text != "")
-                    BeslemeSuresi.Text = (calculations.FeedingTimeCalculation((double)connect.FromConnector.CiktiUrettigiGucKapasitesi, Convert.ToDouble(connect.FromConnector.CiktiDuraganGerilimDegeri), Convert.ToDouble(BataryaKapasite.Text))).ToString();
-
-                //if (GerilimDusumuIstenen.Text != "" && Convert.ToDouble(GerilimDusumuIstenen.Text) > GerilimDusumuCalc)
-                    
+                double GerilimDusumuCalc = calculations.VoltageDropCalculation((double)connect.Uzunluk, (double)connect.ToConnector.GirdiTukettigiGucMiktari, KabloTipiTur.SelectedIndex, Convert.ToDouble(connect.FromConnector.CiktiDuraganGerilimDegeri));     
+                GerilimDusumuYuzde.Text = GerilimDusumuCalc.ToString();// (calculations.VoltageDropCalculation((double)connect.Uzunluk, (double)connect.ToConnector.GirdiTukettigiGucMiktari, KabloTipiTur.SelectedIndex, Convert.ToDouble(connect.FromConnector.CiktiDuraganGerilimDegeri))).ToString();                   
                 if (GerilimDusumuIstenen.Text != "" && Convert.ToDouble(GerilimDusumuIstenen.Text) < GerilimDusumuCalc)
                     KabloKesit.Text = (calculations.VoltageDropCalculationMaxCheck((double)connect.Uzunluk, (double)connect.ToConnector.GirdiTukettigiGucMiktari, KabloTipiTur.SelectedIndex, Convert.ToDouble(connect.FromConnector.CiktiDuraganGerilimDegeri), Convert.ToDouble(GerilimDusumuIstenen.Text))).ToString();
                 else
                     KabloKesit.Text = (calculations.CableSuggestionCalculation((double)connect.ToConnector.GirdiTukettigiGucMiktari, (double)connect.ToConnector.GirdiDuraganGerilimDegeri1)).ToString();
+
+                isiKaybi.Text = (calculations.HeatLossCalculation((double)connect.ToConnector.GirdiTukettigiGucMiktari, (double)connect.ToConnector.GirdiDuraganGerilimDegeri1, KabloTipiTur.SelectedIndex, (double)connect.Uzunluk)).ToString();
+
+                if (BataryaKapasite.Text != "")
+                    BeslemeSuresi.Text = (calculations.FeedingTimeCalculation((double)connect.FromConnector.CiktiUrettigiGucKapasitesi, Convert.ToDouble(connect.FromConnector.CiktiDuraganGerilimDegeri), Convert.ToDouble(BataryaKapasite.Text))).ToString();
             }
             else
             {

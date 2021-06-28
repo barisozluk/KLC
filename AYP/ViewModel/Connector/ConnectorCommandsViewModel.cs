@@ -215,19 +215,92 @@ namespace AYP.ViewModel
                         }
                     }
 
-                    if (connect.ToConnector.Node.TypeId == (int)TipEnum.Group)
+                    if (connect.ToConnector != null)
                     {
-                        var groupNode = this.NodesCanvas.GroupList.Where(x => x.UniqueId == connect.ToConnector.Node.UniqueId).FirstOrDefault();
-                        foreach (var node in groupNode.NodeList)
+                        if (connect.ToConnector.Node.TypeId == (int)TipEnum.Group)
                         {
-                            var input = node.InputList.Where(x => x.UniqueId == connect.ToConnector.UniqueId).FirstOrDefault();
-                            if (input != null)
+                            var groupNode = this.NodesCanvas.GroupList.Where(x => x.UniqueId == connect.ToConnector.Node.UniqueId).FirstOrDefault();
+                            foreach (var node in groupNode.NodeList)
                             {
-                                ConnectViewModel c = new ConnectViewModel(this.NodesCanvas, connect.FromConnector);
-                                c.ToConnector = input;
-                                c.AgYuku = connect.AgYuku;
-                                groupNode.ExternalConnectList.Add(c);
-                                break;
+                                var input = node.InputList.Where(x => x.UniqueId == connect.ToConnector.UniqueId).FirstOrDefault();
+                                if (input != null)
+                                {
+                                    ConnectViewModel c = new ConnectViewModel(this.NodesCanvas, connect.FromConnector);
+                                    c.ToConnector = input;
+                                    c.AgYuku = connect.AgYuku;
+
+                                    if (input.TypeId == (int)TipEnum.AgAnahtariAgArayuzu)
+                                    {
+                                        if (connect.FromConnector.AgAkisList != null && connect.FromConnector.AgAkisList.Count() != 0)
+                                        {
+                                            foreach (var agAkis in connect.FromConnector.AgAkisList)
+                                            {
+                                                var agAkisTemp = new AgAkis();
+                                                agAkisTemp.Id = Guid.NewGuid();
+                                                agAkisTemp.AgArayuzuId = c.ToConnector.UniqueId;
+                                                agAkisTemp.Yuk = agAkis.Yuk;
+                                                agAkisTemp.AgAkisTipiId = agAkis.AgAkisTipiId;
+                                                agAkisTemp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
+                                                agAkisTemp.IliskiliAgArayuzuId = agAkis.IliskiliAgArayuzuId;
+                                                agAkisTemp.IliskiliAgArayuzuAdi = agAkis.IliskiliAgArayuzuAdi;
+                                                agAkisTemp.VarisNoktasiIdNameList = agAkis.VarisNoktasiIdNameList;
+                                                agAkisTemp.FromNodeUniqueId = agAkis.FromNodeUniqueId;
+
+                                                c.ToConnector.AgAkisList.Add(agAkisTemp);
+                                                c.AgYuku = connect.ToConnector.AgAkisList.Select(x => x.Yuk).Sum();
+                                                c.ToConnector.AgAkisList.Add(agAkisTemp);
+                                            }
+                                        }
+                                    }
+                                    else if (input.TypeId == (int)TipEnum.UcBirimAgArayuzu)
+                                    {
+                                        if (connect.FromConnector.AgAkisList != null && connect.FromConnector.AgAkisList.Count() != 0)
+                                        {
+                                            bool varisNoktasiMi = false;
+                                            foreach (var agAkis in connect.FromConnector.AgAkisList)
+                                            {
+                                                varisNoktasiMi = agAkis.VarisNoktasiIdNameList.Where(x => x.Key == connect.ToConnector.Node.UniqueId).Any();
+                                                if (varisNoktasiMi)
+                                                {
+                                                    break;
+                                                }
+                                            }
+
+                                            if (!varisNoktasiMi)
+                                            {
+                                                NotifyInfoPopup nfp = new NotifyInfoPopup();
+                                                nfp.msg.Text = "Seçtiğiniz ağ arayüzünde tanımlanmış akışlarının hiçbirinin varış noktası " + connect.ToConnector.Node.Name + " değildir!";
+                                                nfp.Owner = connect.ToConnector.Node.NodesCanvas.MainWindow;
+                                                nfp.Show();
+
+                                                NodesCanvas.DraggedConnect.ToConnector = null;
+                                            }
+                                            else
+                                            {
+                                                foreach (var agAkis in connect.FromConnector.AgAkisList)
+                                                {
+                                                    if (agAkis.VarisNoktasiIdNameList.Where(x => x.Key == connect.ToConnector.Node.UniqueId).Any())
+                                                    {
+                                                        var agAkisTemp = new AgAkis();
+                                                        agAkisTemp.Id = Guid.NewGuid();
+                                                        agAkisTemp.AgArayuzuId = c.ToConnector.UniqueId;
+                                                        agAkisTemp.Yuk = agAkis.Yuk;
+                                                        agAkisTemp.AgAkisTipiId = agAkis.AgAkisTipiId;
+                                                        agAkisTemp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
+                                                        agAkisTemp.VarisNoktasiIdNameList = agAkis.VarisNoktasiIdNameList;
+                                                        agAkisTemp.FromNodeUniqueId = agAkis.FromNodeUniqueId;
+
+                                                        c.ToConnector.AgAkisList.Add(agAkisTemp);
+                                                        c.AgYuku = c.ToConnector.AgAkisList.Select(x => x.Yuk).Sum();
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    groupNode.ExternalConnectList.Add(c);
+                                    break;
+                                }
                             }
                         }
                     }

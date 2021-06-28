@@ -648,6 +648,16 @@ namespace AYP.ViewModel
                             {
                                 agAkisItem.IliskiliAgArayuzuAgAkisId = new Guid(agAkis.Attribute("IliskiliAgArayuzuAgAkisId")?.Value);
                             }
+
+
+                            if (agAkis.Attribute("FromNodeUniqueId")?.Value == null)
+                            {
+                                agAkisItem.FromNodeUniqueId = null;
+                            }
+                            else
+                            {
+                                agAkisItem.FromNodeUniqueId = new Guid(agAkis.Attribute("FromNodeUniqueId")?.Value);
+                            }
                             agAkisItem.Yuk = Convert.ToDecimal(agAkis.Attribute("Yuk")?.Value);
 
                             agAkisItem.VarisNoktasiIdNameList = new List<KeyValuePair<Guid, string>>();
