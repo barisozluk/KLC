@@ -171,72 +171,50 @@ namespace AYP.View
             NodeHeaderElement.TextBoxElement.Text = value;
         }
 
-        private void handleTypingTimerTimeout(object sender, EventArgs e)
-        {
-            var timer = sender as DispatcherTimer;
-            if (timer == null)
-            {
-                return;
-            }
-
-            var isbn = timer.Tag.ToString();
-            foreach (TreeViewItem item in this.ViewModel.NodesCanvas.MainWindow.ProjeHiyerarsi.Items)
-            {
-                if (item.Header == this.ViewModel.Name)
-                {
-                    item.Header = isbn;
-                    this.ViewModel.Name = isbn;
-                    break;
-                }
-            }
-
-            timer.Stop();
-        }
-
         private void OnMouseDoubleClicked(MouseButtonEventArgs e)
         {
-            if (this.ViewModel.TypeId != (int)TipEnum.Group)
+            if (this.ViewModel.TypeId == (int)TipEnum.Group)
             {
-                this.ViewModel.Selected = true;
+            //    this.ViewModel.Selected = true;
 
-                bool fromNode = true;
-                MainWindow mainWindow = this.ViewModel.NodesCanvas.MainWindow;
-                mainWindow.IsEnabled = false;
-                System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
-                blur.Radius = 2;
-                mainWindow.Effect = blur;
+            //    bool fromNode = true;
+            //    MainWindow mainWindow = this.ViewModel.NodesCanvas.MainWindow;
+            //    mainWindow.IsEnabled = false;
+            //    System.Windows.Media.Effects.BlurEffect blur = new System.Windows.Media.Effects.BlurEffect();
+            //    blur.Radius = 2;
+            //    mainWindow.Effect = blur;
 
-                if (this.ViewModel.TypeId == (int)TipEnum.UcBirim)
-                {
-                    IUcBirimService ucBirimService = new UcBirimService();
-                    var selectedUcBirim = ucBirimService.GetUcBirimById(this.ViewModel.Id);
+            //    if (this.ViewModel.TypeId == (int)TipEnum.UcBirim)
+            //    {
+            //        IUcBirimService ucBirimService = new UcBirimService();
+            //        var selectedUcBirim = ucBirimService.GetUcBirimById(this.ViewModel.Id);
 
-                    UcBirimPopupWindow popup = new UcBirimPopupWindow(selectedUcBirim, fromNode);
-                    popup.Owner = mainWindow;
-                    popup.ShowDialog();
-                }
-                else if (this.ViewModel.TypeId == (int)TipEnum.AgAnahtari)
-                {
-                    IAgAnahtariService agAnahtariService = new AgAnahtariService();
-                    var selectedAgAnahtari = agAnahtariService.GetAgAnahtariById(this.ViewModel.Id);
+            //        UcBirimPopupWindow popup = new UcBirimPopupWindow(selectedUcBirim, fromNode);
+            //        popup.Owner = mainWindow;
+            //        popup.ShowDialog();
+            //    }
+            //    else if (this.ViewModel.TypeId == (int)TipEnum.AgAnahtari)
+            //    {
+            //        IAgAnahtariService agAnahtariService = new AgAnahtariService();
+            //        var selectedAgAnahtari = agAnahtariService.GetAgAnahtariById(this.ViewModel.Id);
 
-                    AgAnahtariPopupWindow popup = new AgAnahtariPopupWindow(selectedAgAnahtari, fromNode);
-                    popup.Owner = mainWindow;
-                    popup.ShowDialog();
-                }
-                else if (this.ViewModel.TypeId == (int)TipEnum.GucUretici)
-                {
-                    IGucUreticiService gucUreticiService = new GucUreticiService();
-                    var selectedGucUretici = gucUreticiService.GetGucUreticiById(this.ViewModel.Id);
+            //        AgAnahtariPopupWindow popup = new AgAnahtariPopupWindow(selectedAgAnahtari, fromNode);
+            //        popup.Owner = mainWindow;
+            //        popup.ShowDialog();
+            //    }
+            //    else if (this.ViewModel.TypeId == (int)TipEnum.GucUretici)
+            //    {
+            //        IGucUreticiService gucUreticiService = new GucUreticiService();
+            //        var selectedGucUretici = gucUreticiService.GetGucUreticiById(this.ViewModel.Id);
 
-                    GucUreticiPopupWindow popup = new GucUreticiPopupWindow(selectedGucUretici, fromNode);
-                    popup.Owner = mainWindow;
-                    popup.ShowDialog();
-                }
+            //        GucUreticiPopupWindow popup = new GucUreticiPopupWindow(selectedGucUretici, fromNode);
+            //        popup.Owner = mainWindow;
+            //        popup.ShowDialog();
+            //    }
 
-            }
-            else
-            {
+            //}
+            //else
+            //{
                 var group = this.ViewModel.NodesCanvas.GroupList.Where(x => x.UniqueId == this.ViewModel.UniqueId).FirstOrDefault();
 
                 MainWindow mainWindow = this.ViewModel.NodesCanvas.MainWindow;

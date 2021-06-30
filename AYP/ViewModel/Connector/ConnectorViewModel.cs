@@ -99,6 +99,7 @@ namespace AYP.ViewModel
             if (this.Name != "Girdi" && this.Name != "girdi")
             {
                 this.WhenAnyValue(x => x.Node.HeaderWidth).Buffer(2, 1).Subscribe(x => UpdatePositionOnWidthChange(x[1] - x[0]));
+
                 if (this.Name != "Çıktı" && this.Name != "çıktı")
                 {
                     this.WhenAnyValue(x => x.Node.TransitionsForView.Count).Subscribe(x => UpdatePositionOnTransitionCountChange());
@@ -119,7 +120,15 @@ namespace AYP.ViewModel
         }
         private void UpdatePositionOnWidthChange(double value)
         {
-            Artik = value;
+            if (this.Node.HeaderWidth > 126)
+            {
+                Artik = value + 46;
+            }
+            else
+            {
+                Artik = value;
+            }
+
             this.PositionConnectPoint = this.PositionConnectPoint.Addition(value, 0);
         }
         private void UpdateResources()
@@ -236,6 +245,7 @@ namespace AYP.ViewModel
             element.Add(new XAttribute("Label", Label));
             element.Add(new XAttribute("UniqueId", UniqueId));
             element.Add(new XAttribute("Position", PointExtensition.PointToString(PositionConnectPoint.Addition(Artik * -1, 0))));
+
             element.Add(!KapasiteId.HasValue ? null : new XAttribute("KapasiteId", KapasiteId));
             element.Add(!MinKapasite.HasValue ? null : new XAttribute("MinKapasite", MinKapasite));
             element.Add(!MaxKapasite.HasValue ? null : new XAttribute("MaxKapasite", MaxKapasite));

@@ -339,7 +339,10 @@ namespace AYP
             AgAkisTipi.SelectedItem = agAkis.AgAkisTipiList.Where(x => x.Id == agAkis.AgAkisTipiId).FirstOrDefault();
 
             Yuk.Text = agAkis.Yuk.ToString();
-            agAkis.VarisNoktasiIdNameList = agAnahtariAgArayuzu.AgAkisList.Where(x => x.Id == agAkis.Id).Select(s => s.VarisNoktasiIdNameList).FirstOrDefault();
+            foreach (var varisNoktasiIdName in agAnahtariAgArayuzu.AgAkisList.Where(x => x.Id == agAkis.Id).Select(s => s.VarisNoktasiIdNameList).FirstOrDefault())
+            {
+                agAkis.VarisNoktasiIdNameList.Add(varisNoktasiIdName);
+            }
             agAkis.Id = Guid.Empty;
         }
 
@@ -445,7 +448,7 @@ namespace AYP
                         {
                             girdiList.Add(new GuidKodListModel
                             {
-                                Ad = this.agAnahtariAgArayuzu.NodesCanvas.Nodes.Items.Where(x => x.UniqueId == agAkis.FromNodeUniqueId).Select(s => s.Name).FirstOrDefault() + " " + agAkisItem.AgAkisTipiAdi + " " + agAkisItem.Yuk + " mbps",
+                                Ad = this.agAnahtariAgArayuzu.NodesCanvas.Nodes.Items.Where(x => x.UniqueId == agAkisItem.FromNodeUniqueId).Select(s => s.Name).FirstOrDefault() + " " + agAkisItem.AgAkisTipiAdi + " " + agAkisItem.Yuk + " mbps",
                                 Id = agAkisItem.Id
                             });
                         }
@@ -493,7 +496,12 @@ namespace AYP
 
                     agAkis.Yuk = selectedAgAkis.Yuk;
                     Yuk.Text = selectedAgAkis.Yuk.ToString();
-                    agAkis.VarisNoktasiIdNameList = selectedAgAkis.VarisNoktasiIdNameList;
+
+                    foreach (var varisNoktasiIdName in selectedAgAkis.VarisNoktasiIdNameList)
+                    {
+                        agAkis.VarisNoktasiIdNameList.Add(varisNoktasiIdName);
+                    }
+
                     agAkis.IliskiliAgArayuzuAgAkisId = selectedAgAkis.Id;
 
                     if (selectedAgAkis.AgAkisTipiId == (int)AgAkisTipEnum.Unicast)

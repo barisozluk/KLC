@@ -469,6 +469,36 @@ namespace AYP
         }
         #endregion
 
+        #region BorderVlidates
+        private void ValidateAgAnahtariFieldBorders()
+        {
+            AgAnahtariTur.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            StokNo.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            Tanim.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            Uretici.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            UreticiParcaNo.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            GirdiAgArayuzuSayisi.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            CiktiAgArayuzuSayisi.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            GucArayuzuSayisi.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            Katalog.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            Sembol.BorderBrush = new SolidColorBrush(Colors.Transparent);
+        }
+
+        private void ValidateAgArayuzuFieldBorders()
+        {
+            AgArayuzuAdi.BorderBrush = new SolidColorBrush(Colors.Transparent);
+        }
+
+        private void ValidateGucArayuzuFiledBorders()
+        {
+            GucArayuzuAdi.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            ag2.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            ag7.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            ag10.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            ag12.BorderBrush = new SolidColorBrush(Colors.Transparent);
+        }
+        #endregion
+
         #region TabTransitionEvents
 
         public void ShowAgArayuzuTab()
@@ -494,6 +524,7 @@ namespace AYP
         }
         private void AgAnahtariNextButton_Click(object sender, RoutedEventArgs e)
         {
+            ValidateAgAnahtariFieldBorders();
             agAnahtari.TipId = (int)TipEnum.AgAnahtari;
 
             var validationContext = new ValidationContext(agAnahtari, null, null);
@@ -976,7 +1007,7 @@ namespace AYP
         #region TableEvents
         private void ButtonAddAgArayuzu_Click(object sender, RoutedEventArgs e)
         {
-
+            ValidateAgArayuzuFieldBorders();
             agArayuzu.TipId = (int)TipEnum.AgAnahtariAgArayuzu;
 
             var validationContext = new ValidationContext(agArayuzu, null, null);
@@ -1111,6 +1142,7 @@ namespace AYP
 
             return validMi;
         }
+        
         private void AgArayuzuRow_Checked(object sender, RoutedEventArgs e)
         {
             if (checkedAgArayuzuRow != null)
@@ -1227,6 +1259,7 @@ namespace AYP
 
         private void ButtonAddGucArayuzu_Click(object sender, RoutedEventArgs e)
         {
+            ValidateGucArayuzuFiledBorders();
             bool validMi = GirdiGucArayuzuValidation();
 
             if (validMi)

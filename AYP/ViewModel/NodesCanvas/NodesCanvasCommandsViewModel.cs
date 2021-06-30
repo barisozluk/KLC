@@ -389,10 +389,11 @@ namespace AYP.ViewModel
         {
             List<NodeViewModel> selectedNodes = this.Nodes.Items.Where(x => x.Selected).ToList();
             int gucUreticiSayisi = selectedNodes.Where(s => s.TypeId == (int)TipEnum.GucUretici).Count();
+            int gucTuketiciSayisi = selectedNodes.Where(s => s.TypeId == (int)TipEnum.AgAnahtari || s.TypeId == (int)TipEnum.UcBirim).Count();
 
             if (gucUreticiSayisi > 0)
             {
-                if (gucUreticiSayisi < selectedNodes.Count)
+                if (gucTuketiciSayisi > 0 || gucUreticiSayisi > 1)
                 {
                     if (gucUreticiSayisi > 1)
                     {
@@ -744,7 +745,11 @@ namespace AYP.ViewModel
                                                 agAkisTemp.Yuk = agAkis.Yuk;
                                                 agAkisTemp.AgAkisTipiId = agAkis.AgAkisTipiId;
                                                 agAkisTemp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
-                                                agAkisTemp.VarisNoktasiIdNameList = agAkis.VarisNoktasiIdNameList;
+                                                agAkisTemp.VarisNoktasiIdNameList = new List<KeyValuePair<Guid, string>>();
+                                                foreach (var varisNoktasiIdName in agAkis.VarisNoktasiIdNameList)
+                                                {
+                                                    agAkisTemp.VarisNoktasiIdNameList.Add(varisNoktasiIdName);
+                                                }
                                                 agAkisTemp.FromNodeUniqueId = connect.FromConnector.Node.UniqueId;
 
                                                 connect.ToConnector.AgAkisList.Add(agAkisTemp);
@@ -1037,7 +1042,11 @@ namespace AYP.ViewModel
                                     agAkisTemp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
                                     agAkisTemp.IliskiliAgArayuzuId = agAkis.IliskiliAgArayuzuId;
                                     agAkisTemp.IliskiliAgArayuzuAdi = agAkis.IliskiliAgArayuzuAdi;
-                                    agAkisTemp.VarisNoktasiIdNameList = agAkis.VarisNoktasiIdNameList;
+                                    agAkisTemp.VarisNoktasiIdNameList = new List<KeyValuePair<Guid, string>>();
+                                    foreach (var varisNoktasiIdName in agAkis.VarisNoktasiIdNameList)
+                                    {
+                                        agAkisTemp.VarisNoktasiIdNameList.Add(varisNoktasiIdName);
+                                    }
                                     agAkisTemp.FromNodeUniqueId = agAkis.FromNodeUniqueId;
 
                                     connect.ToConnector.AgAkisList.Add(agAkisTemp);
@@ -1087,7 +1096,7 @@ namespace AYP.ViewModel
                 if (!hepsiAgAnahtariMi)
                 {
                     NotifyInfoPopup nfp = new NotifyInfoPopup();
-                    nfp.msg.Text = "Zincir topoloji sadece ağ anahtarları arasında oluşturulabilir.";
+                    nfp.msg.Text = "Halka topoloji sadece ağ anahtarları arasında oluşturulabilir.";
                     nfp.Owner = this.MainWindow;
                     nfp.Show();
                 }
@@ -1163,15 +1172,9 @@ namespace AYP.ViewModel
                                                     input.Connect = null;
 
                                                     connectOlusturulabilirMi = true;
-                                                    break;
                                                 }
                                             }
                                         }
-                                    }
-
-                                    if (connectOlusturulabilirMi)
-                                    {
-                                        break;
                                     }
                                 }
                             }
@@ -1186,7 +1189,7 @@ namespace AYP.ViewModel
                 {
                     zincir = ZincirOlusturRecursive(selectedNode, list, zincir, gateWayUniqueId);
 
-                    if (zincir.Count() > 0 && zincir.First().Transitions.Items.Where(x => x.Connect == null).Count() > 1)
+                    if (zincir.Count() > 0 && zincir.First().Transitions.Items.Count() > 1)
                     {
                         if (zincir.Count() == selectedNodes.Count() && zincir.Last().UniqueId == gateWayUniqueId)
                         {
@@ -1194,11 +1197,44 @@ namespace AYP.ViewModel
 
                             if (ilkElemaninBaglanabildikleri != null && ilkElemaninBaglanabildikleri.Count() > 0)
                             {
-                                var ilkElemanSonElemanaBaglanabilirMi = ilkElemaninBaglanabildikleri.Where(x => x.ToConnector.Node == zincir.Last()).Any();
+                                var ilkElemaninSonElemanaBaglanabildikleri = ilkElemaninBaglanabildikleri.Where(x => x.ToConnector.Node == zincir.Last()).ToList();
 
-                                if (ilkElemanSonElemanaBaglanabilirMi)
+                                if (ilkElemaninSonElemanaBaglanabildikleri.Count() > 0)
                                 {
-                                    break;
+                                    List<ConnectViewModel> tempConnects = new List<ConnectViewModel>();
+                                    int count = 1;
+                                    foreach (var item in zincir)
+                                    {
+                                        if (count != zincir.Count)
+                                        {
+                                            var nextNode = zincir[count];
+
+                                            var connects = list.Where(x => x.Key == item).Select(s => s.Value).FirstOrDefault();
+                                            var connect = connects.Where(k => k.ToConnector.Node == nextNode).FirstOrDefault();
+                                            connect.FromConnector.Connect = connect;
+                                            tempConnects.Add(connect);
+                                        }
+                                        count++;
+                                    }
+
+                                    bool ilkElemanSonElemanaBaglanabilirMi = false;
+                                    foreach(var item in ilkElemaninSonElemanaBaglanabildikleri)
+                                    {
+                                        if(!(tempConnects.Where(x => x.FromConnector == item.FromConnector).Any() || tempConnects.Where(x => x.ToConnector == item.ToConnector).Any()))
+                                        {
+                                            ilkElemanSonElemanaBaglanabilirMi = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (ilkElemanSonElemanaBaglanabilirMi)
+                                    {
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        zincir.Clear();
+                                    }
                                 }
                                 else
                                 {
@@ -1255,7 +1291,11 @@ namespace AYP.ViewModel
                                     agAkisTemp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
                                     agAkisTemp.IliskiliAgArayuzuId = agAkis.IliskiliAgArayuzuId;
                                     agAkisTemp.IliskiliAgArayuzuAdi = agAkis.IliskiliAgArayuzuAdi;
-                                    agAkisTemp.VarisNoktasiIdNameList = agAkis.VarisNoktasiIdNameList;
+                                    agAkisTemp.VarisNoktasiIdNameList = new List<KeyValuePair<Guid, string>>();
+                                    foreach (var varisNoktasiIdName in agAkis.VarisNoktasiIdNameList)
+                                    {
+                                        agAkisTemp.VarisNoktasiIdNameList.Add(varisNoktasiIdName);
+                                    }
                                     agAkisTemp.FromNodeUniqueId = agAkis.FromNodeUniqueId;
 
                                     connect.ToConnector.AgAkisList.Add(agAkisTemp);
@@ -1271,7 +1311,7 @@ namespace AYP.ViewModel
                             var nextNode = zincir[0];
 
                             var connects = list.Where(x => x.Key == nextNode).Select(s => s.Value).FirstOrDefault();
-                            var connect = connects.Where(k => k.ToConnector.Node == item).FirstOrDefault();
+                            var connect = connects.Where(k => k.ToConnector.Node == item && !Connects.Where(x => x.ToConnector == k.ToConnector).Any() && k.FromConnector.Connect == null).FirstOrDefault();
                             connect.FromConnector.Connect = connect;
                             CommandAddConnect.ExecuteWithSubscribe(connect);
                             res.Add(connect);
@@ -1530,7 +1570,11 @@ namespace AYP.ViewModel
                                         agAkisTemp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
                                         agAkisTemp.IliskiliAgArayuzuId = agAkis.IliskiliAgArayuzuId;
                                         agAkisTemp.IliskiliAgArayuzuAdi = agAkis.IliskiliAgArayuzuAdi;
-                                        agAkisTemp.VarisNoktasiIdNameList = agAkis.VarisNoktasiIdNameList;
+                                        agAkisTemp.VarisNoktasiIdNameList = new List<KeyValuePair<Guid, string>>();
+                                        foreach (var varisNoktasiIdName in agAkis.VarisNoktasiIdNameList)
+                                        {
+                                            agAkisTemp.VarisNoktasiIdNameList.Add(varisNoktasiIdName);
+                                        }
                                         agAkisTemp.FromNodeUniqueId = agAkis.FromNodeUniqueId;
 
                                         connect.ToConnector.AgAkisList.Add(agAkisTemp);
@@ -3512,6 +3556,7 @@ namespace AYP.ViewModel
             nfp.Show();
             LogDebug("Scheme was saved as \"{0}\"", SchemePath);
 
+            this.MainWindow.OpenProjectName.Content = System.IO.Path.GetFileName(fileName);
         }
 
         private void StartSelect(Point point)
@@ -4125,16 +4170,11 @@ namespace AYP.ViewModel
                     }
                     else if (result.NodesToDelete.Contains(connect.ToConnector.Node))
                     {
-                        result.ConnectsToDeleteWithConnectors.Add((connect.FromConnector.Node.GetConnectorIndex(connect.FromConnector), connect));
+                        result.ConnectsToDelete.Add(connect);
                     }
                 }
             }
-            foreach (var element in result.ConnectsToDeleteWithConnectors)
-            {
-                element.connect.FromConnector.Node.CommandDeleteConnectorWithConnect.ExecuteWithSubscribe(element.connect.FromConnector);
-                LogDebug("Transition with name \"{0}\" was removed", element.connect.FromConnector.Name);
-            }
-
+            
             Connects.RemoveMany(result.ConnectsToDelete);
             Nodes.RemoveMany(result.NodesToDelete);
             foreach (var item in result.NodesToDelete)

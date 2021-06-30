@@ -109,7 +109,11 @@ namespace AYP.ViewModel
                                     agAkisTemp.Yuk = agAkis.Yuk;
                                     agAkisTemp.AgAkisTipiId = agAkis.AgAkisTipiId;
                                     agAkisTemp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
-                                    agAkisTemp.VarisNoktasiIdNameList = agAkis.VarisNoktasiIdNameList;
+                                    agAkisTemp.VarisNoktasiIdNameList = new List<KeyValuePair<Guid, string>>();
+                                    foreach (var varisNoktasiIdName in agAkis.VarisNoktasiIdNameList)
+                                    {
+                                        agAkisTemp.VarisNoktasiIdNameList.Add(varisNoktasiIdName);
+                                    }
                                     agAkisTemp.FromNodeUniqueId = temp.Node.UniqueId;
 
                                     connect.ToConnector.AgAkisList.Add(agAkisTemp);
@@ -157,7 +161,11 @@ namespace AYP.ViewModel
                                             agAkisTemp.Yuk = agAkis.Yuk;
                                             agAkisTemp.AgAkisTipiId = agAkis.AgAkisTipiId;
                                             agAkisTemp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
-                                            agAkisTemp.VarisNoktasiIdNameList = agAkis.VarisNoktasiIdNameList;
+                                            agAkisTemp.VarisNoktasiIdNameList = new List<KeyValuePair<Guid, string>>();
+                                            foreach (var varisNoktasiIdName in agAkis.VarisNoktasiIdNameList)
+                                            {
+                                                agAkisTemp.VarisNoktasiIdNameList.Add(varisNoktasiIdName);
+                                            }
                                             agAkisTemp.FromNodeUniqueId = agAkis.FromNodeUniqueId;
 
                                             connect.ToConnector.AgAkisList.Add(agAkisTemp);
@@ -183,7 +191,11 @@ namespace AYP.ViewModel
                                     agAkisTemp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
                                     agAkisTemp.IliskiliAgArayuzuId = agAkis.IliskiliAgArayuzuId;
                                     agAkisTemp.IliskiliAgArayuzuAdi = agAkis.IliskiliAgArayuzuAdi;
-                                    agAkisTemp.VarisNoktasiIdNameList = agAkis.VarisNoktasiIdNameList;
+                                    agAkisTemp.VarisNoktasiIdNameList = new List<KeyValuePair<Guid, string>>();
+                                    foreach (var varisNoktasiIdName in agAkis.VarisNoktasiIdNameList)
+                                    {
+                                        agAkisTemp.VarisNoktasiIdNameList.Add(varisNoktasiIdName);
+                                    }
                                     agAkisTemp.FromNodeUniqueId = agAkis.FromNodeUniqueId;
 
                                     connect.ToConnector.AgAkisList.Add(agAkisTemp);
@@ -243,7 +255,11 @@ namespace AYP.ViewModel
                                                 agAkisTemp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
                                                 agAkisTemp.IliskiliAgArayuzuId = agAkis.IliskiliAgArayuzuId;
                                                 agAkisTemp.IliskiliAgArayuzuAdi = agAkis.IliskiliAgArayuzuAdi;
-                                                agAkisTemp.VarisNoktasiIdNameList = agAkis.VarisNoktasiIdNameList;
+                                                agAkisTemp.VarisNoktasiIdNameList = new List<KeyValuePair<Guid, string>>();
+                                                foreach (var varisNoktasiIdName in agAkis.VarisNoktasiIdNameList)
+                                                {
+                                                    agAkisTemp.VarisNoktasiIdNameList.Add(varisNoktasiIdName);
+                                                }
                                                 agAkisTemp.FromNodeUniqueId = agAkis.FromNodeUniqueId;
 
                                                 c.ToConnector.AgAkisList.Add(agAkisTemp);
@@ -287,7 +303,11 @@ namespace AYP.ViewModel
                                                         agAkisTemp.Yuk = agAkis.Yuk;
                                                         agAkisTemp.AgAkisTipiId = agAkis.AgAkisTipiId;
                                                         agAkisTemp.AgAkisTipiAdi = agAkis.AgAkisTipiAdi;
-                                                        agAkisTemp.VarisNoktasiIdNameList = agAkis.VarisNoktasiIdNameList;
+                                                        agAkisTemp.VarisNoktasiIdNameList = new List<KeyValuePair<Guid, string>>();
+                                                        foreach (var varisNoktasiIdName in agAkis.VarisNoktasiIdNameList)
+                                                        {
+                                                            agAkisTemp.VarisNoktasiIdNameList.Add(varisNoktasiIdName);
+                                                        }
                                                         agAkisTemp.FromNodeUniqueId = agAkis.FromNodeUniqueId;
 
                                                         c.ToConnector.AgAkisList.Add(agAkisTemp);

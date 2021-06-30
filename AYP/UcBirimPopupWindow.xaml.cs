@@ -489,6 +489,36 @@ namespace AYP
         }
         #endregion
 
+        #region BorderVlidates
+        private void ValidateUcBirimFieldBorders()
+        {
+            UcBirimTur.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            StokNo.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            Tanim.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            Uretici.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            UreticiParcaNo.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            GirdiAgArayuzuSayisi.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            CiktiAgArayuzuSayisi.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            GucArayuzuSayisi.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            Katalog.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            Sembol.BorderBrush = new SolidColorBrush(Colors.Transparent);
+        }
+
+        private void ValidateAgArayuzuFieldBorders()
+        {
+            AgArayuzuAdi.BorderBrush = new SolidColorBrush(Colors.Transparent);
+        }
+
+        private void ValidateGucArayuzuFiledBorders()
+        {
+            GucArayuzuAdi.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            ag2.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            ag7.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            ag10.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            ag12.BorderBrush = new SolidColorBrush(Colors.Transparent);
+        }
+        #endregion
+
         #region TabTransitionEvents
 
         public void ShowAgArayuzuTab()
@@ -514,6 +544,7 @@ namespace AYP
 
         private void UcBirimNextButton_Click(object sender, RoutedEventArgs e)
         {
+            ValidateUcBirimFieldBorders();
             ucBirim.TipId = (int)TipEnum.UcBirim;
 
             var validationContext = new ValidationContext(ucBirim, null, null);
@@ -581,10 +612,11 @@ namespace AYP
                     {
                         CiktiAgArayuzuSayisi.BorderBrush = new SolidColorBrush(Colors.Red);
                     }
-                    if (string.IsNullOrEmpty(GucArayuzuSayisi.Text) || Convert.ToInt32(GucArayuzuSayisi.Text) == 0)
-                    {
-                        GucArayuzuSayisi.BorderBrush = new SolidColorBrush(Colors.Red);
-                    }
+
+                    NotifyInfoPopup nfp = new NotifyInfoPopup();
+                    nfp.msg.Text = "Girdi veya çıktı ağ arayüzü sayılarından en az biri 0' dan büyük olmalıdır.";
+                    nfp.Owner = Owner;
+                    nfp.Show();
                 }
             }
             else
@@ -1016,6 +1048,7 @@ namespace AYP
         #region TableEvents
         private void ButtonAddAgArayuzu_Click(object sender, RoutedEventArgs e)
         {
+            ValidateAgArayuzuFieldBorders();
             agArayuzu.TipId = (int)TipEnum.UcBirimAgArayuzu;
 
             var validationContext = new ValidationContext(agArayuzu, null, null);
@@ -1150,6 +1183,7 @@ namespace AYP
 
             return validMi;
         }
+
         private void AgArayuzuRow_Checked(object sender, RoutedEventArgs e)
         {
             if (checkedAgArayuzuRow != null)
@@ -1267,7 +1301,7 @@ namespace AYP
 
         private void ButtonAddGucArayuzu_Click(object sender, RoutedEventArgs e)
         {
-
+            ValidateGucArayuzuFiledBorders();
             bool validMi = GirdiGucArayuzuValidation();
 
             if (validMi)

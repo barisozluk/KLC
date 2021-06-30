@@ -390,6 +390,41 @@ namespace AYP
         }
         #endregion
 
+        #region BorderVlidates
+        private void ValidateGucUreticiiFieldBorders()
+        {
+            GucUreticiTur.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            StokNo.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            Tanim.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            Uretici.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            UreticiParcaNo.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            GirdiGucArayuzuSayisi.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            CiktiGucArayuzuSayisi.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            VerimlilikOrani.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            DahiliGucTuketimDegeri.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            Katalog.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            Sembol.BorderBrush = new SolidColorBrush(Colors.Transparent);
+        }
+
+        private void ValidateGucArayuzuFiledBorders()
+        {
+            if (gucArayuzu.KullanimAmaciId == (int)KullanimAmaciEnum.Girdi)
+            {
+                GucArayuzuAdi.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                ag2.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                ag7.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                ag10.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                ag12.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            }
+            else
+            {
+                GucArayuzuAdi.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                ag14.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                ag16.BorderBrush = new SolidColorBrush(Colors.Transparent);
+            }
+        }
+        #endregion
+
         #region TabTransitionEvents
 
         public void ShowGucUreticiTab()
@@ -416,6 +451,7 @@ namespace AYP
 
         private void GucUreticiNextButton_Click(object sender, RoutedEventArgs e)
         {
+            ValidateGucUreticiiFieldBorders();
             gucUretici.TipId = (int)TipEnum.GucUretici;         
 
             var validationContext = new ValidationContext(gucUretici, null, null);
@@ -426,7 +462,6 @@ namespace AYP
                 if ((!string.IsNullOrEmpty(VerimlilikOrani.Text) && Convert.ToDecimal(VerimlilikOrani.Text) > 0 && Convert.ToDecimal(VerimlilikOrani.Text) <= 100)
                     || (!string.IsNullOrEmpty(DahiliGucTuketimDegeri.Text) && Convert.ToDecimal(DahiliGucTuketimDegeri.Text) != 0))
                 {
-
                     if (oldGucUretici != null)
                     {
                         if (gucUretici.GirdiGucArayuzuSayisi < oldGucUretici.GirdiGucArayuzuSayisi || gucUretici.CiktiGucArayuzuSayisi < oldGucUretici.CiktiGucArayuzuSayisi)
@@ -995,6 +1030,7 @@ namespace AYP
         #region TableEvents
         private void ButtonAddGucArayuzu_Click(object sender, RoutedEventArgs e)
         {
+            ValidateGucArayuzuFiledBorders();
             bool validMi = false;
 
             if (gucArayuzu.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti)
