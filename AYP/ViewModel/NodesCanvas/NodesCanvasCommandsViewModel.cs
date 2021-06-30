@@ -974,15 +974,9 @@ namespace AYP.ViewModel
                                                     input.Connect = null;
 
                                                     connectOlusturulabilirMi = true;
-                                                    break;
                                                 }
                                             }
                                         }
-                                    }
-
-                                    if (connectOlusturulabilirMi)
-                                    {
-                                        break;
                                     }
                                 }
                             }
@@ -1179,7 +1173,7 @@ namespace AYP.ViewModel
                                 }
                             }
                         }
-                    }
+                     }
 
                     list.Add(new KeyValuePair<NodeViewModel, List<ConnectViewModel>>(selectedNode, temp));
                 }
@@ -1211,8 +1205,13 @@ namespace AYP.ViewModel
 
                                             var connects = list.Where(x => x.Key == item).Select(s => s.Value).FirstOrDefault();
                                             var connect = connects.Where(k => k.ToConnector.Node == nextNode).FirstOrDefault();
-                                            connect.FromConnector.Connect = connect;
-                                            tempConnects.Add(connect);
+                                            if (connect != null)
+                                            {
+                                                var output = connect.FromConnector;
+                                                connect.FromConnector.Connect = connect;
+                                                tempConnects.Add(connect);
+                                                output.Connect = null;
+                                            }
                                         }
                                         count++;
                                     }

@@ -1054,8 +1054,11 @@ namespace AYP
                     gucArayuzu.KL_KullanimAmaci = gucArayuzu.KullanimAmaciList.Where(kal => kal.Id == gucArayuzu.KullanimAmaciId).FirstOrDefault();
                     gucArayuzu.KL_GerilimTipi = gucArayuzu.GerilimTipiList.Where(fo => fo.Id == gucArayuzu.GerilimTipiId).FirstOrDefault();
 
+                    bool isUpdate = false;
                     if (checkedGucArayuzuRow != null)
                     {
+                        isUpdate = true;
+
                         var ctx = checkedGucArayuzuRow.DataContext;
                         var obj = (GucArayuzu)ctx;
                         gucArayuzuList.Remove(obj);
@@ -1105,6 +1108,36 @@ namespace AYP
                             else
                             {
                                 validMi = true;
+                            }
+                        }
+                        else
+                        {
+                            bool flag = false;
+                            
+                                if(gucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Girdi).Count() + 1 == gucUretici.GirdiGucArayuzuSayisi)
+                                {
+                                    flag = true;
+                                }
+                            
+                            if (flag)
+                            {
+                                decimal? totalCiktiKapasitesi = gucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Cikti).Select(s => s.CiktiUrettigiGucKapasitesi).Sum();
+                                decimal? totalGirdiKapasitesi = gucArayuzuList.Where(x => x.KullanimAmaciId == (int)KullanimAmaciEnum.Girdi).Select(s => s.GirdiTukettigiGucMiktari).Sum();
+                                totalGirdiKapasitesi += gucArayuzu.GirdiTukettigiGucMiktari;
+
+                                if (totalGirdiKapasitesi >= totalCiktiKapasitesi)
+                                {
+                                    validMi = true;
+                                }
+                                else
+                                {
+                                    validMi = false;
+
+                                    NotifyInfoPopup nfp = new NotifyInfoPopup();
+                                    nfp.msg.Text = "Toplam girdi kapasitesi, çıktı kapasitesinden büyük olmalıdır.";
+                                    nfp.Owner = Owner;
+                                    nfp.Show();
+                                }
                             }
                         }
 

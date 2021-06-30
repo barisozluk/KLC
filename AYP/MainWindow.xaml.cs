@@ -1443,6 +1443,7 @@ namespace AYP
                         if (output.Connect != null)
                         {
                             outputlarBosMu = false;
+                            break;
                         }
                     }
 
@@ -1534,9 +1535,10 @@ namespace AYP
                     bool outputlarBosMu = true;
                     foreach (var output in node.Transitions.Items.Where(x => x.TypeId == (int)TipEnum.AgAnahtariAgArayuzu))
                     {
-                        if (output.Connect == null)
+                        if (output.Connect != null)
                         {
                             outputlarBosMu = false;
+                            break;
                         }
                     }
 
