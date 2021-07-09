@@ -123,7 +123,7 @@
         <Button x:Name="ButtonBites"  Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,10,10,0" Grid.Row="1" VerticalAlignment="Top">
             <Image Source="Images\btes-nrm.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
-        <Button x:Name="ButtonNew" ToolTip="Yeni Proje (Ctrl+Shif+N)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,60,10,0" Grid.Row="1" VerticalAlignment="Top" >
+        <Button x:Name="ButtonNew" ToolTip="Yeni Proje (Ctrl+Shift+N)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,60,10,0" Grid.Row="1" VerticalAlignment="Top" >
             <Image Source="Images\newProjectW.png" Grid.Column="0" Grid.Row="0" Width="36" Height="29" />
         </Button>
         <Button x:Name="ButtonOpen" ToolTip="Proje Aç (Ctrl+Shift+O)" Style="{DynamicResource StyleLeftButton}" HorizontalAlignment="Left" Margin="10,105,10,0" Grid.Row="1" VerticalAlignment="Top" >
